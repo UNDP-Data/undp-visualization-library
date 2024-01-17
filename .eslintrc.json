@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+      "airbnb",
+      "airbnb-typescript",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 14,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "rules": {
+      "linebreak-style": 0,
+      "react/require-default-props": 0,
+      "react/jsx-filename-extension": 0,
+      "max-len": 0,
+      "import/extensions": 0,
+      "import/no-unresolved": 0,
+      "import/prefer-default-export": 0,
+      "no-nested-ternary": 0,
+      "react/no-array-index-key": 0,      
+      "react/react-in-jsx-scope": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "jsx-quotes": [2, "prefer-single"],
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    }
+}
