@@ -1,89 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import UNDPColorModule from 'undp-viz-colors';
 import { Graph } from './Graph';
+import { FootNote } from '../../Typography/FootNote';
+import { GraphDescription } from '../../Typography/GraphDescription';
+import { GraphTitle } from '../../Typography/GraphTitle';
+import { Source } from '../../Typography/Source';
+import { DonutChartDataType } from '../../../types';
+import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
-  value: number;
-  totalValue: number;
-  color: string;
-  graphTitle: string;
+  mainText?: string;
+  data: DonutChartDataType[];
+  colors?: string[];
+  graphTitle?: string;
   suffix?: string;
   prefix?: string;
-  labelFormat?: string;
-  source: string;
+  source?: string;
   graphDescription?: string;
   sourceLink?: string;
-  cardWidth?: string;
   subNote?: string;
+  footNote?: string;
+  radius?: number;
+  strokeWidth?: number;
+  graphLegend?: boolean;
 }
 
-interface WidthProps {
-  cardWidth?: string;
-}
-
-const StatCardsEl = styled.div<WidthProps>`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 ${props => props.cardWidth || '22.5rem'};
-  min-width: 22.5rem;
-  min-height: 22.5rem;
-  background-color: var(--gray-200);
-  justify-content: space-between;
-  font-size: 1.25rem;
-  color: var(--black);
-  transition: 300ms all;
-  height: auto !important;
-  scroll-snap-align: start;
-`;
-
-const SourceEl = styled.div`
-  font-size: 1rem;
-  color: var(--gray-500);
-  padding: 0 var(--spacing-07);
-`;
-
-export function HorizontalBarGraph(props: Props) {
+export function DonutChart(props: Props) {
   const {
-    value,
-    totalValue,
+    mainText,
     graphTitle,
-    color,
+    colors,
     suffix,
     source,
     prefix,
-    labelFormat,
+    strokeWidth,
     graphDescription,
     sourceLink,
-    cardWidth,
     subNote,
+    footNote,
+    radius,
+    data,
+    graphLegend,
   } = props;
-
-  const [svgWidth, setSvgWidth] = useState(0);
-  const [svgHeight, setSvgHeight] = useState(0);
-
-  const graphDiv = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (graphDiv.current) {
-      setSvgHeight(graphDiv.current.clientHeight);
-      setSvgWidth(graphDiv.current.clientWidth);
-    }
-  }, [graphDiv?.current]);
   return (
-    <StatCardsEl cardWidth={cardWidth}>
-      <div
-        style={{
-          padding: '0 var(--spacing-07)',
-        }}
-      >
-        <p className='undp-typography margin-bottom-00'>{graphTitle}</p>
-        {graphDescription ? (
-          <p
-            className='undp-typography small-font margin-bottom-00'
-            style={{ color: 'var(--gray-500)' }}
-          >
-            {graphDescription}
-          </p>
-        ) : null}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div>
+        {graphTitle ? <GraphTitle text={graphTitle} /> : null}
+        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
       </div>
       <div
         style={{
@@ -94,38 +61,59 @@ export function HorizontalBarGraph(props: Props) {
           padding: '0 var(--spacing-07)',
         }}
       >
-        <div style={{ flexGrow: 1, width: '100%' }} ref={graphDiv}>
-          {svgWidth && svgHeight ? (
-            <Graph
-              value={value}
-              totalValue={totalValue}
-              color={color}
-              svgWidth={svgWidth}
-              svgHeight={svgHeight}
-              labelFormat={labelFormat}
-              suffix={suffix}
-              prefix={prefix}
-              subNote={subNote}
-            />
-          ) : null}
+        <div
+          className='flex-div gap-09'
+          style={{
+            flexWrap: 'nowrap',
+            alignItems: 'flex-end',
+          }}
+        >
+          <Graph
+            mainText={mainText}
+            data={data}
+            colors={colors || UNDPColorModule.categoricalColors.colors}
+            radius={radius || 210}
+            subNote={subNote}
+            strokeWidth={strokeWidth || 50}
+          />
+          {graphLegend === false ? null : (
+            <div>
+              {data.map((d, i) => (
+                <div
+                  key={i}
+                  className='flex-div gap-03 margin-bottom-03'
+                  style={{
+                    flexWrap: 'nowrap',
+                    alignItems: 'center',
+                    marginBottom: i < data.length - 1 ? 'var(--spacing-03)' : 0,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '0.75rem',
+                      height: '0.75rem',
+                      borderRadius: '0.75rem',
+                      backgroundColor: colors
+                        ? colors[i]
+                        : UNDPColorModule.categoricalColors.colors[i],
+                    }}
+                  />
+                  <p className='margin-bottom-00 margin-top-00 undp-typography'>
+                    {d.label}:{' '}
+                    <span className='bold'>
+                      {prefix}
+                      {numberFormattingFunction(d.value)}
+                      {suffix}
+                    </span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      <SourceEl className='margin-top-05'>
-        Source:{' '}
-        {sourceLink ? (
-          <a
-            className='undp-style'
-            style={{ color: 'var(--gray-500)' }}
-            href={sourceLink}
-            target='_blank'
-            rel='noreferrer'
-          >
-            {source}
-          </a>
-        ) : (
-          source
-        )}
-      </SourceEl>
-    </StatCardsEl>
+      {source ? <Source text={source} link={sourceLink} /> : null}
+      {footNote ? <FootNote text={footNote} /> : null}
+    </div>
   );
 }

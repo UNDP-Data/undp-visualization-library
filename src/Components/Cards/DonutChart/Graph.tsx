@@ -1,71 +1,65 @@
-import { format } from 'd3-format';
-import { describeArc } from '../../../Utils/getArc';
+import { pie, arc } from 'd3-shape';
+import { DonutChartDataType } from '../../../types';
 
 interface Props {
-  value: number;
-  totalValue: number;
-  svgWidth: number;
-  svgHeight: number;
-  color: string;
+  mainText?: string;
+  radius: number;
+  colors: string[];
   subNote?: string;
-  labelFormat?: string;
-  suffix?: string;
-  prefix?: string;
+  strokeWidth: number;
+  data: DonutChartDataType[];
 }
 
 export function Graph(props: Props) {
-  const {
-    value,
-    totalValue,
-    svgWidth,
-    svgHeight,
-    color,
-    subNote,
-    suffix,
-    prefix,
-    labelFormat,
-  } = props;
+  const { mainText, data, radius, colors, subNote, strokeWidth } = props;
+  const pieData = pie()
+    .startAngle(0)
+    .value((d: any) => d.value);
   return (
-    <svg width='100%' viewBox={`0 0 ${svgWidth} ${svgHeight - 10}`}>
-      <g transform={`translate(${svgWidth / 2} ${svgHeight / 2})`}>
+    <svg
+      width={`${radius * 2}px`}
+      height={`${radius * 2}px`}
+      viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+    >
+      <g transform={`translate(${radius} ${radius})`}>
         <circle
           style={{
             fillOpacity: 0,
             stroke: 'var(--gray-400)',
-            strokeWidth: 20,
+            strokeWidth,
           }}
           cx={0}
           cy={0}
-          r={svgWidth / 2 - 11}
+          r={radius - (strokeWidth + 2) / 2}
         />
-        <path
-          d={describeArc(
-            0,
-            0,
-            svgWidth / 2 - 11,
-            0,
-            (value * 360) / totalValue,
-          )}
-          style={{
-            fillOpacity: 0,
-            stroke: color,
-            strokeWidth: 20,
-          }}
-        />
-        <text
-          x={0}
-          y={0}
-          textAnchor='middle'
-          fontSize='2.813rem'
-          fontWeight='bold'
-          style={{ fill: 'var(--black)' }}
-        >
-          {prefix || ''}{' '}
-          {Math.abs(value) < 1
-            ? value
-            : format(labelFormat || '.3s')(value).replace('G', 'B')}
-          {suffix || ''}
-        </text>
+        {pieData(data as any).map((d, i) => (
+          <path
+            key={i}
+            d={
+              arc()({
+                innerRadius: radius - strokeWidth,
+                outerRadius: radius,
+                startAngle: d.startAngle,
+                endAngle: d.endAngle,
+              }) as string
+            }
+            style={{
+              fill: colors[d.index],
+            }}
+          />
+        ))}
+        {mainText ? (
+          <text
+            x={0}
+            y={0}
+            textAnchor='middle'
+            fontSize='2.813rem'
+            fontWeight='bold'
+            style={{ fill: 'var(--black)' }}
+          >
+            {mainText}
+          </text>
+        ) : null}
         {subNote ? (
           <text
             x={0}

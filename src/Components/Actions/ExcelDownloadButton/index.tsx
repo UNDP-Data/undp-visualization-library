@@ -1,4 +1,4 @@
-import { exportToExcel } from '../Utils/excelDownload';
+import { exportToExcel } from './excelDownload';
 
 interface WsColInterface {
   wch: number;

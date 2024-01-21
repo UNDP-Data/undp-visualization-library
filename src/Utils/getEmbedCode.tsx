@@ -27,7 +27,7 @@ export function getEmbedLink(link: string, params: ParamsProps[]) {
         paramToString = ArrToString(d.value as string[] | number[]);
         break;
       default:
-        paramToString = `${d}`;
+        paramToString = `${d.value}`;
     }
     queryParams += `&${d.id}=${paramToString
       .replace(/ /g, '+')

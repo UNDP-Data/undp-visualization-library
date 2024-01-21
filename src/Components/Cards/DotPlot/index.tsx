@@ -1,41 +1,22 @@
-import styled from 'styled-components';
+import { GraphTitle } from '../../Typography/GraphTitle';
+import { GraphDescription } from '../../Typography/GraphDescription';
+import { FootNote } from '../../Typography/FootNote';
+import { Source } from '../../Typography/Source';
+import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
   value: number;
-  year: number;
+  maxValue?: number;
+  gridSize?: number;
+  padding?: number;
   size: number;
-  graphTitle: string;
-  source: string;
+  graphTitle?: string;
+  source?: string;
   dotColors?: string;
   graphDescription?: string;
   sourceLink?: string;
-  cardWidth?: string;
+  footNote?: string;
 }
-
-interface WidthProps {
-  cardWidth?: string;
-}
-
-const StatCardsEl = styled.div<WidthProps>`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1 0 ${props => props.cardWidth || '22.5rem'};
-  min-width: 22.5rem;
-  min-height: 22.5rem;
-  background-color: var(--gray-200);
-  font-size: 1.25rem;
-  color: var(--black);
-  transition: 300ms all;
-  height: auto !important;
-  scroll-snap-align: start;
-`;
-
-const SourceEl = styled.div`
-  font-size: 1rem;
-  color: var(--gray-500);
-  padding: 0 var(--spacing-07);
-`;
 
 export function DotPlot(props: Props) {
   const {
@@ -43,58 +24,58 @@ export function DotPlot(props: Props) {
     size,
     sourceLink,
     graphTitle,
-    year,
     source,
     dotColors,
     graphDescription,
-    cardWidth,
+    maxValue,
+    padding,
+    gridSize,
+    footNote,
   } = props;
-  const margin = {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  };
-  const gridSize = (size - margin.left - margin.right) / 10;
-  const radius = (gridSize - 6) / 2;
+  const outOfValue = maxValue === undefined ? 100 : maxValue;
+  const paddingValue = padding === undefined ? 3 : padding;
+  if (outOfValue < value) {
+    // eslint-disable-next-line no-console
+    console.error('maxValue should be greater than value');
+    return null;
+  }
+  const gridDimension = gridSize !== undefined ? size / gridSize : size / 10;
+  const radius = (gridDimension - paddingValue * 2) / 2;
+  if (radius <= 0) {
+    // eslint-disable-next-line no-console
+    console.error(
+      'The size of single unit is less than or equal to zero. Check values for ((dimension / gridSize) - (padding * 2)) / 2 is not less than or equal to 0.',
+    );
+    return null;
+  }
   return (
-    <StatCardsEl cardWidth={cardWidth}>
-      <div
-        style={{
-          padding: '0 var(--spacing-07)',
-        }}
-      >
-        <p className='undp-typography margin-bottom-00'>
-          {graphTitle} ({year})
-        </p>
-        {graphDescription ? (
-          <p
-            className='undp-typography small-font margin-bottom-00'
-            style={{ color: 'var(--gray-500)' }}
-          >
-            {graphDescription}
-          </p>
-        ) : null}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div>
+        {graphTitle ? <GraphTitle text={graphTitle} /> : null}
+        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
       </div>
-      <div
-        style={{
-          padding: '0 var(--spacing-07)',
-        }}
-      >
+      <div>
         <h2 className='undp-typography bold margin-bottom-02 margin-top-03'>
-          {value} out of 100
+          {numberFormattingFunction(value)} out of {outOfValue}
         </h2>
         <svg
-          style={{ maxWidth: '15rem', margin: '0' }}
-          width='100%'
+          width={`${size}px`}
+          height={`${size}px`}
           viewBox={`0 0 ${size} ${size}`}
         >
-          <g transform={`translate(${margin.left},${margin.top})`}>
+          <g>
             {Array.from(Array(100), (_, index) => index + 1).map(d => (
               <circle
                 key={d}
-                cx={((d - 1) % 10) * gridSize + gridSize / 2}
-                cy={Math.floor((d - 1) / 10) * gridSize + gridSize / 2}
+                cx={((d - 1) % 10) * gridDimension + gridDimension / 2}
+                cy={
+                  Math.floor((d - 1) / 10) * gridDimension + gridDimension / 2
+                }
                 style={{
                   fill:
                     d <= Math.round(value)
@@ -112,22 +93,8 @@ export function DotPlot(props: Props) {
           </g>
         </svg>
       </div>
-      <SourceEl className='margin-top-05'>
-        Source:{' '}
-        {sourceLink ? (
-          <a
-            className='undp-style'
-            style={{ color: 'var(--gray-500)' }}
-            href={sourceLink}
-            target='_blank'
-            rel='noreferrer'
-          >
-            {source}
-          </a>
-        ) : (
-          source
-        )}
-      </SourceEl>
-    </StatCardsEl>
+      {source ? <Source text={source} link={sourceLink} /> : null}
+      {footNote ? <FootNote text={footNote} /> : null}
+    </div>
   );
 }

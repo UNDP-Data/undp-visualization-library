@@ -3,9 +3,21 @@ export interface TimeSeriesProps {
   value: number;
 }
 
-export interface BarGraphProps {
-  barTitle: string | number;
+export interface VerticalBarGraphDataType {
+  label: string;
+  height: number;
+  color?: string | number;
+}
+
+export interface HorizontalBarGraphDataType {
+  width: number;
+  label: string;
+  color?: string | number;
+}
+
+export interface DonutChartDataType {
   value: number;
+  label: string;
 }
 
 export interface ValueProps {

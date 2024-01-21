@@ -1,4 +1,4 @@
-import { imageDownload } from '../Utils/imageDownload';
+import { imageDownload } from './imageDownload';
 
 interface Props {
   buttonText: string;
