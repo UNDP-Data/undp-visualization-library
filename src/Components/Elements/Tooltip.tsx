@@ -21,9 +21,9 @@ const TooltipEl = styled.div<TooltipElProps>`
   border: 1px solid var(--gray-300);
   word-wrap: break-word;
   top: ${props =>
-    props.verticalAlignment === 'bottom' ? props.y - 40 : props.y + 40}px;
+    props.verticalAlignment === 'bottom' ? props.y - 10 : props.y + 10}px;
   left: ${props =>
-    props.horizontalAlignment === 'left' ? props.x - 20 : props.x + 20}px;
+    props.horizontalAlignment === 'left' ? props.x - 10 : props.x + 10}px;
   max-width: 24rem;
   transform: ${props =>
     `translate(${props.horizontalAlignment === 'left' ? '-100%' : '0%'},${

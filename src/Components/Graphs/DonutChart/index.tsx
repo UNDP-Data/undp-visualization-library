@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import UNDPColorModule from 'undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
@@ -28,6 +26,8 @@ interface Props {
   graphLegend?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function DonutChart(props: Props) {
@@ -48,6 +48,8 @@ export function DonutChart(props: Props) {
     graphLegend,
     padding,
     backgroundColor,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -161,6 +163,8 @@ export function DonutChart(props: Props) {
                   radius={radius || donutRadius}
                   subNote={subNote}
                   strokeWidth={strokeWidth || 50}
+                  tooltip={tooltip}
+                  hoveredDataPoint={hoveredDataPoint}
                 />
               </div>
             ) : null}

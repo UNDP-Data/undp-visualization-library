@@ -9,6 +9,7 @@ import { bisect } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { LineChartDataType } from '../../../../Types';
+import { Tooltip } from '../../../Elements/Tooltip';
 
 interface Props {
   data: LineChartDataType[];
@@ -21,11 +22,8 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-}
-
-interface MouseOverDataType {
-  date: Date;
-  y: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 const XTickText = styled.text`
@@ -53,10 +51,12 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
-  const [mouseOverData, setMouseOverData] = useState<
-    MouseOverDataType | undefined
-  >(undefined);
+  const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [eventX, setEventX] = useState<number | undefined>(undefined);
+  const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
@@ -68,6 +68,7 @@ export function Graph(props: Props) {
     data.map(d => ({
       date: parse(`${d.date}`, dateFormat, new Date()),
       y: d.y,
+      data: d.data,
     })),
     'date',
   );
@@ -110,99 +111,123 @@ export function Graph(props: Props) {
           )
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
+      if (hoveredDataPoint) {
+        hoveredDataPoint(
+          selectedData.data || dataFormatted[dataFormatted.length - 1].data,
+        );
+      }
+      setEventY(event.clientY);
+      setEventX(event.clientX);
     };
     const mouseout = () => {
       setMouseOverData(undefined);
+      if (hoveredDataPoint) {
+        hoveredDataPoint(undefined);
+      }
+      setEventX(undefined);
+      setEventY(undefined);
     };
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
+    if (hoveredDataPoint) {
+      hoveredDataPoint(undefined);
+    }
   }, [x, dataFormatted]);
   return (
-    <svg
-      width={`${width}px`}
-      height={`${height}px`}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      {areaId ? (
-        <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
-          <stop
-            style={{
-              stopColor: color,
-            }}
-            stopOpacity='0.1'
-            offset='0%'
-          />
-          <stop
-            style={{
-              stopColor: color,
-            }}
-            stopOpacity='0'
-            offset='100%'
-          />
-        </linearGradient>
-      ) : null}
-      <g transform={`translate(${margin.left},${margin.top})`}>
-        <g>
-          <XTickText
-            y={graphHeight}
-            x={x(dataFormatted[dataFormatted.length - 1].date)}
-            style={{
-              fill: 'var(--gray-700)',
-            }}
-            textAnchor='end'
-            fontSize={12}
-            dy={15}
-          >
-            {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
-          </XTickText>
-          <XTickText
-            y={graphHeight}
-            x={x(dataFormatted[0].date)}
-            style={{
-              fill: 'var(--gray-700)',
-            }}
-            textAnchor='start'
-            fontSize={12}
-            dy={15}
-          >
-            {format(dataFormatted[0].date, dateFormat)}
-          </XTickText>
-        </g>
-        <g>
-          <path
-            clipPath='url(#clip)'
-            d={mainGraphArea(dataFormatted as any) as string}
-            fill={`url(#${areaId})`}
-          />
-          <path
-            d={lineShape(dataFormatted as any) as string}
-            fill='none'
-            style={{
-              stroke: color,
-            }}
-            strokeWidth={2}
-          />
-          {mouseOverData ? (
-            <circle
-              y1={0}
-              cy={y(mouseOverData.y)}
-              cx={x(mouseOverData.date)}
-              r={3}
+    <>
+      <svg
+        width={`${width}px`}
+        height={`${height}px`}
+        viewBox={`0 0 ${width} ${height}`}
+      >
+        {areaId ? (
+          <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
+            <stop
               style={{
-                fill: color,
+                stopColor: color,
               }}
+              stopOpacity='0.1'
+              offset='0%'
             />
-          ) : null}
+            <stop
+              style={{
+                stopColor: color,
+              }}
+              stopOpacity='0'
+              offset='100%'
+            />
+          </linearGradient>
+        ) : null}
+        <g transform={`translate(${margin.left},${margin.top})`}>
+          <g>
+            <XTickText
+              y={graphHeight}
+              x={x(dataFormatted[dataFormatted.length - 1].date)}
+              style={{
+                fill: 'var(--gray-700)',
+              }}
+              textAnchor='end'
+              fontSize={12}
+              dy={15}
+            >
+              {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
+            </XTickText>
+            <XTickText
+              y={graphHeight}
+              x={x(dataFormatted[0].date)}
+              style={{
+                fill: 'var(--gray-700)',
+              }}
+              textAnchor='start'
+              fontSize={12}
+              dy={15}
+            >
+              {format(dataFormatted[0].date, dateFormat)}
+            </XTickText>
+          </g>
+          <g>
+            <path
+              clipPath='url(#clip)'
+              d={mainGraphArea(dataFormatted as any) as string}
+              fill={`url(#${areaId})`}
+            />
+            <path
+              d={lineShape(dataFormatted as any) as string}
+              fill='none'
+              style={{
+                stroke: color,
+              }}
+              strokeWidth={2}
+            />
+            {mouseOverData ? (
+              <circle
+                y1={0}
+                cy={y(mouseOverData.y)}
+                cx={x(mouseOverData.date)}
+                r={3}
+                style={{
+                  fill: color,
+                }}
+              />
+            ) : null}
+          </g>
+          <rect
+            ref={MouseoverRectRef}
+            fill='none'
+            pointerEvents='all'
+            width={graphWidth}
+            height={graphHeight}
+          />
         </g>
-        <rect
-          ref={MouseoverRectRef}
-          fill='none'
-          pointerEvents='all'
-          width={graphWidth}
-          height={graphHeight}
+      </svg>
+      {mouseOverData?.data && tooltip && eventX && eventY ? (
+        <Tooltip
+          body={tooltip(mouseOverData.data)}
+          xPos={eventX}
+          yPos={eventY}
         />
-      </g>
-    </svg>
+      ) : null}
+    </>
   );
 }

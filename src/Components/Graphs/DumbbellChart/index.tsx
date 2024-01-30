@@ -32,6 +32,8 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   dotRadius?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function DumbbellChart(props: Props) {
@@ -60,6 +62,8 @@ export function DumbbellChart(props: Props) {
     padding,
     backgroundColor,
     dotRadius,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -178,6 +182,8 @@ export function DumbbellChart(props: Props) {
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
                 truncateBy={truncateBy === undefined ? 999 : truncateBy}
+                tooltip={tooltip}
+                hoveredDataPoint={hoveredDataPoint}
               />
             ) : null}
           </div>

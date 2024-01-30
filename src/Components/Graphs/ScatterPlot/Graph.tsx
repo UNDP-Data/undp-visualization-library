@@ -7,6 +7,7 @@ import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import UNDPColorModule from 'undp-viz-colors';
 import { ScatterPlotDataType } from '../../../Types';
+import { Tooltip } from '../../Elements/Tooltip';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -23,6 +24,8 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -41,10 +44,15 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [eventX, setEventX] = useState<number | undefined>(undefined);
+  const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
@@ -57,7 +65,7 @@ export function Graph(props: Props) {
     data.filter(d => d.radius !== undefined).length === 0
       ? scaleSqrt()
           .domain([0, maxBy(data, 'radius')?.radius as number])
-          .range([0.25, 30])
+          .range([0.25, pointRadius])
           .nice()
       : undefined;
 
@@ -293,6 +301,10 @@ export function Graph(props: Props) {
                           ? 1
                           : 0.1
                         : 0.1
+                      : mouseOverData
+                      ? mouseOverData.label === d.label
+                        ? 1
+                        : 0.1
                       : 1
                   }
                   transform={`translate(${x(d.x)},${y(d.y)})`}
@@ -341,12 +353,40 @@ export function Graph(props: Props) {
                   d={voronoiDiagram.renderCell(i)}
                   fill='#fff'
                   opacity={0}
+                  onMouseEnter={event => {
+                    setMouseOverData(d);
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                    if (hoveredDataPoint) {
+                      hoveredDataPoint(d.data);
+                    }
+                  }}
+                  onMouseMove={event => {
+                    setMouseOverData(d);
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                  }}
+                  onMouseLeave={() => {
+                    setMouseOverData(undefined);
+                    setEventX(undefined);
+                    setEventY(undefined);
+                    if (hoveredDataPoint) {
+                      hoveredDataPoint(undefined);
+                    }
+                  }}
                 />
               </g>
             );
           })}
         </g>
       </svg>
+      {mouseOverData?.data && tooltip && eventX && eventY ? (
+        <Tooltip
+          body={tooltip(mouseOverData.data)}
+          xPos={eventX}
+          yPos={eventY}
+        />
+      ) : null}
     </>
   );
 }

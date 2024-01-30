@@ -28,6 +28,8 @@ interface Props {
   padding?: string;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -52,6 +54,8 @@ export function HorizontalStackedBarGraph(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -157,6 +161,8 @@ export function HorizontalStackedBarGraph(props: Props) {
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
                 truncateBy={truncateBy === undefined ? 999 : truncateBy}
+                tooltip={tooltip}
+                hoveredDataPoint={hoveredDataPoint}
               />
             ) : null}
           </div>

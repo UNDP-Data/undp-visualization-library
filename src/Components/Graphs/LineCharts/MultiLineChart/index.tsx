@@ -26,6 +26,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function MultiLineChart(props: Props) {
@@ -48,6 +50,8 @@ export function MultiLineChart(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -118,6 +122,8 @@ export function MultiLineChart(props: Props) {
               topMargin={topMargin === undefined ? 20 : topMargin}
               bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
               labels={labels}
+              tooltip={tooltip}
+              hoveredDataPoint={hoveredDataPoint}
             />
           ) : null}
         </div>

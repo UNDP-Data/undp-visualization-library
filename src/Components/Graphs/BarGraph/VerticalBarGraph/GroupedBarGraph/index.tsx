@@ -32,6 +32,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -60,6 +62,8 @@ export function VerticalGroupedBarGraph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -169,6 +173,8 @@ export function VerticalGroupedBarGraph(props: Props) {
                 rightMargin={rightMargin === undefined ? 20 : rightMargin}
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                tooltip={tooltip}
+                hoveredDataPoint={hoveredDataPoint}
               />
             ) : null}
           </div>

@@ -32,6 +32,8 @@ interface Props {
   padding?: string;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -59,6 +61,8 @@ export function HorizontalBarGraph(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -155,6 +159,8 @@ export function HorizontalBarGraph(props: Props) {
               bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
               truncateBy={truncateBy === undefined ? 999 : truncateBy}
               colorLegendTitle={colorLegendTitle}
+              tooltip={tooltip}
+              hoveredDataPoint={hoveredDataPoint}
             />
           ) : null}
         </div>

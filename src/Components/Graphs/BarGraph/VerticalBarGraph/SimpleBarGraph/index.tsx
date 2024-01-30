@@ -33,6 +33,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -61,6 +63,8 @@ export function VerticalBarGraph(props: Props) {
     rightMargin,
     leftMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -157,6 +161,8 @@ export function VerticalBarGraph(props: Props) {
                   : topMargin
               }
               bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+              tooltip={tooltip}
+              hoveredDataPoint={hoveredDataPoint}
             />
           ) : null}
         </div>

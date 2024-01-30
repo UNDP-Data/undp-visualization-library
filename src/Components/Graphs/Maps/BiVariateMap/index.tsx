@@ -26,6 +26,8 @@ interface Props {
   centerPoint?: [number, number];
   backgroundColor?: string | boolean;
   padding?: string;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function BiVariantMap(props: Props) {
@@ -48,6 +50,8 @@ export function BiVariantMap(props: Props) {
     centerPoint,
     padding,
     backgroundColor,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -118,6 +122,8 @@ export function BiVariantMap(props: Props) {
               xColorLegendTitle={xColorLegendTitle || 'X Color key'}
               yColorLegendTitle={yColorLegendTitle || 'Y Color key'}
               categorical={categorical}
+              tooltip={tooltip}
+              hoveredDataPoint={hoveredDataPoint}
             />
           ) : null}
         </div>

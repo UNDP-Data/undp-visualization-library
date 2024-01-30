@@ -7,6 +7,7 @@ import UNDPColorModule from 'undp-viz-colors';
 import World from '../MapData/worldMap.json';
 import { ChoroplethMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../Elements/Tooltip';
 
 interface Props {
   domain: number[];
@@ -18,6 +19,8 @@ interface Props {
   data: ChoroplethMapDataType[];
   scale: number;
   centerPoint: [number, number];
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -31,10 +34,15 @@ export function Graph(props: Props) {
     width,
     scale,
     centerPoint,
+    tooltip,
+    hoveredDataPoint,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [eventX, setEventX] = useState<number | undefined>(undefined);
+  const [eventY, setEventY] = useState<number | undefined>(undefined);
   const svgWidth = 960;
   const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
@@ -140,6 +148,27 @@ export function Graph(props: Props) {
                 opacity={
                   selectedColor ? (selectedColor === color ? 1 : 0.1) : 1
                 }
+                onMouseEnter={event => {
+                  setMouseOverData(d);
+                  setEventY(event.clientY);
+                  setEventX(event.clientX);
+                  if (hoveredDataPoint) {
+                    hoveredDataPoint(d.data);
+                  }
+                }}
+                onMouseMove={event => {
+                  setMouseOverData(d);
+                  setEventY(event.clientY);
+                  setEventX(event.clientX);
+                }}
+                onMouseLeave={() => {
+                  setMouseOverData(undefined);
+                  setEventX(undefined);
+                  setEventY(undefined);
+                  if (hoveredDataPoint) {
+                    hoveredDataPoint(undefined);
+                  }
+                }}
               >
                 {index === -1 || d.countryCode === 'ATA'
                   ? null
@@ -198,6 +227,72 @@ export function Graph(props: Props) {
               </g>
             );
           })}
+          {mouseOverData
+            ? (World as any).features
+                .filter(
+                  (d: { properties: { ISO3: any } }) =>
+                    d.properties.ISO3 === mouseOverData.countryCode,
+                )
+                .map((d: any, i: number) => {
+                  return (
+                    <g key={i}>
+                      {d.geometry.type === 'MultiPolygon'
+                        ? d.geometry.coordinates.map((el: any, j: any) => {
+                            let masterPath = '';
+                            el.forEach((geo: number[][]) => {
+                              let path = ' M';
+                              geo.forEach((c: number[], k: number) => {
+                                const point = projection([c[0], c[1]]) as [
+                                  number,
+                                  number,
+                                ];
+                                if (k !== geo.length - 1)
+                                  path = `${path}${point[0]} ${point[1]}L`;
+                                else path = `${path}${point[0]} ${point[1]}`;
+                              });
+                              masterPath += path;
+                            });
+                            return (
+                              <path
+                                key={j}
+                                d={masterPath}
+                                style={{
+                                  stroke: 'var(--gray-700)',
+                                  fill: 'none',
+                                  fillOpacity: 0,
+                                  strokeWidth: '0.5',
+                                }}
+                              />
+                            );
+                          })
+                        : d.geometry.coordinates.map((el: any, j: number) => {
+                            let path = 'M';
+                            el.forEach((c: number[], k: number) => {
+                              const point = projection([c[0], c[1]]) as [
+                                number,
+                                number,
+                              ];
+                              if (k !== el.length - 1)
+                                path = `${path}${point[0]} ${point[1]}L`;
+                              else path = `${path}${point[0]} ${point[1]}`;
+                            });
+                            return (
+                              <path
+                                key={j}
+                                d={path}
+                                style={{
+                                  stroke: 'var(--gray-700)',
+                                  fill: 'none',
+                                  fillOpacity: 0,
+                                  strokeWidth: '0.5',
+                                }}
+                              />
+                            );
+                          })}
+                    </g>
+                  );
+                })
+            : null}
         </g>
       </svg>
       <div
@@ -286,6 +381,13 @@ export function Graph(props: Props) {
           </div>
         </div>
       </div>
+      {mouseOverData?.data && tooltip && eventX && eventY ? (
+        <Tooltip
+          body={tooltip(mouseOverData.data)}
+          xPos={eventX}
+          yPos={eventY}
+        />
+      ) : null}
     </>
   );
 }

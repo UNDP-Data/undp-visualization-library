@@ -27,6 +27,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function AreaChart(props: Props) {
@@ -50,6 +52,8 @@ export function AreaChart(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -152,10 +156,12 @@ export function AreaChart(props: Props) {
                 height={height || svgHeight}
                 noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
                 dateFormat={dateFormat || 'yyyy'}
-                leftMargin={leftMargin === undefined ? 50 : leftMargin}
+                leftMargin={leftMargin === undefined ? 30 : leftMargin}
                 rightMargin={rightMargin === undefined ? 20 : rightMargin}
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                tooltip={tooltip}
+                hoveredDataPoint={hoveredDataPoint}
               />
             ) : null}
           </div>

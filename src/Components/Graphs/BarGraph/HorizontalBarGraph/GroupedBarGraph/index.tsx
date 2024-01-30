@@ -31,6 +31,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 export function HorizontalGroupedBarGraph(props: Props) {
@@ -58,6 +60,8 @@ export function HorizontalGroupedBarGraph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -166,6 +170,8 @@ export function HorizontalGroupedBarGraph(props: Props) {
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
                 truncateBy={truncateBy === undefined ? 999 : truncateBy}
+                tooltip={tooltip}
+                hoveredDataPoint={hoveredDataPoint}
               />
             ) : null}
           </div>

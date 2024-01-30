@@ -10,6 +10,7 @@ import min from 'lodash.min';
 import max from 'lodash.max';
 import { MultiLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../Elements/Tooltip';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -23,11 +24,8 @@ interface Props {
   bottomMargin: number;
   leftMargin: number;
   rightMargin: number;
-}
-
-interface MouseOverDataType {
-  date: Date;
-  y: (number | undefined)[];
+  tooltip?: (_d: any) => JSX.Element;
+  hoveredDataPoint?: (_d: any) => void;
 }
 
 const XTickText = styled.text`
@@ -56,10 +54,12 @@ export function Graph(props: Props) {
     topMargin,
     bottomMargin,
     leftMargin,
+    tooltip,
+    hoveredDataPoint,
   } = props;
-  const [mouseOverData, setMouseOverData] = useState<
-    MouseOverDataType | undefined
-  >(undefined);
+  const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [eventX, setEventX] = useState<number | undefined>(undefined);
+  const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
@@ -71,6 +71,7 @@ export function Graph(props: Props) {
     data.map(d => ({
       date: parse(`${d.date}`, dateFormat, new Date()),
       y: d.y,
+      data: d.data,
     })),
     'date',
   );
@@ -118,147 +119,168 @@ export function Graph(props: Props) {
           )
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
+      setEventY(event.clientY);
+      setEventX(event.clientX);
+      if (hoveredDataPoint) {
+        hoveredDataPoint(
+          selectedData.data || dataFormatted[dataFormatted.length - 1].data,
+        );
+      }
     };
     const mouseout = () => {
       setMouseOverData(undefined);
+      setEventX(undefined);
+      setEventY(undefined);
     };
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
+    if (hoveredDataPoint) {
+      hoveredDataPoint(undefined);
+    }
   }, [x, dataFormatted]);
   return (
-    <svg
-      width={`${width}px`}
-      height={`${height}px`}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <g transform={`translate(${margin.left},${margin.top})`}>
-        <g>
-          {yTicks.map((d, i) =>
-            d !== 0 ? (
-              <g key={i}>
-                <line
-                  y1={y(d)}
-                  y2={y(d)}
-                  x1={width}
-                  x2={-20}
-                  stroke='#AAA'
-                  strokeWidth={1}
-                  strokeDasharray='4,8'
-                />
-                <text
-                  x={-25}
-                  y={y(d)}
-                  fill='#AAA'
-                  textAnchor='end'
-                  fontSize={12}
-                  dy={3}
-                >
-                  {numberFormattingFunction(d)}
-                </text>
-              </g>
-            ) : null,
-          )}
-          <line
-            y1={graphHeight}
-            y2={graphHeight}
-            x1={-20}
-            x2={width}
-            style={{
-              stroke: 'var(--gray-700)',
-            }}
-            strokeWidth={1}
-          />
-        </g>
-        <g>
-          {xTicks.map((d, i) => (
-            <g key={i}>
-              <XTickText
-                y={graphHeight}
-                x={x(d)}
-                style={{
-                  fill: 'var(--gray-700)',
-                }}
-                textAnchor='middle'
-                fontSize={12}
-                dy={15}
-              >
-                {format(d, dateFormat)}
-              </XTickText>
-            </g>
-          ))}
-        </g>
-        <g>
-          {dataArray.map((d, i) => (
-            <>
-              <path
-                key={i}
-                d={lineShape(d as any) as string}
-                fill='none'
-                style={{
-                  stroke: colors[i],
-                }}
-                strokeWidth={2}
-              />
-              <g>
-                {d.map((el, j) => (
-                  <g key={j}>
-                    {el.y !== undefined ? (
-                      <g>
-                        <circle
-                          cx={x(el.date)}
-                          cy={y(el.y)}
-                          r={
-                            graphWidth / dataFormatted.length < 5
-                              ? 0
-                              : graphWidth / dataFormatted.length < 20
-                              ? 2
-                              : 4
-                          }
-                          style={{
-                            fill: colors[i],
-                          }}
-                        />
-                      </g>
-                    ) : null}
-                  </g>
-                ))}
-              </g>
-              <text
-                style={{
-                  fill: colors[i],
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                }}
-                x={x(d[d.length - 1].date)}
-                y={y(d[d.length - 1].y as number)}
-                dx={5}
-                dy={4}
-              >
-                {labels[i]}
-              </text>
-            </>
-          ))}
-          {mouseOverData ? (
+    <>
+      <svg
+        width={`${width}px`}
+        height={`${height}px`}
+        viewBox={`0 0 ${width} ${height}`}
+      >
+        <g transform={`translate(${margin.left},${margin.top})`}>
+          <g>
+            {yTicks.map((d, i) =>
+              d !== 0 ? (
+                <g key={i}>
+                  <line
+                    y1={y(d)}
+                    y2={y(d)}
+                    x1={width}
+                    x2={-20}
+                    stroke='#AAA'
+                    strokeWidth={1}
+                    strokeDasharray='4,8'
+                  />
+                  <text
+                    x={-25}
+                    y={y(d)}
+                    fill='#AAA'
+                    textAnchor='end'
+                    fontSize={12}
+                    dy={3}
+                  >
+                    {numberFormattingFunction(d)}
+                  </text>
+                </g>
+              ) : null,
+            )}
             <line
-              y1={0}
+              y1={graphHeight}
               y2={graphHeight}
-              x1={x(mouseOverData.date)}
-              x2={x(mouseOverData.date)}
-              stroke='#212121'
-              strokeDasharray='4 8'
+              x1={-20}
+              x2={width}
+              style={{
+                stroke: 'var(--gray-700)',
+              }}
               strokeWidth={1}
             />
-          ) : null}
+          </g>
+          <g>
+            {xTicks.map((d, i) => (
+              <g key={i}>
+                <XTickText
+                  y={graphHeight}
+                  x={x(d)}
+                  style={{
+                    fill: 'var(--gray-700)',
+                  }}
+                  textAnchor='middle'
+                  fontSize={12}
+                  dy={15}
+                >
+                  {format(d, dateFormat)}
+                </XTickText>
+              </g>
+            ))}
+          </g>
+          <g>
+            {dataArray.map((d, i) => (
+              <>
+                <path
+                  key={i}
+                  d={lineShape(d as any) as string}
+                  fill='none'
+                  style={{
+                    stroke: colors[i],
+                  }}
+                  strokeWidth={2}
+                />
+                <g>
+                  {d.map((el, j) => (
+                    <g key={j}>
+                      {el.y !== undefined ? (
+                        <g>
+                          <circle
+                            cx={x(el.date)}
+                            cy={y(el.y)}
+                            r={
+                              graphWidth / dataFormatted.length < 5
+                                ? 0
+                                : graphWidth / dataFormatted.length < 20
+                                ? 2
+                                : 4
+                            }
+                            style={{
+                              fill: colors[i],
+                            }}
+                          />
+                        </g>
+                      ) : null}
+                    </g>
+                  ))}
+                </g>
+                <text
+                  style={{
+                    fill: colors[i],
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                  }}
+                  x={x(d[d.length - 1].date)}
+                  y={y(d[d.length - 1].y as number)}
+                  dx={5}
+                  dy={4}
+                >
+                  {labels[i]}
+                </text>
+              </>
+            ))}
+            {mouseOverData ? (
+              <line
+                y1={0}
+                y2={graphHeight}
+                x1={x(mouseOverData.date)}
+                x2={x(mouseOverData.date)}
+                stroke='#212121'
+                strokeDasharray='4 8'
+                strokeWidth={1}
+              />
+            ) : null}
+          </g>
+          <rect
+            ref={MouseoverRectRef}
+            fill='none'
+            pointerEvents='all'
+            width={graphWidth}
+            height={graphHeight}
+          />
         </g>
-        <rect
-          ref={MouseoverRectRef}
-          fill='none'
-          pointerEvents='all'
-          width={graphWidth}
-          height={graphHeight}
+      </svg>
+      {mouseOverData?.data && tooltip && eventX && eventY ? (
+        <Tooltip
+          body={tooltip(mouseOverData.data)}
+          xPos={eventX}
+          yPos={eventY}
         />
-      </g>
-    </svg>
+      ) : null}
+    </>
   );
 }

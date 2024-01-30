@@ -72,7 +72,7 @@ function App() {
           height: '420px',
         }}
       >
-        <VerticalGroupedBarGraph
+        <AreaChart
           graphTitle='Test test'
           graphDescription='Test test'
           source='Test Tes'
@@ -80,27 +80,27 @@ function App() {
           padding='1rem'
           data={[
             {
-              label: '2000',
-              height: [10, 1, 2, 3],
+              date: '2000',
+              y: [10, 1, 2, 3],
             },
             {
-              label: '2005',
-              height: [4, 1, 2, 3],
+              date: '2005',
+              y: [4, 1, 2, 3],
             },
             {
-              label: '2010',
-              height: [7, 1, 2, 3],
+              date: '2010',
+              y: [7, 1, 2, 3],
             },
             {
-              label: '2015',
-              height: [17, 1, 2, 3],
+              date: '2015',
+              y: [17, 1, 2, 3],
             },
             {
-              label: '2020',
-              height: [10, 1, 2, 3],
+              date: '2020',
+              y: [10, 1, 2, 3],
             },
           ]}
-          colorDomain={['a', 'b', 'c', 'd']}
+          labels={['a', 'b', 'c', 'd']}
         />
       </div>
     </div>
