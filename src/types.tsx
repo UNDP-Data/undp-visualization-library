@@ -6,13 +6,28 @@ export interface TimeSeriesProps {
 export interface VerticalBarGraphDataType {
   label: string;
   height: number;
-  color?: string | number;
+  color?: string;
+}
+
+export interface VerticalGroupedBarGraphDataType {
+  label: string;
+  height: number[];
 }
 
 export interface HorizontalBarGraphDataType {
   width: number;
   label: string;
-  color?: string | number;
+  color?: string;
+}
+
+export interface HorizontalGroupedBarGraphDataType {
+  width: number[];
+  label: string;
+}
+
+export interface DumbbellChartDataType {
+  x: number[];
+  label: string;
 }
 
 export interface DonutChartDataType {
@@ -20,19 +35,36 @@ export interface DonutChartDataType {
   label: string;
 }
 
-export interface ValueProps {
-  category: string;
-  value: number;
+export interface ChoroplethMapDataType {
+  x: number;
+  countryCode: string;
 }
 
-export interface StackedBarGraphProps {
-  barTitle: string | number;
-  values: ValueProps[];
-  total: number;
+export interface BivariateMapDataType {
+  x: number;
+  y: number;
+  countryCode: string;
 }
 
-export interface SlopeChartProps {
-  category: string | number;
-  color: string;
-  values: [ValueProps, ValueProps];
+export interface LineChartDataType {
+  date: number | string;
+  y: number;
+}
+
+export interface MultiLineChartDataType {
+  date: number | string;
+  y: (number | undefined)[];
+}
+
+export interface AreaChartDataType {
+  date: number | string;
+  y: number[];
+}
+
+export interface ScatterPlotDataType {
+  x: number;
+  y: number;
+  radius?: number;
+  color?: string;
+  label?: string;
 }

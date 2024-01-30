@@ -1,15 +1,15 @@
-import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
-import { Source } from '../../Typography/Source';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
 import { Graph } from './Graph';
+import { MultiLineChartDataType } from '../../../../Types';
+import { Source } from '../../../Typography/Source';
+import { GraphTitle } from '../../../Typography/GraphTitle';
+import { GraphDescription } from '../../../Typography/GraphDescription';
+import { FootNote } from '../../../Typography/FootNote';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: MultiLineChartDataType[];
+  colors?: string[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -17,13 +17,9 @@ interface Props {
   width?: number;
   height?: number;
   source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  noOfXTicks?: number;
+  dateFormat?: string;
+  labels: string[];
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -32,7 +28,7 @@ interface Props {
   bottomMargin?: number;
 }
 
-export function ScatterPlot(props: Props) {
+export function MultiLineChart(props: Props) {
   const {
     data,
     graphTitle,
@@ -40,15 +36,12 @@ export function ScatterPlot(props: Props) {
     source,
     graphDescription,
     sourceLink,
-    showLabels,
     height,
     width,
     footNote,
-    colorDomain,
-    colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    noOfXTicks,
+    dateFormat,
+    labels,
     padding,
     backgroundColor,
     leftMargin,
@@ -115,34 +108,16 @@ export function ScatterPlot(props: Props) {
           {(width || svgWidth) && (height || svgHeight) ? (
             <Graph
               data={data}
+              colors={colors || UNDPColorModule.categoricalColors.colors}
               width={width || svgWidth}
               height={height || svgHeight}
-              colorDomain={
-                data.filter(el => el.color).length === 0
-                  ? []
-                  : colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
-              }
-              colors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[]) ||
-                    UNDPColorModule.categoricalColors.colors
-              }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
-              colorLegendTitle={colorLegendTitle || 'Color key'}
-              xAxisTitle={xAxisTitle || 'X Axis'}
-              yAxisTitle={yAxisTitle || 'Y Axis'}
+              noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
+              dateFormat={dateFormat || 'yyyy'}
               leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
+              rightMargin={rightMargin === undefined ? 30 : rightMargin}
               topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
+              bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+              labels={labels}
             />
           ) : null}
         </div>

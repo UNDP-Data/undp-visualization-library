@@ -1,29 +1,32 @@
-import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
-import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
-import { Source } from '../../Typography/Source';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
+import uniqBy from 'lodash.uniqby';
+import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
+import { VerticalBarGraphDataType } from '../../../../../Types';
+import { Source } from '../../../../Typography/Source';
+import { GraphTitle } from '../../../../Typography/GraphTitle';
+import { GraphDescription } from '../../../../Typography/GraphDescription';
+import { FootNote } from '../../../../Typography/FootNote';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: VerticalBarGraphDataType[];
+  colors?: string | string[];
   graphTitle?: string;
+  width?: number;
+  height?: number;
+  suffix?: string;
+  prefix?: string;
+  source?: string;
   graphDescription?: string;
   footNote?: string;
   sourceLink?: string;
-  width?: number;
-  height?: number;
-  source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
+  barPadding?: number;
+  showBarLabel?: boolean;
+  showBarValue?: boolean;
+  showYTicks?: boolean;
   colorDomain?: string[];
   colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  truncateBy?: number;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -32,28 +35,31 @@ interface Props {
   bottomMargin?: number;
 }
 
-export function ScatterPlot(props: Props) {
+export function VerticalBarGraph(props: Props) {
   const {
     data,
     graphTitle,
     colors,
+    suffix,
     source,
+    prefix,
     graphDescription,
     sourceLink,
-    showLabels,
+    barPadding,
+    showBarLabel,
+    showBarValue,
+    showYTicks,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    truncateBy,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
     topMargin,
+    rightMargin,
+    leftMargin,
     bottomMargin,
   } = props;
 
@@ -67,7 +73,6 @@ export function ScatterPlot(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current]);
-
   return (
     <div
       style={{
@@ -95,7 +100,7 @@ export function ScatterPlot(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
+          <div className='margin-bottom-05'>
             {graphTitle ? <GraphTitle text={graphTitle} /> : null}
             {graphDescription ? (
               <GraphDescription text={graphDescription} />
@@ -115,8 +120,14 @@ export function ScatterPlot(props: Props) {
           {(width || svgWidth) && (height || svgHeight) ? (
             <Graph
               data={data}
-              width={width || svgWidth}
-              height={height || svgHeight}
+              barColor={
+                data.filter(el => el.color).length === 0
+                  ? colors
+                    ? [colors as string]
+                    : ['var(--blue-600)']
+                  : (colors as string[]) ||
+                    UNDPColorModule.categoricalColors.colors
+              }
               colorDomain={
                 data.filter(el => el.color).length === 0
                   ? []
@@ -126,23 +137,26 @@ export function ScatterPlot(props: Props) {
                       'color',
                     ).map(d => d.color) as string[])
               }
-              colors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[]) ||
-                    UNDPColorModule.categoricalColors.colors
-              }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
-              colorLegendTitle={colorLegendTitle || 'Color key'}
-              xAxisTitle={xAxisTitle || 'X Axis'}
-              yAxisTitle={yAxisTitle || 'Y Axis'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
+              width={width || svgWidth}
+              height={height || svgHeight}
+              suffix={suffix || ''}
+              prefix={prefix || ''}
+              barPadding={barPadding === undefined ? 0.25 : barPadding}
+              showBarLabel={showBarLabel === undefined ? true : showBarLabel}
+              showBarValue={showBarValue === undefined ? true : showBarValue}
+              showYTicks={showYTicks === undefined ? true : showYTicks}
+              colorLegendTitle={colorLegendTitle}
+              truncateBy={truncateBy === undefined ? 999 : truncateBy}
+              leftMargin={leftMargin === undefined ? 20 : leftMargin}
               rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
+              topMargin={
+                topMargin === undefined
+                  ? data.filter(el => el.color).length !== 0
+                    ? 90
+                    : 20
+                  : topMargin
+              }
+              bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
             />
           ) : null}
         </div>

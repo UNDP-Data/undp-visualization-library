@@ -1,15 +1,13 @@
-import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
-import { Source } from '../../Typography/Source';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
 import { Graph } from './Graph';
+import { ChoroplethMapDataType } from '../../../../Types';
+import { Source } from '../../../Typography/Source';
+import { GraphTitle } from '../../../Typography/GraphTitle';
+import { GraphDescription } from '../../../Typography/GraphDescription';
+import { FootNote } from '../../../Typography/FootNote';
 
 interface Props {
-  data: ScatterPlotDataType[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -17,22 +15,18 @@ interface Props {
   width?: number;
   height?: number;
   source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  domain: number[];
+  colors: string[];
+  colorLegendTitle: string;
+  categorical?: boolean;
+  data: ChoroplethMapDataType[];
+  scale?: number;
+  centerPoint?: [number, number];
   backgroundColor?: string | boolean;
   padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
 }
 
-export function ScatterPlot(props: Props) {
+export function ChoroplethMap(props: Props) {
   const {
     data,
     graphTitle,
@@ -40,21 +34,16 @@ export function ScatterPlot(props: Props) {
     source,
     graphDescription,
     sourceLink,
-    showLabels,
     height,
     width,
     footNote,
-    colorDomain,
+    domain,
     colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    categorical,
+    scale,
+    centerPoint,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -115,34 +104,19 @@ export function ScatterPlot(props: Props) {
           {(width || svgWidth) && (height || svgHeight) ? (
             <Graph
               data={data}
+              domain={domain}
               width={width || svgWidth}
               height={height || svgHeight}
-              colorDomain={
-                data.filter(el => el.color).length === 0
-                  ? []
-                  : colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
-              }
+              scale={scale || 180}
+              centerPoint={centerPoint || [470, 315]}
               colors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[]) ||
-                    UNDPColorModule.categoricalColors.colors
+                colors ||
+                UNDPColorModule.sequentialColors[
+                  `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
+                ]
               }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
               colorLegendTitle={colorLegendTitle || 'Color key'}
-              xAxisTitle={xAxisTitle || 'X Axis'}
-              yAxisTitle={yAxisTitle || 'Y Axis'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
+              categorical={categorical}
             />
           ) : null}
         </div>

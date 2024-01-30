@@ -1,15 +1,14 @@
-import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
-import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
-import { Source } from '../../Typography/Source';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
+import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
+import { BivariateMapDataType } from '../../../../Types';
+import { Source } from '../../../Typography/Source';
+import { GraphTitle } from '../../../Typography/GraphTitle';
+import { GraphDescription } from '../../../Typography/GraphDescription';
+import { FootNote } from '../../../Typography/FootNote';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: BivariateMapDataType[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -17,22 +16,19 @@ interface Props {
   width?: number;
   height?: number;
   source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  xColorLegendTitle?: string;
+  yColorLegendTitle?: string;
+  xDomain: [number, number, number, number];
+  yDomain: [number, number, number, number];
+  colors?: string[][];
+  categorical?: boolean;
+  scale?: number;
+  centerPoint?: [number, number];
   backgroundColor?: string | boolean;
   padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
 }
 
-export function ScatterPlot(props: Props) {
+export function BiVariantMap(props: Props) {
   const {
     data,
     graphTitle,
@@ -40,21 +36,18 @@ export function ScatterPlot(props: Props) {
     source,
     graphDescription,
     sourceLink,
-    showLabels,
     height,
     width,
     footNote,
-    colorDomain,
-    colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    xDomain,
+    yDomain,
+    xColorLegendTitle,
+    yColorLegendTitle,
+    categorical,
+    scale,
+    centerPoint,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -95,7 +88,7 @@ export function ScatterPlot(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
+          <div className='margin-bottom-05'>
             {graphTitle ? <GraphTitle text={graphTitle} /> : null}
             {graphDescription ? (
               <GraphDescription text={graphDescription} />
@@ -115,34 +108,16 @@ export function ScatterPlot(props: Props) {
           {(width || svgWidth) && (height || svgHeight) ? (
             <Graph
               data={data}
+              xDomain={xDomain}
+              yDomain={yDomain}
               width={width || svgWidth}
               height={height || svgHeight}
-              colorDomain={
-                data.filter(el => el.color).length === 0
-                  ? []
-                  : colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
-              }
-              colors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[]) ||
-                    UNDPColorModule.categoricalColors.colors
-              }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
-              colorLegendTitle={colorLegendTitle || 'Color key'}
-              xAxisTitle={xAxisTitle || 'X Axis'}
-              yAxisTitle={yAxisTitle || 'Y Axis'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
+              scale={scale || 180}
+              centerPoint={centerPoint || [470, 315]}
+              colors={colors || UNDPColorModule.bivariateColors.colors05x05}
+              xColorLegendTitle={xColorLegendTitle || 'X Color key'}
+              yColorLegendTitle={yColorLegendTitle || 'Y Color key'}
+              categorical={categorical}
             />
           ) : null}
         </div>

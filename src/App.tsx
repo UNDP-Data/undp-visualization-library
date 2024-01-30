@@ -1,4 +1,11 @@
-import { DonutChart } from './Components/Cards/DonutChart';
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { AreaChart } from './Components/Graphs/AreaChart';
+import { HorizontalBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/SimpleBarGraph';
+import { VerticalGroupedBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/GroupedBarGraph';
+import { VerticalBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/SimpleBarGraph';
+import { DonutChart } from './Components/Graphs/DonutChart';
+import { SimpleLineChart } from './Components/Graphs/LineCharts/LineChart';
 import NavEl from './NavEl';
 import undpLogo from './assets/undp-logo-blue.svg';
 
@@ -57,18 +64,43 @@ function App() {
           </div>
         </div>
       </header>
-      <div style={{ marginLeft: '240px', width: 'calc(100% - 240px)' }}>
-        <DonutChart
+      <div
+        style={{
+          marginLeft: '240px',
+          display: 'flex',
+          width: '50%',
+          height: '420px',
+        }}
+      >
+        <VerticalGroupedBarGraph
+          graphTitle='Test test'
+          graphDescription='Test test'
+          source='Test Tes'
+          footNote='test tes'
+          padding='1rem'
           data={[
             {
-              value: 50,
-              label: '1',
+              label: '2000',
+              height: [10, 1, 2, 3],
             },
             {
-              value: 30,
-              label: '2',
+              label: '2005',
+              height: [4, 1, 2, 3],
+            },
+            {
+              label: '2010',
+              height: [7, 1, 2, 3],
+            },
+            {
+              label: '2015',
+              height: [17, 1, 2, 3],
+            },
+            {
+              label: '2020',
+              height: [10, 1, 2, 3],
             },
           ]}
+          colorDomain={['a', 'b', 'c', 'd']}
         />
       </div>
     </div>

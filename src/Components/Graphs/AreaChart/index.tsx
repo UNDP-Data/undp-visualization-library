@@ -1,15 +1,15 @@
-import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
+import { Graph } from './Graph';
+import { AreaChartDataType } from '../../../Types';
 import { Source } from '../../Typography/Source';
 import { GraphTitle } from '../../Typography/GraphTitle';
 import { GraphDescription } from '../../Typography/GraphDescription';
 import { FootNote } from '../../Typography/FootNote';
-import { Graph } from './Graph';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: AreaChartDataType[];
+  colors?: string[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -17,22 +17,19 @@ interface Props {
   width?: number;
   height?: number;
   source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
+  noOfXTicks?: number;
+  dateFormat?: string;
+  labels: string[];
   backgroundColor?: string | boolean;
   padding?: string;
+  colorLegendTitle?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
 }
 
-export function ScatterPlot(props: Props) {
+export function AreaChart(props: Props) {
   const {
     data,
     graphTitle,
@@ -40,17 +37,15 @@ export function ScatterPlot(props: Props) {
     source,
     graphDescription,
     sourceLink,
-    showLabels,
     height,
     width,
     footNote,
-    colorDomain,
-    colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    noOfXTicks,
+    dateFormat,
+    labels,
     padding,
     backgroundColor,
+    colorLegendTitle,
     leftMargin,
     rightMargin,
     topMargin,
@@ -67,6 +62,8 @@ export function ScatterPlot(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current]);
+
+  const areaColors = colors || UNDPColorModule.categoricalColors.colors;
 
   return (
     <div
@@ -108,43 +105,60 @@ export function ScatterPlot(props: Props) {
             flexDirection: 'column',
             display: 'flex',
             justifyContent: 'center',
-            lineHeight: 0,
+            gap: 'var(--spacing-02)',
+            width: '100%',
           }}
-          ref={graphDiv}
         >
-          {(width || svgWidth) && (height || svgHeight) ? (
-            <Graph
-              data={data}
-              width={width || svgWidth}
-              height={height || svgHeight}
-              colorDomain={
-                data.filter(el => el.color).length === 0
-                  ? []
-                  : colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
-              }
-              colors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[]) ||
-                    UNDPColorModule.categoricalColors.colors
-              }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
-              colorLegendTitle={colorLegendTitle || 'Color key'}
-              xAxisTitle={xAxisTitle || 'X Axis'}
-              yAxisTitle={yAxisTitle || 'Y Axis'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
-            />
-          ) : null}
+          <div
+            style={{
+              lineHeight: 0,
+            }}
+          >
+            {colorLegendTitle ? (
+              <p
+                className='undp-typography'
+                style={{ fill: 'var(--gray-700)', fontSize: '0.875rem' }}
+              >
+                {colorLegendTitle}
+              </p>
+            ) : null}
+            <div className='flex-div margin-bottom-00 flex-wrap'>
+              {labels.map((d, i) => (
+                <div className='flex-div gap-03 flex-vert-align-center' key={i}>
+                  <div
+                    style={{
+                      width: '0.75rem',
+                      height: '0.75rem',
+                      borderRadius: '1rem',
+                      backgroundColor: areaColors[i],
+                    }}
+                  />
+                  <p className='undp-typography margin-bottom-00 small-font'>
+                    {d}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div
+            style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+            ref={graphDiv}
+          >
+            {(width || svgWidth) && (height || svgHeight) ? (
+              <Graph
+                data={data}
+                colors={areaColors}
+                width={width || svgWidth}
+                height={height || svgHeight}
+                noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
+                dateFormat={dateFormat || 'yyyy'}
+                leftMargin={leftMargin === undefined ? 50 : leftMargin}
+                rightMargin={rightMargin === undefined ? 20 : rightMargin}
+                topMargin={topMargin === undefined ? 20 : topMargin}
+                bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+              />
+            ) : null}
+          </div>
         </div>
         {source || footNote ? (
           <div>
