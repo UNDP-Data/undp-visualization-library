@@ -25,7 +25,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function ChoroplethMap(props: Props) {
@@ -47,7 +47,7 @@ export function ChoroplethMap(props: Props) {
     padding,
     backgroundColor,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -122,7 +122,7 @@ export function ChoroplethMap(props: Props) {
               colorLegendTitle={colorLegendTitle || 'Color key'}
               categorical={categorical}
               tooltip={tooltip}
-              hoveredDataPoint={hoveredDataPoint}
+              onSeriesMouseOver={onSeriesMouseOver}
             />
           ) : null}
         </div>

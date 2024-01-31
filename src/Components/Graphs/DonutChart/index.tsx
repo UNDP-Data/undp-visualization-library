@@ -27,7 +27,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function DonutChart(props: Props) {
@@ -49,7 +49,7 @@ export function DonutChart(props: Props) {
     padding,
     backgroundColor,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -164,7 +164,7 @@ export function DonutChart(props: Props) {
                   subNote={subNote}
                   strokeWidth={strokeWidth || 50}
                   tooltip={tooltip}
-                  hoveredDataPoint={hoveredDataPoint}
+                  onSeriesMouseOver={onSeriesMouseOver}
                 />
               </div>
             ) : null}

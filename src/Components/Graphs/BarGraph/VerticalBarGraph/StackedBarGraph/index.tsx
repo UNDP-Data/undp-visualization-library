@@ -30,7 +30,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -57,7 +57,7 @@ export function VerticalStackedBarGraph(props: Props) {
     bottomMargin,
     leftMargin,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -164,7 +164,7 @@ export function VerticalStackedBarGraph(props: Props) {
                 topMargin={topMargin === undefined ? 20 : topMargin}
                 bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
                 tooltip={tooltip}
-                hoveredDataPoint={hoveredDataPoint}
+                onSeriesMouseOver={onSeriesMouseOver}
               />
             ) : null}
           </div>

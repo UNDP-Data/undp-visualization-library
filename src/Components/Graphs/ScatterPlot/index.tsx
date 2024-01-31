@@ -31,7 +31,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function ScatterPlot(props: Props) {
@@ -58,7 +58,7 @@ export function ScatterPlot(props: Props) {
     topMargin,
     bottomMargin,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -148,7 +148,7 @@ export function ScatterPlot(props: Props) {
               topMargin={topMargin === undefined ? 20 : topMargin}
               bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
               tooltip={tooltip}
-              hoveredDataPoint={hoveredDataPoint}
+              onSeriesMouseOver={onSeriesMouseOver}
             />
           ) : null}
         </div>

@@ -23,7 +23,7 @@ interface Props {
   height: number;
   dotRadius: number;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -44,7 +44,7 @@ export function Graph(props: Props) {
     bottomMargin,
     dotRadius,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
   const margin = {
     top: topMargin,
@@ -117,8 +117,8 @@ export function Graph(props: Props) {
                 setMouseOverData(d);
                 setEventY(event.clientY);
                 setEventX(event.clientX);
-                if (hoveredDataPoint) {
-                  hoveredDataPoint(d.data);
+                if (onSeriesMouseOver) {
+                  onSeriesMouseOver(d.data);
                 }
               }}
               onMouseMove={event => {
@@ -130,8 +130,8 @@ export function Graph(props: Props) {
                 setMouseOverData(undefined);
                 setEventX(undefined);
                 setEventY(undefined);
-                if (hoveredDataPoint) {
-                  hoveredDataPoint(undefined);
+                if (onSeriesMouseOver) {
+                  onSeriesMouseOver(undefined);
                 }
               }}
             >

@@ -25,7 +25,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 export function SparkLine(props: Props) {
@@ -48,7 +48,7 @@ export function SparkLine(props: Props) {
     topMargin,
     bottomMargin,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -119,7 +119,7 @@ export function SparkLine(props: Props) {
               topMargin={topMargin === undefined ? 10 : topMargin}
               bottomMargin={bottomMargin === undefined ? 20 : bottomMargin}
               tooltip={tooltip}
-              hoveredDataPoint={hoveredDataPoint}
+              onSeriesMouseOver={onSeriesMouseOver}
             />
           ) : null}
         </div>

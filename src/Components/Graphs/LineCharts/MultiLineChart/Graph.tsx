@@ -25,7 +25,7 @@ interface Props {
   leftMargin: number;
   rightMargin: number;
   tooltip?: (_d: any) => JSX.Element;
-  hoveredDataPoint?: (_d: any) => void;
+  onSeriesMouseOver?: (_d: any) => void;
 }
 
 const XTickText = styled.text`
@@ -55,7 +55,7 @@ export function Graph(props: Props) {
     bottomMargin,
     leftMargin,
     tooltip,
-    hoveredDataPoint,
+    onSeriesMouseOver,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -121,8 +121,8 @@ export function Graph(props: Props) {
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
       setEventY(event.clientY);
       setEventX(event.clientX);
-      if (hoveredDataPoint) {
-        hoveredDataPoint(
+      if (onSeriesMouseOver) {
+        onSeriesMouseOver(
           selectedData.data || dataFormatted[dataFormatted.length - 1].data,
         );
       }
@@ -135,8 +135,8 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-    if (hoveredDataPoint) {
-      hoveredDataPoint(undefined);
+    if (onSeriesMouseOver) {
+      onSeriesMouseOver(undefined);
     }
   }, [x, dataFormatted]);
   return (
