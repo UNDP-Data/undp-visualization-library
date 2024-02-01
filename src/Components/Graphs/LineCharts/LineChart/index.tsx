@@ -20,7 +20,7 @@ interface Props {
   source?: string;
   noOfXTicks?: number;
   dateFormat?: string;
-  showLabel?: boolean;
+  showValues?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -46,7 +46,7 @@ export function SimpleLineChart(props: Props) {
     footNote,
     noOfXTicks,
     dateFormat,
-    showLabel,
+    showValues,
     padding,
     backgroundColor,
     leftMargin,
@@ -122,7 +122,7 @@ export function SimpleLineChart(props: Props) {
               prefix={prefix || ''}
               noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
               dateFormat={dateFormat || 'yyyy'}
-              showLabel={showLabel}
+              showValues={showValues}
               leftMargin={leftMargin === undefined ? 20 : leftMargin}
               rightMargin={rightMargin === undefined ? 20 : rightMargin}
               topMargin={topMargin === undefined ? 20 : topMargin}

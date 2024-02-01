@@ -3,7 +3,7 @@ import { geoEqualEarth } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import UNDPColorModule from 'undp-viz-colors';
-import { scaleThreshold, scaleOrdinal } from 'd3-scale';
+import { scaleThreshold } from 'd3-scale';
 import World from '../MapData/worldMap.json';
 import { BivariateMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
@@ -18,7 +18,6 @@ interface Props {
   colors: string[][];
   xColorLegendTitle: string;
   yColorLegendTitle: string;
-  categorical?: boolean;
   scale: number;
   centerPoint: [number, number];
   tooltip?: (_d: any) => JSX.Element;
@@ -35,7 +34,6 @@ export function Graph(props: Props) {
     width,
     height,
     colors,
-    categorical,
     scale,
     centerPoint,
     tooltip,
@@ -60,12 +58,8 @@ export function Graph(props: Props) {
 
   const yRange = [0, 1, 2, 3, 4];
 
-  const xScale = categorical
-    ? scaleOrdinal<number, number>().domain(xDomain).range(xRange)
-    : scaleThreshold<number, number>().domain(xDomain).range(xRange);
-  const yScale = categorical
-    ? scaleOrdinal<number, number>().domain(yDomain).range(yRange)
-    : scaleThreshold<number, number>().domain(yDomain).range(yRange);
+  const xScale = scaleThreshold<number, number>().domain(xDomain).range(xRange);
+  const yScale = scaleThreshold<number, number>().domain(yDomain).range(yRange);
   useEffect(() => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);

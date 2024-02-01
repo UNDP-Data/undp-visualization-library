@@ -20,7 +20,7 @@ interface Props {
   suffix: string;
   prefix: string;
   dateFormat: string;
-  showLabel?: boolean;
+  showValues?: boolean;
   noOfXTicks: number;
   rightMargin: number;
   leftMargin: number;
@@ -52,7 +52,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     dateFormat,
-    showLabel,
+    showValues,
     noOfXTicks,
     rightMargin,
     leftMargin,
@@ -238,7 +238,7 @@ export function Graph(props: Props) {
                         fill: color,
                       }}
                     />
-                    {showLabel ? (
+                    {showValues ? (
                       <text
                         x={x(d.date)}
                         y={y(d.y)}

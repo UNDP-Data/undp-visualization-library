@@ -16,8 +16,8 @@ interface Props {
   height?: number;
   source?: string;
   domain: number[];
-  colors: string[];
-  colorLegendTitle: string;
+  colors?: string[];
+  colorLegendTitle?: string;
   categorical?: boolean;
   data: ChoroplethMapDataType[];
   scale?: number;
@@ -119,7 +119,7 @@ export function ChoroplethMap(props: Props) {
                   `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
                 ]
               }
-              colorLegendTitle={colorLegendTitle || 'Color key'}
+              colorLegendTitle={colorLegendTitle}
               categorical={categorical}
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}

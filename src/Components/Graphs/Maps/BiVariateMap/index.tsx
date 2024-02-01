@@ -21,7 +21,6 @@ interface Props {
   xDomain: [number, number, number, number];
   yDomain: [number, number, number, number];
   colors?: string[][];
-  categorical?: boolean;
   scale?: number;
   centerPoint?: [number, number];
   backgroundColor?: string | boolean;
@@ -45,7 +44,6 @@ export function BiVariantMap(props: Props) {
     yDomain,
     xColorLegendTitle,
     yColorLegendTitle,
-    categorical,
     scale,
     centerPoint,
     padding,
@@ -121,7 +119,6 @@ export function BiVariantMap(props: Props) {
               colors={colors || UNDPColorModule.bivariateColors.colors05x05}
               xColorLegendTitle={xColorLegendTitle || 'X Color key'}
               yColorLegendTitle={yColorLegendTitle || 'Y Color key'}
-              categorical={categorical}
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
             />

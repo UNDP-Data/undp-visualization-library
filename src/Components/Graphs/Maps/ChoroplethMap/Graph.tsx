@@ -14,7 +14,7 @@ interface Props {
   width: number;
   height: number;
   colors: string[];
-  colorLegendTitle: string;
+  colorLegendTitle?: string;
   categorical?: boolean;
   data: ChoroplethMapDataType[];
   scale: number;
@@ -302,9 +302,11 @@ export function Graph(props: Props) {
         <div className='univariate-legend-el'>
           <div className='univariate-map-color-legend-element'>
             <div>
-              <div className='univariate-map-legend-text'>
-                {colorLegendTitle}
-              </div>
+              {colorLegendTitle ? (
+                <div className='univariate-map-legend-text'>
+                  {colorLegendTitle}
+                </div>
+              ) : null}
               <svg width='100%' viewBox='0 0 320 30'>
                 <g>
                   {domain.map((d, i) => (
