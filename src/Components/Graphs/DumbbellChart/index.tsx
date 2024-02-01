@@ -20,7 +20,7 @@ interface Props {
   prefix?: string;
   source?: string;
   barPadding?: number;
-  showBarValue?: boolean;
+  showDotValue?: boolean;
   showXTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -47,7 +47,7 @@ export function DumbbellChart(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showBarValue,
+    showDotValue,
     showXTicks,
     leftMargin,
     rightMargin,
@@ -175,7 +175,7 @@ export function DumbbellChart(props: Props) {
                 prefix={prefix || ''}
                 barPadding={barPadding === undefined ? 0.25 : barPadding}
                 dotRadius={!dotRadius ? 3 : dotRadius}
-                showDotValue={showBarValue === undefined ? true : showBarValue}
+                showDotValue={showDotValue === undefined ? true : showDotValue}
                 showXTicks={showXTicks === undefined ? true : showXTicks}
                 leftMargin={leftMargin === undefined ? 100 : leftMargin}
                 rightMargin={rightMargin === undefined ? 40 : rightMargin}
