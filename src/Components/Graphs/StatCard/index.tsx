@@ -6,7 +6,7 @@ import { FootNote } from '../../Typography/FootNote';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
-  year: number;
+  year?: number | string;
   value: number;
   graphTitle: string;
   graphDescription?: string;
