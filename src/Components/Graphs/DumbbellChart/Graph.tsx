@@ -113,6 +113,9 @@ export function Graph(props: Props) {
               transform={`translate(0,${
                 (y(`${d.label}`) as number) + y.bandwidth() / 2
               })`}
+              opacity={
+                mouseOverData ? (mouseOverData.label === d.label ? 1 : 0.3) : 1
+              }
               onMouseEnter={event => {
                 setMouseOverData(d);
                 setEventY(event.clientY);

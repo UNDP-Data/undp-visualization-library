@@ -182,12 +182,12 @@ export function Graph(props: Props) {
                     ? d.color
                       ? barColor[colorDomain.indexOf(d.color)] === selectedColor
                         ? 1
-                        : 0.1
-                      : 0.1
+                        : 0.3
+                      : 0.3
                     : mouseOverData
                     ? mouseOverData.label === d.label
                       ? 1
-                      : 0.1
+                      : 0.3
                     : 1
                 }
                 onMouseEnter={event => {

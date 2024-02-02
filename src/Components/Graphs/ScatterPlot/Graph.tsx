@@ -299,12 +299,12 @@ export function Graph(props: Props) {
                       ? d.color
                         ? colors[colorDomain.indexOf(d.color)] === selectedColor
                           ? 1
-                          : 0.1
-                        : 0.1
+                          : 0.3
+                        : 0.3
                       : mouseOverData
                       ? mouseOverData.label === d.label
                         ? 1
-                        : 0.1
+                        : 0.3
                       : 1
                   }
                   transform={`translate(${x(d.x)},${y(d.y)})`}

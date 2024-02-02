@@ -1,8 +1,6 @@
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
-import { Source } from '../../Typography/Source';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { GraphFooter } from '../../Elements/GraphFooter';
+import { GraphHeader } from '../../Elements/GraphHeader';
 
 interface Props {
   value: number;
@@ -62,7 +60,6 @@ export function UnitChart(props: Props) {
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
-        flexGrow: 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -79,12 +76,10 @@ export function UnitChart(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
-            {graphTitle ? <GraphTitle text={graphTitle} /> : null}
-            {graphDescription ? (
-              <GraphDescription text={graphDescription} />
-            ) : null}
-          </div>
+          <GraphHeader
+            graphTitle={graphTitle}
+            graphDescription={graphDescription}
+          />
         ) : null}
         <div>
           <h2 className='undp-typography bold margin-bottom-02 margin-top-03'>
@@ -121,10 +116,11 @@ export function UnitChart(props: Props) {
           </svg>
         </div>
         {source || footNote ? (
-          <div>
-            {source ? <Source text={source} link={sourceLink} /> : null}
-            {footNote ? <FootNote text={footNote} /> : null}
-          </div>
+          <GraphFooter
+            source={source}
+            sourceLink={sourceLink}
+            footNote={footNote}
+          />
         ) : null}
       </div>
     </div>

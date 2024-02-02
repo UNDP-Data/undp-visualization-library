@@ -146,7 +146,7 @@ export function Graph(props: Props) {
               <g
                 key={i}
                 opacity={
-                  selectedColor ? (selectedColor === color ? 1 : 0.1) : 1
+                  selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);

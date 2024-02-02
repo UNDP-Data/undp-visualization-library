@@ -126,7 +126,7 @@ export function Graph(props: Props) {
                   mouseOverData
                     ? mouseOverData.label === d.label
                       ? 1
-                      : 0.1
+                      : 0.3
                     : 1
                 }
                 onMouseEnter={event => {

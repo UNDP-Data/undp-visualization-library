@@ -2,10 +2,8 @@ import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
-import { Source } from '../../../../Typography/Source';
-import { GraphTitle } from '../../../../Typography/GraphTitle';
-import { GraphDescription } from '../../../../Typography/GraphDescription';
-import { FootNote } from '../../../../Typography/FootNote';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
 
 interface Props {
   data: HorizontalGroupedBarGraphDataType[];
@@ -81,11 +79,10 @@ export function HorizontalGroupedBarGraph(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
+        width: width ? 'fit-content' : '100%',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
-        flexGrow: 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -102,12 +99,10 @@ export function HorizontalGroupedBarGraph(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
-            {graphTitle ? <GraphTitle text={graphTitle} /> : null}
-            {graphDescription ? (
-              <GraphDescription text={graphDescription} />
-            ) : null}
-          </div>
+          <GraphHeader
+            graphTitle={graphTitle}
+            graphDescription={graphDescription}
+          />
         ) : null}
         <div
           style={{
@@ -177,10 +172,11 @@ export function HorizontalGroupedBarGraph(props: Props) {
           </div>
         </div>
         {source || footNote ? (
-          <div>
-            {source ? <Source text={source} link={sourceLink} /> : null}
-            {footNote ? <FootNote text={footNote} /> : null}
-          </div>
+          <GraphFooter
+            source={source}
+            sourceLink={sourceLink}
+            footNote={footNote}
+          />
         ) : null}
       </div>
     </div>

@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { Source } from '../../Typography/Source';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { FootNote } from '../../Typography/FootNote';
+import { GraphFooter } from '../../Elements/GraphFooter';
+import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
@@ -65,7 +63,6 @@ export function StatCard(props: Props) {
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
-        flexGrow: 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -84,12 +81,10 @@ export function StatCard(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
-            {graphTitle ? <GraphTitle text={graphTitle} /> : null}
-            {graphDescription ? (
-              <GraphDescription text={graphDescription} />
-            ) : null}
-          </div>
+          <GraphHeader
+            graphTitle={graphTitle}
+            graphDescription={graphDescription}
+          />
         ) : null}
         <div
           style={{
@@ -106,10 +101,11 @@ export function StatCard(props: Props) {
           </StatEl>
         </div>
         {source || footNote ? (
-          <div>
-            {source ? <Source text={source} link={sourceLink} /> : null}
-            {footNote ? <FootNote text={footNote} /> : null}
-          </div>
+          <GraphFooter
+            source={source}
+            sourceLink={sourceLink}
+            footNote={footNote}
+          />
         ) : null}
       </div>
     </div>

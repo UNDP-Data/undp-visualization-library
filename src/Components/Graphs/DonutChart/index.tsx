@@ -2,12 +2,10 @@ import UNDPColorModule from 'undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import { Graph } from './Graph';
-import { FootNote } from '../../Typography/FootNote';
-import { GraphDescription } from '../../Typography/GraphDescription';
-import { GraphTitle } from '../../Typography/GraphTitle';
-import { Source } from '../../Typography/Source';
 import { DonutChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { GraphFooter } from '../../Elements/GraphFooter';
+import { GraphHeader } from '../../Elements/GraphHeader';
 
 interface Props {
   mainText?: string;
@@ -70,11 +68,10 @@ export function DonutChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
+        width: radius ? 'fit-content' : '100%',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
-        flexGrow: 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -91,12 +88,10 @@ export function DonutChart(props: Props) {
         }}
       >
         {graphTitle || graphDescription ? (
-          <div>
-            {graphTitle ? <GraphTitle text={graphTitle} /> : null}
-            {graphDescription ? (
-              <GraphDescription text={graphDescription} />
-            ) : null}
-          </div>
+          <GraphHeader
+            graphTitle={graphTitle}
+            graphDescription={graphDescription}
+          />
         ) : null}
         <div
           style={{
@@ -171,10 +166,11 @@ export function DonutChart(props: Props) {
           </div>
         </div>
         {source || footNote ? (
-          <div>
-            {source ? <Source text={source} link={sourceLink} /> : null}
-            {footNote ? <FootNote text={footNote} /> : null}
-          </div>
+          <GraphFooter
+            source={source}
+            sourceLink={sourceLink}
+            footNote={footNote}
+          />
         ) : null}
       </div>
     </div>
