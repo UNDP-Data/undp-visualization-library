@@ -1,6 +1,8 @@
 # Project Title
 #### Project description [Click here to see the interface]({{link to the site here}}).
 
+Doc for the starter kit can be found [here](https://orange-bay-04736e710.4.azurestaticapps.net/)
+
 ## Table of Contents
 * [Link for the visualization](#section-01)
 * [Deployment](#deployment)
