@@ -4,6 +4,7 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import UNDPColorModule from 'undp-viz-colors';
 import { scaleThreshold } from 'd3-scale';
+import { X } from 'lucide-react';
 import World from '../MapData/worldMap.json';
 import { BivariateMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
@@ -39,6 +40,7 @@ export function Graph(props: Props) {
     tooltip,
     onSeriesMouseOver,
   } = props;
+  const [showLegend, setShowLegend] = useState(!(width < 680));
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
@@ -313,87 +315,149 @@ export function Graph(props: Props) {
             : null}
         </g>
       </svg>
-      <div className='bivariate-legend-container'>
-        <div className='bivariate-legend-el'>
-          <div className='bivariate-map-color-legend-element'>
-            <div
-              style={{
-                display: 'flex',
-                pointerEvents: 'auto',
-              }}
-            >
-              <div>
-                <svg width='135px' viewBox='0 0 135 135'>
-                  <g>
-                    {colors.map((d, i) => (
-                      <g key={i} transform={`translate(0,${100 - i * 25})`}>
-                        {d.map((el, j) => (
-                          <rect
+      {showLegend ? (
+        <div className='bivariate-legend-container'>
+          <div
+            className='bivariate-legend-el'
+            style={{ alignItems: 'flex-start' }}
+          >
+            <div className='flex-div' style={{ alignItems: 'flex-end' }}>
+              <div className='bivariate-map-color-legend-element'>
+                <div
+                  style={{
+                    display: 'flex',
+                    pointerEvents: 'auto',
+                  }}
+                >
+                  <div>
+                    <svg width='135px' viewBox='0 0 135 135'>
+                      <g>
+                        {UNDPColorModule.bivariateColors.colors05x05.map(
+                          (d, i) => (
+                            <g
+                              key={i}
+                              transform={`translate(0,${100 - i * 25})`}
+                            >
+                              {d.map((el, j) => (
+                                <rect
+                                  key={j}
+                                  y={1}
+                                  x={j * 25 + 1}
+                                  fill={el}
+                                  width={23}
+                                  height={23}
+                                  strokeWidth={selectedColor === el ? 2 : 0.25}
+                                  stroke={
+                                    selectedColor === el ? '#212121' : '#fff'
+                                  }
+                                  style={{ cursor: 'pointer' }}
+                                  onMouseOver={() => {
+                                    setSelectedColor(el);
+                                  }}
+                                  onMouseLeave={() => {
+                                    setSelectedColor(undefined);
+                                  }}
+                                />
+                              ))}
+                            </g>
+                          ),
+                        )}
+                        <g transform='translate(0,125)'>
+                          {xDomain.map((el, j) => (
+                            <text
+                              key={j}
+                              y={10}
+                              x={(j + 1) * 25}
+                              fill='#212121'
+                              fontSize={10}
+                              textAnchor='middle'
+                            >
+                              {typeof el === 'string' || el < 1
+                                ? el
+                                : numberFormattingFunction(el)}
+                            </text>
+                          ))}
+                        </g>
+                        {yDomain.map((el, j) => (
+                          <g
                             key={j}
-                            y={1}
-                            x={j * 25 + 1}
-                            fill={el}
-                            width={23}
-                            height={23}
-                            strokeWidth={selectedColor === el ? 2 : 0.25}
-                            stroke={selectedColor === el ? '#212121' : '#fff'}
-                            style={{ cursor: 'pointer' }}
-                            onMouseOver={() => {
-                              setSelectedColor(el);
-                            }}
-                            onMouseLeave={() => {
-                              setSelectedColor(undefined);
-                            }}
-                          />
+                            transform={`translate(${
+                              Math.max(Math.min(xDomain.length + 1, 5), 4) *
+                                25 +
+                              10
+                            },${100 - j * 25})`}
+                          >
+                            <text
+                              x={0}
+                              transform='rotate(-90)'
+                              y={0}
+                              fill='#212121'
+                              fontSize={10}
+                              textAnchor='middle'
+                            >
+                              {typeof el === 'string' || el < 1
+                                ? el
+                                : numberFormattingFunction(el)}
+                            </text>
+                          </g>
                         ))}
                       </g>
-                    ))}
-                    <g transform='translate(0,125)'>
-                      {xDomain.map((el, j) => (
-                        <text
-                          key={j}
-                          y={10}
-                          x={(j + 1) * 25}
-                          fill='#212121'
-                          fontSize={10}
-                          textAnchor='middle'
-                        >
-                          {numberFormattingFunction(el)}
-                        </text>
-                      ))}
-                    </g>
-                    {yDomain.map((el, j) => (
-                      <g
-                        key={j}
-                        transform={`translate(${xDomain.length * 25 + 10},${
-                          100 - j * 25
-                        })`}
-                      >
-                        <text
-                          x={0}
-                          transform='rotate(-90)'
-                          y={0}
-                          fill='#212121'
-                          fontSize={10}
-                          textAnchor='middle'
-                        >
-                          {numberFormattingFunction(el)}
-                        </text>
-                      </g>
-                    ))}
-                  </g>
-                </svg>
-                <div className='bivariant-map-primary-legend-text'>
-                  {xColorLegendTitle}
+                    </svg>
+                    <div
+                      className='bivariant-map-primary-legend-text'
+                      style={{ lineHeight: 'normal' }}
+                    >
+                      {xColorLegendTitle}
+                    </div>
+                  </div>
+                  <div
+                    className='bivariate-map-secondary-legend-text'
+                    style={{ lineHeight: 'normal' }}
+                  >
+                    {yColorLegendTitle}
+                  </div>
                 </div>
               </div>
-              <div className='bivariate-map-secondary-legend-text'>
-                {yColorLegendTitle}
-              </div>
             </div>
+            <X
+              strokeWidth={2}
+              style={{ margin: '8px 8px 0 0', cursor: 'pointer' }}
+              onClick={() => {
+                setShowLegend(false);
+              }}
+            />
           </div>
         </div>
-      </div>
+      ) : (
+        <button
+          type='button'
+          className='bivariate-legend-container'
+          style={{
+            border: 0,
+          }}
+          onClick={() => {
+            setShowLegend(true);
+          }}
+        >
+          <div
+            className='bivariate-legend-el'
+            style={{
+              alignItems: 'flex-start',
+              fontFamily: 'var(--fontFamily)',
+              fontSize: '0.825rem',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              padding: 'var(--spacing-03)',
+              border: '1px solid var(--gray-400)',
+              color: 'var(--gray-600)',
+              backgroundColor: 'var(--gray-300)',
+            }}
+          >
+            Show Legend
+          </div>
+        </button>
+      )}
       {mouseOverData?.data && tooltip && eventX && eventY ? (
         <Tooltip
           body={tooltip(mouseOverData.data)}

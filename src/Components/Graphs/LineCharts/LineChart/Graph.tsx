@@ -242,15 +242,12 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y(d.y)}
-                        dy={16}
+                        dy={-8}
                         fontSize={12}
                         textAnchor='middle'
                         style={{
-                          fill: color,
+                          fill: 'var(-gray-700)',
                         }}
-                        strokeWidth={0.25}
-                        stroke='#fff'
-                        fontWeight='bold'
                       >
                         {prefix}
                         {numberFormattingFunction(d.y)}

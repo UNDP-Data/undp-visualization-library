@@ -5,13 +5,13 @@ interface WsColInterface {
 }
 
 interface Props {
-  buttonText: string;
-  buttonType: 'primary' | 'secondary' | 'tertiary';
+  buttonText?: string;
+  buttonType?: 'primary' | 'secondary' | 'tertiary';
   buttonArrow?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any;
-  indicatorTitle: string;
-  header: string[];
+  fileName?: string;
+  headers: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   xlsxHeader: any;
   wscols: WsColInterface[];
@@ -23,22 +23,22 @@ function ExcelDownloadButton(props: Props) {
     buttonType,
     buttonArrow,
     csvData,
-    indicatorTitle,
-    header,
+    fileName,
+    headers,
     xlsxHeader,
     wscols,
   } = props;
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType}${
+      className={`undp-button button-${buttonType || 'primary'}${
         buttonArrow ? ' button-arrow' : ''
       }`}
       onClick={() =>
-        exportToExcel(csvData, indicatorTitle, header, xlsxHeader, wscols)
+        exportToExcel(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
     >
-      {buttonText}
+      {buttonText || 'Download Excel'}
     </button>
   );
 }

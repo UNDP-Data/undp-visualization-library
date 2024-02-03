@@ -62,13 +62,12 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const radiusScale =
-    data.filter(d => d.radius !== undefined).length === 0
+    data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
           .domain([0, maxBy(data, 'radius')?.radius as number])
           .range([0.25, pointRadius])
           .nice()
       : undefined;
-
   const dataOrdered =
     data.filter(d => d.radius !== undefined).length === 0
       ? data
@@ -222,7 +221,7 @@ export function Graph(props: Props) {
             </text>
             {yAxisTitle ? (
               <text
-                transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
+                transform={`translate(-30, ${graphHeight / 2}) rotate(-90)`}
                 style={{
                   fill: 'var(--gray-700)',
                 }}

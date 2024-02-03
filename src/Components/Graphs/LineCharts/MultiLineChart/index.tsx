@@ -87,6 +87,7 @@ export function MultiLineChart(props: Props) {
           width: '100%',
           gap: 'var(--spacing-05)',
           flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
         {graphTitle || graphDescription ? (

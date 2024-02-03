@@ -180,9 +180,9 @@ export function Graph(props: Props) {
                     cy={0}
                     r={dotRadius}
                     style={{
-                      fill: dotColors[i],
+                      fill: dotColors[j],
                       fillOpacity: 0.85,
-                      stroke: dotColors[i],
+                      stroke: dotColors[j],
                       strokeWidth: 1,
                     }}
                   />
@@ -191,7 +191,7 @@ export function Graph(props: Props) {
                       x={x(el)}
                       y={0}
                       style={{
-                        fill: dotColors[i],
+                        fill: dotColors[j],
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
                         textAnchor: 'middle',

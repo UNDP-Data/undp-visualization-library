@@ -4,6 +4,7 @@ import { Graph } from './Graph';
 import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { ColorLegend } from '../../../../Elements/ColorLegend';
 
 interface Props {
   data: HorizontalGroupedBarGraphDataType[];
@@ -91,6 +92,7 @@ export function HorizontalStackedBarGraph(props: Props) {
           flexDirection: 'column',
           gap: 'var(--spacing-05)',
           width: '100%',
+          flexGrow: 1,
         }}
       >
         {graphTitle || graphDescription ? (
@@ -105,41 +107,15 @@ export function HorizontalStackedBarGraph(props: Props) {
             flexDirection: 'column',
             display: 'flex',
             justifyContent: 'center',
-            gap: 'var(--spacing-02)',
+            gap: 'var(--spacing-04)',
             width: '100%',
           }}
         >
-          <div
-            style={{
-              lineHeight: 0,
-            }}
-          >
-            {colorLegendTitle ? (
-              <p
-                className='undp-typography'
-                style={{ fill: 'var(--gray-700)', fontSize: '0.875rem' }}
-              >
-                {colorLegendTitle}
-              </p>
-            ) : null}
-            <div className='flex-div margin-bottom-00 flex-wrap'>
-              {colorDomain.map((d, i) => (
-                <div className='flex-div gap-03 flex-vert-align-center' key={i}>
-                  <div
-                    style={{
-                      width: '0.75rem',
-                      height: '0.75rem',
-                      borderRadius: '1rem',
-                      backgroundColor: barColors[i],
-                    }}
-                  />
-                  <p className='undp-typography margin-bottom-00 small-font'>
-                    {d}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ColorLegend
+            colorDomain={colorDomain}
+            colors={barColors}
+            colorLegendTitle={colorLegendTitle}
+          />
           <div
             style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
             ref={graphDiv}

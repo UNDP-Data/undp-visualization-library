@@ -74,6 +74,8 @@ export function UnitChart(props: Props) {
           flexDirection: 'column',
           gap: 'var(--spacing-05)',
           width: '100%',
+          justifyContent: 'space-between',
+          flexGrow: 1,
         }}
       >
         {graphTitle || graphDescription ? (

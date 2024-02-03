@@ -1,11 +1,11 @@
 import { imageDownload } from './imageDownload';
 
 interface Props {
-  buttonText: string;
-  buttonType: 'primary' | 'secondary' | 'tertiary';
+  buttonText?: string;
+  buttonType?: 'primary' | 'secondary' | 'tertiary';
   buttonArrow?: boolean;
   node: HTMLElement;
-  filename: string;
+  filename?: string;
 }
 
 function ImageDownloadButton(props: Props) {
@@ -13,16 +13,16 @@ function ImageDownloadButton(props: Props) {
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType}${
+      className={`undp-button button-${buttonType || 'primary'}${
         buttonArrow ? ' button-arrow' : ''
       }`}
       onClick={() => {
         if (node) {
-          imageDownload(node, filename);
+          imageDownload(node, filename || 'image');
         }
       }}
     >
-      {buttonText}
+      {buttonText || 'Download Div'}
     </button>
   );
 }

@@ -205,7 +205,7 @@ export function Graph(props: Props) {
                 y1={0}
                 cy={y(mouseOverData.y)}
                 cx={x(mouseOverData.date)}
-                r={3}
+                r={5}
                 style={{
                   fill: color,
                 }}

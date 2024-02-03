@@ -303,7 +303,10 @@ export function Graph(props: Props) {
           <div className='univariate-map-color-legend-element'>
             <div>
               {colorLegendTitle ? (
-                <div className='univariate-map-legend-text'>
+                <div
+                  className='univariate-map-legend-text'
+                  style={{ lineHeight: 'normal' }}
+                >
                   {colorLegendTitle}
                 </div>
               ) : null}

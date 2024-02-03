@@ -85,6 +85,7 @@ export function DonutChart(props: Props) {
           flexDirection: 'column',
           gap: 'var(--spacing-03)',
           width: '100%',
+          flexGrow: 1,
         }}
       >
         {graphTitle || graphDescription ? (

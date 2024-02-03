@@ -4,6 +4,7 @@ import { Graph } from './Graph';
 import { DumbbellChartDataType } from '../../../Types';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { GraphFooter } from '../../Elements/GraphFooter';
+import { ColorLegend } from '../../Elements/ColorLegend';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -101,6 +102,7 @@ export function DumbbellChart(props: Props) {
           width: '100%',
           gap: 'var(--spacing-05)',
           flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
         {graphTitle || graphDescription ? (
@@ -116,41 +118,15 @@ export function DumbbellChart(props: Props) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 'var(--spacing-02)',
+            gap: 'var(--spacing-04)',
             width: '100%',
           }}
         >
-          <div
-            style={{
-              lineHeight: 0,
-            }}
-          >
-            {colorLegendTitle ? (
-              <p
-                className='undp-typography'
-                style={{ fill: 'var(--gray-700)', fontSize: '0.875rem' }}
-              >
-                {colorLegendTitle}
-              </p>
-            ) : null}
-            <div className='flex-div margin-bottom-00 flex-wrap'>
-              {colorDomain.map((d, i) => (
-                <div className='flex-div gap-03 flex-vert-align-center' key={i}>
-                  <div
-                    style={{
-                      width: '0.75rem',
-                      height: '0.75rem',
-                      borderRadius: '1rem',
-                      backgroundColor: dotColors[i],
-                    }}
-                  />
-                  <p className='undp-typography margin-bottom-00 small-font'>
-                    {d}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ColorLegend
+            colorDomain={colorDomain}
+            colors={dotColors}
+            colorLegendTitle={colorLegendTitle}
+          />
           <div
             style={{
               flexGrow: 1,

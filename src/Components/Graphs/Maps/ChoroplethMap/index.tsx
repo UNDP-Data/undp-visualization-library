@@ -83,6 +83,7 @@ export function ChoroplethMap(props: Props) {
           width: '100%',
           gap: 'var(--spacing-05)',
           flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
         {graphTitle || graphDescription ? (
@@ -111,9 +112,15 @@ export function ChoroplethMap(props: Props) {
               centerPoint={centerPoint || [470, 315]}
               colors={
                 colors ||
-                UNDPColorModule.sequentialColors[
-                  `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
-                ]
+                (categorical
+                  ? UNDPColorModule.sequentialColors[
+                      `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
+                    ]
+                  : UNDPColorModule.sequentialColors[
+                      `neutralColorsx0${
+                        (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                      }`
+                    ])
               }
               colorLegendTitle={colorLegendTitle}
               categorical={categorical}

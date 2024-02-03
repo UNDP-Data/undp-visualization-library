@@ -61,7 +61,12 @@ export function Graph(props: Props) {
                 }) as string
               }
               style={{
-                fill: colors[d.index],
+                fill: colors[i],
+                opacity: mouseOverData
+                  ? mouseOverData.label === (d.data as any).label
+                    ? 1
+                    : 0.3
+                  : 1,
               }}
               onMouseEnter={event => {
                 setMouseOverData(d.data);

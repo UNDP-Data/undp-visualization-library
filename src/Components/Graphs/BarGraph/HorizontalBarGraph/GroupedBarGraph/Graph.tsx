@@ -140,15 +140,18 @@ export function Graph(props: Props) {
                     {showBarValue ? (
                       <text
                         x={x(el)}
-                        y={(subBarScale(`${j}`) as number) + y.bandwidth() / 2}
+                        y={
+                          (subBarScale(`${j}`) as number) +
+                          subBarScale.bandwidth() / 2
+                        }
                         style={{
                           fill: barColors[j],
                           fontSize: '1rem',
                           fontWeight: 'bold',
                           textAnchor: 'middle',
                         }}
-                        dx={10}
-                        dy={8}
+                        dx={7}
+                        dy={6}
                       >
                         {prefix}
                         {numberFormattingFunction(el)}
@@ -186,7 +189,7 @@ export function Graph(props: Props) {
           />
         </g>
       </svg>
-      {mouseOverData.data && tooltip && eventX && eventY ? (
+      {mouseOverData?.data && tooltip && eventX && eventY ? (
         <Tooltip
           body={tooltip(mouseOverData.data)}
           xPos={eventX}
