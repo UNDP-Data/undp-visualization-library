@@ -30,9 +30,11 @@ const StatEl = styled.h3`
 `;
 
 const YearEl = styled.span`
-  font-size: 2.5rem !important;
+  margin-left: -8px;
+  font-size: 1.25rem !important;
   line-height: 1.09 !important;
   text-shadow: none !important;
+  font-weight: normal !important;
   -webkit-text-stroke: 0px var(--black) !important;
   color: var(--gray-500) !important;
   margin-top: 0 !important;

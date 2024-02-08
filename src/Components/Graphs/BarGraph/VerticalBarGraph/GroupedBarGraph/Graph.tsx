@@ -192,8 +192,7 @@ export function Graph(props: Props) {
                     y={y(0)}
                     style={{
                       fill: 'var(--gray-700)',
-                      fontSize: '0.875rem',
-                      fontWeight: 'bold',
+                      fontSize: '0.75rem',
                       textAnchor: 'middle',
                     }}
                     dy='15px'

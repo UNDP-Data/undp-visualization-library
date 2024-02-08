@@ -1,6 +1,7 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
+import styled from 'styled-components';
 import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
@@ -20,6 +21,14 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
+
+const G = styled.g`
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 export function Graph(props: Props) {
   const {
@@ -93,16 +102,9 @@ export function Graph(props: Props) {
             : null}
           {data.map((d, i) => {
             return (
-              <g
+              <G
                 key={i}
                 transform={`translate(${0},${y(`${d.label}`)})`}
-                opacity={
-                  mouseOverData
-                    ? mouseOverData.label === d.label
-                      ? 1
-                      : 0.3
-                    : 1
-                }
                 onMouseEnter={event => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -145,9 +147,8 @@ export function Graph(props: Props) {
                 ))}
                 <text
                   style={{
-                    fill: barColors[0],
+                    fill: 'var(--gray-700)',
                     fontSize: '0.75rem',
-                    fontWeight: 'bold',
                     textAnchor: 'end',
                   }}
                   x={x(0)}
@@ -159,7 +160,7 @@ export function Graph(props: Props) {
                     ? d.label
                     : `${d.label.substring(0, truncateBy)}...`}
                 </text>
-              </g>
+              </G>
             );
           })}
           <line

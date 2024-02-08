@@ -3,7 +3,7 @@ import { line, curveMonotoneX } from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { format, parse } from 'date-fns';
 import styled from 'styled-components';
-import { bisect } from 'd3-array';
+import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import min from 'lodash.min';
@@ -26,6 +26,7 @@ interface Props {
   rightMargin: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  showColorLegendAtTop?: boolean;
 }
 
 const XTickText = styled.text`
@@ -56,6 +57,7 @@ export function Graph(props: Props) {
     leftMargin,
     tooltip,
     onSeriesMouseOver,
+    showColorLegendAtTop,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -112,7 +114,7 @@ export function Graph(props: Props) {
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
-          bisect(
+          bisectCenter(
             dataFormatted.map(d => d.date),
             x.invert(pointer(event)[0]),
             1,
@@ -238,19 +240,21 @@ export function Graph(props: Props) {
                     </g>
                   ))}
                 </g>
-                <text
-                  style={{
-                    fill: colors[i],
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                  x={x(d[d.length - 1].date)}
-                  y={y(d[d.length - 1].y as number)}
-                  dx={5}
-                  dy={4}
-                >
-                  {labels[i]}
-                </text>
+                {showColorLegendAtTop ? null : (
+                  <text
+                    style={{
+                      fill: colors[i],
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                    }}
+                    x={x(d[d.length - 1].date)}
+                    y={y(d[d.length - 1].y as number)}
+                    dx={5}
+                    dy={4}
+                  >
+                    {labels[i]}
+                  </text>
+                )}
               </>
             ))}
             {mouseOverData ? (

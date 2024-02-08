@@ -4,6 +4,7 @@ import { Graph } from './Graph';
 import { MultiLineChartDataType } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
+import { ColorLegend } from '../../../Elements/ColorLegend';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -24,6 +25,7 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  showColorLegendAtTop?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
@@ -50,6 +52,7 @@ export function MultiLineChart(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    showColorLegendAtTop,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -102,27 +105,39 @@ export function MultiLineChart(props: Props) {
             flexDirection: 'column',
             display: 'flex',
             justifyContent: 'center',
-            lineHeight: 0,
+            gap: 'var(--spacing-04)',
+            width: '100%',
           }}
-          ref={graphDiv}
         >
-          {(width || svgWidth) && (height || svgHeight) ? (
-            <Graph
-              data={data}
+          {showColorLegendAtTop ? (
+            <ColorLegend
+              colorDomain={labels}
               colors={colors || UNDPColorModule.categoricalColors.colors}
-              width={width || svgWidth}
-              height={height || svgHeight}
-              noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
-              dateFormat={dateFormat || 'yyyy'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 30 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
-              labels={labels}
-              tooltip={tooltip}
-              onSeriesMouseOver={onSeriesMouseOver}
             />
           ) : null}
+          <div
+            style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+            ref={graphDiv}
+          >
+            {(width || svgWidth) && (height || svgHeight) ? (
+              <Graph
+                data={data}
+                colors={colors || UNDPColorModule.categoricalColors.colors}
+                width={width || svgWidth}
+                height={height || svgHeight}
+                noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
+                dateFormat={dateFormat || 'yyyy'}
+                leftMargin={leftMargin === undefined ? 50 : leftMargin}
+                rightMargin={rightMargin === undefined ? 30 : rightMargin}
+                topMargin={topMargin === undefined ? 20 : topMargin}
+                bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                labels={labels}
+                tooltip={tooltip}
+                onSeriesMouseOver={onSeriesMouseOver}
+                showColorLegendAtTop={showColorLegendAtTop}
+              />
+            ) : null}
+          </div>
         </div>
         {source || footNote ? (
           <GraphFooter

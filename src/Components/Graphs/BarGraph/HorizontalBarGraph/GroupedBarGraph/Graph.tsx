@@ -162,9 +162,8 @@ export function Graph(props: Props) {
                 ))}
                 <text
                   style={{
-                    fill: barColors[0],
+                    fill: 'var(--gray-700)',
                     fontSize: '0.75rem',
-                    fontWeight: 'bold',
                     textAnchor: 'end',
                   }}
                   x={x(0)}

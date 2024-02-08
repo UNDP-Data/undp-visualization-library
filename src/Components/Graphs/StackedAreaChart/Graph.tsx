@@ -3,7 +3,7 @@ import { curveMonotoneX, area } from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { format, parse } from 'date-fns';
 import styled from 'styled-components';
-import { bisect } from 'd3-array';
+import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
@@ -105,7 +105,7 @@ export function Graph(props: Props) {
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
-          bisect(
+          bisectCenter(
             dataFormatted.map(d => d.date),
             x.invert(pointer(event)[0]),
             1,

@@ -190,7 +190,9 @@ export function Graph(props: Props) {
                 <text
                   x={0}
                   y={y(d)}
-                  fill={UNDPColorModule.graphGray}
+                  style={{
+                    fill: 'var(--gray-700)',
+                  }}
                   textAnchor='end'
                   fontSize={12}
                   dy={4}
@@ -205,13 +207,17 @@ export function Graph(props: Props) {
               x2={graphWidth}
               y1={y(0)}
               y2={y(0)}
-              stroke={UNDPColorModule.graphGray}
+              style={{
+                stroke: 'var(--gray-700)',
+              }}
               strokeWidth={1}
             />
             <text
               x={0}
               y={y(0)}
-              fill={UNDPColorModule.graphGray}
+              style={{
+                fill: 'var(--gray-700)',
+              }}
               textAnchor='end'
               fontSize={12}
               dy={4}
@@ -224,6 +230,7 @@ export function Graph(props: Props) {
                 transform={`translate(-30, ${graphHeight / 2}) rotate(-90)`}
                 style={{
                   fill: 'var(--gray-700)',
+                  fontWeight: 'bold',
                 }}
                 textAnchor='middle'
                 fontSize={12}
@@ -247,7 +254,9 @@ export function Graph(props: Props) {
                 <text
                   x={x(d)}
                   y={graphHeight}
-                  fill={UNDPColorModule.graphGray}
+                  style={{
+                    fill: 'var(--gray-700)',
+                  }}
                   textAnchor='middle'
                   fontSize={12}
                   dy={12}
@@ -261,13 +270,17 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={x(0)}
               x2={x(0)}
-              stroke={UNDPColorModule.graphGray}
+              style={{
+                stroke: 'var(--gray-700)',
+              }}
               strokeWidth={1}
             />
             <text
               x={x(0)}
               y={graphHeight}
-              fill={UNDPColorModule.graphGray}
+              style={{
+                fill: 'var(--gray-700)',
+              }}
               textAnchor='middle'
               fontSize={12}
               dy={15}
@@ -279,6 +292,7 @@ export function Graph(props: Props) {
                 transform={`translate(${graphWidth / 2}, ${graphHeight})`}
                 style={{
                   fill: 'var(--gray-700)',
+                  fontWeight: 'bold',
                 }}
                 textAnchor='middle'
                 fontSize={12}

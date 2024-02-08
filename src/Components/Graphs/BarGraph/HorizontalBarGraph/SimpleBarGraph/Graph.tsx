@@ -1,6 +1,7 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState } from 'react';
+import styled from 'styled-components';
 import { HorizontalBarGraphDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
@@ -25,6 +26,14 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
+
+const G = styled.g`
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 export function Graph(props: Props) {
   const {
@@ -175,7 +184,7 @@ export function Graph(props: Props) {
             : null}
           {data.map((d, i) => {
             return (
-              <g
+              <G
                 key={i}
                 opacity={
                   selectedColor
@@ -183,10 +192,6 @@ export function Graph(props: Props) {
                       ? barColor[colorDomain.indexOf(d.color)] === selectedColor
                         ? 1
                         : 0.3
-                      : 0.3
-                    : mouseOverData
-                    ? mouseOverData.label === d.label
-                      ? 1
                       : 0.3
                     : 1
                 }
@@ -228,9 +233,8 @@ export function Graph(props: Props) {
                 />
                 <text
                   style={{
-                    fill: barColor[0],
+                    fill: 'var(--gray-700)',
                     fontSize: '0.75rem',
-                    fontWeight: 'bold',
                     textAnchor: 'end',
                   }}
                   x={x(0)}
@@ -260,7 +264,7 @@ export function Graph(props: Props) {
                     {suffix}
                   </text>
                 ) : null}
-              </g>
+              </G>
             );
           })}
           <line

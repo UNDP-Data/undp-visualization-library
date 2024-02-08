@@ -8,7 +8,7 @@ export function FootNote(props: Props) {
     <p
       className='undp-typography margin-bottom-00'
       style={{
-        color: 'var(--gray-500)',
+        color: 'var(--gray-600)',
         fontSize: '0.875rem',
       }}
     >
