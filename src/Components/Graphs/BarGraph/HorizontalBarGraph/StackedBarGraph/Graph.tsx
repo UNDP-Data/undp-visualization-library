@@ -110,7 +110,7 @@ export function Graph(props: Props) {
                   setEventY(event.clientY);
                   setEventX(event.clientX);
                   if (onSeriesMouseOver) {
-                    onSeriesMouseOver(d.data);
+                    onSeriesMouseOver(d);
                   }
                 }}
                 onMouseMove={event => {
@@ -173,12 +173,8 @@ export function Graph(props: Props) {
           />
         </g>
       </svg>
-      {mouseOverData?.data && tooltip && eventX && eventY ? (
-        <Tooltip
-          body={tooltip(mouseOverData.data)}
-          xPos={eventX}
-          yPos={eventY}
-        />
+      {mouseOverData && tooltip && eventX && eventY ? (
+        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
       ) : null}
     </>
   );
