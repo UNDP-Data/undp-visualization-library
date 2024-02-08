@@ -37,7 +37,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "styled-components": "^6.0.1",
-    "undp-viz-colors": "^1.0.6",
+    "undp-viz-colors": "^1.0.7",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
