@@ -4,12 +4,12 @@ interface Props {
   buttonText?: string;
   buttonType?: 'primary' | 'secondary' | 'tertiary';
   buttonArrow?: boolean;
-  node: HTMLElement;
+  nodeID: string;
   filename?: string;
 }
 
 function ImageDownloadButton(props: Props) {
-  const { node, filename, buttonText, buttonType, buttonArrow } = props;
+  const { nodeID, filename, buttonText, buttonType, buttonArrow } = props;
   return (
     <button
       type='button'
@@ -17,8 +17,14 @@ function ImageDownloadButton(props: Props) {
         buttonArrow ? ' button-arrow' : ''
       }`}
       onClick={() => {
-        if (node) {
-          imageDownload(node, filename || 'image');
+        if (document.getElementById(nodeID)) {
+          imageDownload(
+            document.getElementById(nodeID) as HTMLElement,
+            filename || 'image',
+          );
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('Cannot find the html element');
         }
       }}
     >
