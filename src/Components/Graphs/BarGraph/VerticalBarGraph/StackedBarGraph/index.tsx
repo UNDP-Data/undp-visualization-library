@@ -91,8 +91,10 @@ export function VerticalStackedBarGraph(props: Props) {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-05)',
           width: '100%',
+          gap: 'var(--spacing-05)',
+          flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
         {graphTitle || graphDescription ? (
