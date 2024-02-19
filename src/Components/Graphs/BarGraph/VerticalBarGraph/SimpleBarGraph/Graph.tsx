@@ -209,14 +209,13 @@ export function Graph(props: Props) {
                   <text
                     x={0 - margin.left + 2}
                     y={y(d)}
-                    fill='#A9B1B7'
                     textAnchor='start'
                     fontSize={12}
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
                       fontFamily: 'var(--fontFamily)',
-                      fill: 'var(--gray-400)',
+                      fill: 'var(--gray-500)',
                     }}
                   >
                     {numberFormattingFunction(d)}

@@ -168,7 +168,7 @@ export function Graph(props: Props) {
                     x={-25}
                     y={y(d)}
                     style={{
-                      fill: 'var(--gray-400)',
+                      fill: 'var(--gray-500)',
                       fontFamily: 'var(--fontFamily)',
                     }}
                     textAnchor='end'
