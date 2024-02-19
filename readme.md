@@ -7,7 +7,7 @@ Doc for the starter kit can be found [here](https://orange-bay-04736e710.4.azure
 * [Link for the visualization](#section-01)
 * [Deployment](#deployment)
 * [Steps to integrate the vis in static page](#section-02)
-* [Pages on DFP where This Viz is Used](#section-03)
+* [Pages on DFx where This Viz is Used](#section-03)
 * [Related Repos](#section-04)
 * [Global CSS Files and Repo](#section-05)
 * [Build With](#section-06)
@@ -36,8 +36,8 @@ Apart from the mentioned `div` above the following `script` and `link` needs to 
 <link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraph.css" />
 ```
 
-## Pages on DFP Where the Visualization is Used<a name="section-03"></a>
-_All the pages on the DFP or other places like viva topics etc. where this visualization is embedded or used._
+## Pages on DFx Where the Visualization is Used<a name="section-03"></a>
+_All the pages on the DFx or other places like viva topics etc. where this visualization is embedded or used._
 
 ## Related Repos<a name="section-04"></a>
 * [__name of the data repo__](link to data repo): This is the data sheet for visualization
