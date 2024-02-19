@@ -81,7 +81,10 @@ export function Graph(props: Props) {
                   <text
                     x={x(d)}
                     y={-12.5}
-                    fill='#AAA'
+                    style={{
+                      fill: 'var(--gray-400)',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
                     textAnchor='middle'
                     fontSize={12}
                   >
@@ -92,7 +95,9 @@ export function Graph(props: Props) {
                     x2={x(d)}
                     y1={-2.5}
                     y2={graphHeight + margin.bottom}
-                    stroke='#AAA'
+                    style={{
+                      stroke: 'var(--gray-400)',
+                    }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
                     opacity={d === 0 ? 0 : 1}
@@ -150,6 +155,7 @@ export function Graph(props: Props) {
                     fill: 'var(--gray-700)',
                     fontSize: '0.75rem',
                     textAnchor: 'end',
+                    fontFamily: 'var(--fontFamily)',
                   }}
                   x={x(0)}
                   y={y.bandwidth() / 2}

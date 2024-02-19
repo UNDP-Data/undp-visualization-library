@@ -95,7 +95,10 @@ export function Graph(props: Props) {
                 x={0}
                 y={10}
                 fontSize={14}
-                style={{ fill: 'var(--gray-700)' }}
+                style={{
+                  fill: 'var(--gray-700)',
+                  fontFamily: 'var(--fontFamily)',
+                }}
               >
                 {colorLegendTitle}
               </text>
@@ -131,6 +134,9 @@ export function Graph(props: Props) {
                   textAnchor='middle'
                   fontSize={12}
                   fill='#212121'
+                  style={{
+                    fontFamily: 'var(--fontFamily)',
+                  }}
                 >
                   {d}
                 </text>
@@ -151,6 +157,9 @@ export function Graph(props: Props) {
                 textAnchor='middle'
                 fontSize={12}
                 fill={UNDPColorModule.graphGray}
+                style={{
+                  fontFamily: 'var(--fontFamily)',
+                }}
               >
                 NA
               </text>
@@ -173,6 +182,7 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: 'var(--gray-700)',
+              fontFamily: 'var(--fontFamily)',
             }}
             textAnchor='start'
             fontSize={12}
@@ -189,7 +199,9 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
-                    stroke='#A9B1B7'
+                    style={{
+                      stroke: 'var(--gray-400)',
+                    }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
                     opacity={d === 0 ? 0 : 1}
@@ -202,6 +214,10 @@ export function Graph(props: Props) {
                     fontSize={12}
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
+                    style={{
+                      fontFamily: 'var(--fontFamily)',
+                      fill: 'var(--gray-400)',
+                    }}
                   >
                     {numberFormattingFunction(d)}
                   </text>
@@ -265,6 +281,7 @@ export function Graph(props: Props) {
                       fill: 'var(--gray-700)',
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
+                      fontFamily: 'var(--fontFamily)',
                     }}
                     dy='15px'
                   >
@@ -287,6 +304,7 @@ export function Graph(props: Props) {
                       fontSize: '1rem',
                       fontWeight: 'bold',
                       textAnchor: 'middle',
+                      fontFamily: 'var(--fontFamily)',
                     }}
                     dy='-5px'
                   >

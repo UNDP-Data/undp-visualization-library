@@ -113,7 +113,9 @@ export function Graph(props: Props) {
                         <path
                           key={j}
                           d={masterPath}
-                          stroke='#AAA'
+                          style={{
+                            stroke: 'var(--gray-400)',
+                          }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}
                         />
@@ -134,7 +136,9 @@ export function Graph(props: Props) {
                         <path
                           key={j}
                           d={path}
-                          stroke='#AAA'
+                          style={{
+                            stroke: 'var(--gray-400)',
+                          }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}
                         />
@@ -206,11 +210,12 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke={
-                              color === UNDPColorModule.graphNoData
-                                ? '#AAA'
-                                : '#fff'
-                            }
+                            style={{
+                              stroke:
+                                color === UNDPColorModule.graphNoData
+                                  ? 'var(--gray-400)'
+                                  : '#fff',
+                            }}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -233,11 +238,12 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={path}
-                            stroke={
-                              color === UNDPColorModule.graphNoData
-                                ? '#AAA'
-                                : '#fff'
-                            }
+                            style={{
+                              stroke:
+                                color === UNDPColorModule.graphNoData
+                                  ? 'var(--gray-400)'
+                                  : '#fff',
+                            }}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -371,6 +377,9 @@ export function Graph(props: Props) {
                               fill='#212121'
                               fontSize={10}
                               textAnchor='middle'
+                              style={{
+                                fontFamily: 'var(--fontFamily)',
+                              }}
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
@@ -394,6 +403,9 @@ export function Graph(props: Props) {
                               fill='#212121'
                               fontSize={10}
                               textAnchor='middle'
+                              style={{
+                                fontFamily: 'var(--fontFamily)',
+                              }}
                             >
                               {typeof el === 'string' || el < 1
                                 ? el

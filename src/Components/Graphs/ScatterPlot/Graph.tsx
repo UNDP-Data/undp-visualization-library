@@ -109,7 +109,10 @@ export function Graph(props: Props) {
               x={0}
               y={10}
               fontSize={14}
-              style={{ fill: 'var(--gray-700)' }}
+              style={{
+                fill: 'var(--gray-700)',
+                fontFamily: 'var(--fontFamily)',
+              }}
             >
               {colorLegendTitle}
             </text>
@@ -142,6 +145,9 @@ export function Graph(props: Props) {
                   textAnchor='middle'
                   fontSize={12}
                   fill='#212121'
+                  style={{
+                    fontFamily: 'var(--fontFamily)',
+                  }}
                 >
                   {d}
                 </text>
@@ -162,6 +168,9 @@ export function Graph(props: Props) {
                 textAnchor='middle'
                 fontSize={12}
                 fill={UNDPColorModule.graphGray}
+                style={{
+                  fontFamily: 'var(--fontFamily)',
+                }}
               >
                 NA
               </text>
@@ -183,7 +192,9 @@ export function Graph(props: Props) {
                   x2={graphWidth}
                   y1={y(d)}
                   y2={y(d)}
-                  stroke='#AAA'
+                  style={{
+                    stroke: 'var(--gray-400)',
+                  }}
                   strokeWidth={1}
                   strokeDasharray='4,8'
                 />
@@ -192,6 +203,7 @@ export function Graph(props: Props) {
                   y={y(d)}
                   style={{
                     fill: 'var(--gray-700)',
+                    fontFamily: 'var(--fontFamily)',
                   }}
                   textAnchor='end'
                   fontSize={12}
@@ -217,6 +229,7 @@ export function Graph(props: Props) {
               y={y(0)}
               style={{
                 fill: 'var(--gray-700)',
+                fontFamily: 'var(--fontFamily)',
               }}
               textAnchor='end'
               fontSize={12}
@@ -231,6 +244,7 @@ export function Graph(props: Props) {
                 style={{
                   fill: 'var(--gray-700)',
                   fontWeight: 'bold',
+                  fontFamily: 'var(--fontFamily)',
                 }}
                 textAnchor='middle'
                 fontSize={12}
@@ -247,7 +261,9 @@ export function Graph(props: Props) {
                   y2={graphHeight}
                   x1={x(d)}
                   x2={x(d)}
-                  stroke='#AAA'
+                  style={{
+                    stroke: 'var(--gray-400)',
+                  }}
                   strokeWidth={1}
                   strokeDasharray='4,8'
                 />
@@ -256,6 +272,7 @@ export function Graph(props: Props) {
                   y={graphHeight}
                   style={{
                     fill: 'var(--gray-700)',
+                    fontFamily: 'var(--fontFamily)',
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -280,6 +297,7 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: 'var(--gray-700)',
+                fontFamily: 'var(--fontFamily)',
               }}
               textAnchor='middle'
               fontSize={12}
@@ -293,6 +311,7 @@ export function Graph(props: Props) {
                 style={{
                   fill: 'var(--gray-700)',
                   fontWeight: 'bold',
+                  fontFamily: 'var(--fontFamily)',
                 }}
                 textAnchor='middle'
                 fontSize={12}
@@ -352,6 +371,7 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(d.color)],
+                        fontFamily: 'var(--fontFamily)',
                       }}
                       y={0}
                       x={!radiusScale ? 5 : radiusScale(d.radius || 0)}

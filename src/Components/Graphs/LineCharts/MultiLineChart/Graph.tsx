@@ -158,14 +158,19 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={width}
                     x2={-20}
-                    stroke='#AAA'
+                    style={{
+                      stroke: 'var(--gray-400)',
+                    }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
                   />
                   <text
                     x={-25}
                     y={y(d)}
-                    fill='#AAA'
+                    style={{
+                      fill: 'var(--gray-400)',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
                     textAnchor='end'
                     fontSize={12}
                     dy={3}
@@ -246,6 +251,7 @@ export function Graph(props: Props) {
                       fill: colors[i],
                       fontSize: '12px',
                       fontWeight: 'bold',
+                      fontFamily: 'var(--fontFamily)',
                     }}
                     x={x(d[d.length - 1].date)}
                     y={y(d[d.length - 1].y as number)}

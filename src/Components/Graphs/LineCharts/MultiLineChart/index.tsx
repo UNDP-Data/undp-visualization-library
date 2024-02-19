@@ -79,7 +79,7 @@ export function MultiLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-100)'
+          ? 'var(--gray-200)'
           : backgroundColor,
       }}
     >

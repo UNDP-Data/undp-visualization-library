@@ -98,7 +98,7 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize='2.813rem'
               fontWeight='bold'
-              style={{ fill: 'var(--black)' }}
+              style={{ fill: 'var(--black)', fontFamily: 'var(--fontFamily)' }}
             >
               {mainText}
             </text>
@@ -110,7 +110,7 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize='1.25rem'
               fontWeight='bold'
-              style={{ fill: 'var(--black)' }}
+              style={{ fill: 'var(--black)', fontFamily: 'var(--fontFamily)' }}
             >
               {subNote}
             </text>

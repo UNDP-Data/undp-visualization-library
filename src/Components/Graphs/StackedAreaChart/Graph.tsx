@@ -149,14 +149,19 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={width}
                     x2={0}
-                    stroke='#AAA'
+                    style={{
+                      stroke: 'var(--gray-400)',
+                    }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
                   />
                   <text
                     x={-5}
                     y={y(d)}
-                    fill='#AAA'
+                    style={{
+                      fill: 'var(--gray-400)',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
                     textAnchor='end'
                     fontSize={12}
                     dy={3}
@@ -181,6 +186,7 @@ export function Graph(props: Props) {
                 transform={`translate(-40, ${graphHeight / 2}) rotate(-90)`}
                 style={{
                   fill: 'var(--gray-700)',
+                  fontFamily: 'var(--fontFamily)',
                 }}
                 textAnchor='middle'
                 fontSize={12}

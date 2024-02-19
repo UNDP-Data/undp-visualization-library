@@ -106,7 +106,9 @@ export function Graph(props: Props) {
                         <path
                           key={j}
                           d={masterPath}
-                          stroke='#AAA'
+                          style={{
+                            stroke: 'var(--gray-400)',
+                          }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}
                         />
@@ -127,7 +129,9 @@ export function Graph(props: Props) {
                         <path
                           key={j}
                           d={path}
-                          stroke='#AAA'
+                          style={{
+                            stroke: 'var(--gray-400)',
+                          }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}
                         />
@@ -194,7 +198,9 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={masterPath}
-                            stroke='#AAA'
+                            style={{
+                              stroke: 'var(--gray-400)',
+                            }}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -217,7 +223,9 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={path}
-                            stroke='#AAA'
+                            style={{
+                              stroke: 'var(--gray-400)',
+                            }}
                             strokeWidth={0.25}
                             fill={color}
                           />
@@ -351,6 +359,9 @@ export function Graph(props: Props) {
                         textAnchor='middle'
                         fontSize={12}
                         fill='#212121'
+                        style={{
+                          fontFamily: 'var(--fontFamily)',
+                        }}
                       >
                         {numberFormattingFunction(d)}
                       </text>
