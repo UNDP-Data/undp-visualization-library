@@ -112,7 +112,7 @@ export function Graph(props: Props) {
                     y1={-2.5}
                     y2={graphHeight + margin.bottom}
                     style={{
-                      stroke: 'var(--gray-400)',
+                      stroke: 'var(--gray-500)',
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -171,7 +171,7 @@ export function Graph(props: Props) {
                 y1={0}
                 y2={0}
                 style={{
-                  stroke: 'var(--gray-400)',
+                  stroke: 'var(--gray-500)',
                 }}
                 strokeWidth={1}
                 strokeDasharray='4,8'

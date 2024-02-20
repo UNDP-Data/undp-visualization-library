@@ -114,7 +114,7 @@ export function Graph(props: Props) {
                           key={j}
                           d={masterPath}
                           style={{
-                            stroke: 'var(--gray-400)',
+                            stroke: 'var(--gray-500)',
                           }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}
@@ -137,7 +137,7 @@ export function Graph(props: Props) {
                           key={j}
                           d={path}
                           style={{
-                            stroke: 'var(--gray-400)',
+                            stroke: 'var(--gray-500)',
                           }}
                           strokeWidth={0.25}
                           fill={UNDPColorModule.graphNoData}

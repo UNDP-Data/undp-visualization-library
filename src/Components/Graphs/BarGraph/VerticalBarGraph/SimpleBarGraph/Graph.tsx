@@ -200,7 +200,7 @@ export function Graph(props: Props) {
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
                     style={{
-                      stroke: 'var(--gray-400)',
+                      stroke: 'var(--gray-500)',
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'

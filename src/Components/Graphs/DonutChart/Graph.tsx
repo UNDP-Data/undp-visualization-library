@@ -42,7 +42,7 @@ export function Graph(props: Props) {
           <circle
             style={{
               fillOpacity: 0,
-              stroke: 'var(--gray-400)',
+              stroke: 'var(--gray-500)',
               strokeWidth,
             }}
             cx={0}

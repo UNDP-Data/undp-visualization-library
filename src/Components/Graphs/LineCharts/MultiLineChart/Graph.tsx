@@ -159,7 +159,7 @@ export function Graph(props: Props) {
                     x1={width}
                     x2={-20}
                     style={{
-                      stroke: 'var(--gray-400)',
+                      stroke: 'var(--gray-500)',
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
