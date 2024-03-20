@@ -30,7 +30,7 @@ Add the following div in the page
 
 Apart from the mentioned `div` above the following `script` and `link` needs to be added to the `head` or in the embed code
 ```
-<script defer src="<Link to the Visualization Mentioned Above>/static/js/main.js"></script>
+<script defer="defer" type="module" src="<Link to the Visualization Mentioned Above>/index.js"></script>
 <link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/mainStyleSheet.css" />
 <link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraphingInterface.css" />
 <link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraph.css" />
