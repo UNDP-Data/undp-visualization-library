@@ -1,36 +1,46 @@
+import { ImageDown } from 'lucide-react';
 import { imageDownload } from './imageDownload';
 
 interface Props {
-  buttonText?: string;
-  buttonType?: 'primary' | 'secondary' | 'tertiary';
+  buttonContent?: string | JSX.Element;
+  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
   buttonArrow?: boolean;
-  nodeID: string;
+  nodeID: string | HTMLElement;
   filename?: string;
 }
 
-function ImageDownloadButton(props: Props) {
-  const { nodeID, filename, buttonText, buttonType, buttonArrow } = props;
+export function ImageDownloadButton(props: Props) {
+  const { nodeID, filename, buttonContent, buttonType, buttonArrow } = props;
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType || 'primary'}${
+      className={`undp-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
       }`}
       onClick={() => {
-        if (document.getElementById(nodeID)) {
-          imageDownload(
-            document.getElementById(nodeID) as HTMLElement,
-            filename || 'image',
-          );
+        if (typeof nodeID === 'string') {
+          if (document.getElementById(nodeID)) {
+            imageDownload(
+              document.getElementById(nodeID) as HTMLElement,
+              filename || 'image',
+            );
+          } else {
+            // eslint-disable-next-line no-console
+            console.error('Cannot find the html element');
+          }
         } else {
-          // eslint-disable-next-line no-console
-          console.error('Cannot find the html element');
+          imageDownload(nodeID as HTMLElement, filename || 'image');
         }
       }}
     >
-      {buttonText || 'Download Div'}
+      {buttonContent || (
+        <ImageDown
+          color='black'
+          size={20}
+          strokeWidth={1}
+          absoluteStrokeWidth
+        />
+      )}
     </button>
   );
 }
-
-export default ImageDownloadButton;

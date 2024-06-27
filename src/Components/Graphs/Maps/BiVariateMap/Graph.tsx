@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { geoEqualEarth } from 'd3-geo';
+import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import UNDPColorModule from 'undp-viz-colors';
 import { scaleThreshold } from 'd3-scale';
 import { X } from 'lucide-react';
-import World from '../MapData/worldMap.json';
 import { BivariateMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 
 interface Props {
   data: BivariateMapDataType[];
+  mapData: any;
   xDomain: [number, number, number, number];
   yDomain: [number, number, number, number];
   width: number;
@@ -19,16 +19,23 @@ interface Props {
   colors: string[][];
   xColorLegendTitle: string;
   yColorLegendTitle: string;
+  mapBorderWidth: number;
+  mapNoDataColor: string;
   scale: number;
   centerPoint: [number, number];
+  mapBorderColor: string;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  isWorldMap: boolean;
+  zoomScaleExtend?: [number, number];
+  zoomTranslateExtend?: [[number, number], [number, number]];
 }
 
 export function Graph(props: Props) {
   const {
     data,
     xDomain,
+    mapData,
     xColorLegendTitle,
     yDomain,
     yColorLegendTitle,
@@ -37,8 +44,14 @@ export function Graph(props: Props) {
     colors,
     scale,
     centerPoint,
+    mapBorderWidth,
+    mapNoDataColor,
+    mapBorderColor,
     tooltip,
     onSeriesMouseOver,
+    isWorldMap,
+    zoomScaleExtend,
+    zoomTranslateExtend,
   } = props;
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
@@ -51,10 +64,9 @@ export function Graph(props: Props) {
   const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
-  const projection = geoEqualEarth()
-    .rotate([0, 0])
-    .scale(scale)
-    .translate(centerPoint);
+  const projection = isWorldMap
+    ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
+    : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
 
   const xRange = [0, 1, 2, 3, 4];
 
@@ -62,15 +74,18 @@ export function Graph(props: Props) {
 
   const xScale = scaleThreshold<number, number>().domain(xDomain).range(xRange);
   const yScale = scaleThreshold<number, number>().domain(yDomain).range(yRange);
+
   useEffect(() => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
     const zoomBehaviour = zoom()
-      .scaleExtent([1, 6])
-      .translateExtent([
-        [-20, -50],
-        [svgWidth + 20, svgHeight + 50],
-      ])
+      .scaleExtent(zoomScaleExtend || [0.8, 6])
+      .translateExtent(
+        zoomTranslateExtend || [
+          [-20, -20],
+          [svgWidth + 20, svgHeight + 20],
+        ],
+      )
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
@@ -86,7 +101,7 @@ export function Graph(props: Props) {
         ref={mapSvg}
       >
         <g ref={mapG}>
-          {(World as any).features.map((d: any, i: number) => {
+          {mapData.features.map((d: any, i: number) => {
             const index = data.findIndex(
               el => el.countryCode === d.properties.ISO3,
             );
@@ -114,10 +129,10 @@ export function Graph(props: Props) {
                           key={j}
                           d={masterPath}
                           style={{
-                            stroke: 'var(--gray-500)',
+                            stroke: mapBorderColor,
                           }}
-                          strokeWidth={0.25}
-                          fill={UNDPColorModule.graphNoData}
+                          strokeWidth={mapBorderWidth}
+                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -137,10 +152,10 @@ export function Graph(props: Props) {
                           key={j}
                           d={path}
                           style={{
-                            stroke: 'var(--gray-500)',
+                            stroke: mapBorderColor,
                           }}
-                          strokeWidth={0.25}
-                          fill={UNDPColorModule.graphNoData}
+                          strokeWidth={mapBorderWidth}
+                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -148,7 +163,7 @@ export function Graph(props: Props) {
             );
           })}
           {data.map((d, i) => {
-            const index = (World as any).features.findIndex(
+            const index = mapData.features.findIndex(
               (el: any) => d.countryCode === el.properties.ISO3,
             );
             const xColorCoord = d.x !== undefined ? xScale(d.x) : undefined;
@@ -156,7 +171,7 @@ export function Graph(props: Props) {
             const color =
               xColorCoord !== undefined && yColorCoord !== undefined
                 ? colors[yColorCoord][xColorCoord]
-                : UNDPColorModule.graphNoData;
+                : mapNoDataColor;
 
             return (
               <g
@@ -188,9 +203,8 @@ export function Graph(props: Props) {
               >
                 {index === -1 || d.countryCode === 'ATA'
                   ? null
-                  : (World as any).features[index].geometry.type ===
-                    'MultiPolygon'
-                  ? (World as any).features[index].geometry.coordinates.map(
+                  : mapData.features[index].geometry.type === 'MultiPolygon'
+                  ? mapData.features[index].geometry.coordinates.map(
                       (el: any, j: any) => {
                         let masterPath = '';
                         el.forEach((geo: number[][]) => {
@@ -212,17 +226,17 @@ export function Graph(props: Props) {
                             d={masterPath}
                             style={{
                               stroke:
-                                color === UNDPColorModule.graphNoData
+                                color === mapNoDataColor
                                   ? 'var(--gray-400)'
                                   : '#fff',
                             }}
-                            strokeWidth={0.25}
+                            strokeWidth={mapBorderWidth}
                             fill={color}
                           />
                         );
                       },
                     )
-                  : (World as any).features[index].geometry.coordinates.map(
+                  : mapData.features[index].geometry.coordinates.map(
                       (el: any, j: number) => {
                         let path = 'M';
                         el.forEach((c: number[], k: number) => {
@@ -240,11 +254,11 @@ export function Graph(props: Props) {
                             d={path}
                             style={{
                               stroke:
-                                color === UNDPColorModule.graphNoData
+                                color === mapNoDataColor
                                   ? 'var(--gray-400)'
                                   : '#fff',
                             }}
-                            strokeWidth={0.25}
+                            strokeWidth={mapBorderWidth}
                             fill={color}
                           />
                         );
@@ -254,7 +268,7 @@ export function Graph(props: Props) {
             );
           })}
           {mouseOverData
-            ? (World as any).features
+            ? mapData.features
                 .filter(
                   (d: { properties: { ISO3: any } }) =>
                     d.properties.ISO3 === mouseOverData.countryCode,
@@ -322,7 +336,10 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {showLegend ? (
-        <div className='bivariate-legend-container'>
+        <div
+          className='bivariate-legend-container'
+          style={{ position: 'relative' }}
+        >
           <div
             className='bivariate-legend-el'
             style={{ alignItems: 'flex-start' }}
@@ -383,7 +400,7 @@ export function Graph(props: Props) {
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
-                                : numberFormattingFunction(el)}
+                                : numberFormattingFunction(el, '', '')}
                             </text>
                           ))}
                         </g>
@@ -409,7 +426,7 @@ export function Graph(props: Props) {
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
-                                : numberFormattingFunction(el)}
+                                : numberFormattingFunction(el, '', '')}
                             </text>
                           </g>
                         ))}

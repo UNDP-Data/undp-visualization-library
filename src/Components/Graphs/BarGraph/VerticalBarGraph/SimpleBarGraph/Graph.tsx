@@ -3,7 +3,10 @@ import UNDPColorModule from 'undp-viz-colors';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import { VerticalBarGraphDataType } from '../../../../../Types';
+import {
+  VerticalBarGraphDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 
 interface Props {
@@ -17,19 +20,19 @@ interface Props {
   showBarLabel: boolean;
   showBarValue: boolean;
   showYTicks: boolean;
-  colorLegendTitle?: string;
   colorDomain: string[];
   truncateBy: number;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
+  refValues?: ReferenceDataType[];
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  selectedColor?: string;
 }
 
 const G = styled.g`
-  opacity: 0.85;
   transition: opacity 0.2s;
   &:hover {
     opacity: 1;
@@ -49,7 +52,6 @@ export function Graph(props: Props) {
     showBarValue,
     showYTicks,
     colorDomain,
-    colorLegendTitle,
     truncateBy,
     rightMargin,
     topMargin,
@@ -57,10 +59,9 @@ export function Graph(props: Props) {
     leftMargin,
     tooltip,
     onSeriesMouseOver,
+    refValues,
+    selectedColor,
   } = props;
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
@@ -73,11 +74,23 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue = Math.max(...data.map(d => d.height));
+  const xMaxValue =
+    Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
+      ? 0
+      : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
+  const xMinValue =
+    Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
+      ? 0
+      : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
 
-  const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
+  const y = scaleLinear()
+    .domain([xMinValue, xMaxValue])
+    .range([graphHeight, 0])
+    .nice();
+
+  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const x = scaleBand()
-    .domain(data.map(d => `${d.label}`))
+    .domain(dataWithId.map(d => `${d.id}`))
     .range([0, graphWidth])
     .paddingInner(barPadding);
   const yTicks = y.ticks(5);
@@ -88,84 +101,6 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
       >
-        {data.filter(el => el.color).length !== 0 ? (
-          <g transform={`translate(${margin.left},0)`}>
-            {colorLegendTitle ? (
-              <text
-                x={0}
-                y={10}
-                fontSize={14}
-                style={{
-                  fill: 'var(--gray-700)',
-                  fontFamily: 'var(--fontFamily)',
-                }}
-              >
-                {colorLegendTitle}
-              </text>
-            ) : null}
-            {colorDomain.map((d, i) => (
-              <g
-                transform='translate(0,20)'
-                key={i}
-                onMouseOver={() => {
-                  setSelectedColor(barColor[i]);
-                }}
-                onMouseLeave={() => {
-                  setSelectedColor(undefined);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                <rect
-                  x={(i * (graphWidth - 50)) / colorDomain.length + 1}
-                  y={1}
-                  width={(graphWidth - 50) / colorDomain.length - 2}
-                  height={8}
-                  fill={barColor[i]}
-                  stroke={
-                    selectedColor === barColor[i] ? '#212121' : barColor[i]
-                  }
-                />
-                <text
-                  x={
-                    (i * (graphWidth - 50)) / colorDomain.length +
-                    (graphWidth - 50) / 2 / colorDomain.length
-                  }
-                  y={25}
-                  textAnchor='middle'
-                  fontSize={12}
-                  fill='#212121'
-                  style={{
-                    fontFamily: 'var(--fontFamily)',
-                  }}
-                >
-                  {d}
-                </text>
-              </g>
-            ))}
-            <g transform='translate(0,20)'>
-              <rect
-                x={graphWidth - 40}
-                y={1}
-                width={40}
-                height={8}
-                fill={UNDPColorModule.graphGray}
-                stroke={UNDPColorModule.graphGray}
-              />
-              <text
-                x={graphWidth - 20}
-                y={25}
-                textAnchor='middle'
-                fontSize={12}
-                fill={UNDPColorModule.graphGray}
-                style={{
-                  fontFamily: 'var(--fontFamily)',
-                }}
-              >
-                NA
-              </text>
-            </g>
-          </g>
-        ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
             y1={y(0)}
@@ -218,7 +153,7 @@ export function Graph(props: Props) {
                       fill: 'var(--gray-500)',
                     }}
                   >
-                    {numberFormattingFunction(d)}
+                    {numberFormattingFunction(d, '', '')}
                   </text>
                 </g>
               ))
@@ -234,9 +169,9 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : 0.3
-                    : 1
+                    : 0.85
                 }
-                onMouseEnter={event => {
+                onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -244,7 +179,7 @@ export function Graph(props: Props) {
                     onSeriesMouseOver(d);
                   }
                 }}
-                onMouseMove={event => {
+                onMouseMove={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -259,8 +194,8 @@ export function Graph(props: Props) {
                 }}
               >
                 <rect
-                  x={x(`${d.label}`)}
-                  y={y(d.height)}
+                  x={x(`${i}`)}
+                  y={d.size > 0 ? y(d.size) : y(0)}
                   width={x.bandwidth()}
                   style={{
                     fill:
@@ -270,11 +205,11 @@ export function Graph(props: Props) {
                         ? UNDPColorModule.graphGray
                         : barColor[colorDomain.indexOf(d.color)],
                   }}
-                  height={Math.abs(y(d.height) - y(0))}
+                  height={Math.abs(y(d.size) - y(0))}
                 />
                 {showBarLabel ? (
                   <text
-                    x={(x(`${d.label}`) as number) + x.bandwidth() / 2}
+                    x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y(0)}
                     style={{
                       fill: 'var(--gray-700)',
@@ -282,39 +217,69 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       fontFamily: 'var(--fontFamily)',
                     }}
-                    dy='15px'
+                    dy={d.size > 0 ? '15px' : '-5px'}
                   >
-                    {d.label.length < truncateBy
-                      ? d.label
-                      : `${d.label.substring(0, truncateBy)}...`}
+                    {`${d.label}`.length < truncateBy
+                      ? `${d.label}`
+                      : `${`${d.label}`.substring(0, truncateBy)}...`}
                   </text>
                 ) : null}
                 {showBarValue ? (
                   <text
-                    x={(x(`${d.label}`) as number) + x.bandwidth() / 2}
-                    y={y(d.height)}
+                    x={(x(`${i}`) as number) + x.bandwidth() / 2}
+                    y={y(d.size)}
                     style={{
                       fill:
-                        data.filter(el => el.color).length === 0
-                          ? barColor[0]
-                          : !d.color
-                          ? UNDPColorModule.graphGray
-                          : barColor[colorDomain.indexOf(d.color)],
+                        barColor.length > 1 ? 'var(--gray-600)' : barColor[0],
                       fontSize: '1rem',
-                      fontWeight: 'bold',
                       textAnchor: 'middle',
                       fontFamily: 'var(--fontFamily)',
                     }}
-                    dy='-5px'
+                    dy={d.size > 0 ? '-5px' : '15px'}
                   >
-                    {prefix}
-                    {numberFormattingFunction(d.height)}
-                    {suffix}
+                    {numberFormattingFunction(
+                      d.size,
+                      prefix || '',
+                      suffix || '',
+                    )}
                   </text>
                 ) : null}
               </G>
             );
           })}
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={y(el.value as number)}
+                    y2={y(el.value as number)}
+                    x1={0 - margin.left}
+                    x2={graphWidth + margin.right}
+                  />
+                  <text
+                    x={graphWidth + margin.right}
+                    fontWeight='bold'
+                    y={y(el.value as number)}
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor: 'end',
+                    }}
+                    fontSize={12}
+                    dy={-5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

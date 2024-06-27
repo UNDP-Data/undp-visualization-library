@@ -8,7 +8,7 @@ import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import min from 'lodash.min';
 import max from 'lodash.max';
-import { MultiLineChartDataType } from '../../../../Types';
+import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 
@@ -24,9 +24,14 @@ interface Props {
   bottomMargin: number;
   leftMargin: number;
   rightMargin: number;
+  suffix: string;
+  prefix: string;
+  showValues?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   showColorLegendAtTop?: boolean;
+  highlightAreaSettings: [number | null, number | null];
+  refValues?: ReferenceDataType[];
 }
 
 const XTickText = styled.text`
@@ -54,10 +59,15 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    suffix,
+    prefix,
     leftMargin,
     tooltip,
     onSeriesMouseOver,
+    showValues,
     showColorLegendAtTop,
+    refValues,
+    highlightAreaSettings,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -100,7 +110,7 @@ export function Graph(props: Props) {
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
-    .domain([minParam, maxParam])
+    .domain([minParam, maxParam > 0 ? maxParam : 0])
     .range([graphHeight, 0])
     .nice();
 
@@ -149,6 +159,34 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
+          {highlightAreaSettings[0] === null &&
+          highlightAreaSettings[1] === null ? null : (
+            <g>
+              <rect
+                style={{
+                  fill: 'var(--gray-300)',
+                }}
+                x={
+                  highlightAreaSettings[0]
+                    ? (highlightAreaSettings[0] as number) * graphWidth
+                    : 0
+                }
+                width={
+                  highlightAreaSettings[1]
+                    ? (highlightAreaSettings[1] as number) * graphWidth -
+                      (highlightAreaSettings[0]
+                        ? (highlightAreaSettings[0] as number) * graphWidth
+                        : 0)
+                    : graphWidth -
+                      (highlightAreaSettings[0]
+                        ? (highlightAreaSettings[0] as number) * graphWidth
+                        : 0)
+                }
+                y={0}
+                height={graphHeight}
+              />
+            </g>
+          )}
           <g>
             {yTicks.map((d, i) =>
               d !== 0 ? (
@@ -175,14 +213,14 @@ export function Graph(props: Props) {
                     fontSize={12}
                     dy={3}
                   >
-                    {numberFormattingFunction(d)}
+                    {numberFormattingFunction(d, '', '')}
                   </text>
                 </g>
               ) : null,
             )}
             <line
-              y1={graphHeight}
-              y2={graphHeight}
+              y1={y(0)}
+              y2={y(0)}
               x1={-20}
               x2={width}
               style={{
@@ -190,6 +228,19 @@ export function Graph(props: Props) {
               }}
               strokeWidth={1}
             />
+            <text
+              x={-25}
+              y={y(0)}
+              style={{
+                fill: 'var(--gray-700)',
+                fontFamily: 'var(--fontFamily)',
+              }}
+              textAnchor='end'
+              fontSize={12}
+              dy={3}
+            >
+              {numberFormattingFunction(0, '', '')}
+            </text>
           </g>
           <g>
             {xTicks.map((d, i) => (
@@ -211,7 +262,7 @@ export function Graph(props: Props) {
           </g>
           <g>
             {dataArray.map((d, i) => (
-              <>
+              <g key={i}>
                 <path
                   key={i}
                   d={lineShape(d as any) as string}
@@ -240,6 +291,26 @@ export function Graph(props: Props) {
                               fill: colors[i],
                             }}
                           />
+                          {showValues ? (
+                            <text
+                              x={x(el.date)}
+                              y={y(el.y)}
+                              dy={-8}
+                              fontSize={12}
+                              textAnchor='middle'
+                              style={{
+                                fontWeight: 'bold',
+                                fill: colors[i],
+                                fontFamily: 'var(--fontFamily)',
+                              }}
+                            >
+                              {numberFormattingFunction(
+                                el.y,
+                                prefix || '',
+                                suffix || '',
+                              )}
+                            </text>
+                          ) : null}
                         </g>
                       ) : null}
                     </g>
@@ -261,7 +332,7 @@ export function Graph(props: Props) {
                     {labels[i]}
                   </text>
                 )}
-              </>
+              </g>
             ))}
             {mouseOverData ? (
               <line
@@ -275,6 +346,39 @@ export function Graph(props: Props) {
               />
             ) : null}
           </g>
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={y(el.value as number)}
+                    y2={y(el.value as number)}
+                    x1={0 - 20}
+                    x2={graphWidth + margin.right}
+                  />
+                  <text
+                    x={graphWidth + margin.right}
+                    fontWeight='bold'
+                    y={y(el.value as number)}
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor: 'end',
+                    }}
+                    fontSize={12}
+                    dy={-5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
+          ) : null}
           <rect
             ref={MouseoverRectRef}
             fill='none'

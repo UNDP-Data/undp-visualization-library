@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { LineChartDataType } from '../../../../Types';
+import { LineChartDataType, ReferenceDataType } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: LineChartDataType[];
+  graphID?: string;
   color?: string;
   graphTitle?: string;
   graphDescription?: string;
@@ -25,8 +27,11 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  highlightAreaSettings?: [number | null, number | null];
 }
 
 export function SimpleLineChart(props: Props) {
@@ -51,8 +56,12 @@ export function SimpleLineChart(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    relativeHeight,
     tooltip,
     onSeriesMouseOver,
+    refValues,
+    highlightAreaSettings,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -64,7 +73,7 @@ export function SimpleLineChart(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   return (
     <div
@@ -73,6 +82,7 @@ export function SimpleLineChart(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -82,6 +92,7 @@ export function SimpleLineChart(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -97,6 +108,7 @@ export function SimpleLineChart(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -114,18 +126,39 @@ export function SimpleLineChart(props: Props) {
               data={data}
               color={color || 'var(--blue-600)'}
               width={width || svgWidth}
-              height={height || svgHeight}
+              height={
+                height ||
+                (relativeHeight
+                  ? (width || svgWidth) * relativeHeight
+                  : svgHeight)
+              }
               suffix={suffix || ''}
               prefix={prefix || ''}
-              noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
               dateFormat={dateFormat || 'yyyy'}
               showValues={showValues}
-              leftMargin={leftMargin === undefined ? 20 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+              noOfXTicks={
+                checkIfNullOrUndefined(noOfXTicks) ? 10 : (noOfXTicks as number)
+              }
+              leftMargin={
+                checkIfNullOrUndefined(leftMargin) ? 50 : (leftMargin as number)
+              }
+              rightMargin={
+                checkIfNullOrUndefined(rightMargin)
+                  ? 30
+                  : (rightMargin as number)
+              }
+              topMargin={
+                checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+              }
+              bottomMargin={
+                checkIfNullOrUndefined(bottomMargin)
+                  ? 25
+                  : (bottomMargin as number)
+              }
               tooltip={tooltip}
+              highlightAreaSettings={highlightAreaSettings || [null, null]}
               onSeriesMouseOver={onSeriesMouseOver}
+              refValues={refValues}
             />
           ) : null}
         </div>
@@ -134,6 +167,7 @@ export function SimpleLineChart(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

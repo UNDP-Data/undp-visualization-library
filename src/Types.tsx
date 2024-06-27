@@ -3,30 +3,42 @@ export interface TimeSeriesProps {
   value: number;
   data?: object;
 }
+export type AnnotationDataType = {
+  refPoint: [number, number];
+  text: string;
+  arrow: boolean;
+};
+
+export interface TreeMapDataType {
+  label: string | number;
+  size: number;
+  color?: string;
+  data?: object;
+}
 
 export interface VerticalBarGraphDataType {
-  label: string;
-  height: number;
+  label: string | number;
+  size: number;
   color?: string;
   data?: object;
 }
 
 export interface VerticalGroupedBarGraphDataType {
-  label: string;
-  height: number[];
+  label: string | number;
+  size: number[];
   data?: object;
 }
 
 export interface HorizontalBarGraphDataType {
-  width: number;
-  label: string;
+  size: number;
+  label: string | number;
   color?: string;
   data?: object;
 }
 
 export interface HorizontalGroupedBarGraphDataType {
-  width: number[];
-  label: string;
+  size: number[];
+  label: string | number;
   data?: object;
 }
 
@@ -43,7 +55,7 @@ export interface DonutChartDataType {
 }
 
 export interface ChoroplethMapDataType {
-  x: number;
+  x: number | string;
   countryCode: string;
   data?: object;
 }
@@ -79,5 +91,40 @@ export interface ScatterPlotDataType {
   radius?: number;
   color?: string;
   label: string;
+  data?: object;
+}
+
+export interface ReferenceDataType {
+  value: number | null;
+  text: string;
+}
+
+export interface TableColumnSettingsDataType {
+  title: string;
+  size?: number;
+  type: string;
+}
+
+export interface DualAxisLineChartDataType {
+  date: number | string;
+  y1?: number;
+  y2?: number;
+  data?: object;
+}
+
+export interface DotDensityMapDataType {
+  lat: number;
+  long: number;
+  radius?: number;
+  color?: string | number;
+  label?: string | number;
+  data?: object;
+}
+
+export interface SlopeChartDataType {
+  y1: number;
+  y2: number;
+  color?: string | number;
+  label: string | number;
   data?: object;
 }

@@ -1,7 +1,11 @@
 import UNDPColorModule from 'undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
-import { VerticalGroupedBarGraphDataType } from '../../../../../Types';
+import {
+  ReferenceDataType,
+  VerticalGroupedBarGraphDataType,
+} from '../../../../../Types';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { ColorLegend } from '../../../../Elements/ColorLegend';
@@ -28,8 +32,14 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  showValues?: boolean;
+  suffix?: string;
+  prefix?: string;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  graphID?: string;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -57,7 +67,14 @@ export function VerticalStackedBarGraph(props: Props) {
     leftMargin,
     tooltip,
     onSeriesMouseOver,
+    suffix,
+    relativeHeight,
+    prefix,
+    showValues,
+    refValues,
+    graphID,
   } = props;
+
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -69,7 +86,7 @@ export function VerticalStackedBarGraph(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
   return (
     <div
       style={{
@@ -77,6 +94,7 @@ export function VerticalStackedBarGraph(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -86,6 +104,7 @@ export function VerticalStackedBarGraph(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -101,6 +120,7 @@ export function VerticalStackedBarGraph(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -127,17 +147,56 @@ export function VerticalStackedBarGraph(props: Props) {
                 data={data}
                 barColors={barColors}
                 width={width || svgWidth}
-                height={height || svgHeight}
-                barPadding={barPadding === undefined ? 0.25 : barPadding}
-                showBarLabel={showBarLabel === undefined ? true : showBarLabel}
-                showYTicks={showYTicks === undefined ? true : showYTicks}
-                truncateBy={truncateBy === undefined ? 999 : truncateBy}
-                leftMargin={leftMargin === undefined ? 20 : leftMargin}
-                rightMargin={rightMargin === undefined ? 20 : rightMargin}
-                topMargin={topMargin === undefined ? 20 : topMargin}
-                bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
+                barPadding={
+                  checkIfNullOrUndefined(barPadding)
+                    ? 0.25
+                    : (barPadding as number)
+                }
+                showBarLabel={
+                  checkIfNullOrUndefined(showBarLabel)
+                    ? true
+                    : (showBarLabel as boolean)
+                }
+                showYTicks={
+                  checkIfNullOrUndefined(showYTicks)
+                    ? true
+                    : (showYTicks as boolean)
+                }
+                truncateBy={
+                  checkIfNullOrUndefined(truncateBy)
+                    ? 999
+                    : (truncateBy as number)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 20
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 20
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 25
+                    : (bottomMargin as number)
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                showValues={showValues}
+                suffix={suffix || ''}
+                prefix={prefix || ''}
+                refValues={refValues}
               />
             ) : null}
           </div>
@@ -147,6 +206,7 @@ export function VerticalStackedBarGraph(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

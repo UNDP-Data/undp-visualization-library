@@ -1,10 +1,11 @@
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { DumbbellChartDataType } from '../../../Types';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { ColorLegend } from '../../Elements/ColorLegend';
+import { DumbbellChartDataType } from '../../../../Types';
+import { GraphHeader } from '../../../Elements/GraphHeader';
+import { GraphFooter } from '../../../Elements/GraphFooter';
+import { ColorLegend } from '../../../Elements/ColorLegend';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -15,12 +16,9 @@ interface Props {
   sourceLink?: string;
   width?: number;
   height?: number;
-  suffix?: string;
-  prefix?: string;
   source?: string;
   barPadding?: number;
-  showDotValue?: boolean;
-  showXTicks?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
@@ -31,23 +29,23 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   dotRadius?: number;
+  relativeHeight?: number;
+  showLabel?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  graphID?: string;
 }
 
-export function DumbbellChart(props: Props) {
+export function VerticalDumbbellChart(props: Props) {
   const {
     data,
     graphTitle,
     colors,
-    suffix,
     source,
-    prefix,
     graphDescription,
     sourceLink,
     barPadding,
-    showDotValue,
-    showXTicks,
+    showTicks,
     leftMargin,
     rightMargin,
     topMargin,
@@ -62,7 +60,10 @@ export function DumbbellChart(props: Props) {
     backgroundColor,
     dotRadius,
     tooltip,
+    showLabel,
+    relativeHeight,
     onSeriesMouseOver,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -74,7 +75,7 @@ export function DumbbellChart(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   const dotColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -85,6 +86,7 @@ export function DumbbellChart(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -94,6 +96,7 @@ export function DumbbellChart(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -109,6 +112,7 @@ export function DumbbellChart(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -142,18 +146,51 @@ export function DumbbellChart(props: Props) {
                 data={data}
                 dotColors={dotColors}
                 width={width || svgWidth}
-                height={height || svgHeight}
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                barPadding={barPadding === undefined ? 0.25 : barPadding}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
                 dotRadius={!dotRadius ? 3 : dotRadius}
-                showDotValue={showDotValue === undefined ? true : showDotValue}
-                showXTicks={showXTicks === undefined ? true : showXTicks}
-                leftMargin={leftMargin === undefined ? 100 : leftMargin}
-                rightMargin={rightMargin === undefined ? 40 : rightMargin}
-                topMargin={topMargin === undefined ? 20 : topMargin}
-                bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
-                truncateBy={truncateBy === undefined ? 999 : truncateBy}
+                barPadding={
+                  checkIfNullOrUndefined(barPadding)
+                    ? 0.25
+                    : (barPadding as number)
+                }
+                showTicks={
+                  checkIfNullOrUndefined(showTicks)
+                    ? true
+                    : (showTicks as boolean)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 20
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 20
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 25
+                    : (bottomMargin as number)
+                }
+                truncateBy={
+                  checkIfNullOrUndefined(truncateBy)
+                    ? 999
+                    : (truncateBy as number)
+                }
+                showLabel={
+                  checkIfNullOrUndefined(showLabel)
+                    ? true
+                    : (showLabel as boolean)
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
               />
@@ -165,6 +202,7 @@ export function DumbbellChart(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

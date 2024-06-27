@@ -2,9 +2,14 @@ import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { HorizontalBarGraphDataType } from '../../../../../Types';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import {
+  HorizontalBarGraphDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: HorizontalBarGraphDataType[];
@@ -30,8 +35,13 @@ interface Props {
   padding?: string;
   topMargin?: number;
   bottomMargin?: number;
+  relativeHeight?: number;
+  showBarLabel?: boolean;
+  showColorScale?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  graphID?: string;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -59,12 +69,20 @@ export function HorizontalBarGraph(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
+    showBarLabel,
+    relativeHeight,
     tooltip,
     onSeriesMouseOver,
+    refValues,
+    showColorScale,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -72,7 +90,7 @@ export function HorizontalBarGraph(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   return (
     <div
@@ -81,6 +99,7 @@ export function HorizontalBarGraph(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -90,6 +109,7 @@ export function HorizontalBarGraph(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -105,6 +125,27 @@ export function HorizontalBarGraph(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
+          />
+        ) : null}
+        {showColorScale !== false &&
+        data.filter(el => el.color).length !== 0 ? (
+          <ColorLegendWithMouseOver
+            width={width}
+            colorLegendTitle={colorLegendTitle}
+            colors={
+              (colors as string[] | undefined) ||
+              UNDPColorModule.categoricalColors.colors
+            }
+            colorDomain={
+              colorDomain ||
+              (uniqBy(
+                data.filter(el => el.color),
+                'color',
+              ).map(d => d.color) as string[])
+            }
+            setSelectedColor={setSelectedColor}
+            showNAColor
           />
         ) : null}
         <div
@@ -125,7 +166,7 @@ export function HorizontalBarGraph(props: Props) {
                   ? colors
                     ? [colors as string]
                     : ['var(--blue-600)']
-                  : (colors as string[]) ||
+                  : (colors as string[] | undefined) ||
                     UNDPColorModule.categoricalColors.colors
               }
               colorDomain={
@@ -138,26 +179,61 @@ export function HorizontalBarGraph(props: Props) {
                     ).map(d => d.color) as string[])
               }
               width={width || svgWidth}
-              height={height || svgHeight}
+              selectedColor={selectedColor}
+              height={
+                height ||
+                (relativeHeight
+                  ? (width || svgWidth) * relativeHeight
+                  : svgHeight)
+              }
               suffix={suffix || ''}
               prefix={prefix || ''}
-              barPadding={barPadding === undefined ? 0.25 : barPadding}
-              showBarValue={showBarValue === undefined ? true : showBarValue}
-              showXTicks={showXTicks === undefined ? true : showXTicks}
-              leftMargin={leftMargin === undefined ? 100 : leftMargin}
-              rightMargin={rightMargin === undefined ? 40 : rightMargin}
-              topMargin={
-                topMargin === undefined
-                  ? data.filter(el => el.color).length !== 0
-                    ? 80
-                    : 20
-                  : topMargin
+              barPadding={
+                checkIfNullOrUndefined(barPadding)
+                  ? 0.25
+                  : (barPadding as number)
               }
-              bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
-              truncateBy={truncateBy === undefined ? 999 : truncateBy}
-              colorLegendTitle={colorLegendTitle}
+              showBarValue={
+                checkIfNullOrUndefined(showBarValue)
+                  ? true
+                  : (showBarValue as boolean)
+              }
+              showXTicks={
+                checkIfNullOrUndefined(showXTicks)
+                  ? true
+                  : (showXTicks as boolean)
+              }
+              leftMargin={
+                checkIfNullOrUndefined(leftMargin)
+                  ? 100
+                  : (leftMargin as number)
+              }
+              rightMargin={
+                checkIfNullOrUndefined(rightMargin)
+                  ? 40
+                  : (rightMargin as number)
+              }
+              topMargin={
+                checkIfNullOrUndefined(topMargin) ? 25 : (topMargin as number)
+              }
+              bottomMargin={
+                checkIfNullOrUndefined(bottomMargin)
+                  ? 10
+                  : (bottomMargin as number)
+              }
+              truncateBy={
+                checkIfNullOrUndefined(truncateBy)
+                  ? 999
+                  : (truncateBy as number)
+              }
+              showBarLabel={
+                checkIfNullOrUndefined(showBarLabel)
+                  ? true
+                  : (showBarLabel as boolean)
+              }
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
+              refValues={refValues}
             />
           ) : null}
         </div>
@@ -166,6 +242,7 @@ export function HorizontalBarGraph(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

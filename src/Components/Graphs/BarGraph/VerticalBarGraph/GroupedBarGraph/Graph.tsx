@@ -1,8 +1,12 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
+import min from 'lodash.min';
 import { useState } from 'react';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import { VerticalGroupedBarGraphDataType } from '../../../../../Types';
+import {
+  ReferenceDataType,
+  VerticalGroupedBarGraphDataType,
+} from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 
 interface Props {
@@ -21,6 +25,7 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
+  refValues?: ReferenceDataType[];
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
@@ -44,6 +49,7 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    refValues,
   } = props;
   const margin = {
     top: topMargin,
@@ -57,17 +63,32 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue = Math.max(...data.map(d => max(d.height) || 0));
+  const xMaxValue =
+    Math.max(...data.map(d => max(d.size.filter(l => l !== undefined)) || 0)) <
+    0
+      ? 0
+      : Math.max(
+          ...data.map(d => max(d.size.filter(l => l !== undefined)) || 0),
+        );
 
-  const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
+  const xMinValue = Math.min(
+    ...data.map(d => min(d.size.filter(l => l !== undefined)) || 0),
+  );
+
+  const y = scaleLinear()
+    .domain([xMinValue < 0 ? xMinValue : 0, xMaxValue])
+    .range([graphHeight, 0])
+    .nice();
+
+  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const x = scaleBand()
-    .domain(data.map(d => `${d.label}`))
+    .domain(dataWithId.map(d => `${d.id}`))
     .range([0, graphWidth])
     .paddingInner(barPadding);
   const subBarScale = scaleBand()
-    .domain(data[0].height.map((_d, i) => `${i}`))
+    .domain(data[0].size.map((_d, i) => `${i}`))
     .range([0, x.bandwidth()])
-    .paddingInner(0.01);
+    .paddingInner(0.1);
   const yTicks = y.ticks(5);
   return (
     <>
@@ -126,18 +147,18 @@ export function Graph(props: Props) {
                       fontFamily: 'var(--fontFamily)',
                     }}
                   >
-                    {numberFormattingFunction(d)}
+                    {numberFormattingFunction(d, '', '')}
                   </text>
                 </g>
               ))
             : null}
           {data.map((d, i) => {
             return (
-              <g key={i} transform={`translate(${x(`${d.label}`)},0)`}>
-                {d.height.map((el, j) => (
+              <g key={i} transform={`translate(${x(`${i}`)},0)`}>
+                {d.size.map((el, j) => (
                   <g
                     key={j}
-                    onMouseEnter={event => {
+                    onMouseEnter={(event: any) => {
                       setMouseOverData(d);
                       setEventY(event.clientY);
                       setEventX(event.clientX);
@@ -145,7 +166,7 @@ export function Graph(props: Props) {
                         onSeriesMouseOver(d);
                       }
                     }}
-                    onMouseMove={event => {
+                    onMouseMove={(event: any) => {
                       setMouseOverData(d);
                       setEventY(event.clientY);
                       setEventX(event.clientX);
@@ -161,7 +182,7 @@ export function Graph(props: Props) {
                   >
                     <rect
                       x={subBarScale(`${j}`)}
-                      y={y(el)}
+                      y={el > 0 ? y(el) : y(0)}
                       width={subBarScale.bandwidth()}
                       style={{
                         fill: barColors[j],
@@ -178,15 +199,16 @@ export function Graph(props: Props) {
                         style={{
                           fill: barColors[j],
                           fontSize: '1rem',
-                          fontWeight: 'bold',
                           textAnchor: 'middle',
                           fontFamily: 'var(--fontFamily)',
                         }}
-                        dy='-5px'
+                        dy={el > 0 ? '-5px' : '15px'}
                       >
-                        {prefix}
-                        {numberFormattingFunction(el)}
-                        {suffix}
+                        {numberFormattingFunction(
+                          el,
+                          prefix || '',
+                          suffix || '',
+                        )}
                       </text>
                     ) : null}
                   </g>
@@ -203,14 +225,47 @@ export function Graph(props: Props) {
                     }}
                     dy='15px'
                   >
-                    {d.label.length < truncateBy
-                      ? d.label
-                      : `${d.label.substring(0, truncateBy)}...`}
+                    {`${d.label}`.length < truncateBy
+                      ? `${d.label}`
+                      : `${`${d.label}`.substring(0, truncateBy)}...`}
                   </text>
                 ) : null}
               </g>
             );
           })}
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={y(el.value as number)}
+                    y2={y(el.value as number)}
+                    x1={0 - margin.left}
+                    x2={graphWidth + margin.right}
+                  />
+                  <text
+                    x={graphWidth + margin.right}
+                    fontWeight='bold'
+                    y={y(el.value as number)}
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor: 'end',
+                    }}
+                    fontSize={12}
+                    dy={-5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

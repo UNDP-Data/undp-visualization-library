@@ -15,7 +15,7 @@ const ButtonEl = styled.button`
   }
 `;
 
-function CopyTextButton(props: Props) {
+export function CopyTextButton(props: Props) {
   const { text, successMessage } = props;
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -38,10 +38,8 @@ function CopyTextButton(props: Props) {
           success();
         }}
       >
-        <Copy color='black' size={32} strokeWidth={1} absoluteStrokeWidth />
+        <Copy color='black' size={24} strokeWidth={1} absoluteStrokeWidth />
       </ButtonEl>
     </>
   );
 }
-
-export default CopyTextButton;

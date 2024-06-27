@@ -1,7 +1,11 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
 import { useState } from 'react';
-import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
+import min from 'lodash.min';
+import {
+  HorizontalGroupedBarGraphDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 
@@ -15,6 +19,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   truncateBy: number;
+  showBarLabel: boolean;
   width: number;
   suffix: string;
   prefix: string;
@@ -22,6 +27,7 @@ interface Props {
   height: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
 }
 
 export function Graph(props: Props) {
@@ -40,8 +46,10 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    showBarLabel,
     tooltip,
     onSeriesMouseOver,
+    refValues,
   } = props;
   const margin = {
     top: topMargin,
@@ -55,19 +63,32 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue = Math.max(...data.map(d => max(d.width) || 0));
+  const xMaxValue =
+    Math.max(...data.map(d => max(d.size.filter(l => l !== undefined)) || 0)) <
+    0
+      ? 0
+      : Math.max(
+          ...data.map(d => max(d.size.filter(l => l !== undefined)) || 0),
+        );
+  const xMinValue = Math.min(
+    ...data.map(d => min(d.size.filter(l => l !== undefined)) || 0),
+  );
 
-  const x = scaleLinear().domain([0, xMaxValue]).range([0, graphWidth]).nice();
+  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+
+  const x = scaleLinear()
+    .domain([xMinValue < 0 ? xMinValue : 0, xMaxValue])
+    .range([0, graphWidth])
+    .nice();
   const y = scaleBand()
-    .domain(data.map(d => `${d.label}`))
+    .domain(dataWithId.map(d => `${d.id}`))
     .range([0, graphHeight])
     .paddingInner(barPadding);
   const subBarScale = scaleBand()
-    .domain(data[0].width.map((_d, i) => `${i}`))
+    .domain(data[0].size.map((_d, i) => `${i}`))
     .range([0, y.bandwidth()])
-    .paddingInner(0.01);
+    .paddingInner(0.1);
   const xTicks = x.ticks(5);
-
   return (
     <>
       <svg
@@ -89,7 +110,7 @@ export function Graph(props: Props) {
                     textAnchor='middle'
                     fontSize={12}
                   >
-                    {numberFormattingFunction(d)}
+                    {numberFormattingFunction(d, '', '')}
                   </text>
                   <line
                     x1={x(d)}
@@ -108,19 +129,19 @@ export function Graph(props: Props) {
             : null}
           {data.map((d, i) => {
             return (
-              <g key={i} transform={`translate(${0},${y(`${d.label}`)})`}>
-                {d.width.map((el, j) => (
+              <g key={i} transform={`translate(${0},${y(`${i}`)})`}>
+                {d.size.map((el, j) => (
                   <g key={j}>
                     <rect
                       key={j}
-                      x={0}
+                      x={el >= 0 ? x(0) : x(el)}
                       y={subBarScale(`${j}`)}
-                      width={x(el)}
+                      width={el >= 0 ? x(el) - x(0) : x(0) - x(el)}
                       style={{
                         fill: barColors[j],
                       }}
                       height={subBarScale.bandwidth()}
-                      onMouseEnter={event => {
+                      onMouseEnter={(event: any) => {
                         setMouseOverData(d);
                         setEventY(event.clientY);
                         setEventX(event.clientX);
@@ -128,7 +149,7 @@ export function Graph(props: Props) {
                           onSeriesMouseOver(d);
                         }
                       }}
-                      onMouseMove={event => {
+                      onMouseMove={(event: any) => {
                         setMouseOverData(d);
                         setEventY(event.clientY);
                         setEventX(event.clientX);
@@ -152,36 +173,39 @@ export function Graph(props: Props) {
                         style={{
                           fill: barColors[j],
                           fontSize: '1rem',
-                          fontWeight: 'bold',
-                          textAnchor: 'middle',
+                          textAnchor: el < 0 ? 'end' : 'start',
                           fontFamily: 'var(--fontFamily)',
                         }}
-                        dx={7}
+                        dx={el < 0 ? -5 : 5}
                         dy={6}
                       >
-                        {prefix}
-                        {numberFormattingFunction(el)}
-                        {suffix}
+                        {numberFormattingFunction(
+                          el,
+                          prefix || '',
+                          suffix || '',
+                        )}
                       </text>
                     ) : null}
                   </g>
                 ))}
-                <text
-                  style={{
-                    fill: 'var(--gray-700)',
-                    fontSize: '0.75rem',
-                    textAnchor: 'end',
-                    fontFamily: 'var(--fontFamily)',
-                  }}
-                  x={x(0)}
-                  y={y.bandwidth() / 2}
-                  dx={-10}
-                  dy={8}
-                >
-                  {d.label.length < truncateBy
-                    ? d.label
-                    : `${d.label.substring(0, truncateBy)}...`}
-                </text>
+                {showBarLabel ? (
+                  <text
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontSize: '0.75rem',
+                      textAnchor: 'end',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
+                    x={x(0)}
+                    y={y.bandwidth() / 2}
+                    dx={-10}
+                    dy={5}
+                  >
+                    {`${d.label}`.length < truncateBy
+                      ? d.label
+                      : `${`${d.label}`.substring(0, truncateBy)}...`}
+                  </text>
+                ) : null}
               </g>
             );
           })}
@@ -193,6 +217,43 @@ export function Graph(props: Props) {
             stroke='#212121'
             strokeWidth={1}
           />
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={0 - margin.top}
+                    y2={graphHeight + margin.bottom}
+                    x1={x(el.value as number)}
+                    x2={x(el.value as number)}
+                  />
+                  <text
+                    y={0 - margin.top}
+                    fontWeight='bold'
+                    x={x(el.value as number) as number}
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor:
+                        x(el.value as number) > graphWidth * 0.75
+                          ? 'end'
+                          : 'start',
+                    }}
+                    fontSize={12}
+                    dy={12.5}
+                    dx={x(el.value as number) > graphWidth * 0.75 ? -5 : 5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

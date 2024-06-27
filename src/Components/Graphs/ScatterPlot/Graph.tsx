@@ -6,14 +6,13 @@ import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import UNDPColorModule from 'undp-viz-colors';
-import { ScatterPlotDataType } from '../../../Types';
+import { ScatterPlotDataType, ReferenceDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 
 interface Props {
   data: ScatterPlotDataType[];
   width: number;
   height: number;
-  colorLegendTitle: string;
   showLabels: boolean;
   colors: string[];
   colorDomain: string[];
@@ -26,6 +25,16 @@ interface Props {
   bottomMargin: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refXValue?: ReferenceDataType;
+  refYValue?: ReferenceDataType;
+  highlightAreaSettings: [
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+  ];
+  selectedColor?: string;
+  highlightedDataPoints: (string | number)[];
 }
 
 export function Graph(props: Props) {
@@ -33,7 +42,6 @@ export function Graph(props: Props) {
     data,
     width,
     height,
-    colorLegendTitle,
     showLabels,
     colors,
     colorDomain,
@@ -46,10 +54,12 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    refXValue,
+    refYValue,
+    highlightAreaSettings,
+    selectedColor,
+    highlightedDataPoints,
   } = props;
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -80,110 +90,78 @@ export function Graph(props: Props) {
   const x = scaleLinear()
     .domain([
       (minBy(data, 'x')?.x as number) > 0 ? 0 : (minBy(data, 'x')?.x as number),
-      maxBy(data, 'x')?.x as number,
+      (maxBy(data, 'x')?.x as number) > 0 ? (maxBy(data, 'x')?.x as number) : 0,
     ])
     .range([0, graphWidth])
     .nice();
   const y = scaleLinear()
     .domain([
       (minBy(data, 'y')?.y as number) > 0 ? 0 : (minBy(data, 'y')?.y as number),
-      maxBy(data, 'y')?.y as number,
+      (maxBy(data, 'y')?.y as number) > 0 ? (maxBy(data, 'y')?.y as number) : 0,
     ])
     .range([graphHeight, 0])
     .nice();
   const xTicks = x.ticks(5);
   const yTicks = y.ticks(5);
-
   const voronoiDiagram = Delaunay.from(
     data,
     d => x(d.x as number),
     d => y(d.y as number),
-  ).voronoi([0, 0, graphWidth, graphHeight]);
-
+  ).voronoi([
+    0,
+    0,
+    graphWidth < 0 ? 0 : graphWidth,
+    graphHeight < 0 ? 0 : graphHeight,
+  ]);
   return (
     <>
-      {data.filter(el => el.color).length !== 0 ? (
-        <svg width={`${width}px`} height='60px' viewBox={`0 0 ${width} 60`}>
-          <g transform={`translate(${margin.left},0)`}>
-            <text
-              x={0}
-              y={10}
-              fontSize={14}
-              style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
-              }}
-            >
-              {colorLegendTitle}
-            </text>
-            {colorDomain.map((d, i) => (
-              <g
-                transform='translate(0,20)'
-                key={i}
-                onMouseOver={() => {
-                  setSelectedColor(colors[i]);
-                }}
-                onMouseLeave={() => {
-                  setSelectedColor(undefined);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                <rect
-                  x={(i * (graphWidth - 50)) / colorDomain.length + 1}
-                  y={1}
-                  width={(graphWidth - 50) / colorDomain.length - 2}
-                  height={8}
-                  fill={colors[i]}
-                  stroke={selectedColor === colors[i] ? '#212121' : colors[i]}
-                />
-                <text
-                  x={
-                    (i * (graphWidth - 50)) / colorDomain.length +
-                    (graphWidth - 50) / 2 / colorDomain.length
-                  }
-                  y={25}
-                  textAnchor='middle'
-                  fontSize={12}
-                  fill='#212121'
-                  style={{
-                    fontFamily: 'var(--fontFamily)',
-                  }}
-                >
-                  {d}
-                </text>
-              </g>
-            ))}
-            <g transform='translate(0,20)'>
-              <rect
-                x={graphWidth - 40}
-                y={1}
-                width={40}
-                height={8}
-                fill={UNDPColorModule.graphGray}
-                stroke={UNDPColorModule.graphGray}
-              />
-              <text
-                x={graphWidth - 20}
-                y={25}
-                textAnchor='middle'
-                fontSize={12}
-                fill={UNDPColorModule.graphGray}
-                style={{
-                  fontFamily: 'var(--fontFamily)',
-                }}
-              >
-                NA
-              </text>
-            </g>
-          </g>
-        </svg>
-      ) : null}
       <svg
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
+          {highlightAreaSettings.filter(d => d === null).length === 4 ? null : (
+            <g>
+              <rect
+                style={{
+                  fill: 'var(--gray-300)',
+                }}
+                x={
+                  highlightAreaSettings[0]
+                    ? x(highlightAreaSettings[0] as number)
+                    : 0
+                }
+                width={
+                  highlightAreaSettings[1]
+                    ? x(highlightAreaSettings[1] as number) -
+                      (highlightAreaSettings[0]
+                        ? x(highlightAreaSettings[0] as number)
+                        : 0)
+                    : graphWidth -
+                      (highlightAreaSettings[0]
+                        ? x(highlightAreaSettings[0] as number)
+                        : 0)
+                }
+                y={
+                  highlightAreaSettings[3]
+                    ? y(highlightAreaSettings[3] as number)
+                    : 0
+                }
+                height={
+                  highlightAreaSettings[2] !== null
+                    ? y(highlightAreaSettings[2] as number) -
+                      (highlightAreaSettings[3]
+                        ? y(highlightAreaSettings[3] as number)
+                        : 0)
+                    : graphHeight -
+                      (highlightAreaSettings[3]
+                        ? graphHeight - y(highlightAreaSettings[3] as number)
+                        : 0)
+                }
+              />
+            </g>
+          )}
           <g>
             {yTicks.map((d, i) => (
               <g key={i} opacity={d === 0 ? 0 : 1}>
@@ -321,7 +299,6 @@ export function Graph(props: Props) {
               </text>
             ) : null}
           </g>
-
           {dataOrdered.map((d, i) => {
             return (
               <g key={i}>
@@ -329,12 +306,17 @@ export function Graph(props: Props) {
                   opacity={
                     selectedColor
                       ? d.color
-                        ? colors[colorDomain.indexOf(d.color)] === selectedColor
+                        ? colors[colorDomain.indexOf(`${d.color}`)] ===
+                          selectedColor
                           ? 1
                           : 0.3
                         : 0.3
                       : mouseOverData
                       ? mouseOverData.label === d.label
+                        ? 1
+                        : 0.3
+                      : highlightedDataPoints.length !== 0
+                      ? highlightedDataPoints.indexOf(d.label) !== -1
                         ? 1
                         : 0.3
                       : 1
@@ -351,13 +333,13 @@ export function Graph(props: Props) {
                           ? colors[0]
                           : !d.color
                           ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(d.color)],
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                       stroke:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
                           ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(d.color)],
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     }}
                     fillOpacity={0.6}
                   />
@@ -370,16 +352,43 @@ export function Graph(props: Props) {
                             ? colors[0]
                             : !d.color
                             ? UNDPColorModule.graphGray
-                            : colors[colorDomain.indexOf(d.color)],
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                         fontFamily: 'var(--fontFamily)',
                       }}
                       y={0}
-                      x={!radiusScale ? 5 : radiusScale(d.radius || 0)}
+                      x={
+                        !radiusScale ? pointRadius : radiusScale(d.radius || 0)
+                      }
                       dy={4}
                       dx={3}
                     >
                       {d.label}
                     </text>
+                  ) : highlightedDataPoints.length !== 0 ? (
+                    highlightedDataPoints.indexOf(d.label) !== -1 ? (
+                      <text
+                        fontSize={10}
+                        style={{
+                          fill:
+                            data.filter(el => el.color).length === 0
+                              ? colors[0]
+                              : !d.color
+                              ? UNDPColorModule.graphGray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
+                          fontFamily: 'var(--fontFamily)',
+                        }}
+                        y={0}
+                        x={
+                          !radiusScale
+                            ? pointRadius
+                            : radiusScale(d.radius || 0)
+                        }
+                        dy={4}
+                        dx={3}
+                      >
+                        {d.label}
+                      </text>
+                    ) : null
                   ) : null}
                 </g>
                 <path
@@ -411,6 +420,68 @@ export function Graph(props: Props) {
               </g>
             );
           })}
+          {refXValue ? (
+            <g>
+              <line
+                style={{
+                  stroke: 'var(--gray-700)',
+                  strokeWidth: 1.5,
+                }}
+                strokeDasharray='4,4'
+                x1={x(refXValue.value as number)}
+                x2={x(refXValue.value as number)}
+                y1={0}
+                y2={graphHeight}
+              />
+              <text
+                x={x(refXValue.value as number)}
+                fontWeight='bold'
+                y={0}
+                style={{
+                  fill: 'var(--gray-700)',
+                  fontFamily: 'var(--fontFamily)',
+                  textAnchor:
+                    x(refXValue.value as number) > graphWidth * 0.75
+                      ? 'end'
+                      : 'start',
+                }}
+                fontSize={12}
+                dy={12.5}
+                dx={x(refXValue.value as number) > graphWidth * 0.75 ? -5 : 5}
+              >
+                {refXValue.text}
+              </text>
+            </g>
+          ) : null}
+          {refYValue ? (
+            <g>
+              <line
+                style={{
+                  stroke: 'var(--gray-700)',
+                  strokeWidth: 1.5,
+                }}
+                strokeDasharray='4,4'
+                y1={y(refYValue.value as number)}
+                y2={y(refYValue.value as number)}
+                x1={0}
+                x2={graphWidth}
+              />
+              <text
+                x={graphWidth}
+                fontWeight='bold'
+                y={y(refYValue.value as number)}
+                style={{
+                  fill: 'var(--gray-700)',
+                  fontFamily: 'var(--fontFamily)',
+                  textAnchor: 'end',
+                }}
+                fontSize={12}
+                dy={-5}
+              >
+                {refYValue.text}
+              </text>
+            </g>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

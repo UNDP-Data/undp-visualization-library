@@ -3,6 +3,7 @@ import { Graph } from './Graph';
 import { LineChartDataType } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: LineChartDataType[];
@@ -22,8 +23,10 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  graphID?: string;
 }
 
 export function SparkLine(props: Props) {
@@ -46,7 +49,9 @@ export function SparkLine(props: Props) {
     topMargin,
     bottomMargin,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -58,7 +63,7 @@ export function SparkLine(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   return (
     <div
@@ -67,6 +72,7 @@ export function SparkLine(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -76,6 +82,7 @@ export function SparkLine(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -91,6 +98,7 @@ export function SparkLine(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -108,13 +116,30 @@ export function SparkLine(props: Props) {
               data={data}
               color={color || 'var(--blue-600)'}
               width={width || svgWidth}
-              height={height || svgHeight}
+              height={
+                height ||
+                (relativeHeight
+                  ? (width || svgWidth) * relativeHeight
+                  : svgHeight)
+              }
               dateFormat={dateFormat || 'yyyy'}
               areaId={areaId}
-              leftMargin={leftMargin === undefined ? 5 : leftMargin}
-              rightMargin={rightMargin === undefined ? 5 : rightMargin}
-              topMargin={topMargin === undefined ? 10 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 20 : bottomMargin}
+              leftMargin={
+                checkIfNullOrUndefined(leftMargin) ? 5 : (leftMargin as number)
+              }
+              rightMargin={
+                checkIfNullOrUndefined(rightMargin)
+                  ? 5
+                  : (rightMargin as number)
+              }
+              topMargin={
+                checkIfNullOrUndefined(topMargin) ? 10 : (topMargin as number)
+              }
+              bottomMargin={
+                checkIfNullOrUndefined(bottomMargin)
+                  ? 20
+                  : (bottomMargin as number)
+              }
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
             />
@@ -125,6 +150,7 @@ export function SparkLine(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

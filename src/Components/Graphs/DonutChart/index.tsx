@@ -26,6 +26,7 @@ interface Props {
   padding?: string;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  graphID?: string;
 }
 
 export function DonutChart(props: Props) {
@@ -48,6 +49,7 @@ export function DonutChart(props: Props) {
     backgroundColor,
     tooltip,
     onSeriesMouseOver,
+    graphID,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -77,7 +79,9 @@ export function DonutChart(props: Props) {
           : backgroundColor === true
           ? 'var(--gray-200)'
           : backgroundColor,
+        margin: 'auto',
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -92,6 +96,7 @@ export function DonutChart(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={(radius || donutRadius) * 2}
           />
         ) : null}
         <div
@@ -102,7 +107,8 @@ export function DonutChart(props: Props) {
             justifyContent: 'center',
             alignItems: 'center',
             gap: 'var(--spacing-05)',
-            width: '100%',
+            flexWrap: 'wrap',
+            width: `${(radius || donutRadius) * 2}px`,
           }}
         >
           {graphLegend ? (
@@ -130,9 +136,11 @@ export function DonutChart(props: Props) {
                     <p className='undp-typography margin-bottom-00 small-font'>
                       {d.label}:{' '}
                       <span className='bold'>
-                        {prefix}
-                        {numberFormattingFunction(d.value)}
-                        {suffix}
+                        {numberFormattingFunction(
+                          d.value,
+                          prefix || '',
+                          suffix || '',
+                        )}
                       </span>
                     </p>
                   </div>
@@ -171,6 +179,7 @@ export function DonutChart(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={(radius || donutRadius) * 2}
           />
         ) : null}
       </div>
