@@ -1,3 +1,4 @@
+import { FileDown } from 'lucide-react';
 import { exportToExcel } from './excelDownload';
 
 interface WsColInterface {
@@ -5,8 +6,8 @@ interface WsColInterface {
 }
 
 interface Props {
-  buttonText?: string;
-  buttonType?: 'primary' | 'secondary' | 'tertiary';
+  buttonContent?: string | JSX.Element;
+  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
   buttonArrow?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any;
@@ -17,9 +18,9 @@ interface Props {
   wscols: WsColInterface[];
 }
 
-function ExcelDownloadButton(props: Props) {
+export function ExcelDownloadButton(props: Props) {
   const {
-    buttonText,
+    buttonContent,
     buttonType,
     buttonArrow,
     csvData,
@@ -31,16 +32,16 @@ function ExcelDownloadButton(props: Props) {
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType || 'primary'}${
+      className={`undp-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
       }`}
       onClick={() =>
         exportToExcel(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
     >
-      {buttonText || 'Download Excel'}
+      {buttonContent || (
+        <FileDown color='black' size={20} strokeWidth={1} absoluteStrokeWidth />
+      )}
     </button>
   );
 }
-
-export default ExcelDownloadButton;

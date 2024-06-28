@@ -2,9 +2,14 @@ import UNDPColorModule from 'undp-viz-colors';
 import uniqBy from 'lodash.uniqby';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
-import { VerticalBarGraphDataType } from '../../../../../Types';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import {
+  ReferenceDataType,
+  VerticalBarGraphDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: VerticalBarGraphDataType[];
@@ -30,9 +35,13 @@ interface Props {
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
+  relativeHeight?: number;
   bottomMargin?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  showColorScale?: boolean;
+  graphID?: string;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -61,12 +70,19 @@ export function VerticalBarGraph(props: Props) {
     rightMargin,
     leftMargin,
     bottomMargin,
+    relativeHeight,
     tooltip,
     onSeriesMouseOver,
+    refValues,
+    showColorScale,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -74,7 +90,7 @@ export function VerticalBarGraph(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
   return (
     <div
       style={{
@@ -82,6 +98,7 @@ export function VerticalBarGraph(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -91,6 +108,7 @@ export function VerticalBarGraph(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -106,6 +124,27 @@ export function VerticalBarGraph(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
+          />
+        ) : null}
+        {showColorScale !== false &&
+        data.filter(el => el.color).length !== 0 ? (
+          <ColorLegendWithMouseOver
+            width={width}
+            colorLegendTitle={colorLegendTitle}
+            colors={
+              (colors as string[] | undefined) ||
+              UNDPColorModule.categoricalColors.colors
+            }
+            colorDomain={
+              colorDomain ||
+              (uniqBy(
+                data.filter(el => el.color),
+                'color',
+              ).map(d => d.color) as string[])
+            }
+            setSelectedColor={setSelectedColor}
+            showNAColor
           />
         ) : null}
         <div
@@ -126,7 +165,7 @@ export function VerticalBarGraph(props: Props) {
                   ? colors
                     ? [colors as string]
                     : ['var(--blue-600)']
-                  : (colors as string[]) ||
+                  : (colors as string[] | undefined) ||
                     UNDPColorModule.categoricalColors.colors
               }
               colorDomain={
@@ -139,25 +178,57 @@ export function VerticalBarGraph(props: Props) {
                     ).map(d => d.color) as string[])
               }
               width={width || svgWidth}
-              height={height || svgHeight}
+              refValues={refValues}
+              height={
+                height ||
+                (relativeHeight
+                  ? (width || svgWidth) * relativeHeight
+                  : svgHeight)
+              }
               suffix={suffix || ''}
               prefix={prefix || ''}
-              barPadding={barPadding === undefined ? 0.25 : barPadding}
-              showBarLabel={showBarLabel === undefined ? true : showBarLabel}
-              showBarValue={showBarValue === undefined ? true : showBarValue}
-              showYTicks={showYTicks === undefined ? true : showYTicks}
-              colorLegendTitle={colorLegendTitle}
-              truncateBy={truncateBy === undefined ? 999 : truncateBy}
-              leftMargin={leftMargin === undefined ? 20 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={
-                topMargin === undefined
-                  ? data.filter(el => el.color).length !== 0
-                    ? 90
-                    : 20
-                  : topMargin
+              barPadding={
+                checkIfNullOrUndefined(barPadding)
+                  ? 0.25
+                  : (barPadding as number)
               }
-              bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+              showBarLabel={
+                checkIfNullOrUndefined(showBarLabel)
+                  ? true
+                  : (showBarLabel as boolean)
+              }
+              showBarValue={
+                checkIfNullOrUndefined(showBarValue)
+                  ? true
+                  : (showBarValue as boolean)
+              }
+              showYTicks={
+                checkIfNullOrUndefined(showYTicks)
+                  ? true
+                  : (showYTicks as boolean)
+              }
+              truncateBy={
+                checkIfNullOrUndefined(truncateBy)
+                  ? 999
+                  : (truncateBy as number)
+              }
+              leftMargin={
+                checkIfNullOrUndefined(leftMargin) ? 20 : (leftMargin as number)
+              }
+              rightMargin={
+                checkIfNullOrUndefined(rightMargin)
+                  ? 20
+                  : (rightMargin as number)
+              }
+              selectedColor={selectedColor}
+              topMargin={
+                checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+              }
+              bottomMargin={
+                checkIfNullOrUndefined(bottomMargin)
+                  ? 25
+                  : (bottomMargin as number)
+              }
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
             />
@@ -168,6 +239,7 @@ export function VerticalBarGraph(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

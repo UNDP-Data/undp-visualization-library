@@ -1,7 +1,11 @@
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { VerticalGroupedBarGraphDataType } from '../../../../../Types';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import {
+  ReferenceDataType,
+  VerticalGroupedBarGraphDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { ColorLegend } from '../../../../Elements/ColorLegend';
@@ -31,8 +35,11 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  graphID?: string;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -61,9 +68,13 @@ export function VerticalGroupedBarGraph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
+    relativeHeight,
     tooltip,
     onSeriesMouseOver,
+    refValues,
+    graphID,
   } = props;
+
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -75,7 +86,7 @@ export function VerticalGroupedBarGraph(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
   return (
     <div
       style={{
@@ -83,6 +94,7 @@ export function VerticalGroupedBarGraph(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -92,6 +104,7 @@ export function VerticalGroupedBarGraph(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -107,6 +120,7 @@ export function VerticalGroupedBarGraph(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -133,20 +147,60 @@ export function VerticalGroupedBarGraph(props: Props) {
                 data={data}
                 barColors={barColors}
                 width={width || svgWidth}
-                height={height || svgHeight}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
                 suffix={suffix || ''}
                 prefix={prefix || ''}
-                barPadding={barPadding === undefined ? 0.25 : barPadding}
-                showBarLabel={showBarLabel === undefined ? true : showBarLabel}
-                showBarValue={showBarValue === undefined ? true : showBarValue}
-                showYTicks={showYTicks === undefined ? true : showYTicks}
-                truncateBy={truncateBy === undefined ? 999 : truncateBy}
-                leftMargin={leftMargin === undefined ? 50 : leftMargin}
-                rightMargin={rightMargin === undefined ? 20 : rightMargin}
-                topMargin={topMargin === undefined ? 20 : topMargin}
-                bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                barPadding={
+                  checkIfNullOrUndefined(barPadding)
+                    ? 0.25
+                    : (barPadding as number)
+                }
+                showBarLabel={
+                  checkIfNullOrUndefined(showBarLabel)
+                    ? true
+                    : (showBarLabel as boolean)
+                }
+                showBarValue={
+                  checkIfNullOrUndefined(showBarValue)
+                    ? true
+                    : (showBarValue as boolean)
+                }
+                showYTicks={
+                  checkIfNullOrUndefined(showYTicks)
+                    ? true
+                    : (showYTicks as boolean)
+                }
+                truncateBy={
+                  checkIfNullOrUndefined(truncateBy)
+                    ? 999
+                    : (truncateBy as number)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 50
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 20
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 25
+                    : (bottomMargin as number)
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                refValues={refValues}
               />
             ) : null}
           </div>
@@ -156,6 +210,7 @@ export function VerticalGroupedBarGraph(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

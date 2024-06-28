@@ -1,4 +1,5 @@
 import { CSVLink } from 'react-csv';
+import { FileDown } from 'lucide-react';
 
 interface HeaderProps {
   label: string;
@@ -6,8 +7,8 @@ interface HeaderProps {
 }
 
 interface Props {
-  buttonText?: string;
-  buttonType?: 'primary' | 'secondary' | 'tertiary';
+  buttonContent?: string | JSX.Element;
+  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
   buttonArrow?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any;
@@ -16,9 +17,9 @@ interface Props {
   separator?: ',' | ';';
 }
 
-function CsvDownloadButton(props: Props) {
+export function CsvDownloadButton(props: Props) {
   const {
-    buttonText,
+    buttonContent,
     buttonType,
     buttonArrow,
     csvData,
@@ -38,17 +39,22 @@ function CsvDownloadButton(props: Props) {
       style={{ backgroundImage: 'none', textDecoration: 'none' }}
     >
       <div
-        className={`undp-button button-${buttonType || 'primary'}${
+        className={`undp-button button-${buttonType || 'quaternary'}${
           buttonArrow ? ' button-arrow' : ''
         }`}
         style={{
           textDecoration: 'none',
         }}
       >
-        {buttonText || 'Download CSV'}
+        {buttonContent || (
+          <FileDown
+            color='black'
+            size={20}
+            strokeWidth={1}
+            absoluteStrokeWidth
+          />
+        )}
       </div>
     </CSVLink>
   );
 }
-
-export default CsvDownloadButton;

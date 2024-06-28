@@ -87,7 +87,7 @@ export function Graph(props: Props) {
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
-    .domain([minParam, maxParam])
+    .domain([minParam, maxParam > 0 ? maxParam : 0])
     .range([graphHeight, 0])
     .nice();
 

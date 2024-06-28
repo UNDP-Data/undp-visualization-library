@@ -5,7 +5,7 @@ interface ParameterInterface {
 
 export function getQueryParamsFromLink() {
   const params: ParameterInterface[] = [];
-  new URL(window.location.search).searchParams.forEach((value, param) => {
+  new URL(window.location.href).searchParams.forEach((value, param) => {
     params.push({
       param,
       value:

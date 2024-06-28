@@ -1,10 +1,12 @@
 import uniqBy from 'lodash.uniqby';
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
-import { ScatterPlotDataType } from '../../../Types';
+import { ReferenceDataType, ScatterPlotDataType } from '../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -28,8 +30,20 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refXValue?: ReferenceDataType;
+  refYValue?: ReferenceDataType;
+  highlightedDataPoints?: (string | number)[];
+  highlightAreaSettings?: [
+    number | null,
+    number | null,
+    number | null,
+    number | null,
+  ];
+  showColorScale?: boolean;
+  graphID?: string;
 }
 
 export function ScatterPlot(props: Props) {
@@ -56,11 +70,21 @@ export function ScatterPlot(props: Props) {
     topMargin,
     bottomMargin,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
+    refXValue,
+    refYValue,
+    highlightAreaSettings,
+    showColorScale,
+    highlightedDataPoints,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -68,8 +92,7 @@ export function ScatterPlot(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
-
+  }, [graphDiv?.current, width]);
   return (
     <div
       style={{
@@ -77,6 +100,7 @@ export function ScatterPlot(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -86,6 +110,7 @@ export function ScatterPlot(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -101,6 +126,27 @@ export function ScatterPlot(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
+          />
+        ) : null}
+        {showColorScale !== false &&
+        data.filter(el => el.color).length !== 0 ? (
+          <ColorLegendWithMouseOver
+            width={width}
+            colorLegendTitle={colorLegendTitle}
+            colors={
+              (colors as string[] | undefined) ||
+              UNDPColorModule.categoricalColors.colors
+            }
+            colorDomain={
+              colorDomain ||
+              (uniqBy(
+                data.filter(el => el.color),
+                'color',
+              ).map(d => d.color) as string[])
+            }
+            setSelectedColor={setSelectedColor}
+            showNAColor
           />
         ) : null}
         <div
@@ -117,7 +163,12 @@ export function ScatterPlot(props: Props) {
             <Graph
               data={data}
               width={width || svgWidth}
-              height={height || svgHeight}
+              height={
+                height ||
+                (relativeHeight
+                  ? (width || svgWidth) * relativeHeight
+                  : svgHeight)
+              }
               colorDomain={
                 data.filter(el => el.color).length === 0
                   ? []
@@ -132,20 +183,46 @@ export function ScatterPlot(props: Props) {
                   ? colors
                     ? [colors as string]
                     : ['var(--blue-600)']
-                  : (colors as string[]) ||
+                  : (colors as string[] | undefined) ||
                     UNDPColorModule.categoricalColors.colors
               }
-              pointRadius={pointRadius === undefined ? 5 : pointRadius}
-              showLabels={showLabels === undefined ? false : showLabels}
-              colorLegendTitle={colorLegendTitle || 'Color key'}
               xAxisTitle={xAxisTitle || 'X Axis'}
               yAxisTitle={yAxisTitle || 'Y Axis'}
-              leftMargin={leftMargin === undefined ? 50 : leftMargin}
-              rightMargin={rightMargin === undefined ? 20 : rightMargin}
-              topMargin={topMargin === undefined ? 20 : topMargin}
-              bottomMargin={bottomMargin === undefined ? 50 : bottomMargin}
+              refXValue={refXValue}
+              refYValue={refYValue}
+              showLabels={
+                checkIfNullOrUndefined(showLabels)
+                  ? false
+                  : (showLabels as boolean)
+              }
+              pointRadius={
+                checkIfNullOrUndefined(pointRadius)
+                  ? 5
+                  : (pointRadius as number)
+              }
+              leftMargin={
+                checkIfNullOrUndefined(leftMargin) ? 50 : (leftMargin as number)
+              }
+              rightMargin={
+                checkIfNullOrUndefined(rightMargin)
+                  ? 20
+                  : (rightMargin as number)
+              }
+              topMargin={
+                checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+              }
+              bottomMargin={
+                checkIfNullOrUndefined(bottomMargin)
+                  ? 50
+                  : (bottomMargin as number)
+              }
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
+              highlightAreaSettings={
+                highlightAreaSettings || [null, null, null, null]
+              }
+              highlightedDataPoints={highlightedDataPoints || []}
+              selectedColor={selectedColor}
             />
           ) : null}
         </div>
@@ -154,6 +231,7 @@ export function ScatterPlot(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

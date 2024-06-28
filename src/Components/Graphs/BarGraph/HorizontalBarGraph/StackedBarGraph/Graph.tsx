@@ -2,7 +2,10 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
+import {
+  HorizontalGroupedBarGraphDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 
@@ -17,9 +20,14 @@ interface Props {
   height: number;
   rightMargin: number;
   topMargin: number;
+  showBarLabel: boolean;
   bottomMargin: number;
+  suffix: string;
+  prefix: string;
+  showValues?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
 }
 
 const G = styled.g`
@@ -45,6 +53,11 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    showBarLabel,
+    suffix,
+    prefix,
+    showValues,
+    refValues,
   } = props;
   const margin = {
     top: topMargin,
@@ -58,11 +71,15 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue = Math.max(...data.map(d => sum(d.width) || 0));
+  const xMaxValue = Math.max(
+    ...data.map(d => sum(d.size.filter(l => l !== undefined)) || 0),
+  );
+
+  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
 
   const x = scaleLinear().domain([0, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
-    .domain(data.map(d => `${d.label}`))
+    .domain(dataWithId.map(d => `${d.id}`))
     .range([0, graphHeight])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
@@ -88,7 +105,7 @@ export function Graph(props: Props) {
                     textAnchor='middle'
                     fontSize={12}
                   >
-                    {numberFormattingFunction(d)}
+                    {numberFormattingFunction(d, '', '')}
                   </text>
                   <line
                     x1={x(d)}
@@ -109,8 +126,8 @@ export function Graph(props: Props) {
             return (
               <G
                 key={i}
-                transform={`translate(${0},${y(`${d.label}`)})`}
-                onMouseEnter={event => {
+                transform={`translate(${0},${y(`${i}`)})`}
+                onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -118,7 +135,7 @@ export function Graph(props: Props) {
                     onSeriesMouseOver(d);
                   }
                 }}
-                onMouseMove={event => {
+                onMouseMove={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -132,14 +149,16 @@ export function Graph(props: Props) {
                   }
                 }}
               >
-                {d.width.map((el, j) => (
+                {d.size.map((el, j) => (
                   <g key={j}>
                     <rect
                       key={j}
                       x={x(
                         j === 0
                           ? 0
-                          : sum(d.width.filter((_element, k) => k < j)),
+                          : sum(
+                              d.size.filter((element, k) => k < j && element),
+                            ),
                       )}
                       y={0}
                       width={x(el)}
@@ -148,24 +167,76 @@ export function Graph(props: Props) {
                       }}
                       height={y.bandwidth()}
                     />
+                    {showValues && x(el) > 20 ? (
+                      <text
+                        x={
+                          x(
+                            j === 0
+                              ? 0
+                              : sum(
+                                  d.size.filter(
+                                    (element, k) => k < j && element,
+                                  ),
+                                ),
+                          ) +
+                          x(el) / 2
+                        }
+                        y={y.bandwidth() / 2}
+                        style={{
+                          fill: 'var(--white)',
+                          fontSize: '1rem',
+                          textAnchor: 'middle',
+                          fontFamily: 'var(--fontFamily)',
+                        }}
+                        dy={5}
+                      >
+                        {numberFormattingFunction(
+                          el,
+                          prefix || '',
+                          suffix || '',
+                        )}
+                      </text>
+                    ) : null}
                   </g>
                 ))}
-                <text
-                  style={{
-                    fill: 'var(--gray-700)',
-                    fontSize: '0.75rem',
-                    textAnchor: 'end',
-                    fontFamily: 'var(--fontFamily)',
-                  }}
-                  x={x(0)}
-                  y={y.bandwidth() / 2}
-                  dx={-10}
-                  dy={8}
-                >
-                  {d.label.length < truncateBy
-                    ? d.label
-                    : `${d.label.substring(0, truncateBy)}...`}
-                </text>
+                {showBarLabel ? (
+                  <text
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontSize: '0.75rem',
+                      textAnchor: 'end',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
+                    x={x(0)}
+                    y={y.bandwidth() / 2}
+                    dx={-10}
+                    dy={5}
+                  >
+                    {`${d.label}`.length < truncateBy
+                      ? `${d.label}`
+                      : `${`${d.label}`.substring(0, truncateBy)}...`}
+                  </text>
+                ) : null}
+                {showValues ? (
+                  <text
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontSize: '1rem',
+                      textAnchor: 'start',
+                      fontFamily: 'var(--fontFamily)',
+                    }}
+                    x={x(sum(d.size))}
+                    y={y.bandwidth() / 2}
+                    dx={5}
+                    dy={5}
+                  >
+                    {numberFormattingFunction(
+                      sum(d.size.filter(element => element)),
+                      prefix || '',
+                      suffix || '',
+                    )}
+                  </text>
+                ) : null}
               </G>
             );
           })}
@@ -177,6 +248,43 @@ export function Graph(props: Props) {
             stroke='#212121'
             strokeWidth={1}
           />
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={0 - margin.top}
+                    y2={graphHeight + margin.bottom}
+                    x1={x(el.value as number)}
+                    x2={x(el.value as number)}
+                  />
+                  <text
+                    y={0 - margin.top}
+                    fontWeight='bold'
+                    x={x(el.value as number) as number}
+                    style={{
+                      fill: 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor:
+                        x(el.value as number) > graphWidth * 0.75
+                          ? 'end'
+                          : 'start',
+                    }}
+                    fontSize={12}
+                    dy={12.5}
+                    dx={x(el.value as number) > graphWidth * 0.75 ? -5 : 5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

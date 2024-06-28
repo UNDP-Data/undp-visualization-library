@@ -1,7 +1,11 @@
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { HorizontalGroupedBarGraphDataType } from '../../../../../Types';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import {
+  HorizontalGroupedBarGraphDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { ColorLegend } from '../../../../Elements/ColorLegend';
@@ -27,8 +31,15 @@ interface Props {
   padding?: string;
   topMargin?: number;
   bottomMargin?: number;
+  suffix?: string;
+  prefix?: string;
+  showValues?: boolean;
+  showBarLabel?: boolean;
+  relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  graphID?: string;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -55,6 +66,13 @@ export function HorizontalStackedBarGraph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    suffix,
+    prefix,
+    showBarLabel,
+    relativeHeight,
+    showValues,
+    refValues,
+    graphID,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -67,7 +85,7 @@ export function HorizontalStackedBarGraph(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   return (
     <div
@@ -76,6 +94,7 @@ export function HorizontalStackedBarGraph(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -85,6 +104,7 @@ export function HorizontalStackedBarGraph(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -99,6 +119,7 @@ export function HorizontalStackedBarGraph(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -125,16 +146,56 @@ export function HorizontalStackedBarGraph(props: Props) {
                 data={data}
                 barColors={barColors}
                 width={width || svgWidth}
-                height={height || svgHeight}
-                barPadding={barPadding === undefined ? 0.25 : barPadding}
-                showXTicks={showXTicks === undefined ? true : showXTicks}
-                leftMargin={leftMargin === undefined ? 100 : leftMargin}
-                rightMargin={rightMargin === undefined ? 40 : rightMargin}
-                topMargin={topMargin === undefined ? 20 : topMargin}
-                bottomMargin={bottomMargin === undefined ? 10 : bottomMargin}
-                truncateBy={truncateBy === undefined ? 999 : truncateBy}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
+                barPadding={
+                  checkIfNullOrUndefined(barPadding)
+                    ? 0.25
+                    : (barPadding as number)
+                }
+                showXTicks={
+                  checkIfNullOrUndefined(showXTicks)
+                    ? true
+                    : (showXTicks as boolean)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 100
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 40
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 25 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 10
+                    : (bottomMargin as number)
+                }
+                truncateBy={
+                  checkIfNullOrUndefined(truncateBy)
+                    ? 999
+                    : (truncateBy as number)
+                }
+                showBarLabel={
+                  checkIfNullOrUndefined(showBarLabel)
+                    ? true
+                    : (showBarLabel as boolean)
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                showValues={showValues}
+                suffix={suffix || ''}
+                prefix={prefix || ''}
+                refValues={refValues}
               />
             ) : null}
           </div>
@@ -144,6 +205,7 @@ export function HorizontalStackedBarGraph(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

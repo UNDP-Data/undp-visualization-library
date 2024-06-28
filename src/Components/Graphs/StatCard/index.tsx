@@ -15,6 +15,7 @@ interface Props {
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
+  graphID?: string;
 }
 
 const StatEl = styled.h3`
@@ -54,6 +55,7 @@ export function StatCard(props: Props) {
     footNote,
     padding,
     backgroundColor,
+    graphID,
   } = props;
 
   return (
@@ -71,6 +73,7 @@ export function StatCard(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -97,9 +100,8 @@ export function StatCard(props: Props) {
           }}
         >
           <StatEl>
-            {prefix}
-            {numberFormattingFunction(value)}
-            {suffix} {year ? <YearEl>({year})</YearEl> : null}
+            {numberFormattingFunction(value, prefix || '', suffix || '')}{' '}
+            {year ? <YearEl>({year})</YearEl> : null}
           </StatEl>
         </div>
         {source || footNote ? (

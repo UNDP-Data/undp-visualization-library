@@ -1,10 +1,11 @@
 import UNDPColorModule from 'undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { AreaChartDataType } from '../../../Types';
+import { AreaChartDataType, ReferenceDataType } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegend } from '../../Elements/ColorLegend';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: AreaChartDataType[];
@@ -25,9 +26,13 @@ interface Props {
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
+  relativeHeight?: number;
   bottomMargin?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  refValues?: ReferenceDataType[];
+  highlightAreaSettings?: [number | null, number | null];
+  graphID?: string;
 }
 
 export function AreaChart(props: Props) {
@@ -50,9 +55,13 @@ export function AreaChart(props: Props) {
     leftMargin,
     rightMargin,
     topMargin,
+    highlightAreaSettings,
     bottomMargin,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
+    refValues,
+    graphID,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -64,7 +73,7 @@ export function AreaChart(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
-  }, [graphDiv?.current]);
+  }, [graphDiv?.current, width]);
 
   const areaColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -75,6 +84,7 @@ export function AreaChart(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
+        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,
@@ -84,6 +94,7 @@ export function AreaChart(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
@@ -99,6 +110,7 @@ export function AreaChart(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={width}
           />
         ) : null}
         <div
@@ -125,15 +137,40 @@ export function AreaChart(props: Props) {
                 data={data}
                 colors={areaColors}
                 width={width || svgWidth}
-                height={height || svgHeight}
-                noOfXTicks={noOfXTicks === undefined ? 10 : noOfXTicks}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
                 dateFormat={dateFormat || 'yyyy'}
-                leftMargin={leftMargin === undefined ? 30 : leftMargin}
-                rightMargin={rightMargin === undefined ? 20 : rightMargin}
-                topMargin={topMargin === undefined ? 20 : topMargin}
-                bottomMargin={bottomMargin === undefined ? 25 : bottomMargin}
+                noOfXTicks={
+                  checkIfNullOrUndefined(noOfXTicks)
+                    ? 10
+                    : (noOfXTicks as number)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 30
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 20
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 25
+                    : (bottomMargin as number)
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                highlightAreaSettings={highlightAreaSettings || [null, null]}
+                refValues={refValues}
               />
             ) : null}
           </div>
@@ -143,6 +180,7 @@ export function AreaChart(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={width}
           />
         ) : null}
       </div>

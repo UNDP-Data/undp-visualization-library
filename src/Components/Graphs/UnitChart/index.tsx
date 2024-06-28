@@ -1,3 +1,4 @@
+import UNDPColorModule from 'undp-viz-colors';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -16,6 +17,7 @@ interface Props {
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
+  graphID?: string;
 }
 
 export function UnitChart(props: Props) {
@@ -33,6 +35,7 @@ export function UnitChart(props: Props) {
     footNote,
     padding,
     backgroundColor,
+    graphID,
   } = props;
   const outOfValue = maxValue === undefined ? 100 : maxValue;
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
@@ -57,6 +60,7 @@ export function UnitChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: 'fit-content',
+        margin: 'auto',
         flexGrow: size ? 0 : 1,
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
@@ -67,12 +71,13 @@ export function UnitChart(props: Props) {
           ? 'var(--gray-200)'
           : backgroundColor,
       }}
+      id={graphID}
     >
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-05)',
+          gap: 'var(--spacing-00)',
           width: '100%',
           justifyContent: 'space-between',
           flexGrow: 1,
@@ -82,39 +87,62 @@ export function UnitChart(props: Props) {
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
+            width={size || 200}
           />
         ) : null}
         <div>
-          <h2 className='undp-typography bold margin-bottom-02 margin-top-03'>
-            {numberFormattingFunction(value)} out of {outOfValue}
+          <h2
+            className='undp-typography bold margin-bottom-02 margin-top-00'
+            style={{ width: `${size || 200}px` }}
+          >
+            {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}
+            {outOfValue}
           </h2>
           <svg
             width={`${size || 200}px`}
-            height={`${size || 200}px`}
-            viewBox={`0 0 ${size || 200} ${size || 200}`}
+            height={`${
+              Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
+                gridDimension +
+              gridDimension / 2 +
+              radius +
+              5
+            }px`}
+            viewBox={`0 0 ${size || 200} ${
+              Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
+                gridDimension +
+              gridDimension / 2 +
+              radius +
+              5
+            }`}
           >
             <g>
-              {Array.from(Array(100), (_, index) => index + 1).map(d => (
-                <circle
-                  key={d}
-                  cx={((d - 1) % 10) * gridDimension + gridDimension / 2}
-                  cy={
-                    Math.floor((d - 1) / 10) * gridDimension + gridDimension / 2
-                  }
-                  style={{
-                    fill:
-                      d <= Math.round(value)
-                        ? dotColors || 'var(--dark-green)'
-                        : 'var(--white)',
-                    stroke:
-                      d <= Math.round(value)
-                        ? dotColors || 'var(--dark-green)'
-                        : 'var(--gray-500)',
-                    strokeWidth: 1,
-                  }}
-                  r={radius}
-                />
-              ))}
+              {Array.from(Array(maxValue || 100), (_, index) => index + 1).map(
+                d => (
+                  <circle
+                    key={d}
+                    cx={
+                      ((d - 1) % (gridSize || 10)) * gridDimension +
+                      gridDimension / 2
+                    }
+                    cy={
+                      Math.floor((d - 1) / (gridSize || 10)) * gridDimension +
+                      gridDimension / 2
+                    }
+                    style={{
+                      fill:
+                        d <= Math.round(value)
+                          ? dotColors || UNDPColorModule.graphMainColor
+                          : '#FFF',
+                      stroke:
+                        d <= Math.round(value)
+                          ? dotColors || UNDPColorModule.graphMainColor
+                          : '#A9B1B7',
+                      strokeWidth: 1,
+                    }}
+                    r={radius}
+                  />
+                ),
+              )}
             </g>
           </svg>
         </div>
@@ -123,6 +151,7 @@ export function UnitChart(props: Props) {
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}
+            width={size || 200}
           />
         ) : null}
       </div>
