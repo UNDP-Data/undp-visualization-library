@@ -1,5 +1,5 @@
 import uniqBy from 'lodash.uniqby';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { ReferenceDataType, ScatterPlotDataType } from '../../../Types';
 import { Graph } from './Graph';

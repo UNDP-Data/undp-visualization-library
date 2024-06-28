@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';

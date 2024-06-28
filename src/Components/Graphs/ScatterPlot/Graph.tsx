@@ -5,7 +5,7 @@ import orderBy from 'lodash.orderby';
 import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { ScatterPlotDataType, ReferenceDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 

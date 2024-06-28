@@ -1,5 +1,5 @@
 import { pack, stratify } from 'd3-hierarchy';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { TreeMapDataType } from '../../../Types';

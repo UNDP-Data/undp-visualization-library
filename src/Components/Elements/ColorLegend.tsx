@@ -1,4 +1,4 @@
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 
 interface Props {
   colors: string[];

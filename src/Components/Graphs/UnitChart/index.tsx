@@ -1,4 +1,4 @@
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';

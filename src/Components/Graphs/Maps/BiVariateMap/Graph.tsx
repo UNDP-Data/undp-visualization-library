@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { scaleThreshold } from 'd3-scale';
 import { X } from 'lucide-react';
 import { BivariateMapDataType } from '../../../../Types';

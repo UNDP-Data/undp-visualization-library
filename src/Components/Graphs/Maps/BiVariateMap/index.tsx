@@ -1,4 +1,4 @@
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
 import { BivariateMapDataType } from '../../../../Types';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { SlopeChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 

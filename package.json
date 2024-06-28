@@ -32,6 +32,7 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
+    "@undp-data/undp-viz-colors": "^1.0.1",
     "antd": "^5.18.3",
     "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",
@@ -57,6 +58,7 @@
     "lodash.sumby": "^4.6.0",
     "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
+    "lucide-react": "^0.397.0",
     "maplibre-gl": "^4.4.1",
     "pmtiles": "^3.0.6",
     "react": "^18.2.0",
@@ -64,9 +66,7 @@
     "react-dom": "^18.2.0",
     "simple-statistics": "^7.8.3",
     "styled-components": "^6.0.1",
-    "undp-viz-colors": "^1.0.7",
-    "xlsx": "^0.18.5",
-    "lucide-react": "^0.397.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/d3-array": "^3.0.5",

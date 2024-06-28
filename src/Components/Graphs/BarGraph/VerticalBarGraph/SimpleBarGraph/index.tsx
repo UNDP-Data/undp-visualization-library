@@ -1,4 +1,4 @@
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import uniqBy from 'lodash.uniqby';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';

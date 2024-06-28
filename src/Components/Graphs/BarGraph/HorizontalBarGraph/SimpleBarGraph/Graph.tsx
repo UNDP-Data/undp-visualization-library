@@ -1,5 +1,5 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
-import UNDPColorModule from 'undp-viz-colors';
+import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
 import styled from 'styled-components';
 import {

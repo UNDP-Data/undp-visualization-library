@@ -50,7 +50,7 @@ export default defineConfig({
         'react-dom',
         'simple-statistics',
         'styled-components',
-        'undp-viz-colors',
+        '@undp-data/undp-viz-colors',
         'xlsx',
       ],
       output: {
@@ -88,7 +88,7 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'simple-statistics': 'ss',
           'styled-components': 'styled',
-          'undp-viz-colors': 'UNDPColorModule',
+          '@undp-data/undp-viz-colors': 'UNDPColorModule',
           xlsx: 'XLSX',
         },
       },
