@@ -8,6 +8,8 @@ export function numberFormattingFunction(
 ) {
   if (checkIfNullOrUndefined(value)) return 'NA';
   return `${prefix}${
-    Math.abs(value) < 1 ? value : format('.3s')(value).replace('G', 'B')
+    Math.abs(value) < 1 || Math.round(value) === value
+      ? value
+      : format('.3s')(value).replace('G', 'B')
   }${suffix}`;
 }
