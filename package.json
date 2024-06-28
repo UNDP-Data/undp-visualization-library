@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/UNDP-Data/dv-visualization-starter-kit/issues"
   },
-  "homepage": "https://github.com/UNDP-Data/dv-visualization-starter-kit#readme",
+  "homepage": "https://orange-bay-04736e710.4.azurestaticapps.net/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
