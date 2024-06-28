@@ -1,5 +1,5 @@
 import { CSVLink } from 'react-csv';
-import { FileDown } from 'lucide-react';
+import { FileDown } from '../Icons/Icons';
 
 interface HeaderProps {
   label: string;
@@ -46,14 +46,7 @@ export function CsvDownloadButton(props: Props) {
           textDecoration: 'none',
         }}
       >
-        {buttonContent || (
-          <FileDown
-            color='black'
-            size={20}
-            strokeWidth={1}
-            absoluteStrokeWidth
-          />
-        )}
+        {buttonContent || <FileDown />}
       </div>
     </CSVLink>
   );

@@ -2,7 +2,6 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
 import min from 'lodash.min';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { DumbbellChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
@@ -24,14 +23,6 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
-
-const G = styled.g`
-  opacity: 0.8;
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -148,7 +139,8 @@ export function Graph(props: Props) {
               ))
             : null}
           {data.map((d: DumbbellChartDataType, i) => (
-            <G
+            <g
+              className='low-opacity g-with-hover'
               key={i}
               transform={`translate(${
                 (x(`${i}`) as number) + x.bandwidth() / 2
@@ -217,7 +209,7 @@ export function Graph(props: Props) {
                   />
                 </g>
               ))}
-            </G>
+            </g>
           ))}
         </g>
       </svg>

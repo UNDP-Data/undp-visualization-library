@@ -1,46 +1,29 @@
-import styled from 'styled-components';
-
 interface Props {
   body: JSX.Element;
   xPos: number;
   yPos: number;
 }
 
-interface TooltipElProps {
-  x: number;
-  y: number;
-  verticalAlignment: string;
-  horizontalAlignment: string;
-}
-
-const TooltipEl = styled.div<TooltipElProps>`
-  display: block;
-  position: fixed;
-  z-index: 8;
-  background-color: var(--gray-200);
-  border: 1px solid var(--gray-300);
-  word-wrap: break-word;
-  top: ${props =>
-    props.verticalAlignment === 'bottom' ? props.y - 10 : props.y + 10}px;
-  left: ${props =>
-    props.horizontalAlignment === 'left' ? props.x - 10 : props.x + 10}px;
-  max-width: 24rem;
-  transform: ${props =>
-    `translate(${props.horizontalAlignment === 'left' ? '-100%' : '0%'},${
-      props.verticalAlignment === 'top' ? '-100%' : '0%'
-    })`};
-`;
-
 export function Tooltip(props: Props) {
   const { body, xPos, yPos } = props;
   return (
-    <TooltipEl
-      x={xPos}
-      y={yPos}
-      verticalAlignment={yPos > window.innerHeight / 2 ? 'top' : 'bottom'}
-      horizontalAlignment={xPos > window.innerWidth / 2 ? 'left' : 'right'}
+    <div
+      style={{
+        display: 'block',
+        position: 'fixed',
+        zIndex: '8',
+        backgroundColor: 'var(--gray-200)',
+        border: '1px solid var(--gray-300)',
+        wordWrap: 'break-word',
+        top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
+        left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,
+        maxWidth: '24rem',
+        transform: `translate(${
+          xPos > window.innerWidth / 2 ? '-100%' : '0%'
+        },${yPos > window.innerHeight / 2 ? '-100%' : '0%'})`,
+      }}
     >
       {body}
-    </TooltipEl>
+    </div>
   );
 }

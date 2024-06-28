@@ -1,4 +1,4 @@
-import { FileDown } from 'lucide-react';
+import { FileDown } from '../../Icons/Icons';
 import { exportToExcel } from './excelDownload';
 
 interface WsColInterface {
@@ -39,9 +39,7 @@ export function ExcelDownloadButton(props: Props) {
         exportToExcel(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
     >
-      {buttonContent || (
-        <FileDown color='black' size={20} strokeWidth={1} absoluteStrokeWidth />
-      )}
+      {buttonContent || <FileDown />}
     </button>
   );
 }

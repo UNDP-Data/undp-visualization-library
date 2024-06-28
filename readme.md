@@ -53,7 +53,6 @@ __Link for stylesheets__
 
 ## Build with<a name="section-06"></a>
 * __React__: Used as MVC framework.
-* __styled-components__: Utilizes tagged template literals and the power of CSS, allows to write actual CSS code to style the components in JS/TS.
 * __Various D3 Libraries__: Used for visualizations, adding interaction and reading the csv data file.
 * __AntD__: For UI elements like dropdown, buttons, checkbox, and slider.
 * __lodash__: Used for manipulating and iterating arrays and objects.

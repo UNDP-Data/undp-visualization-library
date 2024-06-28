@@ -1,7 +1,6 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   VerticalGroupedBarGraphDataType,
@@ -29,14 +28,6 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
-
-const G = styled.g`
-  opacity: 0.85;
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -149,7 +140,8 @@ export function Graph(props: Props) {
             : null}
           {data.map((d, i) => {
             return (
-              <G
+              <g
+                className='low-opacity g-with-hover'
                 key={i}
                 transform={`translate(${x(`${i}`)},0)`}
                 onMouseEnter={(event: any) => {
@@ -280,7 +272,7 @@ export function Graph(props: Props) {
                     )}
                   </text>
                 ) : null}
-              </G>
+              </g>
             );
           })}
           {refValues ? (

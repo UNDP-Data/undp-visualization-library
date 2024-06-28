@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { line, curveMonotoneX } from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { format, parse } from 'date-fns';
-import styled from 'styled-components';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
@@ -33,19 +32,6 @@ interface Props {
   highlightAreaSettings: [number | null, number | null];
   refValues?: ReferenceDataType[];
 }
-
-const XTickText = styled.text`
-  font-size: 12px;
-  @media (max-width: 980px) {
-    font-size: 10px;
-  }
-  @media (max-width: 600px) {
-    font-size: 9px;
-  }
-  @media (max-width: 420px) {
-    display: none;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -245,7 +231,8 @@ export function Graph(props: Props) {
           <g>
             {xTicks.map((d, i) => (
               <g key={i}>
-                <XTickText
+                <text
+                  className='x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
@@ -256,7 +243,7 @@ export function Graph(props: Props) {
                   dy={15}
                 >
                   {format(d, dateFormat)}
-                </XTickText>
+                </text>
               </g>
             ))}
           </g>

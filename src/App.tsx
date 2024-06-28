@@ -1,3 +1,6 @@
+import { CopyTextButton } from './Components/Actions/CopyTextButton';
+import './styles/styles.css';
+
 function App() {
   return (
     <div className='undp-container flex-div flex-wrap flex-hor-align-center padding-07'>
@@ -31,6 +34,7 @@ function App() {
         </a>{' '}
         if you have any feedback or questions.
       </h5>
+      <CopyTextButton text='Text copy' />
     </div>
   );
 }

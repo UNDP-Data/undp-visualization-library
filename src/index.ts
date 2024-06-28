@@ -1,3 +1,6 @@
+/* ------- Style Sheet ------- */
+import './styles/styles.css';
+
 /* ------- All Graphs Components ------- */
 // Horizontal Bar Graph
 export { HorizontalGroupedBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/GroupedBarGraph';
@@ -32,8 +35,6 @@ export { SlopeChart } from './Components/Graphs/SlopeChart';
 export { AreaChart } from './Components/Graphs/StackedAreaChart';
 // Stat Cards
 export { StatCard } from './Components/Graphs/StatCard';
-// Tables
-export { TablesViz } from './Components/Graphs/Tables';
 // Tree Maps
 export { TreeMapGraph } from './Components/Graphs/TreeMapGraph';
 // Unit Chart

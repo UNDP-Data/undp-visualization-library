@@ -98,8 +98,9 @@ export function HorizontalBarGraph(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: 'fit-content',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         flexGrow: width ? 0 : 1,
-        margin: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,

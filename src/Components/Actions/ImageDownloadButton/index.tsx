@@ -1,4 +1,4 @@
-import { ImageDown } from 'lucide-react';
+import { ImageDown } from '../../Icons/Icons';
 import { imageDownload } from './imageDownload';
 
 interface Props {
@@ -33,14 +33,7 @@ export function ImageDownloadButton(props: Props) {
         }
       }}
     >
-      {buttonContent || (
-        <ImageDown
-          color='black'
-          size={20}
-          strokeWidth={1}
-          absoluteStrokeWidth
-        />
-      )}
+      {buttonContent || <ImageDown />}
     </button>
   );
 }

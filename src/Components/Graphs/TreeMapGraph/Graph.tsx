@@ -1,7 +1,6 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
-import styled from 'styled-components';
 import { TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -24,13 +23,6 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
-
-const G = styled.g`
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -95,7 +87,8 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           {treeMapVizData.children?.map((d, i) => {
             return (
-              <G
+              <g
+                className='g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -173,7 +166,7 @@ export function Graph(props: Props) {
                         <p
                           className='undp-typography margin-bottom-00'
                           style={{
-                            fontSize: '12px',
+                            fontSize: '14px',
                             lineHeight: '1',
                             color: 'var(--white)',
                           }}
@@ -185,7 +178,7 @@ export function Graph(props: Props) {
                         <p
                           className='undp-typography margin-bottom-00'
                           style={{
-                            fontSize: '12px',
+                            fontSize: '14px',
                             color: 'var(--white)',
                             fontWeight: 'bold',
                           }}
@@ -200,7 +193,7 @@ export function Graph(props: Props) {
                     </div>
                   </foreignObject>
                 ) : null}
-              </G>
+              </g>
             );
           })}
         </g>

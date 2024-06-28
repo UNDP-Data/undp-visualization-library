@@ -60,7 +60,8 @@ export function UnitChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: 'fit-content',
-        margin: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         flexGrow: size ? 0 : 1,
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'

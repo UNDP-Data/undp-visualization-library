@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -17,30 +16,6 @@ interface Props {
   padding?: string;
   graphID?: string;
 }
-
-const StatEl = styled.h3`
-  font-size: 4.375rem !important;
-  line-height: 1 !important;
-  text-shadow: none !important;
-  -webkit-text-stroke: 2px var(--black) !important;
-  color: var(--gray-200) !important;
-  letter-spacing: 0.05rem !important;
-  margin-top: 0 !important;
-  margin-bottom: 1rem !important;
-  font-family: var(--fontFamilyHeadings) !important;
-`;
-
-const YearEl = styled.span`
-  margin-left: -8px;
-  font-size: 1.25rem !important;
-  line-height: 1.09 !important;
-  text-shadow: none !important;
-  font-weight: normal !important;
-  -webkit-text-stroke: 0px var(--black) !important;
-  color: var(--gray-500) !important;
-  margin-top: 0 !important;
-  margin-bottom: 1rem !important;
-`;
 
 export function StatCard(props: Props) {
   const {
@@ -99,10 +74,39 @@ export function StatCard(props: Props) {
             justifyContent: 'center',
           }}
         >
-          <StatEl>
+          <h3
+            style={{
+              fontSize: '4.375rem',
+              lineHeight: '1',
+              textShadow: 'none',
+              WebkitTextStroke: '2px var(--black)',
+              color: 'var(--gray-200)',
+              letterSpacing: '0.05rem',
+              marginTop: '0',
+              marginBottom: '1rem',
+              fontFamily: 'var(--fontFamilyHeadings)',
+            }}
+          >
             {numberFormattingFunction(value, prefix || '', suffix || '')}{' '}
-            {year ? <YearEl>({year})</YearEl> : null}
-          </StatEl>
+            {year ? (
+              <span
+                style={{
+                  marginLeft: '-8px',
+                  fontSize: '1.25rem',
+                  lineHeight: '1.09',
+                  textShadow: 'none',
+                  fontWeight: 'normal',
+                  WebkitTextStroke: '0px var(--black)',
+                  color: 'var(--gray-500)',
+                  marginTop: '0',
+                  marginBottom: '1rem',
+                  fontFamily: 'var(--fontFamily)',
+                }}
+              >
+                ({year})
+              </span>
+            ) : null}
+          </h3>
         </div>
         {source || footNote ? (
           <GraphFooter

@@ -79,7 +79,8 @@ export function DonutChart(props: Props) {
           : backgroundColor === true
           ? 'var(--gray-200)'
           : backgroundColor,
-        margin: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
       }}
       id={graphID}
     >
@@ -90,6 +91,7 @@ export function DonutChart(props: Props) {
           gap: 'var(--spacing-03)',
           width: '100%',
           flexGrow: 1,
+          justifyContent: 'space-between',
         }}
       >
         {graphTitle || graphDescription ? (
@@ -101,14 +103,14 @@ export function DonutChart(props: Props) {
         ) : null}
         <div
           style={{
-            flexGrow: 1,
+            flexGrow: radius ? 0 : 1,
             flexDirection: 'column',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'stretch',
             gap: 'var(--spacing-05)',
             flexWrap: 'wrap',
-            width: `${(radius || donutRadius) * 2}px`,
+            width: '100%',
           }}
         >
           {graphLegend ? (
@@ -117,7 +119,7 @@ export function DonutChart(props: Props) {
                 lineHeight: 0,
               }}
             >
-              <div className='flex-div margin-bottom-00 flex-wrap'>
+              <div className='flex-div margin-bottom-00 flex-wrap flex-hor-align-center'>
                 {data.map((d, i) => (
                   <div
                     className='flex-div gap-03 flex-vert-align-center'

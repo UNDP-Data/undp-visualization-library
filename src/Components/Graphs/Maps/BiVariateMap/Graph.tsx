@@ -4,10 +4,10 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { scaleThreshold } from 'd3-scale';
-import { X } from 'lucide-react';
 import { BivariateMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { X } from '../../../Icons/Icons';
 
 interface Props {
   data: BivariateMapDataType[];
@@ -448,13 +448,21 @@ export function Graph(props: Props) {
                 </div>
               </div>
             </div>
-            <X
-              strokeWidth={2}
-              style={{ margin: '8px 8px 0 0', cursor: 'pointer' }}
+            <button
+              type='button'
+              style={{
+                margin: '8px 8px 0 0',
+                cursor: 'pointer',
+                border: 0,
+                height: '24px',
+                padding: 0,
+              }}
               onClick={() => {
                 setShowLegend(false);
               }}
-            />
+            >
+              <X />
+            </button>
           </div>
         </div>
       ) : (

@@ -4,7 +4,6 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import { format, parse } from 'date-fns';
-import styled from 'styled-components';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
@@ -25,19 +24,6 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
-
-const XTickText = styled.text`
-  font-size: 12px;
-  @media (max-width: 980px) {
-    font-size: 10px;
-  }
-  @media (max-width: 600px) {
-    font-size: 9px;
-  }
-  @media (max-width: 420px) {
-    display: none;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -161,7 +147,8 @@ export function Graph(props: Props) {
         ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
-            <XTickText
+            <text
+              className='x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
@@ -172,8 +159,9 @@ export function Graph(props: Props) {
               dy={15}
             >
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
-            </XTickText>
-            <XTickText
+            </text>
+            <text
+              className='x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
@@ -184,7 +172,7 @@ export function Graph(props: Props) {
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}
-            </XTickText>
+            </text>
           </g>
           <g>
             <path

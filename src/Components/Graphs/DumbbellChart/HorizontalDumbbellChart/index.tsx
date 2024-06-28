@@ -92,7 +92,8 @@ export function HorizontalDumbbellChart(props: Props) {
         flexDirection: 'column',
         width: 'fit-content',
         flexGrow: width ? 0 : 1,
-        margin: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         padding: backgroundColor
           ? padding || 'var(--spacing-05)'
           : padding || 0,

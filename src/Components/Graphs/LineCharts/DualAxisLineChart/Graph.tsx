@@ -4,7 +4,6 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import { format, parse } from 'date-fns';
-import styled from 'styled-components';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
@@ -32,32 +31,6 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
-
-const XTickText = styled.text`
-  font-size: 12px;
-  @media (max-width: 980px) {
-    font-size: 10px;
-  }
-  @media (max-width: 600px) {
-    font-size: 9px;
-  }
-  @media (max-width: 420px) {
-    display: none;
-  }
-`;
-
-const LabelText = styled.text`
-  font-size: 12px;
-  @media (max-width: 980px) {
-    font-size: 10px;
-  }
-  @media (max-width: 600px) {
-    font-size: 9px;
-  }
-  @media (max-width: 420px) {
-    display: 8px;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -251,7 +224,8 @@ export function Graph(props: Props) {
               stroke={lineColors[0]}
               strokeWidth={1}
             />
-            <LabelText
+            <text
+              className='label-text'
               transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
               fill={lineColors[0]}
               textAnchor='middle'
@@ -260,7 +234,7 @@ export function Graph(props: Props) {
               {lineTitles[0].length > 100
                 ? `${lineTitles[0].substring(0, 100)}...`
                 : lineTitles[0]}
-            </LabelText>
+            </text>
           </g>
           <g>
             {y2Ticks.map((d, i) => (
@@ -294,7 +268,8 @@ export function Graph(props: Props) {
               stroke={lineColors[1]}
               strokeWidth={1}
             />
-            <LabelText
+            <text
+              className='label-text'
               transform={`translate(${graphWidth + 65}, ${
                 graphHeight / 2
               }) rotate(-90)`}
@@ -305,7 +280,7 @@ export function Graph(props: Props) {
               {lineTitles[1].length > 100
                 ? `${lineTitles[1].substring(0, 100)}...`
                 : lineTitles[1]}
-            </LabelText>
+            </text>
           </g>
           <g>
             <line
@@ -320,7 +295,8 @@ export function Graph(props: Props) {
             />
             {xTicks.map((d, i) => (
               <g key={i}>
-                <XTickText
+                <text
+                  className='x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
@@ -331,7 +307,7 @@ export function Graph(props: Props) {
                   dy={15}
                 >
                   {format(d, dateFormat)}
-                </XTickText>
+                </text>
               </g>
             ))}
           </g>

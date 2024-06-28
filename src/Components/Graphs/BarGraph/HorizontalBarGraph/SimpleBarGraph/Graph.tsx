@@ -1,7 +1,6 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
-import styled from 'styled-components';
 import {
   HorizontalBarGraphDataType,
   ReferenceDataType,
@@ -31,13 +30,6 @@ interface Props {
   refValues?: ReferenceDataType[];
   selectedColor?: string;
 }
-
-const G = styled.g`
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-`;
 
 export function Graph(props: Props) {
   const {
@@ -134,7 +126,8 @@ export function Graph(props: Props) {
             : null}
           {data.map((d, i) => {
             return (
-              <G
+              <g
+                className='g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -220,7 +213,7 @@ export function Graph(props: Props) {
                     )}
                   </text>
                 ) : null}
-              </G>
+              </g>
             );
           })}
           <line

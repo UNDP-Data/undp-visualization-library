@@ -1,19 +1,9 @@
-import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { SingleCardEl } from './SingleCard';
 
 interface Props {
   cards: JSX.Element[];
 }
-
-const WrapperEl = styled.div`
-  scroll-snap-type: x mandatory;
-  scroll-padding: 0;
-  scroll-padding-left: 0;
-  display: flex;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-`;
 
 export function CardsSlider(props: Props) {
   const { cards } = props;
@@ -47,14 +37,22 @@ export function CardsSlider(props: Props) {
           );
       }}
     >
-      <WrapperEl
+      <div
+        style={{
+          scrollSnapType: 'x mandatory',
+          scrollPadding: '0',
+          scrollPaddingLeft: '0',
+          display: 'flex',
+          overflowX: 'auto',
+          paddingBottom: '1rem',
+        }}
         className='flex-div stat-container undp-scrollbar'
         ref={WrapperRef}
       >
         {cards.map((el, i) => (
           <SingleCardEl key={i} contentEl={el} />
         ))}
-      </WrapperEl>
+      </div>
     </div>
   );
 }
