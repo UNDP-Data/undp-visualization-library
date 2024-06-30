@@ -128,3 +128,12 @@ export interface SlopeChartDataType {
   label: string | number;
   data?: object;
 }
+
+export interface HeatMapDataType {
+  YLabel: string;
+  XLabel: string;
+  value?: string | number;
+  data?: object;
+}
+
+export type ScaleDataType = 'categorical' | 'linear' | 'threshold';

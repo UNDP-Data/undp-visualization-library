@@ -39,6 +39,8 @@ export { StatCard } from './Components/Graphs/StatCard';
 export { TreeMapGraph } from './Components/Graphs/TreeMapGraph';
 // Unit Chart
 export { UnitChart } from './Components/Graphs/UnitChart';
+// HeatMap
+export { HeatMap } from './Components/Graphs/HeatMap';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
@@ -53,6 +55,8 @@ export { CopyTextButton } from './Components/Actions/CopyTextButton';
 // Color Legend
 export { ColorLegend } from './Components/Elements/ColorLegend';
 export { ColorLegendWithMouseOver } from './Components/Elements/ColorLegendWithMouseOver';
+export { LinearColorLegend } from './Components/Elements/LinearColorLegend';
+export { ThresholdColorLegendWithMouseOver } from './Components/Elements/ThresholdColorLegendWithMouseOver';
 // Typography
 export { GraphFooter } from './Components/Elements/GraphFooter';
 export { GraphHeader } from './Components/Elements/GraphHeader';

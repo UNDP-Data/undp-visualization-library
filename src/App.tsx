@@ -1,4 +1,3 @@
-import { CopyTextButton } from './Components/Actions/CopyTextButton';
 import './styles/styles.css';
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
         </a>{' '}
         if you have any feedback or questions.
       </h5>
-      <CopyTextButton text='Text copy' />
     </div>
   );
 }
