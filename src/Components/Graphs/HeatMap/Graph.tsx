@@ -64,8 +64,8 @@ export function Graph(props: Props) {
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const columns = uniqBy(data, d => d.YLabel).map(d => d.YLabel);
-  const rows = uniqBy(data, d => d.XLabel).map(d => d.XLabel);
+  const columns = uniqBy(data, d => d.column).map(d => d.column);
+  const rows = uniqBy(data, d => d.row).map(d => d.row);
   const y = scaleBand().domain(rows).range([0, graphHeight]);
   const barHeight = y.bandwidth();
   const x = scaleBand().domain(columns).range([0, graphWidth]);
@@ -180,7 +180,7 @@ export function Graph(props: Props) {
             return (
               <g
                 key={i}
-                transform={`translate(${x(d.YLabel)},${y(d.XLabel)})`}
+                transform={`translate(${x(d.column)},${y(d.row)})`}
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -258,8 +258,8 @@ export function Graph(props: Props) {
           })}
           {mouseOverData ? (
             <rect
-              x={x(mouseOverData.YLabel)}
-              y={y(mouseOverData.XLabel)}
+              x={x(mouseOverData.column)}
+              y={y(mouseOverData.row)}
               width={barWidth}
               height={barHeight}
               fill='none'

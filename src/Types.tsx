@@ -130,8 +130,8 @@ export interface SlopeChartDataType {
 }
 
 export interface HeatMapDataType {
-  YLabel: string;
-  XLabel: string;
+  row: string;
+  column: string;
   value?: string | number;
   data?: object;
 }
