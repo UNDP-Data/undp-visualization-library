@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,6 +34,16 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "keywords": [
+    "UNDP",
+    "United Nations",
+    "React",
+    "visualization",
+    "data visualization",
+    "graphing",
+    "plotting",
+    "graphs"
+  ],
   "dependencies": {
     "@undp-data/undp-viz-colors": "^1.0.1",
     "d3-array": "^3.2.4",
