@@ -4,6 +4,8 @@ import uniqBy from 'lodash.uniqby';
 import { HeatMapDataType, ScaleDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
+import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: HeatMapDataType[];
@@ -114,10 +116,9 @@ export function Graph(props: Props) {
                     <p
                       className='undp-typography margin-bottom-00'
                       style={{
-                        fontSize: '14px',
-                        fontWeight: 'bold',
+                        fontSize: '16px',
                         textAlign: 'center',
-                        lineHeight: '1',
+                        lineHeight: '1.15',
                         color: 'var(--gray-600)',
                       }}
                     >
@@ -151,16 +152,15 @@ export function Graph(props: Props) {
                       justifyContent: 'center',
                       alignItems: 'flex-end',
                       height: 'inherit',
-                      padding: '4px 12px 4px 4px',
+                      padding: '4px 8px 4px 4px',
                     }}
                   >
                     <p
                       className='undp-typography margin-bottom-00'
                       style={{
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        lineHeight: '1',
+                        fontSize: '16px',
+                        textAlign: 'right',
+                        lineHeight: '1.15',
                         color: 'var(--gray-600)',
                       }}
                     >
@@ -174,88 +174,108 @@ export function Graph(props: Props) {
             : null}
         </g>
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {data.map((d, i) => {
-            const color =
-              d.value !== undefined ? colorScale(d.value as any) : noDataColor;
-            return (
-              <g
-                key={i}
-                transform={`translate(${x(d.column)},${y(d.row)})`}
-                onMouseEnter={(event: any) => {
-                  setMouseOverData(d);
-                  setEventY(event.clientY);
-                  setEventX(event.clientX);
-                  if (onSeriesMouseOver) {
-                    onSeriesMouseOver(d);
-                  }
-                }}
-                onMouseMove={(event: any) => {
-                  setMouseOverData(d);
-                  setEventY(event.clientY);
-                  setEventX(event.clientX);
-                }}
-                onMouseLeave={() => {
-                  setMouseOverData(undefined);
-                  setEventX(undefined);
-                  setEventY(undefined);
-                  if (onSeriesMouseOver) {
-                    onSeriesMouseOver(undefined);
-                  }
-                }}
-                opacity={
-                  selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
-                }
-              >
+          {rows.map((d, i) => (
+            <g key={i} transform={`translate(0,${y(d)})`}>
+              {columns.map((el, j) => (
                 <rect
-                  x={0}
+                  key={j}
+                  x={x(el)}
                   y={0}
                   width={barWidth}
                   height={barHeight}
-                  fill={color}
+                  fill={noDataColor}
                   strokeWidth={1}
                   stroke='var(--white)'
                 />
-                {showValues ? (
-                  <foreignObject
-                    key={i}
-                    y={0}
+              ))}
+            </g>
+          ))}
+          {data
+            .filter(d => !checkIfNullOrUndefined(d.value))
+            .map((d, i) => {
+              const color =
+                d.value !== undefined
+                  ? colorScale(d.value as any)
+                  : noDataColor;
+              return (
+                <g
+                  key={i}
+                  transform={`translate(${x(d.column)},${y(d.row)})`}
+                  onMouseEnter={(event: any) => {
+                    setMouseOverData(d);
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver(d);
+                    }
+                  }}
+                  onMouseMove={(event: any) => {
+                    setMouseOverData(d);
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                  }}
+                  onMouseLeave={() => {
+                    setMouseOverData(undefined);
+                    setEventX(undefined);
+                    setEventY(undefined);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver(undefined);
+                    }
+                  }}
+                  opacity={
+                    selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
+                  }
+                >
+                  <rect
                     x={0}
+                    y={0}
                     width={barWidth}
                     height={barHeight}
-                  >
-                    <div
-                      style={{
-                        fill: 'var(--gray-600)',
-                        fontFamily: 'var(--fontFamily)',
-                        textAnchor: 'middle',
-                        whiteSpace: 'normal',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: 'inherit',
-                        padding: '2px',
-                      }}
+                    fill={color}
+                    strokeWidth={1}
+                    stroke='var(--white)'
+                  />
+                  {showValues && !checkIfNullOrUndefined(d.value) ? (
+                    <foreignObject
+                      key={i}
+                      y={0}
+                      x={0}
+                      width={barWidth}
+                      height={barHeight}
                     >
-                      <p
-                        className='undp-typography margin-bottom-00'
+                      <div
                         style={{
-                          fontSize: `12px`,
-                          textAlign: 'center',
-                          lineHeight: '1',
-                          color: 'var(--white)',
+                          fill: 'var(--gray-600)',
+                          fontFamily: 'var(--fontFamily)',
+                          textAnchor: 'middle',
+                          whiteSpace: 'normal',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          height: 'inherit',
+                          padding: '2px',
                         }}
                       >
-                        {typeof d.value === 'string'
-                          ? `${prefix} ${d.value} ${suffix}`
-                          : numberFormattingFunction(d.value, prefix, suffix)}
-                      </p>
-                    </div>
-                  </foreignObject>
-                ) : null}
-              </g>
-            );
-          })}
+                        <p
+                          className='undp-typography margin-bottom-00'
+                          style={{
+                            fontSize: `12px`,
+                            textAlign: 'center',
+                            lineHeight: '1.15',
+                            color: getTextColorBasedOnBgColor(color),
+                          }}
+                        >
+                          {typeof d.value === 'string'
+                            ? `${prefix} ${d.value} ${suffix}`
+                            : numberFormattingFunction(d.value, prefix, suffix)}
+                        </p>
+                      </div>
+                    </foreignObject>
+                  ) : null}
+                </g>
+              );
+            })}
           {mouseOverData ? (
             <rect
               x={x(mouseOverData.column)}

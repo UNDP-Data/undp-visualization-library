@@ -72,4 +72,5 @@ export { calculatePercentile } from './Utils/getPercentile';
 export { getQueryParamsFromLink } from './Utils/getQueryParamsFromLink';
 export { numberFormattingFunction } from './Utils/numberFormattingFunction';
 export { removeOutliers } from './Utils/removeOutliers';
+export { getTextColorBasedOnBgColor } from './Utils/getTextColorBasedOnBgColor';
 export { getJenks } from './Utils/getJenks';

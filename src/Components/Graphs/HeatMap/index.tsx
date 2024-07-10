@@ -33,7 +33,7 @@ interface Props {
   suffix?: string;
   prefix?: string;
   showValues?: boolean;
-  showBarLabel?: boolean;
+  showYTicks?: boolean;
   relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
@@ -68,7 +68,7 @@ export function HeatMap(props: Props) {
     onSeriesMouseOver,
     suffix,
     prefix,
-    showBarLabel,
+    showYTicks,
     relativeHeight,
     showValues,
     graphID,
@@ -272,9 +272,9 @@ export function HeatMap(props: Props) {
                     : (truncateBy as number)
                 }
                 showYTicks={
-                  checkIfNullOrUndefined(showBarLabel)
+                  checkIfNullOrUndefined(showYTicks)
                     ? true
-                    : (showBarLabel as boolean)
+                    : (showYTicks as boolean)
                 }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
