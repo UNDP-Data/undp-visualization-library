@@ -136,4 +136,13 @@ export interface HeatMapDataType {
   data?: object;
 }
 
+export interface DataTableColumnDataType {
+  columnTitle: string;
+  columnId: string;
+  sortable?: boolean;
+  align?: 'left' | 'right' | 'center';
+  suffix?: string;
+  prefix?: string;
+}
+
 export type ScaleDataType = 'categorical' | 'linear' | 'threshold';

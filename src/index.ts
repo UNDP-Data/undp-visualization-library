@@ -41,6 +41,8 @@ export { TreeMapGraph } from './Components/Graphs/TreeMapGraph';
 export { UnitChart } from './Components/Graphs/UnitChart';
 // HeatMap
 export { HeatMap } from './Components/Graphs/HeatMap';
+// DataTable
+export { DataTable } from './Components/Graphs/DataTable';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
