@@ -26,7 +26,8 @@ export { SparkLine } from './Components/Graphs/LineCharts/SparkLine';
 export { BiVariantMap } from './Components/Graphs/Maps/BiVariateMap';
 export { ChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap';
 export { DotDensityMap } from './Components/Graphs/Maps/DotDensityMap';
-export { GeoHubMaps } from './Components/Graphs/Maps/GeoHubMaps';
+export { GeoHubMap } from './Components/Graphs/Maps/GeoHubMap';
+export { GeoHubCompareMaps } from './Components/Graphs/Maps/GeoHubCompareMaps';
 // Scatter Plot
 export { ScatterPlot } from './Components/Graphs/ScatterPlot';
 // Slope Chart

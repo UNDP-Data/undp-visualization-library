@@ -1,15 +1,13 @@
 import { useRef, useEffect, useState } from 'react';
-import maplibreGl from 'maplibre-gl';
-import * as pmtiles from 'pmtiles';
+import * as maplibreGl from 'maplibre-gl';
+import * as MaplibreglCompare from '@maplibre/maplibre-gl-compare';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { select } from 'd3-selection';
+import '@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
+import { removeElementsByClass } from '../../../../Utils/removeElementByClassName';
 
 interface Props {
-  mapStyle: string;
-  center?: [number, number];
-  zoomLevel?: number;
   graphTitle?: string;
   source?: string;
   graphDescription?: string;
@@ -21,11 +19,13 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
+  mapStyles: [string, string];
+  center?: [number, number];
+  zoomLevel?: number;
 }
 
-export function GeoHubMaps(props: Props) {
+export function GeoHubCompareMaps(props: Props) {
   const {
-    mapStyle,
     sourceLink,
     graphTitle,
     height,
@@ -36,14 +36,16 @@ export function GeoHubMaps(props: Props) {
     footNote,
     padding,
     backgroundColor,
+    graphID,
+    mapStyles,
     center,
     zoomLevel,
-    graphID,
   } = props;
-
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
   const graphDiv = useRef<HTMLDivElement>(null);
+  const leftMapRef = useRef<HTMLDivElement>(null);
+  const rightMapRef = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
@@ -52,23 +54,27 @@ export function GeoHubMaps(props: Props) {
     }
   }, [graphDiv?.current, width]);
   useEffect(() => {
-    if (mapContainer.current && svgWidth) {
-      const mapDiv = select(mapContainer.current);
-      mapDiv.selectAll('div').remove();
-      const protocol = new pmtiles.Protocol();
-      maplibreGl.addProtocol('pmtiles', protocol.tile);
-      const mapObj: any = {
-        container: mapContainer.current as any,
-        style: mapStyle,
-      };
-      if (center) {
-        mapObj.center = center;
-      }
-      if (zoomLevel) {
-        mapObj.zoom = zoomLevel;
-      }
-      const map = new maplibreGl.Map(mapObj);
-      map.addControl(
+    if (
+      mapContainer.current &&
+      leftMapRef.current &&
+      rightMapRef.current &&
+      svgWidth
+    ) {
+      removeElementsByClass('maplibregl-compare');
+      const leftMap = new maplibreGl.Map({
+        container: leftMapRef.current,
+        style: mapStyles[0],
+        center: center || [0, 0],
+        zoom: zoomLevel || 4,
+      });
+
+      const rightMap = new maplibreGl.Map({
+        container: rightMapRef.current,
+        style: mapStyles[1],
+        center: center || [0, 0],
+        zoom: zoomLevel || 4,
+      });
+      rightMap.addControl(
         new maplibreGl.NavigationControl({
           visualizePitch: true,
           showZoom: true,
@@ -76,9 +82,25 @@ export function GeoHubMaps(props: Props) {
         }),
         'bottom-right',
       );
-      map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+      leftMap.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+      leftMap.addControl(
+        new maplibreGl.NavigationControl({
+          visualizePitch: true,
+          showZoom: true,
+          showCompass: true,
+        }),
+        'bottom-right',
+      );
+      rightMap.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+      const compare = new MaplibreglCompare(
+        leftMap,
+        rightMap,
+        mapContainer.current,
+        {},
+      );
     }
-  }, [mapContainer.current, svgWidth, mapStyle]);
+  }, [mapContainer.current, leftMapRef.current, rightMapRef.current, svgWidth]);
   return (
     <div
       style={{
@@ -140,8 +162,28 @@ export function GeoHubMaps(props: Props) {
               <div
                 ref={mapContainer}
                 className='map maplibre-show-control'
-                style={{ width: '100%', height: '100%' }}
-              />
+                style={{
+                  position: 'relative',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <div
+                  ref={leftMapRef}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                  }}
+                />
+                <div
+                  ref={rightMapRef}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                  }}
+                />
+              </div>
             </div>
           ) : null}
         </div>
