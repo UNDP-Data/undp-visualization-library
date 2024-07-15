@@ -42,7 +42,7 @@ export function DataTable(props: Props) {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
-    if (columnSortBy) {
+    if (columnSortBy && data) {
       setSortedData(
         sortDirection === 'asc'
           ? sortBy(data, [columnSortBy])
@@ -51,7 +51,7 @@ export function DataTable(props: Props) {
     } else {
       setSortedData(data);
     }
-  }, [columnSortBy, sortDirection]);
+  }, [columnSortBy, sortDirection, data]);
   return (
     <div
       style={{
@@ -97,111 +97,116 @@ export function DataTable(props: Props) {
               height: height ? `${height}px` : 'auto',
             }}
           >
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead
-                style={{
-                  fontWeight: '600',
-                  textAlign: 'left',
-                  backgroundColor: 'var(--gray-300)',
-                }}
-              >
-                <tr>
-                  {columnData.map((d, i) => (
-                    <th
-                      className='padding-05 undp-typography small-font'
-                      key={i}
-                    >
-                      <div className='flex-div flex-space-between flex-vert-align-center gap-03'>
-                        <div
-                          style={{ textAlign: d.align || 'left', flexGrow: 1 }}
-                        >
-                          {d.columnTitle}
-                        </div>
-                        {d.sortable ? (
-                          <button
-                            type='button'
+            {data ? (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead
+                  style={{
+                    fontWeight: '600',
+                    textAlign: 'left',
+                    backgroundColor: 'var(--gray-300)',
+                  }}
+                >
+                  <tr>
+                    {columnData?.map((d, i) => (
+                      <th
+                        className='padding-05 undp-typography small-font'
+                        key={i}
+                      >
+                        <div className='flex-div flex-space-between flex-vert-align-center gap-03'>
+                          <div
                             style={{
-                              margin: 0,
-                              padding: 0,
-                              border: 0,
-                              backgroundColor: 'transparent',
-                            }}
-                            onClick={() => {
-                              if (columnSortBy === d.columnId) {
-                                if (sortDirection === 'asc') {
-                                  setSortDirection('desc');
-                                }
-                                if (sortDirection === 'desc') {
-                                  setColumnSortBy(undefined);
-                                }
-                              } else {
-                                setColumnSortBy(d.columnId);
-                                setSortDirection('asc');
-                              }
+                              textAlign: d.align || 'left',
+                              flexGrow: 1,
                             }}
                           >
-                            {columnSortBy === d.columnId ? (
-                              sortDirection === 'asc' ? (
-                                <SortingIconAscending />
-                              ) : (
-                                <SortingIconDescending />
-                              )
-                            ) : (
-                              <SortingIcon />
-                            )}
-                          </button>
-                        ) : null}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sortedData.map((d: any, i: number) => (
-                  <tr
-                    key={i}
-                    style={{ borderBottom: '1px solid var(--gray-400)' }}
-                  >
-                    {columnData.map((el, j) => (
-                      <td
-                        className='padding-05 small-font undp-typography small-font'
-                        key={j}
-                        style={{ textAlign: d.align || 'left' }}
-                      >
-                        <div className='flex-div'>
-                          {typeof d[el.columnId] === 'number' ? (
-                            <div
+                            {d.columnTitle}
+                          </div>
+                          {d.sortable ? (
+                            <button
+                              type='button'
                               style={{
-                                textAlign: el.align || 'left',
-                                flexGrow: 1,
+                                margin: 0,
+                                padding: 0,
+                                border: 0,
+                                backgroundColor: 'transparent',
+                              }}
+                              onClick={() => {
+                                if (columnSortBy === d.columnId) {
+                                  if (sortDirection === 'asc') {
+                                    setSortDirection('desc');
+                                  }
+                                  if (sortDirection === 'desc') {
+                                    setColumnSortBy(undefined);
+                                  }
+                                } else {
+                                  setColumnSortBy(d.columnId);
+                                  setSortDirection('asc');
+                                }
                               }}
                             >
-                              {numberFormattingFunction(
-                                d[el.columnId],
-                                el.prefix || '',
-                                el.suffix || '',
+                              {columnSortBy === d.columnId ? (
+                                sortDirection === 'asc' ? (
+                                  <SortingIconAscending />
+                                ) : (
+                                  <SortingIconDescending />
+                                )
+                              ) : (
+                                <SortingIcon />
                               )}
-                            </div>
-                          ) : typeof d[el.columnId] === 'string' ? (
-                            <div
-                              style={{
-                                textAlign: el.align || 'left',
-                                flexGrow: 1,
-                              }}
-                            >{`${el.prefix || ''}${d[el.columnId]}${
-                              el.suffix || ''
-                            }`}</div>
-                          ) : (
-                            <div>{d[el.columnId]}</div>
-                          )}
-                          {d.sortable ? <SortingIcon /> : null}
+                            </button>
+                          ) : null}
                         </div>
-                      </td>
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {sortedData?.map((d: any, i: number) => (
+                    <tr
+                      key={i}
+                      style={{ borderBottom: '1px solid var(--gray-400)' }}
+                    >
+                      {columnData.map((el, j) => (
+                        <td
+                          className='padding-05 small-font undp-typography small-font'
+                          key={j}
+                          style={{ textAlign: d.align || 'left' }}
+                        >
+                          <div className='flex-div'>
+                            {typeof d[el.columnId] === 'number' ? (
+                              <div
+                                style={{
+                                  textAlign: el.align || 'left',
+                                  flexGrow: 1,
+                                }}
+                              >
+                                {numberFormattingFunction(
+                                  d[el.columnId],
+                                  el.prefix || '',
+                                  el.suffix || '',
+                                )}
+                              </div>
+                            ) : typeof d[el.columnId] === 'string' ? (
+                              <div
+                                style={{
+                                  textAlign: el.align || 'left',
+                                  flexGrow: 1,
+                                }}
+                              >{`${el.prefix || ''}${d[el.columnId]}${
+                                el.suffix || ''
+                              }`}</div>
+                            ) : (
+                              <div>{d[el.columnId]}</div>
+                            )}
+                            {d.sortable ? <SortingIcon /> : null}
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : null}
           </div>
         </div>
         {source || footNote ? (
