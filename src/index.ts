@@ -17,6 +17,9 @@ export { DonutChart } from './Components/Graphs/DonutChart';
 // Dumbbell chart
 export { HorizontalDumbbellChart } from './Components/Graphs/DumbbellChart/HorizontalDumbbellChart';
 export { VerticalDumbbellChart } from './Components/Graphs/DumbbellChart/VerticalDumbbellChart';
+// BeeSwarm chart
+export { HorizontalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/HorizontalBeeSwarmChart';
+export { VerticalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/VerticalBeeSwarmChart';
 // Line Charts
 export { DualAxisLineChart } from './Components/Graphs/LineCharts/DualAxisLineChart';
 export { SimpleLineChart } from './Components/Graphs/LineCharts/LineChart';

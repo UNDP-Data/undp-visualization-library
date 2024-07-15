@@ -158,7 +158,7 @@ export function Graph(props: Props) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: 'inherit',
-                        padding: 'var(--spacing-02)',
+                        padding: '0 var(--spacing-02)',
                       }}
                     >
                       {showLabel ? (

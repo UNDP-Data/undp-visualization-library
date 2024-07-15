@@ -145,4 +145,12 @@ export interface DataTableColumnDataType {
   prefix?: string;
 }
 
+export interface BeeSwarmChartDataType {
+  label: string | number;
+  position: number;
+  radius?: number;
+  color?: string;
+  data?: object;
+}
+
 export type ScaleDataType = 'categorical' | 'linear' | 'threshold';

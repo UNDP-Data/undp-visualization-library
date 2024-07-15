@@ -1,4 +1,3 @@
-import { GeoHubCompareMaps } from './Components/Graphs/Maps/GeoHubCompareMaps';
 import './styles/styles.css';
 
 function App() {
@@ -34,13 +33,6 @@ function App() {
         </a>{' '}
         if you have any feedback or questions.
       </h5>
-      <GeoHubCompareMaps
-        mapStyles={[
-          'https://api.maptiler.com/maps/streets/style.json?key=YbCPLULzWdf1NplssEIc',
-          'https://api.maptiler.com/maps/hybrid/style.json?key=YbCPLULzWdf1NplssEIc',
-        ]}
-        relativeHeight={0.5}
-      />
     </div>
   );
 }
