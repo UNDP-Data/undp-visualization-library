@@ -1,11 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
 import * as maplibreGl from 'maplibre-gl';
+import * as pmtiles from 'pmtiles';
 import * as MaplibreglCompare from '@maplibre/maplibre-gl-compare';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css';
+import { select } from 'd3-selection';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
-import { removeElementsByClass } from '../../../../Utils/removeElementByClassName';
 
 interface Props {
   graphTitle?: string;
@@ -60,7 +61,14 @@ export function GeoHubCompareMaps(props: Props) {
       rightMapRef.current &&
       svgWidth
     ) {
-      removeElementsByClass('maplibregl-compare');
+      const mapDiv = select(mapContainer.current);
+      mapDiv.selectAll('.maplibregl-compare').remove();
+      const leftMapDiv = select(leftMapRef.current);
+      leftMapDiv.selectAll('div').remove();
+      const rightMapDiv = select(rightMapRef.current);
+      rightMapDiv.selectAll('div').remove();
+      const protocol = new pmtiles.Protocol();
+      maplibreGl.addProtocol('pmtiles', protocol.tile);
       const leftMap = new maplibreGl.Map({
         container: leftMapRef.current,
         style: mapStyles[0],
@@ -171,6 +179,7 @@ export function GeoHubCompareMaps(props: Props) {
               >
                 <div
                   ref={leftMapRef}
+                  className='leftMap'
                   style={{
                     position: 'absolute',
                     inset: 0,
@@ -178,6 +187,7 @@ export function GeoHubCompareMaps(props: Props) {
                 />
                 <div
                   ref={rightMapRef}
+                  className='rightMap'
                   style={{
                     position: 'absolute',
                     inset: 0,
