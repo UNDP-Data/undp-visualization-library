@@ -100,7 +100,15 @@ export function Graph(props: Props) {
       rightMap.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       synchronizeMap(leftMap, rightMap);
     }
-  }, [mapContainer.current, leftMapRef.current, rightMapRef.current, width]);
+  }, [
+    mapContainer.current,
+    leftMapRef.current,
+    rightMapRef.current,
+    width,
+    mapStyles,
+    center,
+    zoomLevel,
+  ]);
   return (
     <div
       style={{
