@@ -1,6 +1,7 @@
 import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
+import isEqual from 'lodash.isequal';
 import { HeatMapDataType, ScaleDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
@@ -28,6 +29,7 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -52,6 +54,7 @@ export function Graph(props: Props) {
     scaleType,
     showYTicks,
     selectedColor,
+    onSeriesMouseClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -59,6 +62,7 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [mouseOverData, setMouseOverData] = useState<
     HeatMapDataType | undefined
   >(undefined);
@@ -207,6 +211,17 @@ export function Graph(props: Props) {
                     setEventX(event.clientX);
                     if (onSeriesMouseOver) {
                       onSeriesMouseOver(d);
+                    }
+                  }}
+                  onClick={() => {
+                    if (onSeriesMouseClick) {
+                      if (isEqual(mouseClickData, d)) {
+                        setMouseClickData(undefined);
+                        onSeriesMouseClick(undefined);
+                      } else {
+                        setMouseClickData(d);
+                        onSeriesMouseClick(d);
+                      }
                     }
                   }}
                   onMouseMove={(event: any) => {

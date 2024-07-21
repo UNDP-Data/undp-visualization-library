@@ -1,12 +1,14 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   VerticalGroupedBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: VerticalGroupedBarGraphDataType[];
@@ -27,6 +29,8 @@ interface Props {
   refValues?: ReferenceDataType[];
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  maxValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -49,6 +53,8 @@ export function Graph(props: Props) {
     prefix,
     showValues,
     refValues,
+    maxValue,
+    onSeriesMouseClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -57,14 +63,15 @@ export function Graph(props: Props) {
     right: rightMargin,
   };
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue = Math.max(
-    ...data.map(d => sum(d.size.filter(l => l !== undefined)) || 0),
-  );
+  const xMaxValue = !checkIfNullOrUndefined(maxValue)
+    ? (maxValue as number)
+    : Math.max(...data.map(d => sum(d.size.filter(l => l !== undefined)) || 0));
 
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
 
@@ -156,6 +163,17 @@ export function Graph(props: Props) {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
+                  }
                 }}
                 onMouseLeave={() => {
                   setMouseOverData(undefined);

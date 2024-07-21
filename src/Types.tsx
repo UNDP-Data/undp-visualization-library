@@ -153,4 +153,11 @@ export interface BeeSwarmChartDataType {
   data?: object;
 }
 
+export interface StripChartDataType {
+  label: string | number;
+  position: number;
+  color?: string;
+  data?: object;
+}
+
 export type ScaleDataType = 'categorical' | 'linear' | 'threshold';

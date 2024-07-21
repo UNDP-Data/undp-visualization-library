@@ -1,5 +1,6 @@
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 import { DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 
@@ -12,6 +13,7 @@ interface Props {
   data: DonutChartDataType[];
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -24,11 +26,13 @@ export function Graph(props: Props) {
     strokeWidth,
     tooltip,
     onSeriesMouseOver,
+    onSeriesMouseClick,
   } = props;
   const pieData = pie()
     .startAngle(0)
     .value((d: any) => d.value);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   return (
@@ -74,6 +78,17 @@ export function Graph(props: Props) {
                 setEventX(event.clientX);
                 if (onSeriesMouseOver) {
                   onSeriesMouseOver(d);
+                }
+              }}
+              onClick={() => {
+                if (onSeriesMouseClick) {
+                  if (isEqual(mouseClickData, d.data)) {
+                    setMouseClickData(undefined);
+                    onSeriesMouseClick(undefined);
+                  } else {
+                    setMouseClickData(d.data);
+                    onSeriesMouseClick(d.data);
+                  }
                 }
               }}
               onMouseMove={event => {

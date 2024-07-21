@@ -35,6 +35,13 @@ interface Props {
   refValues?: ReferenceDataType[];
   graphID?: string;
   pointRadius?: number;
+  pointRadiusMaxValue?: number;
+  maxPositionValue?: number;
+  minPositionValue?: number;
+  highlightedDataPoints?: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function VerticalBeeSwarmChart(props: Props) {
@@ -65,6 +72,13 @@ export function VerticalBeeSwarmChart(props: Props) {
     showColorScale,
     graphID,
     pointRadius,
+    pointRadiusMaxValue,
+    maxPositionValue,
+    minPositionValue,
+    highlightedDataPoints,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -74,6 +88,7 @@ export function VerticalBeeSwarmChart(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -100,6 +115,7 @@ export function VerticalBeeSwarmChart(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -111,11 +127,18 @@ export function VerticalBeeSwarmChart(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -213,6 +236,11 @@ export function VerticalBeeSwarmChart(props: Props) {
                   ? 5
                   : (pointRadius as number)
               }
+              pointRadiusMaxValue={pointRadiusMaxValue}
+              maxPositionValue={maxPositionValue}
+              minPositionValue={minPositionValue}
+              highlightedDataPoints={highlightedDataPoints || []}
+              onSeriesMouseClick={onSeriesMouseClick}
             />
           ) : null}
         </div>

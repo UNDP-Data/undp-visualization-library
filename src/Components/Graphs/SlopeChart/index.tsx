@@ -35,6 +35,11 @@ interface Props {
   highlightedDataPoints?: (string | number)[];
   showColorScale?: boolean;
   graphID?: string;
+  maxValue?: number;
+  minValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function SlopeChart(props: Props) {
@@ -65,6 +70,11 @@ export function SlopeChart(props: Props) {
     showColorScale,
     highlightedDataPoints,
     graphID,
+    minValue,
+    maxValue,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -74,6 +84,7 @@ export function SlopeChart(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -99,6 +110,7 @@ export function SlopeChart(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -110,11 +122,18 @@ export function SlopeChart(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -205,6 +224,9 @@ export function SlopeChart(props: Props) {
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
               highlightedDataPoints={highlightedDataPoints || []}
+              minValue={minValue}
+              maxValue={maxValue}
+              onSeriesMouseClick={onSeriesMouseClick}
             />
           ) : null}
         </div>

@@ -1,12 +1,14 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 import {
   HorizontalBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: HorizontalBarGraphDataType[];
@@ -29,6 +31,10 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   selectedColor?: string;
+  maxValue?: number;
+  minValue?: number;
+  highlightedDataPoints: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -53,8 +59,13 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     refValues,
     selectedColor,
+    highlightedDataPoints,
+    maxValue,
+    minValue,
+    onSeriesMouseClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
@@ -66,14 +77,16 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue =
-    Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
-      ? 0
-      : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
-  const xMinValue =
-    Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
-      ? 0
-      : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
+  const xMaxValue = !checkIfNullOrUndefined(maxValue)
+    ? (maxValue as number)
+    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
+    ? 0
+    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
+  const xMinValue = !checkIfNullOrUndefined(minValue)
+    ? (minValue as number)
+    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
+    ? 0
+    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
 
   const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const x = scaleLinear()
@@ -97,23 +110,11 @@ export function Graph(props: Props) {
           {showXTicks
             ? xTicks.map((d, i) => (
                 <g key={i}>
-                  <text
-                    x={x(d)}
-                    y={-12.5}
-                    style={{
-                      fill: 'var(--gray-500)',
-                      fontFamily: 'var(--fontFamily)',
-                    }}
-                    textAnchor='middle'
-                    fontSize={12}
-                  >
-                    {numberFormattingFunction(d, '', '')}
-                  </text>
                   <line
                     x1={x(d)}
                     x2={x(d)}
-                    y1={-2.5}
-                    y2={graphHeight + margin.bottom}
+                    y1={0 - margin.top}
+                    y2={graphHeight + margin.bottom + topMargin}
                     style={{
                       stroke: 'var(--gray-500)',
                     }}
@@ -121,10 +122,25 @@ export function Graph(props: Props) {
                     strokeDasharray='4,8'
                     opacity={d === 0 ? 0 : 1}
                   />
+                  <text
+                    x={x(d)}
+                    y={0 - margin.top}
+                    textAnchor='start'
+                    fontSize={12}
+                    dy={10}
+                    dx={3}
+                    opacity={d === 0 ? 0 : 1}
+                    style={{
+                      fontFamily: 'var(--fontFamily)',
+                      fill: 'var(--gray-500)',
+                    }}
+                  >
+                    {numberFormattingFunction(d, '', '')}
+                  </text>
                 </g>
               ))
             : null}
-          {data.map((d, i) => {
+          {dataWithId.map((d, i) => {
             return (
               <g
                 className='g-with-hover'
@@ -136,6 +152,10 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : 0.3
+                    : highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf(d.label) !== -1
+                      ? 0.85
+                      : 0.3
                     : 0.85
                 }
                 onMouseEnter={(event: any) => {
@@ -144,6 +164,17 @@ export function Graph(props: Props) {
                   setEventX(event.clientX);
                   if (onSeriesMouseOver) {
                     onSeriesMouseOver(d);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
                   }
                 }}
                 onMouseMove={(event: any) => {

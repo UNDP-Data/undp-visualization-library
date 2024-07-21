@@ -40,6 +40,9 @@ interface Props {
   graphID?: string;
   noDataColor?: string;
   showColorScale?: boolean;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function HeatMap(props: Props) {
@@ -74,6 +77,9 @@ export function HeatMap(props: Props) {
     graphID,
     noDataColor,
     showColorScale,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -83,6 +89,7 @@ export function HeatMap(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -116,6 +123,7 @@ export function HeatMap(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -126,11 +134,18 @@ export function HeatMap(props: Props) {
           flexGrow: 1,
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false ? (
@@ -281,6 +296,7 @@ export function HeatMap(props: Props) {
                 showValues={showValues}
                 suffix={suffix || ''}
                 prefix={prefix || ''}
+                onSeriesMouseClick={onSeriesMouseClick}
               />
             ) : null}
           </div>

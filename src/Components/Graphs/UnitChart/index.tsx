@@ -1,4 +1,5 @@
 import UNDPColorModule from '@undp-data/undp-viz-colors';
+import { useRef } from 'react';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -18,6 +19,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
+  graphDownload?: boolean;
 }
 
 export function UnitChart(props: Props) {
@@ -36,9 +38,11 @@ export function UnitChart(props: Props) {
     padding,
     backgroundColor,
     graphID,
+    graphDownload,
   } = props;
   const outOfValue = maxValue === undefined ? 100 : maxValue;
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   if (outOfValue < value) {
     // eslint-disable-next-line no-console
     console.error('maxValue should be greater than value');
@@ -73,6 +77,7 @@ export function UnitChart(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -84,11 +89,12 @@ export function UnitChart(props: Props) {
           flexGrow: 1,
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={size || 200}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
           />
         ) : null}
         <div>

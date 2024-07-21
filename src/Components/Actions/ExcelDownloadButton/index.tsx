@@ -16,6 +16,7 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   xlsxHeader: any;
   wscols: WsColInterface[];
+  buttonSmall?: boolean;
 }
 
 export function ExcelDownloadButton(props: Props) {
@@ -28,13 +29,14 @@ export function ExcelDownloadButton(props: Props) {
     headers,
     xlsxHeader,
     wscols,
+    buttonSmall,
   } = props;
   return (
     <button
       type='button'
       className={`undp-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
-      }`}
+      }${buttonSmall ? ' padding-03' : ''}`}
       onClick={() =>
         exportToExcel(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }

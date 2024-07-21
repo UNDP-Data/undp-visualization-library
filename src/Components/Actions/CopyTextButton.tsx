@@ -6,10 +6,11 @@ interface Props {
   text: string;
   successMessage?: string;
   buttonText?: string;
+  buttonSmall?: boolean;
 }
 
 export function CopyTextButton(props: Props) {
-  const { text, successMessage, buttonText } = props;
+  const { text, successMessage, buttonText, buttonSmall } = props;
   const [showMessage, setShowMessage] = useState(false);
 
   const handleShowMessage = () => {
@@ -21,7 +22,9 @@ export function CopyTextButton(props: Props) {
     <>
       <button
         type='button'
-        className='undp-button button-quaternary padding-05 flex-div gap-03 flex-vert-align-center'
+        className={`undp-button button-quaternary padding-05 flex-div gap-03 flex-vert-align-center${
+          buttonSmall ? ' padding-03' : ''
+        }`}
         onClick={() => {
           navigator.clipboard.writeText(text);
           handleShowMessage();

@@ -3,8 +3,10 @@ import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
+import isEqual from 'lodash.isequal';
 import { SlopeChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: SlopeChartDataType[];
@@ -23,6 +25,9 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
+  maxValue?: number;
+  minValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -43,8 +48,12 @@ export function Graph(props: Props) {
     axisTitle,
     highlightedDataPoints,
     selectedColor,
+    minValue,
+    maxValue,
+    onSeriesMouseClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
@@ -64,7 +73,18 @@ export function Graph(props: Props) {
     maxBy(data, 'y2')?.y2 as number,
   );
   const y = scaleLinear()
-    .domain([minY > 0 ? 0 : minY, maxY > 0 ? maxY : 0])
+    .domain([
+      checkIfNullOrUndefined(minValue)
+        ? minY > 0
+          ? 0
+          : minY
+        : (minValue as number),
+      checkIfNullOrUndefined(maxValue)
+        ? maxY > 0
+          ? maxY
+          : 0
+        : (maxValue as number),
+    ])
     .range([graphHeight, 0])
     .nice();
   return (
@@ -166,6 +186,17 @@ export function Graph(props: Props) {
                   setEventY(undefined);
                   if (onSeriesMouseOver) {
                     onSeriesMouseOver(undefined);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
                   }
                 }}
               >

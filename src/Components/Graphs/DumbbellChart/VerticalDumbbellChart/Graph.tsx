@@ -2,9 +2,11 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
 import min from 'lodash.min';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 import { DumbbellChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -22,6 +24,9 @@ interface Props {
   showLabel: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  maxPositionValue?: number;
+  minPositionValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -41,6 +46,9 @@ export function Graph(props: Props) {
     showLabel,
     tooltip,
     onSeriesMouseOver,
+    maxPositionValue,
+    minPositionValue,
+    onSeriesMouseClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -51,21 +59,24 @@ export function Graph(props: Props) {
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
 
-  const xMaxValue =
-    Math.max(...data.map(d => max(d.x) || 0)) < 0
-      ? 0
-      : Math.max(...data.map(d => max(d.x) || 0));
-  const xMinValue =
-    Math.min(...data.map(d => min(d.x) || 0)) > 0
-      ? 0
-      : Math.min(...data.map(d => min(d.x) || 0));
+  const yMaxValue = !checkIfNullOrUndefined(maxPositionValue)
+    ? (maxPositionValue as number)
+    : Math.max(...data.map(d => max(d.x) || 0)) < 0
+    ? 0
+    : Math.max(...data.map(d => max(d.x) || 0));
+  const yMinValue = !checkIfNullOrUndefined(minPositionValue)
+    ? (minPositionValue as number)
+    : Math.min(...data.map(d => min(d.x) || 0)) > 0
+    ? 0
+    : Math.min(...data.map(d => min(d.x) || 0));
 
   const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const y = scaleLinear()
-    .domain([xMinValue, xMaxValue])
+    .domain([yMinValue, yMaxValue])
     .range([graphHeight, 0])
     .nice();
   const x = scaleBand()
@@ -151,6 +162,17 @@ export function Graph(props: Props) {
                 setEventX(event.clientX);
                 if (onSeriesMouseOver) {
                   onSeriesMouseOver(d);
+                }
+              }}
+              onClick={() => {
+                if (onSeriesMouseClick) {
+                  if (isEqual(mouseClickData, d)) {
+                    setMouseClickData(undefined);
+                    onSeriesMouseClick(undefined);
+                  } else {
+                    setMouseClickData(d);
+                    onSeriesMouseClick(d);
+                  }
                 }
               }}
               onMouseMove={(event: any) => {

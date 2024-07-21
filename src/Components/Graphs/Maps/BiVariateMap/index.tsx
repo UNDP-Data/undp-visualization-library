@@ -35,6 +35,10 @@ interface Props {
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   graphID?: string;
+  highlightedCountryCodes?: string[];
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function BiVariantMap(props: Props) {
@@ -67,12 +71,17 @@ export function BiVariantMap(props: Props) {
     zoomScaleExtend,
     zoomTranslateExtend,
     graphID,
+    highlightedCountryCodes,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 570);
@@ -99,6 +108,7 @@ export function BiVariantMap(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -110,11 +120,18 @@ export function BiVariantMap(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -157,6 +174,8 @@ export function BiVariantMap(props: Props) {
               isWorldMap={isWorldMap === undefined ? true : isWorldMap}
               zoomScaleExtend={zoomScaleExtend}
               zoomTranslateExtend={zoomTranslateExtend}
+              onSeriesMouseClick={onSeriesMouseClick}
+              highlightedCountryCodes={highlightedCountryCodes || []}
             />
           ) : null}
         </div>

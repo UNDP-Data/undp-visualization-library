@@ -35,6 +35,10 @@ interface Props {
   showColorScale?: boolean;
   showValue?: boolean;
   graphID?: string;
+  highlightedDataPoints?: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -65,6 +69,10 @@ export function CirclePackingGraph(props: Props) {
     showColorScale,
     showValue,
     graphID,
+    highlightedDataPoints,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -73,6 +81,7 @@ export function CirclePackingGraph(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -98,6 +107,7 @@ export function CirclePackingGraph(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -109,11 +119,18 @@ export function CirclePackingGraph(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -204,6 +221,8 @@ export function CirclePackingGraph(props: Props) {
               prefix={prefix || ''}
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
+              highlightedDataPoints={highlightedDataPoints || []}
+              onSeriesMouseClick={onSeriesMouseClick}
             />
           ) : null}
         </div>

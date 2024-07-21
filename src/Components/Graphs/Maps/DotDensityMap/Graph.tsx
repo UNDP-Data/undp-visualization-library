@@ -5,6 +5,7 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import maxBy from 'lodash.maxby';
+import isEqual from 'lodash.isequal';
 import { DotDensityMapDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 
@@ -29,6 +30,8 @@ interface Props {
   showColorScale: boolean;
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
+  highlightedDataPoints: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -53,10 +56,13 @@ export function Graph(props: Props) {
     showColorScale,
     zoomScaleExtend,
     zoomTranslateExtend,
+    highlightedDataPoints,
+    onSeriesMouseClick,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -170,7 +176,15 @@ export function Graph(props: Props) {
               <g
                 key={i}
                 opacity={
-                  selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
+                  selectedColor
+                    ? selectedColor === color
+                      ? 1
+                      : 0.3
+                    : highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                      ? 1
+                      : 0.3
+                    : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -191,6 +205,17 @@ export function Graph(props: Props) {
                   setEventY(undefined);
                   if (onSeriesMouseOver) {
                     onSeriesMouseOver(undefined);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
                   }
                 }}
                 transform={`translate(${

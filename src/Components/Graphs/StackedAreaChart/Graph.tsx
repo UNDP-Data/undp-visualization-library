@@ -9,6 +9,7 @@ import sum from 'lodash.sum';
 import { MultiLineChartDataType, ReferenceDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -26,6 +27,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   highlightAreaSettings: [number | null, number | null];
+  maxValue?: number;
+  minValue?: number;
 }
 
 export function Graph(props: Props) {
@@ -45,6 +48,8 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     highlightAreaSettings,
     refValues,
+    minValue,
+    maxValue,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -75,8 +80,10 @@ export function Graph(props: Props) {
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = dataFormatted[0].date;
   const maxYear = dataFormatted[dataFormatted.length - 1].date;
-  const minParam = 0;
-  const maxParam: number = Math.max(...data.map(d => sum(d.y) || 0));
+  const minParam = checkIfNullOrUndefined(minValue) ? 0 : (minValue as number);
+  const maxParam: number = checkIfNullOrUndefined(maxValue)
+    ? Math.max(...data.map(d => sum(d.y) || 0))
+    : (maxValue as number);
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()

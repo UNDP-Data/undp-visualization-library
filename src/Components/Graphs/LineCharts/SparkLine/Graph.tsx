@@ -9,6 +9,7 @@ import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { LineChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: LineChartDataType[];
@@ -23,6 +24,8 @@ interface Props {
   bottomMargin: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  maxValue?: number;
+  minValue?: number;
 }
 
 export function Graph(props: Props) {
@@ -39,6 +42,8 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
+    minValue,
+    maxValue,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -73,7 +78,14 @@ export function Graph(props: Props) {
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
-    .domain([minParam, maxParam > 0 ? maxParam : 0])
+    .domain([
+      checkIfNullOrUndefined(minValue) ? minParam : (minValue as number),
+      checkIfNullOrUndefined(maxValue)
+        ? maxParam > 0
+          ? maxParam
+          : 0
+        : (maxValue as number),
+    ])
     .range([graphHeight, 0])
     .nice();
 

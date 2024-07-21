@@ -7,16 +7,24 @@ interface Props {
   buttonArrow?: boolean;
   nodeID: string | HTMLElement;
   filename?: string;
+  buttonSmall?: boolean;
 }
 
 export function ImageDownloadButton(props: Props) {
-  const { nodeID, filename, buttonContent, buttonType, buttonArrow } = props;
+  const {
+    nodeID,
+    filename,
+    buttonContent,
+    buttonType,
+    buttonArrow,
+    buttonSmall,
+  } = props;
   return (
     <button
       type='button'
       className={`undp-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
-      }`}
+      }${buttonSmall ? ' padding-03' : ''}`}
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {

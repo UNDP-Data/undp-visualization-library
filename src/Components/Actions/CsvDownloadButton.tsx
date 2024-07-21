@@ -15,6 +15,7 @@ interface Props {
   fileName?: string;
   headers: HeaderProps[];
   separator?: ',' | ';';
+  buttonSmall?: boolean;
 }
 
 export function CsvDownloadButton(props: Props) {
@@ -26,6 +27,7 @@ export function CsvDownloadButton(props: Props) {
     fileName,
     headers,
     separator,
+    buttonSmall,
   } = props;
   return (
     <CSVLink
@@ -41,7 +43,7 @@ export function CsvDownloadButton(props: Props) {
       <div
         className={`undp-button button-${buttonType || 'quaternary'}${
           buttonArrow ? ' button-arrow' : ''
-        }`}
+        }${buttonSmall ? ' padding-03' : ''}`}
         style={{
           textDecoration: 'none',
         }}

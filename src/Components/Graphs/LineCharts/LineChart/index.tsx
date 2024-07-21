@@ -32,6 +32,10 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   highlightAreaSettings?: [number | null, number | null];
+  maxValue?: number;
+  minValue?: number;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -62,12 +66,17 @@ export function SimpleLineChart(props: Props) {
     refValues,
     highlightAreaSettings,
     graphID,
+    minValue,
+    maxValue,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -94,6 +103,7 @@ export function SimpleLineChart(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -105,11 +115,18 @@ export function SimpleLineChart(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -160,6 +177,8 @@ export function SimpleLineChart(props: Props) {
               highlightAreaSettings={highlightAreaSettings || [null, null]}
               onSeriesMouseOver={onSeriesMouseOver}
               refValues={refValues}
+              minValue={minValue}
+              maxValue={maxValue}
             />
           ) : null}
         </div>

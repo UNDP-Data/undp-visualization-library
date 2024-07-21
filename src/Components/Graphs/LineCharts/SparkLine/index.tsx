@@ -27,6 +27,10 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
+  maxValue?: number;
+  minValue?: number;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function SparkLine(props: Props) {
@@ -52,12 +56,17 @@ export function SparkLine(props: Props) {
     relativeHeight,
     onSeriesMouseOver,
     graphID,
+    minValue,
+    maxValue,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -84,6 +93,7 @@ export function SparkLine(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -95,11 +105,18 @@ export function SparkLine(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -143,6 +160,8 @@ export function SparkLine(props: Props) {
               }
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
+              minValue={minValue}
+              maxValue={maxValue}
             />
           ) : null}
         </div>

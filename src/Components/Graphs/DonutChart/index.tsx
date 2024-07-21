@@ -27,6 +27,9 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function DonutChart(props: Props) {
@@ -50,11 +53,15 @@ export function DonutChart(props: Props) {
     tooltip,
     onSeriesMouseOver,
     graphID,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (graphDiv.current) {
@@ -83,6 +90,7 @@ export function DonutChart(props: Props) {
         marginRight: 'auto',
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -94,11 +102,18 @@ export function DonutChart(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={(radius || donutRadius) * 2}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -171,6 +186,7 @@ export function DonutChart(props: Props) {
                   strokeWidth={strokeWidth || 50}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
+                  onSeriesMouseClick={onSeriesMouseClick}
                 />
               </div>
             ) : null}

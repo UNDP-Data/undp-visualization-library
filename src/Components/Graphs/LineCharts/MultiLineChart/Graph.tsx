@@ -10,6 +10,7 @@ import max from 'lodash.max';
 import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -31,6 +32,9 @@ interface Props {
   showColorLegendAtTop?: boolean;
   highlightAreaSettings: [number | null, number | null];
   refValues?: ReferenceDataType[];
+  maxValue?: number;
+  minValue?: number;
+  highlightedDataPoints: (string | number)[];
 }
 
 export function Graph(props: Props) {
@@ -54,6 +58,9 @@ export function Graph(props: Props) {
     showColorLegendAtTop,
     refValues,
     highlightAreaSettings,
+    minValue,
+    maxValue,
+    highlightedDataPoints,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -96,7 +103,14 @@ export function Graph(props: Props) {
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
-    .domain([minParam, maxParam > 0 ? maxParam : 0])
+    .domain([
+      checkIfNullOrUndefined(minValue) ? minParam : (minValue as number),
+      checkIfNullOrUndefined(maxValue)
+        ? maxParam > 0
+          ? maxParam
+          : 0
+        : (maxValue as number),
+    ])
     .range([graphHeight, 0])
     .nice();
 
@@ -249,7 +263,16 @@ export function Graph(props: Props) {
           </g>
           <g>
             {dataArray.map((d, i) => (
-              <g key={i}>
+              <g
+                key={i}
+                opacity={
+                  highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf(labels[i]) !== -1
+                      ? 1
+                      : 0.3
+                    : 1
+                }
+              >
                 <path
                   key={i}
                   d={lineShape(d as any) as string}

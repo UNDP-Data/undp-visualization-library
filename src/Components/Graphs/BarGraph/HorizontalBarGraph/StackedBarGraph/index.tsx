@@ -40,6 +40,10 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
+  maxValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -73,6 +77,10 @@ export function HorizontalStackedBarGraph(props: Props) {
     showValues,
     refValues,
     graphID,
+    maxValue,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -80,6 +88,7 @@ export function HorizontalStackedBarGraph(props: Props) {
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -106,6 +115,7 @@ export function HorizontalStackedBarGraph(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -116,11 +126,18 @@ export function HorizontalStackedBarGraph(props: Props) {
           flexGrow: 1,
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -197,6 +214,8 @@ export function HorizontalStackedBarGraph(props: Props) {
                 suffix={suffix || ''}
                 prefix={prefix || ''}
                 refValues={refValues}
+                maxValue={maxValue}
+                onSeriesMouseClick={onSeriesMouseClick}
               />
             ) : null}
           </div>

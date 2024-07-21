@@ -32,9 +32,13 @@ interface Props {
   showLabel?: boolean;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
   showColorScale?: boolean;
   showValue?: boolean;
   graphID?: string;
+  highlightedDataPoints?: (string | number)[];
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function TreeMapGraph(props: Props) {
@@ -65,6 +69,10 @@ export function TreeMapGraph(props: Props) {
     showColorScale,
     showValue,
     graphID,
+    highlightedDataPoints,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -73,6 +81,7 @@ export function TreeMapGraph(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -98,6 +107,7 @@ export function TreeMapGraph(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -109,11 +119,18 @@ export function TreeMapGraph(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -204,6 +221,8 @@ export function TreeMapGraph(props: Props) {
               selectedColor={selectedColor}
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
+              onSeriesMouseClick={onSeriesMouseClick}
+              highlightedDataPoints={highlightedDataPoints || []}
             />
           ) : null}
         </div>

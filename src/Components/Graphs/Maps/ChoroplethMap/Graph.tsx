@@ -3,6 +3,7 @@ import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
+import isEqual from 'lodash.isequal';
 import { ChoroplethMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
@@ -27,6 +28,8 @@ interface Props {
   showColorScale: boolean;
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
+  highlightedCountryCodes: string[];
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -50,10 +53,13 @@ export function Graph(props: Props) {
     showColorScale,
     zoomScaleExtend,
     zoomTranslateExtend,
+    highlightedCountryCodes,
+    onSeriesMouseClick,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -102,7 +108,18 @@ export function Graph(props: Props) {
             );
             if (index !== -1 || d.properties.NAME === 'Antarctica') return null;
             return (
-              <g key={i} opacity={!selectedColor ? 1 : 0.3}>
+              <g
+                key={i}
+                opacity={
+                  selectedColor
+                    ? 0.3
+                    : highlightedCountryCodes.length !== 0
+                    ? highlightedCountryCodes.indexOf(d.properties.ISO3) !== -1
+                      ? 1
+                      : 0.3
+                    : 1
+                }
+              >
                 {d.geometry.type === 'MultiPolygon'
                   ? d.geometry.coordinates.map((el: any, j: any) => {
                       let masterPath = '';
@@ -167,7 +184,15 @@ export function Graph(props: Props) {
               <g
                 key={i}
                 opacity={
-                  selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
+                  selectedColor
+                    ? selectedColor === color
+                      ? 1
+                      : 0.3
+                    : highlightedCountryCodes.length !== 0
+                    ? highlightedCountryCodes.indexOf(d.countryCode) !== -1
+                      ? 1
+                      : 0.3
+                    : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -188,6 +213,17 @@ export function Graph(props: Props) {
                   setEventY(undefined);
                   if (onSeriesMouseOver) {
                     onSeriesMouseOver(undefined);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
                   }
                 }}
               >

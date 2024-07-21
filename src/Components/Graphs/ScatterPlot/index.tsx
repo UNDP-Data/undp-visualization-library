@@ -44,6 +44,14 @@ interface Props {
   ];
   showColorScale?: boolean;
   graphID?: string;
+  pointRadiusMaxValue?: number;
+  maxXValue?: number;
+  minXValue?: number;
+  maxYValue?: number;
+  minYValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function ScatterPlot(props: Props) {
@@ -78,6 +86,14 @@ export function ScatterPlot(props: Props) {
     showColorScale,
     highlightedDataPoints,
     graphID,
+    pointRadiusMaxValue,
+    maxXValue,
+    minXValue,
+    maxYValue,
+    minYValue,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -87,6 +103,7 @@ export function ScatterPlot(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -112,6 +129,7 @@ export function ScatterPlot(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -123,11 +141,18 @@ export function ScatterPlot(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -224,6 +249,12 @@ export function ScatterPlot(props: Props) {
               }
               highlightedDataPoints={highlightedDataPoints || []}
               selectedColor={selectedColor}
+              pointRadiusMaxValue={pointRadiusMaxValue}
+              maxXValue={maxXValue}
+              minXValue={minXValue}
+              maxYValue={maxYValue}
+              minYValue={minYValue}
+              onSeriesMouseClick={onSeriesMouseClick}
             />
           ) : null}
         </div>

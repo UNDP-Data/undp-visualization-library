@@ -6,8 +6,10 @@ import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
+import isEqual from 'lodash.isequal';
 import { ScatterPlotDataType, ReferenceDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -35,6 +37,12 @@ interface Props {
   ];
   selectedColor?: string;
   highlightedDataPoints: (string | number)[];
+  pointRadiusMaxValue?: number;
+  maxXValue?: number;
+  minXValue?: number;
+  maxYValue?: number;
+  minYValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -59,8 +67,15 @@ export function Graph(props: Props) {
     highlightAreaSettings,
     selectedColor,
     highlightedDataPoints,
+    pointRadiusMaxValue,
+    maxXValue,
+    minXValue,
+    maxYValue,
+    minYValue,
+    onSeriesMouseClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
@@ -74,7 +89,12 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([0, maxBy(data, 'radius')?.radius as number])
+          .domain([
+            0,
+            checkIfNullOrUndefined(pointRadiusMaxValue)
+              ? (maxBy(data, 'radius')?.radius as number)
+              : (pointRadiusMaxValue as number),
+          ])
           .range([0.25, pointRadius])
           .nice()
       : undefined;
@@ -89,15 +109,31 @@ export function Graph(props: Props) {
 
   const x = scaleLinear()
     .domain([
-      (minBy(data, 'x')?.x as number) > 0 ? 0 : (minBy(data, 'x')?.x as number),
-      (maxBy(data, 'x')?.x as number) > 0 ? (maxBy(data, 'x')?.x as number) : 0,
+      checkIfNullOrUndefined(minXValue)
+        ? (minBy(data, 'x')?.x as number) > 0
+          ? 0
+          : (minBy(data, 'x')?.x as number)
+        : (minXValue as number),
+      checkIfNullOrUndefined(maxXValue)
+        ? (maxBy(data, 'x')?.x as number) > 0
+          ? (maxBy(data, 'x')?.x as number)
+          : 0
+        : (maxXValue as number),
     ])
     .range([0, graphWidth])
     .nice();
   const y = scaleLinear()
     .domain([
-      (minBy(data, 'y')?.y as number) > 0 ? 0 : (minBy(data, 'y')?.y as number),
-      (maxBy(data, 'y')?.y as number) > 0 ? (maxBy(data, 'y')?.y as number) : 0,
+      checkIfNullOrUndefined(minYValue)
+        ? (minBy(data, 'y')?.y as number) > 0
+          ? 0
+          : (minBy(data, 'y')?.y as number)
+        : (minYValue as number),
+      checkIfNullOrUndefined(maxYValue)
+        ? (maxBy(data, 'y')?.y as number) > 0
+          ? (maxBy(data, 'y')?.y as number)
+          : 0
+        : (maxYValue as number),
     ])
     .range([graphHeight, 0])
     .nice();
@@ -414,6 +450,17 @@ export function Graph(props: Props) {
                     setEventY(undefined);
                     if (onSeriesMouseOver) {
                       onSeriesMouseOver(undefined);
+                    }
+                  }}
+                  onClick={() => {
+                    if (onSeriesMouseClick) {
+                      if (isEqual(mouseClickData, d)) {
+                        setMouseClickData(undefined);
+                        onSeriesMouseClick(undefined);
+                      } else {
+                        setMouseClickData(d);
+                        onSeriesMouseClick(d);
+                      }
                     }
                   }}
                 />

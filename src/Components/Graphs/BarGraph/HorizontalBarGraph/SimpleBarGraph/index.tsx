@@ -38,10 +38,16 @@ interface Props {
   relativeHeight?: number;
   showBarLabel?: boolean;
   showColorScale?: boolean;
+  maxValue?: number;
+  minValue?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
+  highlightedDataPoints?: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -65,6 +71,7 @@ export function HorizontalBarGraph(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
+    highlightedDataPoints,
     padding,
     backgroundColor,
     topMargin,
@@ -76,6 +83,11 @@ export function HorizontalBarGraph(props: Props) {
     refValues,
     showColorScale,
     graphID,
+    maxValue,
+    minValue,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -85,6 +97,7 @@ export function HorizontalBarGraph(props: Props) {
   );
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -111,6 +124,7 @@ export function HorizontalBarGraph(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -122,11 +136,18 @@ export function HorizontalBarGraph(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         {showColorScale !== false &&
@@ -235,6 +256,10 @@ export function HorizontalBarGraph(props: Props) {
               tooltip={tooltip}
               onSeriesMouseOver={onSeriesMouseOver}
               refValues={refValues}
+              maxValue={maxValue}
+              minValue={minValue}
+              highlightedDataPoints={highlightedDataPoints || []}
+              onSeriesMouseClick={onSeriesMouseClick}
             />
           ) : null}
         </div>

@@ -40,6 +40,11 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
+  maxValue?: number;
+  minValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -73,6 +78,11 @@ export function VerticalGroupedBarGraph(props: Props) {
     onSeriesMouseOver,
     refValues,
     graphID,
+    maxValue,
+    minValue,
+    onSeriesMouseClick,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -81,6 +91,7 @@ export function VerticalGroupedBarGraph(props: Props) {
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -106,6 +117,7 @@ export function VerticalGroupedBarGraph(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -117,11 +129,18 @@ export function VerticalGroupedBarGraph(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -202,6 +221,9 @@ export function VerticalGroupedBarGraph(props: Props) {
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
                 refValues={refValues}
+                maxValue={maxValue}
+                minValue={minValue}
+                onSeriesMouseClick={onSeriesMouseClick}
               />
             ) : null}
           </div>

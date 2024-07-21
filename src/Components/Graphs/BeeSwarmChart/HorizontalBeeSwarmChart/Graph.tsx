@@ -10,9 +10,11 @@ import {
 import { useEffect, useState } from 'react';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
+import isEqual from 'lodash.isequal';
 import { BeeSwarmChartDataType, ReferenceDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface BeeSwarmChartDataTypeForBubbleChart extends BeeSwarmChartDataType {
   x: number;
@@ -39,6 +41,11 @@ interface Props {
   selectedColor?: string;
   startFromZero: boolean;
   pointRadius: number;
+  pointRadiusMaxValue?: number;
+  maxPositionValue?: number;
+  minPositionValue?: number;
+  highlightedDataPoints: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -60,8 +67,14 @@ export function Graph(props: Props) {
     selectedColor,
     startFromZero,
     pointRadius,
+    pointRadiusMaxValue,
+    maxPositionValue,
+    minPositionValue,
+    highlightedDataPoints,
+    onSeriesMouseClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [finalData, setFinalData] = useState<
     BeeSwarmChartDataTypeForBubbleChart[] | null
   >(null);
@@ -84,27 +97,34 @@ export function Graph(props: Props) {
           'radius',
           'desc',
         );
-  const xMaxValue =
-    Math.max(
-      ...data.filter(d => d.position !== undefined).map(d => d.position),
-    ) < 0 && !startFromZero
-      ? 0
-      : Math.max(
-          ...data.filter(d => d.position !== undefined).map(d => d.position),
-        );
-  const xMinValue =
-    Math.min(
-      ...data.filter(d => d.position !== undefined).map(d => d.position),
-    ) >= 0 && !startFromZero
-      ? 0
-      : Math.min(
-          ...data.filter(d => d.position !== undefined).map(d => d.position),
-        );
+  const xMaxValue = !checkIfNullOrUndefined(maxPositionValue)
+    ? (maxPositionValue as number)
+    : Math.max(
+        ...data.filter(d => d.position !== undefined).map(d => d.position),
+      ) < 0 && !startFromZero
+    ? 0
+    : Math.max(
+        ...data.filter(d => d.position !== undefined).map(d => d.position),
+      );
+  const xMinValue = !checkIfNullOrUndefined(minPositionValue)
+    ? (minPositionValue as number)
+    : Math.min(
+        ...data.filter(d => d.position !== undefined).map(d => d.position),
+      ) >= 0 && !startFromZero
+    ? 0
+    : Math.min(
+        ...data.filter(d => d.position !== undefined).map(d => d.position),
+      );
 
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([0, maxBy(data, 'radius')?.radius as number])
+          .domain([
+            0,
+            checkIfNullOrUndefined(pointRadiusMaxValue)
+              ? (maxBy(data, 'radius')?.radius as number)
+              : (pointRadiusMaxValue as number),
+          ])
           .range([0.25, pointRadius])
           .nice()
       : undefined;
@@ -184,6 +204,10 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : 0.3
+                    : highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf(d.label) !== -1
+                      ? 0.85
+                      : 0.3
                     : 0.85
                 }
                 transform={`translate(${d.x},${d.y})`}
@@ -199,6 +223,17 @@ export function Graph(props: Props) {
                   setMouseOverData(d);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
+                  }
                 }}
                 onMouseLeave={() => {
                   setMouseOverData(undefined);

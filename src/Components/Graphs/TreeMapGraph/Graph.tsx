@@ -22,6 +22,8 @@ interface Props {
   selectedColor?: string;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+  highlightedDataPoints: (string | number)[];
 }
 
 export function Graph(props: Props) {
@@ -42,8 +44,11 @@ export function Graph(props: Props) {
     showValue,
     suffix,
     prefix,
+    highlightedDataPoints,
+    onSeriesMouseClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
@@ -99,6 +104,10 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : 0.3
+                    : highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                      ? 0.85
+                      : 0.3
                     : 0.85
                 }
                 transform={`translate(${d.x0},${d.y0})`}
@@ -107,7 +116,18 @@ export function Graph(props: Props) {
                   setEventY(event.clientY);
                   setEventX(event.clientX);
                   if (onSeriesMouseOver) {
-                    onSeriesMouseOver((d.data as any).date);
+                    onSeriesMouseOver((d.data as any).data);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (mouseClickData === (d.data as any).id) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData((d.data as any).id);
+                      onSeriesMouseClick((d.data as any).data);
+                    }
                   }
                 }}
                 onMouseMove={(event: any) => {

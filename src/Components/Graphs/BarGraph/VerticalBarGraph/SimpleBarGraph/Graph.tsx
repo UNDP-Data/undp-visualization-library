@@ -1,12 +1,14 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
+import isEqual from 'lodash.isequal';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   VerticalBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: VerticalBarGraphDataType[];
@@ -29,6 +31,10 @@ interface Props {
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
+  maxValue?: number;
+  minValue?: number;
+  highlightedDataPoints: (string | number)[];
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
 export function Graph(props: Props) {
@@ -53,6 +59,10 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     refValues,
     selectedColor,
+    maxValue,
+    minValue,
+    highlightedDataPoints,
+    onSeriesMouseClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -61,19 +71,22 @@ export function Graph(props: Props) {
     right: rightMargin,
   };
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
 
-  const xMaxValue =
-    Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
-      ? 0
-      : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
-  const xMinValue =
-    Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
-      ? 0
-      : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
+  const xMaxValue = !checkIfNullOrUndefined(maxValue)
+    ? (maxValue as number)
+    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
+    ? 0
+    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
+  const xMinValue = !checkIfNullOrUndefined(minValue)
+    ? (minValue as number)
+    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
+    ? 0
+    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
 
   const y = scaleLinear()
     .domain([xMinValue, xMaxValue])
@@ -162,6 +175,10 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : 0.3
+                    : highlightedDataPoints.length !== 0
+                    ? highlightedDataPoints.indexOf(d.label) !== -1
+                      ? 0.85
+                      : 0.3
                     : 0.85
                 }
                 onMouseEnter={(event: any) => {
@@ -170,6 +187,17 @@ export function Graph(props: Props) {
                   setEventX(event.clientX);
                   if (onSeriesMouseOver) {
                     onSeriesMouseOver(d);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick) {
+                    if (isEqual(mouseClickData, d)) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick(d);
+                    }
                   }
                 }}
                 onMouseMove={(event: any) => {

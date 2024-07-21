@@ -33,6 +33,10 @@ interface Props {
   refValues?: ReferenceDataType[];
   highlightAreaSettings?: [number | null, number | null];
   graphID?: string;
+  maxValue?: number;
+  minValue?: number;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
 }
 
 export function AreaChart(props: Props) {
@@ -62,12 +66,17 @@ export function AreaChart(props: Props) {
     onSeriesMouseOver,
     refValues,
     graphID,
+    minValue,
+    maxValue,
+    graphDownload,
+    dataDownload,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
+  const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -96,6 +105,7 @@ export function AreaChart(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      ref={graphParentDiv}
     >
       <div
         style={{
@@ -107,11 +117,18 @@ export function AreaChart(props: Props) {
           justifyContent: 'space-between',
         }}
       >
-        {graphTitle || graphDescription ? (
+        {graphTitle || graphDescription || graphDownload || dataDownload ? (
           <GraphHeader
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            dataDownload={
+              dataDownload &&
+              data.map(d => d.data).filter(d => d !== undefined).length > 0
+                ? data.map(d => d.data).filter(d => d !== undefined)
+                : null
+            }
           />
         ) : null}
         <div
@@ -172,6 +189,8 @@ export function AreaChart(props: Props) {
                 onSeriesMouseOver={onSeriesMouseOver}
                 highlightAreaSettings={highlightAreaSettings || [null, null]}
                 refValues={refValues}
+                minValue={minValue}
+                maxValue={maxValue}
               />
             ) : null}
           </div>
