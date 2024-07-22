@@ -109,7 +109,11 @@ export function HeatMap(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: 'fit-content',
+        width: width
+          ? 'fit-content'
+          : backgroundColor
+          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
+          : `calc(100% - 2*${padding || 0})`,
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',

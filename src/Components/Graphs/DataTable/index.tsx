@@ -57,7 +57,7 @@ export function DataTable(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: 'fit-content',
+        width: width ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: width ? 0 : 1,

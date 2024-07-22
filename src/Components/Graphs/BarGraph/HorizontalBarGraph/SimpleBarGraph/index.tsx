@@ -110,7 +110,11 @@ export function HorizontalBarGraph(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: 'fit-content',
+        width: width
+          ? 'fit-content'
+          : backgroundColor
+          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
+          : `calc(100% - 2*${padding || 0})`,
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: width ? 0 : 1,
