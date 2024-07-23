@@ -89,17 +89,10 @@ export function SimpleLineChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -111,89 +104,101 @@ export function SimpleLineChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-05)',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            lineHeight: 0,
+            flexDirection: 'column',
+            width: '100%',
+            gap: 'var(--spacing-05)',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
-          ref={graphDiv}
         >
-          {(width || svgWidth) && (height || svgHeight) ? (
-            <Graph
-              data={data}
-              color={color || 'var(--blue-600)'}
-              width={width || svgWidth}
-              height={
-                height ||
-                (relativeHeight
-                  ? (width || svgWidth) * relativeHeight
-                  : svgHeight)
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
               }
-              suffix={suffix || ''}
-              prefix={prefix || ''}
-              dateFormat={dateFormat || 'yyyy'}
-              showValues={showValues}
-              noOfXTicks={
-                checkIfNullOrUndefined(noOfXTicks) ? 10 : (noOfXTicks as number)
-              }
-              leftMargin={
-                checkIfNullOrUndefined(leftMargin) ? 50 : (leftMargin as number)
-              }
-              rightMargin={
-                checkIfNullOrUndefined(rightMargin)
-                  ? 30
-                  : (rightMargin as number)
-              }
-              topMargin={
-                checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-              }
-              bottomMargin={
-                checkIfNullOrUndefined(bottomMargin)
-                  ? 25
-                  : (bottomMargin as number)
-              }
-              tooltip={tooltip}
-              highlightAreaSettings={highlightAreaSettings || [null, null]}
-              onSeriesMouseOver={onSeriesMouseOver}
-              refValues={refValues}
-              minValue={minValue}
-              maxValue={maxValue}
+            />
+          ) : null}
+          <div
+            style={{
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}
+            ref={graphDiv}
+          >
+            {(width || svgWidth) && (height || svgHeight) ? (
+              <Graph
+                data={data}
+                color={color || 'var(--blue-600)'}
+                width={width || svgWidth}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
+                suffix={suffix || ''}
+                prefix={prefix || ''}
+                dateFormat={dateFormat || 'yyyy'}
+                showValues={showValues}
+                noOfXTicks={
+                  checkIfNullOrUndefined(noOfXTicks)
+                    ? 10
+                    : (noOfXTicks as number)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 50
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 30
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 25
+                    : (bottomMargin as number)
+                }
+                tooltip={tooltip}
+                highlightAreaSettings={highlightAreaSettings || [null, null]}
+                onSeriesMouseOver={onSeriesMouseOver}
+                refValues={refValues}
+                minValue={minValue}
+                maxValue={maxValue}
+              />
+            ) : null}
+          </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
             />
           ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

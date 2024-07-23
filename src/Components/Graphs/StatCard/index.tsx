@@ -39,9 +39,6 @@ export function StatCard(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -52,69 +49,77 @@ export function StatCard(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-09)',
-          justifyContent: 'space-between',
-          flexGrow: 1,
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            width: '100%',
+            gap: 'var(--spacing-09)',
+            justifyContent: 'space-between',
+            flexGrow: 1,
           }}
         >
-          <h3
+          {graphTitle || graphDescription ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+            />
+          ) : null}
+          <div
             style={{
-              fontSize: '4.375rem',
-              lineHeight: '1',
-              textShadow: 'none',
-              WebkitTextStroke: '2px var(--black)',
-              color: 'var(--gray-200)',
-              letterSpacing: '0.05rem',
-              marginTop: '0',
-              marginBottom: '1rem',
-              fontFamily: 'var(--fontFamilyHeadings)',
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
-            {numberFormattingFunction(value, prefix || '', suffix || '')}{' '}
-            {year ? (
-              <span
-                style={{
-                  marginLeft: '-8px',
-                  fontSize: '1.25rem',
-                  lineHeight: '1.09',
-                  textShadow: 'none',
-                  fontWeight: 'normal',
-                  WebkitTextStroke: '0px var(--black)',
-                  color: 'var(--gray-500)',
-                  marginTop: '0',
-                  marginBottom: '1rem',
-                  fontFamily: 'var(--fontFamily)',
-                }}
-              >
-                ({year})
-              </span>
-            ) : null}
-          </h3>
+            <h3
+              style={{
+                fontSize: '4.375rem',
+                lineHeight: '1',
+                textShadow: 'none',
+                WebkitTextStroke: '2px var(--black)',
+                color: 'var(--gray-200)',
+                letterSpacing: '0.05rem',
+                marginTop: '0',
+                marginBottom: '1rem',
+                fontFamily: 'var(--fontFamilyHeadings)',
+              }}
+            >
+              {numberFormattingFunction(value, prefix || '', suffix || '')}{' '}
+              {year ? (
+                <span
+                  style={{
+                    marginLeft: '-8px',
+                    fontSize: '1.25rem',
+                    lineHeight: '1.09',
+                    textShadow: 'none',
+                    fontWeight: 'normal',
+                    WebkitTextStroke: '0px var(--black)',
+                    color: 'var(--gray-500)',
+                    marginTop: '0',
+                    marginBottom: '1rem',
+                    fontFamily: 'var(--fontFamily)',
+                  }}
+                >
+                  ({year})
+                </span>
+              ) : null}
+            </h3>
+          </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-          />
-        ) : null}
       </div>
     </div>
   );

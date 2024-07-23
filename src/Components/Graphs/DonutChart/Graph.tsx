@@ -43,16 +43,53 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${radius * 2} ${radius * 2}`}
       >
         <g transform={`translate(${radius} ${radius})`}>
-          <circle
-            style={{
-              fillOpacity: 0,
-              stroke: 'var(--gray-500)',
-              strokeWidth,
-            }}
-            cx={0}
-            cy={0}
-            r={radius - (strokeWidth + 2) / 2}
-          />
+          {mainText || subNote ? (
+            <foreignObject
+              y={0 - (radius - strokeWidth)}
+              x={0 - (radius - strokeWidth)}
+              width={2 * (radius - strokeWidth)}
+              height={2 * (radius - strokeWidth)}
+            >
+              <div
+                style={{
+                  fill: 'var(--black)',
+                  fontFamily: 'var(--fontFamily)',
+                  textAnchor: 'middle',
+                  whiteSpace: 'normal',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 'inherit',
+                  padding: '0 var(--spacing-05)',
+                }}
+              >
+                {mainText ? (
+                  <h2
+                    className='undp-typography margin-bottom-00'
+                    style={{
+                      lineHeight: '1',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {mainText}
+                  </h2>
+                ) : null}
+                {subNote ? (
+                  <p
+                    className='undp-typography margin-bottom-00 bold'
+                    style={{
+                      lineHeight: '1',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {subNote}
+                  </p>
+                ) : null}
+              </div>
+            </foreignObject>
+          ) : null}
           {pieData(data as any).map((d, i) => (
             <path
               key={i}
@@ -106,30 +143,6 @@ export function Graph(props: Props) {
               }}
             />
           ))}
-          {mainText ? (
-            <text
-              x={0}
-              y={0}
-              textAnchor='middle'
-              fontSize='2.813rem'
-              fontWeight='bold'
-              style={{ fill: 'var(--black)', fontFamily: 'var(--fontFamily)' }}
-            >
-              {mainText}
-            </text>
-          ) : null}
-          {subNote ? (
-            <text
-              x={0}
-              y={30}
-              textAnchor='middle'
-              fontSize='1.25rem'
-              fontWeight='bold'
-              style={{ fill: 'var(--black)', fontFamily: 'var(--fontFamily)' }}
-            >
-              {subNote}
-            </text>
-          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

@@ -78,9 +78,6 @@ export function DonutChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: radius ? 'fit-content' : '100%',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -94,112 +91,120 @@ export function DonutChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--spacing-03)',
-          width: '100%',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={(radius || donutRadius) * 2}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: radius ? 0 : 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'stretch',
-            gap: 'var(--spacing-05)',
-            flexWrap: 'wrap',
+            flexDirection: 'column',
+            gap: 'var(--spacing-03)',
             width: '100%',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
         >
-          {graphLegend ? (
-            <div
-              style={{
-                lineHeight: 0,
-              }}
-            >
-              <div className='flex-div margin-bottom-00 flex-wrap flex-hor-align-center'>
-                {data.map((d, i) => (
-                  <div
-                    className='flex-div gap-03 flex-vert-align-center'
-                    key={i}
-                  >
-                    <div
-                      style={{
-                        width: '0.75rem',
-                        height: '0.75rem',
-                        borderRadius: '1rem',
-                        backgroundColor: colors
-                          ? colors[i]
-                          : UNDPColorModule.categoricalColors.colors[i],
-                      }}
-                    />
-                    <p className='undp-typography margin-bottom-00 small-font'>
-                      {d.label}:{' '}
-                      <span className='bold'>
-                        {numberFormattingFunction(
-                          d.value,
-                          prefix || '',
-                          suffix || '',
-                        )}
-                      </span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={(radius || donutRadius) * 2}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
+            />
           ) : null}
           <div
             style={{
-              flexGrow: 1,
-              width: '100%',
-              lineHeight: 0,
+              flexGrow: radius ? 0 : 1,
+              flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
+              alignItems: 'stretch',
+              gap: 'var(--spacing-05)',
+              flexWrap: 'wrap',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {radius || donutRadius ? (
-              <div>
-                <Graph
-                  mainText={mainText}
-                  data={data}
-                  colors={colors || UNDPColorModule.categoricalColors.colors}
-                  radius={radius || donutRadius}
-                  subNote={subNote}
-                  strokeWidth={strokeWidth || 50}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                />
+            {graphLegend ? (
+              <div
+                style={{
+                  lineHeight: 0,
+                }}
+              >
+                <div className='flex-div margin-bottom-00 flex-wrap flex-hor-align-center'>
+                  {data.map((d, i) => (
+                    <div
+                      className='flex-div gap-03 flex-vert-align-center'
+                      key={i}
+                    >
+                      <div
+                        style={{
+                          width: '0.75rem',
+                          height: '0.75rem',
+                          borderRadius: '1rem',
+                          backgroundColor: colors
+                            ? colors[i]
+                            : UNDPColorModule.categoricalColors.colors[i],
+                        }}
+                      />
+                      <p className='undp-typography margin-bottom-00 small-font'>
+                        {d.label}:{' '}
+                        <span className='bold'>
+                          {numberFormattingFunction(
+                            d.value,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : null}
+            <div
+              style={{
+                flexGrow: 1,
+                width: '100%',
+                lineHeight: 0,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+              ref={graphDiv}
+            >
+              {radius || donutRadius ? (
+                <div>
+                  <Graph
+                    mainText={mainText}
+                    data={data}
+                    colors={colors || UNDPColorModule.categoricalColors.colors}
+                    radius={radius || donutRadius}
+                    subNote={subNote}
+                    strokeWidth={strokeWidth || 50}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={(radius || donutRadius) * 2}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={(radius || donutRadius) * 2}
-          />
-        ) : null}
       </div>
     </div>
   );

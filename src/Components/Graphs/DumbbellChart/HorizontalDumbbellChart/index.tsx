@@ -101,17 +101,10 @@ export function HorizontalDumbbellChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -123,128 +116,138 @@ export function HorizontalDumbbellChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-05)',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 'var(--spacing-04)',
+            flexDirection: 'column',
             width: '100%',
+            gap: 'var(--spacing-05)',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
         >
-          <ColorLegend
-            colorDomain={colorDomain}
-            colors={dotColors}
-            colorLegendTitle={colorLegendTitle}
-          />
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
+            />
+          ) : null}
           <div
             style={{
               flexGrow: 1,
-              width: '100%',
-              lineHeight: 0,
+              flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
+              alignItems: 'center',
+              gap: 'var(--spacing-04)',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
-                dotColors={dotColors}
-                width={width || svgWidth}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                dotRadius={!dotRadius ? 3 : dotRadius}
-                barPadding={
-                  checkIfNullOrUndefined(barPadding)
-                    ? 0.25
-                    : (barPadding as number)
-                }
-                showDotValue={
-                  checkIfNullOrUndefined(showDotValue)
-                    ? true
-                    : (showDotValue as boolean)
-                }
-                showXTicks={
-                  checkIfNullOrUndefined(showXTicks)
-                    ? true
-                    : (showXTicks as boolean)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 100
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 40
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 10
-                    : (bottomMargin as number)
-                }
-                truncateBy={
-                  checkIfNullOrUndefined(truncateBy)
-                    ? 999
-                    : (truncateBy as number)
-                }
-                showLabel={
-                  checkIfNullOrUndefined(showLabel)
-                    ? true
-                    : (showLabel as boolean)
-                }
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                maxPositionValue={maxPositionValue}
-                minPositionValue={minPositionValue}
-                onSeriesMouseClick={onSeriesMouseClick}
-              />
-            ) : null}
+            <ColorLegend
+              colorDomain={colorDomain}
+              colors={dotColors}
+              colorLegendTitle={colorLegendTitle}
+            />
+            <div
+              style={{
+                flexGrow: 1,
+                width: '100%',
+                lineHeight: 0,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  dotColors={dotColors}
+                  width={width || svgWidth}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  dotRadius={!dotRadius ? 3 : dotRadius}
+                  barPadding={
+                    checkIfNullOrUndefined(barPadding)
+                      ? 0.25
+                      : (barPadding as number)
+                  }
+                  showDotValue={
+                    checkIfNullOrUndefined(showDotValue)
+                      ? true
+                      : (showDotValue as boolean)
+                  }
+                  showXTicks={
+                    checkIfNullOrUndefined(showXTicks)
+                      ? true
+                      : (showXTicks as boolean)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 100
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 40
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 20
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 10
+                      : (bottomMargin as number)
+                  }
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (truncateBy as number)
+                  }
+                  showLabel={
+                    checkIfNullOrUndefined(showLabel)
+                      ? true
+                      : (showLabel as boolean)
+                  }
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  maxPositionValue={maxPositionValue}
+                  minPositionValue={minPositionValue}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                />
+              ) : null}
+            </div>
           </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

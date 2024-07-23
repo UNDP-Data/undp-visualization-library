@@ -97,17 +97,10 @@ export function MultiLineChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -119,107 +112,117 @@ export function MultiLineChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-05)',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            gap: 'var(--spacing-04)',
+            flexDirection: 'column',
             width: '100%',
+            gap: 'var(--spacing-05)',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
         >
-          {showColorLegendAtTop ? (
-            <ColorLegend
-              colorDomain={labels}
-              colors={colors || UNDPColorModule.categoricalColors.colors}
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
             />
           ) : null}
           <div
-            style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
-            ref={graphDiv}
+            style={{
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 'var(--spacing-04)',
+              width: '100%',
+            }}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
+            {showColorLegendAtTop ? (
+              <ColorLegend
+                colorDomain={labels}
                 colors={colors || UNDPColorModule.categoricalColors.colors}
-                width={width || svgWidth}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                dateFormat={dateFormat || 'yyyy'}
-                noOfXTicks={
-                  checkIfNullOrUndefined(noOfXTicks)
-                    ? 10
-                    : (noOfXTicks as number)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 50
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 30
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 25
-                    : (bottomMargin as number)
-                }
-                labels={labels}
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                showColorLegendAtTop={showColorLegendAtTop}
-                showValues={showValues}
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                highlightAreaSettings={highlightAreaSettings || [null, null]}
-                refValues={refValues}
-                minValue={minValue}
-                maxValue={maxValue}
-                highlightedDataPoints={highlightedDataPoints || []}
               />
             ) : null}
+            <div
+              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  colors={colors || UNDPColorModule.categoricalColors.colors}
+                  width={width || svgWidth}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  dateFormat={dateFormat || 'yyyy'}
+                  noOfXTicks={
+                    checkIfNullOrUndefined(noOfXTicks)
+                      ? 10
+                      : (noOfXTicks as number)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 50
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 30
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 20
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 25
+                      : (bottomMargin as number)
+                  }
+                  labels={labels}
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  showColorLegendAtTop={showColorLegendAtTop}
+                  showValues={showValues}
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  refValues={refValues}
+                  minValue={minValue}
+                  maxValue={maxValue}
+                  highlightedDataPoints={highlightedDataPoints || []}
+                />
+              ) : null}
+            </div>
           </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

@@ -84,17 +84,10 @@ export function GeoHubMap(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -105,58 +98,66 @@ export function GeoHubMap(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-05)',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            lineHeight: 0,
+            flexDirection: 'column',
+            width: '100%',
+            gap: 'var(--spacing-05)',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
-          ref={graphDiv}
         >
-          {(width || svgWidth) && (height || svgHeight) ? (
-            <div
-              style={{
-                width: width || svgWidth,
-                height:
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight),
-              }}
-            >
+          {graphTitle || graphDescription ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+            />
+          ) : null}
+          <div
+            style={{
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}
+            ref={graphDiv}
+          >
+            {(width || svgWidth) && (height || svgHeight) ? (
               <div
-                ref={mapContainer}
-                className='map maplibre-show-control'
-                style={{ width: '100%', height: '100%' }}
-              />
-            </div>
+                style={{
+                  width: width || svgWidth,
+                  height:
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight),
+                }}
+              >
+                <div
+                  ref={mapContainer}
+                  className='map maplibre-show-control'
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            ) : null}
+          </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
+            />
           ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

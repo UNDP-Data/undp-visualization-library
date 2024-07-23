@@ -109,17 +109,10 @@ export function HeatMap(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -131,188 +124,198 @@ export function HeatMap(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--spacing-05)',
-          width: '100%',
-          flexGrow: 1,
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
-        {showColorScale !== false ? (
-          scale === 'categorical' ? (
-            <div style={{ marginBottom: '-12px' }}>
-              <ColorLegendWithMouseOver
-                width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  colors ||
-                  (typeof domain[0] === 'string'
-                    ? UNDPColorModule.categoricalColors.colors
-                    : domain.length === 2
-                    ? [
-                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                      ]
-                    : UNDPColorModule.sequentialColors[
-                        `neutralColorsx0${
-                          (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ])
-                }
-                colorDomain={domain.map(d => `${d}`)}
-                setSelectedColor={setSelectedColor}
-                showNAColor
-              />
-            </div>
-          ) : scale === 'threshold' ? (
-            <div style={{ marginBottom: '-12px' }}>
-              <ThresholdColorLegendWithMouseOver
-                width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  colors ||
-                  (typeof domain[0] === 'string'
-                    ? UNDPColorModule.categoricalColors.colors
-                    : domain.length === 2
-                    ? [
-                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                      ]
-                    : UNDPColorModule.sequentialColors[
-                        `neutralColorsx0${
-                          (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ])
-                }
-                colorDomain={domain as number[]}
-                setSelectedColor={setSelectedColor}
-                naColor={noDataColor || UNDPColorModule.graphGray}
-              />
-            </div>
-          ) : (
-            <div style={{ marginBottom: '-12px' }}>
-              <LinearColorLegend
-                width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  colors || [
-                    UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                    UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                  ]
-                }
-                colorDomain={domain as number[]}
-              />
-            </div>
-          )
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            gap: 'var(--spacing-04)',
+            flexDirection: 'column',
+            gap: 'var(--spacing-05)',
             width: '100%',
+            flexGrow: 1,
           }}
         >
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
+            />
+          ) : null}
+          {showColorScale !== false ? (
+            scale === 'categorical' ? (
+              <div style={{ marginBottom: '-12px' }}>
+                <ColorLegendWithMouseOver
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={
+                    colors ||
+                    (typeof domain[0] === 'string'
+                      ? UNDPColorModule.categoricalColors.colors
+                      : domain.length === 2
+                      ? [
+                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
+                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                        ]
+                      : UNDPColorModule.sequentialColors[
+                          `neutralColorsx0${
+                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                          }`
+                        ])
+                  }
+                  colorDomain={domain.map(d => `${d}`)}
+                  setSelectedColor={setSelectedColor}
+                  showNAColor
+                />
+              </div>
+            ) : scale === 'threshold' ? (
+              <div style={{ marginBottom: '-12px' }}>
+                <ThresholdColorLegendWithMouseOver
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={
+                    colors ||
+                    (typeof domain[0] === 'string'
+                      ? UNDPColorModule.categoricalColors.colors
+                      : domain.length === 2
+                      ? [
+                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
+                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                        ]
+                      : UNDPColorModule.sequentialColors[
+                          `neutralColorsx0${
+                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                          }`
+                        ])
+                  }
+                  colorDomain={domain as number[]}
+                  setSelectedColor={setSelectedColor}
+                  naColor={noDataColor || UNDPColorModule.graphGray}
+                />
+              </div>
+            ) : (
+              <div style={{ marginBottom: '-12px' }}>
+                <LinearColorLegend
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={
+                    colors || [
+                      UNDPColorModule.sequentialColors.neutralColorsx09[0],
+                      UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                    ]
+                  }
+                  colorDomain={domain as number[]}
+                />
+              </div>
+            )
+          ) : null}
           <div
-            style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
-            ref={graphDiv}
+            style={{
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 'var(--spacing-04)',
+              width: '100%',
+            }}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
-                domain={domain}
-                width={width || svgWidth}
-                colors={
-                  colors ||
-                  (typeof domain[0] === 'string'
-                    ? UNDPColorModule.categoricalColors.colors
-                    : domain.length === 2
-                    ? [
-                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                      ]
-                    : UNDPColorModule.sequentialColors[
-                        `neutralColorsx0${
-                          (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ])
-                }
-                noDataColor={noDataColor || UNDPColorModule.graphGray}
-                scaleType={scale}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                showXTicks={
-                  checkIfNullOrUndefined(showXTicks)
-                    ? true
-                    : (showXTicks as boolean)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 100
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 40
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 30 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 10
-                    : (bottomMargin as number)
-                }
-                selectedColor={selectedColor}
-                truncateBy={
-                  checkIfNullOrUndefined(truncateBy)
-                    ? 999
-                    : (truncateBy as number)
-                }
-                showYTicks={
-                  checkIfNullOrUndefined(showYTicks)
-                    ? true
-                    : (showYTicks as boolean)
-                }
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                showValues={showValues}
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                onSeriesMouseClick={onSeriesMouseClick}
-              />
-            ) : null}
+            <div
+              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  domain={domain}
+                  width={width || svgWidth}
+                  colors={
+                    colors ||
+                    (typeof domain[0] === 'string'
+                      ? UNDPColorModule.categoricalColors.colors
+                      : domain.length === 2
+                      ? [
+                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
+                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                        ]
+                      : UNDPColorModule.sequentialColors[
+                          `neutralColorsx0${
+                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                          }`
+                        ])
+                  }
+                  noDataColor={noDataColor || UNDPColorModule.graphGray}
+                  scaleType={scale}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  showXTicks={
+                    checkIfNullOrUndefined(showXTicks)
+                      ? true
+                      : (showXTicks as boolean)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 100
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 40
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 30
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 10
+                      : (bottomMargin as number)
+                  }
+                  selectedColor={selectedColor}
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (truncateBy as number)
+                  }
+                  showYTicks={
+                    checkIfNullOrUndefined(showYTicks)
+                      ? true
+                      : (showYTicks as boolean)
+                  }
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  showValues={showValues}
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                />
+              ) : null}
+            </div>
           </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

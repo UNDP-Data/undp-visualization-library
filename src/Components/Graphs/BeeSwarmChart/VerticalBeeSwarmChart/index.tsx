@@ -101,17 +101,10 @@ export function VerticalBeeSwarmChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: width ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: width ? 0 : 1,
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -123,139 +116,147 @@ export function VerticalBeeSwarmChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: 'var(--spacing-05)',
-          flexGrow: 1,
-          justifyContent: 'space-between',
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload || dataDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={width}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-            dataDownload={
-              dataDownload &&
-              data.map(d => d.data).filter(d => d !== undefined).length > 0
-                ? data.map(d => d.data).filter(d => d !== undefined)
-                : null
-            }
-          />
-        ) : null}
-        {showColorScale !== false &&
-        data.filter(el => el.color).length !== 0 ? (
-          <ColorLegendWithMouseOver
-            width={width}
-            colorLegendTitle={colorLegendTitle}
-            colors={
-              (colors as string[] | undefined) ||
-              UNDPColorModule.categoricalColors.colors
-            }
-            colorDomain={
-              colorDomain ||
-              (uniqBy(
-                data.filter(el => el.color),
-                'color',
-              ).map(d => d.color) as string[])
-            }
-            setSelectedColor={setSelectedColor}
-            showNAColor
-          />
-        ) : null}
         <div
           style={{
-            flexGrow: 1,
-            flexDirection: 'column',
             display: 'flex',
-            justifyContent: 'center',
-            lineHeight: 0,
+            flexDirection: 'column',
+            width: '100%',
+            gap: 'var(--spacing-05)',
+            flexGrow: 1,
+            justifyContent: 'space-between',
           }}
-          ref={graphDiv}
         >
-          {(width || svgWidth) && (height || svgHeight) ? (
-            <Graph
-              data={data}
-              circleColors={
-                data.filter(el => el.color).length === 0
-                  ? colors
-                    ? [colors as string]
-                    : ['var(--blue-600)']
-                  : (colors as string[] | undefined) ||
-                    UNDPColorModule.categoricalColors.colors
+          {graphTitle || graphDescription || graphDownload || dataDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={width}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
+            />
+          ) : null}
+          {showColorScale !== false &&
+          data.filter(el => el.color).length !== 0 ? (
+            <ColorLegendWithMouseOver
+              width={width}
+              colorLegendTitle={colorLegendTitle}
+              colors={
+                (colors as string[] | undefined) ||
+                UNDPColorModule.categoricalColors.colors
               }
               colorDomain={
-                data.filter(el => el.color).length === 0
-                  ? []
-                  : colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
+                colorDomain ||
+                (uniqBy(
+                  data.filter(el => el.color),
+                  'color',
+                ).map(d => d.color) as string[])
               }
-              width={width || svgWidth}
-              selectedColor={selectedColor}
-              height={
-                height ||
-                (relativeHeight
-                  ? (width || svgWidth) * relativeHeight
-                  : svgHeight)
-              }
-              showTicks={
-                checkIfNullOrUndefined(showXTicks)
-                  ? true
-                  : (showXTicks as boolean)
-              }
-              leftMargin={
-                checkIfNullOrUndefined(leftMargin)
-                  ? 100
-                  : (leftMargin as number)
-              }
-              rightMargin={
-                checkIfNullOrUndefined(rightMargin)
-                  ? 40
-                  : (rightMargin as number)
-              }
-              topMargin={
-                checkIfNullOrUndefined(topMargin) ? 25 : (topMargin as number)
-              }
-              bottomMargin={
-                checkIfNullOrUndefined(bottomMargin)
-                  ? 10
-                  : (bottomMargin as number)
-              }
-              showLabel={
-                checkIfNullOrUndefined(showLabel)
-                  ? true
-                  : (showLabel as boolean)
-              }
-              tooltip={tooltip}
-              onSeriesMouseOver={onSeriesMouseOver}
-              refValues={refValues}
-              startFromZero={false}
-              pointRadius={
-                checkIfNullOrUndefined(pointRadius)
-                  ? 5
-                  : (pointRadius as number)
-              }
-              pointRadiusMaxValue={pointRadiusMaxValue}
-              maxPositionValue={maxPositionValue}
-              minPositionValue={minPositionValue}
-              highlightedDataPoints={highlightedDataPoints || []}
-              onSeriesMouseClick={onSeriesMouseClick}
+              setSelectedColor={setSelectedColor}
+              showNAColor
+            />
+          ) : null}
+          <div
+            style={{
+              flexGrow: 1,
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              lineHeight: 0,
+            }}
+            ref={graphDiv}
+          >
+            {(width || svgWidth) && (height || svgHeight) ? (
+              <Graph
+                data={data}
+                circleColors={
+                  data.filter(el => el.color).length === 0
+                    ? colors
+                      ? [colors as string]
+                      : ['var(--blue-600)']
+                    : (colors as string[] | undefined) ||
+                      UNDPColorModule.categoricalColors.colors
+                }
+                colorDomain={
+                  data.filter(el => el.color).length === 0
+                    ? []
+                    : colorDomain ||
+                      (uniqBy(
+                        data.filter(el => el.color),
+                        'color',
+                      ).map(d => d.color) as string[])
+                }
+                width={width || svgWidth}
+                selectedColor={selectedColor}
+                height={
+                  height ||
+                  (relativeHeight
+                    ? (width || svgWidth) * relativeHeight
+                    : svgHeight)
+                }
+                showTicks={
+                  checkIfNullOrUndefined(showXTicks)
+                    ? true
+                    : (showXTicks as boolean)
+                }
+                leftMargin={
+                  checkIfNullOrUndefined(leftMargin)
+                    ? 100
+                    : (leftMargin as number)
+                }
+                rightMargin={
+                  checkIfNullOrUndefined(rightMargin)
+                    ? 40
+                    : (rightMargin as number)
+                }
+                topMargin={
+                  checkIfNullOrUndefined(topMargin) ? 25 : (topMargin as number)
+                }
+                bottomMargin={
+                  checkIfNullOrUndefined(bottomMargin)
+                    ? 10
+                    : (bottomMargin as number)
+                }
+                showLabel={
+                  checkIfNullOrUndefined(showLabel)
+                    ? true
+                    : (showLabel as boolean)
+                }
+                tooltip={tooltip}
+                onSeriesMouseOver={onSeriesMouseOver}
+                refValues={refValues}
+                startFromZero={false}
+                pointRadius={
+                  checkIfNullOrUndefined(pointRadius)
+                    ? 5
+                    : (pointRadius as number)
+                }
+                pointRadiusMaxValue={pointRadiusMaxValue}
+                maxPositionValue={maxPositionValue}
+                minPositionValue={minPositionValue}
+                highlightedDataPoints={highlightedDataPoints || []}
+                onSeriesMouseClick={onSeriesMouseClick}
+              />
+            ) : null}
+          </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={width}
             />
           ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={width}
-          />
-        ) : null}
       </div>
     </div>
   );

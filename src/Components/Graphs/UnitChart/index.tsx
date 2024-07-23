@@ -63,17 +63,10 @@ export function UnitChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: size
-          ? 'fit-content'
-          : backgroundColor
-          ? `calc(100% - 2*${padding || 'var(--spacing-05)'})`
-          : `calc(100% - 2*${padding || 0})`,
+        width: size ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: size ? 0 : 1,
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -85,50 +78,59 @@ export function UnitChart(props: Props) {
     >
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--spacing-00)',
-          width: '100%',
-          justifyContent: 'space-between',
-          flexGrow: 1,
+          padding: backgroundColor
+            ? padding || 'var(--spacing-05)'
+            : padding || 0,
         }}
       >
-        {graphTitle || graphDescription || graphDownload ? (
-          <GraphHeader
-            graphTitle={graphTitle}
-            graphDescription={graphDescription}
-            width={size || 200}
-            graphDownload={graphDownload ? graphParentDiv.current : undefined}
-          />
-        ) : null}
-        <div>
-          <h2
-            className='undp-typography bold margin-bottom-02 margin-top-00'
-            style={{ width: `${size || 200}px` }}
-          >
-            {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}
-            {outOfValue}
-          </h2>
-          <svg
-            width={`${size || 200}px`}
-            height={`${
-              Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
-                gridDimension +
-              gridDimension / 2 +
-              radius +
-              5
-            }px`}
-            viewBox={`0 0 ${size || 200} ${
-              Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
-                gridDimension +
-              gridDimension / 2 +
-              radius +
-              5
-            }`}
-          >
-            <g>
-              {Array.from(Array(maxValue || 100), (_, index) => index + 1).map(
-                d => (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--spacing-00)',
+            width: '100%',
+            justifyContent: 'space-between',
+            flexGrow: 1,
+          }}
+        >
+          {graphTitle || graphDescription || graphDownload ? (
+            <GraphHeader
+              graphTitle={graphTitle}
+              graphDescription={graphDescription}
+              width={size || 200}
+              graphDownload={graphDownload ? graphParentDiv.current : undefined}
+            />
+          ) : null}
+          <div>
+            <h2
+              className='undp-typography bold margin-bottom-02 margin-top-00'
+              style={{ width: `${size || 200}px` }}
+            >
+              {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}
+              {outOfValue}
+            </h2>
+            <svg
+              width={`${size || 200}px`}
+              height={`${
+                Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
+                  gridDimension +
+                gridDimension / 2 +
+                radius +
+                5
+              }px`}
+              viewBox={`0 0 ${size || 200} ${
+                Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
+                  gridDimension +
+                gridDimension / 2 +
+                radius +
+                5
+              }`}
+            >
+              <g>
+                {Array.from(
+                  Array(maxValue || 100),
+                  (_, index) => index + 1,
+                ).map(d => (
                   <circle
                     key={d}
                     cx={
@@ -152,19 +154,19 @@ export function UnitChart(props: Props) {
                     }}
                     r={radius}
                   />
-                ),
-              )}
-            </g>
-          </svg>
+                ))}
+              </g>
+            </svg>
+          </div>
+          {source || footNote ? (
+            <GraphFooter
+              source={source}
+              sourceLink={sourceLink}
+              footNote={footNote}
+              width={size || 200}
+            />
+          ) : null}
         </div>
-        {source || footNote ? (
-          <GraphFooter
-            source={source}
-            sourceLink={sourceLink}
-            footNote={footNote}
-            width={size || 200}
-          />
-        ) : null}
       </div>
     </div>
   );
