@@ -132,7 +132,7 @@ export function DonutChart(props: Props) {
               width: '100%',
             }}
           >
-            {graphLegend ? (
+            {graphLegend !== false ? (
               <div
                 style={{
                   lineHeight: 0,
