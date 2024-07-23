@@ -1,89 +1,71 @@
-# Project Title
-#### Project description [Click here to see the interface]({{link to the site here}}).
+# Getting Started
 
-Doc for the starter kit can be found [here](https://orange-bay-04736e710.4.azurestaticapps.net/)
+UNDP visualization library is dedicated to providing a good development experience for data visualization specialists. Before starting, it is recommended to learn React first, and correctly install and configure Node.js v16 or above. 
 
-## Table of Contents
-* [Link for the visualization](#section-01)
-* [Deployment](#deployment)
-* [Steps to integrate the vis in static page](#section-02)
-* [Pages on DFx where This Viz is Used](#section-03)
-* [Related Repos](#section-04)
-* [Global CSS Files and Repo](#section-05)
-* [Build With](#section-06)
-* [Installation](#section-07)
-* [Local Deployment](#section-08)
-* [Available Scripts](#section-09)
-* [Tooling Setup](#section-10)
+We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
 
-## Link for the visualization<a name="section-01"></a>
-[{{link to the site here}}]({{link to the site here}})
+Detailed documentation can be found [here](https://orange-bay-04736e710.4.azurestaticapps.net/).
 
-## Deployment<a name="deployment"></a>
-The Production site deployed using Azure Static Web App and work flow can be found [here]({{link to the site here}})
-
-## Steps to Integrating the Visualization in the Data Future Platform or Any Other Page<a name="section-02"></a>
-Add the following div in the page
+### Installation
+__Using npm__
 ```
-<div id="root"></div>
+npm i @undp-data/undp-visualization-library
 ```
 
-Apart from the mentioned `div` above the following `script` and `link` needs to be added to the `head` or in the embed code
+
+__Using yarn__
 ```
-<script defer="defer" type="module" src="<Link to the Visualization Mentioned Above>/index.js"></script>
-<link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/mainStyleSheet.css" />
-<link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraphingInterface.css" />
-<link rel="stylesheet" href="https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraph.css" />
+yarn add @undp-data/undp-visualization-library
 ```
 
-## Pages on DFx Where the Visualization is Used<a name="section-03"></a>
-_All the pages on the DFx or other places like viva topics etc. where this visualization is embedded or used._
-
-## Related Repos<a name="section-04"></a>
-* [__name of the data repo__](link to data repo): This is the data sheet for visualization
-* [__stylesheet-for-viz__](https://github.com/UNDP-Data/stylesheets-for-viz): Repo which defines the css settings for the project
-
-## Global CSS for UI and Graphs<a name="section-05"></a>
-__Git Repo__: https://github.com/UNDP-Data/stylesheets-for-viz
-
-__Link for stylesheets__
-* https://undp-data.github.io/stylesheets-for-viz/style/mainStyleSheet.css
-* https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraphingInterface.css
-* https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraph.css
-
-## Build with<a name="section-06"></a>
-* __React__: Used as MVC framework.
-* __Various D3 Libraries__: Used for visualizations, adding interaction and reading the csv data file.
-* __AntD__: For UI elements like dropdown, buttons, checkbox, and slider.
-* __lodash__: Used for manipulating and iterating arrays and objects.
-
-## Installation<a name="section-07"></a>
-This project uses `npm`. For installation you will need to install `node` and `npm`, if you don't already have it. `node` and `npm` can be installed from [here](https://nodejs.org/en/download/).
-
-To install the project, simply clone the the repo and them run `npm install` in the project folder. You can use terminal on Mac and Command Prompt on Windows.
-
-This project is bootstrapped with [`Vite`](https://vitejs.dev/) and was created using `npm create vite@latest` command.
-
-Run the terminal or command prompt and then run the following
-
+### Import
+It is recommended to import what you need and the use it. For example, import the `HorizontalBarGraph` like this:
 ```
-git clone https://github.com/UNDP-Data/{{projectName}}.git
-cd {{projectName}}
-npm install
+import { HorizontalBarGraph } from '@undp-data/undp-visualization-library'
 ```
 
-## Local Development<a name="section-08"></a>
-To start the project locally, you can run `npm run dev` in the project folder in terminal or command prompt.
 
-This is run the app in development mode. Open [http://localhost:5173/](http://localhost:5173/) to view it in the browser.
+It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this: 
+```
+import '@undp-data/undp-visualization-library/dist/style.css';
+```
 
-The page will reload if you make edits. You will also see any lint errors in the console.
+### TypeScript
+UNDP visualization library provides a built-in ts definition, you don't need to install any type definitions.
 
-## Available Scripts<a name="section-09"></a>
-* `npm run dev`: Executes `vite` and start the local server for local deployment.
-* `npm run build`: Executes `tsc && vite build` and builds the app for production and deployment.
-
-## Tooling Setup<a name="section-10"></a>
-This project uses ESLint integrated with prettier, which verifies and formats your code so you don't have to do it manually. You should have your editor set up to display lint errors and automatically fix those which it is possible to fix. See [http://eslint.org/docs/user-guide/integrations](http://eslint.org/docs/user-guide/integrations).
-
-This project is build in Visual Studio Code, therefore the project is already set up to work with. Install it from [here](https://code.visualstudio.com/) and then install this [eslint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and you should be good to go.
+### Dependencies
+The dependencies that are pre-installed wit the library:
+* Various D3 libraries - For visualizations
+    * d3-array
+    * d3-delaunay
+    * d3-force
+    * d3-format
+    * d3-geo
+    * d3-hierarchy
+    * d3-scale
+    * d3-selection
+    * d3-shape
+    * d3-zoom
+* Various Lodash libraries - For array and data manipulation
+    * lodash.isequal
+    * lodash.max
+    * lodash.maxby
+    * lodash.min
+    * lodash.minby
+    * lodash.orderby
+    * lodash.sortby
+    * lodash.sum
+    * lodash.uniq
+    * lodash.uniqby
+* maplibre-gl - For Maplibre maps
+* pmtiles - For adding pmtiles to Maplibre maps
+* papaparse - For loading and parsing csv from links
+* react-draggable - For creating comparison maps
+* simple-statistics - For statistical functions
+* date-fns - For date formatting
+* dom-to-image - For downloading div as images
+* file-saver - For downloading files
+* react-csv - For generating a csv file
+* xlsx - For generating a xlsx file
+* @undp-data/undp-viz-colors - For color pallette
+* React (of course!)
