@@ -33,6 +33,7 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
+  selectedColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +59,7 @@ export function Graph(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
+    selectedColor,
   } = props;
   const margin = {
     top: topMargin,
@@ -144,7 +146,49 @@ export function Graph(props: Props) {
             return (
               <g key={i} transform={`translate(${0},${y(`${i}`)})`}>
                 {d.size.map((el, j) => (
-                  <g key={j}>
+                  <g
+                    className='g-with-hover'
+                    key={j}
+                    opacity={
+                      selectedColor
+                        ? barColors[j] === selectedColor
+                          ? 1
+                          : 0.3
+                        : 0.85
+                    }
+                    onMouseEnter={(event: any) => {
+                      setMouseOverData({ ...d, sizeIndex: j });
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver({ ...d, sizeIndex: j });
+                      }
+                    }}
+                    onMouseMove={(event: any) => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, { ...d, sizeIndex: j })) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData({ ...d, sizeIndex: j });
+                          onSeriesMouseClick({ ...d, sizeIndex: j });
+                        }
+                      }
+                    }}
+                  >
                     <rect
                       key={j}
                       x={el >= 0 ? x(0) : x(el)}
@@ -154,38 +198,6 @@ export function Graph(props: Props) {
                         fill: barColors[j],
                       }}
                       height={subBarScale.bandwidth()}
-                      onMouseEnter={(event: any) => {
-                        setMouseOverData(d);
-                        setEventY(event.clientY);
-                        setEventX(event.clientX);
-                        if (onSeriesMouseOver) {
-                          onSeriesMouseOver(d);
-                        }
-                      }}
-                      onMouseMove={(event: any) => {
-                        setMouseOverData(d);
-                        setEventY(event.clientY);
-                        setEventX(event.clientX);
-                      }}
-                      onMouseLeave={() => {
-                        setMouseOverData(undefined);
-                        setEventX(undefined);
-                        setEventY(undefined);
-                        if (onSeriesMouseOver) {
-                          onSeriesMouseOver(undefined);
-                        }
-                      }}
-                      onClick={() => {
-                        if (onSeriesMouseClick) {
-                          if (isEqual(mouseClickData, d)) {
-                            setMouseClickData(undefined);
-                            onSeriesMouseClick(undefined);
-                          } else {
-                            setMouseClickData(d);
-                            onSeriesMouseClick(d);
-                          }
-                        }
-                      }}
                     />
                     {showBarValue ? (
                       <text

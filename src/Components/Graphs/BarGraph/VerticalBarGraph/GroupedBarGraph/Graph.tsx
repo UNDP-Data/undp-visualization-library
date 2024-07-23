@@ -33,6 +33,7 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
+  selectedColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +59,7 @@ export function Graph(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
+    selectedColor,
   } = props;
   const margin = {
     top: topMargin,
@@ -170,24 +172,21 @@ export function Graph(props: Props) {
               <g key={i} transform={`translate(${x(`${i}`)},0)`}>
                 {d.size.map((el, j) => (
                   <g
+                    className='g-with-hover'
                     key={j}
+                    opacity={
+                      selectedColor
+                        ? barColors[j] === selectedColor
+                          ? 1
+                          : 0.3
+                        : 0.85
+                    }
                     onMouseEnter={(event: any) => {
-                      setMouseOverData(d);
+                      setMouseOverData({ ...d, sizeIndex: j });
                       setEventY(event.clientY);
                       setEventX(event.clientX);
                       if (onSeriesMouseOver) {
-                        onSeriesMouseOver(d);
-                      }
-                    }}
-                    onClick={() => {
-                      if (onSeriesMouseClick) {
-                        if (isEqual(mouseClickData, d)) {
-                          setMouseClickData(undefined);
-                          onSeriesMouseClick(undefined);
-                        } else {
-                          setMouseClickData(d);
-                          onSeriesMouseClick(d);
-                        }
+                        onSeriesMouseOver({ ...d, sizeIndex: j });
                       }
                     }}
                     onMouseMove={(event: any) => {
@@ -201,6 +200,17 @@ export function Graph(props: Props) {
                       setEventY(undefined);
                       if (onSeriesMouseOver) {
                         onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, { ...d, sizeIndex: j })) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData({ ...d, sizeIndex: j });
+                          onSeriesMouseClick({ ...d, sizeIndex: j });
+                        }
                       }
                     }}
                   >

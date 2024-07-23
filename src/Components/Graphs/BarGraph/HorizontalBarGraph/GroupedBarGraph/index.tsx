@@ -7,8 +7,8 @@ import {
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { ColorLegend } from '../../../../Elements/ColorLegend';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: HorizontalGroupedBarGraphDataType[];
@@ -89,6 +89,9 @@ export function HorizontalGroupedBarGraph(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -158,10 +161,12 @@ export function HorizontalGroupedBarGraph(props: Props) {
             width: '100%',
           }}
         >
-          <ColorLegend
+          <ColorLegendWithMouseOver
+            width={width}
             colorDomain={colorDomain}
             colors={barColors}
             colorLegendTitle={colorLegendTitle}
+            setSelectedColor={setSelectedColor}
           />
           <div
             style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -229,6 +234,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                 maxValue={maxValue}
                 minValue={minValue}
                 onSeriesMouseClick={onSeriesMouseClick}
+                selectedColor={selectedColor}
               />
             ) : null}
           </div>

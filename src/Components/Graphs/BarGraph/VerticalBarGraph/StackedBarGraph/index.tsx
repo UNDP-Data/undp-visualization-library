@@ -8,7 +8,7 @@ import {
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { ColorLegend } from '../../../../Elements/ColorLegend';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: VerticalGroupedBarGraphDataType[];
@@ -87,6 +87,9 @@ export function VerticalStackedBarGraph(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -155,10 +158,12 @@ export function VerticalStackedBarGraph(props: Props) {
             width: '100%',
           }}
         >
-          <ColorLegend
+          <ColorLegendWithMouseOver
+            width={width}
             colorDomain={colorDomain}
             colors={barColors}
             colorLegendTitle={colorLegendTitle}
+            setSelectedColor={setSelectedColor}
           />
           <div
             style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -221,6 +226,7 @@ export function VerticalStackedBarGraph(props: Props) {
                 refValues={refValues}
                 maxValue={maxValue}
                 onSeriesMouseClick={onSeriesMouseClick}
+                selectedColor={selectedColor}
               />
             ) : null}
           </div>
