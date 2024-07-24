@@ -97,6 +97,7 @@ export function DotDensityMap(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -115,6 +116,8 @@ export function DotDensityMap(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div

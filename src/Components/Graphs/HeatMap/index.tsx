@@ -21,7 +21,7 @@ interface Props {
   source?: string;
   scaleType?: ScaleDataType;
   domain: number[] | string[];
-  showXTicks?: boolean;
+  showColumnLabels?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   truncateBy?: number;
@@ -33,7 +33,7 @@ interface Props {
   suffix?: string;
   prefix?: string;
   showValues?: boolean;
-  showYTicks?: boolean;
+  showRowLabels?: boolean;
   relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
@@ -53,7 +53,7 @@ export function HeatMap(props: Props) {
     source,
     graphDescription,
     sourceLink,
-    showXTicks,
+    showColumnLabels,
     leftMargin,
     rightMargin,
     truncateBy,
@@ -71,7 +71,7 @@ export function HeatMap(props: Props) {
     onSeriesMouseOver,
     suffix,
     prefix,
-    showYTicks,
+    showRowLabels,
     relativeHeight,
     showValues,
     graphID,
@@ -110,6 +110,7 @@ export function HeatMap(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
+        height: 'inherit',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -127,6 +128,8 @@ export function HeatMap(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -136,6 +139,7 @@ export function HeatMap(props: Props) {
             gap: 'var(--spacing-05)',
             width: '100%',
             flexGrow: 1,
+            justifyContent: 'space-between',
           }}
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -152,73 +156,6 @@ export function HeatMap(props: Props) {
               }
             />
           ) : null}
-          {showColorScale !== false ? (
-            scale === 'categorical' ? (
-              <div style={{ marginBottom: '-12px' }}>
-                <ColorLegendWithMouseOver
-                  width={width}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={
-                    colors ||
-                    (typeof domain[0] === 'string'
-                      ? UNDPColorModule.categoricalColors.colors
-                      : domain.length === 2
-                      ? [
-                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                        ]
-                      : UNDPColorModule.sequentialColors[
-                          `neutralColorsx0${
-                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                          }`
-                        ])
-                  }
-                  colorDomain={domain.map(d => `${d}`)}
-                  setSelectedColor={setSelectedColor}
-                  showNAColor
-                />
-              </div>
-            ) : scale === 'threshold' ? (
-              <div style={{ marginBottom: '-12px' }}>
-                <ThresholdColorLegendWithMouseOver
-                  width={width}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={
-                    colors ||
-                    (typeof domain[0] === 'string'
-                      ? UNDPColorModule.categoricalColors.colors
-                      : domain.length === 2
-                      ? [
-                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                        ]
-                      : UNDPColorModule.sequentialColors[
-                          `neutralColorsx0${
-                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                          }`
-                        ])
-                  }
-                  colorDomain={domain as number[]}
-                  setSelectedColor={setSelectedColor}
-                  naColor={noDataColor || UNDPColorModule.graphGray}
-                />
-              </div>
-            ) : (
-              <div style={{ marginBottom: '-12px' }}>
-                <LinearColorLegend
-                  width={width}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={
-                    colors || [
-                      UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                      UNDPColorModule.sequentialColors.neutralColorsx09[8],
-                    ]
-                  }
-                  colorDomain={domain as number[]}
-                />
-              </div>
-            )
-          ) : null}
           <div
             style={{
               flexGrow: 1,
@@ -229,9 +166,87 @@ export function HeatMap(props: Props) {
               width: '100%',
             }}
           >
+            {showColorScale !== false ? (
+              scale === 'categorical' ? (
+                <div style={{ marginBottom: '-12px' }}>
+                  <ColorLegendWithMouseOver
+                    width={width}
+                    colorLegendTitle={colorLegendTitle}
+                    colors={
+                      colors ||
+                      (typeof domain[0] === 'string'
+                        ? UNDPColorModule.categoricalColors.colors
+                        : domain.length === 2
+                        ? [
+                            UNDPColorModule.sequentialColors
+                              .neutralColorsx09[0],
+                            UNDPColorModule.sequentialColors
+                              .neutralColorsx09[8],
+                          ]
+                        : UNDPColorModule.sequentialColors[
+                            `neutralColorsx0${
+                              (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                            }`
+                          ])
+                    }
+                    colorDomain={domain.map(d => `${d}`)}
+                    setSelectedColor={setSelectedColor}
+                    showNAColor
+                  />
+                </div>
+              ) : scale === 'threshold' ? (
+                <div style={{ marginBottom: '-12px' }}>
+                  <ThresholdColorLegendWithMouseOver
+                    width={width}
+                    colorLegendTitle={colorLegendTitle}
+                    colors={
+                      colors ||
+                      (typeof domain[0] === 'string'
+                        ? UNDPColorModule.categoricalColors.colors
+                        : domain.length === 2
+                        ? [
+                            UNDPColorModule.sequentialColors
+                              .neutralColorsx09[0],
+                            UNDPColorModule.sequentialColors
+                              .neutralColorsx09[8],
+                          ]
+                        : UNDPColorModule.sequentialColors[
+                            `neutralColorsx0${
+                              (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                            }`
+                          ])
+                    }
+                    colorDomain={domain as number[]}
+                    setSelectedColor={setSelectedColor}
+                    naColor={noDataColor || UNDPColorModule.graphGray}
+                  />
+                </div>
+              ) : (
+                <div style={{ marginBottom: '-12px' }}>
+                  <LinearColorLegend
+                    width={width}
+                    colorLegendTitle={colorLegendTitle}
+                    colors={
+                      colors || [
+                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
+                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                      ]
+                    }
+                    colorDomain={domain as number[]}
+                  />
+                </div>
+              )
+            ) : null}
             <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
-              ref={graphDiv}
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                gap: 'var(--spacing-04)',
+                width: '100%',
+                lineHeight: 0,
+              }}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
@@ -261,10 +276,10 @@ export function HeatMap(props: Props) {
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  showXTicks={
-                    checkIfNullOrUndefined(showXTicks)
+                  showColumnLabels={
+                    checkIfNullOrUndefined(showColumnLabels)
                       ? true
-                      : (showXTicks as boolean)
+                      : (showColumnLabels as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
@@ -292,10 +307,10 @@ export function HeatMap(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showYTicks={
-                    checkIfNullOrUndefined(showYTicks)
+                  showRowLabels={
+                    checkIfNullOrUndefined(showRowLabels)
                       ? true
-                      : (showYTicks as boolean)
+                      : (showRowLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

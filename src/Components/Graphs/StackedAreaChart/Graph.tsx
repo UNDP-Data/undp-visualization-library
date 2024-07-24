@@ -29,6 +29,7 @@ interface Props {
   highlightAreaSettings: [number | null, number | null];
   maxValue?: number;
   minValue?: number;
+  highlightAreaColor: string;
 }
 
 export function Graph(props: Props) {
@@ -50,6 +51,7 @@ export function Graph(props: Props) {
     refValues,
     minValue,
     maxValue,
+    highlightAreaColor,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -142,7 +144,7 @@ export function Graph(props: Props) {
             <g>
               <rect
                 style={{
-                  fill: 'var(--gray-300)',
+                  fill: highlightAreaColor,
                 }}
                 x={
                   highlightAreaSettings[0]
@@ -270,7 +272,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: 'var(--gray-700)',
+                      stroke: el.color || 'var(--gray-700)',
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -284,7 +286,7 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: el.color || 'var(--gray-700)',
                       fontFamily: 'var(--fontFamily)',
                       textAnchor: 'end',
                     }}

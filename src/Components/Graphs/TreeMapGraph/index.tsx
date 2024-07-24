@@ -93,6 +93,7 @@ export function TreeMapGraph(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -111,6 +112,8 @@ export function TreeMapGraph(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -137,100 +140,114 @@ export function TreeMapGraph(props: Props) {
               }
             />
           ) : null}
-          {showColorScale !== false &&
-          data.filter(el => el.color).length !== 0 ? (
-            <ColorLegendWithMouseOver
-              width={width}
-              colorLegendTitle={colorLegendTitle}
-              colors={
-                (colors as string[] | undefined) ||
-                UNDPColorModule.categoricalColors.colors
-              }
-              colorDomain={
-                colorDomain ||
-                (uniqBy(
-                  data.filter(el => el.color),
-                  'color',
-                ).map(d => d.color) as string[])
-              }
-              setSelectedColor={setSelectedColor}
-              showNAColor
-            />
-          ) : null}
           <div
             style={{
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              lineHeight: 0,
+              gap: 'var(--spacing-04)',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
+            {showColorScale !== false &&
+            data.filter(el => el.color).length !== 0 ? (
+              <ColorLegendWithMouseOver
+                width={width}
+                colorLegendTitle={colorLegendTitle}
                 colors={
-                  data.filter(el => el.color).length === 0
-                    ? colors
-                      ? [colors as string]
-                      : ['var(--blue-600)']
-                    : (colors as string[] | undefined) ||
-                      UNDPColorModule.categoricalColors.colors
+                  (colors as string[] | undefined) ||
+                  UNDPColorModule.categoricalColors.colors
                 }
                 colorDomain={
-                  data.filter(el => el.color).length === 0
-                    ? []
-                    : colorDomain ||
-                      (uniqBy(
-                        data.filter(el => el.color),
-                        'color',
-                      ).map(d => d.color) as string[])
+                  colorDomain ||
+                  (uniqBy(
+                    data.filter(el => el.color),
+                    'color',
+                  ).map(d => d.color) as string[])
                 }
-                width={width || svgWidth}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 0
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 0
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 0 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 0
-                    : (bottomMargin as number)
-                }
-                showLabel={
-                  checkIfNullOrUndefined(showLabel)
-                    ? true
-                    : (showLabel as boolean)
-                }
-                showValue={
-                  checkIfNullOrUndefined(showValue)
-                    ? true
-                    : (showValue as boolean)
-                }
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                selectedColor={selectedColor}
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                onSeriesMouseClick={onSeriesMouseClick}
-                highlightedDataPoints={highlightedDataPoints || []}
+                setSelectedColor={setSelectedColor}
+                showNAColor
               />
             ) : null}
+            <div
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+                width: '100%',
+              }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  colors={
+                    data.filter(el => el.color).length === 0
+                      ? colors
+                        ? [colors as string]
+                        : ['var(--blue-600)']
+                      : (colors as string[] | undefined) ||
+                        UNDPColorModule.categoricalColors.colors
+                  }
+                  colorDomain={
+                    data.filter(el => el.color).length === 0
+                      ? []
+                      : colorDomain ||
+                        (uniqBy(
+                          data.filter(el => el.color),
+                          'color',
+                        ).map(d => d.color) as string[])
+                  }
+                  width={width || svgWidth}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 0
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 0
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 0
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 0
+                      : (bottomMargin as number)
+                  }
+                  showLabel={
+                    checkIfNullOrUndefined(showLabel)
+                      ? true
+                      : (showLabel as boolean)
+                  }
+                  showValue={
+                    checkIfNullOrUndefined(showValue)
+                      ? true
+                      : (showValue as boolean)
+                  }
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  selectedColor={selectedColor}
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                  highlightedDataPoints={highlightedDataPoints || []}
+                />
+              ) : null}
+            </div>
           </div>
           {source || footNote ? (
             <GraphFooter

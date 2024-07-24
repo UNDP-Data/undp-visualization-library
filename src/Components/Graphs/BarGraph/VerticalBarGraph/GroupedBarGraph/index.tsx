@@ -25,7 +25,7 @@ interface Props {
   barPadding?: number;
   showBarLabel?: boolean;
   showBarValue?: boolean;
-  showYTicks?: boolean;
+  showTicks?: boolean;
   colorDomain: string[];
   colorLegendTitle?: string;
   truncateBy?: number;
@@ -60,7 +60,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     barPadding,
     showBarLabel,
     showBarValue,
-    showYTicks,
+    showTicks,
     height,
     width,
     footNote,
@@ -108,6 +108,7 @@ export function VerticalGroupedBarGraph(props: Props) {
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
+        height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
         padding: backgroundColor
@@ -127,6 +128,8 @@ export function VerticalGroupedBarGraph(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -202,10 +205,10 @@ export function VerticalGroupedBarGraph(props: Props) {
                       ? true
                       : (showBarValue as boolean)
                   }
-                  showYTicks={
-                    checkIfNullOrUndefined(showYTicks)
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
                       ? true
-                      : (showYTicks as boolean)
+                      : (showTicks as boolean)
                   }
                   truncateBy={
                     checkIfNullOrUndefined(truncateBy)
@@ -214,7 +217,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 50
+                      ? 20
                       : (leftMargin as number)
                   }
                   rightMargin={

@@ -21,7 +21,7 @@ interface Props {
   height?: number;
   source?: string;
   barPadding?: number;
-  showXTicks?: boolean;
+  showTicks?: boolean;
   truncateBy?: number;
   colorDomain: string[];
   colorLegendTitle?: string;
@@ -56,7 +56,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showXTicks,
+    showTicks,
     truncateBy,
     height,
     width,
@@ -107,6 +107,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -125,6 +126,8 @@ export function HorizontalGroupedBarGraph(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -195,10 +198,10 @@ export function HorizontalGroupedBarGraph(props: Props) {
                       ? 0.25
                       : (barPadding as number)
                   }
-                  showXTicks={
-                    checkIfNullOrUndefined(showXTicks)
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
                       ? true
-                      : (showXTicks as boolean)
+                      : (showTicks as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

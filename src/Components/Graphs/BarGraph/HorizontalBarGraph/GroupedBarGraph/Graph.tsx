@@ -15,7 +15,7 @@ interface Props {
   data: HorizontalGroupedBarGraphDataType[];
   barColors: string[];
   barPadding: number;
-  showXTicks: boolean;
+  showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
@@ -41,7 +41,7 @@ export function Graph(props: Props) {
     data,
     barColors,
     barPadding,
-    showXTicks,
+    showTicks,
     leftMargin,
     truncateBy,
     width,
@@ -112,7 +112,7 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {showXTicks
+          {showTicks
             ? xTicks.map((d, i) => (
                 <g key={i}>
                   <text
@@ -165,7 +165,7 @@ export function Graph(props: Props) {
                       }
                     }}
                     onMouseMove={(event: any) => {
-                      setMouseOverData(d);
+                      setMouseOverData({ ...d, sizeIndex: j });
                       setEventY(event.clientY);
                       setEventX(event.clientX);
                     }}
@@ -259,7 +259,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: 'var(--gray-700)',
+                      stroke: el.color || 'var(--gray-700)',
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -273,7 +273,7 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     x={x(el.value as number) as number}
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: el.color || 'var(--gray-700)',
                       fontFamily: 'var(--fontFamily)',
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75

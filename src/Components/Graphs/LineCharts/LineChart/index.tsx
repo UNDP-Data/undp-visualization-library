@@ -36,6 +36,7 @@ interface Props {
   minValue?: number;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  highlightAreaColor?: string;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -70,6 +71,7 @@ export function SimpleLineChart(props: Props) {
     maxValue,
     graphDownload,
     dataDownload,
+    highlightAreaColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -92,6 +94,7 @@ export function SimpleLineChart(props: Props) {
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
+        height: 'inherit',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
@@ -107,6 +110,8 @@ export function SimpleLineChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -187,6 +192,7 @@ export function SimpleLineChart(props: Props) {
                 refValues={refValues}
                 minValue={minValue}
                 maxValue={maxValue}
+                highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
               />
             ) : null}
           </div>

@@ -26,6 +26,10 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxPositionValue?: number;
   minPositionValue?: number;
+  suffix: string;
+  prefix: string;
+  showDotValue: boolean;
+  selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
 }
 
@@ -49,6 +53,10 @@ export function Graph(props: Props) {
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
+    showDotValue,
+    suffix,
+    prefix,
+    selectedColor,
   } = props;
   const margin = {
     top: topMargin,
@@ -156,38 +164,6 @@ export function Graph(props: Props) {
               transform={`translate(${
                 (x(`${i}`) as number) + x.bandwidth() / 2
               },0)`}
-              onMouseEnter={(event: any) => {
-                setMouseOverData(d);
-                setEventY(event.clientY);
-                setEventX(event.clientX);
-                if (onSeriesMouseOver) {
-                  onSeriesMouseOver(d);
-                }
-              }}
-              onClick={() => {
-                if (onSeriesMouseClick) {
-                  if (isEqual(mouseClickData, d)) {
-                    setMouseClickData(undefined);
-                    onSeriesMouseClick(undefined);
-                  } else {
-                    setMouseClickData(d);
-                    onSeriesMouseClick(d);
-                  }
-                }
-              }}
-              onMouseMove={(event: any) => {
-                setMouseOverData(d);
-                setEventY(event.clientY);
-                setEventX(event.clientX);
-              }}
-              onMouseLeave={() => {
-                setMouseOverData(undefined);
-                setEventX(undefined);
-                setEventY(undefined);
-                if (onSeriesMouseOver) {
-                  onSeriesMouseOver(undefined);
-                }
-              }}
             >
               {showLabel ? (
                 <text
@@ -215,9 +191,51 @@ export function Graph(props: Props) {
                   stroke: 'var(--gray-600)',
                   strokeWidth: 1,
                 }}
+                opacity={selectedColor ? 0.3 : 1}
               />
               {d.x.map((el, j) => (
-                <g key={j}>
+                <g
+                  key={j}
+                  opacity={
+                    selectedColor
+                      ? dotColors[j] === selectedColor
+                        ? 1
+                        : 0.3
+                      : 1
+                  }
+                  onMouseEnter={(event: any) => {
+                    setMouseOverData({ ...d, xIndex: j });
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver({ ...d, xIndex: j });
+                    }
+                  }}
+                  onClick={() => {
+                    if (onSeriesMouseClick) {
+                      if (isEqual(mouseClickData, { ...d, xIndex: j })) {
+                        setMouseClickData(undefined);
+                        onSeriesMouseClick(undefined);
+                      } else {
+                        setMouseClickData({ ...d, xIndex: j });
+                        onSeriesMouseClick({ ...d, xIndex: j });
+                      }
+                    }
+                  }}
+                  onMouseMove={(event: any) => {
+                    setMouseOverData({ ...d, xIndex: j });
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                  }}
+                  onMouseLeave={() => {
+                    setMouseOverData(undefined);
+                    setEventX(undefined);
+                    setEventY(undefined);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver(undefined);
+                    }
+                  }}
+                >
                   <circle
                     cy={y(el)}
                     cx={0}
@@ -229,6 +247,23 @@ export function Graph(props: Props) {
                       strokeWidth: 1,
                     }}
                   />
+                  {showDotValue ? (
+                    <text
+                      y={y(el)}
+                      x={0}
+                      style={{
+                        fill: dotColors[j],
+                        fontSize: '0.875rem',
+                        fontWeight: 'bold',
+                        textAnchor: 'start',
+                        fontFamily: 'var(--fontFamily)',
+                      }}
+                      dx={dotRadius + 3}
+                      dy={4.5}
+                    >
+                      {numberFormattingFunction(el, prefix || '', suffix || '')}
+                    </text>
+                  ) : null}
                 </g>
               ))}
             </g>

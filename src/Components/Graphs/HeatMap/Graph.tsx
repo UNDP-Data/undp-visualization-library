@@ -14,14 +14,14 @@ interface Props {
   colors: string[];
   noDataColor: string;
   scaleType: ScaleDataType;
-  showXTicks: boolean;
+  showColumnLabels: boolean;
   leftMargin: number;
   truncateBy: number;
   width: number;
   height: number;
   rightMargin: number;
   topMargin: number;
-  showYTicks: boolean;
+  showRowLabels: boolean;
   bottomMargin: number;
   suffix: string;
   prefix: string;
@@ -35,7 +35,7 @@ interface Props {
 export function Graph(props: Props) {
   const {
     data,
-    showXTicks,
+    showColumnLabels,
     leftMargin,
     rightMargin,
     truncateBy,
@@ -52,7 +52,7 @@ export function Graph(props: Props) {
     colors,
     noDataColor,
     scaleType,
-    showYTicks,
+    showRowLabels,
     selectedColor,
     onSeriesMouseClick,
   } = props;
@@ -94,7 +94,7 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${0})`}>
-          {showXTicks
+          {showColumnLabels
             ? columns.map((d, i) => (
                 <foreignObject
                   key={i}
@@ -136,7 +136,7 @@ export function Graph(props: Props) {
             : null}
         </g>
         <g transform={`translate(${0},${margin.top})`}>
-          {showYTicks
+          {showRowLabels
             ? rows.map((d, i) => (
                 <foreignObject
                   key={i}

@@ -37,6 +37,7 @@ interface Props {
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  highlightAreaColor?: string;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -70,6 +71,7 @@ export function DualAxisLineChart(props: Props) {
     graphID,
     graphDownload,
     dataDownload,
+    highlightAreaColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -91,6 +93,7 @@ export function DualAxisLineChart(props: Props) {
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
+        height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
@@ -107,6 +110,8 @@ export function DualAxisLineChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -200,6 +205,7 @@ export function DualAxisLineChart(props: Props) {
                 highlightAreaSettings={highlightAreaSettings || [null, null]}
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
               />
             ) : null}
           </div>

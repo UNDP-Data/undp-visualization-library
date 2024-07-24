@@ -63,6 +63,7 @@ export function UnitChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: size ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -81,6 +82,8 @@ export function UnitChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div

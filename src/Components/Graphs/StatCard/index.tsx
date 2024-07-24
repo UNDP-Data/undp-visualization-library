@@ -38,6 +38,7 @@ export function StatCard(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: '100%',
         backgroundColor: !backgroundColor
           ? 'transparent'
@@ -52,6 +53,8 @@ export function StatCard(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div

@@ -77,6 +77,7 @@ export function DonutChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: radius ? 'fit-content' : '100%',
         backgroundColor: !backgroundColor
           ? 'transparent'
@@ -94,6 +95,8 @@ export function DonutChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div

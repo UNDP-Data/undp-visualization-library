@@ -38,9 +38,10 @@ interface Props {
   graphID?: string;
   maxValue?: number;
   minValue?: number;
-  highlightedDataPoints?: (string | number)[];
+  highlightedLines?: (string | number)[];
   graphDownload?: boolean;
   dataDownload?: boolean;
+  highlightAreaColor?: string;
 }
 
 export function MultiLineChart(props: Props) {
@@ -75,9 +76,10 @@ export function MultiLineChart(props: Props) {
     graphID,
     minValue,
     maxValue,
-    highlightedDataPoints,
+    highlightedLines,
     graphDownload,
     dataDownload,
+    highlightAreaColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -97,6 +99,7 @@ export function MultiLineChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -115,6 +118,8 @@ export function MultiLineChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -209,7 +214,8 @@ export function MultiLineChart(props: Props) {
                   refValues={refValues}
                   minValue={minValue}
                   maxValue={maxValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedLines={highlightedLines || []}
+                  highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
                 />
               ) : null}
             </div>

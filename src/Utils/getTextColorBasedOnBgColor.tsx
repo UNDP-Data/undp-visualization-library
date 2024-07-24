@@ -40,7 +40,11 @@ function getLuminance(r: number, g: number, b: number) {
 }
 
 export const getTextColorBasedOnBgColor = (bgColor: string) => {
-  const rgb = bgColor[0] === 'r' ? getRGB(bgColor) : getRGBFromHex(bgColor);
-  const luminance = getLuminance(rgb.r, rgb.g, rgb.b);
-  return luminance > 0.4 ? 'var(--black)' : 'var(--white)';
+  try {
+    const rgb = bgColor[0] === 'r' ? getRGB(bgColor) : getRGBFromHex(bgColor);
+    const luminance = getLuminance(rgb.r, rgb.g, rgb.b);
+    return luminance > 0.4 ? 'var(--black)' : 'var(--white)';
+  } catch {
+    return 'var(--white)';
+  }
 };

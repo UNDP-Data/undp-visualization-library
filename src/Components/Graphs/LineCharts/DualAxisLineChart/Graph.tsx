@@ -28,6 +28,7 @@ interface Props {
   bottomMargin: number;
   sameAxes?: boolean;
   highlightAreaSettings: [number | null, number | null];
+  highlightAreaColor: string;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
 }
@@ -51,6 +52,7 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     highlightAreaSettings,
+    highlightAreaColor,
     onSeriesMouseOver,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
@@ -170,7 +172,7 @@ export function Graph(props: Props) {
             <g>
               <rect
                 style={{
-                  fill: 'var(--gray-300)',
+                  fill: highlightAreaColor,
                 }}
                 x={
                   highlightAreaSettings[0]

@@ -25,7 +25,7 @@ interface Props {
   source?: string;
   barPadding?: number;
   showBarValue?: boolean;
-  showXTicks?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   truncateBy?: number;
@@ -62,7 +62,7 @@ export function HorizontalBarGraph(props: Props) {
     sourceLink,
     barPadding,
     showBarValue,
-    showXTicks,
+    showTicks,
     leftMargin,
     rightMargin,
     truncateBy,
@@ -110,6 +110,7 @@ export function HorizontalBarGraph(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -128,6 +129,8 @@ export function HorizontalBarGraph(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -154,118 +157,132 @@ export function HorizontalBarGraph(props: Props) {
               }
             />
           ) : null}
-          {showColorScale !== false &&
-          data.filter(el => el.color).length !== 0 ? (
-            <ColorLegendWithMouseOver
-              width={width}
-              colorLegendTitle={colorLegendTitle}
-              colors={
-                (colors as string[] | undefined) ||
-                UNDPColorModule.categoricalColors.colors
-              }
-              colorDomain={
-                colorDomain ||
-                (uniqBy(
-                  data.filter(el => el.color),
-                  'color',
-                ).map(d => d.color) as string[])
-              }
-              setSelectedColor={setSelectedColor}
-              showNAColor
-            />
-          ) : null}
           <div
             style={{
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              lineHeight: 0,
+              gap: 'var(--spacing-04)',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
-                barColor={
-                  data.filter(el => el.color).length === 0
-                    ? colors
-                      ? [colors as string]
-                      : ['var(--blue-600)']
-                    : (colors as string[] | undefined) ||
-                      UNDPColorModule.categoricalColors.colors
+            {showColorScale !== false &&
+            data.filter(el => el.color).length !== 0 ? (
+              <ColorLegendWithMouseOver
+                width={width}
+                colorLegendTitle={colorLegendTitle}
+                colors={
+                  (colors as string[] | undefined) ||
+                  UNDPColorModule.categoricalColors.colors
                 }
                 colorDomain={
-                  data.filter(el => el.color).length === 0
-                    ? []
-                    : colorDomain ||
-                      (uniqBy(
-                        data.filter(el => el.color),
-                        'color',
-                      ).map(d => d.color) as string[])
+                  colorDomain ||
+                  (uniqBy(
+                    data.filter(el => el.color),
+                    'color',
+                  ).map(d => d.color) as string[])
                 }
-                width={width || svgWidth}
-                selectedColor={selectedColor}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                barPadding={
-                  checkIfNullOrUndefined(barPadding)
-                    ? 0.25
-                    : (barPadding as number)
-                }
-                showBarValue={
-                  checkIfNullOrUndefined(showBarValue)
-                    ? true
-                    : (showBarValue as boolean)
-                }
-                showXTicks={
-                  checkIfNullOrUndefined(showXTicks)
-                    ? true
-                    : (showXTicks as boolean)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 100
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 40
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 25 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 10
-                    : (bottomMargin as number)
-                }
-                truncateBy={
-                  checkIfNullOrUndefined(truncateBy)
-                    ? 999
-                    : (truncateBy as number)
-                }
-                showBarLabel={
-                  checkIfNullOrUndefined(showBarLabel)
-                    ? true
-                    : (showBarLabel as boolean)
-                }
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                refValues={refValues}
-                maxValue={maxValue}
-                minValue={minValue}
-                highlightedDataPoints={highlightedDataPoints || []}
-                onSeriesMouseClick={onSeriesMouseClick}
+                setSelectedColor={setSelectedColor}
+                showNAColor
               />
             ) : null}
+            <div
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                lineHeight: 0,
+              }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  barColor={
+                    data.filter(el => el.color).length === 0
+                      ? colors
+                        ? [colors as string]
+                        : ['var(--blue-600)']
+                      : (colors as string[] | undefined) ||
+                        UNDPColorModule.categoricalColors.colors
+                  }
+                  colorDomain={
+                    data.filter(el => el.color).length === 0
+                      ? []
+                      : colorDomain ||
+                        (uniqBy(
+                          data.filter(el => el.color),
+                          'color',
+                        ).map(d => d.color) as string[])
+                  }
+                  width={width || svgWidth}
+                  selectedColor={selectedColor}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  barPadding={
+                    checkIfNullOrUndefined(barPadding)
+                      ? 0.25
+                      : (barPadding as number)
+                  }
+                  showBarValue={
+                    checkIfNullOrUndefined(showBarValue)
+                      ? true
+                      : (showBarValue as boolean)
+                  }
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
+                      ? true
+                      : (showTicks as boolean)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 100
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 40
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 25
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 10
+                      : (bottomMargin as number)
+                  }
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (truncateBy as number)
+                  }
+                  showBarLabel={
+                    checkIfNullOrUndefined(showBarLabel)
+                      ? true
+                      : (showBarLabel as boolean)
+                  }
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  refValues={refValues}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  highlightedDataPoints={highlightedDataPoints || []}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                />
+              ) : null}
+            </div>
           </div>
           {source || footNote ? (
             <GraphFooter

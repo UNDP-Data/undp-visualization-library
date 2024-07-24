@@ -21,7 +21,7 @@ interface Props {
   height?: number;
   source?: string;
   barPadding?: number;
-  showXTicks?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   truncateBy?: number;
@@ -55,7 +55,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showXTicks,
+    showTicks,
     leftMargin,
     rightMargin,
     truncateBy,
@@ -105,6 +105,7 @@ export function HorizontalStackedBarGraph(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
+        height: 'inherit',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -122,6 +123,8 @@ export function HorizontalStackedBarGraph(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -184,10 +187,10 @@ export function HorizontalStackedBarGraph(props: Props) {
                       ? 0.25
                       : (barPadding as number)
                   }
-                  showXTicks={
-                    checkIfNullOrUndefined(showXTicks)
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
                       ? true
-                      : (showXTicks as boolean)
+                      : (showTicks as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

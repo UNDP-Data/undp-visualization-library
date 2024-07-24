@@ -27,8 +27,8 @@ interface Props {
   bottomMargin: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
-  refXValue?: ReferenceDataType;
-  refYValue?: ReferenceDataType;
+  refXValue?: ReferenceDataType[];
+  refYValue?: ReferenceDataType[];
   highlightAreaSettings: [
     number | null,
     number | null,
@@ -42,6 +42,7 @@ interface Props {
   minXValue?: number;
   maxYValue?: number;
   minYValue?: number;
+  highlightAreaColor: string;
   onSeriesMouseClick?: (_d: any) => void;
 }
 
@@ -73,6 +74,7 @@ export function Graph(props: Props) {
     maxYValue,
     minYValue,
     onSeriesMouseClick,
+    highlightAreaColor,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -161,7 +163,7 @@ export function Graph(props: Props) {
             <g>
               <rect
                 style={{
-                  fill: 'var(--gray-300)',
+                  fill: highlightAreaColor,
                 }}
                 x={
                   highlightAreaSettings[0]
@@ -468,66 +470,74 @@ export function Graph(props: Props) {
             );
           })}
           {refXValue ? (
-            <g>
-              <line
-                style={{
-                  stroke: 'var(--gray-700)',
-                  strokeWidth: 1.5,
-                }}
-                strokeDasharray='4,4'
-                x1={x(refXValue.value as number)}
-                x2={x(refXValue.value as number)}
-                y1={0}
-                y2={graphHeight}
-              />
-              <text
-                x={x(refXValue.value as number)}
-                fontWeight='bold'
-                y={0}
-                style={{
-                  fill: 'var(--gray-700)',
-                  fontFamily: 'var(--fontFamily)',
-                  textAnchor:
-                    x(refXValue.value as number) > graphWidth * 0.75
-                      ? 'end'
-                      : 'start',
-                }}
-                fontSize={12}
-                dy={12.5}
-                dx={x(refXValue.value as number) > graphWidth * 0.75 ? -5 : 5}
-              >
-                {refXValue.text}
-              </text>
-            </g>
+            <>
+              {refXValue.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: el.color || 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    x1={x(el.value as number)}
+                    x2={x(el.value as number)}
+                    y1={0}
+                    y2={graphHeight}
+                  />
+                  <text
+                    x={x(el.value as number)}
+                    fontWeight='bold'
+                    y={0}
+                    style={{
+                      fill: el.color || 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor:
+                        x(el.value as number) > graphWidth * 0.75
+                          ? 'end'
+                          : 'start',
+                    }}
+                    fontSize={12}
+                    dy={12.5}
+                    dx={x(el.value as number) > graphWidth * 0.75 ? -5 : 5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
           ) : null}
           {refYValue ? (
-            <g>
-              <line
-                style={{
-                  stroke: 'var(--gray-700)',
-                  strokeWidth: 1.5,
-                }}
-                strokeDasharray='4,4'
-                y1={y(refYValue.value as number)}
-                y2={y(refYValue.value as number)}
-                x1={0}
-                x2={graphWidth}
-              />
-              <text
-                x={graphWidth}
-                fontWeight='bold'
-                y={y(refYValue.value as number)}
-                style={{
-                  fill: 'var(--gray-700)',
-                  fontFamily: 'var(--fontFamily)',
-                  textAnchor: 'end',
-                }}
-                fontSize={12}
-                dy={-5}
-              >
-                {refYValue.text}
-              </text>
-            </g>
+            <>
+              {refYValue.map((el, i) => (
+                <g key={i}>
+                  <line
+                    style={{
+                      stroke: el.color || 'var(--gray-700)',
+                      strokeWidth: 1.5,
+                    }}
+                    strokeDasharray='4,4'
+                    y1={y(el.value as number)}
+                    y2={y(el.value as number)}
+                    x1={0}
+                    x2={graphWidth}
+                  />
+                  <text
+                    x={graphWidth}
+                    fontWeight='bold'
+                    y={y(el.value as number)}
+                    style={{
+                      fill: el.color || 'var(--gray-700)',
+                      fontFamily: 'var(--fontFamily)',
+                      textAnchor: 'end',
+                    }}
+                    fontSize={12}
+                    dy={-5}
+                  >
+                    {el.text}
+                  </text>
+                </g>
+              ))}
+            </>
           ) : null}
         </g>
       </svg>

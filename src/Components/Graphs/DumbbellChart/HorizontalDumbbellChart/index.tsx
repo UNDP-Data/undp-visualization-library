@@ -4,8 +4,8 @@ import { Graph } from './Graph';
 import { DumbbellChartDataType } from '../../../../Types';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
-import { ColorLegend } from '../../../Elements/ColorLegend';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -21,7 +21,7 @@ interface Props {
   source?: string;
   barPadding?: number;
   showDotValue?: boolean;
-  showXTicks?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
@@ -56,7 +56,7 @@ export function HorizontalDumbbellChart(props: Props) {
     sourceLink,
     barPadding,
     showDotValue,
-    showXTicks,
+    showTicks,
     leftMargin,
     rightMargin,
     topMargin,
@@ -84,6 +84,9 @@ export function HorizontalDumbbellChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -101,6 +104,7 @@ export function HorizontalDumbbellChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -119,6 +123,8 @@ export function HorizontalDumbbellChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -156,10 +162,12 @@ export function HorizontalDumbbellChart(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegend
+            <ColorLegendWithMouseOver
+              width={width}
               colorDomain={colorDomain}
               colors={dotColors}
               colorLegendTitle={colorLegendTitle}
+              setSelectedColor={setSelectedColor}
             />
             <div
               style={{
@@ -195,10 +203,10 @@ export function HorizontalDumbbellChart(props: Props) {
                       ? true
                       : (showDotValue as boolean)
                   }
-                  showXTicks={
-                    checkIfNullOrUndefined(showXTicks)
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
                       ? true
-                      : (showXTicks as boolean)
+                      : (showTicks as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
@@ -235,6 +243,7 @@ export function HorizontalDumbbellChart(props: Props) {
                   maxPositionValue={maxPositionValue}
                   minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  selectedColor={selectedColor}
                 />
               ) : null}
             </div>

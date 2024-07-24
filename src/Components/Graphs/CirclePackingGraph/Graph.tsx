@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 
 interface Props {
   data: TreeMapDataType[];
@@ -168,7 +169,15 @@ export function Graph(props: Props) {
                   >
                     <div
                       style={{
-                        fill: 'var(--white)',
+                        color: getTextColorBasedOnBgColor(
+                          data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !(d.data as any).data.color
+                            ? UNDPColorModule.graphGray
+                            : colors[
+                                colorDomain.indexOf((d.data as any).data.color)
+                              ],
+                        ),
                         fontFamily: 'var(--fontFamily)',
                         textAnchor: 'middle',
                         whiteSpace: 'normal',
@@ -191,7 +200,17 @@ export function Graph(props: Props) {
                             )}px`,
                             textAlign: 'center',
                             lineHeight: '1',
-                            color: 'var(--white)',
+                            color: getTextColorBasedOnBgColor(
+                              data.filter(el => el.color).length === 0
+                                ? colors[0]
+                                : !(d.data as any).data.color
+                                ? UNDPColorModule.graphGray
+                                : colors[
+                                    colorDomain.indexOf(
+                                      (d.data as any).data.color,
+                                    )
+                                  ],
+                            ),
                           }}
                         >
                           {(d.data as any).id}

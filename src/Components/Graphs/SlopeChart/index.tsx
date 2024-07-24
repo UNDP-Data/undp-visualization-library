@@ -96,6 +96,7 @@ export function SlopeChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -114,6 +115,8 @@ export function SlopeChart(props: Props) {
           padding: backgroundColor
             ? padding || 'var(--spacing-05)'
             : padding || 0,
+          flexGrow: 1,
+          display: 'flex',
         }}
       >
         <div
@@ -140,101 +143,115 @@ export function SlopeChart(props: Props) {
               }
             />
           ) : null}
-          {showColorScale !== false &&
-          data.filter(el => el.color).length !== 0 ? (
-            <ColorLegendWithMouseOver
-              width={width}
-              colorLegendTitle={colorLegendTitle}
-              colors={
-                (colors as string[] | undefined) ||
-                UNDPColorModule.categoricalColors.colors
-              }
-              colorDomain={
-                colorDomain ||
-                (uniqBy(
-                  data.filter(el => el.color),
-                  'color',
-                ).map(d => d.color) as string[])
-              }
-              setSelectedColor={setSelectedColor}
-              showNAColor
-            />
-          ) : null}
           <div
             style={{
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              lineHeight: 0,
+              gap: 'var(--spacing-04)',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
-                width={width || svgWidth}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
+            {showColorScale !== false &&
+            data.filter(el => el.color).length !== 0 ? (
+              <ColorLegendWithMouseOver
+                width={width}
+                colorLegendTitle={colorLegendTitle}
+                colors={
+                  (colors as string[] | undefined) ||
+                  UNDPColorModule.categoricalColors.colors
                 }
                 colorDomain={
-                  data.filter(el => el.color).length === 0
-                    ? []
-                    : colorDomain ||
-                      (uniqBy(
-                        data.filter(el => el.color),
-                        'color',
-                      ).map(d => d.color) as string[])
+                  colorDomain ||
+                  (uniqBy(
+                    data.filter(el => el.color),
+                    'color',
+                  ).map(d => d.color) as string[])
                 }
-                colors={
-                  data.filter(el => el.color).length === 0
-                    ? colors
-                      ? [colors as string]
-                      : ['var(--blue-600)']
-                    : (colors as string[] | undefined) ||
-                      UNDPColorModule.categoricalColors.colors
-                }
-                selectedColor={selectedColor}
-                axisTitle={axisTitle || ['', '']}
-                showLabels={
-                  checkIfNullOrUndefined(showLabels)
-                    ? false
-                    : (showLabels as boolean)
-                }
-                pointRadius={
-                  checkIfNullOrUndefined(pointRadius)
-                    ? 5
-                    : (pointRadius as number)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 50
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 20
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 50
-                    : (bottomMargin as number)
-                }
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                highlightedDataPoints={highlightedDataPoints || []}
-                minValue={minValue}
-                maxValue={maxValue}
-                onSeriesMouseClick={onSeriesMouseClick}
+                setSelectedColor={setSelectedColor}
+                showNAColor
               />
             ) : null}
+            <div
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+                width: '100%',
+              }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  width={width || svgWidth}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  colorDomain={
+                    data.filter(el => el.color).length === 0
+                      ? []
+                      : colorDomain ||
+                        (uniqBy(
+                          data.filter(el => el.color),
+                          'color',
+                        ).map(d => d.color) as string[])
+                  }
+                  colors={
+                    data.filter(el => el.color).length === 0
+                      ? colors
+                        ? [colors as string]
+                        : ['var(--blue-600)']
+                      : (colors as string[] | undefined) ||
+                        UNDPColorModule.categoricalColors.colors
+                  }
+                  selectedColor={selectedColor}
+                  axisTitle={axisTitle || ['', '']}
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
+                      ? false
+                      : (showLabels as boolean)
+                  }
+                  pointRadius={
+                    checkIfNullOrUndefined(pointRadius)
+                      ? 5
+                      : (pointRadius as number)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 50
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 20
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 20
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 50
+                      : (bottomMargin as number)
+                  }
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  highlightedDataPoints={highlightedDataPoints || []}
+                  minValue={minValue}
+                  maxValue={maxValue}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                />
+              ) : null}
+            </div>
           </div>
           {source || footNote ? (
             <GraphFooter

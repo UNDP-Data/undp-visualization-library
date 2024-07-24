@@ -3,11 +3,6 @@ export interface TimeSeriesProps {
   value: number;
   data?: object;
 }
-export type AnnotationDataType = {
-  refPoint: [number, number];
-  text: string;
-  arrow: boolean;
-};
 
 export interface TreeMapDataType {
   label: string | number;
@@ -94,11 +89,6 @@ export interface ScatterPlotDataType {
   data?: object;
 }
 
-export interface ReferenceDataType {
-  value: number | null;
-  text: string;
-}
-
 export interface TableColumnSettingsDataType {
   title: string;
   size?: number;
@@ -161,3 +151,16 @@ export interface StripChartDataType {
 }
 
 export type ScaleDataType = 'categorical' | 'linear' | 'threshold';
+
+export interface ReferenceDataType {
+  value: number | null;
+  text: string;
+  color?: string;
+}
+
+export type AnnotationDataType = {
+  refPoint: [number, number];
+  text: string;
+  arrow: boolean;
+  color?: string;
+};

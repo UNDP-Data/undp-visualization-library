@@ -22,7 +22,7 @@ interface Props {
   sourceLink?: string;
   barPadding?: number;
   showBarLabel?: boolean;
-  showYTicks?: boolean;
+  showTicks?: boolean;
   colorDomain: string[];
   colorLegendTitle?: string;
   truncateBy?: number;
@@ -56,7 +56,7 @@ export function VerticalStackedBarGraph(props: Props) {
     sourceLink,
     barPadding,
     showBarLabel,
-    showYTicks,
+    showTicks,
     height,
     width,
     footNote,
@@ -190,10 +190,10 @@ export function VerticalStackedBarGraph(props: Props) {
                       ? true
                       : (showBarLabel as boolean)
                   }
-                  showYTicks={
-                    checkIfNullOrUndefined(showYTicks)
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
                       ? true
-                      : (showYTicks as boolean)
+                      : (showTicks as boolean)
                   }
                   truncateBy={
                     checkIfNullOrUndefined(truncateBy)

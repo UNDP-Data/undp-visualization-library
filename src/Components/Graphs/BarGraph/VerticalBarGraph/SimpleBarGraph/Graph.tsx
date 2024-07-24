@@ -20,7 +20,7 @@ interface Props {
   barPadding: number;
   showBarLabel: boolean;
   showBarValue: boolean;
-  showYTicks: boolean;
+  showTicks: boolean;
   colorDomain: string[];
   truncateBy: number;
   leftMargin: number;
@@ -48,7 +48,7 @@ export function Graph(props: Props) {
     barPadding,
     showBarLabel,
     showBarValue,
-    showYTicks,
+    showTicks,
     colorDomain,
     truncateBy,
     rightMargin,
@@ -130,7 +130,7 @@ export function Graph(props: Props) {
           >
             0
           </text>
-          {showYTicks
+          {showTicks
             ? yTicks.map((d, i) => (
                 <g key={i}>
                   <line
@@ -274,7 +274,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: 'var(--gray-700)',
+                      stroke: el.color || 'var(--gray-700)',
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -288,7 +288,7 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: el.color || 'var(--gray-700)',
                       fontFamily: 'var(--fontFamily)',
                       textAnchor: 'end',
                     }}

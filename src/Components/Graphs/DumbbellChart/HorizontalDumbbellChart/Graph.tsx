@@ -15,7 +15,7 @@ interface Props {
   prefix: string;
   barPadding: number;
   showDotValue: boolean;
-  showXTicks: boolean;
+  showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
@@ -25,6 +25,7 @@ interface Props {
   height: number;
   dotRadius: number;
   showLabel: boolean;
+  selectedColor?: string;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
   maxPositionValue?: number;
@@ -40,7 +41,7 @@ export function Graph(props: Props) {
     prefix,
     barPadding,
     showDotValue,
-    showXTicks,
+    showTicks,
     leftMargin,
     truncateBy,
     width,
@@ -55,6 +56,7 @@ export function Graph(props: Props) {
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
+    selectedColor,
   } = props;
   const margin = {
     top: topMargin,
@@ -99,7 +101,7 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {showXTicks
+          {showTicks
             ? xTicks.map((d, i) => (
                 <g key={i}>
                   <text
@@ -136,38 +138,6 @@ export function Graph(props: Props) {
               transform={`translate(0,${
                 (y(`${i}`) as number) + y.bandwidth() / 2
               })`}
-              onMouseEnter={(event: any) => {
-                setMouseOverData(d);
-                setEventY(event.clientY);
-                setEventX(event.clientX);
-                if (onSeriesMouseOver) {
-                  onSeriesMouseOver(d);
-                }
-              }}
-              onClick={() => {
-                if (onSeriesMouseClick) {
-                  if (isEqual(mouseClickData, d)) {
-                    setMouseClickData(undefined);
-                    onSeriesMouseClick(undefined);
-                  } else {
-                    setMouseClickData(d);
-                    onSeriesMouseClick(d);
-                  }
-                }
-              }}
-              onMouseMove={(event: any) => {
-                setMouseOverData(d);
-                setEventY(event.clientY);
-                setEventX(event.clientX);
-              }}
-              onMouseLeave={() => {
-                setMouseOverData(undefined);
-                setEventX(undefined);
-                setEventY(undefined);
-                if (onSeriesMouseOver) {
-                  onSeriesMouseOver(undefined);
-                }
-              }}
             >
               {showLabel ? (
                 <text
@@ -207,9 +177,51 @@ export function Graph(props: Props) {
                   stroke: 'var(--gray-600)',
                   strokeWidth: 1,
                 }}
+                opacity={selectedColor ? 0.3 : 1}
               />
               {d.x.map((el, j) => (
-                <g key={j}>
+                <g
+                  key={j}
+                  opacity={
+                    selectedColor
+                      ? dotColors[j] === selectedColor
+                        ? 1
+                        : 0.3
+                      : 1
+                  }
+                  onMouseEnter={(event: any) => {
+                    setMouseOverData({ ...d, xIndex: j });
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver({ ...d, xIndex: j });
+                    }
+                  }}
+                  onClick={() => {
+                    if (onSeriesMouseClick) {
+                      if (isEqual(mouseClickData, { ...d, xIndex: j })) {
+                        setMouseClickData(undefined);
+                        onSeriesMouseClick(undefined);
+                      } else {
+                        setMouseClickData({ ...d, xIndex: j });
+                        onSeriesMouseClick({ ...d, xIndex: j });
+                      }
+                    }
+                  }}
+                  onMouseMove={(event: any) => {
+                    setMouseOverData({ ...d, xIndex: j });
+                    setEventY(event.clientY);
+                    setEventX(event.clientX);
+                  }}
+                  onMouseLeave={() => {
+                    setMouseOverData(undefined);
+                    setEventX(undefined);
+                    setEventY(undefined);
+                    if (onSeriesMouseOver) {
+                      onSeriesMouseOver(undefined);
+                    }
+                  }}
+                >
                   <circle
                     cx={x(el)}
                     cy={0}
