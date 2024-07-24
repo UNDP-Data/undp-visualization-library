@@ -32,6 +32,7 @@ interface Props {
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
+  showAntarctica: boolean;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +59,7 @@ export function Graph(props: Props) {
     zoomTranslateExtend,
     highlightedDataPoints,
     onSeriesMouseClick,
+    showAntarctica,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -108,7 +110,8 @@ export function Graph(props: Props) {
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
-            if (d.properties.NAME === 'Antarctica') return null;
+            if (d.properties.NAME === 'Antarctica' && !showAntarctica)
+              return null;
             return (
               <g key={i}>
                 {d.geometry.type === 'MultiPolygon'

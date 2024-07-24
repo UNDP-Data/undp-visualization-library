@@ -5,6 +5,7 @@ import { BivariateMapDataType } from '../../../../Types';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import WorldMapData from '../WorldMapData/data.json';
 
 interface Props {
   data: BivariateMapDataType[];
@@ -37,8 +38,10 @@ interface Props {
   graphID?: string;
   highlightedCountryCodes?: string[];
   onSeriesMouseClick?: (_d: any) => void;
+  mapProperty?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  showAntarctica?: boolean;
 }
 
 export function BiVariantMap(props: Props) {
@@ -75,6 +78,8 @@ export function BiVariantMap(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    mapProperty,
+    showAntarctica,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -84,7 +89,7 @@ export function BiVariantMap(props: Props) {
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
-      setSvgHeight(graphDiv.current.clientHeight || 570);
+      setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
@@ -154,7 +159,7 @@ export function BiVariantMap(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                mapData={mapData}
+                mapData={mapData || WorldMapData}
                 xDomain={xDomain}
                 yDomain={yDomain}
                 width={width || svgWidth}
@@ -182,6 +187,10 @@ export function BiVariantMap(props: Props) {
                 zoomScaleExtend={zoomScaleExtend}
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
+                mapProperty={mapProperty || 'ISO3'}
+                showAntarctica={
+                  showAntarctica === undefined ? false : showAntarctica
+                }
                 highlightedCountryCodes={highlightedCountryCodes || []}
               />
             ) : null}

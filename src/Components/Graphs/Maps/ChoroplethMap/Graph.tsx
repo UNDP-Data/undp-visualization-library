@@ -30,6 +30,8 @@ interface Props {
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedCountryCodes: string[];
   onSeriesMouseClick?: (_d: any) => void;
+  mapProperty: string;
+  showAntarctica: boolean;
 }
 
 export function Graph(props: Props) {
@@ -55,6 +57,8 @@ export function Graph(props: Props) {
     zoomTranslateExtend,
     highlightedCountryCodes,
     onSeriesMouseClick,
+    mapProperty,
+    showAntarctica,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -104,9 +108,11 @@ export function Graph(props: Props) {
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
             const index = data.findIndex(
-              el => el.countryCode === d.properties.ISO3,
+              el => el.countryCode === d.properties[mapProperty],
             );
-            if (index !== -1 || d.properties.NAME === 'Antarctica') return null;
+            if (!showAntarctica && d.properties.NAME === 'Antarctica')
+              return null;
+            if (index !== -1) return null;
             return (
               <g
                 key={i}
@@ -114,7 +120,9 @@ export function Graph(props: Props) {
                   selectedColor
                     ? 0.3
                     : highlightedCountryCodes.length !== 0
-                    ? highlightedCountryCodes.indexOf(d.properties.ISO3) !== -1
+                    ? highlightedCountryCodes.indexOf(
+                        d.properties[mapProperty],
+                      ) !== -1
                       ? 1
                       : 0.3
                     : 1
@@ -176,7 +184,7 @@ export function Graph(props: Props) {
           })}
           {data.map((d, i) => {
             const index = mapData.features.findIndex(
-              (el: any) => d.countryCode === el.properties.ISO3,
+              (el: any) => d.countryCode === el.properties[mapProperty],
             );
             const color =
               d.x !== undefined ? colorScale(d.x as any) : mapNoDataColor;
@@ -227,7 +235,7 @@ export function Graph(props: Props) {
                   }
                 }}
               >
-                {index === -1 || d.countryCode === 'ATA'
+                {index === -1
                   ? null
                   : mapData.features[index].geometry.type === 'MultiPolygon'
                   ? mapData.features[index].geometry.coordinates.map(
@@ -290,8 +298,8 @@ export function Graph(props: Props) {
           {mouseOverData
             ? mapData.features
                 .filter(
-                  (d: { properties: { ISO3: any } }) =>
-                    d.properties.ISO3 === mouseOverData.countryCode,
+                  (d: { properties: any }) =>
+                    d.properties[mapProperty] === mouseOverData.countryCode,
                 )
                 .map((d: any, i: number) => {
                   return (

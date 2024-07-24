@@ -6,6 +6,7 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { DotDensityMapDataType } from '../../../../Types';
+import WorldMapData from '../WorldMapData/data.json';
 
 interface Props {
   graphTitle?: string;
@@ -41,6 +42,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  showAntarctica?: boolean;
 }
 
 export function DotDensityMap(props: Props) {
@@ -78,6 +80,7 @@ export function DotDensityMap(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    showAntarctica,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -87,7 +90,7 @@ export function DotDensityMap(props: Props) {
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
-      setSvgHeight(graphDiv.current.clientHeight || 570);
+      setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
@@ -157,7 +160,7 @@ export function DotDensityMap(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                mapData={mapData}
+                mapData={mapData || WorldMapData}
                 colorDomain={
                   data.filter(el => el.color).length === 0
                     ? []
@@ -210,6 +213,9 @@ export function DotDensityMap(props: Props) {
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
                 highlightedDataPoints={highlightedDataPoints || []}
+                showAntarctica={
+                  showAntarctica === undefined ? false : showAntarctica
+                }
               />
             ) : null}
           </div>
