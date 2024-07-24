@@ -115,7 +115,7 @@ export function Graph(props: Props) {
             const index = data.findIndex(
               el => el.countryCode === d.properties[mapProperty],
             );
-            if (showAntarctica && d.properties.NAME === 'Antarctica')
+            if (!showAntarctica && d.properties.NAME === 'Antarctica')
               return null;
             if (index !== -1) return null;
             return (
