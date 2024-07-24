@@ -9,7 +9,7 @@ import WorldMapData from '../WorldMapData/data.json';
 
 interface Props {
   graphTitle?: string;
-  mapData: any;
+  mapData?: any;
   graphDescription?: string;
   footNote?: string;
   sourceLink?: string;
