@@ -85,7 +85,7 @@ export interface ScatterPlotDataType {
   y: number;
   radius?: number;
   color?: string;
-  label: string;
+  label?: string;
   data?: object;
 }
 

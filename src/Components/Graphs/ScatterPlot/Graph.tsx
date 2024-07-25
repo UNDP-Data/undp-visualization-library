@@ -86,6 +86,7 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const radiusScale =
@@ -101,10 +102,10 @@ export function Graph(props: Props) {
           .nice()
       : undefined;
   const dataOrdered =
-    data.filter(d => d.radius !== undefined).length === 0
-      ? data
+    dataWithId.filter(d => d.radius !== undefined).length === 0
+      ? dataWithId
       : orderBy(
-          data.filter(d => d.radius !== undefined),
+          dataWithId.filter(d => d.radius !== undefined),
           'radius',
           'desc',
         );
@@ -350,11 +351,11 @@ export function Graph(props: Props) {
                           : 0.3
                         : 0.3
                       : mouseOverData
-                      ? mouseOverData.label === d.label
+                      ? mouseOverData.id === d.id
                         ? 1
                         : 0.3
                       : highlightedDataPoints.length !== 0
-                      ? highlightedDataPoints.indexOf(d.label) !== -1
+                      ? highlightedDataPoints.indexOf(d.label || '') !== -1
                         ? 1
                         : 0.3
                       : 1
@@ -381,7 +382,7 @@ export function Graph(props: Props) {
                     }}
                     fillOpacity={0.6}
                   />
-                  {showLabels ? (
+                  {showLabels && d.label ? (
                     <text
                       fontSize={10}
                       style={{
@@ -402,7 +403,7 @@ export function Graph(props: Props) {
                     >
                       {d.label}
                     </text>
-                  ) : highlightedDataPoints.length !== 0 ? (
+                  ) : highlightedDataPoints.length !== 0 && d.label ? (
                     highlightedDataPoints.indexOf(d.label) !== -1 ? (
                       <text
                         fontSize={10}

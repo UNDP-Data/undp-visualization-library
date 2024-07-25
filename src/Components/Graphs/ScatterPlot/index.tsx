@@ -271,7 +271,11 @@ export function ScatterPlot(props: Props) {
                   highlightAreaSettings={
                     highlightAreaSettings || [null, null, null, null]
                   }
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={
+                    data.filter(el => el.label).length === 0
+                      ? []
+                      : highlightedDataPoints || []
+                  }
                   highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
                   selectedColor={selectedColor}
                   pointRadiusMaxValue={pointRadiusMaxValue}
