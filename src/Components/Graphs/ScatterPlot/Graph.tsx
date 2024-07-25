@@ -27,8 +27,8 @@ interface Props {
   bottomMargin: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
-  refXValue?: ReferenceDataType[];
-  refYValue?: ReferenceDataType[];
+  refXValues?: ReferenceDataType[];
+  refYValues?: ReferenceDataType[];
   highlightAreaSettings: [
     number | null,
     number | null,
@@ -63,8 +63,8 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    refXValue,
-    refYValue,
+    refXValues,
+    refYValues,
     highlightAreaSettings,
     selectedColor,
     highlightedDataPoints,
@@ -470,9 +470,9 @@ export function Graph(props: Props) {
               </g>
             );
           })}
-          {refXValue ? (
+          {refXValues ? (
             <>
-              {refXValue.map((el, i) => (
+              {refXValues.map((el, i) => (
                 <g key={i}>
                   <line
                     style={{
@@ -507,9 +507,9 @@ export function Graph(props: Props) {
               ))}
             </>
           ) : null}
-          {refYValue ? (
+          {refYValues ? (
             <>
-              {refYValue.map((el, i) => (
+              {refYValues.map((el, i) => (
                 <g key={i}>
                   <line
                     style={{

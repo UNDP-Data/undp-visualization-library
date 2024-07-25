@@ -33,8 +33,8 @@ interface Props {
   relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
-  refXValue?: ReferenceDataType[];
-  refYValue?: ReferenceDataType[];
+  refXValues?: ReferenceDataType[];
+  refYValues?: ReferenceDataType[];
   highlightedDataPoints?: (string | number)[];
   highlightAreaSettings?: [
     number | null,
@@ -81,8 +81,8 @@ export function ScatterPlot(props: Props) {
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
-    refXValue,
-    refYValue,
+    refXValues,
+    refYValues,
     highlightAreaSettings,
     showColorScale,
     highlightedDataPoints,
@@ -234,8 +234,8 @@ export function ScatterPlot(props: Props) {
                   }
                   xAxisTitle={xAxisTitle || 'X Axis'}
                   yAxisTitle={yAxisTitle || 'Y Axis'}
-                  refXValue={refXValue}
-                  refYValue={refYValue}
+                  refXValues={refXValues}
+                  refYValues={refYValues}
                   showLabels={
                     checkIfNullOrUndefined(showLabels)
                       ? false
