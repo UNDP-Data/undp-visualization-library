@@ -57,6 +57,7 @@ export { CardsSlider } from './Components/CardsSlider';
 // Utility Buttons
 export { ExcelDownloadButton } from './Components/Actions/ExcelDownloadButton';
 export { ImageDownloadButton } from './Components/Actions/ImageDownloadButton';
+export { SVGDownloadButton } from './Components/Actions/SVGDownloadButton';
 export { CsvDownloadButton } from './Components/Actions/CsvDownloadButton';
 export { CopyTextButton } from './Components/Actions/CopyTextButton';
 
@@ -84,4 +85,5 @@ export { removeOutliers } from './Utils/removeOutliers';
 export { getTextColorBasedOnBgColor } from './Utils/getTextColorBasedOnBgColor';
 export { getJenks } from './Utils/getJenks';
 export { imageDownload } from './Utils/imageDownload';
+export { svgDownload } from './Utils/svgDownload';
 export { excelDownload } from './Utils/excelDownload';
