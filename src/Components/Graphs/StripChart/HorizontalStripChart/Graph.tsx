@@ -26,6 +26,8 @@ interface Props {
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
   showAxis: boolean;
+  prefix: string;
+  suffix: string;
 }
 
 export function Graph(props: Props) {
@@ -48,6 +50,8 @@ export function Graph(props: Props) {
     maxValue,
     onSeriesMouseClick,
     showAxis,
+    prefix,
+    suffix,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -98,7 +102,7 @@ export function Graph(props: Props) {
               <g
                 className='g-with-hover'
                 key={i}
-                transform={`translate(${0},${graphHeight / 2})`}
+                transform={`translate(${x(d.position)},${graphHeight / 2})`}
                 opacity={
                   selectedColor
                     ? d.color
@@ -147,7 +151,7 @@ export function Graph(props: Props) {
               >
                 <circle
                   cy={0}
-                  cx={x(d.position)}
+                  cx={0}
                   style={{
                     fill:
                       data.filter(el => el.color).length === 0
@@ -156,8 +160,29 @@ export function Graph(props: Props) {
                         ? UNDPColorModule.graphGray
                         : colors[colorDomain.indexOf(d.color)],
                   }}
-                  radius={pointRadius}
+                  r={pointRadius}
                 />
+                {highlightedDataPoints.length !== 0 ? (
+                  highlightedDataPoints.indexOf(d.label) !== -1 ? (
+                    <text
+                      x={0}
+                      y={0 - pointRadius - 3}
+                      style={{
+                        fill:
+                          data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !d.color
+                            ? UNDPColorModule.graphGray
+                            : colors[colorDomain.indexOf(d.color)],
+                        fontFamily: 'var(--fontFamily)',
+                      }}
+                      textAnchor='middle'
+                      fontSize={12}
+                    >
+                      {numberFormattingFunction(d.position, prefix, suffix)}
+                    </text>
+                  ) : null
+                ) : null}
               </g>
             );
           })}

@@ -39,6 +39,8 @@ interface Props {
   showAxis?: boolean;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  prefix?: string;
+  suffix?: string;
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -73,6 +75,8 @@ export function HorizontalStripChart(props: Props) {
     showAxis,
     graphDownload,
     dataDownload,
+    prefix,
+    suffix,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -242,6 +246,8 @@ export function HorizontalStripChart(props: Props) {
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   showAxis={showAxis !== false}
+                  prefix={prefix || ''}
+                  suffix={suffix || ''}
                 />
               ) : null}
             </div>
