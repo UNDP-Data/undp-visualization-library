@@ -47,6 +47,9 @@ export { UnitChart } from './Components/Graphs/UnitChart';
 export { HeatMap } from './Components/Graphs/HeatMap';
 // DataTable
 export { DataTable } from './Components/Graphs/DataTable';
+// Strip chart
+export { HorizontalStripChart } from './Components/Graphs/StripChart/HorizontalStripChart';
+export { VerticalStripChart } from './Components/Graphs/StripChart/VerticalStripChart';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
@@ -74,9 +77,11 @@ export { Source } from './Components/Typography/Source';
 /* ------- Utils ------- */
 export { checkIfNullOrUndefined } from './Utils/checkIfNullOrUndefined';
 export { getEmbedLink } from './Utils/getEmbedCode';
-export { calculatePercentile } from './Utils/getPercentile';
+export { getPercentileValue } from './Utils/getPercentileValue';
 export { getQueryParamsFromLink } from './Utils/getQueryParamsFromLink';
 export { numberFormattingFunction } from './Utils/numberFormattingFunction';
 export { removeOutliers } from './Utils/removeOutliers';
 export { getTextColorBasedOnBgColor } from './Utils/getTextColorBasedOnBgColor';
 export { getJenks } from './Utils/getJenks';
+export { imageDownload } from './Utils/imageDownload';
+export { excelDownload } from './Utils/excelDownload';

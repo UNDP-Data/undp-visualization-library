@@ -43,8 +43,8 @@ export const getTextColorBasedOnBgColor = (bgColor: string) => {
   try {
     const rgb = bgColor[0] === 'r' ? getRGB(bgColor) : getRGBFromHex(bgColor);
     const luminance = getLuminance(rgb.r, rgb.g, rgb.b);
-    return luminance > 0.4 ? 'var(--black)' : 'var(--white)';
+    return luminance > 0.4 ? '#000' : '#fff';
   } catch {
-    return 'var(--white)';
+    return '#fff';
   }
 };

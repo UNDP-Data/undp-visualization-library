@@ -127,7 +127,7 @@ export interface HeatMapDataType {
 }
 
 export interface DataTableColumnDataType {
-  columnTitle: string;
+  columnTitle?: string;
   columnId: string;
   sortable?: boolean;
   align?: 'left' | 'right' | 'center';

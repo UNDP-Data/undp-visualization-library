@@ -34,7 +34,7 @@ interface Props {
   refValues?: ReferenceDataType[];
   maxValue?: number;
   minValue?: number;
-  highlightedLines: (string | number)[];
+  highlightedLines: string[];
   highlightAreaColor: string;
 }
 

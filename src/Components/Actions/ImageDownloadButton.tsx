@@ -1,5 +1,5 @@
-import { ImageDown } from '../../Icons/Icons';
-import { imageDownload } from './imageDownload';
+import { imageDownload } from '../../Utils/imageDownload';
+import { ImageDown } from '../Icons/Icons';
 
 interface Props {
   buttonContent?: string | JSX.Element;

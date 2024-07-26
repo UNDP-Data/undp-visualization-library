@@ -92,6 +92,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        style={{ marginLeft: 'auto', marginRight: 'auto' }}
       >
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels

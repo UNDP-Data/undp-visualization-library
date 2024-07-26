@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -63,6 +63,7 @@
     "d3-zoom": "^3.0.0",
     "date-fns": "^3.3.1",
     "dom-to-image": "^2.6.0",
+    "dom-to-svg": "^0.12.2",
     "file-saver": "^2.0.5",
     "lodash.isequal": "^4.5.0",
     "lodash.max": "^4.0.1",

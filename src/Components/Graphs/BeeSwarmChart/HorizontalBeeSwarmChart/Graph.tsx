@@ -163,8 +163,29 @@ export function Graph(props: Props) {
           viewBox={`0 0 ${width} ${height}`}
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
-            {showTicks
-              ? xTicks.map((d, i) => (
+            {showTicks ? (
+              <g>
+                <line
+                  x1={x(0)}
+                  x2={x(0)}
+                  y1={-2.5}
+                  y2={graphHeight + margin.bottom}
+                  stroke='#212121'
+                  strokeWidth={1}
+                />
+                <text
+                  x={x(0)}
+                  y={-12.5}
+                  style={{
+                    fill: 'var(--gray-500)',
+                    fontFamily: 'var(--fontFamily)',
+                  }}
+                  textAnchor='middle'
+                  fontSize={12}
+                >
+                  {numberFormattingFunction(0, '', '')}
+                </text>
+                {xTicks.map((d, i) => (
                   <g key={i}>
                     <text
                       x={x(d)}
@@ -191,8 +212,9 @@ export function Graph(props: Props) {
                       opacity={d === 0 ? 0 : 1}
                     />
                   </g>
-                ))
-              : null}
+                ))}
+              </g>
+            ) : null}
             {finalData.map((d, i) => (
               <g
                 className='g-with-hover'

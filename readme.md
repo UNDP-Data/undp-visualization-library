@@ -64,6 +64,7 @@ The dependencies that are pre-installed wit the library:
 * simple-statistics - For statistical functions
 * date-fns - For date formatting
 * dom-to-image - For downloading div as images
+* dom-to-svg - For downloading div as svg
 * file-saver - For downloading files
 * react-csv - For generating a csv file
 * xlsx - For generating a xlsx file

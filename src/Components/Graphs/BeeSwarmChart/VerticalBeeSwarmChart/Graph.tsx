@@ -131,7 +131,7 @@ export function Graph(props: Props) {
       : undefined;
   const y = scaleLinear()
     .domain([yMinValue, yMaxValue])
-    .range([0, graphHeight])
+    .range([graphHeight, 0])
     .nice();
   const yTicks = y.ticks(5);
 
@@ -163,8 +163,32 @@ export function Graph(props: Props) {
           viewBox={`0 0 ${width} ${height}`}
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
-            {showTicks
-              ? yTicks.map((d, i) => (
+            {showTicks ? (
+              <g>
+                <line
+                  y1={y(0)}
+                  y2={y(0)}
+                  x1={0 - margin.left}
+                  x2={graphWidth + margin.right}
+                  style={{
+                    stroke: 'var(--gray-700)',
+                  }}
+                  strokeWidth={1}
+                />
+                <text
+                  x={0 - margin.left + 2}
+                  y={y(0)}
+                  style={{
+                    fill: 'var(--gray-700)',
+                    fontFamily: 'var(--fontFamily)',
+                  }}
+                  textAnchor='start'
+                  fontSize={12}
+                  dy={-3}
+                >
+                  0
+                </text>
+                {yTicks.map((d, i) => (
                   <g key={i}>
                     <line
                       key={i}
@@ -194,8 +218,9 @@ export function Graph(props: Props) {
                       {numberFormattingFunction(d, '', '')}
                     </text>
                   </g>
-                ))
-              : null}
+                ))}
+              </g>
+            ) : null}
             {finalData.map((d, i) => (
               <g
                 className='g-with-hover'

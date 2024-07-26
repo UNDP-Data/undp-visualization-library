@@ -4,7 +4,7 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 
 interface Props {
   year?: number | string;
-  value: number;
+  value: number | string;
   graphTitle: string;
   graphDescription?: string;
   suffix?: string;
@@ -94,7 +94,13 @@ export function StatCard(props: Props) {
                 fontFamily: 'var(--fontFamilyHeadings)',
               }}
             >
-              {numberFormattingFunction(value, prefix || '', suffix || '')}{' '}
+              {typeof value === 'string'
+                ? `${prefix}${value}${suffix}`
+                : numberFormattingFunction(
+                    value,
+                    prefix || '',
+                    suffix || '',
+                  )}{' '}
               {year ? (
                 <span
                   style={{

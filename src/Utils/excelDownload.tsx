@@ -5,7 +5,7 @@ interface WsColInterface {
   wch: number;
 }
 
-export const exportToExcel = (
+export const excelDownload = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any,
   fileName: string,

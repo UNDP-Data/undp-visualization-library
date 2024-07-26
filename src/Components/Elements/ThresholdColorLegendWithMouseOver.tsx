@@ -108,8 +108,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
           {naColor ? (
             <g
               onMouseOver={() => {
-                setHoveredColor(colors[colorDomain.length]);
-                setSelectedColor(colors[colorDomain.length]);
+                setHoveredColor(naColor || '#D4D6D8');
+                setSelectedColor(naColor || '#D4D6D8');
               }}
               onMouseLeave={() => {
                 setHoveredColor(undefined);
@@ -120,16 +120,16 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               <rect
                 x={335}
                 y={1}
-                width={25}
+                width={24}
                 height={8}
-                fill={naColor}
+                fill={naColor || '#D4D6D8'}
                 stroke={hoveredColor === naColor ? '#212121' : naColor}
                 strokeWidth={1}
               />
               <text
                 x={337.5}
                 y={25}
-                textAnchor='middle'
+                textAnchor='start'
                 fontSize={12}
                 fill='#212121'
                 style={{

@@ -40,6 +40,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  fillContainer?: boolean;
 }
 
 export function SlopeChart(props: Props) {
@@ -75,6 +76,7 @@ export function SlopeChart(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    fillContainer,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -97,7 +99,7 @@ export function SlopeChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: width ? 'fit-content' : '100%',
+        width: fillContainer === false ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',

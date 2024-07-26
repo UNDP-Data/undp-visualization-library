@@ -8,6 +8,7 @@ interface Props {
   value: number;
   maxValue?: number;
   gridSize?: number;
+  fillContainer?: boolean;
   unitPadding?: number;
   size?: number;
   graphTitle?: string;
@@ -39,6 +40,7 @@ export function UnitChart(props: Props) {
     backgroundColor,
     graphID,
     graphDownload,
+    fillContainer,
   } = props;
   const outOfValue = maxValue === undefined ? 100 : maxValue;
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
@@ -64,7 +66,7 @@ export function UnitChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: size ? 'fit-content' : '100%',
+        width: fillContainer === false ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: size ? 0 : 1,
@@ -90,7 +92,7 @@ export function UnitChart(props: Props) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-00)',
+            gap: 'var(--spacing-04)',
             width: '100%',
             justifyContent: 'space-between',
             flexGrow: 1,
@@ -100,14 +102,16 @@ export function UnitChart(props: Props) {
             <GraphHeader
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              width={size || 200}
+              width={fillContainer === false ? size || 200 : undefined}
               graphDownload={graphDownload ? graphParentDiv.current : undefined}
             />
           ) : null}
           <div>
             <h2
               className='undp-typography bold margin-bottom-02 margin-top-00'
-              style={{ width: `${size || 200}px` }}
+              style={{
+                width: fillContainer === false ? `${size || 200}px` : '100%',
+              }}
             >
               {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}
               {outOfValue}
@@ -166,7 +170,7 @@ export function UnitChart(props: Props) {
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}
-              width={size || 200}
+              width={fillContainer === false ? size || 200 : undefined}
             />
           ) : null}
         </div>

@@ -43,6 +43,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  fillContainer?: boolean;
 }
 
 export function HeatMap(props: Props) {
@@ -80,6 +81,7 @@ export function HeatMap(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    fillContainer,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -109,7 +111,7 @@ export function HeatMap(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
+        width: fillContainer === false ? 'fit-content' : '100%',
         height: 'inherit',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -170,7 +172,7 @@ export function HeatMap(props: Props) {
               scale === 'categorical' ? (
                 <div style={{ marginBottom: '-12px' }}>
                   <ColorLegendWithMouseOver
-                    width={width}
+                    width={fillContainer !== false ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors ||
@@ -197,7 +199,7 @@ export function HeatMap(props: Props) {
               ) : scale === 'threshold' ? (
                 <div style={{ marginBottom: '-12px' }}>
                   <ThresholdColorLegendWithMouseOver
-                    width={width}
+                    width={fillContainer !== false ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors ||
@@ -224,7 +226,7 @@ export function HeatMap(props: Props) {
               ) : (
                 <div style={{ marginBottom: '-12px' }}>
                   <LinearColorLegend
-                    width={width}
+                    width={fillContainer !== false ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors || [
@@ -247,6 +249,7 @@ export function HeatMap(props: Props) {
                 width: '100%',
                 lineHeight: 0,
               }}
+              ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
@@ -288,7 +291,7 @@ export function HeatMap(props: Props) {
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 40
+                      ? 10
                       : (rightMargin as number)
                   }
                   topMargin={

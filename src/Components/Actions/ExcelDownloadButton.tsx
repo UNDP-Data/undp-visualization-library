@@ -1,5 +1,5 @@
-import { FileDown } from '../../Icons/Icons';
-import { exportToExcel } from './excelDownload';
+import { excelDownload } from '../../Utils/excelDownload';
+import { FileDown } from '../Icons/Icons';
 
 interface WsColInterface {
   wch: number;
@@ -38,7 +38,7 @@ export function ExcelDownloadButton(props: Props) {
         buttonArrow ? ' button-arrow' : ''
       }${buttonSmall ? ' padding-03' : ''}`}
       onClick={() =>
-        exportToExcel(csvData, fileName || 'data', headers, xlsxHeader, wscols)
+        excelDownload(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
     >
       {buttonContent || <FileDown />}

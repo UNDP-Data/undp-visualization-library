@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
+import isEqual from 'lodash.isequal';
 import { DataTableColumnDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -20,6 +21,7 @@ interface Props {
   width?: number;
   height?: number;
   columnData: DataTableColumnDataType[];
+  onSeriesMouseClick?: (_d: any) => void;
   data: any;
 }
 
@@ -35,10 +37,12 @@ export function DataTable(props: Props) {
     graphID,
     data,
     columnData,
+    onSeriesMouseClick,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
   );
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
@@ -70,7 +74,7 @@ export function DataTable(props: Props) {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-00)',
+          gap: 'var(--spacing-04)',
           width: '100%',
           justifyContent: 'space-between',
           flexGrow: 1,
@@ -118,9 +122,10 @@ export function DataTable(props: Props) {
                             style={{
                               textAlign: d.align || 'left',
                               flexGrow: 1,
+                              fontFamily: 'var(--fontFamily)',
                             }}
                           >
-                            {d.columnTitle}
+                            {d.columnTitle || d.columnId}
                           </div>
                           {d.sortable ? (
                             <button
@@ -130,6 +135,7 @@ export function DataTable(props: Props) {
                                 padding: 0,
                                 border: 0,
                                 backgroundColor: 'transparent',
+                                cursor: 'pointer',
                               }}
                               onClick={() => {
                                 if (columnSortBy === d.columnId) {
@@ -165,7 +171,24 @@ export function DataTable(props: Props) {
                   {sortedData?.map((d: any, i: number) => (
                     <tr
                       key={i}
-                      style={{ borderBottom: '1px solid var(--gray-400)' }}
+                      style={{
+                        borderBottom: '1px solid var(--gray-400)',
+                        cursor: onSeriesMouseClick ? 'pointer' : 'auto',
+                        backgroundColor: isEqual(mouseClickData, d)
+                          ? 'var(--gray-200)'
+                          : 'transparent',
+                      }}
+                      onClick={() => {
+                        if (onSeriesMouseClick) {
+                          if (isEqual(mouseClickData, d)) {
+                            setMouseClickData(undefined);
+                            onSeriesMouseClick(undefined);
+                          } else {
+                            setMouseClickData(d);
+                            onSeriesMouseClick(d);
+                          }
+                        }
+                      }}
                     >
                       {columnData.map((el, j) => (
                         <td
@@ -179,6 +202,7 @@ export function DataTable(props: Props) {
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: 1,
+                                  fontFamily: 'var(--fontFamily)',
                                 }}
                               >
                                 {numberFormattingFunction(
@@ -192,6 +216,7 @@ export function DataTable(props: Props) {
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: 1,
+                                  fontFamily: 'var(--fontFamily)',
                                 }}
                               >{`${el.prefix || ''}${d[el.columnId]}${
                                 el.suffix || ''

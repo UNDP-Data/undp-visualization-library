@@ -1,4 +1,4 @@
-export function calculatePercentile(data: number[], percentile: number) {
+export function getPercentileValue(data: number[], percentile: number) {
   // Sort the data
   const sortedData = data.slice().sort((a, b) => a - b);
 

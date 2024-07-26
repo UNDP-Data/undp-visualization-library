@@ -224,12 +224,12 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 100
+                      ? 10
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 40
+                      ? 10
                       : (rightMargin as number)
                   }
                   topMargin={

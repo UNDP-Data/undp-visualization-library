@@ -38,7 +38,7 @@ interface Props {
   graphID?: string;
   maxValue?: number;
   minValue?: number;
-  highlightedLines?: (string | number)[];
+  highlightedLines?: string[];
   graphDownload?: boolean;
   dataDownload?: boolean;
   highlightAreaColor?: string;

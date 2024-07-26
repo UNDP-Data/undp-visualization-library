@@ -38,6 +38,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   highlightAreaColor?: string;
+  showColorScale?: boolean;
 }
 
 export function AreaChart(props: Props) {
@@ -72,6 +73,7 @@ export function AreaChart(props: Props) {
     graphDownload,
     dataDownload,
     highlightAreaColor,
+    showColorScale,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -150,11 +152,13 @@ export function AreaChart(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegend
-              colorDomain={colorDomain}
-              colors={areaColors}
-              colorLegendTitle={colorLegendTitle}
-            />
+            {showColorScale !== false ? (
+              <ColorLegend
+                colorDomain={colorDomain}
+                colors={areaColors}
+                colorLegendTitle={colorLegendTitle}
+              />
+            ) : null}
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
               ref={graphDiv}
