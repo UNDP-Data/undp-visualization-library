@@ -1,6 +1,7 @@
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   year?: number | string;
@@ -43,16 +44,14 @@ export function StatCard(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -62,7 +61,7 @@ export function StatCard(props: Props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            gap: 'var(--spacing-09)',
+            gap: '3rem',
             justifyContent: 'space-between',
             flexGrow: 1,
           }}
@@ -86,12 +85,13 @@ export function StatCard(props: Props) {
                 fontSize: '4.375rem',
                 lineHeight: '1',
                 textShadow: 'none',
-                WebkitTextStroke: '2px var(--black)',
-                color: 'var(--gray-200)',
+                WebkitTextStroke: `2px ${UNDPColorModule.grays.black}`,
+                color: UNDPColorModule.grays['gray-200'],
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',
-                fontFamily: 'var(--fontFamilyHeadings)',
+                fontFamily:
+                  'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {typeof value === 'string'
@@ -109,11 +109,12 @@ export function StatCard(props: Props) {
                     lineHeight: '1.09',
                     textShadow: 'none',
                     fontWeight: 'normal',
-                    WebkitTextStroke: '0px var(--black)',
-                    color: 'var(--gray-500)',
+                    WebkitTextStroke: `0px ${UNDPColorModule.grays.black}`,
+                    color: UNDPColorModule.grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
-                    fontFamily: 'var(--fontFamily)',
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   ({year})

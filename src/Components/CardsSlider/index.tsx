@@ -14,10 +14,10 @@ export function CardsSlider(props: Props) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
-      className='margin-bottom-00'
       style={{
         cursor: `${cursor}, auto`,
         width: '100%',
+        marginBottom: 0,
       }}
       onClick={e => {
         if (WrapperRef.current) {
@@ -46,7 +46,7 @@ export function CardsSlider(props: Props) {
           overflowX: 'auto',
           paddingBottom: '1rem',
         }}
-        className='flex-div stat-container undp-scrollbar'
+        className='undp-viz-scrollbar'
         ref={WrapperRef}
       >
         {cards.map((el, i) => (

@@ -250,10 +250,11 @@ export function Graph(props: Props) {
                     x={!radiusScale ? pointRadius : radiusScale(d.radius || 0)}
                     y={0}
                     style={{
-                      fill: 'var(--gray-600)',
+                      fill: UNDPColorModule.grays['gray-600'],
                       fontSize: '1rem',
                       textAnchor: 'start',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dx={4}
                     dy={5}
@@ -270,15 +271,36 @@ export function Graph(props: Props) {
       showColorScale === false ? null : (
         <div
           style={{ position: 'sticky', bottom: '0px' }}
-          className='bivariate-legend-container'
+          className='undp-viz-bivariate-legend-container'
         >
-          <div className='univariate-legend-el'>
-            <div className='univariate-map-color-legend-element padding-00'>
+          <div
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.75)',
+              marginBottom: '0.75rem',
+              padding: '1rem',
+              display: 'flex',
+              alignItems: 'flex-end',
+            }}
+          >
+            <div
+              style={{
+                position: 'relative',
+                zIndex: '5',
+                padding: 0,
+              }}
+            >
               <div>
                 {colorLegendTitle ? (
                   <div
-                    className='univariate-map-legend-text'
-                    style={{ lineHeight: 'normal' }}
+                    style={{
+                      lineHeight: 'normal',
+                      fontSize: '0.75rem !important',
+                      display: '-webkit-box',
+                      WebkitLineClamp: '1',
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      marginBottom: '0.5rem',
+                    }}
                   >
                     {colorLegendTitle}
                   </div>
@@ -316,7 +338,8 @@ export function Graph(props: Props) {
                           fontSize={12}
                           fill='#212121'
                           style={{
-                            fontFamily: 'var(--fontFamily)',
+                            fontFamily:
+                              'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {d}

@@ -10,6 +10,7 @@ import { numberFormattingFunction } from '../../../../../Utils/numberFormattingF
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   data: GroupedBarGraphDataType[];
@@ -100,8 +101,9 @@ export function Graph(props: Props) {
                     x={x(d)}
                     y={-12.5}
                     style={{
-                      fill: 'var(--gray-500)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: UNDPColorModule.grays['gray-500'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     textAnchor='middle'
                     fontSize={12}
@@ -114,7 +116,7 @@ export function Graph(props: Props) {
                     y1={-2.5}
                     y2={graphHeight + margin.bottom}
                     style={{
-                      stroke: 'var(--gray-500)',
+                      stroke: UNDPColorModule.grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -126,7 +128,7 @@ export function Graph(props: Props) {
           {data.map((d, i) => {
             return (
               <g
-                className='low-opacity g-with-hover'
+                className='undp-viz-low-opacity undp-viz-g-with-hover'
                 key={i}
                 transform={`translate(${0},${y(`${i}`)})`}
               >
@@ -210,7 +212,8 @@ export function Graph(props: Props) {
                           fill: getTextColorBasedOnBgColor(barColors[j]),
                           fontSize: '1rem',
                           textAnchor: 'middle',
-                          fontFamily: 'var(--fontFamily)',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         dy={5}
                       >
@@ -226,10 +229,11 @@ export function Graph(props: Props) {
                 {showBarLabel ? (
                   <text
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'end',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(0)}
                     y={y.bandwidth() / 2}
@@ -244,10 +248,11 @@ export function Graph(props: Props) {
                 {showValues ? (
                   <text
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '1rem',
                       textAnchor: 'start',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(sum(d.size))}
                     y={y.bandwidth() / 2}
@@ -278,7 +283,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || 'var(--gray-700)',
+                      stroke: el.color || UNDPColorModule.grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -292,8 +297,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || 'var(--gray-700)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75
                           ? 'end'

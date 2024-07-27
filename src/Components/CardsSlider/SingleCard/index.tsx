@@ -1,3 +1,5 @@
+import { UNDPColorModule } from '../../ColorPalette';
+
 interface Props {
   contentEl: JSX.Element;
 }
@@ -15,10 +17,10 @@ export function SingleCardEl(props: Props) {
         flexBasis: '22.5rem',
         minWidth: '22.5rem',
         minHeight: '22.5rem',
-        backgroundColor: 'var(--gray-200)',
+        backgroundColor: UNDPColorModule.grays['gray-200'],
         justifyContent: 'space-between',
         fontSize: '1.25rem',
-        color: 'var(--black)',
+        color: UNDPColorModule.grays.black,
         transition: '300ms all',
         height: 'auto',
         scrollSnapAlign: 'start',

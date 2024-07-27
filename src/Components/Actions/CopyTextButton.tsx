@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Copy } from '../Icons/Icons';
 import AutoCloseMessage from '../Elements/AutoCloseMessage';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   text: string;
@@ -22,9 +23,13 @@ export function CopyTextButton(props: Props) {
     <>
       <button
         type='button'
-        className={`undp-button button-quaternary padding-05 flex-div gap-03 flex-vert-align-center${
-          buttonSmall ? ' padding-03' : ''
-        }`}
+        className='undp-viz-button button-quaternary'
+        style={{
+          display: 'flex',
+          padding: buttonSmall ? '0.5rem' : '1rem',
+          gap: '0.5rem',
+          alignItems: 'center',
+        }}
         onClick={() => {
           navigator.clipboard.writeText(text);
           handleShowMessage();
@@ -33,8 +38,13 @@ export function CopyTextButton(props: Props) {
         <Copy />
         {buttonText ? (
           <p
-            className='undp-typography margin-bottom-00 small-font'
-            style={{ color: 'var(--gray-700)', textTransform: 'uppercase' }}
+            className='undp-viz-typography'
+            style={{
+              color: UNDPColorModule.grays['gray-700'],
+              textTransform: 'uppercase',
+              marginBottom: 0,
+              fontSize: '0.875rem !important',
+            }}
           >
             {buttonText}
           </p>

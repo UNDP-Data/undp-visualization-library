@@ -7,6 +7,7 @@ import isEqual from 'lodash.isequal';
 import { ChoroplethMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   domain: number[] | string[];
@@ -325,7 +326,7 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={masterPath}
                                 style={{
-                                  stroke: 'var(--gray-700)',
+                                  stroke: UNDPColorModule.grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -349,7 +350,7 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={path}
                                 style={{
-                                  stroke: 'var(--gray-700)',
+                                  stroke: UNDPColorModule.grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -365,16 +366,37 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div
-          className='bivariate-legend-container'
+          className='undp-viz-bivariate-legend-container'
           style={{ position: 'relative' }}
         >
-          <div className='univariate-legend-el'>
-            <div className='univariate-map-color-legend-element padding-00'>
+          <div
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.75)',
+              marginBottom: '0.75rem',
+              padding: '1rem',
+              display: 'flex',
+              alignItems: 'flex-end',
+            }}
+          >
+            <div
+              style={{
+                position: 'relative',
+                zIndex: '5',
+                padding: 0,
+              }}
+            >
               <div>
                 {colorLegendTitle ? (
                   <div
-                    className='univariate-map-legend-text'
-                    style={{ lineHeight: 'normal' }}
+                    style={{
+                      lineHeight: 'normal',
+                      fontSize: '0.75rem !important',
+                      display: '-webkit-box',
+                      WebkitLineClamp: '1',
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      marginBottom: '0.5rem',
+                    }}
                   >
                     {colorLegendTitle}
                   </div>
@@ -421,7 +443,8 @@ export function Graph(props: Props) {
                           fontSize={12}
                           fill='#212121'
                           style={{
-                            fontFamily: 'var(--fontFamily)',
+                            fontFamily:
+                              'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {categorical

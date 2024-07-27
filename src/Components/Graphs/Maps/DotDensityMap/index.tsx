@@ -108,7 +108,7 @@ export function DotDensityMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -116,9 +116,7 @@ export function DotDensityMap(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -128,7 +126,7 @@ export function DotDensityMap(props: Props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            gap: 'var(--spacing-05)',
+            gap: '1rem',
             flexGrow: 1,
             justifyContent: 'space-between',
           }}
@@ -185,7 +183,7 @@ export function DotDensityMap(props: Props) {
                   data.filter(el => el.color).length === 0
                     ? colors
                       ? [colors as string]
-                      : ['var(--blue-600)']
+                      : [UNDPColorModule.primaryColors['blue-600']]
                     : (colors as string[] | undefined) ||
                       UNDPColorModule.categoricalColors.colors
                 }
@@ -201,7 +199,9 @@ export function DotDensityMap(props: Props) {
                     : (mapBorderWidth as number)
                 }
                 mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
-                mapBorderColor={mapBorderColor || 'var(--gray-500)'}
+                mapBorderColor={
+                  mapBorderColor || UNDPColorModule.grays['gray-500']
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
                 showLabel={showLabel}

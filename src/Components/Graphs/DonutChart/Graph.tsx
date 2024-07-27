@@ -3,6 +3,7 @@ import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   mainText?: string;
@@ -52,8 +53,9 @@ export function Graph(props: Props) {
             >
               <div
                 style={{
-                  fill: 'var(--black)',
-                  fontFamily: 'var(--fontFamily)',
+                  fill: UNDPColorModule.grays.black,
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   textAnchor: 'middle',
                   whiteSpace: 'normal',
                   display: 'flex',
@@ -62,15 +64,16 @@ export function Graph(props: Props) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 'inherit',
-                  padding: '0 var(--spacing-05)',
+                  padding: '0 1rem',
                 }}
               >
                 {mainText ? (
                   <h2
-                    className='undp-typography margin-bottom-00'
+                    className='undp-viz-typography'
                     style={{
                       lineHeight: '1',
                       textAlign: 'center',
+                      marginBottom: 0,
                     }}
                   >
                     {mainText}
@@ -78,10 +81,12 @@ export function Graph(props: Props) {
                 ) : null}
                 {subNote ? (
                   <p
-                    className='undp-typography margin-bottom-00 bold'
+                    className='undp-viz-typography'
                     style={{
                       lineHeight: '1',
                       textAlign: 'center',
+                      fontWeight: 'bold',
+                      marginBottom: 0,
                     }}
                   >
                     {subNote}

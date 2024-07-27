@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   colors: string[];
@@ -26,20 +27,24 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
-      className='flex-div gap-00 flex-wrap flex-hor-align-center'
       style={{
         lineHeight: 0,
         maxWidth: width || 'none',
+        display: 'flex',
+        gap: 0,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
       }}
     >
       {colorLegendTitle ? (
         <p
-          className='undp-typography margin-bottom-03'
+          className='undp-viz-typography'
           style={{
-            fill: 'var(--gray-700)',
+            fill: UNDPColorModule.grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
+            marginBottom: '0.5rem',
           }}
         >
           {colorLegendTitle}
@@ -75,7 +80,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fontSize={12}
                 fill='#212121'
                 style={{
-                  fontFamily: 'var(--fontFamily)',
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 {numberFormattingFunction(d as number, '', '')}
@@ -134,7 +140,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fontSize={12}
                 fill='#212121'
                 style={{
-                  fontFamily: 'var(--fontFamily)',
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 NA

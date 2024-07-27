@@ -177,8 +177,9 @@ export function Graph(props: Props) {
                   x={x(0)}
                   y={-12.5}
                   style={{
-                    fill: 'var(--gray-500)',
-                    fontFamily: 'var(--fontFamily)',
+                    fill: UNDPColorModule.grays['gray-500'],
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -191,8 +192,9 @@ export function Graph(props: Props) {
                       x={x(d)}
                       y={-12.5}
                       style={{
-                        fill: 'var(--gray-500)',
-                        fontFamily: 'var(--fontFamily)',
+                        fill: UNDPColorModule.grays['gray-500'],
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       textAnchor='middle'
                       fontSize={12}
@@ -205,7 +207,7 @@ export function Graph(props: Props) {
                       y1={-2.5}
                       y2={graphHeight + margin.bottom}
                       style={{
-                        stroke: 'var(--gray-500)',
+                        stroke: UNDPColorModule.grays['gray-500'],
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'
@@ -217,7 +219,7 @@ export function Graph(props: Props) {
             ) : null}
             {finalData.map((d, i) => (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -309,7 +311,8 @@ export function Graph(props: Props) {
                             ? UNDPColorModule.graphGray
                             : circleColors[colorDomain.indexOf(d.color)],
                         ),
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'middle',
                         whiteSpace: 'normal',
                         display: 'flex',
@@ -318,12 +321,12 @@ export function Graph(props: Props) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: 'inherit',
-                        padding: '0 var(--spacing-02)',
+                        padding: '0 0.25rem',
                       }}
                     >
                       {showLabel ? (
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(
@@ -336,6 +339,7 @@ export function Graph(props: Props) {
                               ),
                               20,
                             )}px`,
+                            marginBottom: 0,
                             textAlign: 'center',
                             lineHeight: '1',
                             color: getTextColorBasedOnBgColor(
@@ -361,7 +365,7 @@ export function Graph(props: Props) {
                   <g key={i}>
                     <line
                       style={{
-                        stroke: el.color || 'var(--gray-700)',
+                        stroke: el.color || UNDPColorModule.grays['gray-700'],
                         strokeWidth: 1.5,
                       }}
                       strokeDasharray='4,4'
@@ -375,8 +379,9 @@ export function Graph(props: Props) {
                       fontWeight='bold'
                       x={x(el.value as number) as number}
                       style={{
-                        fill: el.color || 'var(--gray-700)',
-                        fontFamily: 'var(--fontFamily)',
+                        fill: el.color || UNDPColorModule.grays['gray-700'],
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor:
                           x(el.value as number) > graphWidth * 0.75
                             ? 'end'
@@ -396,8 +401,19 @@ export function Graph(props: Props) {
         </svg>
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
-          <div className='undp-loader-container undp-container'>
-            <div className='undp-loader' />
+          <div
+            style={{
+              display: 'flex',
+              margin: 'auto',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '10rem',
+              fontSize: '1rem',
+              lineHeight: 1.4,
+              padding: 0,
+            }}
+          >
+            <div className='undp-viz-loader' />
           </div>
         </div>
       )}

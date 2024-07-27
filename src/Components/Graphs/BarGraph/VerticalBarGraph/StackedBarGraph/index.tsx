@@ -111,7 +111,7 @@ export function VerticalStackedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -119,9 +119,7 @@ export function VerticalStackedBarGraph(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
         }}
       >
         <div
@@ -129,7 +127,7 @@ export function VerticalStackedBarGraph(props: Props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            gap: 'var(--spacing-05)',
+            gap: '1rem',
             flexGrow: 1,
             justifyContent: 'space-between',
           }}
@@ -154,7 +152,7 @@ export function VerticalStackedBarGraph(props: Props) {
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              gap: 'var(--spacing-04)',
+              gap: '0.75rem',
               width: '100%',
             }}
           >

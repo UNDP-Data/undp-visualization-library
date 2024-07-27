@@ -94,7 +94,7 @@ export function Graph(props: Props) {
           {treeMapVizData.children?.map((d, i) => {
             return (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -182,21 +182,23 @@ export function Graph(props: Props) {
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
                         ),
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'middle',
                         whiteSpace: 'normal',
                         display: 'flex',
                         flexDirection: 'column',
                         gap: '2px',
-                        padding: 'var(--spacing-03)',
+                        padding: '0.5rem',
                       }}
                     >
                       {showLabel ? (
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
                             fontSize: '14px',
                             lineHeight: '1',
+                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
@@ -215,9 +217,10 @@ export function Graph(props: Props) {
                       ) : null}
                       {showValue ? (
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
-                            fontSize: '14px',
+                            fontSize: '0.875rem !important',
+                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]

@@ -10,6 +10,7 @@ import {
   SortingIconAscending,
   SortingIconDescending,
 } from '../../Icons/Icons';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   graphTitle?: string;
@@ -74,7 +75,7 @@ export function DataTable(props: Props) {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-04)',
+          gap: '0.75rem',
           width: '100%',
           justifyContent: 'space-between',
           flexGrow: 1,
@@ -96,7 +97,7 @@ export function DataTable(props: Props) {
           }}
         >
           <div
-            className='undp-scrollbar'
+            className='undp-viz-scrollbar'
             style={{
               width: width ? `${width}px` : '100%',
               height: height ? `${height}px` : 'auto',
@@ -108,21 +109,33 @@ export function DataTable(props: Props) {
                   style={{
                     fontWeight: '600',
                     textAlign: 'left',
-                    backgroundColor: 'var(--gray-300)',
+                    backgroundColor: UNDPColorModule.grays['gray-300'],
                   }}
                 >
                   <tr>
                     {columnData?.map((d, i) => (
                       <th
-                        className='padding-05 undp-typography small-font'
+                        className='undp-viz-typography'
+                        style={{
+                          padding: '1rem',
+                          fontSize: '0.875rem !important',
+                        }}
                         key={i}
                       >
-                        <div className='flex-div flex-space-between flex-vert-align-center gap-03'>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '0.5rem',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
                           <div
                             style={{
                               textAlign: d.align || 'left',
                               flexGrow: 1,
-                              fontFamily: 'var(--fontFamily)',
+                              fontFamily:
+                                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                             }}
                           >
                             {d.columnTitle || d.columnId}
@@ -172,10 +185,10 @@ export function DataTable(props: Props) {
                     <tr
                       key={i}
                       style={{
-                        borderBottom: '1px solid var(--gray-400)',
+                        borderBottom: `1px solid ${UNDPColorModule.grays['gray-400']}`,
                         cursor: onSeriesMouseClick ? 'pointer' : 'auto',
                         backgroundColor: isEqual(mouseClickData, d)
-                          ? 'var(--gray-200)'
+                          ? UNDPColorModule.grays['gray-200']
                           : 'transparent',
                       }}
                       onClick={() => {
@@ -192,17 +205,22 @@ export function DataTable(props: Props) {
                     >
                       {columnData.map((el, j) => (
                         <td
-                          className='padding-05 small-font undp-typography small-font'
+                          className='undp-viz-typography'
                           key={j}
-                          style={{ textAlign: d.align || 'left' }}
+                          style={{
+                            textAlign: d.align || 'left',
+                            fontSize: '0.875rem !important',
+                            padding: '1rem',
+                          }}
                         >
-                          <div className='flex-div'>
+                          <div style={{ display: 'flex' }}>
                             {typeof d[el.columnId] === 'number' ? (
                               <div
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: 1,
-                                  fontFamily: 'var(--fontFamily)',
+                                  fontFamily:
+                                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                 }}
                               >
                                 {numberFormattingFunction(
@@ -216,7 +234,8 @@ export function DataTable(props: Props) {
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: 1,
-                                  fontFamily: 'var(--fontFamily)',
+                                  fontFamily:
+                                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                 }}
                               >{`${el.prefix || ''}${d[el.columnId]}${
                                 el.suffix || ''

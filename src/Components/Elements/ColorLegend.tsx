@@ -23,32 +23,56 @@ export function ColorLegend(props: Props) {
       <div>
         {colorLegendTitle ? (
           <p
-            className='undp-typography margin-bottom-03'
+            className='undp-viz-typography'
             style={{
-              fill: 'var(--gray-700)',
+              fill: UNDPColorModule.grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: 'center',
+              marginBottom: '0.5rem',
             }}
           >
             {colorLegendTitle}
           </p>
         ) : null}
-        <div className='flex-div margin-bottom-00 flex-wrap'>
+        <div
+          style={{
+            display: 'flex',
+            marginBottom: 0,
+            flexWrap: 'wrap',
+          }}
+        >
           {colorDomain.map((d, i) => (
-            <div className='flex-div gap-03 flex-vert-align-center' key={i}>
+            <div key={i}>
               <div
                 style={{
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
                   backgroundColor: colors[i],
+                  display: 'flex',
+                  gap: '0.5rem',
+                  alignItems: 'center',
                 }}
               />
-              <p className='undp-typography margin-bottom-00 small-font'>{d}</p>
+              <p
+                className='undp-viz-typography'
+                style={{
+                  marginBottom: 0,
+                  fontSize: '0.875rem !important',
+                }}
+              >
+                {d}
+              </p>
             </div>
           ))}
           {showNAColor ? (
-            <div className='flex-div gap-03 flex-vert-align-center'>
+            <div
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+              }}
+            >
               <div
                 style={{
                   width: '0.75rem',
@@ -58,8 +82,12 @@ export function ColorLegend(props: Props) {
                 }}
               />
               <p
-                className='undp-typography margin-bottom-00 small-font'
-                style={{ marginTop: '3px' }}
+                className='undp-viz-typography'
+                style={{
+                  marginTop: '3px',
+                  marginBottom: 0,
+                  fontSize: '0.875rem !important',
+                }}
               >
                 NA
               </p>

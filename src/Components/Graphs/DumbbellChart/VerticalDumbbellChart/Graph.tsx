@@ -7,6 +7,7 @@ import { DumbbellChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -107,7 +108,7 @@ export function Graph(props: Props) {
             x1={0 - margin.left}
             x2={graphWidth + margin.right}
             style={{
-              stroke: 'var(--gray-700)',
+              stroke: UNDPColorModule.grays['gray-700'],
             }}
             strokeWidth={1}
           />
@@ -115,8 +116,9 @@ export function Graph(props: Props) {
             x={0 - margin.left + 2}
             y={y(0)}
             style={{
-              fill: 'var(--gray-700)',
-              fontFamily: 'var(--fontFamily)',
+              fill: UNDPColorModule.grays['gray-700'],
+              fontFamily:
+                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
             }}
             textAnchor='start'
             fontSize={12}
@@ -134,7 +136,7 @@ export function Graph(props: Props) {
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
                     style={{
-                      stroke: 'var(--gray-500)',
+                      stroke: UNDPColorModule.grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -148,8 +150,9 @@ export function Graph(props: Props) {
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily: 'var(--fontFamily)',
-                      fill: 'var(--gray-500)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fill: UNDPColorModule.grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -159,7 +162,7 @@ export function Graph(props: Props) {
             : null}
           {data.map((d: DumbbellChartDataType, i) => (
             <g
-              className='low-opacity g-with-hover'
+              className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
               transform={`translate(${
                 (x(`${i}`) as number) + x.bandwidth() / 2
@@ -168,10 +171,11 @@ export function Graph(props: Props) {
               {showLabel ? (
                 <text
                   style={{
-                    fill: 'var(--gray-700)',
+                    fill: UNDPColorModule.grays['gray-700'],
                     fontSize: '0.75rem',
                     textAnchor: 'middle',
-                    fontFamily: 'var(--fontFamily)',
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   x={0}
                   y={graphHeight}
@@ -188,7 +192,7 @@ export function Graph(props: Props) {
                 x1={0}
                 x2={0}
                 style={{
-                  stroke: 'var(--gray-600)',
+                  stroke: UNDPColorModule.grays['gray-600'],
                   strokeWidth: 1,
                 }}
                 opacity={selectedColor ? 0.3 : 1}
@@ -256,7 +260,8 @@ export function Graph(props: Props) {
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
                         textAnchor: 'start',
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dx={dotRadius + 3}
                       dy={4.5}

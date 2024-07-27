@@ -10,6 +10,7 @@ import sortBy from 'lodash.sortby';
 import { DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: DualAxisLineChartDataType[];
@@ -227,13 +228,13 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='label-text'
+              className='undp-viz-label-text'
               transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
               fill={lineColors[0]}
               textAnchor='middle'
-              fontSize={12}
               style={{
-                fontFamily: 'var(--fontFamily)',
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {lineTitles[0].length > 100
@@ -274,7 +275,7 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='label-text'
+              className='undp-viz-label-text'
               transform={`translate(${graphWidth + 65}, ${
                 graphHeight / 2
               }) rotate(-90)`}
@@ -282,7 +283,8 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily: 'var(--fontFamily)',
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {lineTitles[1].length > 100
@@ -297,18 +299,18 @@ export function Graph(props: Props) {
               x1={-15}
               x2={graphWidth + 15}
               style={{
-                stroke: 'var(--gray-500)',
+                stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
             {xTicks.map((d, i) => (
               <g key={i}>
                 <text
-                  className='x-axis-text'
+                  className='undp-viz-x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: 'var(--gray-700)',
+                    fill: UNDPColorModule.grays['gray-700'],
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -373,7 +375,8 @@ export function Graph(props: Props) {
                         style={{
                           fontWeight: 'bold',
                           fill: lineColors[0],
-                          fontFamily: 'var(--fontFamily)',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
                         {numberFormattingFunction(
@@ -411,7 +414,8 @@ export function Graph(props: Props) {
                         style={{
                           fontWeight: 'bold',
                           fill: lineColors[1],
-                          fontFamily: 'var(--fontFamily)',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
                         {numberFormattingFunction(

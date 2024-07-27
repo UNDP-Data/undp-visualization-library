@@ -10,6 +10,7 @@ import sortBy from 'lodash.sortby';
 import { LineChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: LineChartDataType[];
@@ -160,27 +161,25 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className='x-axis-text'
+              className='undp-viz-x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
-                fill: 'var(--gray-700)',
+                fill: UNDPColorModule.grays['gray-700'],
               }}
               textAnchor='end'
-              fontSize={12}
               dy={15}
             >
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
             </text>
             <text
-              className='x-axis-text'
+              className='undp-viz-x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
-                fill: 'var(--gray-700)',
+                fill: UNDPColorModule.grays['gray-700'],
               }}
               textAnchor='start'
-              fontSize={12}
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}

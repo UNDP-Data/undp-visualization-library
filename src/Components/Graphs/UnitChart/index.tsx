@@ -73,7 +73,7 @@ export function UnitChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -81,9 +81,7 @@ export function UnitChart(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -92,7 +90,7 @@ export function UnitChart(props: Props) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-04)',
+            gap: '0.75rem',
             width: '100%',
             justifyContent: 'space-between',
             flexGrow: 1,
@@ -108,9 +106,12 @@ export function UnitChart(props: Props) {
           ) : null}
           <div>
             <h2
-              className='undp-typography bold margin-bottom-02 margin-top-00'
+              className='undp-viz-typography'
               style={{
                 width: fillContainer === false ? `${size || 200}px` : '100%',
+                fontWeight: 'bold',
+                marginBottom: '0.25rem',
+                marginTop: 0,
               }}
             >
               {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}

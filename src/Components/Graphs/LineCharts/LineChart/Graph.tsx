@@ -11,6 +11,7 @@ import { LineChartDataType, ReferenceDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: LineChartDataType[];
@@ -185,7 +186,7 @@ export function Graph(props: Props) {
                     x1={width}
                     x2={-20}
                     style={{
-                      stroke: 'var(--gray-500)',
+                      stroke: UNDPColorModule.grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -194,8 +195,9 @@ export function Graph(props: Props) {
                     x={-25}
                     y={y(d)}
                     style={{
-                      fill: 'var(--gray-500)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: UNDPColorModule.grays['gray-500'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     textAnchor='end'
                     fontSize={12}
@@ -212,7 +214,7 @@ export function Graph(props: Props) {
               x1={-20}
               x2={width}
               style={{
-                stroke: 'var(--gray-700)',
+                stroke: UNDPColorModule.grays['gray-700'],
               }}
               strokeWidth={1}
             />
@@ -220,8 +222,9 @@ export function Graph(props: Props) {
               x={-25}
               y={y(0)}
               style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
+                fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               fontSize={12}
@@ -234,11 +237,11 @@ export function Graph(props: Props) {
             {xTicks.map((d, i) => (
               <g key={i}>
                 <text
-                  className='x-axis-text'
+                  className='undp-viz-x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: 'var(--gray-700)',
+                    fill: UNDPColorModule.grays['gray-700'],
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -298,8 +301,9 @@ export function Graph(props: Props) {
                         textAnchor='middle'
                         style={{
                           fontWeight: 'bold',
-                          fill: 'var(-gray-700)',
-                          fontFamily: 'var(--fontFamily)',
+                          fill: UNDPColorModule.grays['gray-700'],
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
                         {numberFormattingFunction(
@@ -320,7 +324,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || 'var(--gray-700)',
+                      stroke: el.color || UNDPColorModule.grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -334,8 +338,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || 'var(--gray-700)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     fontSize={12}

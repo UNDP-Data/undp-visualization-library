@@ -3,10 +3,17 @@ import './styles/styles.css';
 function App() {
   return (
     <div>
-      <div className='undp-container flex-div flex-wrap flex-hor-align-center padding-07'>
-        <h2 className='undp-typography'>undp-visualization-library</h2>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          padding: '2rem',
+        }}
+      >
+        <h2 className='undp-viz-typography'>undp-visualization-library</h2>
         <h5
-          className='undp-typography'
+          className='undp-viz-typography'
           style={{ textAlign: 'center', width: '100%' }}
         >
           This is an open source graphing library build by United Nations
@@ -16,7 +23,7 @@ function App() {
             href='mailto:data@undp.org'
             target='_blank'
             rel='noreferrer'
-            className='undp-style'
+            className='undp-viz-style'
           >
             here
           </a>
@@ -28,7 +35,7 @@ function App() {
             href='mailto:data@undp.org'
             target='_blank'
             rel='noreferrer'
-            className='undp-style'
+            className='undp-viz-style'
           >
             data@undp.org
           </a>{' '}

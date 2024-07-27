@@ -100,7 +100,7 @@ export function DualAxisLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -108,9 +108,7 @@ export function DualAxisLineChart(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -120,7 +118,7 @@ export function DualAxisLineChart(props: Props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            gap: 'var(--spacing-05)',
+            gap: '1rem',
             flexGrow: 1,
             justifyContent: 'space-between',
           }}
@@ -145,7 +143,7 @@ export function DualAxisLineChart(props: Props) {
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              gap: 'var(--spacing-04)',
+              gap: '0.75rem',
               width: '100%',
             }}
           >
@@ -218,7 +216,9 @@ export function DualAxisLineChart(props: Props) {
                   highlightAreaSettings={highlightAreaSettings || [null, null]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
+                  highlightAreaColor={
+                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                  }
                 />
               ) : null}
             </div>

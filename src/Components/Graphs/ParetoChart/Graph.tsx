@@ -7,6 +7,7 @@ import isEqual from 'lodash.isequal';
 import { ParetoChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: ParetoChartDataType[];
@@ -148,13 +149,14 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='label-text'
+              className='undp-viz-label-text'
               transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
               fill={barColor}
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily: 'var(--fontFamily)',
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {axisTitles[0].length > 100
@@ -195,7 +197,7 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='label-text'
+              className='undp-viz-label-text'
               transform={`translate(${graphWidth + 65}, ${
                 graphHeight / 2
               }) rotate(-90)`}
@@ -203,7 +205,8 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily: 'var(--fontFamily)',
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {axisTitles[1].length > 100
@@ -218,7 +221,7 @@ export function Graph(props: Props) {
               x1={-15}
               x2={graphWidth + 15}
               style={{
-                stroke: 'var(--gray-500)',
+                stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -226,7 +229,7 @@ export function Graph(props: Props) {
           {dataWithId.map((d, i) => {
             return (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 opacity={0.85}
                 onMouseEnter={(event: any) => {
@@ -276,10 +279,11 @@ export function Graph(props: Props) {
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y1(0)}
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy='15px'
                   >

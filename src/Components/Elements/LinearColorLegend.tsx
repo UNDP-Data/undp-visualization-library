@@ -1,4 +1,5 @@
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   colors: string[];
@@ -11,20 +12,24 @@ export function LinearColorLegend(props: Props) {
   const { colorLegendTitle, colorDomain, colors, width } = props;
   return (
     <div
-      className='flex-div gap-00 flex-wrap flex-hor-align-center'
       style={{
+        display: 'flex',
+        gap: 0,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
         lineHeight: 0,
         maxWidth: width || 'none',
       }}
     >
       {colorLegendTitle ? (
         <p
-          className='undp-typography margin-bottom-03'
+          className='undp-viz-typography'
           style={{
-            fill: 'var(--gray-700)',
+            fill: UNDPColorModule.grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
+            marginBottom: '0.5rem',
           }}
         >
           {colorLegendTitle}
@@ -32,8 +37,11 @@ export function LinearColorLegend(props: Props) {
       ) : null}
 
       <div
-        className='flex-div gap-00 flex-wrap flex-hor-align-center'
         style={{
+          display: 'flex',
+          gap: 0,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
           lineHeight: 0,
           width: '100%',
           maxWidth: '360px',
@@ -56,10 +64,16 @@ export function LinearColorLegend(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          <p className='undp-typography small-font margin-bottom-00'>
+          <p
+            className='undp-viz-typography'
+            style={{ marginBottom: 0, fontSize: '0.875rem !important' }}
+          >
             {numberFormattingFunction(colorDomain[0], '', '')}
           </p>
-          <p className='undp-typography small-font margin-bottom-00'>
+          <p
+            className='undp-viz-typography'
+            style={{ marginBottom: 0, fontSize: '0.875rem !important' }}
+          >
             {numberFormattingFunction(colorDomain[1], '', '')}
           </p>
         </div>

@@ -34,9 +34,12 @@ export function ExcelDownloadButton(props: Props) {
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType || 'quaternary'}${
+      className={`undp-viz-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
-      }${buttonSmall ? ' padding-03' : ''}`}
+      }`}
+      style={{
+        padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
+      }}
       onClick={() =>
         excelDownload(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }

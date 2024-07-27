@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CircleCheckBig } from '../Icons/Icons';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   message: string;
@@ -25,25 +26,30 @@ function AutoCloseMessage(props: Props) {
 
   return (
     <div
-      className='flex-div gap-03 flex-vert-align-center'
       style={{
         position: 'fixed',
         top: '1rem',
         zIndex: '1000',
-        backgroundColor: 'var(--light-green)',
-        border: '1px solid var(--dark-green)',
+        backgroundColor: UNDPColorModule.alerts.lightGreen,
+        border: `1px solid ${UNDPColorModule.alerts.darkGreen}`,
         borderRadius: '2px',
         maxWidth: '300px',
         margin: 'auto',
         textAlign: 'center',
-        fontFamily: 'var(--fontFamily)',
-        padding: 'var(--spacing-03) var(--spacing-04)',
+        fontFamily:
+          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+        padding: '0.5rem 0.75rem',
         fontSize: '0.875rem',
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
+        display: 'flex',
+        gap: '0.5rem',
+        alignItems: 'center',
       }}
     >
       <CircleCheckBig />
-      <p className='undp-typography margin-bottom-00'>{message}</p>
+      <p className='undp-viz-typography' style={{ marginBottom: 0 }}>
+        {message}
+      </p>
     </div>
   );
 }

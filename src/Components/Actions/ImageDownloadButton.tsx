@@ -22,9 +22,12 @@ export function ImageDownloadButton(props: Props) {
   return (
     <button
       type='button'
-      className={`undp-button button-${buttonType || 'quaternary'}${
+      className={`undp-viz-button button-${buttonType || 'quaternary'}${
         buttonArrow ? ' button-arrow' : ''
-      }${buttonSmall ? ' padding-03' : ''}`}
+      }`}
+      style={{
+        padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
+      }}
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {

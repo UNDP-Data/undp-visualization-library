@@ -210,7 +210,7 @@ export function Graph(props: Props) {
                   y1={y(d)}
                   y2={y(d)}
                   style={{
-                    stroke: 'var(--gray-500)',
+                    stroke: UNDPColorModule.grays['gray-500'],
                   }}
                   strokeWidth={1}
                   strokeDasharray='4,8'
@@ -219,8 +219,9 @@ export function Graph(props: Props) {
                   x={0}
                   y={y(d)}
                   style={{
-                    fill: 'var(--gray-700)',
-                    fontFamily: 'var(--fontFamily)',
+                    fill: UNDPColorModule.grays['gray-700'],
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='end'
                   fontSize={12}
@@ -237,7 +238,7 @@ export function Graph(props: Props) {
               y1={y(0)}
               y2={y(0)}
               style={{
-                stroke: 'var(--gray-700)',
+                stroke: UNDPColorModule.grays['gray-700'],
               }}
               strokeWidth={1}
             />
@@ -245,8 +246,9 @@ export function Graph(props: Props) {
               x={0}
               y={y(0)}
               style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
+                fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               fontSize={12}
@@ -259,9 +261,10 @@ export function Graph(props: Props) {
               <text
                 transform={`translate(-30, ${graphHeight / 2}) rotate(-90)`}
                 style={{
-                  fill: 'var(--gray-700)',
+                  fill: UNDPColorModule.grays['gray-700'],
                   fontWeight: 'bold',
-                  fontFamily: 'var(--fontFamily)',
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='middle'
                 fontSize={12}
@@ -279,7 +282,7 @@ export function Graph(props: Props) {
                   x1={x(d)}
                   x2={x(d)}
                   style={{
-                    stroke: 'var(--gray-500)',
+                    stroke: UNDPColorModule.grays['gray-500'],
                   }}
                   strokeWidth={1}
                   strokeDasharray='4,8'
@@ -288,8 +291,9 @@ export function Graph(props: Props) {
                   x={x(d)}
                   y={graphHeight}
                   style={{
-                    fill: 'var(--gray-700)',
-                    fontFamily: 'var(--fontFamily)',
+                    fill: UNDPColorModule.grays['gray-700'],
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -305,7 +309,7 @@ export function Graph(props: Props) {
               x1={x(0)}
               x2={x(0)}
               style={{
-                stroke: 'var(--gray-700)',
+                stroke: UNDPColorModule.grays['gray-700'],
               }}
               strokeWidth={1}
             />
@@ -313,8 +317,9 @@ export function Graph(props: Props) {
               x={x(0)}
               y={graphHeight}
               style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
+                fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
               fontSize={12}
@@ -326,9 +331,10 @@ export function Graph(props: Props) {
               <text
                 transform={`translate(${graphWidth / 2}, ${graphHeight})`}
                 style={{
-                  fill: 'var(--gray-700)',
+                  fill: UNDPColorModule.grays['gray-700'],
                   fontWeight: 'bold',
-                  fontFamily: 'var(--fontFamily)',
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='middle'
                 fontSize={12}
@@ -392,7 +398,8 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       y={0}
                       x={
@@ -414,7 +421,8 @@ export function Graph(props: Props) {
                               : !d.color
                               ? UNDPColorModule.graphGray
                               : colors[colorDomain.indexOf(`${d.color}`)],
-                          fontFamily: 'var(--fontFamily)',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         y={0}
                         x={
@@ -476,7 +484,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || 'var(--gray-700)',
+                      stroke: el.color || UNDPColorModule.grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -490,8 +498,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={0}
                     style={{
-                      fill: el.color || 'var(--gray-700)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75
                           ? 'end'
@@ -513,7 +522,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || 'var(--gray-700)',
+                      stroke: el.color || UNDPColorModule.grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -527,8 +536,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || 'var(--gray-700)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     fontSize={12}

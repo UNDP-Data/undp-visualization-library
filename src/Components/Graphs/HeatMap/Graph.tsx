@@ -7,6 +7,7 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 import { Tooltip } from '../../Elements/Tooltip';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: HeatMapDataType[];
@@ -106,7 +107,8 @@ export function Graph(props: Props) {
                 >
                   <div
                     style={{
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'middle',
                       whiteSpace: 'normal',
                       display: 'flex',
@@ -119,12 +121,13 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className='undp-typography margin-bottom-00'
+                      className='undp-viz-typography'
                       style={{
                         fontSize: '16px',
                         textAlign: 'center',
                         lineHeight: '1.15',
-                        color: 'var(--gray-600)',
+                        marginBottom: 0,
+                        color: UNDPColorModule.grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -148,7 +151,8 @@ export function Graph(props: Props) {
                 >
                   <div
                     style={{
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'middle',
                       whiteSpace: 'normal',
                       display: 'flex',
@@ -161,12 +165,13 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className='undp-typography margin-bottom-00'
+                      className='undp-viz-typography'
                       style={{
                         fontSize: '16px',
                         textAlign: 'right',
                         lineHeight: '1.15',
-                        color: 'var(--gray-600)',
+                        marginBottom: 0,
+                        color: UNDPColorModule.grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -190,7 +195,7 @@ export function Graph(props: Props) {
                   height={barHeight}
                   fill={noDataColor}
                   strokeWidth={1}
-                  stroke='var(--white)'
+                  stroke={UNDPColorModule.grays.white}
                 />
               ))}
             </g>
@@ -249,7 +254,7 @@ export function Graph(props: Props) {
                     height={barHeight}
                     fill={color}
                     strokeWidth={1}
-                    stroke='var(--white)'
+                    stroke={UNDPColorModule.grays.white}
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
                     <foreignObject
@@ -261,8 +266,9 @@ export function Graph(props: Props) {
                     >
                       <div
                         style={{
-                          fill: 'var(--gray-600)',
-                          fontFamily: 'var(--fontFamily)',
+                          fill: UNDPColorModule.grays['gray-600'],
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           textAnchor: 'middle',
                           whiteSpace: 'normal',
                           display: 'flex',
@@ -274,11 +280,12 @@ export function Graph(props: Props) {
                         }}
                       >
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
                             fontSize: `12px`,
                             textAlign: 'center',
                             lineHeight: '1.15',
+                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(color),
                           }}
                         >
@@ -301,7 +308,7 @@ export function Graph(props: Props) {
               fill='none'
               fillOpacity={0}
               strokeWidth={1.5}
-              stroke='var(--gray-700)'
+              stroke={UNDPColorModule.grays['gray-700']}
             />
           ) : null}
         </g>

@@ -9,6 +9,7 @@ import { BivariateMapDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { X } from '../../../Icons/Icons';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: BivariateMapDataType[];
@@ -271,7 +272,7 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? 'var(--gray-400)'
+                                  ? UNDPColorModule.grays['gray-400']
                                   : '#fff',
                             }}
                             strokeWidth={mapBorderWidth}
@@ -299,7 +300,7 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? 'var(--gray-400)'
+                                  ? UNDPColorModule.grays['gray-400']
                                   : '#fff',
                             }}
                             strokeWidth={mapBorderWidth}
@@ -341,7 +342,7 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={masterPath}
                                 style={{
-                                  stroke: 'var(--gray-700)',
+                                  stroke: UNDPColorModule.grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -365,7 +366,7 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={path}
                                 style={{
-                                  stroke: 'var(--gray-700)',
+                                  stroke: UNDPColorModule.grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -381,15 +382,26 @@ export function Graph(props: Props) {
       </svg>
       {showLegend ? (
         <div
-          className='bivariate-legend-container'
+          className='undp-viz-bivariate-legend-container'
           style={{ position: 'relative' }}
         >
           <div
-            className='bivariate-legend-el'
-            style={{ alignItems: 'flex-start' }}
+            style={{
+              alignItems: 'flex-start',
+              backgroundColor: 'rgba(255,255,255,0.75)',
+              marginBottom: '0.75rem',
+              display: 'flex',
+            }}
           >
-            <div className='flex-div' style={{ alignItems: 'flex-end' }}>
-              <div className='bivariate-map-color-legend-element'>
+            <div style={{ alignItems: 'flex-end', display: 'flex' }}>
+              <div
+                style={{
+                  padding: '0.75rem 3.5rem 0.75rem 0.75rem',
+                  marginLeft: '0.75rem',
+                  position: 'relative',
+                  zIndex: '5',
+                }}
+              >
                 <div
                   style={{
                     display: 'flex',
@@ -434,7 +446,8 @@ export function Graph(props: Props) {
                               fontSize={10}
                               textAnchor='middle'
                               style={{
-                                fontFamily: 'var(--fontFamily)',
+                                fontFamily:
+                                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -460,7 +473,8 @@ export function Graph(props: Props) {
                               fontSize={10}
                               textAnchor='middle'
                               style={{
-                                fontFamily: 'var(--fontFamily)',
+                                fontFamily:
+                                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -472,21 +486,43 @@ export function Graph(props: Props) {
                       </g>
                     </svg>
                     <div
-                      className='bivariant-map-primary-legend-text'
                       style={{
                         lineHeight: 'normal',
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         marginTop: '0.5rem',
+                        textAlign: 'center',
+                        fontStyle: 'normal',
+                        fontSize: '0.75rem !important',
+                        display: '-webkit-box',
+                        WebkitLineClamp: '2',
+                        width: '8.125rem',
+                        color: UNDPColorModule.grays['gray-700'],
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
                       }}
                     >
                       {xColorLegendTitle}
                     </div>
                   </div>
                   <div
-                    className='bivariate-map-secondary-legend-text'
                     style={{
                       lineHeight: 'normal',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      textAlign: 'center',
+                      fontStyle: 'normal',
+                      fontSize: '0.75rem !important',
+                      width: '8.125rem',
+                      color: UNDPColorModule.grays['gray-700'],
+                      display: '-webkit-box',
+                      position: 'absolute',
+                      top: '80px',
+                      translate: '75% -50%',
+                      rotate: '90deg',
+                      WebkitLineClamp: '2',
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
                     }}
                   >
                     {yColorLegendTitle}
@@ -514,7 +550,7 @@ export function Graph(props: Props) {
       ) : (
         <button
           type='button'
-          className='bivariate-legend-container'
+          className='undp-viz-bivariate-legend-container'
           style={{
             border: 0,
             backgroundColor: 'transparent',
@@ -524,18 +560,20 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='bivariate-legend-el'
             style={{
               alignItems: 'flex-start',
-              fontFamily: 'var(--fontFamily)',
+              fontFamily:
+                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               fontSize: '0.825rem',
               fontWeight: 'bold',
               cursor: 'pointer',
               textTransform: 'uppercase',
-              padding: 'var(--spacing-03)',
-              border: '1px solid var(--gray-400)',
-              color: 'var(--gray-600)',
-              backgroundColor: 'var(--gray-300)',
+              padding: '0.5rem',
+              border: `1px solid ${UNDPColorModule.grays['gray-400']}`,
+              color: UNDPColorModule.grays['gray-600'],
+              backgroundColor: UNDPColorModule.grays['gray-300'],
+              marginBottom: '0.75rem',
+              display: 'flex',
             }}
           >
             Show Legend

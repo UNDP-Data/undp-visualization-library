@@ -121,7 +121,7 @@ export function Graph(props: Props) {
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom + topMargin}
                     style={{
-                      stroke: 'var(--gray-500)',
+                      stroke: UNDPColorModule.grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -136,8 +136,9 @@ export function Graph(props: Props) {
                     dx={3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily: 'var(--fontFamily)',
-                      fill: 'var(--gray-500)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fill: UNDPColorModule.grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -148,7 +149,7 @@ export function Graph(props: Props) {
           {dataWithId.map((d, i) => {
             return (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -215,14 +216,15 @@ export function Graph(props: Props) {
                 {showBarLabel ? (
                   <text
                     style={{
-                      fill: 'var(--gray-700)',
+                      fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: d.size
                         ? d.size < 0
                           ? 'start'
                           : 'end'
                         : 'end',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(0)}
                     y={(y(`${i}`) as number) + y.bandwidth() / 2}
@@ -240,14 +242,17 @@ export function Graph(props: Props) {
                     y={(y(`${i}`) as number) + y.bandwidth() / 2}
                     style={{
                       fill:
-                        barColor.length > 1 ? 'var(--gray-600)' : barColor[0],
+                        barColor.length > 1
+                          ? UNDPColorModule.grays['gray-600']
+                          : barColor[0],
                       fontSize: '1rem',
                       textAnchor: d.size
                         ? d.size < 0
                           ? 'end'
                           : 'start'
                         : 'start',
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
                     dy={5}
@@ -276,7 +281,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || 'var(--gray-700)',
+                      stroke: el.color || UNDPColorModule.grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -290,8 +295,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || 'var(--gray-700)',
-                      fontFamily: 'var(--fontFamily)',
+                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75
                           ? 'end'

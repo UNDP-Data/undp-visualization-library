@@ -103,7 +103,7 @@ export function Graph(props: Props) {
               x1={pointRadius + 5}
               x2={pointRadius + 5}
               style={{
-                stroke: 'var(--gray-500)',
+                stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -111,8 +111,9 @@ export function Graph(props: Props) {
               x={pointRadius + 5}
               y={graphHeight}
               style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
+                fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
               fontSize={12}
@@ -128,7 +129,7 @@ export function Graph(props: Props) {
               x1={graphWidth - (pointRadius + 5)}
               x2={graphWidth - (pointRadius + 5)}
               style={{
-                stroke: 'var(--gray-500)',
+                stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -136,8 +137,9 @@ export function Graph(props: Props) {
               x={graphWidth - (pointRadius + 5)}
               y={graphHeight}
               style={{
-                fill: 'var(--gray-700)',
-                fontFamily: 'var(--fontFamily)',
+                fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
               fontSize={12}
@@ -231,7 +233,8 @@ export function Graph(props: Props) {
                           : !d.color
                           ? UNDPColorModule.graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     y={y(d.y1)}
@@ -252,7 +255,8 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'end',
                       }}
                       y={y(d.y1)}
@@ -294,7 +298,8 @@ export function Graph(props: Props) {
                           : !d.color
                           ? UNDPColorModule.graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
-                      fontFamily: 'var(--fontFamily)',
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'start',
                     }}
                     y={y(d.y2)}
@@ -315,7 +320,8 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'start',
                       }}
                       y={y(d.y2)}

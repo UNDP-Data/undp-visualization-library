@@ -13,8 +13,12 @@ export function GraphFooter(props: Props) {
   if (source === undefined && footNote === undefined) return null;
   return (
     <div
-      className='flex-div gap-03'
-      style={{ flexDirection: 'column', maxWidth: width || 'none' }}
+      style={{
+        display: 'flex',
+        gap: '0.5rem',
+        flexDirection: 'column',
+        maxWidth: width || 'none',
+      }}
     >
       {source ? <Source text={source} link={sourceLink} /> : null}
       {footNote ? <FootNote text={footNote} /> : null}

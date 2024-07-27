@@ -1,3 +1,5 @@
+import { UNDPColorModule } from '../ColorPalette';
+
 interface Props {
   text: string;
 }
@@ -6,10 +8,11 @@ export function FootNote(props: Props) {
   const { text } = props;
   return (
     <p
-      className='undp-typography margin-bottom-00'
+      className='undp-viz-typography'
       style={{
-        color: 'var(--gray-600)',
+        color: UNDPColorModule.grays['gray-600'],
         fontSize: '0.875rem',
+        marginBottom: 0,
       }}
     >
       {text}

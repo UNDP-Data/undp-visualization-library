@@ -17,19 +17,20 @@ export function GraphHeader(props: Props) {
 
   return (
     <div
-      className='flex-div gap-03'
       style={{
         maxWidth: width || 'none',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        display: 'flex',
+        gap: '0.5rem',
       }}
     >
-      <div className='flex-div gap-01' style={{ flexDirection: 'column' }}>
+      <div style={{ flexDirection: 'column', display: 'flex', gap: '0.125em' }}>
         {graphTitle ? <GraphTitle text={graphTitle} /> : null}
         {graphDescription ? <GraphDescription text={graphDescription} /> : null}
       </div>
       {graphDownload || dataDownload ? (
-        <div className='flex-div gap-04'>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
           {graphDownload ? (
             <ImageDownloadButton nodeID={graphDownload} buttonSmall />
           ) : null}

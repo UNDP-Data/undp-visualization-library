@@ -1,3 +1,5 @@
+import { UNDPColorModule } from '../ColorPalette';
+
 interface Props {
   body: JSX.Element;
   xPos: number;
@@ -12,8 +14,8 @@ export function Tooltip(props: Props) {
         display: 'block',
         position: 'fixed',
         zIndex: '8',
-        backgroundColor: 'var(--gray-200)',
-        border: '1px solid var(--gray-300)',
+        backgroundColor: UNDPColorModule.grays['gray-200'],
+        border: `1px solid ${UNDPColorModule.grays['gray-300']}`,
         wordWrap: 'break-word',
         top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
         left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,

@@ -107,7 +107,7 @@ export function ChoroplethMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -115,9 +115,7 @@ export function ChoroplethMap(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -127,7 +125,7 @@ export function ChoroplethMap(props: Props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            gap: 'var(--spacing-05)',
+            gap: '1rem',
             flexGrow: 1,
             justifyContent: 'space-between',
           }}
@@ -192,7 +190,9 @@ export function ChoroplethMap(props: Props) {
                 }
                 mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
                 categorical={categorical}
-                mapBorderColor={mapBorderColor || 'var(--gray-500)'}
+                mapBorderColor={
+                  mapBorderColor || UNDPColorModule.grays['gray-500']
+                }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
                 isWorldMap={isWorldMap === undefined ? true : isWorldMap}

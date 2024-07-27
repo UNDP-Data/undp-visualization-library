@@ -1,4 +1,486 @@
-@import url('https://undp-data.github.io/stylesheets-for-viz/style/mainStyleSheet.css');
-@import url('https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraphingInterface.css');
-@import url('https://undp-data.github.io/stylesheets-for-viz/style/StyleForGraph.css');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+@keyframes undp-viz-lineLoop-animation-for-link {
+  0% {
+    background-position: 100% 100%, -30px 100%;
+    background-size: 100% 2px, 0 2px;
+  }
+  to {
+    background-position: calc(100% + 30px) 100%, 0 100%;
+    background-size: 0 2px, 100% 2px;
+  }
+}
+
+hr.undp-viz-style {
+  height: 1px;
+  background-color: #000;
+  border: none;
+}
+
+hr.undp-viz-style.light {
+  height: 1px;
+  background-color: #D4D6D8;
+  border: none;
+}
+
+p.undp-viz-typography {
+  margin-top: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+@media (min-width: 48em) {
+  p.undp-viz-typography {
+      font-size: 1.25rem;
+  }
+}
+
+caption.undp-viz-typography, h1.undp-viz-typography, h2.undp-viz-typography, h3.undp-viz-typography, h4.undp-viz-typography, h5.undp-viz-typography, h6.undp-viz-typography {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+@media(min-width:48em) {
+  caption.undp-viz-typography, h1.undp-viz-typography, h2.undp-viz-typography, h3.undp-viz-typography, h4.undp-viz-typography, h5.undp-viz-typography, h6.undp-viz-typography.undp-viz-typography.undp-viz-typography.undp-viz-typography.undp-viz-typography {
+    margin-bottom: 1rem;
+  }
+}
+
+h1.undp-viz-typography {
+  font-size: 2.938rem;
+  font-weight: 700;
+  letter-spacing: .06rem;
+  line-height: 1.08;
+  text-transform: uppercase;
+  font-family: 'SohneBreit', 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+h2.undp-viz-typography {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+h2.undp-viz-typography.page-title {
+  text-transform: uppercase;
+  font-family: 'SohneBreit', 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+
+h3.undp-viz-typography {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+h4.undp-viz-typography {
+  font-size: 1.563rem;
+  font-weight: 400;
+  line-height: 1.15;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+h5.undp-viz-typography {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.15;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+blockquote.undp-viz-typography {
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.16;
+  margin: 0;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+cite.undp-viz-typography {
+  font-size: 1.25rem;
+  line-height: 1.1;
+  display: block;
+  font-style: inherit;
+  font-weight: 400;
+  margin-top: 1.125rem;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+code.undp-viz-typography {
+  font-size: 1rem;
+  font-family: monospace;
+  background: #F7F7F7;
+  padding: 0 0.25rem 0.25rem;
+}
+
+@media(min-width:64em) {
+  h2.undp-viz-typography {
+    font-size: 3.438rem;
+  }
+  h1.undp-viz-typography {
+    font-size: 6.25rem;
+  }
+}
+
+@media(min-width:48em) {
+  h5.undp-viz-typography {
+    font-size: 1.563rem;
+  }
+  h4.undp-viz-typography {
+    font-size: 2.188rem;
+  }
+  h3.undp-viz-typography {
+    font-size: 2.188rem;
+  }
+  h2.undp-viz-typography {
+    font-size: 2.813rem;
+  }
+  h1.undp-viz-typography {
+    font-size: 5.125rem;
+  }
+  blockquote.undp-viz-typography {
+    font-size: 2.188rem;
+    line-height: 1.15;
+  }
+  cite.undp-viz-typography {
+    font-size: 1.5rem;
+  }
+  code.undp-viz-typography {
+    font-size: 1.25rem;
+  }
+}
+
+h6.undp-viz-typography {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+a.undp-viz-style {
+  background-image: linear-gradient(#D12800, #D12800), linear-gradient(#D12800, #D12800);
+  background-position: 100% 100%, -30px 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 0 1px;
+  text-decoration: none;
+  color: #000;
+}
+
+a.undp-viz-style:hover {
+  animation: undp-viz-lineLoop-animation-for-link 2s linear infinite;
+  color: #000;
+}
+
+a.undp-viz-style.dark-bg {
+  background-image: linear-gradient(#FFF, #FFF), linear-gradient(#FFF, #FFF);
+  background-position: 100% 100%, -30px 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 0 1px;
+  color: #FFF;
+}
+
+a.undp-viz-style.dark-bg:hover {
+  animation: undp-viz-lineLoop-animation-for-link 2s linear infinite;
+  color: #FFF;
+}
+
+a.undp-viz-style:focus-visible {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}
+
+.undp-viz-small-font {
+  font-size: 0.875rem !important;
+}
+
+.undp-viz-scrollbar {
+  overflow-x: auto;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.undp-viz-scrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+.undp-viz-scrollbar::-webkit-scrollbar-track {
+  background: #000;
+  background-clip: padding-box;
+  border: 2px solid rgba(255,255,255,0);
+}
+
+.undp-viz-scrollbar::-webkit-scrollbar-corner {
+  display: none;
+}
+
+.undp-viz-scrollbar::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+@keyframes undp-viz-loader-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.undp-viz-loader {
+  animation: undp-viz-loader-animation 2s linear infinite;
+  border-radius: 50%;
+  border: 8px solid #006EB5;
+  border-top: 8px solid #EDEFF0;
+  height: 40px;
+  width: 40px;
+}
+
+@media (min-width: 48em) {
+  .undp-viz-loader {
+    border: 14px solid #006EB5;
+    border-top: 14px solid #EDEFF0;
+    height: 96px;
+    width: 96px;
+  }
+}
+
+.undp-viz-button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  display: flex;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  margin: 0 !important;
+}
+
+.undp-viz-button:focus-visible {
+  box-shadow: 0 0 4px #0468b1;
+  outline: 0;
+}
+
+.undp-viz-button.button-primary {
+  background-color: #D12800;
+}
+
+.undp-viz-button.button-primary:hover {
+  background-color: #EE402D;
+}
+
+.undp-viz-button.button-primary.button-arrow:after {
+  transition: .2s ease;
+  background: url(https://design.undp.org/static/media/chevron-right-black.f618eac3.svg) no-repeat left center;
+  color: #D12800;
+  height: 20px;
+  margin-left: 0.75rem;
+  content: "";
+  width: 13px;
+}
+
+.undp-viz-button.button-primary.button-arrow:hover:after {
+  transform: translate(70%, 0);
+}
+
+.undp-viz-button.button-primary.button-arrow.disabled:after {
+  background: url(https://design.undp.org/static/media/chevron-right-white.c14d1d86.svg) no-repeat left center;
+  content: ""
+}
+
+.undp-viz-button.button-secondary {
+  background-color: #006EB5;
+}
+
+.undp-viz-button.button-secondary:hover {
+  background-color: #3288CE;
+}
+
+
+.undp-viz-button.button-secondary.button-arrow:after {
+  transition: .2s ease;
+  background: url(https://design.undp.org/static/media/chevron-right-white.c14d1d86.svg) no-repeat left center;
+  color: #D12800;
+  height: 20px;
+  margin-left: 0.75rem;
+  content: "";
+  width: 13px;
+}
+
+.undp-viz-button.button-secondary.button-arrow:hover:after {
+  transform: translate(70%, 0);
+}
+
+.undp-viz-button.button-secondary.button-arrow.disabled:after {
+  background: url(https://design.undp.org/static/media/chevron-right-white.c14d1d86.svg) no-repeat left center;
+  content: ""
+}
+
+.undp-viz-button.disabled {
+  background-color: #D4D6D8;
+  color: #EDEFF0;
+  pointer-events: none;
+}
+
+.undp-viz-button.button-tertiary {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  color: #000;
+}
+
+.undp-viz-button.button-tertiary:hover {
+  color: #EE402D;
+}
+
+.undp-viz-button.button-tertiary.button-arrow:after {
+  transition: .2s ease;
+  background: url(https://design.undp.org/icons/chevron-right.svg) no-repeat left center;
+  height: 20px;
+  margin-left: 0.75rem;
+  content: "";
+  width: 13px;
+}
+
+.undp-viz-button.button-tertiary.button-arrow:hover:after {
+  background: url(https://design.undp.org/icons/chevron-right.svg) no-repeat left center;
+  transform: translate(70%, 0);
+}
+
+.undp-viz-button.button-tertiary.disabled {
+  color: #D4D6D8;
+}
+
+.undp-viz-button.button-tertiary.disabled.button-arrow:after {
+  transition: .2s ease;
+  background: url(https://design.undp.org/icons/chevron-right.svg) no-repeat left center;
+  height: 20px;
+  margin-left: 0.75rem;
+  content: "";
+  width: 13px;
+  opacity: 0.3;
+}
+
+.undp-viz-button.button-no-background{  
+  background-color: transparent !important;
+  border: 0 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+}
+
+.undp-viz-button.button-quaternary {
+  background-color: #F7F7F7;
+  border: 1px solid #EDEFF0;
+  color: #232E3D;
+}
+
+.undp-viz-button.button-quaternary:hover {
+  background-color: #EDEFF0;
+}
+
+.undp-viz-bivariate-legend-container {
+  width: 20rem;
+  margin-left: 0.75rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  height: 0;
+  display: flex;
+  align-items: flex-end;
+}
+
+@media (min-width: 961px) {    
+  .undp-viz-bivariate-legend-container {
+    translate: 0 -100%;
+    width: fit-content;
+    background-color: rgba(255,255,255, 0.75);
+  }
+}
+
+.undp-viz-x-axis-text {  
+  font-size: 12px;
+}
+
+.undp-viz-label-text {  
+  font-size: 12px;
+}
+
+@media (max-width: 980px) {
+  .undp-viz-x-axis-text {  
+    font-size: 10px;
+  }
+  .undp-viz-label-text {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .undp-viz-x-axis-text {  
+    font-size: 9px;
+  }
+  .undp-viz-label-text  {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 420px) {
+  .undp-viz-x-axis-text {  
+    display: none;
+  }
+  .undp-viz-label-text  {
+    font-size: 8px;
+  }
+}
+
+.undp-viz-low-opacity {
+  opacity: 0.8;
+}
+
+.undp-viz-g-with-hover {
+  transition: opacity 0.2s;
+}
+
+.undp-viz-g-with-hover:hover {
+  opacity: 1 !important;
+}
+
+.maplibregl-control-container {
+  display: none;
+}
+
+.maplibregl-ctrl-scale {
+  font-size: 12px !important;
+  font-family: var(--fontFamily) !important;
+  font-weight: 700 !important;
+}
+
+.maplibregl-ctrl-attrib-inner {
+  font-size: 12px !important;
+  font-family: var(--fontFamily) !important;
+  font-weight: 700 !important;
+}
+
+.maplibregl-ctrl-attrib-inner a{
+  font-size: 12px !important;
+  font-family: var(--fontFamily) !important;
+  background-image: none !important;
+  font-weight: 700 !important;
+}
+
+.maplibre-show-control .maplibregl-control-container {
+  display: block !important;
+}
+
+.maplibregl-ctrl-attrib-button:before{
+  content: none !important;
+}

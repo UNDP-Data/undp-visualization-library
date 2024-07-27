@@ -31,20 +31,33 @@ export function ColorLegendWithMouseOver(props: Props) {
       <div>
         {colorLegendTitle ? (
           <p
-            className='undp-typography margin-bottom-03'
+            className='undp-viz-typography'
             style={{
-              fill: 'var(--gray-700)',
+              fill: UNDPColorModule.grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: 'center',
+              marginBottom: '0.5rem',
             }}
           >
             {colorLegendTitle}
           </p>
         ) : null}
-        <div className='flex-div margin-bottom-00 flex-wrap gap-06'>
+        <div
+          style={{
+            display: 'flex',
+            marginBottom: 0,
+            flexWrap: 'wrap',
+            gap: '1.5rem',
+          }}
+        >
           {colorDomain.map((d, i) => (
             <div
-              className='flex-div gap-03 flex-vert-align-center'
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
               key={i}
               onMouseEnter={() => {
                 setSelectedColor(colors[i]);
@@ -52,7 +65,6 @@ export function ColorLegendWithMouseOver(props: Props) {
               onMouseLeave={() => {
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
             >
               <div
                 style={{
@@ -63,8 +75,12 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               <p
-                className='undp-typography margin-bottom-00 small-font'
-                style={{ marginTop: '3px' }}
+                className='undp-viz-typography'
+                style={{
+                  marginTop: '3px',
+                  marginBottom: 0,
+                  fontSize: '0.875rem !important',
+                }}
               >
                 {d}
               </p>
@@ -72,14 +88,18 @@ export function ColorLegendWithMouseOver(props: Props) {
           ))}
           {showNAColor ? (
             <div
-              className='flex-div gap-03 flex-vert-align-center'
               onMouseEnter={() => {
                 setSelectedColor(UNDPColorModule.graphGray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
             >
               <div
                 style={{
@@ -90,8 +110,12 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               <p
-                className='undp-typography margin-bottom-00 small-font'
-                style={{ marginTop: '3px' }}
+                className='undp-viz-typography'
+                style={{
+                  marginTop: '3px',
+                  marginBottom: 0,
+                  fontSize: '0.875rem !important',
+                }}
               >
                 NA
               </p>

@@ -100,7 +100,7 @@ export function Graph(props: Props) {
           {dataWithId.map((d, i) => {
             return (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 transform={`translate(${x(d.position)},${graphHeight / 2})`}
                 opacity={
@@ -174,7 +174,8 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(d.color)],
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       textAnchor='middle'
                       fontSize={12}
@@ -192,8 +193,9 @@ export function Graph(props: Props) {
                 x={0}
                 y={graphHeight / 2 + pointRadius + 14}
                 style={{
-                  fill: 'var(--gray-500)',
-                  fontFamily: 'var(--fontFamily)',
+                  fill: UNDPColorModule.grays['gray-500'],
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='start'
                 fontSize={12}
@@ -204,8 +206,9 @@ export function Graph(props: Props) {
                 x={graphWidth}
                 y={graphHeight / 2 + pointRadius + 14}
                 style={{
-                  fill: 'var(--gray-500)',
-                  fontFamily: 'var(--fontFamily)',
+                  fill: UNDPColorModule.grays['gray-500'],
+                  fontFamily:
+                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='end'
                 fontSize={12}

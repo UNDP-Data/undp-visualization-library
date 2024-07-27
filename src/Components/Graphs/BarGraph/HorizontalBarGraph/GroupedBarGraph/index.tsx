@@ -115,7 +115,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -123,9 +123,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -134,7 +132,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-05)',
+            gap: '1rem',
             width: '100%',
             flexGrow: 1,
             justifyContent: 'space-between',
@@ -160,7 +158,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              gap: 'var(--spacing-04)',
+              gap: '0.75rem',
               width: '100%',
             }}
           >

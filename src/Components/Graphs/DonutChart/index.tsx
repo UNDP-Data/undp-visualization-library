@@ -82,7 +82,7 @@ export function DonutChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? 'var(--gray-200)'
+          ? UNDPColorModule.grays['gray-200']
           : backgroundColor,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -92,9 +92,7 @@ export function DonutChart(props: Props) {
     >
       <div
         style={{
-          padding: backgroundColor
-            ? padding || 'var(--spacing-05)'
-            : padding || 0,
+          padding: backgroundColor ? padding || '1rem' : padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -103,7 +101,7 @@ export function DonutChart(props: Props) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-03)',
+            gap: '0.5rem',
             width: '100%',
             flexGrow: 1,
             justifyContent: 'space-between',
@@ -130,7 +128,7 @@ export function DonutChart(props: Props) {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'stretch',
-              gap: 'var(--spacing-05)',
+              gap: '1rem',
               flexWrap: 'wrap',
               width: '100%',
             }}
@@ -141,10 +139,21 @@ export function DonutChart(props: Props) {
                   lineHeight: 0,
                 }}
               >
-                <div className='flex-div margin-bottom-00 flex-wrap flex-hor-align-center'>
+                <div
+                  style={{
+                    display: 'flex',
+                    marginBottom: 0,
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                  }}
+                >
                   {data.map((d, i) => (
                     <div
-                      className='flex-div gap-03 flex-vert-align-center'
+                      style={{
+                        display: 'flex',
+                        gap: '0.5rem',
+                        alignItems: 'center',
+                      }}
                       key={i}
                     >
                       <div
@@ -157,9 +166,15 @@ export function DonutChart(props: Props) {
                             : UNDPColorModule.categoricalColors.colors[i],
                         }}
                       />
-                      <p className='undp-typography margin-bottom-00 small-font'>
+                      <p
+                        className='undp-viz-typography'
+                        style={{
+                          marginBottom: 0,
+                          fontSize: '0.875rem !important',
+                        }}
+                      >
                         {d.label}:{' '}
-                        <span className='bold'>
+                        <span style={{ fontWeight: 'bold' }}>
                           {numberFormattingFunction(
                             d.value,
                             prefix || '',

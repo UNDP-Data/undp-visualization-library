@@ -6,6 +6,7 @@ import Draggable, { DraggableData } from 'react-draggable';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
 import { ChevronLeftRight } from '../../../Icons/Icons';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   width: number;
@@ -176,7 +177,7 @@ export function Graph(props: Props) {
             >
               <div
                 style={{
-                  backgroundColor: 'var(--blue-600)',
+                  backgroundColor: UNDPColorModule.primaryColors['blue-600'],
                   boxShadow: 'inset 0 0 0 1px #fff',
                   display: 'flex',
                   borderRadius: '50%',

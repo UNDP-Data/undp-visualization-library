@@ -94,7 +94,7 @@ export function Graph(props: Props) {
           {circlePackingData.children?.map((d, i) => {
             return (
               <g
-                className='g-with-hover'
+                className='undp-viz-g-with-hover'
                 key={i}
                 opacity={
                   selectedColor
@@ -179,7 +179,8 @@ export function Graph(props: Props) {
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
                         ),
-                        fontFamily: 'var(--fontFamily)',
+                        fontFamily:
+                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'middle',
                         whiteSpace: 'normal',
                         display: 'flex',
@@ -188,17 +189,18 @@ export function Graph(props: Props) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: 'inherit',
-                        padding: '0 var(--spacing-02)',
+                        padding: '0 0.25rem',
                       }}
                     >
                       {showLabel ? (
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(Math.round(d.r / 4), 10),
                               20,
                             )}px`,
+                            marginBottom: 0,
                             textAlign: 'center',
                             lineHeight: '1',
                             color: getTextColorBasedOnBgColor(
@@ -219,14 +221,15 @@ export function Graph(props: Props) {
                       ) : null}
                       {showValue ? (
                         <p
-                          className='undp-typography margin-bottom-00'
+                          className='undp-viz-typography'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(Math.round(d.r / 4), 10),
                               20,
                             )}px`,
                             textAlign: 'center',
-                            color: 'var(--white)',
+                            marginBottom: 0,
+                            color: UNDPColorModule.grays.white,
                           }}
                         >
                           {numberFormattingFunction(

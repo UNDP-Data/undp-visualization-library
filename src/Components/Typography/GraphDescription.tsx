@@ -1,3 +1,5 @@
+import { UNDPColorModule } from '../ColorPalette';
+
 interface Props {
   text: string;
 }
@@ -6,8 +8,12 @@ export function GraphDescription(props: Props) {
   const { text } = props;
   return (
     <p
-      className='undp-typography small-font margin-bottom-00'
-      style={{ color: 'var(--gray-600)' }}
+      className='undp-viz-typography'
+      style={{
+        color: UNDPColorModule.grays['gray-600'],
+        marginBottom: 0,
+        fontSize: '0.875rem !important',
+      }}
     >
       {text}
     </p>
