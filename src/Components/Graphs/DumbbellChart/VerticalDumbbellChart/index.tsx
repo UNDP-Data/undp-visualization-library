@@ -1,4 +1,3 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { DumbbellChartDataType } from '../../../../Types';
@@ -6,6 +5,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: DumbbellChartDataType[];

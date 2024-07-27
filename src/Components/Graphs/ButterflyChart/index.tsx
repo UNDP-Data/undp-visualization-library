@@ -1,97 +1,91 @@
 import { useState, useRef, useEffect } from 'react';
+
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import {
-  ReferenceDataType,
-  GroupedBarGraphDataType,
-} from '../../../../../Types';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../../../ColorPalette';
+import { GraphFooter } from '../../Elements/GraphFooter';
+import { GraphHeader } from '../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { ColorLegend } from '../../Elements/ColorLegend';
+import { ButterflyChartDataType, ReferenceDataType } from '../../../Types';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
-  data: GroupedBarGraphDataType[];
-  colors?: string[];
+  data: ButterflyChartDataType[];
   graphTitle?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
-  source?: string;
   graphDescription?: string;
+  barTitle?: string;
+  lineTitle?: string;
   footNote?: string;
   sourceLink?: string;
-  barPadding?: number;
-  showBarLabel?: boolean;
-  showBarValue?: boolean;
-  showTicks?: boolean;
-  colorDomain: string[];
-  colorLegendTitle?: string;
-  truncateBy?: number;
+  width?: number;
+  height?: number;
+  source?: string;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  barColors?: [string, string];
   relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
   graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  barPadding?: number;
+  truncateBy?: number;
+  suffix?: string;
+  prefix?: string;
+  showTicks?: boolean;
+  showBarValue?: boolean;
+  onSeriesMouseClick?: (_d: any) => void;
+  centerGap?: number;
+  maxValue?: number;
+  minValue?: number;
+  showColorScale?: boolean;
+  refValues?: ReferenceDataType[];
 }
 
-export function VerticalGroupedBarGraph(props: Props) {
+export function ButterflyChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
-    suffix,
     source,
-    prefix,
     graphDescription,
     sourceLink,
-    barPadding,
-    showBarLabel,
-    showBarValue,
-    showTicks,
     height,
     width,
     footNote,
-    colorDomain,
-    colorLegendTitle,
-    truncateBy,
     padding,
+    barColors,
     backgroundColor,
     leftMargin,
     rightMargin,
+    lineTitle,
+    barTitle,
     topMargin,
     bottomMargin,
-    relativeHeight,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
-    refValues,
     graphID,
-    maxValue,
-    minValue,
-    onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    barPadding,
+    truncateBy,
+    onSeriesMouseClick,
+    centerGap,
+    showBarValue,
+    maxValue,
+    minValue,
+    refValues,
+    suffix,
+    prefix,
+    showTicks,
+    showColorScale,
   } = props;
-
-  const barColors = colors || UNDPColorModule.categoricalColors.colors;
-
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -101,6 +95,7 @@ export function VerticalGroupedBarGraph(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
+
   return (
     <div
       style={{
@@ -111,9 +106,6 @@ export function VerticalGroupedBarGraph(props: Props) {
         height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -166,54 +158,55 @@ export function VerticalGroupedBarGraph(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegendWithMouseOver
-              width={width}
-              colorDomain={colorDomain}
-              colors={barColors}
-              colorLegendTitle={colorLegendTitle}
-              setSelectedColor={setSelectedColor}
-            />
+            {showColorScale ? (
+              <ColorLegend
+                colorDomain={[
+                  barTitle || 'Bar graph',
+                  lineTitle || 'Line chart',
+                ]}
+                colors={
+                  barColors || [
+                    UNDPColorModule.categoricalColors.colors[0],
+                    UNDPColorModule.categoricalColors.colors[1],
+                  ]
+                }
+              />
+            ) : null}
             <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}
               ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={barColors}
+                  barColors={
+                    barColors || [
+                      UNDPColorModule.categoricalColors.colors[0],
+                      UNDPColorModule.categoricalColors.colors[1],
+                    ]
+                  }
                   width={width || svgWidth}
+                  centerGap={
+                    checkIfNullOrUndefined(centerGap)
+                      ? 100
+                      : (centerGap as number)
+                  }
                   height={
                     height ||
                     (relativeHeight
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
-                      ? true
-                      : (showBarLabel as boolean)
-                  }
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
-                      ? true
-                      : (showBarValue as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
                   truncateBy={
                     checkIfNullOrUndefined(truncateBy)
                       ? 999
-                      : (truncateBy as number)
+                      : (bottomMargin as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
@@ -227,21 +220,33 @@ export function VerticalGroupedBarGraph(props: Props) {
                   }
                   topMargin={
                     checkIfNullOrUndefined(topMargin)
-                      ? 20
+                      ? 25
                       : (topMargin as number)
                   }
                   bottomMargin={
                     checkIfNullOrUndefined(bottomMargin)
-                      ? 25
+                      ? 30
                       : (bottomMargin as number)
                   }
+                  axisTitles={[
+                    barTitle || 'Bar graph',
+                    lineTitle || 'Line chart',
+                  ]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  refValues={refValues}
+                  barPadding={barPadding || 0.25}
+                  refValues={refValues || []}
                   maxValue={maxValue}
                   minValue={minValue}
+                  showBarValue={
+                    checkIfNullOrUndefined(showBarValue)
+                      ? true
+                      : (showBarValue as boolean)
+                  }
                   onSeriesMouseClick={onSeriesMouseClick}
-                  selectedColor={selectedColor}
+                  showTicks={showTicks !== false}
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
                 />
               ) : null}
             </div>

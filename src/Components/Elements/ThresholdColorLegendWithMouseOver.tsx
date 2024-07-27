@@ -34,11 +34,12 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     >
       {colorLegendTitle ? (
         <p
-          className='undp-typography'
+          className='undp-typography margin-bottom-03'
           style={{
             fill: 'var(--gray-700)',
             fontSize: '0.875rem',
             width: '100%',
+            textAlign: 'center',
           }}
         >
           {colorLegendTitle}

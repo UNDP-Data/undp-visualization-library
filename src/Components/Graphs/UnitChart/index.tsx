@@ -1,8 +1,8 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useRef } from 'react';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   value: number;

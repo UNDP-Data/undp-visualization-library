@@ -1,97 +1,79 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import {
-  ReferenceDataType,
-  GroupedBarGraphDataType,
-} from '../../../../../Types';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../../../ColorPalette';
+import { GraphFooter } from '../../Elements/GraphFooter';
+import { GraphHeader } from '../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { ColorLegend } from '../../Elements/ColorLegend';
+import { ParetoChartDataType } from '../../../Types';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
-  data: GroupedBarGraphDataType[];
-  colors?: string[];
+  data: ParetoChartDataType[];
   graphTitle?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
-  source?: string;
   graphDescription?: string;
+  barTitle?: string;
+  lineTitle?: string;
   footNote?: string;
   sourceLink?: string;
-  barPadding?: number;
-  showBarLabel?: boolean;
-  showBarValue?: boolean;
-  showTicks?: boolean;
-  colorDomain: string[];
-  colorLegendTitle?: string;
-  truncateBy?: number;
+  width?: number;
+  height?: number;
+  source?: string;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
+  barColor?: string;
+  lineColor?: string;
+  sameAxes?: boolean;
   relativeHeight?: number;
   tooltip?: (_d: any) => JSX.Element;
   onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
   graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  barPadding?: number;
+  truncateBy?: number;
+  showLabel?: boolean;
+  onSeriesMouseClick?: (_d: any) => void;
 }
 
-export function VerticalGroupedBarGraph(props: Props) {
+export function ParetoChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
-    suffix,
     source,
-    prefix,
     graphDescription,
     sourceLink,
-    barPadding,
-    showBarLabel,
-    showBarValue,
-    showTicks,
     height,
     width,
     footNote,
-    colorDomain,
-    colorLegendTitle,
-    truncateBy,
     padding,
+    lineColor,
+    barColor,
+    sameAxes,
     backgroundColor,
     leftMargin,
     rightMargin,
+    lineTitle,
+    barTitle,
     topMargin,
     bottomMargin,
-    relativeHeight,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
-    refValues,
     graphID,
-    maxValue,
-    minValue,
-    onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    barPadding,
+    truncateBy,
+    showLabel,
+    onSeriesMouseClick,
   } = props;
-
-  const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -101,6 +83,7 @@ export function VerticalGroupedBarGraph(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
+
   return (
     <div
       style={{
@@ -111,9 +94,6 @@ export function VerticalGroupedBarGraph(props: Props) {
         height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor
-          ? padding || 'var(--spacing-05)'
-          : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -166,21 +146,33 @@ export function VerticalGroupedBarGraph(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegendWithMouseOver
-              width={width}
-              colorDomain={colorDomain}
-              colors={barColors}
-              colorLegendTitle={colorLegendTitle}
-              setSelectedColor={setSelectedColor}
+            <ColorLegend
+              colorDomain={[barTitle || 'Bar graph', lineTitle || 'Line chart']}
+              colors={[
+                barColor || UNDPColorModule.categoricalColors.colors[0],
+                lineColor || UNDPColorModule.categoricalColors.colors[1],
+              ]}
             />
             <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}
               ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={barColors}
+                  sameAxes={sameAxes}
+                  lineColor={
+                    lineColor || UNDPColorModule.categoricalColors.colors[1]
+                  }
+                  barColor={
+                    barColor || UNDPColorModule.categoricalColors.colors[0]
+                  }
                   width={width || svgWidth}
                   height={
                     height ||
@@ -188,41 +180,19 @@ export function VerticalGroupedBarGraph(props: Props) {
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
-                      ? true
-                      : (showBarLabel as boolean)
-                  }
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
-                      ? true
-                      : (showBarValue as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
                   truncateBy={
                     checkIfNullOrUndefined(truncateBy)
                       ? 999
-                      : (truncateBy as number)
+                      : (bottomMargin as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 20
+                      ? 80
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 20
+                      ? 80
                       : (rightMargin as number)
                   }
                   topMargin={
@@ -235,13 +205,15 @@ export function VerticalGroupedBarGraph(props: Props) {
                       ? 25
                       : (bottomMargin as number)
                   }
+                  axisTitles={[
+                    barTitle || 'Bar graph',
+                    lineTitle || 'Line chart',
+                  ]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  refValues={refValues}
-                  maxValue={maxValue}
-                  minValue={minValue}
+                  barPadding={barPadding || 0.25}
+                  showLabel={showLabel !== false}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  selectedColor={selectedColor}
                 />
               ) : null}
             </div>

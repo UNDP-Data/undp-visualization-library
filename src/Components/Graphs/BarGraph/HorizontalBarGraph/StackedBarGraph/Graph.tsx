@@ -3,7 +3,7 @@ import sum from 'lodash.sum';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import {
-  HorizontalGroupedBarGraphDataType,
+  GroupedBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
@@ -12,7 +12,7 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
 
 interface Props {
-  data: HorizontalGroupedBarGraphDataType[];
+  data: GroupedBarGraphDataType[];
   barColors: string[];
   barPadding: number;
   showTicks: boolean;
@@ -173,23 +173,25 @@ export function Graph(props: Props) {
                       }
                     }}
                   >
-                    <rect
-                      key={j}
-                      x={x(
-                        j === 0
-                          ? 0
-                          : sum(
-                              d.size.filter((element, k) => k < j && element),
-                            ),
-                      )}
-                      y={0}
-                      width={x(el)}
-                      style={{
-                        fill: barColors[j],
-                      }}
-                      height={y.bandwidth()}
-                    />
-                    {showValues && x(el) > 20 ? (
+                    {el ? (
+                      <rect
+                        key={j}
+                        x={x(
+                          j === 0
+                            ? 0
+                            : sum(
+                                d.size.filter((element, k) => k < j && element),
+                              ),
+                        )}
+                        y={0}
+                        width={x(el)}
+                        style={{
+                          fill: barColors[j],
+                        }}
+                        height={y.bandwidth()}
+                      />
+                    ) : null}
+                    {showValues && el && x(el) > 20 ? (
                       <text
                         x={
                           x(

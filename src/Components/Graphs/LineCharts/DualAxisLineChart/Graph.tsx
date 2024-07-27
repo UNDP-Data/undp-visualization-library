@@ -232,6 +232,9 @@ export function Graph(props: Props) {
               fill={lineColors[0]}
               textAnchor='middle'
               fontSize={12}
+              style={{
+                fontFamily: 'var(--fontFamily)',
+              }}
             >
               {lineTitles[0].length > 100
                 ? `${lineTitles[0].substring(0, 100)}...`
@@ -278,6 +281,9 @@ export function Graph(props: Props) {
               fill={lineColors[1]}
               textAnchor='middle'
               fontSize={12}
+              style={{
+                fontFamily: 'var(--fontFamily)',
+              }}
             >
               {lineTitles[1].length > 100
                 ? `${lineTitles[1].substring(0, 100)}...`

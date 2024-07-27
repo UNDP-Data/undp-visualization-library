@@ -1,5 +1,4 @@
 import uniqBy from 'lodash.uniqby';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
@@ -7,6 +6,7 @@ import { TreeMapDataType } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: TreeMapDataType[];

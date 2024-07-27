@@ -1,4 +1,3 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -8,6 +7,7 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
 import { LinearColorLegend } from '../../Elements/LinearColorLegend';
 import { ThresholdColorLegendWithMouseOver } from '../../Elements/ThresholdColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: HeatMapDataType[];

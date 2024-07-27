@@ -50,6 +50,10 @@ export { DataTable } from './Components/Graphs/DataTable';
 // Strip chart
 export { HorizontalStripChart } from './Components/Graphs/StripChart/HorizontalStripChart';
 export { VerticalStripChart } from './Components/Graphs/StripChart/VerticalStripChart';
+// Pareto Chart
+export { ParetoChart } from './Components/Graphs/ParetoChart';
+// Butterfly Chart
+export { ButterflyChart } from './Components/Graphs/ButterflyChart';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
@@ -60,6 +64,9 @@ export { ImageDownloadButton } from './Components/Actions/ImageDownloadButton';
 export { SVGDownloadButton } from './Components/Actions/SVGDownloadButton';
 export { CsvDownloadButton } from './Components/Actions/CsvDownloadButton';
 export { CopyTextButton } from './Components/Actions/CopyTextButton';
+
+/* ------- Color Palette ------- */
+export { UNDPColorModule } from './Components/ColorPalette';
 
 /* ------- All Design Elements and Typography ------- */
 // Color Legend

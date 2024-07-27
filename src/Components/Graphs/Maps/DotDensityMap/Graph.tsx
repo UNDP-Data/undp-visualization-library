@@ -3,11 +3,11 @@ import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import maxBy from 'lodash.maxby';
 import isEqual from 'lodash.isequal';
 import { DotDensityMapDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: DotDensityMapDataType[];

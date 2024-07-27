@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
+
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import { DualAxisLineChartDataType } from '../../../../Types';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: DualAxisLineChartDataType[];
@@ -138,76 +139,89 @@ export function DualAxisLineChart(props: Props) {
               }
             />
           ) : null}
-          <ColorLegend
-            colorDomain={lineTitles || ['Line 1', 'Line 2']}
-            colors={
-              lineColors || [
-                UNDPColorModule.categoricalColors.colors[0],
-                UNDPColorModule.categoricalColors.colors[1],
-              ]
-            }
-          />
           <div
             style={{
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              lineHeight: 0,
+              gap: 'var(--spacing-04)',
+              width: '100%',
             }}
-            ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                data={data}
-                sameAxes={sameAxes}
-                lineColors={
-                  lineColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
-                  ]
-                }
-                width={width || svgWidth}
-                height={
-                  height ||
-                  (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                dateFormat={dateFormat || 'yyyy'}
-                showValues={showValues}
-                noOfXTicks={
-                  checkIfNullOrUndefined(noOfXTicks)
-                    ? 10
-                    : (noOfXTicks as number)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 80
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 80
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 25
-                    : (bottomMargin as number)
-                }
-                lineTitles={lineTitles || ['Line 1', 'Line 2']}
-                highlightAreaSettings={highlightAreaSettings || [null, null]}
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
-              />
-            ) : null}
+            <ColorLegend
+              colorDomain={lineTitles || ['Line 1', 'Line 2']}
+              colors={
+                lineColors || [
+                  UNDPColorModule.categoricalColors.colors[0],
+                  UNDPColorModule.categoricalColors.colors[1],
+                ]
+              }
+            />
+            <div
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}
+              ref={graphDiv}
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  data={data}
+                  sameAxes={sameAxes}
+                  lineColors={
+                    lineColors || [
+                      UNDPColorModule.categoricalColors.colors[0],
+                      UNDPColorModule.categoricalColors.colors[1],
+                    ]
+                  }
+                  width={width || svgWidth}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
+                  }
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  dateFormat={dateFormat || 'yyyy'}
+                  showValues={showValues}
+                  noOfXTicks={
+                    checkIfNullOrUndefined(noOfXTicks)
+                      ? 10
+                      : (noOfXTicks as number)
+                  }
+                  leftMargin={
+                    checkIfNullOrUndefined(leftMargin)
+                      ? 80
+                      : (leftMargin as number)
+                  }
+                  rightMargin={
+                    checkIfNullOrUndefined(rightMargin)
+                      ? 80
+                      : (rightMargin as number)
+                  }
+                  topMargin={
+                    checkIfNullOrUndefined(topMargin)
+                      ? 20
+                      : (topMargin as number)
+                  }
+                  bottomMargin={
+                    checkIfNullOrUndefined(bottomMargin)
+                      ? 25
+                      : (bottomMargin as number)
+                  }
+                  lineTitles={lineTitles || ['Line 1', 'Line 2']}
+                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  highlightAreaColor={highlightAreaColor || 'var(--gray-300)'}
+                />
+              ) : null}
+            </div>
           </div>
           {source || footNote ? (
             <GraphFooter

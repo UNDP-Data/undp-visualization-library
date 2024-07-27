@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -50,7 +50,6 @@
     "maps"
   ],
   "dependencies": {
-    "@undp-data/undp-viz-colors": "^1.0.1",
     "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",
     "d3-force": "^3.0.0",

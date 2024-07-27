@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
+
 import { scaleThreshold } from 'd3-scale';
 import isEqual from 'lodash.isequal';
 import { BivariateMapDataType } from '../../../../Types';
@@ -399,36 +399,31 @@ export function Graph(props: Props) {
                   <div>
                     <svg width='135px' viewBox='0 0 135 135'>
                       <g>
-                        {UNDPColorModule.bivariateColors.colors05x05.map(
-                          (d, i) => (
-                            <g
-                              key={i}
-                              transform={`translate(0,${100 - i * 25})`}
-                            >
-                              {d.map((el, j) => (
-                                <rect
-                                  key={j}
-                                  y={1}
-                                  x={j * 25 + 1}
-                                  fill={el}
-                                  width={23}
-                                  height={23}
-                                  strokeWidth={selectedColor === el ? 2 : 0.25}
-                                  stroke={
-                                    selectedColor === el ? '#212121' : '#fff'
-                                  }
-                                  style={{ cursor: 'pointer' }}
-                                  onMouseOver={() => {
-                                    setSelectedColor(el);
-                                  }}
-                                  onMouseLeave={() => {
-                                    setSelectedColor(undefined);
-                                  }}
-                                />
-                              ))}
-                            </g>
-                          ),
-                        )}
+                        {colors.map((d, i) => (
+                          <g key={i} transform={`translate(0,${100 - i * 25})`}>
+                            {d.map((el, j) => (
+                              <rect
+                                key={j}
+                                y={1}
+                                x={j * 25 + 1}
+                                fill={el}
+                                width={23}
+                                height={23}
+                                strokeWidth={selectedColor === el ? 2 : 0.25}
+                                stroke={
+                                  selectedColor === el ? '#212121' : '#fff'
+                                }
+                                style={{ cursor: 'pointer' }}
+                                onMouseOver={() => {
+                                  setSelectedColor(el);
+                                }}
+                                onMouseLeave={() => {
+                                  setSelectedColor(undefined);
+                                }}
+                              />
+                            ))}
+                          </g>
+                        ))}
                         <g transform='translate(0,125)'>
                           {xDomain.map((el, j) => (
                             <text

@@ -1,17 +1,15 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
+
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import {
-  VerticalBarGraphDataType,
-  ReferenceDataType,
-} from '../../../../../Types';
+import { BarGraphDataType, ReferenceDataType } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: VerticalBarGraphDataType[];
+  data: BarGraphDataType[];
   width: number;
   height: number;
   barColor: string[];
@@ -79,14 +77,22 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
+    : Math.max(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      ) < 0
     ? 0
-    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
+    : Math.max(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      );
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
+    : Math.min(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      ) >= 0
     ? 0
-    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
+    : Math.min(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      );
 
   const y = scaleLinear()
     .domain([xMinValue, xMaxValue])
@@ -214,20 +220,22 @@ export function Graph(props: Props) {
                   }
                 }}
               >
-                <rect
-                  x={x(`${i}`)}
-                  y={d.size > 0 ? y(d.size) : y(0)}
-                  width={x.bandwidth()}
-                  style={{
-                    fill:
-                      data.filter(el => el.color).length === 0
-                        ? barColor[0]
-                        : !d.color
-                        ? UNDPColorModule.graphGray
-                        : barColor[colorDomain.indexOf(d.color)],
-                  }}
-                  height={Math.abs(y(d.size) - y(0))}
-                />
+                {d.size ? (
+                  <rect
+                    x={x(`${i}`)}
+                    y={d.size > 0 ? y(d.size) : y(0)}
+                    width={x.bandwidth()}
+                    style={{
+                      fill:
+                        data.filter(el => el.color).length === 0
+                          ? barColor[0]
+                          : !d.color
+                          ? UNDPColorModule.graphGray
+                          : barColor[colorDomain.indexOf(d.color)],
+                    }}
+                    height={Math.abs(y(d.size) - y(0))}
+                  />
+                ) : null}
                 {showBarLabel ? (
                   <text
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
@@ -238,7 +246,7 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       fontFamily: 'var(--fontFamily)',
                     }}
-                    dy={d.size > 0 ? '15px' : '-5px'}
+                    dy={d.size ? (d.size >= 0 ? '15px' : '-5px') : '15px'}
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -248,7 +256,7 @@ export function Graph(props: Props) {
                 {showBarValue ? (
                   <text
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
-                    y={y(d.size)}
+                    y={y(d.size || 0)}
                     style={{
                       fill:
                         barColor.length > 1 ? 'var(--gray-600)' : barColor[0],
@@ -256,7 +264,7 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       fontFamily: 'var(--fontFamily)',
                     }}
-                    dy={d.size > 0 ? '-5px' : '15px'}
+                    dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
                   >
                     {numberFormattingFunction(
                       d.size,

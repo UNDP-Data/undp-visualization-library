@@ -11,29 +11,24 @@ export interface TreeMapDataType {
   data?: object;
 }
 
-export interface VerticalBarGraphDataType {
+export interface ButterflyChartDataType {
   label: string | number;
-  size: number;
+  leftBar?: number;
+  rightBar?: number;
   color?: string;
   data?: object;
 }
 
-export interface VerticalGroupedBarGraphDataType {
+export interface BarGraphDataType {
   label: string | number;
-  size: number[];
-  data?: object;
-}
-
-export interface HorizontalBarGraphDataType {
-  size: number;
-  label: string | number;
+  size: number | undefined;
   color?: string;
   data?: object;
 }
 
-export interface HorizontalGroupedBarGraphDataType {
-  size: number[];
+export interface GroupedBarGraphDataType {
   label: string | number;
+  size: (number | undefined)[];
   data?: object;
 }
 
@@ -99,6 +94,13 @@ export interface DualAxisLineChartDataType {
   date: number | string;
   y1?: number;
   y2?: number;
+  data?: object;
+}
+
+export interface ParetoChartDataType {
+  label: number | string;
+  bar?: number;
+  line?: number;
   data?: object;
 }
 

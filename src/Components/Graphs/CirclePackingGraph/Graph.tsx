@@ -1,10 +1,11 @@
 import { pack, stratify } from 'd3-hierarchy';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
+
 import { useState } from 'react';
 import { TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: TreeMapDataType[];

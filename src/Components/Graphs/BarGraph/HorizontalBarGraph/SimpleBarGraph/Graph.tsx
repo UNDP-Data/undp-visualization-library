@@ -1,17 +1,14 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
-import {
-  HorizontalBarGraphDataType,
-  ReferenceDataType,
-} from '../../../../../Types';
+import { BarGraphDataType, ReferenceDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: HorizontalBarGraphDataType[];
+  data: BarGraphDataType[];
   barColor: string[];
   colorDomain: string[];
   suffix: string;
@@ -79,14 +76,22 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size)) < 0
+    : Math.max(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      ) < 0
     ? 0
-    : Math.max(...data.filter(d => d.size !== undefined).map(d => d.size));
+    : Math.max(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      );
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size)) >= 0
+    : Math.min(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      ) >= 0
     ? 0
-    : Math.min(...data.filter(d => d.size !== undefined).map(d => d.size));
+    : Math.min(
+        ...data.filter(d => d.size !== undefined).map(d => d.size as number),
+      );
 
   const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const x = scaleLinear()
@@ -191,31 +196,37 @@ export function Graph(props: Props) {
                   }
                 }}
               >
-                <rect
-                  x={d.size >= 0 ? x(0) : x(d.size)}
-                  y={y(`${i}`)}
-                  width={d.size >= 0 ? x(d.size) - x(0) : x(0) - x(d.size)}
-                  style={{
-                    fill:
-                      data.filter(el => el.color).length === 0
-                        ? barColor[0]
-                        : !d.color
-                        ? UNDPColorModule.graphGray
-                        : barColor[colorDomain.indexOf(d.color)],
-                  }}
-                  height={y.bandwidth()}
-                />
+                {d.size ? (
+                  <rect
+                    x={d.size >= 0 ? x(0) : x(d.size)}
+                    y={y(`${i}`)}
+                    width={d.size >= 0 ? x(d.size) - x(0) : x(0) - x(d.size)}
+                    style={{
+                      fill:
+                        data.filter(el => el.color).length === 0
+                          ? barColor[0]
+                          : !d.color
+                          ? UNDPColorModule.graphGray
+                          : barColor[colorDomain.indexOf(d.color)],
+                    }}
+                    height={y.bandwidth()}
+                  />
+                ) : null}
                 {showBarLabel ? (
                   <text
                     style={{
                       fill: 'var(--gray-700)',
                       fontSize: '0.75rem',
-                      textAnchor: d.size < 0 ? 'start' : 'end',
+                      textAnchor: d.size
+                        ? d.size < 0
+                          ? 'start'
+                          : 'end'
+                        : 'end',
                       fontFamily: 'var(--fontFamily)',
                     }}
                     x={x(0)}
                     y={(y(`${i}`) as number) + y.bandwidth() / 2}
-                    dx={d.size < 0 ? 10 : -10}
+                    dx={d.size ? (d.size < 0 ? 10 : -10) : -10}
                     dy={5}
                   >
                     {`${d.label}`.length < truncateBy
@@ -225,16 +236,20 @@ export function Graph(props: Props) {
                 ) : null}
                 {showBarValue ? (
                   <text
-                    x={x(d.size)}
+                    x={d.size ? x(d.size) : x(0)}
                     y={(y(`${i}`) as number) + y.bandwidth() / 2}
                     style={{
                       fill:
                         barColor.length > 1 ? 'var(--gray-600)' : barColor[0],
                       fontSize: '1rem',
-                      textAnchor: d.size < 0 ? 'end' : 'start',
+                      textAnchor: d.size
+                        ? d.size < 0
+                          ? 'end'
+                          : 'start'
+                        : 'start',
                       fontFamily: 'var(--fontFamily)',
                     }}
-                    dx={d.size < 0 ? -5 : 5}
+                    dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
                     dy={5}
                   >
                     {numberFormattingFunction(

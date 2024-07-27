@@ -19,7 +19,7 @@ export function LinearColorLegend(props: Props) {
     >
       {colorLegendTitle ? (
         <p
-          className='undp-typography margin-bottom-02'
+          className='undp-typography margin-bottom-03'
           style={{
             fill: 'var(--gray-700)',
             fontSize: '0.875rem',

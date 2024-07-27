@@ -1,18 +1,15 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import uniqBy from 'lodash.uniqby';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import {
-  ReferenceDataType,
-  VerticalBarGraphDataType,
-} from '../../../../../Types';
+import { ReferenceDataType, BarGraphDataType } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: VerticalBarGraphDataType[];
+  data: BarGraphDataType[];
   colors?: string | string[];
   graphTitle?: string;
   width?: number;

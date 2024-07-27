@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import isEqual from 'lodash.isequal';
 import { StripChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: StripChartDataType[];

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import min from 'lodash.min';
 import isEqual from 'lodash.isequal';
 import {
-  HorizontalGroupedBarGraphDataType,
+  GroupedBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
@@ -12,7 +12,7 @@ import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
-  data: HorizontalGroupedBarGraphDataType[];
+  data: GroupedBarGraphDataType[];
   barColors: string[];
   barPadding: number;
   showTicks: boolean;
@@ -189,19 +189,25 @@ export function Graph(props: Props) {
                       }
                     }}
                   >
-                    <rect
-                      key={j}
-                      x={el >= 0 ? x(0) : x(el)}
-                      y={subBarScale(`${j}`)}
-                      width={el >= 0 ? x(el) - x(0) : x(0) - x(el)}
-                      style={{
-                        fill: barColors[j],
-                      }}
-                      height={subBarScale.bandwidth()}
-                    />
+                    {!checkIfNullOrUndefined(el) ? (
+                      <rect
+                        key={j}
+                        x={(el as number) >= 0 ? x(0) : x(el as number)}
+                        y={subBarScale(`${j}`)}
+                        width={
+                          (el as number) >= 0
+                            ? x(el as number) - x(0)
+                            : x(0) - x(el as number)
+                        }
+                        style={{
+                          fill: barColors[j],
+                        }}
+                        height={subBarScale.bandwidth()}
+                      />
+                    ) : null}
                     {showBarValue ? (
                       <text
-                        x={x(el)}
+                        x={x(el || 0)}
                         y={
                           (subBarScale(`${j}`) as number) +
                           subBarScale.bandwidth() / 2
@@ -209,10 +215,10 @@ export function Graph(props: Props) {
                         style={{
                           fill: barColors[j],
                           fontSize: '1rem',
-                          textAnchor: el < 0 ? 'end' : 'start',
+                          textAnchor: el ? (el < 0 ? 'end' : 'start') : 'start',
                           fontFamily: 'var(--fontFamily)',
                         }}
-                        dx={el < 0 ? -5 : 5}
+                        dx={el ? (el < 0 ? -5 : 5) : 5}
                         dy={6}
                       >
                         {numberFormattingFunction(

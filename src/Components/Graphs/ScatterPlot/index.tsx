@@ -1,5 +1,4 @@
 import uniqBy from 'lodash.uniqby';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { ReferenceDataType, ScatterPlotDataType } from '../../../Types';
 import { Graph } from './Graph';
@@ -7,6 +6,7 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: ScatterPlotDataType[];

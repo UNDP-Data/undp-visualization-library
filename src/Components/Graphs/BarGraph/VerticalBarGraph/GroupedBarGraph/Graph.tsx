@@ -6,13 +6,13 @@ import isEqual from 'lodash.isequal';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   ReferenceDataType,
-  VerticalGroupedBarGraphDataType,
+  GroupedBarGraphDataType,
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
-  data: VerticalGroupedBarGraphDataType[];
+  data: GroupedBarGraphDataType[];
   width: number;
   height: number;
   barColors: string[];
@@ -214,29 +214,31 @@ export function Graph(props: Props) {
                       }
                     }}
                   >
-                    <rect
-                      x={subBarScale(`${j}`)}
-                      y={el > 0 ? y(el) : y(0)}
-                      width={subBarScale.bandwidth()}
-                      style={{
-                        fill: barColors[j],
-                      }}
-                      height={Math.abs(y(el) - y(0))}
-                    />
+                    {!checkIfNullOrUndefined(el) ? (
+                      <rect
+                        x={subBarScale(`${j}`)}
+                        y={(el as number) > 0 ? y(el as number) : y(0)}
+                        width={subBarScale.bandwidth()}
+                        style={{
+                          fill: barColors[j],
+                        }}
+                        height={Math.abs(y(el as number) - y(0))}
+                      />
+                    ) : null}
                     {showBarValue ? (
                       <text
                         x={
                           (subBarScale(`${j}`) as number) +
                           subBarScale.bandwidth() / 2
                         }
-                        y={y(el)}
+                        y={y(el || 0)}
                         style={{
                           fill: barColors[j],
                           fontSize: '1rem',
                           textAnchor: 'middle',
                           fontFamily: 'var(--fontFamily)',
                         }}
-                        dy={el > 0 ? '-5px' : '15px'}
+                        dy={el ? (el >= 0 ? '-5px' : '15px') : '-5px'}
                       >
                         {numberFormattingFunction(
                           el,

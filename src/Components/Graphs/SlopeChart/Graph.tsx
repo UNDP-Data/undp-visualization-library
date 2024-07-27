@@ -2,11 +2,11 @@ import { useState } from 'react';
 import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import isEqual from 'lodash.isequal';
 import { SlopeChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   data: SlopeChartDataType[];

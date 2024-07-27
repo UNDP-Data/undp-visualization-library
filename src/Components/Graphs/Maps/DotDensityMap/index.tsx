@@ -1,4 +1,3 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import uniqBy from 'lodash.uniqby';
 import { Graph } from './Graph';
@@ -7,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { DotDensityMapDataType } from '../../../../Types';
 import WorldMapData from '../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   graphTitle?: string;

@@ -1,4 +1,3 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { ChoroplethMapDataType } from '../../../../Types';
@@ -6,6 +5,7 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import WorldMapData from '../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   graphTitle?: string;

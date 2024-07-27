@@ -1,5 +1,4 @@
 import { scaleLinear, scaleSqrt } from 'd3-scale';
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import {
   forceCollide,
   forceManyBody,
@@ -16,6 +15,7 @@ import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunc
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '../../../../Utils/getTextColorBasedOnBgColor';
+import { UNDPColorModule } from '../../../ColorPalette';
 
 interface BeeSwarmChartDataTypeForBubbleChart extends BeeSwarmChartDataType {
   x: number;

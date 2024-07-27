@@ -4,7 +4,7 @@ import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
-  VerticalGroupedBarGraphDataType,
+  GroupedBarGraphDataType,
   ReferenceDataType,
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
@@ -12,7 +12,7 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
 
 interface Props {
-  data: VerticalGroupedBarGraphDataType[];
+  data: GroupedBarGraphDataType[];
   width: number;
   height: number;
   barColors: string[];
@@ -219,6 +219,7 @@ export function Graph(props: Props) {
                       )}
                     />
                     {showValues &&
+                    el &&
                     Math.abs(
                       y(sum(d.size.filter((element, k) => k <= j && element))) -
                         y(sum(d.size.filter((element, k) => k < j && element))),

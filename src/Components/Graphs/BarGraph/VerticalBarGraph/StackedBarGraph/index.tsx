@@ -1,17 +1,17 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
 import {
   ReferenceDataType,
-  VerticalGroupedBarGraphDataType,
+  GroupedBarGraphDataType,
 } from '../../../../../Types';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: VerticalGroupedBarGraphDataType[];
+  data: GroupedBarGraphDataType[];
   colors?: string[];
   graphTitle?: string;
   width?: number;

@@ -1,4 +1,3 @@
-import UNDPColorModule from '@undp-data/undp-viz-colors';
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import { Graph } from './Graph';
@@ -6,6 +5,7 @@ import { DonutChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   mainText?: string;

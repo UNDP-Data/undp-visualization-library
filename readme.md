@@ -68,5 +68,4 @@ The dependencies that are pre-installed wit the library:
 * file-saver - For downloading files
 * react-csv - For generating a csv file
 * xlsx - For generating a xlsx file
-* @undp-data/undp-viz-colors - For color pallette
 * React (of course!)
