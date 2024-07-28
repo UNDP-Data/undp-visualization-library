@@ -289,6 +289,11 @@ export const UNDPColorModule = {
   },
 
   bivariateColors: {
+    colors03x03: [
+      ['#e5e5e5', '#7FDCF9', '#0BC6FF'],
+      ['#F99FBA', '#9697D3', '#3690EB'],
+      ['#F4618D', '#A961B3', '#5C61DA'],
+    ],
     colors04x04: [
       ['#e5e5e5', '#BAE7F6', '#7FDCF9', '#41D0FC'],
       ['#F6C5D4', '#BFBEDD', '#88B8E5', '#57B2ED'],
