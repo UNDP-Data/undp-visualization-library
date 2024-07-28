@@ -12,8 +12,8 @@ interface Props {
   data: ButterflyChartDataType[];
   graphTitle?: string;
   graphDescription?: string;
-  barTitle?: string;
-  lineTitle?: string;
+  leftBarTitle?: string;
+  rightBarTitle?: string;
   footNote?: string;
   sourceLink?: string;
   width?: number;
@@ -61,8 +61,8 @@ export function ButterflyChart(props: Props) {
     backgroundColor,
     leftMargin,
     rightMargin,
-    lineTitle,
-    barTitle,
+    rightBarTitle,
+    leftBarTitle,
     topMargin,
     bottomMargin,
     tooltip,
@@ -159,8 +159,8 @@ export function ButterflyChart(props: Props) {
             {showColorScale ? (
               <ColorLegend
                 colorDomain={[
-                  barTitle || 'Bar graph',
-                  lineTitle || 'Line chart',
+                  leftBarTitle || 'Left bar graph',
+                  rightBarTitle || 'Right bar graph',
                 ]}
                 colors={
                   barColors || [
@@ -227,8 +227,8 @@ export function ButterflyChart(props: Props) {
                       : (bottomMargin as number)
                   }
                   axisTitles={[
-                    barTitle || 'Bar graph',
-                    lineTitle || 'Line chart',
+                    leftBarTitle || 'Left bar graph',
+                    rightBarTitle || 'Right bar graph',
                   ]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

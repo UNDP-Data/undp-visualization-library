@@ -15,7 +15,6 @@ export interface ButterflyChartDataType {
   label: string | number;
   leftBar?: number;
   rightBar?: number;
-  color?: string;
   data?: object;
 }
 
