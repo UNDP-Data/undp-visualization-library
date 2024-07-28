@@ -170,7 +170,7 @@ export function DonutChart(props: Props) {
                         className='undp-viz-typography'
                         style={{
                           marginBottom: 0,
-                          fontSize: '0.875rem !important',
+                          fontSize: '0.875rem',
                         }}
                       >
                         {d.label}:{' '}

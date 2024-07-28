@@ -79,7 +79,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
-                  fontSize: '0.875rem !important',
+                  fontSize: '0.875rem',
                 }}
               >
                 {d}
@@ -114,7 +114,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
-                  fontSize: '0.875rem !important',
+                  fontSize: '0.875rem',
                 }}
               >
                 NA

@@ -39,26 +39,31 @@ export function ColorLegend(props: Props) {
             display: 'flex',
             marginBottom: 0,
             flexWrap: 'wrap',
+            gap: '1.5rem',
           }}
         >
           {colorDomain.map((d, i) => (
-            <div key={i}>
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+              }}
+            >
               <div
                 style={{
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
                   backgroundColor: colors[i],
-                  display: 'flex',
-                  gap: '0.5rem',
-                  alignItems: 'center',
                 }}
               />
               <p
                 className='undp-viz-typography'
                 style={{
                   marginBottom: 0,
-                  fontSize: '0.875rem !important',
+                  fontSize: '0.875rem',
                 }}
               >
                 {d}
@@ -86,7 +91,7 @@ export function ColorLegend(props: Props) {
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
-                  fontSize: '0.875rem !important',
+                  fontSize: '0.875rem',
                 }}
               >
                 NA

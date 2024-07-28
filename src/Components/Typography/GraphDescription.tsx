@@ -12,7 +12,7 @@ export function GraphDescription(props: Props) {
       style={{
         color: UNDPColorModule.grays['gray-600'],
         marginBottom: 0,
-        fontSize: '0.875rem !important',
+        fontSize: '0.875rem',
       }}
     >
       {text}

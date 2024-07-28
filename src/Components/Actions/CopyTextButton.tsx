@@ -43,7 +43,7 @@ export function CopyTextButton(props: Props) {
               color: UNDPColorModule.grays['gray-700'],
               textTransform: 'uppercase',
               marginBottom: 0,
-              fontSize: '0.875rem !important',
+              fontSize: '0.875rem',
             }}
           >
             {buttonText}

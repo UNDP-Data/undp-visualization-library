@@ -219,7 +219,7 @@ export function Graph(props: Props) {
                         <p
                           className='undp-viz-typography'
                           style={{
-                            fontSize: '0.875rem !important',
+                            fontSize: '0.875rem',
                             marginBottom: 0,
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0

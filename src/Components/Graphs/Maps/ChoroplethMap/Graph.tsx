@@ -390,7 +390,7 @@ export function Graph(props: Props) {
                   <div
                     style={{
                       lineHeight: 'normal',
-                      fontSize: '0.75rem !important',
+                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',

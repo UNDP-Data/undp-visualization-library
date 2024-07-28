@@ -66,13 +66,13 @@ export function LinearColorLegend(props: Props) {
         >
           <p
             className='undp-viz-typography'
-            style={{ marginBottom: 0, fontSize: '0.875rem !important' }}
+            style={{ marginBottom: 0, fontSize: '0.875rem' }}
           >
             {numberFormattingFunction(colorDomain[0], '', '')}
           </p>
           <p
             className='undp-viz-typography'
-            style={{ marginBottom: 0, fontSize: '0.875rem !important' }}
+            style={{ marginBottom: 0, fontSize: '0.875rem' }}
           >
             {numberFormattingFunction(colorDomain[1], '', '')}
           </p>

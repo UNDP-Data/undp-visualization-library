@@ -118,7 +118,7 @@ export function DataTable(props: Props) {
                         className='undp-viz-typography'
                         style={{
                           padding: '1rem',
-                          fontSize: '0.875rem !important',
+                          fontSize: '0.875rem',
                         }}
                         key={i}
                       >
@@ -209,7 +209,7 @@ export function DataTable(props: Props) {
                           key={j}
                           style={{
                             textAlign: d.align || 'left',
-                            fontSize: '0.875rem !important',
+                            fontSize: '0.875rem',
                             padding: '1rem',
                           }}
                         >
