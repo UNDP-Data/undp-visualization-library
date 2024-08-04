@@ -32,7 +32,7 @@ interface Props {
   lineColors?: [string, string];
   sameAxes?: boolean;
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   highlightAreaSettings?: [number | null, number | null];
   graphID?: string;

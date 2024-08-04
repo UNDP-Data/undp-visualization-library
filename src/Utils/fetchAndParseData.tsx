@@ -21,3 +21,17 @@ export async function fetchAndParseCSV(
     });
   });
 }
+
+export async function fetchAndParseJSON(dataURL: string) {
+  const url = dataURL;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    return error;
+  }
+}

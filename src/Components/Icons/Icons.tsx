@@ -161,6 +161,55 @@ export function SortingIconAscending() {
   );
 }
 
+export function FilterIcon() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='14'
+      height='14'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='1.25'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <polygon points='22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3' />
+    </svg>
+  );
+}
+
+export function FilterIconApplied() {
+  return (
+    <svg
+      width='14'
+      height='14'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M16.926 9L14 12.46V21L10 19V12.46L2 3H14.5'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.25'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <circle
+        cx='20'
+        cy='4'
+        r='3'
+        fill='currentColor'
+        stroke='currentColor'
+        strokeWidth='1.25'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+}
+
 export function ChevronLeftRight() {
   return (
     <svg

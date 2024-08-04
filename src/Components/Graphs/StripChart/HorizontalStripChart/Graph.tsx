@@ -19,7 +19,7 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   maxValue?: number;
@@ -28,6 +28,7 @@ interface Props {
   showAxis: boolean;
   prefix: string;
   suffix: string;
+  stripType: 'strip' | 'dot';
 }
 
 export function Graph(props: Props) {
@@ -52,6 +53,7 @@ export function Graph(props: Props) {
     showAxis,
     prefix,
     suffix,
+    stripType,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -149,19 +151,36 @@ export function Graph(props: Props) {
                   }
                 }}
               >
-                <circle
-                  cy={0}
-                  cx={0}
-                  style={{
-                    fill:
-                      data.filter(el => el.color).length === 0
-                        ? colors[0]
-                        : !d.color
-                        ? UNDPColorModule.graphGray
-                        : colors[colorDomain.indexOf(d.color)],
-                  }}
-                  r={pointRadius}
-                />
+                {stripType === 'dot' ? (
+                  <circle
+                    cy={0}
+                    cx={0}
+                    style={{
+                      fill:
+                        data.filter(el => el.color).length === 0
+                          ? colors[0]
+                          : !d.color
+                          ? UNDPColorModule.graphGray
+                          : colors[colorDomain.indexOf(d.color)],
+                    }}
+                    r={pointRadius}
+                  />
+                ) : (
+                  <rect
+                    y={0 - pointRadius}
+                    x={-1}
+                    height={pointRadius * 2}
+                    width={2}
+                    style={{
+                      fill:
+                        data.filter(el => el.color).length === 0
+                          ? colors[0]
+                          : !d.color
+                          ? UNDPColorModule.graphGray
+                          : colors[colorDomain.indexOf(d.color)],
+                    }}
+                  />
+                )}
                 {highlightedDataPoints.length !== 0 ? (
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
@@ -220,7 +239,12 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
-        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+        />
       ) : null}
     </>
   );

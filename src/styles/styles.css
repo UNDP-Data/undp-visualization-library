@@ -234,19 +234,10 @@ a.undp-viz-style:focus-visible {
 .undp-viz-loader {
   animation: undp-viz-loader-animation 2s linear infinite;
   border-radius: 50%;
-  border: 8px solid #006EB5;
-  border-top: 8px solid #EDEFF0;
-  height: 40px;
-  width: 40px;
-}
-
-@media (min-width: 48em) {
-  .undp-viz-loader {
-    border: 14px solid #006EB5;
-    border-top: 14px solid #EDEFF0;
-    height: 96px;
-    width: 96px;
-  }
+  border: 4px solid #006EB5;
+  border-top: 4px solid #EDEFF0;
+  height: 32px;
+  width: 32px;
 }
 
 .undp-viz-button {
@@ -483,4 +474,106 @@ a.undp-viz-style:focus-visible {
 
 .maplibregl-ctrl-attrib-button:before{
   content: none !important;
+}
+
+
+.undp-viz-checkbox{
+  padding: 2px 0 !important;
+}
+
+.undp-viz-label{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem !important;
+  font-weight: bold;
+}
+
+.undp-viz-checkbox{
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid #D12800;
+  cursor: pointer;
+  height: 18px;
+  margin: 0;
+  margin-right: 4px;
+  width: 18px;
+  border-radius: 3px;
+}
+
+.undp-viz-checkbox:checked{
+  background-color: transparent;
+}
+
+.undp-viz-checkbox:hover{
+  background-color: rgba(238, 64, 45,0.2) !important;
+}
+
+.undp-viz-checkbox:checked{
+  background: url(https://design.undp.org/static/media/icon-check.b332b98d.svg) no-repeat center center;
+}
+
+div.undp-viz-tooltip{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+
+div.undp-viz-tooltip p,h1,h2,h3,h4,h5,h6{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+div.undp-viz-tooltip p{
+  font-size: 14px !important;
+}
+
+div.undp-viz-tooltip a{
+  background-image: linear-gradient(#D12800, #D12800), linear-gradient(#D12800, #D12800);
+  background-position: 100% 100%, -30px 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 0 1px;
+  text-decoration: none;
+  color: #000;
+}
+
+div.undp-viz-tooltip a:hover{
+  animation: undp-viz-lineLoop-animation-for-link 2s linear infinite;
+  color: #000;
+}
+
+.undp-viz-select {
+  border: 2px solid #000;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+  color: #000;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  margin: 0;position: relative;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+
+[class$="-indicatorSeparator"]{
+  width: 0 !important;
+}
+
+[class$="-indicatorContainer"]{
+  padding: 0 8px !important;
+}
+
+[class$="-indicatorContainer"]:last-of-type{
+  background: url(https://design.undp.org/static/media/chevron-down.16c97a3f.svg) no-repeat center center;
+  padding: 8px !important;
+
+}
+
+[class$="-indicatorContainer"]:last-of-type svg{
+  display: none !important;
+}
+
+.undp-viz-select [class$="-control"]>div{
+  padding: 6px 12px !important;
 }

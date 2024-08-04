@@ -1,5 +1,6 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
+import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { BarGraphDataType, ReferenceDataType } from '../../../../../Types';
@@ -37,7 +38,7 @@ interface Props {
   showColorScale?: boolean;
   maxValue?: number;
   minValue?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
@@ -45,6 +46,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  sortData?: 'asc' | 'desc';
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -85,6 +87,7 @@ export function HorizontalBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    sortData,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -195,7 +198,13 @@ export function HorizontalBarGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={
+                    sortData === 'asc'
+                      ? sortBy(data, d => d.size)
+                      : sortData === 'desc'
+                      ? sortBy(data, d => d.size).reverse()
+                      : data
+                  }
                   barColor={
                     data.filter(el => el.color).length === 0
                       ? colors

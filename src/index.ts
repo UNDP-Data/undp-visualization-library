@@ -39,6 +39,7 @@ export { SlopeChart } from './Components/Graphs/SlopeChart';
 export { AreaChart } from './Components/Graphs/StackedAreaChart';
 // Stat Cards
 export { StatCard } from './Components/Graphs/StatCard';
+export { StatCardFromData } from './Components/Graphs/StatCard/StatCardFromData';
 // Tree Maps
 export { TreeMapGraph } from './Components/Graphs/TreeMapGraph';
 // Unit Chart
@@ -54,6 +55,10 @@ export { VerticalStripChart } from './Components/Graphs/StripChart/VerticalStrip
 export { ParetoChart } from './Components/Graphs/ParetoChart';
 // Butterfly Chart
 export { ButterflyChart } from './Components/Graphs/ButterflyChart';
+// Histogram
+export { Histogram } from './Components/Graphs/Histogram';
+// Dashboard
+export { Dashboard } from './Components/Dashboard';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
@@ -94,3 +99,10 @@ export { getJenks } from './Utils/getJenks';
 export { imageDownload } from './Utils/imageDownload';
 export { svgDownload } from './Utils/svgDownload';
 export { excelDownload } from './Utils/excelDownload';
+export { getUniqValue } from './Utils/getUniqValue';
+export { fetchAndParseCSV } from './Utils/fetchAndParseData';
+export { fetchAndParseJSON } from './Utils/fetchAndParseData';
+export { transformDataForAggregation } from './Utils/transformData/transformDataForAggregation';
+export { transformColumnsToArray } from './Utils/transformData/transformColumnsToArray';
+export { transformDataForGraphFromFile } from './Utils/transformData/transformDataForGraphFromFile';
+export { transformDataForGraph } from './Utils/transformData/transformDataForGraph';

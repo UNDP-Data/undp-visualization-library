@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
+import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
 import { DonutChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -24,12 +25,14 @@ interface Props {
   graphLegend?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  colorDomain?: string[];
+  sortData?: 'asc' | 'desc';
 }
 
 export function DonutChart(props: Props) {
@@ -56,6 +59,8 @@ export function DonutChart(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    colorDomain,
+    sortData,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -145,6 +150,7 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
+                    gap: '1.5rem',
                   }}
                 >
                   {data.map((d, i) => (
@@ -176,7 +182,7 @@ export function DonutChart(props: Props) {
                         {d.label}:{' '}
                         <span style={{ fontWeight: 'bold' }}>
                           {numberFormattingFunction(
-                            d.value,
+                            d.size,
                             prefix || '',
                             suffix || '',
                           )}
@@ -201,12 +207,19 @@ export function DonutChart(props: Props) {
                 <div>
                   <Graph
                     mainText={mainText}
-                    data={data}
+                    data={
+                      sortData === 'asc'
+                        ? sortBy(data, d => d.size)
+                        : sortData === 'desc'
+                        ? sortBy(data, d => d.size).reverse()
+                        : data
+                    }
                     colors={colors || UNDPColorModule.categoricalColors.colors}
                     radius={radius || donutRadius}
                     subNote={subNote}
                     strokeWidth={strokeWidth || 50}
                     tooltip={tooltip}
+                    colorDomain={colorDomain || data.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
                   />

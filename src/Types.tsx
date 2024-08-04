@@ -1,3 +1,37 @@
+export type GraphType =
+  | 'horizontalBarChart'
+  | 'horizontalStackedBarChart'
+  | 'horizontalGroupedBarChart'
+  | 'verticalBarChart'
+  | 'verticalStackedBarChart'
+  | 'verticalGroupedBarChart'
+  | 'lineChart'
+  | 'dualAxisLineChart'
+  | 'multiLineChart'
+  | 'stackedAreaChart'
+  | 'choroplethMap'
+  | 'biVariateChoroplethMap'
+  | 'dotDensityMap'
+  | 'donutChart'
+  | 'slopeChart'
+  | 'scatterPlot'
+  | 'horizontalDumbbellChart'
+  | 'verticalDumbbellChart'
+  | 'treeMap'
+  | 'circlePacking'
+  | 'heatMap'
+  | 'horizontalStripChart'
+  | 'verticalStripChart'
+  | 'statCards'
+  | 'horizontalBeeSwarmChart'
+  | 'verticalBeeSwarmChart'
+  | 'butterflyChart'
+  | 'histogram'
+  | 'sparkLine'
+  | 'paretoChart'
+  | 'dataTable'
+  | 'statCard';
+
 export interface TimeSeriesProps {
   year: number;
   value: number;
@@ -38,8 +72,13 @@ export interface DumbbellChartDataType {
 }
 
 export interface DonutChartDataType {
-  value: number;
+  size: number;
   label: string;
+  data?: object;
+}
+
+export interface HistogramDataType {
+  value: number | string;
   data?: object;
 }
 
@@ -131,9 +170,17 @@ export interface DataTableColumnDataType {
   columnTitle?: string;
   columnId: string;
   sortable?: boolean;
+  filterOptions?: string[];
+  chip?: boolean;
+  chipColors?: {
+    value: string;
+    color: string;
+  }[];
+  separator?: string;
   align?: 'left' | 'right' | 'center';
   suffix?: string;
   prefix?: string;
+  columnWidth?: number;
 }
 
 export interface BeeSwarmChartDataType {
@@ -165,3 +212,63 @@ export type AnnotationDataType = {
   arrow: boolean;
   color?: string;
 };
+
+export interface GraphConfigurationDataType {
+  columnId: string | string[];
+  chartConfigId: string;
+}
+
+export type DashboardColumnDataType = {
+  graphType: GraphType;
+  columnWidth?: number;
+  aggregationSettings?: {
+    keyColumn: string;
+    aggregationColumnsSetting: AggregationSettingsDataType[];
+  };
+  graphDataConfiguration: GraphConfigurationDataType[];
+  settings?: any;
+};
+
+export type StatCardsFromDataSheetDataType = {
+  value: number | string;
+  data?: object;
+};
+
+export type DashboardLayoutDataType = {
+  title?: string;
+  description?: string;
+  rows: {
+    columns: DashboardColumnDataType[];
+    height?: number;
+  }[];
+};
+
+export interface ColumnConfigurationDataType {
+  column: string;
+  delimiter?: string;
+}
+
+export interface DataSettingsDataType {
+  dataURL: string;
+  fileType: 'csv' | 'json';
+  delimiter?: string;
+  columnsToArray?: ColumnConfigurationDataType[];
+}
+
+export interface AggregationSettingsDataType {
+  column: string;
+  aggregationMethod: 'sum' | 'average' | 'min' | 'max';
+}
+
+export interface SelectedFilterDataType {
+  filter: string;
+  value?: string[];
+}
+
+export interface FilterSettingsDataType {
+  filter: string;
+  availableValues: {
+    value: string;
+    label: string;
+  }[];
+}

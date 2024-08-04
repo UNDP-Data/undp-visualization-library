@@ -12,9 +12,10 @@ interface Props {
   subNote?: string;
   strokeWidth: number;
   data: DonutChartDataType[];
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
+  colorDomain: string[];
 }
 
 export function Graph(props: Props) {
@@ -28,10 +29,11 @@ export function Graph(props: Props) {
     tooltip,
     onSeriesMouseOver,
     onSeriesMouseClick,
+    colorDomain,
   } = props;
   const pieData = pie()
     .startAngle(0)
-    .value((d: any) => d.value);
+    .value((d: any) => d.size);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -107,7 +109,13 @@ export function Graph(props: Props) {
                 }) as string
               }
               style={{
-                fill: colors[i],
+                fill:
+                  colorDomain.indexOf((d.data as any).label) !== -1
+                    ? colors[
+                        colorDomain.indexOf((d.data as any).label) %
+                          colors.length
+                      ]
+                    : UNDPColorModule.graphGray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1
@@ -151,7 +159,12 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
-        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+        />
       ) : null}
     </>
   );

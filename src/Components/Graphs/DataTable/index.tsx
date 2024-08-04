@@ -1,11 +1,17 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import isEqual from 'lodash.isequal';
+import intersection from 'lodash.intersection';
 import { DataTableColumnDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
+  FilterIcon,
+  FilterIconApplied,
   SortingIcon,
   SortingIconAscending,
   SortingIconDescending,
@@ -26,6 +32,12 @@ interface Props {
   data: any;
 }
 
+const TotalWidth = (columns: (number | undefined)[]) => {
+  const columnWidth = columns.map(d => d || 1);
+  const sum = columnWidth.reduce((acc, cur) => acc + cur, 0);
+  return sum;
+};
+
 export function DataTable(props: Props) {
   const {
     width,
@@ -45,18 +57,50 @@ export function DataTable(props: Props) {
   );
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [popupVisible, setPopupVisible] = useState<string | undefined>(
+    undefined,
+  );
+  const [popupStyle, setPopupStyle] = useState({});
+  const [filterOption, setFilterOption] = useState(
+    columnData
+      .filter(d => d.filterOptions && d.filterOptions.length > 0)
+      .map(d => ({ id: d.columnId, option: d.filterOptions as string[] })),
+  );
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
+    const dataFiltered: any = [];
+    data.forEach((d: any) => {
+      let filter = true;
+      filterOption.forEach(el => {
+        if (
+          typeof d[el.id] !== 'object' &&
+          typeof d[el.id] !== 'function' &&
+          typeof d[el.id] !== 'symbol'
+        ) {
+          if (
+            columnData[columnData.findIndex(cd => cd.columnId === el.id)]
+              .separator
+          ) {
+            const arr = d[el.id].split(
+              columnData[columnData.findIndex(cd => cd.columnId === el.id)]
+                .separator,
+            );
+            if (intersection(arr, el.option).length === 0) filter = false;
+          } else if (el.option.indexOf(d[el.id]) === -1) filter = false;
+        }
+      });
+      if (filter) dataFiltered.push(d);
+    });
     if (columnSortBy && data) {
       setSortedData(
         sortDirection === 'asc'
-          ? sortBy(data, [columnSortBy])
-          : sortBy(data, [columnSortBy]).reverse(),
+          ? sortBy(dataFiltered, [columnSortBy])
+          : sortBy(dataFiltered, [columnSortBy]).reverse(),
       );
     } else {
-      setSortedData(data);
+      setSortedData(dataFiltered);
     }
-  }, [columnSortBy, sortDirection, data]);
+  }, [columnSortBy, sortDirection, data, filterOption]);
   return (
     <div
       style={{
@@ -117,8 +161,13 @@ export function DataTable(props: Props) {
                       <th
                         className='undp-viz-typography'
                         style={{
-                          padding: '1rem',
                           fontSize: '0.875rem',
+                          width: `calc(${
+                            (100 * (d.columnWidth || 1)) /
+                            TotalWidth(
+                              columnData.map(cd => cd.columnWidth || 1),
+                            )
+                          }%`,
                         }}
                         key={i}
                       >
@@ -128,6 +177,7 @@ export function DataTable(props: Props) {
                             gap: '0.5rem',
                             justifyContent: 'space-between',
                             alignItems: 'center',
+                            padding: '1rem',
                           }}
                         >
                           <div
@@ -175,6 +225,51 @@ export function DataTable(props: Props) {
                               )}
                             </button>
                           ) : null}
+                          {d.filterOptions && d.filterOptions.length ? (
+                            <button
+                              type='button'
+                              style={{
+                                margin: 0,
+                                padding: 0,
+                                border: 0,
+                                backgroundColor: 'transparent',
+                                cursor: 'pointer',
+                              }}
+                              onClick={event => {
+                                if (popupVisible === d.columnId) {
+                                  setPopupVisible(undefined);
+                                } else if (event.currentTarget) {
+                                  setPopupVisible(d.columnId);
+                                  const rect =
+                                    event.currentTarget.getBoundingClientRect();
+                                  setPopupStyle({
+                                    position: 'absolute',
+                                    top: rect.bottom + window.scrollY,
+                                    left:
+                                      rect.left + window.scrollX - 160 < 0
+                                        ? rect.left + window.scrollX
+                                        : rect.left + window.scrollX - 160,
+                                    padding: '0.75rem',
+                                    background: `${UNDPColorModule.grays.white}`,
+                                    border: `1px solid ${UNDPColorModule.grays['gray-300']}`,
+                                    zIndex: '1000',
+                                    borderRadius: '2px',
+                                    width: '10rem',
+                                  });
+                                }
+                              }}
+                            >
+                              {filterOption[
+                                filterOption.findIndex(
+                                  el => el.id === d.columnId,
+                                )
+                              ].option.length === d.filterOptions?.length ? (
+                                <FilterIcon />
+                              ) : (
+                                <FilterIconApplied />
+                              )}
+                            </button>
+                          ) : null}
                         </div>
                       </th>
                     ))}
@@ -210,17 +305,45 @@ export function DataTable(props: Props) {
                           style={{
                             textAlign: d.align || 'left',
                             fontSize: '0.875rem',
-                            padding: '1rem',
+                            width: `calc(${
+                              (100 * (d.columnWidth || 1)) /
+                              TotalWidth(
+                                columnData.map(cd => cd.columnWidth || 1),
+                              )
+                            }%`,
                           }}
                         >
-                          <div style={{ display: 'flex' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent:
+                                el.align === 'right'
+                                  ? 'end'
+                                  : el.align === 'center'
+                                  ? 'center'
+                                  : 'flex-start',
+                              padding: '1rem',
+                            }}
+                          >
                             {typeof d[el.columnId] === 'number' ? (
                               <div
                                 style={{
                                   textAlign: el.align || 'left',
-                                  flexGrow: 1,
+                                  flexGrow: el.chip ? 0 : 1,
                                   fontFamily:
                                     'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                  backgroundColor: el.chip
+                                    ? el.chipColors
+                                      ? el.chipColors[
+                                          el.chipColors.findIndex(
+                                            c => c.value === d[el.columnId],
+                                          )
+                                        ].color
+                                      : UNDPColorModule.grays['gray-300']
+                                    : 'transparent',
+                                  padding: el.chip ? '0.5rem' : 0,
+                                  width: 'fit-content',
+                                  borderRadius: el.chip ? '2px' : 0,
                                 }}
                               >
                                 {numberFormattingFunction(
@@ -230,20 +353,73 @@ export function DataTable(props: Props) {
                                 )}
                               </div>
                             ) : typeof d[el.columnId] === 'string' ? (
-                              <div
-                                style={{
-                                  textAlign: el.align || 'left',
-                                  flexGrow: 1,
-                                  fontFamily:
-                                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                }}
-                              >{`${el.prefix || ''}${d[el.columnId]}${
-                                el.suffix || ''
-                              }`}</div>
+                              el.separator ? (
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '0.5rem',
+                                  }}
+                                >
+                                  {d[el.columnId]
+                                    .split(el.separator)
+                                    .map((element: string, indx: number) => (
+                                      <div
+                                        key={indx}
+                                        style={{
+                                          textAlign: el.align || 'left',
+                                          flexGrow: el.chip ? 0 : 1,
+                                          fontFamily:
+                                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                          backgroundColor: el.chip
+                                            ? el.chipColors
+                                              ? el.chipColors[
+                                                  el.chipColors.findIndex(
+                                                    c =>
+                                                      c.value ===
+                                                      d[el.columnId],
+                                                  )
+                                                ].color
+                                              : UNDPColorModule.grays[
+                                                  'gray-300'
+                                                ]
+                                            : 'transparent',
+                                          padding: el.chip ? '0.5rem' : 0,
+                                          width: 'fit-content',
+                                          borderRadius: el.chip ? '2px' : 0,
+                                        }}
+                                      >{`${el.prefix || ''}${element}${
+                                        el.suffix || ''
+                                      }`}</div>
+                                    ))}
+                                </div>
+                              ) : (
+                                <div
+                                  style={{
+                                    textAlign: el.align || 'left',
+                                    flexGrow: el.chip ? 0 : 1,
+                                    fontFamily:
+                                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                    backgroundColor: el.chip
+                                      ? el.chipColors
+                                        ? el.chipColors[
+                                            el.chipColors.findIndex(
+                                              c => c.value === d[el.columnId],
+                                            )
+                                          ].color
+                                        : UNDPColorModule.grays['gray-300']
+                                      : 'transparent',
+                                    padding: el.chip ? '0.5rem' : 0,
+                                    width: 'fit-content',
+                                    borderRadius: el.chip ? '2px' : 0,
+                                  }}
+                                >{`${el.prefix || ''}${d[el.columnId]}${
+                                  el.suffix || ''
+                                }`}</div>
+                              )
                             ) : (
                               <div>{d[el.columnId]}</div>
                             )}
-                            {d.sortable ? <SortingIcon /> : null}
                           </div>
                         </td>
                       ))}
@@ -263,6 +439,65 @@ export function DataTable(props: Props) {
           />
         ) : null}
       </div>
+      {popupVisible && (
+        <div style={popupStyle}>
+          <div style={{ maxWidth: '15rem' }}>
+            <p
+              className='undp-viz-typography'
+              style={{
+                fontSize: '0.875rem',
+                marginBottom: '0.25rem',
+                fontWeight: 'bold',
+              }}
+            >
+              Filter data by
+            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+              }}
+            >
+              {columnData[
+                columnData.findIndex(d => d.columnId === popupVisible)
+              ].filterOptions?.map((el, i) => (
+                <div key={i}>
+                  <label key={i} className='undp-viz-label'>
+                    <input
+                      type='checkbox'
+                      className='undp-viz-checkbox'
+                      checked={
+                        filterOption[
+                          filterOption.findIndex(d => d.id === popupVisible)
+                        ].option.indexOf(el) !== -1
+                      }
+                      onChange={() => {
+                        const indx = filterOption.findIndex(
+                          d => d.id === popupVisible,
+                        );
+                        const opt = [...filterOption[indx].option];
+                        if (opt.indexOf(el) !== -1) {
+                          opt.splice(opt.indexOf(el), 1);
+                          const filterOptionDuplicate = [...filterOption];
+                          filterOptionDuplicate[indx].option = opt;
+                          setFilterOption(filterOptionDuplicate);
+                        } else {
+                          opt.push(el);
+                          const filterOptionDuplicate = [...filterOption];
+                          filterOptionDuplicate[indx].option = opt;
+                          setFilterOption(filterOptionDuplicate);
+                        }
+                      }}
+                    />
+                    {el}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

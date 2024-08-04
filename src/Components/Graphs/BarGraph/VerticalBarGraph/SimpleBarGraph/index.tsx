@@ -1,5 +1,6 @@
 import uniqBy from 'lodash.uniqby';
 import { useEffect, useRef, useState } from 'react';
+import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { ReferenceDataType, BarGraphDataType } from '../../../../../Types';
@@ -34,7 +35,7 @@ interface Props {
   topMargin?: number;
   relativeHeight?: number;
   bottomMargin?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   showColorScale?: boolean;
@@ -45,6 +46,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  sortData?: 'asc' | 'desc';
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -85,6 +87,7 @@ export function VerticalBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    sortData,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -92,12 +95,11 @@ export function VerticalBarGraph(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
-
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (graphDiv.current) {
-      setSvgHeight(graphDiv.current.clientHeight || 10);
+      setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
@@ -195,7 +197,13 @@ export function VerticalBarGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={
+                    sortData === 'asc'
+                      ? sortBy(data, d => d.size)
+                      : sortData === 'desc'
+                      ? sortBy(data, d => d.size).reverse()
+                      : data
+                  }
                   barColor={
                     data.filter(el => el.color).length === 0
                       ? colors

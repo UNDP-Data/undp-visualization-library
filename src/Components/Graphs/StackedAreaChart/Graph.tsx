@@ -24,7 +24,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   yAxisTitle?: string;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   highlightAreaSettings: [number | null, number | null];
@@ -313,7 +313,12 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
-        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+        />
       ) : null}
     </>
   );

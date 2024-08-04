@@ -26,7 +26,7 @@ interface Props {
   scale: number;
   centerPoint: [number, number];
   mapBorderColor: string;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
   zoomScaleExtend?: [number, number];
@@ -581,7 +581,12 @@ export function Graph(props: Props) {
         </button>
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
-        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+        />
       ) : null}
     </>
   );

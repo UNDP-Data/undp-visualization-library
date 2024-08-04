@@ -17,6 +17,7 @@ interface Props {
   width?: number;
   height?: number;
   source?: string;
+  stripType?: 'strip' | 'dot';
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
@@ -28,7 +29,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints?: (string | number)[];
   showColorScale?: boolean;
@@ -77,6 +78,7 @@ export function HorizontalStripChart(props: Props) {
     dataDownload,
     prefix,
     suffix,
+    stripType,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -246,6 +248,7 @@ export function HorizontalStripChart(props: Props) {
                   showAxis={showAxis !== false}
                   prefix={prefix || ''}
                   suffix={suffix || ''}
+                  stripType={stripType || 'dot'}
                 />
               ) : null}
             </div>

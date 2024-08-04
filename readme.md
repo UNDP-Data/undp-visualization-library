@@ -67,5 +67,6 @@ The dependencies that are pre-installed wit the library:
 * dom-to-svg - For downloading div as svg
 * file-saver - For downloading files
 * react-csv - For generating a csv file
+* react-select - For dropdown select 
 * xlsx - For generating a xlsx file
 * React (of course!)

@@ -31,7 +31,7 @@ interface Props {
   showValues?: boolean;
   relativeHeight?: number;
   showColorLegendAtTop?: boolean;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   highlightAreaSettings?: [number | null, number | null];

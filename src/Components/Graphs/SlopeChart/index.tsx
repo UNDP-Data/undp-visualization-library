@@ -30,7 +30,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints?: (string | number)[];
   showColorScale?: boolean;

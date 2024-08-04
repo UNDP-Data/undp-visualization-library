@@ -21,7 +21,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   sameAxes?: boolean;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   barPadding: number;
   truncateBy: number;
@@ -361,7 +361,12 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
-        <Tooltip body={tooltip(mouseOverData)} xPos={eventX} yPos={eventY} />
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+        />
       ) : null}
     </>
   );

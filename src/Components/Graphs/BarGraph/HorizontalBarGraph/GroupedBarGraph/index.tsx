@@ -36,7 +36,7 @@ interface Props {
   showBarLabel?: boolean;
   bottomMargin?: number;
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;

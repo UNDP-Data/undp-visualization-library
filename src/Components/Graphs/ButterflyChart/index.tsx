@@ -27,7 +27,7 @@ interface Props {
   bottomMargin?: number;
   barColors?: [string, string];
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
   graphDownload?: boolean;

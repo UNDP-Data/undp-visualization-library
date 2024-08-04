@@ -32,7 +32,7 @@ interface Props {
   showLabel?: boolean;
   relativeHeight?: number;
   isWorldMap?: boolean;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   showColorScale?: boolean;
   zoomScaleExtend?: [number, number];

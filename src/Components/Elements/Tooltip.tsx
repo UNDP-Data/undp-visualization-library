@@ -1,13 +1,17 @@
+/* eslint-disable react/no-danger */
+import { string2HTML } from '../../Utils/string2HTML';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
-  body: JSX.Element;
+  body: string;
   xPos: number;
   yPos: number;
+  data: any;
 }
 
 export function Tooltip(props: Props) {
-  const { body, xPos, yPos } = props;
+  const { body, xPos, yPos, data } = props;
+  const htmlString = string2HTML(body, data);
   return (
     <div
       style={{
@@ -23,9 +27,14 @@ export function Tooltip(props: Props) {
         transform: `translate(${
           xPos > window.innerWidth / 2 ? '-100%' : '0%'
         },${yPos > window.innerHeight / 2 ? '-100%' : '0%'})`,
+        padding: '0.5rem',
       }}
     >
-      {body}
+      <div
+        className='undp-viz-tooltip'
+        style={{ margin: 0, padding: 'var(--spacing-07)' }}
+        dangerouslySetInnerHTML={{ __html: htmlString }}
+      />
     </div>
   );
 }

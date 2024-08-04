@@ -56,7 +56,7 @@ export function ColorLegend(props: Props) {
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
-                  backgroundColor: colors[i],
+                  backgroundColor: colors[i % colors.length],
                 }}
               />
               <p

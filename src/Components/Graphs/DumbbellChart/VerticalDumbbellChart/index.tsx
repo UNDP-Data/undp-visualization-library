@@ -32,7 +32,7 @@ interface Props {
   relativeHeight?: number;
   showDotValue?: boolean;
   showLabel?: boolean;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
   maxPositionValue?: number;

@@ -35,7 +35,7 @@ interface Props {
   showValues?: boolean;
   showRowLabels?: boolean;
   relativeHeight?: number;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
   noDataColor?: string;

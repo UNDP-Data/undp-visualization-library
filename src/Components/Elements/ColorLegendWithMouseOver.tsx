@@ -60,7 +60,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               }}
               key={i}
               onMouseEnter={() => {
-                setSelectedColor(colors[i]);
+                setSelectedColor(colors[i % colors.length]);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -71,7 +71,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
-                  backgroundColor: colors[i],
+                  backgroundColor: colors[i % colors.length],
                 }}
               />
               <p

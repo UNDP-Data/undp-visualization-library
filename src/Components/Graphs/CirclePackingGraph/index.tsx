@@ -31,7 +31,7 @@ interface Props {
   bottomMargin?: number;
   relativeHeight?: number;
   showLabel?: boolean;
-  tooltip?: (_d: any) => JSX.Element;
+  tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   showColorScale?: boolean;
   showValue?: boolean;
