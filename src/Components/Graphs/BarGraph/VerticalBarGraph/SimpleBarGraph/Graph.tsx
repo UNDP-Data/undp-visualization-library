@@ -33,6 +33,7 @@ interface Props {
   minValue?: number;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
+  labelOrder?: string[];
 }
 
 export function Graph(props: Props) {
@@ -61,6 +62,7 @@ export function Graph(props: Props) {
     minValue,
     highlightedDataPoints,
     onSeriesMouseClick,
+    labelOrder,
   } = props;
   const margin = {
     top: topMargin,
@@ -99,9 +101,13 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const x = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([0, graphWidth])
     .paddingInner(barPadding);
   const yTicks = y.ticks(5);
@@ -171,8 +177,8 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {data.map((d, i) => {
-            return (
+          {dataWithId.map((d, i) =>
+            x(d.id) ? (
               <g
                 className='undp-viz-g-with-hover'
                 key={i}
@@ -224,7 +230,7 @@ export function Graph(props: Props) {
               >
                 {d.size ? (
                   <rect
-                    x={x(`${i}`)}
+                    x={x(`${d.id}`)}
                     y={d.size > 0 ? y(d.size) : y(0)}
                     width={x.bandwidth()}
                     style={{
@@ -240,7 +246,7 @@ export function Graph(props: Props) {
                 ) : null}
                 {showBarLabel ? (
                   <text
-                    x={(x(`${i}`) as number) + x.bandwidth() / 2}
+                    x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
                     y={y(0)}
                     style={{
                       fill: UNDPColorModule.grays['gray-700'],
@@ -258,7 +264,7 @@ export function Graph(props: Props) {
                 ) : null}
                 {showBarValue ? (
                   <text
-                    x={(x(`${i}`) as number) + x.bandwidth() / 2}
+                    x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
                     y={y(d.size || 0)}
                     style={{
                       fill:
@@ -280,8 +286,8 @@ export function Graph(props: Props) {
                   </text>
                 ) : null}
               </g>
-            );
-          })}
+            ) : null,
+          )}
           {refValues ? (
             <>
               {refValues.map((el, i) => (

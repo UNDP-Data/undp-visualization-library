@@ -12,6 +12,7 @@ import { UNDPColorModule } from '../../../../ColorPalette';
 interface Props {
   data: BarGraphDataType[];
   colors?: string | string[];
+  labelOrder?: string[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -88,6 +89,7 @@ export function HorizontalBarGraph(props: Props) {
     graphDownload,
     dataDownload,
     sortData,
+    labelOrder,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -284,6 +286,7 @@ export function HorizontalBarGraph(props: Props) {
                   minValue={minValue}
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  labelOrder={labelOrder}
                 />
               ) : null}
             </div>

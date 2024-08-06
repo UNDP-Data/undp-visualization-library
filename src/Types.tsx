@@ -221,7 +221,7 @@ export interface GraphConfigurationDataType {
 export type DashboardColumnDataType = {
   graphType: GraphType;
   columnWidth?: number;
-  aggregationSettings?: {
+  dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
@@ -249,10 +249,11 @@ export interface ColumnConfigurationDataType {
 }
 
 export interface DataSettingsDataType {
-  dataURL: string;
+  dataURL?: string;
   fileType: 'csv' | 'json';
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
+  data?: any;
 }
 
 export interface AggregationSettingsDataType {

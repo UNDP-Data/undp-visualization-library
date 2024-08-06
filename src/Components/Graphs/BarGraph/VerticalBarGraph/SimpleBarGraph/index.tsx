@@ -13,6 +13,7 @@ interface Props {
   data: BarGraphDataType[];
   colors?: string | string[];
   graphTitle?: string;
+  labelOrder?: string[];
   width?: number;
   height?: number;
   suffix?: string;
@@ -88,6 +89,7 @@ export function VerticalBarGraph(props: Props) {
     graphDownload,
     dataDownload,
     sortData,
+    labelOrder,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -283,6 +285,7 @@ export function VerticalBarGraph(props: Props) {
                   minValue={minValue}
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  labelOrder={labelOrder}
                 />
               ) : null}
             </div>

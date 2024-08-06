@@ -32,6 +32,7 @@ interface Props {
   minValue?: number;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
+  labelOrder?: string[];
 }
 
 export function Graph(props: Props) {
@@ -60,6 +61,7 @@ export function Graph(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
+    labelOrder,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -93,13 +95,17 @@ export function Graph(props: Props) {
         ...data.filter(d => d.size !== undefined).map(d => d.size as number),
       );
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
   const x = scaleLinear()
     .domain([xMinValue, xMaxValue])
     .range([0, graphWidth])
     .nice();
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const y = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([0, graphHeight])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
@@ -146,8 +152,8 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {dataWithId.map((d, i) => {
-            return (
+          {dataWithId.map((d, i) =>
+            y(d.id) ? (
               <g
                 className='undp-viz-g-with-hover'
                 key={i}
@@ -200,7 +206,7 @@ export function Graph(props: Props) {
                 {d.size ? (
                   <rect
                     x={d.size >= 0 ? x(0) : x(d.size)}
-                    y={y(`${i}`)}
+                    y={y(d.id)}
                     width={d.size >= 0 ? x(d.size) - x(0) : x(0) - x(d.size)}
                     style={{
                       fill:
@@ -227,7 +233,7 @@ export function Graph(props: Props) {
                         'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(0)}
-                    y={(y(`${i}`) as number) + y.bandwidth() / 2}
+                    y={(y(d.id) as number) + y.bandwidth() / 2}
                     dx={d.size ? (d.size < 0 ? 10 : -10) : -10}
                     dy={5}
                   >
@@ -239,7 +245,7 @@ export function Graph(props: Props) {
                 {showBarValue ? (
                   <text
                     x={d.size ? x(d.size) : x(0)}
-                    y={(y(`${i}`) as number) + y.bandwidth() / 2}
+                    y={(y(d.id) as number) + y.bandwidth() / 2}
                     style={{
                       fill:
                         barColor.length > 1
@@ -265,8 +271,8 @@ export function Graph(props: Props) {
                   </text>
                 ) : null}
               </g>
-            );
-          })}
+            ) : null,
+          )}
           <line
             x1={x(0)}
             x2={x(0)}

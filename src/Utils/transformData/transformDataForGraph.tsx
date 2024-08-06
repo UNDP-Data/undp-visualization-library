@@ -4,15 +4,15 @@ import ChartConfiguration from './graphConfig.json';
 
 export function transformDataForGraph(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  csvData: any,
+  data: any,
   graph: GraphType,
   config: GraphConfigurationDataType[],
 ) {
-  if (checkDataConfigValidity(config, graph, Object.keys(csvData[0]))) {
+  if (checkDataConfigValidity(config, graph, Object.keys(data[0]))) {
     const chartConfig =
       ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)]
         .configuration;
-    const dataFormatted = csvData.map((d: any) => {
+    const dataFormatted = data.map((d: any) => {
       const obj: any = {};
       config
         .filter(el => el.columnId)
