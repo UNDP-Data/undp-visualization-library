@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
-import uniqBy from 'lodash.uniqby';
 import {
   AggregationSettingsDataType,
   DataSettingsDataType,
@@ -102,9 +101,10 @@ export function GriddedGraphs(props: Props) {
           ? transformColumnsToArray(d, dataSettings.columnsToArray)
           : d;
         setDataFromFile(tempData);
-        const gridValue = uniqBy(tempData, (el: any) => el[columnGridBy]).map(
-          (el: any) => el[columnGridBy] as string | number,
-        );
+        const gridValue = getUniqValue(tempData, columnGridBy) as (
+          | string
+          | number
+        )[];
         setGridOption(gridValue);
         setFilterSettings(
           filters?.map(el => ({

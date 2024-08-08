@@ -16,7 +16,7 @@ export function getUniqValue(
   }
   const values = sortBy(
     uniqBy(flattenDeep(csvData.map((d: any) => d[column])), el => el),
-    (d: string) => d,
+    (d: string | number) => d,
   );
   return values;
 }
