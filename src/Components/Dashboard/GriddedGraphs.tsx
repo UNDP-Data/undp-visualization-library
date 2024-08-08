@@ -102,7 +102,11 @@ export function GriddedGraphs(props: Props) {
           ? transformColumnsToArray(d, dataSettings.columnsToArray)
           : d;
         setDataFromFile(tempData);
-        setGridOption(uniqBy(tempData, (el: any) => el[columnGridBy]));
+        setGridOption(
+          uniqBy(tempData, (el: any) => el[columnGridBy]).map(
+            (el: any) => el[columnGridBy] as string | number,
+          ),
+        );
         setFilterSettings(
           filters?.map(el => ({
             filter: el,
