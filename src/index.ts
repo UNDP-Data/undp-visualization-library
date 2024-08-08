@@ -58,7 +58,9 @@ export { ButterflyChart } from './Components/Graphs/ButterflyChart';
 // Histogram
 export { Histogram } from './Components/Graphs/Histogram';
 // Dashboard
-export { Dashboard } from './Components/Dashboard';
+export { MultiGraphDashboard } from './Components/Dashboard';
+export { SingleGraphDashboard } from './Components/Dashboard/SingleGraphDashboard';
+export { GriddedGraphs } from './Components/Dashboard/GriddedGraphs';
 
 /* ------- All Button & Card Slider Components ------- */
 // Card slider
