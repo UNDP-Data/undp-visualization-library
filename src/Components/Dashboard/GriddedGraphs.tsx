@@ -57,7 +57,7 @@ export function GriddedGraphs(props: Props) {
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
-  const [gridOption, setGridOption] = useState<(string | number)[]>([]);
+  const [gridOption, setGridOption] = useState<any>([]);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   const [selectedFilters, setSelectedFilters] = useState<
     SelectedFilterDataType[]
@@ -248,7 +248,7 @@ export function GriddedGraphs(props: Props) {
                 ))}
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-                {gridOption.map((el, i) => (
+                {gridOption.map((el: any, i: number) => (
                   <div
                     key={i}
                     style={{
