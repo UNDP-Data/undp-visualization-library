@@ -7,15 +7,15 @@ import { AggregationSettingsDataType } from '../../Types';
 
 export function transformDataForAggregation(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  csvData: any,
+  data: any,
   keyColumn: string,
   aggregationSettings: AggregationSettingsDataType[],
 ) {
-  if (typeof csvData[0][keyColumn] !== 'object') {
-    const uniqValues = uniqBy(csvData, (d: any) => d[keyColumn]).map(d => {
+  if (typeof data[0][keyColumn] !== 'object') {
+    const uniqValues = uniqBy(data, (d: any) => d[keyColumn]).map(d => {
       const dataObj: any = {};
       dataObj[keyColumn] = d[keyColumn];
-      const filteredData = csvData.filter(
+      const filteredData = data.filter(
         (j: any) => j[keyColumn] === d[keyColumn],
       );
       dataObj.count = filteredData.length;
@@ -35,13 +35,13 @@ export function transformDataForAggregation(
     return uniqValues;
   }
   const values = uniqBy(
-    flattenDeep(csvData.map((d: any) => d[keyColumn])),
+    flattenDeep(data.map((d: any) => d[keyColumn])),
     el => el,
   );
   const uniqValues = values.map(d => {
     const dataObj: any = {};
     dataObj[keyColumn] = d;
-    const filteredData = csvData.filter(
+    const filteredData = data.filter(
       (j: any) => j[keyColumn].indexOf(d) !== -1,
     );
     dataObj.count = filteredData.length;

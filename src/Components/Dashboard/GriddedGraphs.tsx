@@ -10,19 +10,19 @@ import {
   GraphConfigurationDataType,
   GraphType,
   SelectedFilterDataType,
-} from '../../../Types';
+} from '../../Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
-} from '../../../Utils/fetchAndParseData';
-import { UNDPColorModule } from '../../ColorPalette';
-import { transformColumnsToArray } from '../../../Utils/transformData/transformColumnsToArray';
-import GraphEl from '../ChooseGraphs';
-import { transformDataForGraph } from '../../../Utils/transformData/transformDataForGraph';
-import { getUniqValue } from '../../../Utils/getUniqValue';
-import { transformDataForAggregation } from '../../../Utils/transformData/transformDataForAggregation';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { GraphFooter } from '../../Elements/GraphFooter';
+} from '../../Utils/fetchAndParseData';
+import { UNDPColorModule } from '../ColorPalette';
+import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+import GraphEl from './ChooseGraphs';
+import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
+import { getUniqValue } from '../../Utils/getUniqValue';
+import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
+import { GraphHeader } from '../Elements/GraphHeader';
+import { GraphFooter } from '../Elements/GraphFooter';
 
 interface Props {
   backgroundColor?: string | boolean;
