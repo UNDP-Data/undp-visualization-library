@@ -178,7 +178,7 @@ export function Graph(props: Props) {
               ))
             : null}
           {dataWithId.map((d, i) =>
-            x(d.id) ? (
+            !checkIfNullOrUndefined(x(d.id)) ? (
               <g
                 className='undp-viz-g-with-hover'
                 key={i}
