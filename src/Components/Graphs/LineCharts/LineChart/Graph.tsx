@@ -89,7 +89,6 @@ export function Graph(props: Props) {
   const maxParam: number = maxBy(dataFormatted, d => d.y)?.y
     ? (maxBy(dataFormatted, d => d.y)?.y as number)
     : 0;
-
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
     .domain([
@@ -242,6 +241,8 @@ export function Graph(props: Props) {
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}

@@ -36,7 +36,6 @@ export function SVGDownloadButton(props: Props) {
               filename || 'image',
             );
           } else {
-            // eslint-disable-next-line no-console
             console.error('Cannot find the html element');
           }
         } else {

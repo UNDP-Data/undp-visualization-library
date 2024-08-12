@@ -1,4 +1,8 @@
-import { GraphType } from '../../Types';
+import {
+  DataTableColumnDataType,
+  GraphSettingsDataType,
+  GraphType,
+} from '../../Types';
 import { HorizontalGroupedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/GroupedBarGraph';
 import { HorizontalBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/SimpleBarGraph';
 import { HorizontalStackedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/StackedBarGraph';
@@ -36,13 +40,14 @@ import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 interface Props {
   graph: GraphType | 'geoHubCompareMap' | 'geoHubMap';
   graphData: any;
-  settings: any;
+  settings: GraphSettingsDataType;
 }
 
 function GraphEl(props: Props) {
   const { settings, graph, graphData } = props;
   return (
     <div
+      className='hello'
       style={{
         flexGrow: 1,
         margin: '0 auto',
@@ -50,12 +55,13 @@ function GraphEl(props: Props) {
         flexDirection: 'column',
         justifyContent: 'center',
         height: 'inherit',
+        width: settings?.width ? 'fit-content' : '100%',
       }}
     >
       {graph === 'horizontalBarChart' ? (
         <HorizontalBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -92,7 +98,7 @@ function GraphEl(props: Props) {
       {graph === 'horizontalGroupedBarChart' ? (
         <HorizontalGroupedBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -103,7 +109,7 @@ function GraphEl(props: Props) {
           barPadding={settings?.barPadding}
           showTicks={settings?.showTicks}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           suffix={settings?.suffix}
           prefix={settings?.prefix}
@@ -127,7 +133,7 @@ function GraphEl(props: Props) {
       {graph === 'horizontalStackedBarChart' ? (
         <HorizontalStackedBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -140,7 +146,7 @@ function GraphEl(props: Props) {
           leftMargin={settings?.leftMargin}
           rightMargin={settings?.rightMargin}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           backgroundColor={settings?.backgroundColor}
           padding={settings?.padding}
@@ -161,7 +167,7 @@ function GraphEl(props: Props) {
       {graph === 'verticalBarChart' ? (
         <VerticalBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -198,7 +204,7 @@ function GraphEl(props: Props) {
       {graph === 'verticalGroupedBarChart' ? (
         <VerticalGroupedBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -209,7 +215,7 @@ function GraphEl(props: Props) {
           barPadding={settings?.barPadding}
           showTicks={settings?.showTicks}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           suffix={settings?.suffix}
           prefix={settings?.prefix}
@@ -233,7 +239,7 @@ function GraphEl(props: Props) {
       {graph === 'verticalStackedBarChart' ? (
         <VerticalStackedBarGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -246,7 +252,7 @@ function GraphEl(props: Props) {
           leftMargin={settings?.leftMargin}
           rightMargin={settings?.rightMargin}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           backgroundColor={settings?.backgroundColor}
           padding={settings?.padding}
@@ -268,7 +274,7 @@ function GraphEl(props: Props) {
         <SimpleLineChart
           data={graphData}
           graphID={settings?.graphID}
-          color={settings?.color}
+          color={settings?.color as string | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -290,7 +296,11 @@ function GraphEl(props: Props) {
           relativeHeight={settings?.relativeHeight}
           tooltip={settings?.tooltip}
           refValues={settings?.refValues}
-          highlightAreaSettings={settings?.highlightAreaSettings}
+          highlightAreaSettings={
+            settings?.highlightAreaSettings as
+              | [number | null, number | null]
+              | undefined
+          }
           maxValue={settings?.maxValue}
           minValue={settings?.minValue}
           graphDownload={settings?.graphDownload}
@@ -300,7 +310,7 @@ function GraphEl(props: Props) {
       {graph === 'multiLineChart' ? (
         <MultiLineChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -324,7 +334,11 @@ function GraphEl(props: Props) {
           showColorLegendAtTop={settings?.showColorLegendAtTop}
           tooltip={settings?.tooltip}
           refValues={settings?.refValues}
-          highlightAreaSettings={settings?.highlightAreaSettings}
+          highlightAreaSettings={
+            settings?.highlightAreaSettings as
+              | [number | null, number | null]
+              | undefined
+          }
           graphID={settings?.graphID}
           maxValue={settings?.maxValue}
           minValue={settings?.minValue}
@@ -336,7 +350,7 @@ function GraphEl(props: Props) {
       {graph === 'sparkLine' ? (
         <SparkLine
           data={graphData}
-          color={settings?.color}
+          color={settings?.color as string | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -386,7 +400,11 @@ function GraphEl(props: Props) {
           sameAxes={settings?.sameAxes}
           relativeHeight={settings?.relativeHeight}
           tooltip={settings?.tooltip}
-          highlightAreaSettings={settings?.highlightAreaSettings}
+          highlightAreaSettings={
+            settings?.highlightAreaSettings as
+              | [number | null, number | null]
+              | undefined
+          }
           graphID={settings?.graphID}
           graphDownload={settings?.graphDownload}
           highlightAreaColor={settings?.highlightAreaColor}
@@ -395,7 +413,7 @@ function GraphEl(props: Props) {
       {graph === 'stackedAreaChart' ? (
         <AreaChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -405,7 +423,7 @@ function GraphEl(props: Props) {
           source={settings?.source}
           noOfXTicks={settings?.noOfXTicks}
           dateFormat={settings?.dateFormat}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           backgroundColor={settings?.backgroundColor}
           padding={settings?.padding}
           colorLegendTitle={settings?.colorLegendTitle}
@@ -416,7 +434,11 @@ function GraphEl(props: Props) {
           bottomMargin={settings?.bottomMargin}
           tooltip={settings?.tooltip}
           refValues={settings?.refValues}
-          highlightAreaSettings={settings?.highlightAreaSettings}
+          highlightAreaSettings={
+            settings?.highlightAreaSettings as
+              | [number | null, number | null]
+              | undefined
+          }
           graphID={settings?.graphID}
           maxValue={settings?.maxValue}
           minValue={settings?.minValue}
@@ -436,7 +458,7 @@ function GraphEl(props: Props) {
           height={settings?.height}
           source={settings?.source}
           showLabels={settings?.showLabels}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           colorDomain={settings?.colorDomain}
           colorLegendTitle={settings?.colorLegendTitle}
           pointRadius={settings?.pointRadius}
@@ -453,7 +475,11 @@ function GraphEl(props: Props) {
           refXValues={settings?.refXValues}
           refYValues={settings?.refYValues}
           highlightedDataPoints={settings?.highlightedDataPoints}
-          highlightAreaSettings={settings?.highlightAreaSettings}
+          highlightAreaSettings={
+            settings?.highlightAreaSettings as
+              | [number | null, number | null, number | null, number | null]
+              | undefined
+          }
           highlightAreaColor={settings?.highlightAreaColor}
           showColorScale={settings?.showColorScale}
           graphID={settings?.graphID}
@@ -468,7 +494,7 @@ function GraphEl(props: Props) {
       {graph === 'horizontalDumbbellChart' ? (
         <HorizontalDumbbellChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -486,7 +512,7 @@ function GraphEl(props: Props) {
           topMargin={settings?.topMargin}
           bottomMargin={settings?.bottomMargin}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           backgroundColor={settings?.backgroundColor}
           padding={settings?.padding}
@@ -503,7 +529,7 @@ function GraphEl(props: Props) {
       {graph === 'verticalDumbbellChart' ? (
         <VerticalDumbbellChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -518,7 +544,7 @@ function GraphEl(props: Props) {
           topMargin={settings?.topMargin}
           bottomMargin={settings?.bottomMargin}
           truncateBy={settings?.truncateBy}
-          colorDomain={settings?.colorDomain}
+          colorDomain={settings?.colorDomain as string[]}
           colorLegendTitle={settings?.colorLegendTitle}
           backgroundColor={settings?.backgroundColor}
           padding={settings?.padding}
@@ -539,7 +565,7 @@ function GraphEl(props: Props) {
         <DonutChart
           mainText={settings?.mainText}
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           suffix={settings?.suffix}
           prefix={settings?.prefix}
@@ -571,7 +597,7 @@ function GraphEl(props: Props) {
           height={settings?.height}
           source={settings?.source}
           domain={settings?.domain}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           colorLegendTitle={settings?.colorLegendTitle}
           categorical={settings?.categorical}
           data={graphData}
@@ -608,9 +634,9 @@ function GraphEl(props: Props) {
           source={settings?.source}
           xColorLegendTitle={settings?.xColorLegendTitle}
           yColorLegendTitle={settings?.yColorLegendTitle}
-          xDomain={settings?.xDomain}
-          yDomain={settings?.yDomain}
-          colors={settings?.colors}
+          xDomain={settings?.xDomain as [number, number, number, number]}
+          yDomain={settings?.yDomain as [number, number, number, number]}
+          colors={settings?.colors as string[][] | undefined}
           scale={settings?.scale}
           centerPoint={settings?.centerPoint}
           backgroundColor={settings?.backgroundColor}
@@ -641,7 +667,7 @@ function GraphEl(props: Props) {
           height={settings?.height}
           pointRadius={settings?.pointRadius}
           source={settings?.source}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           colorDomain={settings?.colorDomain}
           colorLegendTitle={settings?.colorLegendTitle}
           data={graphData}
@@ -704,7 +730,7 @@ function GraphEl(props: Props) {
       {graph === 'treeMap' ? (
         <TreeMapGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -735,7 +761,7 @@ function GraphEl(props: Props) {
       {graph === 'heatMap' ? (
         <HeatMap
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -770,7 +796,7 @@ function GraphEl(props: Props) {
       {graph === 'circlePacking' ? (
         <CirclePackingGraph
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -809,7 +835,7 @@ function GraphEl(props: Props) {
           height={settings?.height}
           source={settings?.source}
           showLabels={settings?.showLabels}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           colorDomain={settings?.colorDomain}
           colorLegendTitle={settings?.colorLegendTitle}
           pointRadius={settings?.pointRadius}
@@ -841,14 +867,14 @@ function GraphEl(props: Props) {
           graphID={settings?.graphID}
           width={settings?.width}
           height={settings?.height}
-          columnData={settings?.columnData}
+          columnData={(settings?.columnData || []) as DataTableColumnDataType[]}
           data={graphData}
         />
       ) : null}
       {graph === 'verticalBeeSwarmChart' ? (
         <VerticalBeeSwarmChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -882,7 +908,7 @@ function GraphEl(props: Props) {
       {graph === 'horizontalBeeSwarmChart' ? (
         <HorizontalBeeSwarmChart
           data={graphData}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           graphTitle={settings?.graphTitle}
           graphDescription={settings?.graphDescription}
           footNote={settings?.footNote}
@@ -1019,11 +1045,11 @@ function GraphEl(props: Props) {
         <StatCardFromData
           year={settings?.year}
           data={graphData}
-          graphTitle={settings?.graphTitle}
+          graphTitle={settings?.graphTitle || ''}
           graphDescription={settings?.graphDescription}
           suffix={settings?.suffix}
           prefix={settings?.prefix}
-          source={settings?.source}
+          source={settings?.source || ''}
           sourceLink={settings?.sourceLink}
           footNote={settings?.footNote}
           backgroundColor={settings?.backgroundColor}
@@ -1043,7 +1069,7 @@ function GraphEl(props: Props) {
           height={settings?.height}
           source={settings?.source}
           stripType={settings?.stripType}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           colorDomain={settings?.colorDomain}
           colorLegendTitle={settings?.colorLegendTitle}
           pointRadius={settings?.pointRadius}
@@ -1076,7 +1102,7 @@ function GraphEl(props: Props) {
           width={settings?.width}
           height={settings?.height}
           source={settings?.source}
-          colors={settings?.colors}
+          colors={settings?.colors as string | string[] | undefined}
           colorDomain={settings?.colorDomain}
           colorLegendTitle={settings?.colorLegendTitle}
           pointRadius={settings?.pointRadius}

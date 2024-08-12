@@ -135,6 +135,10 @@ export function Graph(props: Props) {
                   textAnchor='end'
                   fontSize={12}
                   dy={3}
+                  style={{
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  }}
                 >
                   {numberFormattingFunction(d, '', '')}
                 </text>
@@ -183,6 +187,10 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={3}
                   dx={-2}
+                  style={{
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  }}
                 >
                   {numberFormattingFunction(d, '', '')}
                 </text>

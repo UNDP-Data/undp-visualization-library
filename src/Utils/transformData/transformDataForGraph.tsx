@@ -8,6 +8,7 @@ export function transformDataForGraph(
   graph: GraphType,
   config: GraphConfigurationDataType[],
 ) {
+  if (!data || data.length === 0) return null;
   if (checkDataConfigValidity(config, graph, Object.keys(data[0]))) {
     const chartConfig =
       ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)]

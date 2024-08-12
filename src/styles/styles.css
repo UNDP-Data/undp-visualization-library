@@ -401,10 +401,12 @@ a.undp-viz-style:focus-visible {
 
 .undp-viz-x-axis-text {  
   font-size: 12px;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 .undp-viz-label-text {  
   font-size: 12px;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 @media (max-width: 980px) {

@@ -256,6 +256,8 @@ export function Graph(props: Props) {
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
+                    fontFamily:
+                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}

@@ -258,17 +258,19 @@ export function GriddedGraphs(props: Props) {
                   >
                     <GraphEl
                       graph={graphType}
-                      graphData={transformDataForGraph(
-                        dataTransform
-                          ? transformDataForAggregation(
-                              data.filter((d: any) => d[columnGridBy] === el),
-                              dataTransform.keyColumn,
-                              dataTransform.aggregationColumnsSetting,
-                            )
-                          : data.filter((d: any) => d[columnGridBy] === el),
-                        graphType,
-                        graphDataConfiguration,
-                      )}
+                      graphData={
+                        transformDataForGraph(
+                          dataTransform
+                            ? transformDataForAggregation(
+                                data.filter((d: any) => d[columnGridBy] === el),
+                                dataTransform.keyColumn,
+                                dataTransform.aggregationColumnsSetting,
+                              )
+                            : data.filter((d: any) => d[columnGridBy] === el),
+                          graphType,
+                          graphDataConfiguration,
+                        ) || []
+                      }
                       settings={{
                         ...graphSettings,
                         width: undefined,

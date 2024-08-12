@@ -46,7 +46,6 @@ export function UnitChart(props: Props) {
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
   const graphParentDiv = useRef<HTMLDivElement>(null);
   if (outOfValue < value) {
-    // eslint-disable-next-line no-console
     console.error('maxValue should be greater than value');
     return null;
   }
@@ -54,7 +53,6 @@ export function UnitChart(props: Props) {
     gridSize !== undefined ? (size || 200) / gridSize : (size || 200) / 10;
   const radius = (gridDimension - paddingValue * 2) / 2;
   if (radius <= 0) {
-    // eslint-disable-next-line no-console
     console.error(
       'The size of single unit is less than or equal to zero. Check values for ((dimension / gridSize) - (padding * 2)) / 2 is not less than or equal to 0.',
     );

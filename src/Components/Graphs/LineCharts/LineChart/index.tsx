@@ -74,7 +74,6 @@ export function SimpleLineChart(props: Props) {
     dataDownload,
     highlightAreaColor,
   } = props;
-
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
