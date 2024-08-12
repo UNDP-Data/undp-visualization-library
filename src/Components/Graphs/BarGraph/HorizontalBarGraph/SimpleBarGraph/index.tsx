@@ -48,6 +48,8 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -90,6 +92,8 @@ export function HorizontalBarGraph(props: Props) {
     dataDownload,
     sortData,
     labelOrder,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -155,6 +159,8 @@ export function HorizontalBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              rtl={rtl}
+              language={language}
             />
           ) : null}
           <div
@@ -297,6 +303,8 @@ export function HorizontalBarGraph(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              rtl={rtl}
+              language={language}
             />
           ) : null}
         </div>
