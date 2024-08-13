@@ -15,7 +15,7 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import GraphEl from './ChooseGraphs';
+import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';

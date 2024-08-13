@@ -125,7 +125,7 @@ export function Graph(props: Props) {
                     x1={x(d)}
                     x2={x(d)}
                     y1={0 - margin.top}
-                    y2={graphHeight + margin.bottom + topMargin}
+                    y2={graphHeight + margin.bottom + margin.top}
                     style={{
                       stroke: UNDPColorModule.grays['gray-500'],
                     }}

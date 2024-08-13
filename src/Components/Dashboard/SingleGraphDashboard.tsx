@@ -7,6 +7,7 @@ import {
   DataSettingsDataType,
   FilterSettingsDataType,
   GraphConfigurationDataType,
+  GraphSettingsDataType,
   GraphType,
   SelectedFilterDataType,
 } from '../../Types';
@@ -16,7 +17,7 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import GraphEl from './ChooseGraphs';
+import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
@@ -25,7 +26,7 @@ import { GraphHeader } from '../Elements/GraphHeader';
 interface Props {
   backgroundColor?: string | boolean;
   graphId?: string;
-  graphSettings: any;
+  graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: string[];
   graphType: GraphType;
@@ -122,10 +123,10 @@ export function SingleGraphDashboard(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: graphSettings.width ? 'fit-content' : '100%',
+        width: graphSettings?.width ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        flexGrow: graphSettings.width ? 0 : 1,
+        flexGrow: graphSettings?.width ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -138,8 +139,8 @@ export function SingleGraphDashboard(props: Props) {
       <div
         style={{
           padding: backgroundColor
-            ? graphSettings.padding || '1rem'
-            : graphSettings.padding || 0,
+            ? graphSettings?.padding || '1rem'
+            : graphSettings?.padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -154,16 +155,18 @@ export function SingleGraphDashboard(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {graphSettings.graphTitle ||
-          graphSettings.graphDescription ||
-          graphSettings.graphDownload ||
-          graphSettings.dataDownload ? (
+          {graphSettings?.graphTitle ||
+          graphSettings?.graphDescription ||
+          graphSettings?.graphDownload ||
+          graphSettings?.dataDownload ? (
             <GraphHeader
-              graphTitle={graphSettings.graphTitle}
-              graphDescription={graphSettings.graphDescription}
-              width={graphSettings.width}
+              graphTitle={graphSettings?.graphTitle}
+              graphDescription={graphSettings?.graphDescription}
+              width={graphSettings?.width}
               graphDownload={
-                graphSettings.graphDownload ? graphParentDiv.current : undefined
+                graphSettings?.graphDownload
+                  ? graphParentDiv.current
+                  : undefined
               }
             />
           ) : null}
@@ -246,15 +249,26 @@ export function SingleGraphDashboard(props: Props) {
                   graphType,
                   graphDataConfiguration,
                 )}
-                settings={{
-                  ...graphSettings,
-                  graphTitle: undefined,
-                  graphDescription: undefined,
-                  graphDownload: false,
-                  dataDownload: false,
-                  backgroundColor: undefined,
-                  padding: '0',
-                }}
+                settings={
+                  graphSettings
+                    ? {
+                        ...graphSettings,
+                        graphTitle: undefined,
+                        graphDescription: undefined,
+                        graphDownload: false,
+                        dataDownload: false,
+                        backgroundColor: undefined,
+                        padding: '0',
+                      }
+                    : ({
+                        graphTitle: undefined,
+                        graphDescription: undefined,
+                        graphDownload: false,
+                        dataDownload: false,
+                        backgroundColor: undefined,
+                        padding: '0',
+                      } as GraphSettingsDataType)
+                }
               />
             </>
           ) : (

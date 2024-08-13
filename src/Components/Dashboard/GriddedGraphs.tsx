@@ -16,7 +16,7 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import GraphEl from './ChooseGraphs';
+import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
@@ -275,13 +275,13 @@ export function GriddedGraphs(props: Props) {
                         ...graphSettings,
                         width: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,
-                        graphTitle: el,
+                        graphTitle: `${el}`,
                         graphDescription: undefined,
                         graphDownload: false,
                         dataDownload: false,
                         backgroundColor: undefined,
                         padding: '0',
-                        FootNote: undefined,
+                        footNote: undefined,
                         source: undefined,
                       }}
                     />

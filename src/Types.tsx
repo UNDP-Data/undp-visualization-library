@@ -22,7 +22,6 @@ export type GraphType =
   | 'heatMap'
   | 'horizontalStripChart'
   | 'verticalStripChart'
-  | 'statCards'
   | 'horizontalBeeSwarmChart'
   | 'verticalBeeSwarmChart'
   | 'butterflyChart'
@@ -30,7 +29,9 @@ export type GraphType =
   | 'sparkLine'
   | 'paretoChart'
   | 'dataTable'
-  | 'statCard';
+  | 'statCard'
+  | 'geoHubCompareMap'
+  | 'geoHubMap';
 
 export interface TimeSeriesProps {
   year: number;
@@ -122,12 +123,6 @@ export interface ScatterPlotDataType {
   data?: object;
 }
 
-export interface TableColumnSettingsDataType {
-  title: string;
-  size?: number;
-  type: string;
-}
-
 export interface DualAxisLineChartDataType {
   date: number | string;
   y1?: number;
@@ -166,6 +161,27 @@ export interface HeatMapDataType {
   data?: object;
 }
 
+export interface BeeSwarmChartDataType {
+  label: string | number;
+  position: number;
+  radius?: number;
+  color?: string;
+  data?: object;
+}
+
+export interface StripChartDataType {
+  label: string | number;
+  position: number;
+  color?: string;
+  data?: object;
+}
+
+export interface TableColumnSettingsDataType {
+  title: string;
+  size?: number;
+  type: string;
+}
+
 export interface DataTableColumnDataType {
   columnTitle?: string;
   columnId: string;
@@ -181,21 +197,6 @@ export interface DataTableColumnDataType {
   suffix?: string;
   prefix?: string;
   columnWidth?: number;
-}
-
-export interface BeeSwarmChartDataType {
-  label: string | number;
-  position: number;
-  radius?: number;
-  color?: string;
-  data?: object;
-}
-
-export interface StripChartDataType {
-  label: string | number;
-  position: number;
-  color?: string;
-  data?: object;
 }
 
 export type ScaleDataType = 'categorical' | 'linear' | 'threshold';
