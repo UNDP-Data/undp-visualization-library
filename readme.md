@@ -47,6 +47,8 @@ The dependencies that are pre-installed wit the library:
     * d3-shape
     * d3-zoom
 * Various Lodash libraries - For array and data manipulation
+    * lodash.flattendeep
+    * lodash.intersection
     * lodash.isequal
     * lodash.max
     * lodash.maxby
@@ -62,11 +64,12 @@ The dependencies that are pre-installed wit the library:
 * papaparse - For loading and parsing csv from links
 * react-draggable - For creating comparison maps
 * simple-statistics - For statistical functions
+* sanitize-html - For cleaning up user-submitted HTML
+* ajv - For schema validation
 * date-fns - For date formatting
 * dom-to-image - For downloading div as images
 * dom-to-svg - For downloading div as svg
 * file-saver - For downloading files
 * react-csv - For generating a csv file
-* react-select - For dropdown select 
 * xlsx - For generating a xlsx file
 * React (of course!)
