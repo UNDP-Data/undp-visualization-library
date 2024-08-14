@@ -132,9 +132,7 @@ export const histogramDataSchema = {
   items: {
     type: 'object',
     properties: {
-      value: {
-        oneOf: [{ type: 'number' }, { type: 'string' }],
-      },
+      value: { type: 'number' },
       data: { type: 'object' },
     },
     required: ['value'],
@@ -1012,10 +1010,6 @@ export const histogramSettingsSchema = {
     graphType: {
       type: 'string',
       enum: ['circlePacking', 'treeMap', 'barGraph', 'donutChart'],
-    },
-    donutColorDomain: {
-      type: 'array',
-      items: { type: 'string' },
     },
   },
   required: ['color', 'graphType'],

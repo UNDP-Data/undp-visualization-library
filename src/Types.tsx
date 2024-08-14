@@ -79,7 +79,7 @@ export interface DonutChartDataType {
 }
 
 export interface HistogramDataType {
-  value: number | string;
+  value: number;
   data?: object;
 }
 
