@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import uniqBy from 'lodash.uniqby';
 import { bin } from 'd3-array';
 import {
   TreeMapDataType,
@@ -49,7 +48,6 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  donutColorDomain?: string[];
 }
 
 export function Histogram(props: Props) {
@@ -88,7 +86,6 @@ export function Histogram(props: Props) {
     barGraphLayout,
     donutStrokeWidth,
     sortData,
-    donutColorDomain,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -217,7 +214,6 @@ export function Histogram(props: Props) {
         data={dataFormatted as DonutChartDataType[]}
         strokeWidth={donutStrokeWidth}
         graphLegend
-        colorDomain={donutColorDomain}
         sortData={sortData}
       />
     );
