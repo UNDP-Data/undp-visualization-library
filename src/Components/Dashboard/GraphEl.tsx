@@ -1014,6 +1014,7 @@ function GraphEl(props: Props) {
               sortData={settings?.sortData}
               barGraphLayout={settings?.barGraphLayout}
               graphType={settings?.graphType}
+              donutColorDomain={settings?.donutColorDomain}
             />
           ) : null}
           {graph === 'paretoChart' ? (
