@@ -1013,10 +1013,6 @@ export const histogramSettingsSchema = {
       type: 'string',
       enum: ['circlePacking', 'treeMap', 'barGraph', 'donutChart'],
     },
-    donutColorDomain: {
-      type: 'array',
-      items: { type: 'string' },
-    },
   },
   required: ['color', 'graphType'],
   additionalProperties: false,

@@ -348,7 +348,6 @@ export interface GraphSettingsDataType {
   donutStrokeWidth?: number;
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  donutColorDomain?: string[];
   lineTitles?: [string, string];
   noOfXTicks?: number;
   dateFormat?: string;
