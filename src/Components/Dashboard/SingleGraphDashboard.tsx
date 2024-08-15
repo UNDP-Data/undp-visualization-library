@@ -34,7 +34,7 @@ interface Props {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 export function SingleGraphDashboard(props: Props) {

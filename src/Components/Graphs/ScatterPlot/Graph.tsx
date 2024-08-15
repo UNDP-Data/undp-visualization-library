@@ -388,7 +388,7 @@ export function Graph(props: Props) {
                     }}
                     fillOpacity={0.6}
                   />
-                  {showLabels && d.label ? (
+                  {showLabels && !checkIfNullOrUndefined(d.label) ? (
                     <text
                       fontSize={10}
                       style={{
@@ -410,8 +410,11 @@ export function Graph(props: Props) {
                     >
                       {d.label}
                     </text>
-                  ) : highlightedDataPoints.length !== 0 && d.label ? (
-                    highlightedDataPoints.indexOf(d.label) !== -1 ? (
+                  ) : highlightedDataPoints.length !== 0 &&
+                    !checkIfNullOrUndefined(d.label) ? (
+                    highlightedDataPoints.indexOf(
+                      d.label as string | number,
+                    ) !== -1 ? (
                       <text
                         fontSize={10}
                         style={{

@@ -119,7 +119,7 @@ export interface ScatterPlotDataType {
   y: number;
   radius?: number;
   color?: string;
-  label?: string;
+  label?: string | number;
   data?: object;
 }
 
@@ -226,7 +226,7 @@ export type DashboardColumnDataType = {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
   settings?: any;
 };
 

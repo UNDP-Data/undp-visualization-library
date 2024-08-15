@@ -32,6 +32,7 @@ export const validateDataSchema = (data: any, graph: GraphType) => {
   if (
     graph === 'geoHubCompareMap' ||
     graph === 'geoHubMap' ||
+    graph === 'dataTable' ||
     data.length === 0
   )
     return true;

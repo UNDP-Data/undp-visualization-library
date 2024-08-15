@@ -38,11 +38,15 @@ export const butterflyChartDataSchema = {
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
-      leftBar: { type: 'number' },
-      rightBar: { type: 'number' },
+      leftBar: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      rightBar: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
       data: { type: 'object' },
     },
-    required: ['label'],
+    required: ['label', 'leftBar', 'rightBar'],
   },
 };
 
@@ -228,7 +232,9 @@ export const scatterPlotDataSchema = {
       y: { type: 'number' },
       radius: { type: 'number' },
       color: { type: 'string' },
-      label: { type: 'string' },
+      label: {
+        oneOf: [{ type: 'number' }, { type: 'string' }],
+      },
       data: { type: 'object' },
     },
     required: ['x', 'y'],
@@ -243,11 +249,15 @@ export const dualAxisLineChartDataSchema = {
       date: {
         oneOf: [{ type: 'number' }, { type: 'string' }],
       },
-      y1: { type: 'number' },
-      y2: { type: 'number' },
+      y1: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      y2: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
       data: { type: 'object' },
     },
-    required: ['date'],
+    required: ['date', 'y1', 'y2'],
   },
 };
 
@@ -259,11 +269,15 @@ export const paretoChartDataSchema = {
       label: {
         oneOf: [{ type: 'number' }, { type: 'string' }],
       },
-      bar: { type: 'number' },
-      line: { type: 'number' },
+      bar: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      line: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
       data: { type: 'object' },
     },
-    required: ['label'],
+    required: ['label', 'bar', 'line'],
   },
 };
 
@@ -314,11 +328,11 @@ export const heatMapDataSchema = {
       row: { type: 'string' },
       column: { type: 'string' },
       value: {
-        oneOf: [{ type: 'string' }, { type: 'number' }],
+        oneOf: [{ type: 'string' }, { type: 'number' }, { type: 'null' }],
       },
       data: { type: 'object' },
     },
-    required: ['row', 'column'],
+    required: ['row', 'column', 'value'],
   },
 };
 

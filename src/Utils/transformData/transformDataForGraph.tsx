@@ -6,9 +6,19 @@ export function transformDataForGraph(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
   graph: GraphType,
-  config: GraphConfigurationDataType[],
+  config?: GraphConfigurationDataType[],
 ) {
   if (!data || data.length === 0) return null;
+  if (
+    graph === 'dataTable' ||
+    graph === 'geoHubCompareMap' ||
+    graph === 'geoHubMap'
+  )
+    return data;
+  if (!config) {
+    console.error('Your data configuration is not accurate');
+    return null;
+  }
   if (checkDataConfigValidity(config, graph, Object.keys(data[0]))) {
     const chartConfig =
       ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)]
