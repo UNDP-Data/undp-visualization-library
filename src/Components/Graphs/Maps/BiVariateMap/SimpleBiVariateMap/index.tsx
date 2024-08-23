@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
-import { BivariateMapDataType } from '../../../../Types';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import WorldMapData from '../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { BivariateMapDataType } from '../../../../../Types';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import WorldMapData from '../../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   data: BivariateMapDataType[];
