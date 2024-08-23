@@ -1,12 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import uniqBy from 'lodash.uniqby';
+import { ascending, sort } from 'd3-array';
+import { format, parse } from 'date-fns';
+import Slider from 'rc-slider';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { DotDensityMapDataType } from '../../../../Types';
-import WorldMapData from '../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { DotDensityMapWithDateDataType } from '../../../../../Types';
+import WorldMapData from '../../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../../ColorPalette';
+import { Pause, Play } from '../../../../Icons/Icons';
+import 'rc-slider/assets/index.css';
 
 interface Props {
   graphTitle?: string;
@@ -21,7 +26,7 @@ interface Props {
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  data: DotDensityMapDataType[];
+  data: DotDensityMapWithDateDataType[];
   scale?: number;
   centerPoint?: [number, number];
   backgroundColor?: string | boolean;
@@ -43,9 +48,12 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   showAntarctica?: boolean;
+  dateFormat?: string;
+  showOnlyActiveDate?: boolean;
+  autoPlay?: boolean;
 }
 
-export function DotDensityMap(props: Props) {
+export function AnimatedDotDensityMap(props: Props) {
   const {
     data,
     mapData,
@@ -81,6 +89,9 @@ export function DotDensityMap(props: Props) {
     graphDownload,
     dataDownload,
     showAntarctica,
+    dateFormat,
+    showOnlyActiveDate,
+    autoPlay,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -94,6 +105,35 @@ export function DotDensityMap(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
+
+  const [play, setPlay] = useState(autoPlay || false);
+  const uniqDatesSorted = sort(
+    uniqBy(data, d => d.date).map(d =>
+      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+    ),
+    (a, b) => ascending(a, b),
+  );
+  const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
+
+  const markObj: any = {};
+
+  uniqDatesSorted.forEach((d, i) => {
+    markObj[`${d}`] = {
+      style: {
+        color: i === index ? '#232E3D' : '#A9B1B7', // Active text color vs. inactive
+        fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
+        display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
+      },
+      label: format(new Date(d), dateFormat || 'yyyy'),
+    };
+  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex(i => (i < uniqDatesSorted.length - 1 ? i + 1 : 0));
+    }, 2000);
+    if (!play) clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [uniqDatesSorted, play]);
 
   return (
     <div
@@ -145,6 +185,34 @@ export function DotDensityMap(props: Props) {
               }
             />
           ) : null}
+          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <button
+              type='button'
+              onClick={() => {
+                setPlay(!play);
+              }}
+              style={{
+                padding: 0,
+                border: 0,
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              {play ? <Pause /> : <Play />}
+            </button>
+            <Slider
+              min={uniqDatesSorted[0]}
+              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              marks={markObj}
+              step={null}
+              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              value={uniqDatesSorted[index]}
+              onChangeComplete={nextValue => {
+                setIndex(uniqDatesSorted.indexOf(nextValue as number));
+              }}
+              className='undp-viz-slider'
+            />
+          </div>
           <div
             style={{
               flexGrow: 1,
@@ -216,6 +284,8 @@ export function DotDensityMap(props: Props) {
                 showAntarctica={
                   showAntarctica === undefined ? false : showAntarctica
                 }
+                dateFormat={dateFormat || 'yyyy'}
+                indx={index}
               />
             ) : null}
           </div>

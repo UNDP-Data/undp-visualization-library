@@ -1,80 +1,103 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { Graph } from './Graph';
+import uniqBy from 'lodash.uniqby';
+import { ascending, sort } from 'd3-array';
+import { format, parse } from 'date-fns';
+import Slider from 'rc-slider';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
-import { DualAxisLineChartDataType } from '../../../../Types';
+import {
+  ButterflyChartWithDateDataType,
+  ReferenceDataType,
+} from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { Pause, Play } from '../../../Icons/Icons';
+import 'rc-slider/assets/index.css';
+import { Graph } from './Graph';
 
 interface Props {
-  data: DualAxisLineChartDataType[];
+  data: ButterflyChartWithDateDataType[];
   graphTitle?: string;
   graphDescription?: string;
-  lineTitles?: [string, string];
+  leftBarTitle?: string;
+  rightBarTitle?: string;
   footNote?: string;
   sourceLink?: string;
   width?: number;
   height?: number;
-  suffix?: string;
-  prefix?: string;
   source?: string;
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  lineColors?: [string, string];
-  sameAxes?: boolean;
+  barColors?: [string, string];
   relativeHeight?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  highlightAreaSettings?: [number | null, number | null];
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
+  barPadding?: number;
+  truncateBy?: number;
+  suffix?: string;
+  prefix?: string;
+  showTicks?: boolean;
+  showBarValue?: boolean;
+  onSeriesMouseClick?: (_d: any) => void;
+  centerGap?: number;
+  maxValue?: number;
+  minValue?: number;
+  showColorScale?: boolean;
+  refValues?: ReferenceDataType[];
+  dateFormat?: string;
+  showOnlyActiveDate?: boolean;
+  autoPlay?: boolean;
 }
 
-export function DualAxisLineChart(props: Props) {
+export function AnimatedButterflyChart(props: Props) {
   const {
     data,
     graphTitle,
-    suffix,
     source,
-    prefix,
     graphDescription,
     sourceLink,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
     padding,
-    lineColors,
-    sameAxes,
+    barColors,
     backgroundColor,
     leftMargin,
     rightMargin,
-    lineTitles,
+    rightBarTitle,
+    leftBarTitle,
     topMargin,
     bottomMargin,
     tooltip,
-    highlightAreaSettings,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
     graphDownload,
     dataDownload,
-    highlightAreaColor,
-    animateLine,
+    barPadding,
+    truncateBy,
+    onSeriesMouseClick,
+    centerGap,
+    showBarValue,
+    maxValue,
+    minValue,
+    refValues,
+    suffix,
+    prefix,
+    showTicks,
+    showColorScale,
+    dateFormat,
+    showOnlyActiveDate,
+    autoPlay,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -88,6 +111,35 @@ export function DualAxisLineChart(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
+
+  const [play, setPlay] = useState(autoPlay || false);
+  const uniqDatesSorted = sort(
+    uniqBy(data, d => d.date).map(d =>
+      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+    ),
+    (a, b) => ascending(a, b),
+  );
+  const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
+
+  const markObj: any = {};
+
+  uniqDatesSorted.forEach((d, i) => {
+    markObj[`${d}`] = {
+      style: {
+        color: i === index ? '#232E3D' : '#A9B1B7', // Active text color vs. inactive
+        fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
+        display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
+      },
+      label: format(new Date(d), dateFormat || 'yyyy'),
+    };
+  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex(i => (i < uniqDatesSorted.length - 1 ? i + 1 : 0));
+    }, 2000);
+    if (!play) clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [uniqDatesSorted, play]);
 
   return (
     <div
@@ -139,6 +191,34 @@ export function DualAxisLineChart(props: Props) {
               }
             />
           ) : null}
+          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <button
+              type='button'
+              onClick={() => {
+                setPlay(!play);
+              }}
+              style={{
+                padding: 0,
+                border: 0,
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              {play ? <Pause /> : <Play />}
+            </button>
+            <Slider
+              min={uniqDatesSorted[0]}
+              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              marks={markObj}
+              step={null}
+              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              value={uniqDatesSorted[index]}
+              onChangeComplete={nextValue => {
+                setIndex(uniqDatesSorted.indexOf(nextValue as number));
+              }}
+              className='undp-viz-slider'
+            />
+          </div>
           <div
             style={{
               flexGrow: 1,
@@ -149,15 +229,20 @@ export function DualAxisLineChart(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegend
-              colorDomain={lineTitles || ['Line 1', 'Line 2']}
-              colors={
-                lineColors || [
-                  UNDPColorModule.categoricalColors.colors[0],
-                  UNDPColorModule.categoricalColors.colors[1],
-                ]
-              }
-            />
+            {showColorScale ? (
+              <ColorLegend
+                colorDomain={[
+                  leftBarTitle || 'Left bar graph',
+                  rightBarTitle || 'Right bar graph',
+                ]}
+                colors={
+                  barColors || [
+                    UNDPColorModule.categoricalColors.colors[0],
+                    UNDPColorModule.categoricalColors.colors[1],
+                  ]
+                }
+              />
+            ) : null}
             <div
               style={{
                 flexGrow: 1,
@@ -171,57 +256,70 @@ export function DualAxisLineChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  sameAxes={sameAxes}
-                  lineColors={
-                    lineColors || [
+                  barColors={
+                    barColors || [
                       UNDPColorModule.categoricalColors.colors[0],
                       UNDPColorModule.categoricalColors.colors[1],
                     ]
                   }
                   width={width || svgWidth}
+                  centerGap={
+                    checkIfNullOrUndefined(centerGap)
+                      ? 100
+                      : (centerGap as number)
+                  }
                   height={
                     height ||
                     (relativeHeight
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  dateFormat={dateFormat || 'yyyy'}
-                  showValues={showValues}
-                  noOfXTicks={
-                    checkIfNullOrUndefined(noOfXTicks)
-                      ? 10
-                      : (noOfXTicks as number)
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (bottomMargin as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 80
+                      ? 20
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 80
+                      ? 20
                       : (rightMargin as number)
                   }
                   topMargin={
                     checkIfNullOrUndefined(topMargin)
-                      ? 20
+                      ? 25
                       : (topMargin as number)
                   }
                   bottomMargin={
                     checkIfNullOrUndefined(bottomMargin)
-                      ? 25
+                      ? 30
                       : (bottomMargin as number)
                   }
-                  lineTitles={lineTitles || ['Line 1', 'Line 2']}
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  axisTitles={[
+                    leftBarTitle || 'Left bar graph',
+                    rightBarTitle || 'Right bar graph',
+                  ]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                  barPadding={barPadding || 0.25}
+                  refValues={refValues || []}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  showBarValue={
+                    checkIfNullOrUndefined(showBarValue)
+                      ? true
+                      : (showBarValue as boolean)
                   }
-                  animateLine={animateLine}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                  showTicks={showTicks !== false}
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  dateFormat={dateFormat || 'yyyy'}
+                  indx={index}
                 />
               ) : null}
             </div>

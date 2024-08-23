@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
-  AggregationSettingsDataType,
+  DashboardColumnDataType,
+  DashboardLayoutDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
-  GraphConfigurationDataType,
-  GraphType,
   SelectedFilterDataType,
 } from '../../Types';
 import {
@@ -21,43 +20,24 @@ import { transformDataForGraph } from '../../Utils/transformData/transformDataFo
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
-import { GraphFooter } from '../Elements/GraphFooter';
 
 interface Props {
-  backgroundColor?: string | boolean;
-  graphId?: string;
-  noOfColumns?: number;
-  columnGridBy: string;
-  graphSettings: any;
+  dashboardId?: string;
+  dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: string[];
-  graphType: GraphType;
-  relativeHeightForGraph?: number;
-  dataTransform?: {
-    keyColumn: string;
-    aggregationColumnsSetting: AggregationSettingsDataType[];
-  };
-  graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
-export function GriddedGraphs(props: Props) {
-  const {
-    backgroundColor,
-    graphId,
-    graphSettings,
-    dataSettings,
-    filters,
-    graphType,
-    dataTransform,
-    graphDataConfiguration,
-    relativeHeightForGraph,
-    noOfColumns,
-    columnGridBy,
-  } = props;
+const TotalWidth = (columns: DashboardColumnDataType[]) => {
+  const columnWidth = columns.map(d => d.columnWidth || 1);
+  const sum = columnWidth.reduce((acc, cur) => acc + cur, 0);
+  return sum;
+};
+
+export function MultiGraphDashboard(props: Props) {
+  const { dashboardId, dashboardLayout, dataSettings, filters } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
-  const [gridOption, setGridOption] = useState<(string | number)[]>([]);
-  const graphParentDiv = useRef<HTMLDivElement>(null);
   const [selectedFilters, setSelectedFilters] = useState<
     SelectedFilterDataType[]
   >(
@@ -101,11 +81,6 @@ export function GriddedGraphs(props: Props) {
           ? transformColumnsToArray(d, dataSettings.columnsToArray)
           : d;
         setDataFromFile(tempData);
-        const gridValue = getUniqValue(tempData, columnGridBy) as (
-          | string
-          | number
-        )[];
-        setGridOption(gridValue);
         setFilterSettings(
           filters?.map(el => ({
             filter: el,
@@ -117,18 +92,7 @@ export function GriddedGraphs(props: Props) {
         );
       });
     } else {
-      const tempData = dataSettings.columnsToArray
-        ? transformColumnsToArray(
-            dataSettings.data,
-            dataSettings.columnsToArray,
-          )
-        : dataSettings.data;
-      setDataFromFile(tempData);
-      const gridValue = getUniqValue(tempData, columnGridBy) as (
-        | string
-        | number
-      )[];
-      setGridOption(gridValue);
+      setDataFromFile(dataSettings.data);
       setFilterSettings(
         filters?.map(el => ({
           filter: el,
@@ -146,24 +110,24 @@ export function GriddedGraphs(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: graphSettings.width ? 'fit-content' : '100%',
+        width: '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        flexGrow: graphSettings.width ? 0 : 1,
-        backgroundColor: !backgroundColor
+        flexGrow: 1,
+        gap: '1rem',
+        backgroundColor: !dashboardLayout.backgroundColor
           ? 'transparent'
-          : backgroundColor === true
+          : dashboardLayout.backgroundColor === true
           ? UNDPColorModule.grays['gray-200']
-          : backgroundColor,
+          : dashboardLayout.backgroundColor,
       }}
-      id={graphId}
-      ref={graphParentDiv}
+      id={dashboardId}
     >
       <div
         style={{
-          padding: backgroundColor
-            ? graphSettings.padding || '1rem'
-            : graphSettings.padding || 0,
+          padding: dashboardLayout.backgroundColor
+            ? dashboardLayout.padding || '1rem'
+            : dashboardLayout.padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -178,20 +142,13 @@ export function GriddedGraphs(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {graphSettings.graphTitle ||
-          graphSettings.graphDescription ||
-          graphSettings.graphDownload ||
-          graphSettings.dataDownload ? (
+          {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
-              graphTitle={graphSettings.graphTitle}
-              graphDescription={graphSettings.graphDescription}
-              width={graphSettings.width}
-              graphDownload={
-                graphSettings.graphDownload ? graphParentDiv.current : undefined
-              }
+              graphTitle={dashboardLayout.title}
+              graphDescription={dashboardLayout.description}
             />
           ) : null}
-          {data && gridOption.length > 0 ? (
+          {data ? (
             <>
               <div
                 style={{
@@ -257,60 +214,52 @@ export function GriddedGraphs(props: Props) {
                   </div>
                 ))}
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-                {gridOption.map((el, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: `calc(${100 / (noOfColumns || 4)}% - ${
-                        ((noOfColumns || 4) - 1) / (noOfColumns || 4)
-                      }rem)`,
-                    }}
-                  >
-                    <GraphEl
-                      graph={graphType}
-                      graphData={
-                        transformDataForGraph(
-                          dataTransform
-                            ? transformDataForAggregation(
-                                data.filter((d: any) => d[columnGridBy] === el),
-                                dataTransform.keyColumn,
-                                dataTransform.aggregationColumnsSetting,
-                              )
-                            : data.filter((d: any) => d[columnGridBy] === el),
-                          graphType,
-                          graphDataConfiguration,
-                        ) || []
-                      }
-                      settings={{
-                        ...graphSettings,
-                        width: undefined,
-                        relativeHeight: relativeHeightForGraph || 0.67,
-                        graphTitle: `${el}`,
-                        graphDescription: undefined,
-                        graphDownload: false,
-                        dataDownload: false,
-                        backgroundColor: undefined,
-                        padding: '0',
-                        footNote: undefined,
-                        source: undefined,
+              {dashboardLayout.rows.map((d, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    alignItems: 'stretch',
+                    height: `${d.height}px` || 'auto',
+                    width: '100%',
+                  }}
+                >
+                  {d.columns.map((el, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        display: 'flex',
+                        width: `calc(${
+                          (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
+                        }% - ${(d.columns.length - 1) / d.columns.length}rem)`,
+                        backgroundColor: 'transparent',
+                        height: 'inherit',
                       }}
-                    />
-                  </div>
-                ))}
-              </div>
+                    >
+                      <GraphEl
+                        graph={el.graphType}
+                        graphData={transformDataForGraph(
+                          el.dataTransform
+                            ? transformDataForAggregation(
+                                data,
+                                el.dataTransform.keyColumn,
+                                el.dataTransform.aggregationColumnsSetting,
+                              )
+                            : data,
+                          el.graphType,
+                          el.graphDataConfiguration,
+                        )}
+                        settings={el.settings}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
             </>
           ) : (
             <div className='undp-viz-loader' />
           )}
-          {graphSettings.source || graphSettings.footNote ? (
-            <GraphFooter
-              source={graphSettings.source}
-              sourceLink={graphSettings.sourceLink}
-              footNote={graphSettings.footNote}
-              width={graphSettings.width}
-            />
-          ) : null}
         </div>
       </div>
     </div>

@@ -1,91 +1,95 @@
 import { useState, useRef, useEffect } from 'react';
-
+import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { ColorLegend } from '../../Elements/ColorLegend';
-import { ButterflyChartDataType, ReferenceDataType } from '../../../Types';
-import { UNDPColorModule } from '../../ColorPalette';
+import { DumbbellChartDataType } from '../../../../../Types';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: ButterflyChartDataType[];
+  data: DumbbellChartDataType[];
+  colors?: string[];
   graphTitle?: string;
   graphDescription?: string;
-  leftBarTitle?: string;
-  rightBarTitle?: string;
   footNote?: string;
   sourceLink?: string;
   width?: number;
   height?: number;
+  suffix?: string;
+  prefix?: string;
   source?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
+  barPadding?: number;
+  showDotValue?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  barColors?: [string, string];
+  truncateBy?: number;
+  colorDomain: string[];
+  colorLegendTitle?: string;
+  backgroundColor?: string | boolean;
+  padding?: string;
+  dotRadius?: number;
   relativeHeight?: number;
+  showLabel?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
+  maxPositionValue?: number;
+  minPositionValue?: number;
+  onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  barPadding?: number;
-  truncateBy?: number;
-  suffix?: string;
-  prefix?: string;
-  showTicks?: boolean;
-  showBarValue?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
-  centerGap?: number;
-  maxValue?: number;
-  minValue?: number;
-  showColorScale?: boolean;
-  refValues?: ReferenceDataType[];
+  sortParameter?: number | 'diff';
 }
 
-export function ButterflyChart(props: Props) {
+export function HorizontalDumbbellChart(props: Props) {
   const {
     data,
     graphTitle,
+    colors,
+    suffix,
     source,
+    prefix,
     graphDescription,
     sourceLink,
+    barPadding,
+    showDotValue,
+    showTicks,
+    leftMargin,
+    rightMargin,
+    topMargin,
+    bottomMargin,
+    truncateBy,
     height,
     width,
     footNote,
+    colorDomain,
+    colorLegendTitle,
     padding,
-    barColors,
     backgroundColor,
-    leftMargin,
-    rightMargin,
-    rightBarTitle,
-    leftBarTitle,
-    topMargin,
-    bottomMargin,
+    dotRadius,
     tooltip,
+    showLabel,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
+    maxPositionValue,
+    minPositionValue,
+    onSeriesMouseClick,
     graphDownload,
     dataDownload,
-    barPadding,
-    truncateBy,
-    onSeriesMouseClick,
-    centerGap,
-    showBarValue,
-    maxValue,
-    minValue,
-    refValues,
-    suffix,
-    prefix,
-    showTicks,
-    showColorScale,
+    sortParameter,
   } = props;
+
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -96,14 +100,16 @@ export function ButterflyChart(props: Props) {
     }
   }, [graphDiv?.current, width]);
 
+  const dotColors = colors || UNDPColorModule.categoricalColors.colors;
+
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
-        height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
@@ -152,99 +158,102 @@ export function ButterflyChart(props: Props) {
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
+              alignItems: 'center',
               gap: '0.75rem',
               width: '100%',
             }}
           >
-            {showColorScale ? (
-              <ColorLegend
-                colorDomain={[
-                  leftBarTitle || 'Left bar graph',
-                  rightBarTitle || 'Right bar graph',
-                ]}
-                colors={
-                  barColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
-                  ]
-                }
-              />
-            ) : null}
+            <ColorLegendWithMouseOver
+              width={width}
+              colorDomain={colorDomain}
+              colors={dotColors}
+              colorLegendTitle={colorLegendTitle}
+              setSelectedColor={setSelectedColor}
+            />
             <div
               style={{
                 flexGrow: 1,
-                flexDirection: 'column',
+                width: '100%',
+                lineHeight: 0,
                 display: 'flex',
                 justifyContent: 'center',
-                lineHeight: 0,
               }}
               ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
-                  barColors={
-                    barColors || [
-                      UNDPColorModule.categoricalColors.colors[0],
-                      UNDPColorModule.categoricalColors.colors[1],
-                    ]
+                  data={
+                    sortParameter !== undefined
+                      ? sortParameter === 'diff'
+                        ? sortBy(
+                            data,
+                            d => d.x[d.x.length - 1] - d.x[0],
+                          ).reverse()
+                        : sortBy(data, d => d.x[sortParameter]).reverse()
+                      : data
                   }
+                  dotColors={dotColors}
                   width={width || svgWidth}
-                  centerGap={
-                    checkIfNullOrUndefined(centerGap)
-                      ? 100
-                      : (centerGap as number)
-                  }
                   height={
                     height ||
                     (relativeHeight
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (bottomMargin as number)
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  dotRadius={!dotRadius ? 3 : dotRadius}
+                  barPadding={
+                    checkIfNullOrUndefined(barPadding)
+                      ? 0.25
+                      : (barPadding as number)
+                  }
+                  showDotValue={
+                    checkIfNullOrUndefined(showDotValue)
+                      ? true
+                      : (showDotValue as boolean)
+                  }
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
+                      ? true
+                      : (showTicks as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 20
+                      ? 100
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 20
+                      ? 40
                       : (rightMargin as number)
                   }
                   topMargin={
                     checkIfNullOrUndefined(topMargin)
-                      ? 25
+                      ? 20
                       : (topMargin as number)
                   }
                   bottomMargin={
                     checkIfNullOrUndefined(bottomMargin)
-                      ? 30
+                      ? 10
                       : (bottomMargin as number)
                   }
-                  axisTitles={[
-                    leftBarTitle || 'Left bar graph',
-                    rightBarTitle || 'Right bar graph',
-                  ]}
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (truncateBy as number)
+                  }
+                  showLabel={
+                    checkIfNullOrUndefined(showLabel)
+                      ? true
+                      : (showLabel as boolean)
+                  }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding || 0.25}
-                  refValues={refValues || []}
-                  maxValue={maxValue}
-                  minValue={minValue}
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
-                      ? true
-                      : (showBarValue as boolean)
-                  }
+                  maxPositionValue={maxPositionValue}
+                  minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  showTicks={showTicks !== false}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  selectedColor={selectedColor}
                 />
               ) : null}
             </div>

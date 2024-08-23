@@ -1,81 +1,87 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { LineChartDataType, ReferenceDataType } from '../../../../Types';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { ChoroplethMapDataType } from '../../../../../Types';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import WorldMapData from '../../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: LineChartDataType[];
-  graphID?: string;
-  color?: string;
   graphTitle?: string;
+  mapData?: any;
   graphDescription?: string;
   footNote?: string;
   sourceLink?: string;
   width?: number;
   height?: number;
-  suffix?: string;
-  prefix?: string;
   source?: string;
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
+  domain: number[] | string[];
+  colors?: string[];
+  colorLegendTitle?: string;
+  categorical?: boolean;
+  data: ChoroplethMapDataType[];
+  scale?: number;
+  centerPoint?: [number, number];
   backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
+  mapBorderWidth?: number;
+  mapNoDataColor?: string;
+  mapBorderColor?: string;
   relativeHeight?: number;
+  padding?: string;
+  isWorldMap?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  highlightAreaSettings?: [number | null, number | null];
-  maxValue?: number;
-  minValue?: number;
+  showColorScale?: boolean;
+  zoomScaleExtend?: [number, number];
+  zoomTranslateExtend?: [[number, number], [number, number]];
+  graphID?: string;
+  highlightedCountryCodes?: string[];
+  onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
+  mapProperty?: string;
+  showAntarctica?: boolean;
 }
 
-export function SimpleLineChart(props: Props) {
+export function ChoroplethMap(props: Props) {
   const {
     data,
+    mapData,
     graphTitle,
-    color,
-    suffix,
+    colors,
     source,
-    prefix,
     graphDescription,
     sourceLink,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
+    domain,
+    colorLegendTitle,
+    categorical,
+    scale,
+    centerPoint,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    mapBorderWidth,
+    mapNoDataColor,
+    mapBorderColor,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    refValues,
-    highlightAreaSettings,
+    isWorldMap,
+    showColorScale,
+    zoomScaleExtend,
+    zoomTranslateExtend,
     graphID,
-    minValue,
-    maxValue,
+    highlightedCountryCodes,
+    onSeriesMouseClick,
     graphDownload,
     dataDownload,
-    highlightAreaColor,
-    animateLine,
+    mapProperty,
+    showAntarctica,
   } = props;
+
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
@@ -84,18 +90,19 @@ export function SimpleLineChart(props: Props) {
   useEffect(() => {
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
-      setSvgWidth(graphDiv.current.clientWidth || 620);
+      setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
+
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
+        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
-        height: 'inherit',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
@@ -150,7 +157,8 @@ export function SimpleLineChart(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                color={color || UNDPColorModule.primaryColors['blue-600']}
+                mapData={mapData || WorldMapData}
+                domain={domain}
                 width={width || svgWidth}
                 height={
                   height ||
@@ -158,43 +166,47 @@ export function SimpleLineChart(props: Props) {
                     ? (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                dateFormat={dateFormat || 'yyyy'}
-                showValues={showValues}
-                noOfXTicks={
-                  checkIfNullOrUndefined(noOfXTicks)
-                    ? 10
-                    : (noOfXTicks as number)
+                scale={scale || 190}
+                centerPoint={centerPoint || [10, 10]}
+                colors={
+                  colors ||
+                  (categorical
+                    ? UNDPColorModule.sequentialColors[
+                        `neutralColorsx0${
+                          domain.length as 4 | 5 | 6 | 7 | 8 | 9
+                        }`
+                      ]
+                    : UNDPColorModule.sequentialColors[
+                        `neutralColorsx0${
+                          (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                        }`
+                      ])
                 }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 50
-                    : (leftMargin as number)
+                colorLegendTitle={colorLegendTitle}
+                mapBorderWidth={
+                  checkIfNullOrUndefined(mapBorderWidth)
+                    ? 0.5
+                    : (mapBorderWidth as number)
                 }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 30
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 25
-                    : (bottomMargin as number)
+                mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
+                categorical={categorical}
+                mapBorderColor={
+                  mapBorderColor || UNDPColorModule.grays['gray-500']
                 }
                 tooltip={tooltip}
-                highlightAreaSettings={highlightAreaSettings || [null, null]}
                 onSeriesMouseOver={onSeriesMouseOver}
-                refValues={refValues}
-                minValue={minValue}
-                maxValue={maxValue}
-                highlightAreaColor={
-                  highlightAreaColor || UNDPColorModule.grays['gray-300']
+                isWorldMap={isWorldMap === undefined ? true : isWorldMap}
+                showColorScale={
+                  showColorScale === undefined ? true : showColorScale
                 }
-                animateLine={animateLine}
+                zoomScaleExtend={zoomScaleExtend}
+                zoomTranslateExtend={zoomTranslateExtend}
+                onSeriesMouseClick={onSeriesMouseClick}
+                mapProperty={mapProperty || 'ISO3'}
+                showAntarctica={
+                  showAntarctica === undefined ? false : showAntarctica
+                }
+                highlightedCountryCodes={highlightedCountryCodes || []}
               />
             ) : null}
           </div>

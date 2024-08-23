@@ -1,14 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import isEqual from 'lodash.isequal';
-import { ButterflyChartDataType, ReferenceDataType } from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
+import { group } from 'd3-array';
+import { parse } from 'date-fns';
+import sortBy from 'lodash.sortby';
+import uniqBy from 'lodash.uniqby';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ButterflyChartWithDateDataType,
+  ReferenceDataType,
+} from '../../../../Types';
+import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../ColorPalette';
+import { ensureCompleteDataForButterFlyChart } from '../../../../Utils/ensureCompleteData';
 
 interface Props {
-  data: ButterflyChartDataType[];
+  data: ButterflyChartWithDateDataType[];
   barColors: [string, string];
   centerGap: number;
   refValues: ReferenceDataType[];
@@ -30,6 +41,8 @@ interface Props {
   showTicks: boolean;
   suffix: string;
   prefix: string;
+  indx: number;
+  dateFormat: string;
 }
 
 export function Graph(props: Props) {
@@ -56,7 +69,36 @@ export function Graph(props: Props) {
     showTicks,
     suffix,
     prefix,
+    dateFormat,
+    indx,
   } = props;
+
+  const dataFormatted = sortBy(
+    data.map(d => ({
+      ...d,
+      date: parse(`${d.date}`, dateFormat, new Date()),
+    })),
+    'date',
+  );
+  const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
+  const groupedData = Array.from(
+    group(
+      ensureCompleteDataForButterFlyChart(data, dateFormat || 'yyyy'),
+      d => d.date,
+    ),
+    ([date, values]) => ({
+      date,
+      values: (
+        uniqLabels.map(label =>
+          values.find(o => o.label === label),
+        ) as ButterflyChartWithDateDataType[]
+      ).map(el => ({
+        ...el,
+        id: el.label,
+      })),
+    }),
+  );
+
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -69,11 +111,9 @@ export function Graph(props: Props) {
   };
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const y = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
-    .range([0, graphHeight])
+    .domain(uniqLabels.map(d => `${d}`))
+    .range([graphHeight, 0])
     .paddingInner(barPadding);
 
   const xMaxValueLeftBar = !checkIfNullOrUndefined(maxValue)
@@ -186,88 +226,98 @@ export function Graph(props: Props) {
                   </g>
                 ))
               : null}
-            {dataWithId.map((d, i) => {
-              return (
-                <g
-                  className='undp-viz-g-with-hover'
-                  key={i}
-                  opacity={0.85}
-                  onMouseEnter={(event: any) => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(d);
-                    }
-                  }}
-                  onClick={() => {
-                    if (onSeriesMouseClick) {
-                      if (isEqual(mouseClickData, d)) {
-                        setMouseClickData(undefined);
-                        onSeriesMouseClick(undefined);
-                      } else {
-                        setMouseClickData(d);
-                        onSeriesMouseClick(d);
+            <AnimatePresence>
+              {groupedData[indx].values.map((d, i) => {
+                return (
+                  <motion.g
+                    className='undp-viz-g-with-hover'
+                    key={d.label}
+                    opacity={0.85}
+                    onMouseEnter={(event: any) => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
                       }
-                    }
-                  }}
-                  onMouseMove={(event: any) => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                  }}
-                  onMouseLeave={() => {
-                    setMouseOverData(undefined);
-                    setEventX(undefined);
-                    setEventY(undefined);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(undefined);
-                    }
-                  }}
-                >
-                  {d.leftBar ? (
-                    <rect
-                      x={d.leftBar < 0 ? xLeftBar(0) : xLeftBar(d.leftBar)}
-                      y={y(`${i}`)}
-                      width={
-                        d.leftBar < 0
-                          ? xLeftBar(d.leftBar) - xLeftBar(0)
-                          : xLeftBar(0) - xLeftBar(d.leftBar)
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, d)) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick(d);
+                        }
                       }
+                    }}
+                    onMouseMove={(event: any) => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                  >
+                    <motion.rect
                       style={{
                         fill: barColors[0],
                       }}
                       height={y.bandwidth()}
-                    />
-                  ) : null}
-                  {showBarValue ? (
-                    <text
-                      x={d.leftBar ? xLeftBar(d.leftBar) : xLeftBar(0)}
-                      y={(y(`${i}`) as number) + y.bandwidth() / 2}
-                      style={{
-                        fill: barColors[0],
-                        fontSize: '1rem',
-                        textAnchor: d.rightBar
-                          ? d.rightBar > 0
-                            ? 'end'
-                            : 'start'
-                          : 'start',
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      animate={{
+                        width: d.leftBar
+                          ? d.leftBar < 0
+                            ? xLeftBar(d.leftBar) - xLeftBar(0)
+                            : xLeftBar(0) - xLeftBar(d.leftBar)
+                          : 0,
+                        y: y(`${d.label}`),
+                        x: d.leftBar
+                          ? d.leftBar < 0
+                            ? xLeftBar(0)
+                            : xLeftBar(d.leftBar)
+                          : xLeftBar(0),
                       }}
-                      dx={d.rightBar ? (d.rightBar > 0 ? -5 : 5) : 5}
-                      dy={5}
-                    >
-                      {numberFormattingFunction(
-                        d.rightBar,
-                        prefix || '',
-                        suffix || '',
-                      )}
-                    </text>
-                  ) : null}
-                </g>
-              );
-            })}
+                      transition={{ duration: 0.5 }}
+                    />
+                    {showBarValue ? (
+                      <motion.text
+                        style={{
+                          fill: barColors[0],
+                          fontSize: '1rem',
+                          textAnchor: d.rightBar
+                            ? d.rightBar > 0
+                              ? 'end'
+                              : 'start'
+                            : 'start',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        }}
+                        dx={d.leftBar ? (d.leftBar > 0 ? -5 : 5) : 5}
+                        dy={5}
+                        animate={{
+                          x: d.leftBar ? xLeftBar(d.leftBar) : xLeftBar(0),
+                          y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
+                        }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {numberFormattingFunction(
+                          d.leftBar,
+                          prefix || '',
+                          suffix || '',
+                        )}
+                      </motion.text>
+                    ) : null}
+                  </motion.g>
+                );
+              })}
+            </AnimatePresence>
             <line
               x1={xLeftBar(0)}
               x2={xLeftBar(0)}
@@ -347,88 +397,98 @@ export function Graph(props: Props) {
                   </g>
                 ))
               : null}
-            {dataWithId.map((d, i) => {
-              return (
-                <g
-                  className='undp-viz-g-with-hover'
-                  key={i}
-                  opacity={0.85}
-                  onMouseEnter={(event: any) => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(d);
-                    }
-                  }}
-                  onClick={() => {
-                    if (onSeriesMouseClick) {
-                      if (isEqual(mouseClickData, d)) {
-                        setMouseClickData(undefined);
-                        onSeriesMouseClick(undefined);
-                      } else {
-                        setMouseClickData(d);
-                        onSeriesMouseClick(d);
+            <AnimatePresence>
+              {groupedData[indx].values.map((d, i) => {
+                return (
+                  <motion.g
+                    className='undp-viz-g-with-hover'
+                    key={i}
+                    opacity={0.85}
+                    onMouseEnter={(event: any) => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
                       }
-                    }
-                  }}
-                  onMouseMove={(event: any) => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                  }}
-                  onMouseLeave={() => {
-                    setMouseOverData(undefined);
-                    setEventX(undefined);
-                    setEventY(undefined);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(undefined);
-                    }
-                  }}
-                >
-                  {d.rightBar ? (
-                    <rect
-                      x={d.rightBar >= 0 ? xRightBar(0) : xRightBar(d.rightBar)}
-                      y={y(`${i}`)}
-                      width={
-                        d.rightBar >= 0
-                          ? xRightBar(d.rightBar) - xRightBar(0)
-                          : xRightBar(0) - xRightBar(d.rightBar)
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, d)) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick(d);
+                        }
                       }
+                    }}
+                    onMouseMove={(event: any) => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                  >
+                    <motion.rect
                       style={{
                         fill: barColors[1],
                       }}
                       height={y.bandwidth()}
-                    />
-                  ) : null}
-                  {showBarValue ? (
-                    <text
-                      x={d.rightBar ? xRightBar(d.rightBar) : xRightBar(0)}
-                      y={(y(`${i}`) as number) + y.bandwidth() / 2}
-                      style={{
-                        fill: barColors[1],
-                        fontSize: '1rem',
-                        textAnchor: d.rightBar
-                          ? d.rightBar < 0
-                            ? 'end'
-                            : 'start'
-                          : 'start',
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      animate={{
+                        width: d.rightBar
+                          ? d.rightBar >= 0
+                            ? xRightBar(d.rightBar) - xRightBar(0)
+                            : xRightBar(0) - xRightBar(d.rightBar)
+                          : 0,
+                        y: y(`${d.label}`),
+                        x: d.rightBar
+                          ? d.rightBar >= 0
+                            ? xRightBar(0)
+                            : xRightBar(d.rightBar)
+                          : xRightBar(0),
                       }}
-                      dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
-                      dy={5}
-                    >
-                      {numberFormattingFunction(
-                        d.rightBar,
-                        prefix || '',
-                        suffix || '',
-                      )}
-                    </text>
-                  ) : null}
-                </g>
-              );
-            })}
+                      transition={{ duration: 0.5 }}
+                    />
+                    {showBarValue ? (
+                      <motion.text
+                        style={{
+                          fill: barColors[1],
+                          fontSize: '1rem',
+                          textAnchor: d.rightBar
+                            ? d.rightBar < 0
+                              ? 'end'
+                              : 'start'
+                            : 'start',
+                          fontFamily:
+                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        }}
+                        dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
+                        dy={5}
+                        animate={{
+                          x: d.rightBar ? xRightBar(d.rightBar) : xRightBar(0),
+                          y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
+                        }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {numberFormattingFunction(
+                          d.rightBar,
+                          prefix || '',
+                          suffix || '',
+                        )}
+                      </motion.text>
+                    ) : null}
+                  </motion.g>
+                );
+              })}
+            </AnimatePresence>
             <line
               x1={xRightBar(0)}
               x2={xRightBar(0)}
@@ -474,7 +534,7 @@ export function Graph(props: Props) {
             ) : null}
           </g>
           <g transform={`translate(${graphWidth / 2},${0})`}>
-            {dataWithId.map((d, i) => {
+            {groupedData[indx].values.map((d, i) => {
               return (
                 <text
                   style={{
@@ -486,7 +546,7 @@ export function Graph(props: Props) {
                   }}
                   key={i}
                   x={0}
-                  y={(y(`${i}`) as number) + y.bandwidth() / 2}
+                  y={(y(`${d.label}`) as number) + y.bandwidth() / 2}
                   dy={5}
                 >
                   {`${d.label}`.length < truncateBy

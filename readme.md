@@ -62,6 +62,7 @@ The dependencies that are pre-installed wit the library:
 * maplibre-gl - For Maplibre maps
 * pmtiles - For adding pmtiles to Maplibre maps
 * papaparse - For loading and parsing csv from links
+* framer-motion - For creating animations in the animated graphs
 * react-draggable - For creating comparison maps
 * simple-statistics - For statistical functions
 * sanitize-html - For cleaning up user-submitted HTML

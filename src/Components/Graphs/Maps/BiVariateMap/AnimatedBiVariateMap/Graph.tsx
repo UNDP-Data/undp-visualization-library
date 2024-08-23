@@ -5,14 +5,17 @@ import { select } from 'd3-selection';
 
 import { scaleThreshold } from 'd3-scale';
 import isEqual from 'lodash.isequal';
-import { BivariateMapDataType } from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { X } from '../../../Icons/Icons';
-import { UNDPColorModule } from '../../../ColorPalette';
+import sortBy from 'lodash.sortby';
+import { parse } from 'date-fns';
+import { group } from 'd3-array';
+import { BivariateMapWithDateDataType } from '../../../../../Types';
+import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../../Elements/Tooltip';
+import { X } from '../../../../Icons/Icons';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
-  data: BivariateMapDataType[];
+  data: BivariateMapWithDateDataType[];
   mapData: any;
   xDomain: [number, number, number, number];
   yDomain: [number, number, number, number];
@@ -35,6 +38,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
+  indx: number;
+  dateFormat: string;
 }
 
 export function Graph(props: Props) {
@@ -62,7 +67,19 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
+    dateFormat,
+    indx,
   } = props;
+  const groupedData = Array.from(
+    group(
+      sortBy(data, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date())),
+      d => d.date,
+    ),
+    ([date, values]) => ({
+      date,
+      values,
+    }),
+  );
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -113,7 +130,7 @@ export function Graph(props: Props) {
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
-            const index = data.findIndex(
+            const index = groupedData[indx].values.findIndex(
               el => el.countryCode === d.properties[mapProperty],
             );
             if (!showAntarctica && d.properties.NAME === 'Antarctica')
@@ -188,7 +205,7 @@ export function Graph(props: Props) {
               </g>
             );
           })}
-          {data.map((d, i) => {
+          {groupedData[indx].values.map((d, i) => {
             const index = mapData.features.findIndex(
               (el: any) => d.countryCode === el.properties[mapProperty],
             );

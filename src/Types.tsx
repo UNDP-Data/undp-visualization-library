@@ -53,11 +53,19 @@ export interface ButterflyChartDataType {
   data?: object;
 }
 
+export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
+  date: string | number;
+}
+
 export interface BarGraphDataType {
   label: string | number;
   size: number | undefined;
   color?: string;
   data?: object;
+}
+
+export interface BarGraphWithDateDataType extends BarGraphDataType {
+  date: string | number;
 }
 
 export interface GroupedBarGraphDataType {
@@ -66,8 +74,20 @@ export interface GroupedBarGraphDataType {
   data?: object;
 }
 
+export interface GroupedBarGraphWithDateDataType
+  extends GroupedBarGraphDataType {
+  date: string | number;
+}
+
 export interface DumbbellChartDataType {
   x: number[];
+  label: string;
+  data?: object;
+}
+
+export interface DumbbellChartWithDateDataType {
+  x: (number | undefined)[];
+  date: string | number;
   label: string;
   data?: object;
 }
@@ -89,10 +109,25 @@ export interface ChoroplethMapDataType {
   data?: object;
 }
 
+export interface ChoroplethMapWithDateDataType {
+  x?: number | string;
+  countryCode: string;
+  date: string | number;
+  data?: object;
+}
+
 export interface BivariateMapDataType {
   x: number;
   y: number;
   countryCode: string;
+  data?: object;
+}
+
+export interface BivariateMapWithDateDataType {
+  x?: number;
+  y?: number;
+  countryCode: string;
+  date: string | number;
   data?: object;
 }
 
@@ -123,6 +158,16 @@ export interface ScatterPlotDataType {
   data?: object;
 }
 
+export interface ScatterPlotWithDateDataType {
+  date: string | number;
+  label: string | number;
+  x?: number;
+  y?: number;
+  radius?: number;
+  color?: string;
+  data?: object;
+}
+
 export interface DualAxisLineChartDataType {
   date: number | string;
   y1?: number;
@@ -144,6 +189,10 @@ export interface DotDensityMapDataType {
   color?: string | number;
   label?: string | number;
   data?: object;
+}
+
+export interface DotDensityMapWithDateDataType extends DotDensityMapDataType {
+  date: string | number;
 }
 
 export interface SlopeChartDataType {
@@ -238,6 +287,8 @@ export type StatCardsFromDataSheetDataType = {
 export type DashboardLayoutDataType = {
   title?: string;
   description?: string;
+  padding?: string;
+  backgroundColor?: string | boolean;
   rows: {
     columns: DashboardColumnDataType[];
     height?: number;
@@ -251,7 +302,7 @@ export interface ColumnConfigurationDataType {
 
 export interface DataSettingsDataType {
   dataURL?: string;
-  fileType: 'csv' | 'json';
+  fileType?: 'csv' | 'json';
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
   data?: any;

@@ -1,18 +1,26 @@
 import { useState } from 'react';
 import { format } from 'd3-format';
 import maxBy from 'lodash.maxby';
-import orderBy from 'lodash.orderby';
 import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
-import { ScatterPlotDataType, ReferenceDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
+import sortBy from 'lodash.sortby';
+import { parse } from 'date-fns';
+import uniqBy from 'lodash.uniqby';
+import { group } from 'd3-array';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ScatterPlotWithDateDataType,
+  ReferenceDataType,
+} from '../../../../Types';
+import { Tooltip } from '../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../ColorPalette';
+import { ensureCompleteDataForScatterPlot } from '../../../../Utils/ensureCompleteData';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: ScatterPlotWithDateDataType[];
   width: number;
   height: number;
   showLabels: boolean;
@@ -44,6 +52,8 @@ interface Props {
   minYValue?: number;
   highlightAreaColor: string;
   onSeriesMouseClick?: (_d: any) => void;
+  dateFormat: string;
+  indx: number;
 }
 
 export function Graph(props: Props) {
@@ -75,7 +85,36 @@ export function Graph(props: Props) {
     minYValue,
     onSeriesMouseClick,
     highlightAreaColor,
+    dateFormat,
+    indx,
   } = props;
+
+  const dataFormatted = sortBy(
+    data.map(d => ({
+      ...d,
+      date: parse(`${d.date}`, dateFormat, new Date()),
+    })),
+    'date',
+  );
+  const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
+  const groupedData = Array.from(
+    group(
+      ensureCompleteDataForScatterPlot(data, dateFormat || 'yyyy'),
+      d => d.date,
+    ),
+    ([date, values]) => ({
+      date,
+      values: (
+        uniqLabels.map(label =>
+          values.find(o => o.label === label),
+        ) as ScatterPlotWithDateDataType[]
+      ).map(el => ({
+        ...el,
+        id: el.label,
+      })),
+    }),
+  );
+
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -86,7 +125,6 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const radiusScale =
@@ -101,14 +139,6 @@ export function Graph(props: Props) {
           .range([0.25, pointRadius])
           .nice()
       : undefined;
-  const dataOrdered =
-    dataWithId.filter(d => d.radius !== undefined).length === 0
-      ? dataWithId
-      : orderBy(
-          dataWithId.filter(d => d.radius !== undefined),
-          'radius',
-          'desc',
-        );
 
   const x = scaleLinear()
     .domain([
@@ -143,7 +173,9 @@ export function Graph(props: Props) {
   const xTicks = x.ticks(5);
   const yTicks = y.ticks(5);
   const voronoiDiagram = Delaunay.from(
-    data,
+    groupedData[indx].values.filter(
+      d => d.x !== undefined && d.y !== undefined,
+    ),
     d => x(d.x as number),
     d => y(d.y as number),
   ).voronoi([
@@ -344,53 +376,33 @@ export function Graph(props: Props) {
               </text>
             ) : null}
           </g>
-          {dataOrdered.map((d, i) => {
-            return (
-              <g key={i}>
-                <g
-                  opacity={
-                    selectedColor
-                      ? d.color
-                        ? colors[colorDomain.indexOf(`${d.color}`)] ===
-                          selectedColor
+          <AnimatePresence>
+            {groupedData[indx].values.map((d, i) => {
+              return (
+                <g key={i}>
+                  <motion.g
+                    opacity={
+                      selectedColor
+                        ? d.color
+                          ? colors[colorDomain.indexOf(`${d.color}`)] ===
+                            selectedColor
+                            ? 1
+                            : 0.3
+                          : 0.3
+                        : mouseOverData
+                        ? mouseOverData.label === d.label
                           ? 1
                           : 0.3
-                        : 0.3
-                      : mouseOverData
-                      ? mouseOverData.id === d.id
-                        ? 1
-                        : 0.3
-                      : highlightedDataPoints.length !== 0
-                      ? highlightedDataPoints.indexOf(d.label || '') !== -1
-                        ? 1
-                        : 0.3
-                      : 1
-                  }
-                  transform={`translate(${x(d.x)},${y(d.y)})`}
-                >
-                  <circle
-                    cx={0}
-                    cy={0}
-                    r={!radiusScale ? pointRadius : radiusScale(d.radius || 0)}
-                    style={{
-                      fill:
-                        data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
-                      stroke:
-                        data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
-                    }}
-                    fillOpacity={0.6}
-                  />
-                  {showLabels && !checkIfNullOrUndefined(d.label) ? (
-                    <text
-                      fontSize={10}
+                        : highlightedDataPoints.length !== 0
+                        ? highlightedDataPoints.indexOf(d.label || '') !== -1
+                          ? 1
+                          : 0.3
+                        : 1
+                    }
+                  >
+                    <motion.circle
+                      cx={0}
+                      cy={0}
                       style={{
                         fill:
                           data.filter(el => el.color).length === 0
@@ -398,24 +410,29 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        stroke:
+                          data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !d.color
+                            ? UNDPColorModule.graphGray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       }}
-                      y={0}
-                      x={
-                        !radiusScale ? pointRadius : radiusScale(d.radius || 0)
-                      }
-                      dy={4}
-                      dx={3}
-                    >
-                      {d.label}
-                    </text>
-                  ) : highlightedDataPoints.length !== 0 &&
-                    !checkIfNullOrUndefined(d.label) ? (
-                    highlightedDataPoints.indexOf(
-                      d.label as string | number,
-                    ) !== -1 ? (
-                      <text
+                      fillOpacity={0.6}
+                      animate={{
+                        cx: x(d.x || 0),
+                        cy: y(d.y || 0),
+                        r:
+                          checkIfNullOrUndefined(d.x) ||
+                          checkIfNullOrUndefined(d.y)
+                            ? 0
+                            : !radiusScale
+                            ? pointRadius
+                            : radiusScale(d.radius || 0),
+                      }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    {showLabels && !checkIfNullOrUndefined(d.label) ? (
+                      <motion.text
                         fontSize={10}
                         style={{
                           fill:
@@ -427,60 +444,95 @@ export function Graph(props: Props) {
                           fontFamily:
                             'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
-                        y={0}
-                        x={
-                          !radiusScale
-                            ? pointRadius
-                            : radiusScale(d.radius || 0)
-                        }
                         dy={4}
                         dx={3}
+                        animate={{
+                          y: y(d.y || 0),
+                          x: !radiusScale
+                            ? x(d.x || 0) + pointRadius
+                            : x(d.x || 0) + radiusScale(d.radius || 0),
+                          opacity:
+                            checkIfNullOrUndefined(d.x) ||
+                            checkIfNullOrUndefined(d.y)
+                              ? 0
+                              : 1,
+                        }}
+                        transition={{ duration: 0.5 }}
                       >
                         {d.label}
-                      </text>
-                    ) : null
-                  ) : null}
-                </g>
-                <path
-                  d={voronoiDiagram.renderCell(i)}
-                  fill='#fff'
-                  opacity={0}
-                  onMouseEnter={event => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(d);
-                    }
-                  }}
-                  onMouseMove={event => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                  }}
-                  onMouseLeave={() => {
-                    setMouseOverData(undefined);
-                    setEventX(undefined);
-                    setEventY(undefined);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(undefined);
-                    }
-                  }}
-                  onClick={() => {
-                    if (onSeriesMouseClick) {
-                      if (isEqual(mouseClickData, d)) {
-                        setMouseClickData(undefined);
-                        onSeriesMouseClick(undefined);
-                      } else {
-                        setMouseClickData(d);
-                        onSeriesMouseClick(d);
+                      </motion.text>
+                    ) : highlightedDataPoints.length !== 0 &&
+                      !checkIfNullOrUndefined(d.label) ? (
+                      highlightedDataPoints.indexOf(
+                        d.label as string | number,
+                      ) !== -1 ? (
+                        <text
+                          fontSize={10}
+                          style={{
+                            fill:
+                              data.filter(el => el.color).length === 0
+                                ? colors[0]
+                                : !d.color
+                                ? UNDPColorModule.graphGray
+                                : colors[colorDomain.indexOf(`${d.color}`)],
+                            fontFamily:
+                              'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          y={0}
+                          x={
+                            !radiusScale
+                              ? pointRadius
+                              : radiusScale(d.radius || 0)
+                          }
+                          dy={4}
+                          dx={3}
+                        >
+                          {d.label}
+                        </text>
+                      ) : null
+                    ) : null}
+                  </motion.g>
+                  <path
+                    d={voronoiDiagram.renderCell(i)}
+                    fill='#fff'
+                    opacity={0}
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
                       }
-                    }
-                  }}
-                />
-              </g>
-            );
-          })}
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, d)) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick(d);
+                        }
+                      }
+                    }}
+                  />
+                </g>
+              );
+            })}
+          </AnimatePresence>
           {refXValues ? (
             <>
               {refXValues.map((el, i) => (

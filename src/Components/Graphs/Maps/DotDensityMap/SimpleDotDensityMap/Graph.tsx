@@ -5,9 +5,9 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import isEqual from 'lodash.isequal';
-import { DotDensityMapDataType } from '../../../../Types';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { DotDensityMapDataType } from '../../../../../Types';
+import { Tooltip } from '../../../../Elements/Tooltip';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   data: DotDensityMapDataType[];

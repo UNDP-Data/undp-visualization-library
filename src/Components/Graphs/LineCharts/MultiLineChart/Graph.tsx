@@ -7,6 +7,7 @@ import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import min from 'lodash.min';
 import max from 'lodash.max';
+import { useAnimate, useInView } from 'framer-motion';
 import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
@@ -37,6 +38,7 @@ interface Props {
   minValue?: number;
   highlightedLines: string[];
   highlightAreaColor: string;
+  animateLine?: boolean | number;
 }
 
 export function Graph(props: Props) {
@@ -64,7 +66,10 @@ export function Graph(props: Props) {
     maxValue,
     highlightedLines,
     highlightAreaColor,
+    animateLine,
   } = props;
+  const [scope, animate] = useAnimate();
+  const isInView = useInView(scope);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -154,6 +159,34 @@ export function Graph(props: Props) {
       onSeriesMouseOver(undefined);
     }
   }, [x, dataFormatted]);
+
+  useEffect(() => {
+    if (isInView) {
+      animate(
+        'path',
+        { pathLength: [0, 1] },
+        {
+          duration: animateLine === true ? 5 : animateLine || 0,
+        },
+      );
+      animate(
+        'circle',
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
+      animate(
+        'text',
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
+    }
+  }, [isInView]);
   return (
     <>
       <svg
@@ -268,7 +301,7 @@ export function Graph(props: Props) {
               </g>
             ))}
           </g>
-          <g>
+          <g ref={scope}>
             {dataArray.map((d, i) => (
               <g
                 key={i}

@@ -1,101 +1,108 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
-import { ReferenceDataType, ScatterPlotDataType } from '../../../Types';
+import Slider from 'rc-slider';
+import { format, parse } from 'date-fns';
+import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../ColorPalette';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import {
+  BarGraphWithDateDataType,
+  ReferenceDataType,
+} from '../../../../../Types';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '../../../../ColorPalette';
+import 'rc-slider/assets/index.css';
+import { Pause, Play } from '../../../../Icons/Icons';
 
 interface Props {
-  data: ScatterPlotDataType[];
+  data: BarGraphWithDateDataType[];
+  colors?: string | string[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
   sourceLink?: string;
   width?: number;
   height?: number;
+  suffix?: string;
+  prefix?: string;
   source?: string;
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  pointRadius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
+  barPadding?: number;
+  showBarValue?: boolean;
+  showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
+  truncateBy?: number;
+  colorDomain?: string[];
+  colorLegendTitle?: string;
+  backgroundColor?: string | boolean;
+  padding?: string;
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
+  showBarLabel?: boolean;
+  showColorScale?: boolean;
+  maxValue?: number;
+  minValue?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  refXValues?: ReferenceDataType[];
-  refYValues?: ReferenceDataType[];
-  highlightedDataPoints?: (string | number)[];
-  highlightAreaSettings?: [
-    number | null,
-    number | null,
-    number | null,
-    number | null,
-  ];
-  highlightAreaColor?: string;
-  showColorScale?: boolean;
+  refValues?: ReferenceDataType[];
   graphID?: string;
-  pointRadiusMaxValue?: number;
-  maxXValue?: number;
-  minXValue?: number;
-  maxYValue?: number;
-  minYValue?: number;
+  highlightedDataPoints?: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  dateFormat?: string;
+  showOnlyActiveDate?: boolean;
+  autoPlay?: boolean;
+  autoSort?: boolean;
 }
 
-export function ScatterPlot(props: Props) {
+export function AnimatedVerticalBarChart(props: Props) {
   const {
     data,
     graphTitle,
     colors,
+    suffix,
     source,
+    prefix,
     graphDescription,
     sourceLink,
-    showLabels,
+    barPadding,
+    showBarValue,
+    showTicks,
+    leftMargin,
+    rightMargin,
+    truncateBy,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
-    xAxisTitle,
-    yAxisTitle,
+    highlightedDataPoints,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
     topMargin,
     bottomMargin,
-    tooltip,
+    showBarLabel,
     relativeHeight,
+    tooltip,
     onSeriesMouseOver,
-    refXValues,
-    refYValues,
-    highlightAreaSettings,
+    refValues,
     showColorScale,
-    highlightedDataPoints,
     graphID,
-    pointRadiusMaxValue,
-    maxXValue,
-    minXValue,
-    maxYValue,
-    minYValue,
+    maxValue,
+    minValue,
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
-    highlightAreaColor,
+    dateFormat,
+    showOnlyActiveDate,
+    autoPlay,
+    autoSort,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -103,6 +110,7 @@ export function ScatterPlot(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [play, setPlay] = useState(autoPlay || false);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -112,6 +120,33 @@ export function ScatterPlot(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
+  const uniqDatesSorted = sort(
+    uniqBy(data, d => d.date).map(d =>
+      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+    ),
+    (a, b) => ascending(a, b),
+  );
+  const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
+
+  const markObj: any = {};
+
+  uniqDatesSorted.forEach((d, i) => {
+    markObj[`${d}`] = {
+      style: {
+        color: i === index ? '#232E3D' : '#A9B1B7', // Active text color vs. inactive
+        fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
+        display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
+      },
+      label: format(new Date(d), dateFormat || 'yyyy'),
+    };
+  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex(i => (i < uniqDatesSorted.length - 1 ? i + 1 : 0));
+    }, 2000);
+    if (!play) clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [uniqDatesSorted, play]);
   return (
     <div
       style={{
@@ -119,9 +154,9 @@ export function ScatterPlot(props: Props) {
         flexDirection: 'column',
         height: 'inherit',
         width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
+        flexGrow: width ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -162,6 +197,34 @@ export function ScatterPlot(props: Props) {
               }
             />
           ) : null}
+          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <button
+              type='button'
+              onClick={() => {
+                setPlay(!play);
+              }}
+              style={{
+                padding: 0,
+                border: 0,
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              {play ? <Pause /> : <Play />}
+            </button>
+            <Slider
+              min={uniqDatesSorted[0]}
+              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              marks={markObj}
+              step={null}
+              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+              value={uniqDatesSorted[index]}
+              onChangeComplete={nextValue => {
+                setIndex(uniqDatesSorted.indexOf(nextValue as number));
+              }}
+              className='undp-viz-slider'
+            />
+          </div>
           <div
             style={{
               flexGrow: 1,
@@ -198,20 +261,21 @@ export function ScatterPlot(props: Props) {
                 flexDirection: 'column',
                 display: 'flex',
                 justifyContent: 'center',
-                lineHeight: 0,
                 width: '100%',
+                lineHeight: 0,
               }}
               ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  width={width || svgWidth}
-                  height={
-                    height ||
-                    (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
-                      : svgHeight)
+                  barColor={
+                    data.filter(el => el.color).length === 0
+                      ? colors
+                        ? [colors as string]
+                        : [UNDPColorModule.primaryColors['blue-600']]
+                      : (colors as string[] | undefined) ||
+                        UNDPColorModule.categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -222,31 +286,34 @@ export function ScatterPlot(props: Props) {
                           'color',
                         ).map(d => d.color) as string[])
                   }
-                  colors={
-                    data.filter(el => el.color).length === 0
-                      ? colors
-                        ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
-                      : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                  width={width || svgWidth}
+                  selectedColor={selectedColor}
+                  height={
+                    height ||
+                    (relativeHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : svgHeight)
                   }
-                  xAxisTitle={xAxisTitle || 'X Axis'}
-                  yAxisTitle={yAxisTitle || 'Y Axis'}
-                  refXValues={refXValues}
-                  refYValues={refYValues}
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? false
-                      : (showLabels as boolean)
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
+                  barPadding={
+                    checkIfNullOrUndefined(barPadding)
+                      ? 0.25
+                      : (barPadding as number)
                   }
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
-                      ? 5
-                      : (pointRadius as number)
+                  showBarValue={
+                    checkIfNullOrUndefined(showBarValue)
+                      ? true
+                      : (showBarValue as boolean)
+                  }
+                  showTicks={
+                    checkIfNullOrUndefined(showTicks)
+                      ? true
+                      : (showTicks as boolean)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 50
+                      ? 20
                       : (leftMargin as number)
                   }
                   rightMargin={
@@ -261,29 +328,33 @@ export function ScatterPlot(props: Props) {
                   }
                   bottomMargin={
                     checkIfNullOrUndefined(bottomMargin)
-                      ? 50
+                      ? 25
                       : (bottomMargin as number)
+                  }
+                  truncateBy={
+                    checkIfNullOrUndefined(truncateBy)
+                      ? 999
+                      : (truncateBy as number)
+                  }
+                  showBarLabel={
+                    checkIfNullOrUndefined(showBarLabel)
+                      ? true
+                      : (showBarLabel as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaSettings={
-                    highlightAreaSettings || [null, null, null, null]
-                  }
-                  highlightedDataPoints={
-                    data.filter(el => el.label).length === 0
-                      ? []
-                      : highlightedDataPoints || []
-                  }
-                  highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
-                  }
-                  selectedColor={selectedColor}
-                  pointRadiusMaxValue={pointRadiusMaxValue}
-                  maxXValue={maxXValue}
-                  minXValue={minXValue}
-                  maxYValue={maxYValue}
-                  minYValue={minYValue}
+                  refValues={refValues}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  dateFormat={dateFormat || 'yyyy'}
+                  indx={index}
+                  autoSort={
+                    checkIfNullOrUndefined(autoSort)
+                      ? true
+                      : (autoSort as boolean)
+                  }
                 />
               ) : null}
             </div>

@@ -4,10 +4,10 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
 import isEqual from 'lodash.isequal';
-import { ChoroplethMapDataType } from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { ChoroplethMapDataType } from '../../../../../Types';
+import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../../Elements/Tooltip';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   domain: number[] | string[];

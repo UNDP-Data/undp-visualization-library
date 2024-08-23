@@ -3,16 +3,19 @@ import max from 'lodash.max';
 import min from 'lodash.min';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
-import { DumbbellChartDataType } from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { DumbbellChartDataType } from '../../../../../Types';
+import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
+import { Tooltip } from '../../../../Elements/Tooltip';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   data: DumbbellChartDataType[];
   dotColors: string[];
+  suffix: string;
+  prefix: string;
   barPadding: number;
+  showDotValue: boolean;
   showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
@@ -23,14 +26,11 @@ interface Props {
   height: number;
   dotRadius: number;
   showLabel: boolean;
+  selectedColor?: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   maxPositionValue?: number;
   minPositionValue?: number;
-  suffix: string;
-  prefix: string;
-  showDotValue: boolean;
-  selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
 }
 
@@ -38,7 +38,10 @@ export function Graph(props: Props) {
   const {
     data,
     dotColors,
+    suffix,
+    prefix,
     barPadding,
+    showDotValue,
     showTicks,
     leftMargin,
     truncateBy,
@@ -54,9 +57,6 @@ export function Graph(props: Props) {
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
-    showDotValue,
-    suffix,
-    prefix,
     selectedColor,
   } = props;
   const margin = {
@@ -72,27 +72,27 @@ export function Graph(props: Props) {
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
 
-  const yMaxValue = !checkIfNullOrUndefined(maxPositionValue)
+  const xMaxValue = !checkIfNullOrUndefined(maxPositionValue)
     ? (maxPositionValue as number)
     : Math.max(...data.map(d => max(d.x) || 0)) < 0
     ? 0
     : Math.max(...data.map(d => max(d.x) || 0));
-  const yMinValue = !checkIfNullOrUndefined(minPositionValue)
+  const xMinValue = !checkIfNullOrUndefined(minPositionValue)
     ? (minPositionValue as number)
     : Math.min(...data.map(d => min(d.x) || 0)) > 0
     ? 0
     : Math.min(...data.map(d => min(d.x) || 0));
 
   const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
-  const y = scaleLinear()
-    .domain([yMinValue, yMaxValue])
-    .range([graphHeight, 0])
-    .nice();
-  const x = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+  const x = scaleLinear()
+    .domain([xMinValue, xMaxValue])
     .range([0, graphWidth])
+    .nice();
+  const y = scaleBand()
+    .domain(dataWithId.map(d => `${d.id}`))
+    .range([0, graphHeight])
     .paddingInner(barPadding);
-  const yTicks = y.ticks(5);
+  const xTicks = x.ticks(5);
 
   return (
     <>
@@ -102,39 +102,27 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          <line
-            y1={y(0)}
-            y2={y(0)}
-            x1={0 - margin.left}
-            x2={graphWidth + margin.right}
-            style={{
-              stroke: UNDPColorModule.grays['gray-700'],
-            }}
-            strokeWidth={1}
-          />
-          <text
-            x={0 - margin.left + 2}
-            y={y(0)}
-            style={{
-              fill: UNDPColorModule.grays['gray-700'],
-              fontFamily:
-                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-            }}
-            textAnchor='start'
-            fontSize={12}
-            dy={-3}
-          >
-            0
-          </text>
           {showTicks
-            ? yTicks.map((d, i) => (
+            ? xTicks.map((d, i) => (
                 <g key={i}>
+                  <text
+                    x={x(d)}
+                    y={-12.5}
+                    style={{
+                      fill: UNDPColorModule.grays['gray-500'],
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    }}
+                    textAnchor='middle'
+                    fontSize={12}
+                  >
+                    {numberFormattingFunction(d, '', '')}
+                  </text>
                   <line
-                    key={i}
-                    y1={y(d)}
-                    y2={y(d)}
-                    x1={0 - margin.left}
-                    x2={graphWidth + margin.right}
+                    x1={x(d)}
+                    x2={x(d)}
+                    y1={-2.5}
+                    y2={graphHeight + margin.bottom}
                     style={{
                       stroke: UNDPColorModule.grays['gray-500'],
                     }}
@@ -142,21 +130,6 @@ export function Graph(props: Props) {
                     strokeDasharray='4,8'
                     opacity={d === 0 ? 0 : 1}
                   />
-                  <text
-                    x={0 - margin.left + 2}
-                    y={y(d)}
-                    textAnchor='start'
-                    fontSize={12}
-                    dy={-3}
-                    opacity={d === 0 ? 0 : 1}
-                    style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule.grays['gray-500'],
-                    }}
-                  >
-                    {numberFormattingFunction(d, '', '')}
-                  </text>
                 </g>
               ))
             : null}
@@ -164,22 +137,23 @@ export function Graph(props: Props) {
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
-              transform={`translate(${
-                (x(`${i}`) as number) + x.bandwidth() / 2
-              },0)`}
+              transform={`translate(0,${
+                (y(`${i}`) as number) + y.bandwidth() / 2
+              })`}
             >
               {showLabel ? (
                 <text
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
                     fontSize: '0.75rem',
-                    textAnchor: 'middle',
+                    textAnchor: 'end',
                     fontFamily:
                       'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   x={0}
-                  y={graphHeight}
-                  dy='15px'
+                  y={0}
+                  dx={-10}
+                  dy={4}
                 >
                   {`${d.label}`.length < truncateBy
                     ? d.label
@@ -187,10 +161,21 @@ export function Graph(props: Props) {
                 </text>
               ) : null}
               <line
-                y1={y(min(d.x) as number)}
-                y2={y(max(d.x) as number)}
                 x1={0}
-                x2={0}
+                x2={graphWidth}
+                y1={0}
+                y2={0}
+                style={{
+                  stroke: UNDPColorModule.grays['gray-500'],
+                }}
+                strokeWidth={1}
+                strokeDasharray='4,8'
+              />
+              <line
+                x1={x(min(d.x) as number)}
+                x2={x(max(d.x) as number)}
+                y1={0}
+                y2={0}
                 style={{
                   stroke: UNDPColorModule.grays['gray-600'],
                   strokeWidth: 1,
@@ -241,8 +226,8 @@ export function Graph(props: Props) {
                   }}
                 >
                   <circle
-                    cy={y(el)}
-                    cx={0}
+                    cx={x(el)}
+                    cy={0}
                     r={dotRadius}
                     style={{
                       fill: dotColors[j],
@@ -253,18 +238,18 @@ export function Graph(props: Props) {
                   />
                   {showDotValue ? (
                     <text
-                      y={y(el)}
-                      x={0}
+                      x={x(el)}
+                      y={0}
                       style={{
                         fill: dotColors[j],
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
-                        textAnchor: 'start',
+                        textAnchor: 'middle',
                         fontFamily:
                           'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
-                      dx={dotRadius + 3}
-                      dy={4.5}
+                      dx={0}
+                      dy={0 - dotRadius - 3}
                     >
                       {numberFormattingFunction(el, prefix || '', suffix || '')}
                     </text>

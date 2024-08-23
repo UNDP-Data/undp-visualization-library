@@ -7,6 +7,7 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
+import { useAnimate, useInView } from 'framer-motion';
 import { DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
@@ -32,6 +33,7 @@ interface Props {
   highlightAreaColor: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
+  animateLine?: boolean | number;
 }
 
 export function Graph(props: Props) {
@@ -55,7 +57,11 @@ export function Graph(props: Props) {
     highlightAreaSettings,
     highlightAreaColor,
     onSeriesMouseOver,
+    animateLine,
   } = props;
+  const [scope, animate] = useAnimate();
+  const [labelScope, labelAnimate] = useAnimate();
+  const isInView = useInView(scope);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -160,6 +166,26 @@ export function Graph(props: Props) {
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
   }, [x, dataFormatted]);
+
+  useEffect(() => {
+    if (isInView) {
+      animate(
+        'path',
+        { pathLength: [0, 1] },
+        {
+          duration: animateLine === true ? 5 : animateLine || 0,
+        },
+      );
+      labelAnimate(
+        labelScope.current,
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
+    }
+  }, [isInView]);
   return (
     <>
       <svg
@@ -331,7 +357,7 @@ export function Graph(props: Props) {
               </g>
             ))}
           </g>
-          <g>
+          <g ref={scope}>
             <path
               d={lineShape1(dataFormatted as any) as string}
               fill='none'
@@ -356,7 +382,7 @@ export function Graph(props: Props) {
               />
             ) : null}
           </g>
-          <g>
+          <g ref={labelScope}>
             {dataFormatted.map((d, i) => (
               <g key={i}>
                 {d.y1 !== undefined ? (

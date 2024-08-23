@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
+import uniqBy from 'lodash.uniqby';
 import { Graph } from './Graph';
-import { ChoroplethMapDataType } from '../../../../Types';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import WorldMapData from '../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../ColorPalette';
+import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { DotDensityMapDataType } from '../../../../../Types';
+import WorldMapData from '../../WorldMapData/data.json';
+import { UNDPColorModule } from '../../../../ColorPalette';
 
 interface Props {
   graphTitle?: string;
@@ -15,20 +16,21 @@ interface Props {
   sourceLink?: string;
   width?: number;
   height?: number;
+  pointRadius?: number;
   source?: string;
-  domain: number[] | string[];
-  colors?: string[];
+  colors?: string | string[];
+  colorDomain?: string[];
   colorLegendTitle?: string;
-  categorical?: boolean;
-  data: ChoroplethMapDataType[];
+  data: DotDensityMapDataType[];
   scale?: number;
   centerPoint?: [number, number];
   backgroundColor?: string | boolean;
   mapBorderWidth?: number;
   mapNoDataColor?: string;
   mapBorderColor?: string;
-  relativeHeight?: number;
   padding?: string;
+  showLabel?: boolean;
+  relativeHeight?: number;
   isWorldMap?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -36,15 +38,14 @@ interface Props {
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   graphID?: string;
-  highlightedCountryCodes?: string[];
+  highlightedDataPoints?: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  mapProperty?: string;
   showAntarctica?: boolean;
 }
 
-export function ChoroplethMap(props: Props) {
+export function DotDensityMap(props: Props) {
   const {
     data,
     mapData,
@@ -56,29 +57,29 @@ export function ChoroplethMap(props: Props) {
     height,
     width,
     footNote,
-    domain,
     colorLegendTitle,
-    categorical,
+    colorDomain,
+    pointRadius,
     scale,
     centerPoint,
     padding,
-    backgroundColor,
     mapBorderWidth,
     mapNoDataColor,
+    backgroundColor,
+    showLabel,
     mapBorderColor,
-    relativeHeight,
     tooltip,
+    relativeHeight,
     onSeriesMouseOver,
     isWorldMap,
     showColorScale,
     zoomScaleExtend,
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes,
+    highlightedDataPoints,
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
-    mapProperty,
     showAntarctica,
   } = props;
 
@@ -158,7 +159,17 @@ export function ChoroplethMap(props: Props) {
               <Graph
                 data={data}
                 mapData={mapData || WorldMapData}
-                domain={domain}
+                colorDomain={
+                  data.filter(el => el.color).length === 0
+                    ? []
+                    : colorDomain ||
+                      (uniqBy(
+                        data.filter(
+                          el => el.color !== undefined || el.color !== null,
+                        ),
+                        'color',
+                      ).map(d => `${d.color}`) as string[])
+                }
                 width={width || svgWidth}
                 height={
                   height ||
@@ -169,32 +180,31 @@ export function ChoroplethMap(props: Props) {
                 scale={scale || 190}
                 centerPoint={centerPoint || [10, 10]}
                 colors={
-                  colors ||
-                  (categorical
-                    ? UNDPColorModule.sequentialColors[
-                        `neutralColorsx0${
-                          domain.length as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ]
-                    : UNDPColorModule.sequentialColors[
-                        `neutralColorsx0${
-                          (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ])
+                  data.filter(el => el.color).length === 0
+                    ? colors
+                      ? [colors as string]
+                      : [UNDPColorModule.primaryColors['blue-600']]
+                    : (colors as string[] | undefined) ||
+                      UNDPColorModule.categoricalColors.colors
                 }
                 colorLegendTitle={colorLegendTitle}
+                pointRadius={
+                  checkIfNullOrUndefined(pointRadius)
+                    ? 5
+                    : (pointRadius as number)
+                }
                 mapBorderWidth={
                   checkIfNullOrUndefined(mapBorderWidth)
                     ? 0.5
                     : (mapBorderWidth as number)
                 }
                 mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
-                categorical={categorical}
                 mapBorderColor={
                   mapBorderColor || UNDPColorModule.grays['gray-500']
                 }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
+                showLabel={showLabel}
                 isWorldMap={isWorldMap === undefined ? true : isWorldMap}
                 showColorScale={
                   showColorScale === undefined ? true : showColorScale
@@ -202,11 +212,10 @@ export function ChoroplethMap(props: Props) {
                 zoomScaleExtend={zoomScaleExtend}
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
-                mapProperty={mapProperty || 'ISO3'}
+                highlightedDataPoints={highlightedDataPoints || []}
                 showAntarctica={
                   showAntarctica === undefined ? false : showAntarctica
                 }
-                highlightedCountryCodes={highlightedCountryCodes || []}
               />
             ) : null}
           </div>

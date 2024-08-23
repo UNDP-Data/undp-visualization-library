@@ -298,7 +298,7 @@ export function Graph(props: Props) {
                       fontFamily:
                         'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
-                    y={y(sum(d.size))}
+                    y={y(sum(d.size.map(el => el || 0)))}
                     x={x.bandwidth() / 2}
                     dy={-10}
                   >

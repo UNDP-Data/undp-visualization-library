@@ -37,7 +37,10 @@ function App() {
       </p>
       <p
         className='undp-viz-typography'
-        style={{ fontSize: '16px', textAlign: 'center' }}
+        style={{
+          fontSize: '16px',
+          textAlign: 'center',
+        }}
       >
         {' '}
         For any feedback or inquiries, please feel free to reach out to us at{' '}
