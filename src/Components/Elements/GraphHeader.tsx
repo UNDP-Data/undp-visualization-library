@@ -9,11 +9,20 @@ interface Props {
   width?: number;
   graphDownload?: HTMLDivElement | null;
   dataDownload?: any;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function GraphHeader(props: Props) {
-  const { graphTitle, graphDescription, width, graphDownload, dataDownload } =
-    props;
+  const {
+    graphTitle,
+    graphDescription,
+    width,
+    graphDownload,
+    dataDownload,
+    rtl,
+    language,
+  } = props;
 
   return (
     <div
@@ -23,11 +32,20 @@ export function GraphHeader(props: Props) {
         alignItems: 'flex-start',
         display: 'flex',
         gap: '0.5rem',
+        flexDirection: rtl ? 'row-reverse' : 'row',
       }}
     >
       <div style={{ flexDirection: 'column', display: 'flex', gap: '0.125em' }}>
-        {graphTitle ? <GraphTitle text={graphTitle} /> : null}
-        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
+        {graphTitle ? (
+          <GraphTitle text={graphTitle} rtl={rtl} language={language} />
+        ) : null}
+        {graphDescription ? (
+          <GraphDescription
+            text={graphDescription}
+            rtl={rtl}
+            language={language}
+          />
+        ) : null}
       </div>
       {graphDownload || dataDownload ? (
         <div style={{ display: 'flex', gap: '0.75rem' }}>
