@@ -32,6 +32,8 @@ interface Props {
   showDotValue: boolean;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
+  arrowConnector: boolean;
+  connectorStrokeWidth: number;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +60,8 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     selectedColor,
+    arrowConnector,
+    connectorStrokeWidth,
   } = props;
   const margin = {
     top: topMargin,
@@ -101,6 +105,24 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
       >
+        {arrowConnector ? (
+          <defs>
+            <marker
+              id='arrow'
+              viewBox='0 0 10 10'
+              refX='10'
+              refY='5'
+              markerWidth='6'
+              markerHeight='6'
+              orient='auto-start-reverse'
+            >
+              <path
+                d='M 0 0 L 10 5 L 0 10 z'
+                fill={UNDPColorModule.grays['gray-600']}
+              />
+            </marker>
+          </defs>
+        ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
             y1={y(0)}
@@ -187,15 +209,26 @@ export function Graph(props: Props) {
                 </text>
               ) : null}
               <line
-                y1={y(min(d.x) as number)}
-                y2={y(max(d.x) as number)}
+                y1={y(min(d.x) as number) - dotRadius}
+                y2={y(max(d.x) as number) + dotRadius}
                 x1={0}
                 x2={0}
                 style={{
                   stroke: UNDPColorModule.grays['gray-600'],
-                  strokeWidth: 1,
+                  strokeWidth: connectorStrokeWidth,
                 }}
                 opacity={selectedColor ? 0.3 : 1}
+                markerEnd={
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0
+                    ? 'url(#arrow)'
+                    : ''
+                }
+                markerStart={
+                  arrowConnector &&
+                  d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                    ? 'url(#arrow)'
+                    : ''
+                }
               />
               {d.x.map((el, j) => (
                 <g

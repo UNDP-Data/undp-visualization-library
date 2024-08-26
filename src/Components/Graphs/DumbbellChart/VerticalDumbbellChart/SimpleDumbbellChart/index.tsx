@@ -44,6 +44,8 @@ interface Props {
   suffix?: string;
   prefix?: string;
   sortParameter?: number | 'diff';
+  arrowConnector?: boolean;
+  connectorStrokeWidth?: number;
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -83,6 +85,8 @@ export function VerticalDumbbellChart(props: Props) {
     dataDownload,
     showDotValue,
     sortParameter,
+    arrowConnector,
+    connectorStrokeWidth,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -251,6 +255,16 @@ export function VerticalDumbbellChart(props: Props) {
                   minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
+                  arrowConnector={
+                    checkIfNullOrUndefined(arrowConnector)
+                      ? false
+                      : (arrowConnector as boolean)
+                  }
+                  connectorStrokeWidth={
+                    checkIfNullOrUndefined(connectorStrokeWidth)
+                      ? 2
+                      : (connectorStrokeWidth as number)
+                  }
                 />
               ) : null}
             </div>

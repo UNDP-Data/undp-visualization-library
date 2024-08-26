@@ -52,6 +52,8 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
+  arrowConnector?: boolean;
+  connectorStrokeWidth?: number;
 }
 
 export function AnimatedHorizontalDumbbellChart(props: Props) {
@@ -94,6 +96,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     showOnlyActiveDate,
     autoPlay,
     dateFormat,
+    arrowConnector,
+    connectorStrokeWidth,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -317,6 +321,16 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                   dateFormat={dateFormat || 'yyyy'}
                   indx={index}
                   sortParameter={sortParameter}
+                  arrowConnector={
+                    checkIfNullOrUndefined(arrowConnector)
+                      ? false
+                      : (arrowConnector as boolean)
+                  }
+                  connectorStrokeWidth={
+                    checkIfNullOrUndefined(connectorStrokeWidth)
+                      ? 2
+                      : (connectorStrokeWidth as number)
+                  }
                 />
               ) : null}
             </div>

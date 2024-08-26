@@ -32,6 +32,8 @@ interface Props {
   maxPositionValue?: number;
   minPositionValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
+  arrowConnector: boolean;
+  connectorStrokeWidth: number;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +60,8 @@ export function Graph(props: Props) {
     minPositionValue,
     onSeriesMouseClick,
     selectedColor,
+    arrowConnector,
+    connectorStrokeWidth,
   } = props;
   const margin = {
     top: topMargin,
@@ -101,6 +105,24 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
       >
+        {arrowConnector ? (
+          <defs>
+            <marker
+              id='arrow'
+              viewBox='0 0 10 10'
+              refX='10'
+              refY='5'
+              markerWidth='6'
+              markerHeight='6'
+              orient='auto-start-reverse'
+            >
+              <path
+                d='M 0 0 L 10 5 L 0 10 z'
+                fill={UNDPColorModule.grays['gray-600']}
+              />
+            </marker>
+          </defs>
+        ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>
           {showTicks
             ? xTicks.map((d, i) => (
@@ -133,7 +155,7 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {data.map((d: DumbbellChartDataType, i) => (
+          {data.map((d, i) => (
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
@@ -172,15 +194,26 @@ export function Graph(props: Props) {
                 strokeDasharray='4,8'
               />
               <line
-                x1={x(min(d.x) as number)}
-                x2={x(max(d.x) as number)}
+                x1={x(min(d.x) as number) + dotRadius}
+                x2={x(max(d.x) as number) - dotRadius}
                 y1={0}
                 y2={0}
                 style={{
                   stroke: UNDPColorModule.grays['gray-600'],
-                  strokeWidth: 1,
+                  strokeWidth: connectorStrokeWidth,
                 }}
                 opacity={selectedColor ? 0.3 : 1}
+                markerEnd={
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0
+                    ? 'url(#arrow)'
+                    : ''
+                }
+                markerStart={
+                  arrowConnector &&
+                  d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                    ? 'url(#arrow)'
+                    : ''
+                }
               />
               {d.x.map((el, j) => (
                 <g

@@ -44,6 +44,8 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortParameter?: number | 'diff';
+  arrowConnector?: boolean;
+  connectorStrokeWidth?: number;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -83,6 +85,8 @@ export function HorizontalDumbbellChart(props: Props) {
     graphDownload,
     dataDownload,
     sortParameter,
+    arrowConnector,
+    connectorStrokeWidth,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -254,6 +258,16 @@ export function HorizontalDumbbellChart(props: Props) {
                   minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
+                  arrowConnector={
+                    checkIfNullOrUndefined(arrowConnector)
+                      ? false
+                      : (arrowConnector as boolean)
+                  }
+                  connectorStrokeWidth={
+                    checkIfNullOrUndefined(connectorStrokeWidth)
+                      ? 2
+                      : (connectorStrokeWidth as number)
+                  }
                 />
               ) : null}
             </div>
