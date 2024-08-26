@@ -27,6 +27,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -45,6 +47,8 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     minValue,
     maxValue,
+    rtl,
+    language,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -166,8 +170,11 @@ export function Graph(props: Props) {
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               dy={15}
@@ -180,8 +187,11 @@ export function Graph(props: Props) {
               x={x(dataFormatted[0].date)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='start'
               dy={15}
@@ -226,6 +236,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

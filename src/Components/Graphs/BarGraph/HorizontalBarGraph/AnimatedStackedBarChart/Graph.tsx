@@ -41,6 +41,8 @@ interface Props {
   indx: number;
   dateFormat: string;
   autoSort: boolean;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -69,6 +71,8 @@ export function Graph(props: Props) {
     dateFormat,
     indx,
     autoSort,
+    rtl,
+    language,
   } = props;
 
   const dataFormatted = sortBy(
@@ -143,8 +147,11 @@ export function Graph(props: Props) {
                     y={-12.5}
                     style={{
                       fill: UNDPColorModule.grays['gray-500'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     textAnchor='middle'
                     fontSize={12}
@@ -187,6 +194,8 @@ export function Graph(props: Props) {
             onSeriesMouseClick={onSeriesMouseClick}
             selectedColor={selectedColor}
             indx={indx}
+            rtl={rtl}
+            language={language}
           />
           <line
             x1={x(0)}
@@ -217,16 +226,21 @@ export function Graph(props: Props) {
                     x={x(el.value as number) as number}
                     style={{
                       fill: el.color || UNDPColorModule.grays['gray-700'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor:
-                        x(el.value as number) > graphWidth * 0.75
+                        x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
                     fontSize={12}
                     dy={12.5}
-                    dx={x(el.value as number) > graphWidth * 0.75 ? -5 : 5}
+                    dx={
+                      x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5
+                    }
                   >
                     {el.text}
                   </text>
@@ -238,6 +252,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

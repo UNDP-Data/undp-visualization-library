@@ -54,6 +54,8 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AnimatedHorizontalGroupedBarGraph(props: Props) {
@@ -95,6 +97,8 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     dateFormat,
     showOnlyActiveDate,
     autoPlay,
+    rtl,
+    language,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -182,6 +186,8 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -233,6 +239,8 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
             }}
           >
             <ColorLegendWithMouseOver
+              rtl={rtl}
+              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={barColors}
@@ -310,12 +318,16 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   dateFormat={dateFormat || 'yyyy'}
                   indx={index}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

@@ -27,6 +27,8 @@ interface Props {
   truncateBy: number;
   showLabel: boolean;
   onSeriesMouseClick?: (_d: any) => void;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -48,6 +50,8 @@ export function Graph(props: Props) {
     truncateBy,
     showLabel,
     onSeriesMouseClick,
+    rtl,
+    language,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -136,8 +140,11 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={3}
                   style={{
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   {numberFormattingFunction(d, '', '')}
@@ -159,8 +166,11 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {axisTitles[0].length > 100
@@ -188,8 +198,11 @@ export function Graph(props: Props) {
                   dy={3}
                   dx={-2}
                   style={{
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   {numberFormattingFunction(d, '', '')}
@@ -213,8 +226,11 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {axisTitles[1].length > 100
@@ -290,8 +306,11 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy='15px'
                   >
@@ -370,6 +389,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

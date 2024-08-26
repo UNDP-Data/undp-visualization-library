@@ -29,6 +29,8 @@ interface Props {
   prefix: string;
   suffix: string;
   stripType: 'strip' | 'dot';
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -54,6 +56,8 @@ export function Graph(props: Props) {
     prefix,
     suffix,
     stripType,
+    rtl,
+    language,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -193,8 +197,11 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(d.color)],
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       textAnchor='start'
                       fontSize={12}
@@ -213,8 +220,11 @@ export function Graph(props: Props) {
                 x={graphWidth / 2 + pointRadius + 5}
                 style={{
                   fill: UNDPColorModule.grays['gray-500'],
-                  fontFamily:
-                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='start'
                 fontSize={12}
@@ -226,8 +236,11 @@ export function Graph(props: Props) {
                 x={graphWidth / 2 + pointRadius + 5}
                 style={{
                   fill: UNDPColorModule.grays['gray-500'],
-                  fontFamily:
-                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='start'
                 fontSize={12}
@@ -240,6 +253,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

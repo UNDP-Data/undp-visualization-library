@@ -9,6 +9,8 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -19,6 +21,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
+    rtl,
+    language,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -38,13 +42,19 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     >
       {colorLegendTitle ? (
         <p
-          className='undp-viz-typography'
           style={{
             fill: UNDPColorModule.grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
             marginBottom: '0.5rem',
+            marginTop: 0,
+            lineHeight: 1.4,
+            fontFamily: rtl
+              ? language === 'he'
+                ? 'Noto Sans Hebrew, sans-serif'
+                : 'Noto Sans Arabic, sans-serif'
+              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
           }}
         >
           {colorLegendTitle}
@@ -80,8 +90,11 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fontSize={12}
                 fill='#212121'
                 style={{
-                  fontFamily:
-                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 {numberFormattingFunction(d as number, '', '')}
@@ -140,8 +153,11 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fontSize={12}
                 fill='#212121'
                 style={{
-                  fontFamily:
-                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 NA

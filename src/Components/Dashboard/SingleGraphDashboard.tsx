@@ -160,6 +160,8 @@ export function SingleGraphDashboard(props: Props) {
           graphSettings?.graphDownload ||
           graphSettings?.dataDownload ? (
             <GraphHeader
+              rtl={graphSettings?.rtl}
+              language={graphSettings?.language}
               graphTitle={graphSettings?.graphTitle}
               graphDescription={graphSettings?.graphDescription}
               width={graphSettings?.width}

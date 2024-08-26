@@ -35,6 +35,8 @@ interface Props {
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -61,6 +63,8 @@ export function Graph(props: Props) {
     minValue,
     onSeriesMouseClick,
     selectedColor,
+    rtl,
+    language,
   } = props;
   const margin = {
     top: topMargin,
@@ -121,8 +125,11 @@ export function Graph(props: Props) {
                     y={-12.5}
                     style={{
                       fill: UNDPColorModule.grays['gray-500'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     textAnchor='middle'
                     fontSize={12}
@@ -218,8 +225,11 @@ export function Graph(props: Props) {
                           fill: barColors[j],
                           fontSize: '1rem',
                           textAnchor: el ? (el < 0 ? 'end' : 'start') : 'start',
-                          fontFamily:
-                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         dx={el ? (el < 0 ? -5 : 5) : 5}
                         dy={6}
@@ -239,8 +249,11 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'end',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(0)}
                     y={y.bandwidth() / 2}
@@ -284,16 +297,21 @@ export function Graph(props: Props) {
                     x={x(el.value as number) as number}
                     style={{
                       fill: el.color || UNDPColorModule.grays['gray-700'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor:
-                        x(el.value as number) > graphWidth * 0.75
+                        x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
                     fontSize={12}
                     dy={12.5}
-                    dx={x(el.value as number) > graphWidth * 0.75 ? -5 : 5}
+                    dx={
+                      x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5
+                    }
                   >
                     {el.text}
                   </text>
@@ -305,6 +323,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

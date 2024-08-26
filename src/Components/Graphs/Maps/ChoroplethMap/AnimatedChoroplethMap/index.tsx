@@ -51,6 +51,8 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -92,6 +94,8 @@ export function AnimatedChoroplethMap(props: Props) {
     dateFormat,
     showOnlyActiveDate,
     autoPlay,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -173,6 +177,8 @@ export function AnimatedChoroplethMap(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -278,11 +284,15 @@ export function AnimatedChoroplethMap(props: Props) {
                 highlightedCountryCodes={highlightedCountryCodes || []}
                 dateFormat={dateFormat || 'yyyy'}
                 indx={index}
+                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

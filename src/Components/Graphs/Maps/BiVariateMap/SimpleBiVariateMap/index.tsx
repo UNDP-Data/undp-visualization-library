@@ -42,6 +42,8 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   showAntarctica?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function BiVariantMap(props: Props) {
@@ -80,6 +82,8 @@ export function BiVariantMap(props: Props) {
     dataDownload,
     mapProperty,
     showAntarctica,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -132,6 +136,8 @@ export function BiVariantMap(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -192,11 +198,15 @@ export function BiVariantMap(props: Props) {
                   showAntarctica === undefined ? false : showAntarctica
                 }
                 highlightedCountryCodes={highlightedCountryCodes || []}
+                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

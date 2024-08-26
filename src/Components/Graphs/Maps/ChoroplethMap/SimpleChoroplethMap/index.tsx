@@ -42,6 +42,8 @@ interface Props {
   dataDownload?: boolean;
   mapProperty?: string;
   showAntarctica?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ChoroplethMap(props: Props) {
@@ -80,6 +82,8 @@ export function ChoroplethMap(props: Props) {
     dataDownload,
     mapProperty,
     showAntarctica,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -132,6 +136,8 @@ export function ChoroplethMap(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -207,11 +213,15 @@ export function ChoroplethMap(props: Props) {
                   showAntarctica === undefined ? false : showAntarctica
                 }
                 highlightedCountryCodes={highlightedCountryCodes || []}
+                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

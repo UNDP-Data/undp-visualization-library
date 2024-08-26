@@ -34,6 +34,8 @@ interface Props {
   maxValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -59,6 +61,8 @@ export function Graph(props: Props) {
     maxValue,
     onSeriesMouseClick,
     selectedColor,
+    rtl,
+    language,
   } = props;
   const margin = {
     top: topMargin,
@@ -108,8 +112,11 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
-              fontFamily:
-                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              fontFamily: rtl
+                ? language === 'he'
+                  ? 'Noto Sans Hebrew, sans-serif'
+                  : 'Noto Sans Arabic, sans-serif'
+                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
             }}
             textAnchor='start'
             fontSize={12}
@@ -141,8 +148,11 @@ export function Graph(props: Props) {
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       fill: UNDPColorModule.grays['gray-500'],
                     }}
                   >
@@ -257,8 +267,11 @@ export function Graph(props: Props) {
                           fill: getTextColorBasedOnBgColor(barColors[j]),
                           fontSize: '1rem',
                           textAnchor: 'middle',
-                          fontFamily:
-                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         dy={5}
                       >
@@ -279,8 +292,11 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy='15px'
                   >
@@ -295,8 +311,11 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule.grays['gray-700'],
                       fontSize: '1rem',
                       textAnchor: 'middle',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     y={y(sum(d.size.map(el => el || 0)))}
                     x={x.bandwidth() / 2}
@@ -333,8 +352,11 @@ export function Graph(props: Props) {
                     y={y(el.value as number)}
                     style={{
                       fill: el.color || UNDPColorModule.grays['gray-700'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     fontSize={12}
@@ -350,6 +372,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

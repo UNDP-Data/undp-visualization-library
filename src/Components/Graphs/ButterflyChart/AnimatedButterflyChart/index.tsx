@@ -56,6 +56,8 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -98,6 +100,8 @@ export function AnimatedButterflyChart(props: Props) {
     dateFormat,
     showOnlyActiveDate,
     autoPlay,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -179,6 +183,8 @@ export function AnimatedButterflyChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -231,6 +237,8 @@ export function AnimatedButterflyChart(props: Props) {
           >
             {showColorScale ? (
               <ColorLegend
+                rtl={rtl}
+                language={language}
                 colorDomain={[
                   leftBarTitle || 'Left bar graph',
                   rightBarTitle || 'Right bar graph',
@@ -320,12 +328,16 @@ export function AnimatedButterflyChart(props: Props) {
                   prefix={prefix || ''}
                   dateFormat={dateFormat || 'yyyy'}
                   indx={index}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

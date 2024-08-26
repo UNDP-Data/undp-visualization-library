@@ -42,6 +42,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function HorizontalBeeSwarmChart(props: Props) {
@@ -79,6 +81,8 @@ export function HorizontalBeeSwarmChart(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -134,6 +138,8 @@ export function HorizontalBeeSwarmChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -159,6 +165,8 @@ export function HorizontalBeeSwarmChart(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -259,12 +267,16 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   minPositionValue={minPositionValue}
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

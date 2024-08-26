@@ -37,6 +37,8 @@ interface Props {
   setEventX: (d?: number) => void;
   setMouseOverData: (d: any) => void;
   indx: number;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Bars(props: Props) {
@@ -60,6 +62,8 @@ export function Bars(props: Props) {
     setEventX,
     setMouseOverData,
     indx,
+    rtl,
+    language,
   } = props;
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
 
@@ -144,8 +148,11 @@ export function Bars(props: Props) {
                 fill: UNDPColorModule.grays['gray-700'],
                 fontSize: '0.75rem',
                 textAnchor: 'middle',
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               dy={d.size ? (d.size >= 0 ? '15px' : '-5px') : '15px'}
               animate={{
@@ -168,8 +175,11 @@ export function Bars(props: Props) {
                     : barColor[0],
                 fontSize: '1rem',
                 textAnchor: 'middle',
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               animate={{
                 x: (x(`${d.id}`) as number) + x.bandwidth() / 2,

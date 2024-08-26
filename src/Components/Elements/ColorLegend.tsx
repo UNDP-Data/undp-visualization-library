@@ -6,10 +6,20 @@ interface Props {
   colorLegendTitle?: string;
   showNAColor?: boolean;
   width?: number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, showNAColor, width } = props;
+  const {
+    colorLegendTitle,
+    colorDomain,
+    colors,
+    showNAColor,
+    width,
+    rtl,
+    language,
+  } = props;
 
   return (
     <div
@@ -23,7 +33,9 @@ export function ColorLegend(props: Props) {
       <div>
         {colorLegendTitle ? (
           <p
-            className='undp-viz-typography'
+            className={`${
+              rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+            }undp-viz-typography`}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
               fontSize: '0.875rem',
@@ -40,6 +52,7 @@ export function ColorLegend(props: Props) {
             marginBottom: 0,
             flexWrap: 'wrap',
             gap: '1.5rem',
+            flexDirection: rtl ? 'row-reverse' : 'row',
           }}
         >
           {colorDomain.map((d, i) => (
@@ -49,6 +62,7 @@ export function ColorLegend(props: Props) {
                 display: 'flex',
                 gap: '0.5rem',
                 alignItems: 'center',
+                flexDirection: rtl ? 'row-reverse' : 'row',
               }}
             >
               <div
@@ -60,7 +74,9 @@ export function ColorLegend(props: Props) {
                 }}
               />
               <p
-                className='undp-viz-typography'
+                className={`${
+                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                }undp-viz-typography`}
                 style={{
                   marginBottom: 0,
                   fontSize: '0.875rem',
@@ -76,6 +92,7 @@ export function ColorLegend(props: Props) {
                 display: 'flex',
                 gap: '0.5rem',
                 alignItems: 'center',
+                flexDirection: rtl ? 'row-reverse' : 'row',
               }}
             >
               <div
@@ -87,14 +104,16 @@ export function ColorLegend(props: Props) {
                 }}
               />
               <p
-                className='undp-viz-typography'
+                className={`${
+                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                }undp-viz-typography`}
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
                 }}
               >
-                NA
+                {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
               </p>
             </div>
           ) : null}

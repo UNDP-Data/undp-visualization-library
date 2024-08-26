@@ -39,6 +39,8 @@ interface Props {
   highlightedLines: string[];
   highlightAreaColor: string;
   animateLine?: boolean | number;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -67,6 +69,8 @@ export function Graph(props: Props) {
     highlightedLines,
     highlightAreaColor,
     animateLine,
+    rtl,
+    language,
   } = props;
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -243,8 +247,11 @@ export function Graph(props: Props) {
                     y={y(d)}
                     style={{
                       fill: UNDPColorModule.grays['gray-500'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     textAnchor='end'
                     fontSize={12}
@@ -270,8 +277,11 @@ export function Graph(props: Props) {
               y={y(0)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               fontSize={12}
@@ -289,8 +299,11 @@ export function Graph(props: Props) {
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -351,8 +364,11 @@ export function Graph(props: Props) {
                               style={{
                                 fontWeight: 'bold',
                                 fill: colors[i],
-                                fontFamily:
-                                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                fontFamily: rtl
+                                  ? language === 'he'
+                                    ? 'Noto Sans Hebrew, sans-serif'
+                                    : 'Noto Sans Arabic, sans-serif'
+                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
                               {numberFormattingFunction(
@@ -373,8 +389,11 @@ export function Graph(props: Props) {
                       fill: colors[i],
                       fontSize: '12px',
                       fontWeight: 'bold',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={x(d[d.length - 1].date)}
                     y={y(d[d.length - 1].y as number)}
@@ -419,8 +438,11 @@ export function Graph(props: Props) {
                     y={y(el.value as number)}
                     style={{
                       fill: el.color || UNDPColorModule.grays['gray-700'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     fontSize={12}
@@ -443,6 +465,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

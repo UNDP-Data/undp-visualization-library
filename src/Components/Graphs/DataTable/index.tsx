@@ -30,6 +30,8 @@ interface Props {
   columnData: DataTableColumnDataType[];
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -51,6 +53,8 @@ export function DataTable(props: Props) {
     data,
     columnData,
     onSeriesMouseClick,
+    rtl,
+    language,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
@@ -127,6 +131,8 @@ export function DataTable(props: Props) {
       >
         {graphTitle || graphDescription ? (
           <GraphHeader
+            rtl={rtl}
+            language={language}
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
@@ -184,8 +190,11 @@ export function DataTable(props: Props) {
                             style={{
                               textAlign: d.align || 'left',
                               flexGrow: 1,
-                              fontFamily:
-                                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                              fontFamily: rtl
+                                ? language === 'he'
+                                  ? 'Noto Sans Hebrew, sans-serif'
+                                  : 'Noto Sans Arabic, sans-serif'
+                                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                             }}
                           >
                             {d.columnTitle || d.columnId}
@@ -330,8 +339,11 @@ export function DataTable(props: Props) {
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: el.chip ? 0 : 1,
-                                  fontFamily:
-                                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                  fontFamily: rtl
+                                    ? language === 'he'
+                                      ? 'Noto Sans Hebrew, sans-serif'
+                                      : 'Noto Sans Arabic, sans-serif'
+                                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                   backgroundColor: el.chip
                                     ? el.chipColors
                                       ? el.chipColors[
@@ -369,8 +381,11 @@ export function DataTable(props: Props) {
                                         style={{
                                           textAlign: el.align || 'left',
                                           flexGrow: el.chip ? 0 : 1,
-                                          fontFamily:
-                                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                          fontFamily: rtl
+                                            ? language === 'he'
+                                              ? 'Noto Sans Hebrew, sans-serif'
+                                              : 'Noto Sans Arabic, sans-serif'
+                                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                           backgroundColor: el.chip
                                             ? el.chipColors
                                               ? el.chipColors[
@@ -398,8 +413,11 @@ export function DataTable(props: Props) {
                                   style={{
                                     textAlign: el.align || 'left',
                                     flexGrow: el.chip ? 0 : 1,
-                                    fontFamily:
-                                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                    fontFamily: rtl
+                                      ? language === 'he'
+                                        ? 'Noto Sans Hebrew, sans-serif'
+                                        : 'Noto Sans Arabic, sans-serif'
+                                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                     backgroundColor: el.chip
                                       ? el.chipColors
                                         ? el.chipColors[
@@ -432,6 +450,8 @@ export function DataTable(props: Props) {
         </div>
         {source || footNote ? (
           <GraphFooter
+            rtl={rtl}
+            language={language}
             source={source}
             sourceLink={sourceLink}
             footNote={footNote}

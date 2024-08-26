@@ -47,6 +47,8 @@ interface Props {
   minPositionValue?: number;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -73,6 +75,8 @@ export function Graph(props: Props) {
     minPositionValue,
     highlightedDataPoints,
     onSeriesMouseClick,
+    rtl,
+    language,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -180,8 +184,11 @@ export function Graph(props: Props) {
                   y={y(0)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='start'
                   fontSize={12}
@@ -212,8 +219,11 @@ export function Graph(props: Props) {
                       dy={-3}
                       opacity={d === 0 ? 0 : 1}
                       style={{
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         fill: UNDPColorModule.grays['gray-500'],
                       }}
                     >
@@ -317,8 +327,11 @@ export function Graph(props: Props) {
                             ? UNDPColorModule.graphGray
                             : circleColors[colorDomain.indexOf(d.color)],
                         ),
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'middle',
                         whiteSpace: 'normal',
                         display: 'flex',
@@ -386,8 +399,11 @@ export function Graph(props: Props) {
                       y={y(el.value as number)}
                       style={{
                         fill: el.color || UNDPColorModule.grays['gray-700'],
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'end',
                       }}
                       fontSize={12}
@@ -421,6 +437,8 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

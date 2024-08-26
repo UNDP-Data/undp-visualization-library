@@ -59,6 +59,8 @@ interface Props {
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
   autoSort?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AnimatedVerticalBarChart(props: Props) {
@@ -103,6 +105,8 @@ export function AnimatedVerticalBarChart(props: Props) {
     showOnlyActiveDate,
     autoPlay,
     autoSort,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -185,6 +189,8 @@ export function AnimatedVerticalBarChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -238,6 +244,8 @@ export function AnimatedVerticalBarChart(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -355,12 +363,16 @@ export function AnimatedVerticalBarChart(props: Props) {
                       ? true
                       : (autoSort as boolean)
                   }
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

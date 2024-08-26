@@ -53,6 +53,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ScatterPlot(props: Props) {
@@ -96,6 +98,8 @@ export function ScatterPlot(props: Props) {
     graphDownload,
     dataDownload,
     highlightAreaColor,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -150,6 +154,8 @@ export function ScatterPlot(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -175,6 +181,8 @@ export function ScatterPlot(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -284,12 +292,16 @@ export function ScatterPlot(props: Props) {
                   maxYValue={maxYValue}
                   minYValue={minYValue}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

@@ -31,6 +31,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -56,6 +58,8 @@ export function Graph(props: Props) {
     showRowLabels,
     selectedColor,
     onSeriesMouseClick,
+    rtl,
+    language,
   } = props;
   const margin = {
     top: topMargin,
@@ -107,8 +111,11 @@ export function Graph(props: Props) {
                 >
                   <div
                     style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'middle',
                       whiteSpace: 'normal',
                       display: 'flex',
@@ -151,8 +158,11 @@ export function Graph(props: Props) {
                 >
                   <div
                     style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'middle',
                       whiteSpace: 'normal',
                       display: 'flex',
@@ -267,8 +277,11 @@ export function Graph(props: Props) {
                       <div
                         style={{
                           fill: UNDPColorModule.grays['gray-600'],
-                          fontFamily:
-                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           textAnchor: 'middle',
                           whiteSpace: 'normal',
                           display: 'flex',
@@ -315,6 +328,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

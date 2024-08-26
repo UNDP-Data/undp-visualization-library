@@ -19,6 +19,8 @@ interface Props {
   mapStyles: [string, string];
   center?: [number, number];
   zoomLevel?: number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function GeoHubCompareMaps(props: Props) {
@@ -37,6 +39,8 @@ export function GeoHubCompareMaps(props: Props) {
     mapStyles,
     center,
     zoomLevel,
+    rtl,
+    language,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -85,6 +89,8 @@ export function GeoHubCompareMaps(props: Props) {
         >
           {graphTitle || graphDescription ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -117,6 +123,8 @@ export function GeoHubCompareMaps(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

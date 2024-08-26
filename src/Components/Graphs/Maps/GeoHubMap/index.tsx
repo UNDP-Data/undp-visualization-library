@@ -22,6 +22,8 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function GeoHubMap(props: Props) {
@@ -40,6 +42,8 @@ export function GeoHubMap(props: Props) {
     center,
     zoomLevel,
     graphID,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -117,6 +121,8 @@ export function GeoHubMap(props: Props) {
         >
           {graphTitle || graphDescription ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -153,6 +159,8 @@ export function GeoHubMap(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

@@ -33,6 +33,8 @@ interface Props {
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
   showAntarctica: boolean;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -60,6 +62,8 @@ export function Graph(props: Props) {
     highlightedDataPoints,
     onSeriesMouseClick,
     showAntarctica,
+    rtl,
+    language,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -253,8 +257,11 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule.grays['gray-600'],
                       fontSize: '1rem',
                       textAnchor: 'start',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dx={4}
                     dy={5}
@@ -338,8 +345,11 @@ export function Graph(props: Props) {
                           fontSize={12}
                           fill='#212121'
                           style={{
-                            fontFamily:
-                              'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {d}
@@ -355,6 +365,8 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

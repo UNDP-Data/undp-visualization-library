@@ -289,6 +289,8 @@ export type DashboardLayoutDataType = {
   description?: string;
   padding?: string;
   backgroundColor?: string | boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'en' | 'he';
   rows: {
     columns: DashboardColumnDataType[];
     height?: number;
@@ -452,4 +454,6 @@ export interface GraphSettingsDataType {
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   stripType?: 'strip' | 'dot';
   showAxis?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'en' | 'he';
 }

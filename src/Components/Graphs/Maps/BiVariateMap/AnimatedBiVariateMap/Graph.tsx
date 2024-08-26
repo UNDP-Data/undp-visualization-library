@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
-
 import { scaleThreshold } from 'd3-scale';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
@@ -40,6 +39,8 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -69,6 +70,8 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
+    rtl,
+    language,
   } = props;
   const groupedData = Array.from(
     group(
@@ -463,8 +466,11 @@ export function Graph(props: Props) {
                               fontSize={10}
                               textAnchor='middle'
                               style={{
-                                fontFamily:
-                                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                fontFamily: rtl
+                                  ? language === 'he'
+                                    ? 'Noto Sans Hebrew, sans-serif'
+                                    : 'Noto Sans Arabic, sans-serif'
+                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -490,8 +496,11 @@ export function Graph(props: Props) {
                               fontSize={10}
                               textAnchor='middle'
                               style={{
-                                fontFamily:
-                                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                fontFamily: rtl
+                                  ? language === 'he'
+                                    ? 'Noto Sans Hebrew, sans-serif'
+                                    : 'Noto Sans Arabic, sans-serif'
+                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -505,8 +514,11 @@ export function Graph(props: Props) {
                     <div
                       style={{
                         lineHeight: 'normal',
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         marginTop: '0.5rem',
                         textAlign: 'center',
                         fontStyle: 'normal',
@@ -525,8 +537,11 @@ export function Graph(props: Props) {
                   <div
                     style={{
                       lineHeight: 'normal',
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAlign: 'center',
                       fontStyle: 'normal',
                       fontSize: '0.75rem',
@@ -579,8 +594,11 @@ export function Graph(props: Props) {
           <div
             style={{
               alignItems: 'flex-start',
-              fontFamily:
-                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              fontFamily: rtl
+                ? language === 'he'
+                  ? 'Noto Sans Hebrew, sans-serif'
+                  : 'Noto Sans Arabic, sans-serif'
+                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               fontSize: '0.825rem',
               fontWeight: 'bold',
               cursor: 'pointer',
@@ -599,6 +617,8 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

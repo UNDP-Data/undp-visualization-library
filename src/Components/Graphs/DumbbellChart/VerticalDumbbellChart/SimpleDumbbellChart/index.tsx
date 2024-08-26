@@ -46,6 +46,8 @@ interface Props {
   sortParameter?: number | 'diff';
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -87,6 +89,8 @@ export function VerticalDumbbellChart(props: Props) {
     sortParameter,
     arrowConnector,
     connectorStrokeWidth,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -144,6 +148,8 @@ export function VerticalDumbbellChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -168,6 +174,8 @@ export function VerticalDumbbellChart(props: Props) {
             }}
           >
             <ColorLegendWithMouseOver
+              rtl={rtl}
+              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={dotColors}
@@ -265,12 +273,16 @@ export function VerticalDumbbellChart(props: Props) {
                       ? 2
                       : (connectorStrokeWidth as number)
                   }
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

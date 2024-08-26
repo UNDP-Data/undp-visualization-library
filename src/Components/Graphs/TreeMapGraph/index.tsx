@@ -39,6 +39,8 @@ interface Props {
   highlightedDataPoints?: (string | number)[];
   graphDownload?: boolean;
   dataDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function TreeMapGraph(props: Props) {
@@ -73,6 +75,8 @@ export function TreeMapGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    rtl,
+    language,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -126,6 +130,8 @@ export function TreeMapGraph(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -151,6 +157,8 @@ export function TreeMapGraph(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -243,12 +251,16 @@ export function TreeMapGraph(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   onSeriesMouseClick={onSeriesMouseClick}
                   highlightedDataPoints={highlightedDataPoints || []}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

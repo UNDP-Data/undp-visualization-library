@@ -454,19 +454,19 @@ a.undp-viz-style:focus-visible {
 
 .maplibregl-ctrl-scale {
   font-size: 12px !important;
-  font-family: var(--fontFamily) !important;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
   font-weight: 700 !important;
 }
 
 .maplibregl-ctrl-attrib-inner {
   font-size: 12px !important;
-  font-family: var(--fontFamily) !important;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
   font-weight: 700 !important;
 }
 
 .maplibregl-ctrl-attrib-inner a{
   font-size: 12px !important;
-  font-family: var(--fontFamily) !important;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
   background-image: none !important;
   font-weight: 700 !important;
 }
@@ -523,8 +523,42 @@ div.undp-viz-tooltip{
   line-height: 1.5;
 }
 
+div.undp-viz-tooltip-en{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+
+div.undp-viz-tooltip-ar{
+  font-family: "Noto Sans Arabic", sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+  text-align: right !important;
+}
+
+div.undp-viz-tooltip-he{
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+  text-align: right !important;
+}
+
 div.undp-viz-tooltip p,h1,h2,h3,h4,h5,h6{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+div.undp-viz-tooltip-en p,h1,h2,h3,h4,h5,h6{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+div.undp-viz-tooltip-ar p,h1,h2,h3,h4,h5,h6{
+  font-family: "Noto Sans Arabic", sans-serif !important;
+  text-align: right !important;
+}
+
+div.undp-viz-tooltip-he p,h1,h2,h3,h4,h5,h6{
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  text-align: right !important;
 }
 
 div.undp-viz-tooltip p{
@@ -616,10 +650,12 @@ div.undp-viz-tooltip a:hover{
 
 .undp-viz-typography-ar{
   font-family: "Noto Sans Arabic", sans-serif !important;
+  text-align: right !important;
 }
 
 .undp-viz-typography-he{
   font-family: "Noto Sans Hebrew", sans-serif !important;
+  text-align: right !important;
 }
 
 .undp-viz-typography-en{

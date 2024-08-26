@@ -16,6 +16,8 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function StatCard(props: Props) {
@@ -32,6 +34,8 @@ export function StatCard(props: Props) {
     padding,
     backgroundColor,
     graphID,
+    rtl,
+    language,
   } = props;
 
   return (
@@ -68,6 +72,8 @@ export function StatCard(props: Props) {
         >
           {graphTitle || graphDescription ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
             />
@@ -90,6 +96,7 @@ export function StatCard(props: Props) {
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',
+                textAlign: rtl ? 'right' : 'left',
                 fontFamily:
                   'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
@@ -113,8 +120,11 @@ export function StatCard(props: Props) {
                     color: UNDPColorModule.grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   ({year})
@@ -124,6 +134,8 @@ export function StatCard(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

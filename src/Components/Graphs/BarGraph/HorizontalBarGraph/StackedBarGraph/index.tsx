@@ -44,6 +44,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -81,6 +83,8 @@ export function HorizontalStackedBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
+    rtl,
+    language,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -132,10 +136,13 @@ export function HorizontalStackedBarGraph(props: Props) {
             gap: '1rem',
             width: '100%',
             flexGrow: 1,
+            justifyContent: 'space-between',
           }}
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -159,6 +166,8 @@ export function HorizontalStackedBarGraph(props: Props) {
             }}
           >
             <ColorLegendWithMouseOver
+              rtl={rtl}
+              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={barColors}
@@ -229,12 +238,16 @@ export function HorizontalStackedBarGraph(props: Props) {
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

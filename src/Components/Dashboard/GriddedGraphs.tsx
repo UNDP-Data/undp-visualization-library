@@ -32,6 +32,8 @@ interface Props {
   dataSettings: DataSettingsDataType;
   filters?: string[];
   graphType: GraphType;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
@@ -53,6 +55,8 @@ export function GriddedGraphs(props: Props) {
     relativeHeightForGraph,
     noOfColumns,
     columnGridBy,
+    rtl,
+    language,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -183,6 +187,8 @@ export function GriddedGraphs(props: Props) {
           graphSettings.graphDownload ||
           graphSettings.dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphSettings.graphTitle}
               graphDescription={graphSettings.graphDescription}
               width={graphSettings.width}
@@ -284,6 +290,8 @@ export function GriddedGraphs(props: Props) {
                       }
                       settings={{
                         ...graphSettings,
+                        rtl,
+                        language,
                         width: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,
                         graphTitle: `${el}`,
@@ -305,6 +313,8 @@ export function GriddedGraphs(props: Props) {
           )}
           {graphSettings.source || graphSettings.footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={graphSettings.source}
               sourceLink={graphSettings.sourceLink}
               footNote={graphSettings.footNote}

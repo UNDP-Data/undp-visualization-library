@@ -34,6 +34,8 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   animateLine?: boolean | number;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -58,6 +60,8 @@ export function Graph(props: Props) {
     highlightAreaColor,
     onSeriesMouseOver,
     animateLine,
+    rtl,
+    language,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -241,8 +245,11 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={3}
                   style={{
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   {numberFormattingFunction(d, '', '')}
@@ -263,8 +270,11 @@ export function Graph(props: Props) {
               fill={lineColors[0]}
               textAnchor='middle'
               style={{
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {lineTitles[0].length > 100
@@ -292,8 +302,11 @@ export function Graph(props: Props) {
                   dy={3}
                   dx={-2}
                   style={{
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   {numberFormattingFunction(d, '', '')}
@@ -317,8 +330,11 @@ export function Graph(props: Props) {
               textAnchor='middle'
               fontSize={12}
               style={{
-                fontFamily:
-                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {lineTitles[1].length > 100
@@ -345,8 +361,11 @@ export function Graph(props: Props) {
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
                   fontSize={12}
@@ -411,8 +430,11 @@ export function Graph(props: Props) {
                         style={{
                           fontWeight: 'bold',
                           fill: lineColors[0],
-                          fontFamily:
-                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
                         {numberFormattingFunction(
@@ -450,8 +472,11 @@ export function Graph(props: Props) {
                         style={{
                           fontWeight: 'bold',
                           fill: lineColors[1],
-                          fontFamily:
-                            'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
                         {numberFormattingFunction(
@@ -477,6 +502,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

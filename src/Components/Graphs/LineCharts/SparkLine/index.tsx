@@ -32,6 +32,8 @@ interface Props {
   minValue?: number;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function SparkLine(props: Props) {
@@ -61,6 +63,8 @@ export function SparkLine(props: Props) {
     maxValue,
     graphDownload,
     dataDownload,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -113,6 +117,8 @@ export function SparkLine(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -170,11 +176,15 @@ export function SparkLine(props: Props) {
                 onSeriesMouseOver={onSeriesMouseOver}
                 minValue={minValue}
                 maxValue={maxValue}
+                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

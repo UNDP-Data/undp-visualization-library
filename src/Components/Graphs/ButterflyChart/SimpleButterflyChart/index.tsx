@@ -44,6 +44,8 @@ interface Props {
   minValue?: number;
   showColorScale?: boolean;
   refValues?: ReferenceDataType[];
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ButterflyChart(props: Props) {
@@ -83,6 +85,8 @@ export function ButterflyChart(props: Props) {
     prefix,
     showTicks,
     showColorScale,
+    rtl,
+    language,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -134,6 +138,8 @@ export function ButterflyChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -158,6 +164,8 @@ export function ButterflyChart(props: Props) {
           >
             {showColorScale ? (
               <ColorLegend
+                rtl={rtl}
+                language={language}
                 colorDomain={[
                   leftBarTitle || 'Left bar graph',
                   rightBarTitle || 'Right bar graph',
@@ -245,12 +253,16 @@ export function ButterflyChart(props: Props) {
                   showTicks={showTicks !== false}
                   suffix={suffix || ''}
                   prefix={prefix || ''}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

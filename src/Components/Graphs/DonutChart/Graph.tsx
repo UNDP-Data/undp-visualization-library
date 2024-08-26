@@ -16,6 +16,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -30,6 +32,8 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     onSeriesMouseClick,
     colorDomain,
+    rtl,
+    language,
   } = props;
   const pieData = pie()
     .startAngle(0)
@@ -56,8 +60,11 @@ export function Graph(props: Props) {
               <div
                 style={{
                   fill: UNDPColorModule.grays.black,
-                  fontFamily:
-                    'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   textAnchor: 'middle',
                   whiteSpace: 'normal',
                   display: 'flex',
@@ -160,6 +167,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

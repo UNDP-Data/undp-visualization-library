@@ -34,6 +34,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   arrowConnector: boolean;
   connectorStrokeWidth: number;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -62,6 +64,8 @@ export function Graph(props: Props) {
     selectedColor,
     arrowConnector,
     connectorStrokeWidth,
+    rtl,
+    language,
   } = props;
   const margin = {
     top: topMargin,
@@ -139,8 +143,11 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
-              fontFamily:
-                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              fontFamily: rtl
+                ? language === 'he'
+                  ? 'Noto Sans Hebrew, sans-serif'
+                  : 'Noto Sans Arabic, sans-serif'
+                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
             }}
             textAnchor='start'
             fontSize={12}
@@ -172,8 +179,11 @@ export function Graph(props: Props) {
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       fill: UNDPColorModule.grays['gray-500'],
                     }}
                   >
@@ -196,8 +206,11 @@ export function Graph(props: Props) {
                     fill: UNDPColorModule.grays['gray-700'],
                     fontSize: '0.75rem',
                     textAnchor: 'middle',
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   x={0}
                   y={graphHeight}
@@ -293,8 +306,11 @@ export function Graph(props: Props) {
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
                         textAnchor: 'start',
-                        fontFamily:
-                          'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dx={dotRadius + 3}
                       dy={4.5}
@@ -310,6 +326,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

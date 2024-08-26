@@ -48,6 +48,8 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function Histogram(props: Props) {
@@ -86,6 +88,8 @@ export function Histogram(props: Props) {
     barGraphLayout,
     donutStrokeWidth,
     sortData,
+    rtl,
+    language,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -152,6 +156,8 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
+        rtl={rtl}
+        language={language}
       />
     );
   if (graphType === 'treeMap')
@@ -182,6 +188,8 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
+        rtl={rtl}
+        language={language}
       />
     );
   if (graphType === 'donutChart')
@@ -215,6 +223,8 @@ export function Histogram(props: Props) {
         strokeWidth={donutStrokeWidth}
         graphLegend
         sortData={sortData}
+        rtl={rtl}
+        language={language}
       />
     );
   if (barGraphLayout === 'horizontal')
@@ -251,6 +261,8 @@ export function Histogram(props: Props) {
         maxValue={maxValue}
         showTicks={showTicks}
         sortData={sortData}
+        rtl={rtl}
+        language={language}
       />
     );
   return (
@@ -286,6 +298,8 @@ export function Histogram(props: Props) {
       maxValue={maxValue}
       showTicks={showTicks}
       sortData={sortData}
+      rtl={rtl}
+      language={language}
     />
   );
 }

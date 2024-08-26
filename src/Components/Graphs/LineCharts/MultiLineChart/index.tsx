@@ -43,6 +43,8 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function MultiLineChart(props: Props) {
@@ -82,6 +84,8 @@ export function MultiLineChart(props: Props) {
     dataDownload,
     highlightAreaColor,
     animateLine,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -134,6 +138,8 @@ export function MultiLineChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -158,6 +164,8 @@ export function MultiLineChart(props: Props) {
           >
             {showColorLegendAtTop ? (
               <ColorLegend
+                rtl={rtl}
+                language={language}
                 colorDomain={labels}
                 colors={colors || UNDPColorModule.categoricalColors.colors}
               />
@@ -219,12 +227,16 @@ export function MultiLineChart(props: Props) {
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
                   animateLine={animateLine}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

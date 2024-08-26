@@ -97,6 +97,8 @@ function GraphEl(props: Props) {
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
               sortData={settings?.sortData}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'horizontalGroupedBarChart' ? (
@@ -132,6 +134,8 @@ function GraphEl(props: Props) {
               maxValue={settings?.maxValue}
               minValue={settings?.minValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'horizontalStackedBarChart' ? (
@@ -166,6 +170,8 @@ function GraphEl(props: Props) {
               graphID={settings?.graphID}
               maxValue={settings?.maxValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalBarChart' ? (
@@ -203,6 +209,8 @@ function GraphEl(props: Props) {
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
               sortData={settings?.sortData}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalGroupedBarChart' ? (
@@ -238,6 +246,8 @@ function GraphEl(props: Props) {
               maxValue={settings?.maxValue}
               minValue={settings?.minValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalStackedBarChart' ? (
@@ -272,6 +282,8 @@ function GraphEl(props: Props) {
               graphID={settings?.graphID}
               maxValue={settings?.maxValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'lineChart' ? (
@@ -309,6 +321,8 @@ function GraphEl(props: Props) {
               minValue={settings?.minValue}
               graphDownload={settings?.graphDownload}
               highlightAreaColor={settings?.highlightAreaColor}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'multiLineChart' ? (
@@ -349,6 +363,8 @@ function GraphEl(props: Props) {
               highlightedLines={settings?.highlightedLines}
               graphDownload={settings?.graphDownload}
               highlightAreaColor={settings?.highlightAreaColor}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'sparkLine' ? (
@@ -376,6 +392,8 @@ function GraphEl(props: Props) {
               maxValue={settings?.maxValue}
               minValue={settings?.minValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'dualAxisLineChart' ? (
@@ -412,6 +430,8 @@ function GraphEl(props: Props) {
               graphID={settings?.graphID}
               graphDownload={settings?.graphDownload}
               highlightAreaColor={settings?.highlightAreaColor}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'stackedAreaChart' ? (
@@ -449,6 +469,8 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               highlightAreaColor={settings?.highlightAreaColor}
               showColorScale={settings?.showColorScale}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'scatterPlot' ? (
@@ -493,6 +515,8 @@ function GraphEl(props: Props) {
               maxYValue={settings?.maxYValue}
               minYValue={settings?.minYValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'horizontalDumbbellChart' ? (
@@ -528,6 +552,8 @@ function GraphEl(props: Props) {
               maxPositionValue={settings?.maxPositionValue}
               minPositionValue={settings?.minPositionValue}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalDumbbellChart' ? (
@@ -563,6 +589,8 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               suffix={settings?.suffix}
               prefix={settings?.prefix}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'donutChart' ? (
@@ -588,6 +616,8 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               colorDomain={settings?.colorDomain}
               sortData={settings?.sortData}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'choroplethMap' ? (
@@ -623,6 +653,8 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               mapProperty={settings?.mapProperty}
               showAntarctica={settings?.showAntarctica}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'biVariateChoroplethMap' ? (
@@ -658,6 +690,8 @@ function GraphEl(props: Props) {
               mapProperty={settings?.mapProperty}
               graphDownload={settings?.graphDownload}
               showAntarctica={settings?.showAntarctica}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'dotDensityMap' ? (
@@ -693,6 +727,8 @@ function GraphEl(props: Props) {
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
               showAntarctica={settings?.showAntarctica}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'geoHubMap' ? (
@@ -711,6 +747,8 @@ function GraphEl(props: Props) {
               height={settings?.height}
               relativeHeight={settings?.relativeHeight}
               graphID={settings?.graphID}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'geoHubCompareMap' ? (
@@ -729,6 +767,8 @@ function GraphEl(props: Props) {
               mapStyles={settings?.mapStyles as [string, string]}
               center={settings?.center}
               zoomLevel={settings?.zoomLevel}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'treeMap' ? (
@@ -760,6 +800,8 @@ function GraphEl(props: Props) {
               graphID={settings?.graphID}
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'heatMap' ? (
@@ -795,6 +837,8 @@ function GraphEl(props: Props) {
               showColorScale={settings?.showColorScale}
               graphDownload={settings?.graphDownload}
               fillContainer={settings?.fillContainer}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'circlePacking' ? (
@@ -826,6 +870,8 @@ function GraphEl(props: Props) {
               graphID={settings?.graphID}
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'slopeChart' ? (
@@ -859,6 +905,8 @@ function GraphEl(props: Props) {
               minValue={settings?.minValue}
               graphDownload={settings?.graphDownload}
               fillContainer={settings?.fillContainer}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'dataTable' ? (
@@ -875,6 +923,8 @@ function GraphEl(props: Props) {
                 (settings?.columnData || []) as DataTableColumnDataType[]
               }
               data={graphData}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalBeeSwarmChart' ? (
@@ -909,6 +959,8 @@ function GraphEl(props: Props) {
               minPositionValue={settings?.minPositionValue}
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'horizontalBeeSwarmChart' ? (
@@ -943,6 +995,8 @@ function GraphEl(props: Props) {
               minPositionValue={settings?.minPositionValue}
               highlightedDataPoints={settings?.highlightedDataPoints}
               graphDownload={settings?.graphDownload}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'butterflyChart' ? (
@@ -979,6 +1033,8 @@ function GraphEl(props: Props) {
               minValue={settings?.minValue}
               showColorScale={settings?.showColorScale}
               refValues={settings?.refValues}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'histogram' ? (
@@ -1014,6 +1070,8 @@ function GraphEl(props: Props) {
               sortData={settings?.sortData}
               barGraphLayout={settings?.barGraphLayout}
               graphType={settings?.graphType}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'paretoChart' ? (
@@ -1044,6 +1102,8 @@ function GraphEl(props: Props) {
               barPadding={settings?.barPadding}
               truncateBy={settings?.truncateBy}
               showLabel={settings?.showLabel}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'statCard' ? (
@@ -1061,6 +1121,8 @@ function GraphEl(props: Props) {
               padding={settings?.padding}
               graphID={settings?.graphID}
               aggregationMethod={settings?.aggregationMethod}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'horizontalStripChart' ? (
@@ -1095,6 +1157,8 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               prefix={settings?.prefix}
               suffix={settings?.suffix}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
           {graph === 'verticalStripChart' ? (
@@ -1129,6 +1193,8 @@ function GraphEl(props: Props) {
               prefix={settings?.prefix}
               suffix={settings?.suffix}
               stripType={settings?.stripType}
+              rtl={settings?.rtl}
+              language={settings?.language}
             />
           ) : null}
         </>

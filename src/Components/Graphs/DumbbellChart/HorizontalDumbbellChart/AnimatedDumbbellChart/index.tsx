@@ -54,6 +54,8 @@ interface Props {
   autoPlay?: boolean;
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AnimatedHorizontalDumbbellChart(props: Props) {
@@ -98,6 +100,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     dateFormat,
     arrowConnector,
     connectorStrokeWidth,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -185,6 +189,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -237,6 +243,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
             }}
           >
             <ColorLegendWithMouseOver
+              rtl={rtl}
+              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={dotColors}
@@ -331,12 +339,16 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                       ? 2
                       : (connectorStrokeWidth as number)
                   }
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

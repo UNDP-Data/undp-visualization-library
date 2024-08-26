@@ -42,6 +42,8 @@ interface Props {
   prefix?: string;
   suffix?: string;
   stripType?: 'strip' | 'dot';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function VerticalStripChart(props: Props) {
@@ -79,6 +81,8 @@ export function VerticalStripChart(props: Props) {
     prefix,
     suffix,
     stripType,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -133,6 +137,8 @@ export function VerticalStripChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -158,6 +164,8 @@ export function VerticalStripChart(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -249,12 +257,16 @@ export function VerticalStripChart(props: Props) {
                   prefix={prefix || ''}
                   suffix={suffix || ''}
                   stripType={stripType || 'dot'}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

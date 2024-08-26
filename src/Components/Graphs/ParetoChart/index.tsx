@@ -37,6 +37,8 @@ interface Props {
   truncateBy?: number;
   showLabel?: boolean;
   onSeriesMouseClick?: (_d: any) => void;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ParetoChart(props: Props) {
@@ -70,6 +72,8 @@ export function ParetoChart(props: Props) {
     truncateBy,
     showLabel,
     onSeriesMouseClick,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -122,6 +126,8 @@ export function ParetoChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -145,6 +151,8 @@ export function ParetoChart(props: Props) {
             }}
           >
             <ColorLegend
+              rtl={rtl}
+              language={language}
               colorDomain={[barTitle || 'Bar graph', lineTitle || 'Line chart']}
               colors={[
                 barColor || UNDPColorModule.categoricalColors.colors[0],
@@ -212,12 +220,16 @@ export function ParetoChart(props: Props) {
                   barPadding={barPadding || 0.25}
                   showLabel={showLabel !== false}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

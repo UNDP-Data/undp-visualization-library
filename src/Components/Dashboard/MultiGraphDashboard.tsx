@@ -144,6 +144,8 @@ export function MultiGraphDashboard(props: Props) {
         >
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
+              rtl={dashboardLayout.rtl}
+              language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
             />
@@ -250,7 +252,11 @@ export function MultiGraphDashboard(props: Props) {
                           el.graphType,
                           el.graphDataConfiguration,
                         )}
-                        settings={el.settings}
+                        settings={{
+                          ...el.settings,
+                          rtl: dashboardLayout.rtl,
+                          language: dashboardLayout.language,
+                        }}
                       />
                     </div>
                   ))}

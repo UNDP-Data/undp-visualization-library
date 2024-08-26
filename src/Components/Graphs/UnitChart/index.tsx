@@ -21,6 +21,8 @@ interface Props {
   padding?: string;
   graphID?: string;
   graphDownload?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function UnitChart(props: Props) {
@@ -41,6 +43,8 @@ export function UnitChart(props: Props) {
     graphID,
     graphDownload,
     fillContainer,
+    rtl,
+    language,
   } = props;
   const outOfValue = maxValue === undefined ? 100 : maxValue;
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
@@ -96,6 +100,8 @@ export function UnitChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={fillContainer === false ? size || 200 : undefined}
@@ -166,6 +172,8 @@ export function UnitChart(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

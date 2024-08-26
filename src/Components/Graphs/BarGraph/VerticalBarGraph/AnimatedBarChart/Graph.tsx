@@ -44,6 +44,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   indx: number;
   autoSort: boolean;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -75,6 +77,8 @@ export function Graph(props: Props) {
     dateFormat,
     indx,
     autoSort,
+    rtl,
+    language,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -181,8 +185,11 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
-              fontFamily:
-                'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              fontFamily: rtl
+                ? language === 'he'
+                  ? 'Noto Sans Hebrew, sans-serif'
+                  : 'Noto Sans Arabic, sans-serif'
+                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
             }}
             textAnchor='start'
             fontSize={12}
@@ -214,8 +221,11 @@ export function Graph(props: Props) {
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       fill: UNDPColorModule.grays['gray-500'],
                     }}
                   >
@@ -244,6 +254,8 @@ export function Graph(props: Props) {
             onSeriesMouseClick={onSeriesMouseClick}
             selectedColor={selectedColor}
             indx={indx}
+            rtl={rtl}
+            language={language}
           />
           {refValues ? (
             <>
@@ -266,8 +278,11 @@ export function Graph(props: Props) {
                     y={y(el.value as number)}
                     style={{
                       fill: el.color || UNDPColorModule.grays['gray-700'],
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      fontFamily: rtl
+                        ? language === 'he'
+                          ? 'Noto Sans Hebrew, sans-serif'
+                          : 'Noto Sans Arabic, sans-serif'
+                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
                     fontSize={12}
@@ -283,6 +298,8 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

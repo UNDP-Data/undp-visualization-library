@@ -39,6 +39,8 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   showColorScale?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function AreaChart(props: Props) {
@@ -74,6 +76,8 @@ export function AreaChart(props: Props) {
     dataDownload,
     highlightAreaColor,
     showColorScale,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -128,6 +132,8 @@ export function AreaChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -152,6 +158,8 @@ export function AreaChart(props: Props) {
           >
             {showColorScale !== false ? (
               <ColorLegend
+                rtl={rtl}
+                language={language}
                 colorDomain={colorDomain}
                 colors={areaColors}
                 colorLegendTitle={colorLegendTitle}
@@ -207,12 +215,16 @@ export function AreaChart(props: Props) {
                   highlightAreaColor={
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

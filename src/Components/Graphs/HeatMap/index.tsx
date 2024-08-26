@@ -44,6 +44,8 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function HeatMap(props: Props) {
@@ -82,6 +84,8 @@ export function HeatMap(props: Props) {
     graphDownload,
     dataDownload,
     fillContainer,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -144,6 +148,8 @@ export function HeatMap(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -170,6 +176,8 @@ export function HeatMap(props: Props) {
               scale === 'categorical' ? (
                 <div style={{ marginBottom: '-12px' }}>
                   <ColorLegendWithMouseOver
+                    rtl={rtl}
+                    language={language}
                     width={fillContainer !== false ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
@@ -219,6 +227,8 @@ export function HeatMap(props: Props) {
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
                     naColor={noDataColor || UNDPColorModule.graphGray}
+                    rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                    language={language || (rtl ? 'ar' : 'en')}
                   />
                 </div>
               ) : (
@@ -319,12 +329,16 @@ export function HeatMap(props: Props) {
                   suffix={suffix || ''}
                   prefix={prefix || ''}
                   onSeriesMouseClick={onSeriesMouseClick}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

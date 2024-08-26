@@ -7,6 +7,7 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   mainText?: string;
@@ -33,6 +34,8 @@ interface Props {
   dataDownload?: boolean;
   colorDomain?: string[];
   sortData?: 'asc' | 'desc';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function DonutChart(props: Props) {
@@ -61,6 +64,8 @@ export function DonutChart(props: Props) {
     dataDownload,
     colorDomain,
     sortData,
+    rtl,
+    language,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -114,6 +119,8 @@ export function DonutChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={(radius || donutRadius) * 2}
@@ -222,6 +229,8 @@ export function DonutChart(props: Props) {
                     colorDomain={colorDomain || data.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
+                    rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                    language={language || (rtl ? 'ar' : 'en')}
                   />
                 </div>
               ) : null}
@@ -229,6 +238,8 @@ export function DonutChart(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

@@ -7,10 +7,12 @@ interface Props {
   xPos: number;
   yPos: number;
   data: any;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function Tooltip(props: Props) {
-  const { body, xPos, yPos, data } = props;
+  const { body, xPos, yPos, data, rtl, language } = props;
   const htmlString = string2HTML(body, data);
   return (
     <div
@@ -31,7 +33,9 @@ export function Tooltip(props: Props) {
       }}
     >
       <div
-        className='undp-viz-tooltip'
+        className={`${
+          rtl ? `undp-viz-tooltip-${language || 'ar'} ` : ''
+        }undp-viz-tooltip`}
         style={{ margin: 0, padding: 'var(--spacing-07)' }}
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />

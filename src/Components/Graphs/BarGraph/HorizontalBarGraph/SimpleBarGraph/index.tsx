@@ -149,6 +149,8 @@ export function HorizontalBarGraph(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -159,8 +161,6 @@ export function HorizontalBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              rtl={rtl}
-              language={language}
             />
           ) : null}
           <div
@@ -176,6 +176,8 @@ export function HorizontalBarGraph(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -293,18 +295,20 @@ export function HorizontalBarGraph(props: Props) {
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
-              rtl={rtl}
-              language={language}
             />
           ) : null}
         </div>

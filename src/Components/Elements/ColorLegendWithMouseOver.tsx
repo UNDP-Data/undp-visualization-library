@@ -7,6 +7,8 @@ interface Props {
   showNAColor?: boolean;
   setSelectedColor: (_d?: string) => void;
   width?: number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function ColorLegendWithMouseOver(props: Props) {
@@ -17,6 +19,8 @@ export function ColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     showNAColor,
     width,
+    rtl,
+    language,
   } = props;
 
   return (
@@ -31,7 +35,9 @@ export function ColorLegendWithMouseOver(props: Props) {
       <div>
         {colorLegendTitle ? (
           <p
-            className='undp-viz-typography'
+            className={`${
+              rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+            }undp-viz-typography`}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
               fontSize: '0.875rem',
@@ -48,6 +54,7 @@ export function ColorLegendWithMouseOver(props: Props) {
             marginBottom: 0,
             flexWrap: 'wrap',
             gap: '1.5rem',
+            flexDirection: rtl ? 'row-reverse' : 'row',
           }}
         >
           {colorDomain.map((d, i) => (
@@ -57,6 +64,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 gap: '0.5rem',
                 alignItems: 'center',
                 cursor: 'pointer',
+                flexDirection: rtl ? 'row-reverse' : 'row',
               }}
               key={i}
               onMouseEnter={() => {
@@ -75,7 +83,9 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               <p
-                className='undp-viz-typography'
+                className={`${
+                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                }undp-viz-typography`}
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
@@ -99,6 +109,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 gap: '0.5rem',
                 alignItems: 'center',
                 cursor: 'pointer',
+                flexDirection: rtl ? 'row-reverse' : 'row',
               }}
             >
               <div
@@ -110,14 +121,16 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               <p
-                className='undp-viz-typography'
+                className={`${
+                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                }undp-viz-typography`}
                 style={{
                   marginTop: '3px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
                 }}
               >
-                NA
+                {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
               </p>
             </div>
           ) : null}

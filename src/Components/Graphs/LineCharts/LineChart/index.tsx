@@ -39,6 +39,8 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function SimpleLineChart(props: Props) {
@@ -75,6 +77,8 @@ export function SimpleLineChart(props: Props) {
     dataDownload,
     highlightAreaColor,
     animateLine,
+    rtl,
+    language,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -125,6 +129,8 @@ export function SimpleLineChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -195,11 +201,15 @@ export function SimpleLineChart(props: Props) {
                   highlightAreaColor || UNDPColorModule.grays['gray-300']
                 }
                 animateLine={animateLine}
+                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

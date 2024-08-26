@@ -48,6 +48,8 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -90,6 +92,8 @@ export function VerticalBarGraph(props: Props) {
     dataDownload,
     sortData,
     labelOrder,
+    rtl,
+    language,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -143,6 +147,8 @@ export function VerticalBarGraph(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -169,6 +175,8 @@ export function VerticalBarGraph(props: Props) {
             {showColorScale !== false &&
             data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
+                rtl={rtl}
+                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -286,12 +294,16 @@ export function VerticalBarGraph(props: Props) {
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
+                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}
             </div>
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

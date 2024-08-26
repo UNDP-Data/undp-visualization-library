@@ -21,6 +21,8 @@ interface Props {
   padding?: string;
   graphID?: string;
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function StatCardFromData(props: Props) {
@@ -38,6 +40,8 @@ export function StatCardFromData(props: Props) {
     backgroundColor,
     graphID,
     aggregationMethod,
+    rtl,
+    language,
   } = props;
 
   return (
@@ -74,6 +78,8 @@ export function StatCardFromData(props: Props) {
         >
           {graphTitle || graphDescription ? (
             <GraphHeader
+              rtl={rtl}
+              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
             />
@@ -96,6 +102,7 @@ export function StatCardFromData(props: Props) {
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',
+                textAlign: rtl ? 'right' : 'left',
                 fontFamily:
                   'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
@@ -139,8 +146,11 @@ export function StatCardFromData(props: Props) {
                     color: UNDPColorModule.grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
-                    fontFamily:
-                      'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    fontFamily: rtl
+                      ? language === 'he'
+                        ? 'Noto Sans Hebrew, sans-serif'
+                        : 'Noto Sans Arabic, sans-serif'
+                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   ({year})
@@ -150,6 +160,8 @@ export function StatCardFromData(props: Props) {
           </div>
           {source || footNote ? (
             <GraphFooter
+              rtl={rtl}
+              language={language}
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}

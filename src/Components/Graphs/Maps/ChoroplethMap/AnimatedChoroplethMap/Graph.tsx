@@ -38,6 +38,8 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
+  rtl: boolean;
+  language: 'en' | 'he' | 'ar';
 }
 
 export function Graph(props: Props) {
@@ -67,6 +69,8 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
+    rtl,
+    language,
   } = props;
   const groupedData = Array.from(
     group(
@@ -460,8 +464,11 @@ export function Graph(props: Props) {
                           fontSize={12}
                           fill='#212121'
                           style={{
-                            fontFamily:
-                              'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {categorical
@@ -503,6 +510,8 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
+          rtl={rtl}
+          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
