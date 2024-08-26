@@ -39,6 +39,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   highlightAreaColor?: string;
+  animateLine?: boolean | number;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -73,6 +74,7 @@ export function DualAxisLineChart(props: Props) {
     graphDownload,
     dataDownload,
     highlightAreaColor,
+    animateLine,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -219,6 +221,7 @@ export function DualAxisLineChart(props: Props) {
                   highlightAreaColor={
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
+                  animateLine={animateLine}
                 />
               ) : null}
             </div>

@@ -228,3 +228,52 @@ export function ChevronLeftRight() {
     </svg>
   );
 }
+
+export function Play() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='48'
+      height='48'
+      viewBox='0 0 48 48'
+    >
+      <circle cx={24} cy={24} r={24} fill='#EDEFF0' />
+      <polygon
+        points='6 3 20 12 6 21 6 3'
+        fill='#D12800'
+        transform='translate(10,10) scale(1.25)'
+      />
+    </svg>
+  );
+}
+
+export function Pause() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='48'
+      height='48'
+      viewBox='0 0 48 48'
+    >
+      <circle cx={24} cy={24} r={24} fill='#EDEFF0' />
+      <rect
+        x='14'
+        y='4'
+        width='4'
+        height='16'
+        rx='1'
+        fill='#D12800'
+        transform='translate(10,10) scale(1.25)'
+      />
+      <rect
+        x='6'
+        y='4'
+        width='4'
+        height='16'
+        rx='1'
+        fill='#D12800'
+        transform='translate(10,10) scale(1.25)'
+      />
+    </svg>
+  );
+}

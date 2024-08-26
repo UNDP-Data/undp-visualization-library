@@ -16,7 +16,7 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import GraphEl from './ChooseGraphs';
+import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
@@ -37,7 +37,7 @@ interface Props {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 export function GriddedGraphs(props: Props) {
@@ -117,7 +117,18 @@ export function GriddedGraphs(props: Props) {
         );
       });
     } else {
-      setDataFromFile(dataSettings.data);
+      const tempData = dataSettings.columnsToArray
+        ? transformColumnsToArray(
+            dataSettings.data,
+            dataSettings.columnsToArray,
+          )
+        : dataSettings.data;
+      setDataFromFile(tempData);
+      const gridValue = getUniqValue(tempData, columnGridBy) as (
+        | string
+        | number
+      )[];
+      setGridOption(gridValue);
       setFilterSettings(
         filters?.map(el => ({
           filter: el,
@@ -258,28 +269,30 @@ export function GriddedGraphs(props: Props) {
                   >
                     <GraphEl
                       graph={graphType}
-                      graphData={transformDataForGraph(
-                        dataTransform
-                          ? transformDataForAggregation(
-                              data.filter((d: any) => d[columnGridBy] === el),
-                              dataTransform.keyColumn,
-                              dataTransform.aggregationColumnsSetting,
-                            )
-                          : data.filter((d: any) => d[columnGridBy] === el),
-                        graphType,
-                        graphDataConfiguration,
-                      )}
+                      graphData={
+                        transformDataForGraph(
+                          dataTransform
+                            ? transformDataForAggregation(
+                                data.filter((d: any) => d[columnGridBy] === el),
+                                dataTransform.keyColumn,
+                                dataTransform.aggregationColumnsSetting,
+                              )
+                            : data.filter((d: any) => d[columnGridBy] === el),
+                          graphType,
+                          graphDataConfiguration,
+                        ) || []
+                      }
                       settings={{
                         ...graphSettings,
                         width: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,
-                        graphTitle: el,
+                        graphTitle: `${el}`,
                         graphDescription: undefined,
                         graphDownload: false,
                         dataDownload: false,
                         backgroundColor: undefined,
                         padding: '0',
-                        FootNote: undefined,
+                        footNote: undefined,
                         source: undefined,
                       }}
                     />

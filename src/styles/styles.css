@@ -402,10 +402,12 @@ a.undp-viz-style:focus-visible {
 
 .undp-viz-x-axis-text {  
   font-size: 12px;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 .undp-viz-label-text {  
   font-size: 12px;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 @media (max-width: 980px) {
@@ -577,6 +579,39 @@ div.undp-viz-tooltip a:hover{
 
 .undp-viz-select [class$="-control"]>div{
   padding: 6px 12px !important;
+}
+
+.undp-viz-slider {
+  margin-bottom: 16px;
+}
+
+.undp-viz-slider .rc-slider-track{
+  background-color: #D12800;
+}
+
+.undp-viz-slider .rc-slider-handle{
+  border: 2px solid #D12800;
+}
+
+.undp-viz-slider .rc-slider-dot-active{
+  border: 1px solid #fff;
+  background-color: #D12800;
+}
+
+
+.undp-viz-slider .rc-slider-mark-text{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+  font-size: 14px;
+  transform: translateX(-50%) !important;
+}
+
+.undp-viz-slider .rc-slider-mark-text:first-of-type{
+  transform: translateX(0) !important;
+}
+
+
+.undp-viz-slider .rc-slider-mark-text:last-of-type{
+  transform: translateX(-100%) !important;
 }
 
 .undp-viz-typography-ar{

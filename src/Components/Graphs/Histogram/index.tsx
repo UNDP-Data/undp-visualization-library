@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import uniqBy from 'lodash.uniqby';
 import { bin } from 'd3-array';
 import {
   TreeMapDataType,
@@ -49,7 +48,6 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  donutColorDomain?: string[];
 }
 
 export function Histogram(props: Props) {
@@ -88,35 +86,22 @@ export function Histogram(props: Props) {
     barGraphLayout,
     donutStrokeWidth,
     sortData,
-    donutColorDomain,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
   useEffect(() => {
-    if (typeof data[0].value === 'string') {
-      const dataUpdates = uniqBy(data, d => d.value).map(d => ({
-        label: d.value,
-        size: data.filter(el => el.value === d.value).length,
-        data: {
-          options: d.value,
-          frequency: data.filter(el => el.value === d.value).length,
-        },
-      }));
-      setDataFormatted(dataUpdates);
-    } else {
-      const bins = bin()
-        .thresholds(numberOfBins || 10)
-        .value((d: any) => d.value)(data as any);
-      const dataUpdates = bins.map(d => ({
-        label: `${d.x0}-${d.x1}`,
-        size: d.length,
-        data: {
-          options: `${d.x0}-${d.x1}`,
-          frequency: d.length,
-        },
-      }));
-      setDataFormatted(dataUpdates);
-    }
+    const bins = bin()
+      .thresholds(numberOfBins || 10)
+      .value((d: any) => d.value)(data as any);
+    const dataUpdates = bins.map(d => ({
+      label: `${d.x0}-${d.x1}`,
+      size: d.length,
+      data: {
+        options: `${d.x0}-${d.x1}`,
+        frequency: d.length,
+      },
+    }));
+    setDataFormatted(dataUpdates);
   }, [data, numberOfBins]);
   if (dataFormatted.length === 0)
     return (
@@ -229,7 +214,6 @@ export function Histogram(props: Props) {
         data={dataFormatted as DonutChartDataType[]}
         strokeWidth={donutStrokeWidth}
         graphLegend
-        colorDomain={donutColorDomain}
         sortData={sortData}
       />
     );

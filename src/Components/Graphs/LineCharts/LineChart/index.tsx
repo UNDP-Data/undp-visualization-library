@@ -38,6 +38,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   highlightAreaColor?: string;
+  animateLine?: boolean | number;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -73,8 +74,8 @@ export function SimpleLineChart(props: Props) {
     graphDownload,
     dataDownload,
     highlightAreaColor,
+    animateLine,
   } = props;
-
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
 
@@ -86,7 +87,6 @@ export function SimpleLineChart(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 620);
     }
   }, [graphDiv?.current, width]);
-
   return (
     <div
       style={{
@@ -194,6 +194,7 @@ export function SimpleLineChart(props: Props) {
                 highlightAreaColor={
                   highlightAreaColor || UNDPColorModule.grays['gray-300']
                 }
+                animateLine={animateLine}
               />
             ) : null}
           </div>

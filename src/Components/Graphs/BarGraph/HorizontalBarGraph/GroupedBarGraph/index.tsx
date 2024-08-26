@@ -27,7 +27,7 @@ interface Props {
   colorLegendTitle?: string;
   suffix?: string;
   prefix?: string;
-  showBarValue: boolean;
+  showBarValue?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;

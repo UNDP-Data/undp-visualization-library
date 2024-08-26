@@ -166,6 +166,8 @@ export function Graph(props: Props) {
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               dy={15}
@@ -178,6 +180,8 @@ export function Graph(props: Props) {
               x={x(dataFormatted[0].date)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
+                fontFamily:
+                  'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='start'
               dy={15}
