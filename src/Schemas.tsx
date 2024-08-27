@@ -46,7 +46,30 @@ export const butterflyChartDataSchema = {
       },
       data: { type: 'object' },
     },
-    required: ['label', 'leftBar', 'rightBar'],
+    required: ['label'],
+  },
+};
+
+export const animatedButterflyChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      leftBar: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      rightBar: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['label', 'date'],
   },
 };
 
@@ -102,6 +125,67 @@ export const stackedBarGraphDataSchema = {
   },
 };
 
+export const animatedBarGraphDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      size: { type: ['number', 'null'] },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      color: { type: 'string' },
+      data: { type: 'object' },
+    },
+    required: ['label', 'date'],
+  },
+};
+
+export const animatedGroupedBarGraphDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      size: {
+        type: 'array',
+        items: { type: ['number', 'null', 'undefined'] },
+      },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['label', 'size', 'date'],
+  },
+};
+
+export const animatedStackedBarGraphDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      size: {
+        type: 'array',
+        items: { type: ['number', 'null', 'undefined'] },
+      },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['label', 'size', 'date'],
+  },
+};
+
 export const dumbbellChartDataSchema = {
   type: 'array',
   items: {
@@ -115,6 +199,25 @@ export const dumbbellChartDataSchema = {
       data: { type: 'object' },
     },
     required: ['x', 'label'],
+  },
+};
+
+export const animatedDumbbellChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      x: {
+        type: 'array',
+        items: [{ type: 'null' }, { type: 'number' }],
+      },
+      label: { type: 'string' },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['x', 'label', 'date'],
   },
 };
 
@@ -169,6 +272,41 @@ export const biVariateChoroplethMapDataSchema = {
       data: { type: 'object' },
     },
     required: ['x', 'y', 'countryCode'],
+  },
+};
+
+export const animatedChoroplethMapDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      x: {
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+      },
+      countryCode: { type: 'string' },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['countryCode', 'date'],
+  },
+};
+
+export const animatedBiVariateChoroplethMapDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      x: { type: ['number', 'null'] },
+      y: { type: ['number', 'null'] },
+      countryCode: { type: 'string' },
+      data: { type: 'object' },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    required: ['countryCode', 'date'],
   },
 };
 
@@ -241,6 +379,27 @@ export const scatterPlotDataSchema = {
   },
 };
 
+export const animatedScatterPlotDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      x: { type: ['number', 'null'] },
+      y: { type: ['number', 'null'] },
+      radius: { type: 'number' },
+      color: { type: 'string' },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      label: {
+        oneOf: [{ type: 'number' }, { type: 'string' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['label', 'date'],
+  },
+};
+
 export const dualAxisLineChartDataSchema = {
   type: 'array',
   items: {
@@ -298,6 +457,29 @@ export const dotDensityMapDataSchema = {
       data: { type: 'object' },
     },
     required: ['lat', 'long'],
+  },
+};
+
+export const animatedDotDensityMapDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      lat: { type: 'number' },
+      long: { type: 'number' },
+      radius: { type: 'number' },
+      color: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      date: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['lat', 'long', 'date'],
   },
 };
 
@@ -442,6 +624,11 @@ export const simpleBarChartSettingsSchema = {
       type: 'string',
       enum: ['asc', 'desc'],
     },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
   definitions: {
@@ -505,6 +692,11 @@ export const groupedBarChartSettingsSchema = {
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['colorDomain'],
   additionalProperties: false,
@@ -568,6 +760,11 @@ export const stackedBarChartSettingsSchema = {
     maxValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['colorDomain'],
   additionalProperties: false,
@@ -635,6 +832,11 @@ export const beeSwarmChartSettingsSchema = {
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
   definitions: {
@@ -697,6 +899,11 @@ export const butterflyChartSettingsSchema = {
     refValues: {
       type: 'array',
       items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
     },
   },
   definitions: {
@@ -762,6 +969,11 @@ export const circlePackingSettingsSchema = {
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -794,6 +1006,11 @@ export const dataTableSettingsSchema = {
         filterOptions: {
           type: 'array',
           items: { type: 'string' },
+        },
+        rtl: { type: 'boolean' },
+        language: {
+          type: 'string',
+          enum: ['ar', 'he', 'en'],
         },
         chip: { type: 'boolean' },
         chipColors: {
@@ -863,6 +1080,11 @@ export const donutChartSettingsSchema = {
       type: 'string',
       enum: ['asc', 'desc'],
     },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -909,6 +1131,11 @@ export const dumbbellChartSettingsSchema = {
     minPositionValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['colorDomain'],
   additionalProperties: false,
@@ -964,6 +1191,11 @@ export const heatMapSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     fillContainer: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['domain'],
   additionalProperties: false,
@@ -1024,6 +1256,11 @@ export const histogramSettingsSchema = {
     graphType: {
       type: 'string',
       enum: ['circlePacking', 'treeMap', 'barGraph', 'donutChart'],
+    },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
     },
   },
   required: ['color', 'graphType'],
@@ -1092,6 +1329,14 @@ export const dualAxisLineChartSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     highlightAreaColor: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    animateLine: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
   },
   additionalProperties: false,
 };
@@ -1140,6 +1385,14 @@ export const lineChartSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     highlightAreaColor: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    animateLine: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
   },
   additionalProperties: false,
   definitions: {
@@ -1213,6 +1466,14 @@ export const multiLineChartSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     highlightAreaColor: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    animateLine: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
   },
   required: ['labels'],
   additionalProperties: false,
@@ -1258,6 +1519,11 @@ export const sparkLineSettingsSchema = {
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1337,6 +1603,11 @@ export const choroplethMapSettingsSchema = {
     dataDownload: { type: 'boolean' },
     mapProperty: { type: 'string' },
     showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['domain'],
   additionalProperties: false,
@@ -1421,6 +1692,11 @@ export const biVariateChoroplethMapSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1499,6 +1775,11 @@ export const dotDensityMapSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1532,6 +1813,11 @@ export const geoHubCompareMapSettingsSchema = {
       maxItems: 2,
     },
     zoomLevel: { type: 'number' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['mapStyles'],
   additionalProperties: false,
@@ -1561,6 +1847,11 @@ export const geoHubMapSettingsSchema = {
     height: { type: 'number' },
     relativeHeight: { type: 'number' },
     graphID: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['mapStyle'],
   additionalProperties: false,
@@ -1597,6 +1888,11 @@ export const paretoChartSettingsSchema = {
     barPadding: { type: 'number' },
     truncateBy: { type: 'number' },
     showLabel: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1669,6 +1965,11 @@ export const scatterPlotSettingsSchema = {
     minYValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
   definitions: {
@@ -1742,6 +2043,11 @@ export const slopeChartSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     fillContainer: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1796,6 +2102,11 @@ export const stackedAreaChartSettingsSchema = {
     dataDownload: { type: 'boolean' },
     highlightAreaColor: { type: 'string' },
     showColorScale: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   required: ['colorDomain'],
   additionalProperties: false,
@@ -1836,6 +2147,11 @@ export const statCardSettingsSchema = {
     aggregationMethod: {
       type: 'string',
       enum: ['count', 'max', 'min', 'average', 'sum'],
+    },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
     },
   },
   required: ['data', 'graphTitle', 'source'],
@@ -1896,6 +2212,11 @@ export const stripChartSettingsSchema = {
     dataDownload: { type: 'boolean' },
     prefix: { type: 'string' },
     suffix: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };
@@ -1948,6 +2269,11 @@ export const treeMapSettingsSchema = {
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
   },
   additionalProperties: false,
 };

@@ -176,7 +176,7 @@ export function Graph(props: Props) {
   const minParam =
     xMinValueLeftBar < xMinValueRightBar ? xMinValueLeftBar : xMinValueRightBar;
   const maxParam =
-    xMaxValueLeftBar < xMaxValueRightBar ? xMaxValueLeftBar : xMaxValueRightBar;
+    xMaxValueLeftBar > xMaxValueRightBar ? xMaxValueLeftBar : xMaxValueRightBar;
   const xRightBar = scaleLinear()
     .domain([minParam, maxParam])
     .range([0, (graphWidth - centerGap) / 2])

@@ -456,4 +456,5 @@ export interface GraphSettingsDataType {
   showAxis?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'en' | 'he';
+  animateLine?: boolean | number;
 }

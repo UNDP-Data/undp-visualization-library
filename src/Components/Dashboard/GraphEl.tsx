@@ -323,6 +323,7 @@ function GraphEl(props: Props) {
               highlightAreaColor={settings?.highlightAreaColor}
               rtl={settings?.rtl}
               language={settings?.language}
+              animateLine={settings?.animateLine}
             />
           ) : null}
           {graph === 'multiLineChart' ? (
@@ -365,6 +366,7 @@ function GraphEl(props: Props) {
               highlightAreaColor={settings?.highlightAreaColor}
               rtl={settings?.rtl}
               language={settings?.language}
+              animateLine={settings?.animateLine}
             />
           ) : null}
           {graph === 'sparkLine' ? (
@@ -432,6 +434,7 @@ function GraphEl(props: Props) {
               highlightAreaColor={settings?.highlightAreaColor}
               rtl={settings?.rtl}
               language={settings?.language}
+              animateLine={settings?.animateLine}
             />
           ) : null}
           {graph === 'stackedAreaChart' ? (
