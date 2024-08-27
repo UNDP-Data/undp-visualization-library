@@ -284,6 +284,13 @@ export type StatCardsFromDataSheetDataType = {
   data?: object;
 };
 
+export type FilterUiSettingsDataType = {
+  column: string;
+  singleSelect?: boolean;
+  clearable?: boolean;
+  defaultValue?: string[] | string;
+};
+
 export type DashboardLayoutDataType = {
   title?: string;
   description?: string;
@@ -322,6 +329,9 @@ export interface SelectedFilterDataType {
 
 export interface FilterSettingsDataType {
   filter: string;
+  singleSelect?: boolean;
+  clearable?: boolean;
+  defaultValue?: string[] | string;
   availableValues: {
     value: string;
     label: string;

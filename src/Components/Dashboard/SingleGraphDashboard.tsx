@@ -6,6 +6,7 @@ import {
   AggregationSettingsDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
+  FilterUiSettingsDataType,
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
@@ -28,7 +29,7 @@ interface Props {
   graphId?: string;
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
-  filters?: string[];
+  filters?: FilterUiSettingsDataType[];
   graphType: GraphType;
   dataTransform?: {
     keyColumn: string;
@@ -55,8 +56,12 @@ export function SingleGraphDashboard(props: Props) {
     SelectedFilterDataType[]
   >(
     filters?.map(d => ({
-      filter: d,
-      value: undefined,
+      filter: d.column,
+      value: d.defaultValue
+        ? typeof d.defaultValue === 'string'
+          ? [d.defaultValue]
+          : d.defaultValue
+        : undefined,
     })) || [],
   );
   const [filterSettings, setFilterSettings] = useState<
@@ -96,8 +101,11 @@ export function SingleGraphDashboard(props: Props) {
         setDataFromFile(tempData);
         setFilterSettings(
           filters?.map(el => ({
-            filter: el,
-            availableValues: getUniqValue(tempData, el).map(v => ({
+            filter: el.column,
+            singleSelect: el.singleSelect,
+            clearable: el.clearable,
+            defaultValue: el.defaultValue,
+            availableValues: getUniqValue(tempData, el.column).map(v => ({
               value: v,
               label: v,
             })),
@@ -108,11 +116,16 @@ export function SingleGraphDashboard(props: Props) {
       setDataFromFile(dataSettings.data);
       setFilterSettings(
         filters?.map(el => ({
-          filter: el,
-          availableValues: getUniqValue(dataSettings.data, el).map(v => ({
-            value: v,
-            label: v,
-          })),
+          filter: el.column,
+          singleSelect: el.singleSelect,
+          clearable: el.clearable,
+          defaultValue: el.defaultValue,
+          availableValues: getUniqValue(dataSettings.data, el.column).map(
+            v => ({
+              value: v,
+              label: v,
+            }),
+          ),
         })) || [],
       );
     }
@@ -181,6 +194,7 @@ export function SingleGraphDashboard(props: Props) {
                   flexWrap: 'wrap',
                   alignItems: 'flex-start',
                   width: '100%',
+                  flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                 }}
               >
                 {filterSettings?.map((d, i) => (
@@ -194,47 +208,112 @@ export function SingleGraphDashboard(props: Props) {
                   >
                     <p
                       className='undp-viz-typography'
-                      style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}
+                      style={{
+                        fontSize: '0.875rem',
+                        marginBottom: '0.5rem',
+                        textAlign: graphSettings?.rtl ? 'right' : 'left',
+                      }}
                     >
                       Filter by {d.filter}
                     </p>
-                    <Select
-                      className='undp-viz-select'
-                      options={d.availableValues}
-                      isMulti
-                      isClearable
-                      isSearchable
-                      controlShouldRenderValue
-                      filterOption={createFilter(filterConfig)}
-                      onChange={el => {
-                        const filterTemp = [...selectedFilters];
-                        filterTemp[
-                          filterTemp.findIndex(f => f.filter === d.filter)
-                        ].value = el?.map(val => val.value) || [];
-                        setSelectedFilters(filterTemp);
-                      }}
-                      theme={theme => {
-                        return {
-                          ...theme,
-                          borderRadius: 0,
-                          spacing: {
-                            ...theme.spacing,
-                            baseUnit: 4,
-                            menuGutter: 2,
-                            controlHeight: 48,
-                          },
-                          colors: {
-                            ...theme.colors,
-                            danger: '#D12800',
-                            dangerLight: '#D4D6D8',
-                            neutral10: '#D4D6D8',
-                            primary50: '#B5D5F5',
-                            primary25: '#F7F7F7',
-                            primary: '#0468b1',
-                          },
-                        };
-                      }}
-                    />
+                    {d.singleSelect ? (
+                      <Select
+                        className='undp-viz-select'
+                        options={d.availableValues}
+                        isClearable={
+                          d.clearable === undefined ? true : d.clearable
+                        }
+                        isRtl={graphSettings?.rtl}
+                        isSearchable
+                        controlShouldRenderValue
+                        filterOption={createFilter(filterConfig)}
+                        onChange={el => {
+                          const filterTemp = [...selectedFilters];
+                          filterTemp[
+                            filterTemp.findIndex(f => f.filter === d.filter)
+                          ].value = el?.value ? [el?.value] : [];
+                          setSelectedFilters(filterTemp);
+                        }}
+                        defaultValue={
+                          d.defaultValue
+                            ? {
+                                value: d.defaultValue as string,
+                                label: d.defaultValue as string,
+                              }
+                            : undefined
+                        }
+                        theme={theme => {
+                          return {
+                            ...theme,
+                            borderRadius: 0,
+                            spacing: {
+                              ...theme.spacing,
+                              baseUnit: 4,
+                              menuGutter: 2,
+                              controlHeight: 48,
+                            },
+                            colors: {
+                              ...theme.colors,
+                              danger: '#D12800',
+                              dangerLight: '#D4D6D8',
+                              neutral10: '#D4D6D8',
+                              primary50: '#B5D5F5',
+                              primary25: '#F7F7F7',
+                              primary: '#0468b1',
+                            },
+                          };
+                        }}
+                      />
+                    ) : (
+                      <Select
+                        className='undp-viz-select'
+                        options={d.availableValues}
+                        isMulti
+                        isClearable={
+                          d.clearable === undefined ? true : d.clearable
+                        }
+                        isSearchable
+                        controlShouldRenderValue
+                        filterOption={createFilter(filterConfig)}
+                        onChange={el => {
+                          const filterTemp = [...selectedFilters];
+                          filterTemp[
+                            filterTemp.findIndex(f => f.filter === d.filter)
+                          ].value = el?.map(val => val.value) || [];
+                          setSelectedFilters(filterTemp);
+                        }}
+                        defaultValue={
+                          d.defaultValue
+                            ? (d.defaultValue as string[]).map(el => ({
+                                value: el,
+                                label: el,
+                              }))
+                            : undefined
+                        }
+                        isRtl={graphSettings?.rtl}
+                        theme={theme => {
+                          return {
+                            ...theme,
+                            borderRadius: 0,
+                            spacing: {
+                              ...theme.spacing,
+                              baseUnit: 4,
+                              menuGutter: 2,
+                              controlHeight: 48,
+                            },
+                            colors: {
+                              ...theme.colors,
+                              danger: '#D12800',
+                              dangerLight: '#D4D6D8',
+                              neutral10: '#D4D6D8',
+                              primary50: '#B5D5F5',
+                              primary25: '#F7F7F7',
+                              primary: '#0468b1',
+                            },
+                          };
+                        }}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
