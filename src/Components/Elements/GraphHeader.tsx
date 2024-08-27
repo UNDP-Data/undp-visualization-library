@@ -23,13 +23,12 @@ export function GraphHeader(props: Props) {
     rtl,
     language,
   } = props;
-
   return (
     <div
       style={{
         maxWidth: width || 'none',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: graphDescription ? 'flex-start' : 'center',
         display: 'flex',
         gap: '0.5rem',
         flexDirection: rtl ? 'row-reverse' : 'row',

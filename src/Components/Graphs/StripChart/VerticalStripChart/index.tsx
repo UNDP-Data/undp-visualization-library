@@ -44,6 +44,8 @@ interface Props {
   stripType?: 'strip' | 'dot';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  highlightColor?: string;
+  dotOpacity?: number;
 }
 
 export function VerticalStripChart(props: Props) {
@@ -83,6 +85,8 @@ export function VerticalStripChart(props: Props) {
     stripType,
     rtl,
     language,
+    highlightColor,
+    dotOpacity,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -259,6 +263,8 @@ export function VerticalStripChart(props: Props) {
                   stripType={stripType || 'dot'}
                   rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  highlightColor={highlightColor}
+                  dotOpacity={dotOpacity || 0.3}
                 />
               ) : null}
             </div>

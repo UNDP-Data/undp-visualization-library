@@ -557,6 +557,9 @@ function GraphEl(props: Props) {
               graphDownload={settings?.graphDownload}
               rtl={settings?.rtl}
               language={settings?.language}
+              sortParameter={settings?.sortParameter}
+              arrowConnector={settings?.arrowConnector}
+              connectorStrokeWidth={settings?.connectorStrokeWidth}
             />
           ) : null}
           {graph === 'verticalDumbbellChart' ? (
@@ -594,6 +597,9 @@ function GraphEl(props: Props) {
               prefix={settings?.prefix}
               rtl={settings?.rtl}
               language={settings?.language}
+              sortParameter={settings?.sortParameter}
+              arrowConnector={settings?.arrowConnector}
+              connectorStrokeWidth={settings?.connectorStrokeWidth}
             />
           ) : null}
           {graph === 'donutChart' ? (
@@ -1162,6 +1168,8 @@ function GraphEl(props: Props) {
               suffix={settings?.suffix}
               rtl={settings?.rtl}
               language={settings?.language}
+              highlightColor={settings?.highlightColor}
+              dotOpacity={settings?.dotOpacity}
             />
           ) : null}
           {graph === 'verticalStripChart' ? (
@@ -1198,6 +1206,8 @@ function GraphEl(props: Props) {
               stripType={settings?.stripType}
               rtl={settings?.rtl}
               language={settings?.language}
+              highlightColor={settings?.highlightColor}
+              dotOpacity={settings?.dotOpacity}
             />
           ) : null}
         </>

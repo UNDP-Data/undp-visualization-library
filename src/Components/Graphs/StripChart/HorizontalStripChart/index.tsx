@@ -44,6 +44,8 @@ interface Props {
   suffix?: string;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  highlightColor?: string;
+  dotOpacity?: number;
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -83,6 +85,8 @@ export function HorizontalStripChart(props: Props) {
     stripType,
     rtl,
     language,
+    highlightColor,
+    dotOpacity,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -107,8 +111,6 @@ export function HorizontalStripChart(props: Props) {
         height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -259,6 +261,8 @@ export function HorizontalStripChart(props: Props) {
                   stripType={stripType || 'dot'}
                   rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  highlightColor={highlightColor}
+                  dotOpacity={dotOpacity || 0.3}
                 />
               ) : null}
             </div>

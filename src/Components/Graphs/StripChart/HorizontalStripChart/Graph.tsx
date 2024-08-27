@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
 import isEqual from 'lodash.isequal';
+import sortBy from 'lodash.sortby';
 import { StripChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
@@ -31,6 +32,8 @@ interface Props {
   stripType: 'strip' | 'dot';
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  highlightColor?: string;
+  dotOpacity: number;
 }
 
 export function Graph(props: Props) {
@@ -58,6 +61,8 @@ export function Graph(props: Props) {
     stripType,
     rtl,
     language,
+    highlightColor,
+    dotOpacity,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -73,6 +78,11 @@ export function Graph(props: Props) {
   const graphHeight = height - margin.top - margin.bottom;
 
   const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+
+  const sortedData = sortBy(dataWithId, item => {
+    const index = (highlightedDataPoints || []).indexOf(item.label);
+    return index === -1 ? Infinity : index;
+  }).reverse();
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
@@ -103,7 +113,7 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {dataWithId.map((d, i) => {
+          {sortedData.map((d, i) => {
             return (
               <g
                 className='undp-viz-g-with-hover'
@@ -114,13 +124,13 @@ export function Graph(props: Props) {
                     ? d.color
                       ? colors[colorDomain.indexOf(d.color)] === selectedColor
                         ? 1
-                        : 0.3
-                      : 0.3
+                        : dotOpacity
+                      : dotOpacity
                     : highlightedDataPoints.length !== 0
                     ? highlightedDataPoints.indexOf(d.label) !== -1
                       ? 0.85
-                      : 0.3
-                    : 0.85
+                      : dotOpacity
+                    : dotOpacity
                 }
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
@@ -161,7 +171,15 @@ export function Graph(props: Props) {
                     cx={0}
                     style={{
                       fill:
-                        data.filter(el => el.color).length === 0
+                        highlightColor && highlightedDataPoints
+                          ? highlightedDataPoints.indexOf(d.label) !== -1
+                            ? highlightColor
+                            : data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !d.color
+                            ? UNDPColorModule.graphGray
+                            : colors[colorDomain.indexOf(d.color)]
+                          : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
                           ? UNDPColorModule.graphGray
@@ -177,7 +195,15 @@ export function Graph(props: Props) {
                     width={2}
                     style={{
                       fill:
-                        data.filter(el => el.color).length === 0
+                        highlightColor && highlightedDataPoints
+                          ? highlightedDataPoints.indexOf(d.label) !== -1
+                            ? highlightColor
+                            : data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !d.color
+                            ? UNDPColorModule.graphGray
+                            : colors[colorDomain.indexOf(d.color)]
+                          : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
                           ? UNDPColorModule.graphGray
@@ -189,10 +215,18 @@ export function Graph(props: Props) {
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
                       x={0}
-                      y={0 - pointRadius - 3}
+                      y={0 - pointRadius - 5}
                       style={{
                         fill:
-                          data.filter(el => el.color).length === 0
+                          highlightColor && highlightedDataPoints
+                            ? highlightedDataPoints.indexOf(d.label) !== -1
+                              ? highlightColor
+                              : data.filter(el => el.color).length === 0
+                              ? colors[0]
+                              : !d.color
+                              ? UNDPColorModule.graphGray
+                              : colors[colorDomain.indexOf(d.color)]
+                            : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
                             ? UNDPColorModule.graphGray
@@ -204,7 +238,8 @@ export function Graph(props: Props) {
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       textAnchor='middle'
-                      fontSize={12}
+                      fontSize={16}
+                      fontWeight='bold'
                     >
                       {numberFormattingFunction(d.position, prefix, suffix)}
                     </text>

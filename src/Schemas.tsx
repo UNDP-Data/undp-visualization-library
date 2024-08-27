@@ -630,7 +630,6 @@ export const simpleBarChartSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -642,7 +641,6 @@ export const simpleBarChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -699,7 +697,6 @@ export const groupedBarChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -711,7 +708,6 @@ export const groupedBarChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -767,7 +763,6 @@ export const stackedBarChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -779,7 +774,6 @@ export const stackedBarChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -838,7 +832,6 @@ export const beeSwarmChartSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -850,7 +843,6 @@ export const beeSwarmChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -975,7 +967,6 @@ export const circlePackingSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const dataTableSettingsSchema = {
@@ -995,7 +986,6 @@ export const dataTableSettingsSchema = {
     },
   },
   required: ['columnData', 'data'],
-  additionalProperties: false,
   definitions: {
     DataTableColumnType: {
       type: 'object',
@@ -1022,7 +1012,6 @@ export const dataTableSettingsSchema = {
               color: { type: 'string' },
             },
             required: ['value', 'color'],
-            additionalProperties: false,
           },
         },
         separator: { type: 'string' },
@@ -1035,7 +1024,6 @@ export const dataTableSettingsSchema = {
         columnWidth: { type: 'number' },
       },
       required: ['columnId'],
-      additionalProperties: false,
     },
   },
 };
@@ -1086,7 +1074,6 @@ export const donutChartSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const dumbbellChartSettingsSchema = {
@@ -1136,9 +1123,13 @@ export const dumbbellChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    sortParameter: {
+      oneOf: [{ type: 'string', enum: ['diff'] }, { type: 'number' }],
+    },
+    arrowConnector: { type: 'boolean' },
+    connectorStrokeWidth: { type: 'number' },
   },
   required: ['colorDomain'],
-  additionalProperties: false,
 };
 
 export const heatMapSettingsSchema = {
@@ -1198,7 +1189,6 @@ export const heatMapSettingsSchema = {
     },
   },
   required: ['domain'],
-  additionalProperties: false,
 };
 
 export const histogramSettingsSchema = {
@@ -1264,7 +1254,6 @@ export const histogramSettingsSchema = {
     },
   },
   required: ['color', 'graphType'],
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -1274,7 +1263,6 @@ export const histogramSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -1338,7 +1326,6 @@ export const dualAxisLineChartSettingsSchema = {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
   },
-  additionalProperties: false,
 };
 
 export const lineChartSettingsSchema = {
@@ -1394,7 +1381,6 @@ export const lineChartSettingsSchema = {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
   },
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -1404,7 +1390,6 @@ export const lineChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -1476,7 +1461,6 @@ export const multiLineChartSettingsSchema = {
     },
   },
   required: ['labels'],
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -1486,7 +1470,6 @@ export const multiLineChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['text'],
-      additionalProperties: false,
     },
   },
 };
@@ -1525,7 +1508,6 @@ export const sparkLineSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const choroplethMapSettingsSchema = {
@@ -1610,7 +1592,6 @@ export const choroplethMapSettingsSchema = {
     },
   },
   required: ['domain'],
-  additionalProperties: false,
 };
 
 export const biVariateChoroplethMapSettingsSchema = {
@@ -1698,7 +1679,6 @@ export const biVariateChoroplethMapSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const dotDensityMapSettingsSchema = {
@@ -1781,7 +1761,6 @@ export const dotDensityMapSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const geoHubCompareMapSettingsSchema = {
@@ -1820,7 +1799,6 @@ export const geoHubCompareMapSettingsSchema = {
     },
   },
   required: ['mapStyles'],
-  additionalProperties: false,
 };
 
 export const geoHubMapSettingsSchema = {
@@ -1854,7 +1832,6 @@ export const geoHubMapSettingsSchema = {
     },
   },
   required: ['mapStyle'],
-  additionalProperties: false,
 };
 
 export const paretoChartSettingsSchema = {
@@ -1894,7 +1871,6 @@ export const paretoChartSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const scatterPlotSettingsSchema = {
@@ -1971,7 +1947,6 @@ export const scatterPlotSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -1983,7 +1958,6 @@ export const scatterPlotSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -2049,7 +2023,6 @@ export const slopeChartSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };
 
 export const stackedAreaChartSettingsSchema = {
@@ -2109,7 +2082,6 @@ export const stackedAreaChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  additionalProperties: false,
   definitions: {
     ReferenceDataType: {
       type: 'object',
@@ -2121,7 +2093,6 @@ export const stackedAreaChartSettingsSchema = {
         color: { type: 'string' },
       },
       required: ['value', 'text'],
-      additionalProperties: false,
     },
   },
 };
@@ -2155,7 +2126,6 @@ export const statCardSettingsSchema = {
     },
   },
   required: ['data', 'graphTitle', 'source'],
-  additionalProperties: false,
 };
 
 export const stripChartSettingsSchema = {
@@ -2217,8 +2187,9 @@ export const stripChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    highlightColor: { type: 'string' },
+    dotOpacity: { type: 'number' },
   },
-  additionalProperties: false,
 };
 
 export const treeMapSettingsSchema = {
@@ -2275,5 +2246,4 @@ export const treeMapSettingsSchema = {
       enum: ['ar', 'he', 'en'],
     },
   },
-  additionalProperties: false,
 };

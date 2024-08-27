@@ -41,9 +41,9 @@ export function CsvDownloadButton(props: Props) {
       style={{ backgroundImage: 'none', textDecoration: 'none' }}
     >
       <div
-        className={`undp-viz-button button-${buttonType || 'quaternary'}${
-          buttonArrow ? ' button-arrow' : ''
-        }`}
+        className={`undp-viz-download-button undp-viz-button button-${
+          buttonType || 'quaternary'
+        }${buttonArrow ? ' button-arrow' : ''}`}
         style={{
           textDecoration: 'none',
           padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',

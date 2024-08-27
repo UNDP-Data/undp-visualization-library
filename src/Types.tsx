@@ -467,4 +467,9 @@ export interface GraphSettingsDataType {
   rtl?: boolean;
   language?: 'ar' | 'en' | 'he';
   animateLine?: boolean | number;
+  highlightColor?: string;
+  dotOpacity?: number;
+  sortParameter?: number | 'diff';
+  arrowConnector?: boolean;
+  connectorStrokeWidth?: number;
 }

@@ -34,9 +34,9 @@ export function ExcelDownloadButton(props: Props) {
   return (
     <button
       type='button'
-      className={`undp-viz-button button-${buttonType || 'quaternary'}${
-        buttonArrow ? ' button-arrow' : ''
-      }`}
+      className={`undp-viz-download-button undp-viz-button button-${
+        buttonType || 'quaternary'
+      }${buttonArrow ? ' button-arrow' : ''}`}
       style={{
         padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
       }}
