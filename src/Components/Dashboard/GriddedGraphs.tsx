@@ -245,7 +245,13 @@ export function GriddedGraphs(props: Props) {
                     </p>
                     {d.singleSelect ? (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          rtl
+                            ? `undp-viz-select-${
+                                language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isClearable={
                           d.clearable === undefined ? true : d.clearable
@@ -293,7 +299,13 @@ export function GriddedGraphs(props: Props) {
                       />
                     ) : (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          rtl
+                            ? `undp-viz-select-${
+                                language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isMulti
                         isClearable={

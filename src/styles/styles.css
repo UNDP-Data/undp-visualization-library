@@ -43,7 +43,7 @@ caption.undp-viz-typography, h1.undp-viz-typography, h2.undp-viz-typography, h3.
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 @media(min-width:48em) {
-  caption.undp-viz-typography, h1.undp-viz-typography, h2.undp-viz-typography, h3.undp-viz-typography, h4.undp-viz-typography, h5.undp-viz-typography, h6.undp-viz-typography.undp-viz-typography.undp-viz-typography.undp-viz-typography.undp-viz-typography {
+  caption.undp-viz-typography, h1.undp-viz-typography, h2.undp-viz-typography, h3.undp-viz-typography, h4.undp-viz-typography, h5.undp-viz-typography, h6.undp-viz-typography {
     margin-bottom: 1rem;
   }
 }
@@ -543,29 +543,29 @@ div.undp-viz-tooltip-he{
   text-align: right !important;
 }
 
-div.undp-viz-tooltip p,h1,h2,h3,h4,h5,h6{
+div.undp-viz-tooltip p,div.undp-viz-tooltip h1,div.undp-viz-tooltip h2,div.undp-viz-tooltip h3,div.undp-viz-tooltip h4,div.undp-viz-tooltip h5,div.undp-viz-tooltip h6{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
-div.undp-viz-tooltip-en p,h1,h2,h3,h4,h5,h6{
+div.undp-viz-tooltip-en p,div.undp-viz-tooltip-en h1,div.undp-viz-tooltip-en h2,div.undp-viz-tooltip-en h3,div.undp-viz-tooltip-en h4,div.undp-viz-tooltip-en h5,div.undp-viz-tooltip-en h6{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
-div.undp-viz-tooltip-ar p,h1,h2,h3,h4,h5,h6{
+div.undp-viz-tooltip-ar p,div.undp-viz-tooltip-ar h1,div.undp-viz-tooltip-ar h2,div.undp-viz-tooltip-ar h3,div.undp-viz-tooltip-ar h4,div.undp-viz-tooltip-ar h5,div.undp-viz-tooltip-ar h6{
   font-family: "Noto Sans Arabic", sans-serif !important;
   text-align: right !important;
 }
 
-div.undp-viz-tooltip-he p,h1,h2,h3,h4,h5,h6{
+div.undp-viz-tooltip-he p,div.undp-viz-tooltip-h3 h1,div.undp-viz-tooltip-h3 h2,div.undp-viz-tooltip-h3 h3,div.undp-viz-tooltip-h3 h4,div.undp-viz-tooltip-h3 h5,div.undp-viz-tooltip-h3 h6{
   font-family: "Noto Sans Hebrew", sans-serif !important;
   text-align: right !important;
 }
 
-div.undp-viz-tooltip p{
+div.undp-viz-tooltip p, div.undp-viz-tooltip-en p, div.undp-viz-tooltip-ar p, div.undp-viz-tooltip-he p{
   font-size: 14px !important;
 }
 
-div.undp-viz-tooltip a{
+div.undp-viz-tooltip a, div.undp-viz-tooltip-en a, div.undp-viz-tooltip-ar a, div.undp-viz-tooltip-he a{
   background-image: linear-gradient(#D12800, #D12800), linear-gradient(#D12800, #D12800);
   background-position: 100% 100%, -30px 100%;
   background-repeat: no-repeat;
@@ -574,7 +574,7 @@ div.undp-viz-tooltip a{
   color: #000;
 }
 
-div.undp-viz-tooltip a:hover{
+div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tooltip-ar a:hover, div.undp-viz-tooltip-he a:hover{
   animation: undp-viz-lineLoop-animation-for-link 2s linear infinite;
   color: #000;
 }
@@ -590,6 +590,18 @@ div.undp-viz-tooltip a:hover{
   margin: 0;position: relative;
   text-transform: uppercase;
   width: 100%;
+}
+
+.undp-viz-select-ar {
+  font-family: "Noto Sans Arabic", sans-serif !important;
+}
+
+.undp-viz-select-he {
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+}
+
+.undp-viz-select-en {
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 
@@ -650,12 +662,12 @@ div.undp-viz-tooltip a:hover{
 
 .undp-viz-typography-ar{
   font-family: "Noto Sans Arabic", sans-serif !important;
-  text-align: right !important;
+  text-align: right;
 }
 
 .undp-viz-typography-he{
   font-family: "Noto Sans Hebrew", sans-serif !important;
-  text-align: right !important;
+  text-align: right;
 }
 
 .undp-viz-typography-en{

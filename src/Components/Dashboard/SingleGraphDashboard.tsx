@@ -207,7 +207,13 @@ export function SingleGraphDashboard(props: Props) {
                     key={i}
                   >
                     <p
-                      className='undp-viz-typography'
+                      className={
+                        graphSettings?.rtl
+                          ? `undp-viz-typography-${
+                              graphSettings?.language || 'ar'
+                            } undp-viz-typography`
+                          : 'undp-viz-typography'
+                      }
                       style={{
                         fontSize: '0.875rem',
                         marginBottom: '0.5rem',
@@ -218,7 +224,13 @@ export function SingleGraphDashboard(props: Props) {
                     </p>
                     {d.singleSelect ? (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          graphSettings?.rtl
+                            ? `undp-viz-select-${
+                                graphSettings?.language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isClearable={
                           d.clearable === undefined ? true : d.clearable
@@ -266,7 +278,13 @@ export function SingleGraphDashboard(props: Props) {
                       />
                     ) : (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          graphSettings?.rtl
+                            ? `undp-viz-select-${
+                                graphSettings?.language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isMulti
                         isClearable={

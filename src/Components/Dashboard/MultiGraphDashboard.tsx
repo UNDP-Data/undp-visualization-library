@@ -196,7 +196,13 @@ export function MultiGraphDashboard(props: Props) {
                     </p>
                     {d.singleSelect ? (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          dashboardLayout.rtl
+                            ? `undp-viz-select-${
+                                dashboardLayout.language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isClearable={
                           d.clearable === undefined ? true : d.clearable
@@ -244,7 +250,13 @@ export function MultiGraphDashboard(props: Props) {
                       />
                     ) : (
                       <Select
-                        className='undp-viz-select'
+                        className={
+                          dashboardLayout.rtl
+                            ? `undp-viz-select-${
+                                dashboardLayout.language || 'ar'
+                              } undp-viz-select`
+                            : 'undp-viz-select'
+                        }
                         options={d.availableValues}
                         isMulti
                         isClearable={
