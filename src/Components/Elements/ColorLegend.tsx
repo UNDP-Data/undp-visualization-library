@@ -8,6 +8,7 @@ interface Props {
   width?: number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  isCenter?: boolean;
 }
 
 export function ColorLegend(props: Props) {
@@ -19,6 +20,7 @@ export function ColorLegend(props: Props) {
     width,
     rtl,
     language,
+    isCenter,
   } = props;
 
   return (
@@ -27,7 +29,7 @@ export function ColorLegend(props: Props) {
         lineHeight: 0,
         maxWidth: width || 'none',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: isCenter ? 'center' : rtl ? 'flex-end' : 'flex-start',
       }}
     >
       <div>
@@ -39,7 +41,7 @@ export function ColorLegend(props: Props) {
             style={{
               fill: UNDPColorModule.grays['gray-700'],
               fontSize: '0.875rem',
-              textAlign: 'center',
+              textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
               marginBottom: '0.5rem',
             }}
           >

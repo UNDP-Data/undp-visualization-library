@@ -176,6 +176,7 @@ export function CirclePackingGraph(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor
+                isCenter
               />
             ) : null}
             <div

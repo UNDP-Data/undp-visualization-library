@@ -28,7 +28,7 @@ export function GraphHeader(props: Props) {
       style={{
         maxWidth: width || 'none',
         justifyContent: 'space-between',
-        alignItems: graphDescription ? 'flex-start' : 'center',
+        alignItems: graphDescription && graphTitle ? 'flex-start' : 'center',
         display: 'flex',
         gap: '0.5rem',
         flexDirection: rtl ? 'row-reverse' : 'row',

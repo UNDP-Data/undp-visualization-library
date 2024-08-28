@@ -167,7 +167,6 @@ export function VerticalBarGraph(props: Props) {
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
               gap: '0.75rem',
               width: '100%',
             }}
