@@ -4,6 +4,7 @@ import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
   AggregationSettingsDataType,
+  DataFilterDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
   FilterUiSettingsDataType,
@@ -23,10 +24,9 @@ import { transformDataForGraph } from '../../Utils/transformData/transformDataFo
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
+import { filterData } from '../../Utils/transformData/filterData';
 
 interface Props {
-  backgroundColor?: string | boolean;
-  graphId?: string;
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
@@ -35,19 +35,19 @@ interface Props {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
+  dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 export function SingleGraphDashboard(props: Props) {
   const {
-    backgroundColor,
-    graphId,
     graphSettings,
     dataSettings,
     filters,
     graphType,
     dataTransform,
     graphDataConfiguration,
+    dataFilter,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -140,18 +140,18 @@ export function SingleGraphDashboard(props: Props) {
         marginLeft: 'auto',
         marginRight: 'auto',
         flexGrow: graphSettings?.width ? 0 : 1,
-        backgroundColor: !backgroundColor
+        backgroundColor: !graphSettings?.backgroundColor
           ? 'transparent'
-          : backgroundColor === true
+          : graphSettings?.backgroundColor === true
           ? UNDPColorModule.grays['gray-200']
-          : backgroundColor,
+          : graphSettings?.backgroundColor,
       }}
-      id={graphId}
+      id={graphSettings?.graphId}
       ref={graphParentDiv}
     >
       <div
         style={{
-          padding: backgroundColor
+          padding: graphSettings?.backgroundColor
             ? graphSettings?.padding || '1rem'
             : graphSettings?.padding || 0,
           flexGrow: 1,
@@ -340,11 +340,11 @@ export function SingleGraphDashboard(props: Props) {
                 graphData={transformDataForGraph(
                   dataTransform
                     ? transformDataForAggregation(
-                        data,
+                        filterData(data, dataFilter || []),
                         dataTransform.keyColumn,
                         dataTransform.aggregationColumnsSetting,
                       )
-                    : data,
+                    : filterData(data, dataFilter || []),
                   graphType,
                   graphDataConfiguration,
                 )}

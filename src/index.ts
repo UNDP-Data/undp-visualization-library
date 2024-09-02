@@ -57,10 +57,16 @@ export { ParetoChart } from './Components/Graphs/ParetoChart';
 export { ButterflyChart } from './Components/Graphs/ButterflyChart/SimpleButterflyChart';
 // Histogram
 export { Histogram } from './Components/Graphs/Histogram';
+// SDG target list chart
+export { SdgChart } from './Components/Graphs/SdgChart';
 // Dashboard
 export { MultiGraphDashboard } from './Components/Dashboard/MultiGraphDashboard';
 export { SingleGraphDashboard } from './Components/Dashboard/SingleGraphDashboard';
 export { GriddedGraphs } from './Components/Dashboard/GriddedGraphs';
+// Dashboard from Config Files
+export { MultiGraphDashboardFromConfig } from './Components/Dashboard/MultiGraphDashboardFromConfig';
+export { SingleGraphDashboardFromConfig } from './Components/Dashboard/SingleGraphDashboardFromConfig';
+export { GriddedGraphsFromConfig } from './Components/Dashboard/GriddedGraphsFromConfig';
 // Animated Horizontal Bar Graphs
 export { AnimatedHorizontalBarChart } from './Components/Graphs/BarGraph/HorizontalBarGraph/AnimatedBarChart';
 export { AnimatedHorizontalStackedBarChart } from './Components/Graphs/BarGraph/HorizontalBarGraph/AnimatedStackedBarChart';

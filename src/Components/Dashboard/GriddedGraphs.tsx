@@ -4,6 +4,7 @@ import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
   AggregationSettingsDataType,
+  DataFilterDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
   FilterUiSettingsDataType,
@@ -23,30 +24,26 @@ import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { GraphFooter } from '../Elements/GraphFooter';
+import { filterData } from '../../Utils/transformData/filterData';
 
 interface Props {
-  backgroundColor?: string | boolean;
-  graphId?: string;
   noOfColumns?: number;
   columnGridBy: string;
   graphSettings: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: GraphType;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
+  dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 export function GriddedGraphs(props: Props) {
   const {
-    backgroundColor,
-    graphId,
     graphSettings,
     dataSettings,
     filters,
@@ -56,8 +53,7 @@ export function GriddedGraphs(props: Props) {
     relativeHeightForGraph,
     noOfColumns,
     columnGridBy,
-    rtl,
-    language,
+    dataFilter,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -165,24 +161,24 @@ export function GriddedGraphs(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: graphSettings.width ? 'fit-content' : '100%',
+        width: graphSettings?.width ? 'fit-content' : '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        flexGrow: graphSettings.width ? 0 : 1,
-        backgroundColor: !backgroundColor
+        flexGrow: graphSettings?.width ? 0 : 1,
+        backgroundColor: !graphSettings?.backgroundColor
           ? 'transparent'
-          : backgroundColor === true
+          : graphSettings?.backgroundColor === true
           ? UNDPColorModule.grays['gray-200']
-          : backgroundColor,
+          : graphSettings?.backgroundColor,
       }}
-      id={graphId}
+      id={graphSettings?.graphId}
       ref={graphParentDiv}
     >
       <div
         style={{
-          padding: backgroundColor
-            ? graphSettings.padding || '1rem'
-            : graphSettings.padding || 0,
+          padding: graphSettings?.backgroundColor
+            ? graphSettings?.padding || '1rem'
+            : graphSettings?.padding || 0,
           flexGrow: 1,
           display: 'flex',
         }}
@@ -197,18 +193,20 @@ export function GriddedGraphs(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {graphSettings.graphTitle ||
-          graphSettings.graphDescription ||
-          graphSettings.graphDownload ||
-          graphSettings.dataDownload ? (
+          {graphSettings?.graphTitle ||
+          graphSettings?.graphDescription ||
+          graphSettings?.graphDownload ||
+          graphSettings?.dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphSettings.graphTitle}
-              graphDescription={graphSettings.graphDescription}
-              width={graphSettings.width}
+              rtl={graphSettings?.rtl}
+              language={graphSettings?.language}
+              graphTitle={graphSettings?.graphTitle}
+              graphDescription={graphSettings?.graphDescription}
+              width={graphSettings?.width}
               graphDownload={
-                graphSettings.graphDownload ? graphParentDiv.current : undefined
+                graphSettings?.graphDownload
+                  ? graphParentDiv.current
+                  : undefined
               }
             />
           ) : null}
@@ -221,7 +219,7 @@ export function GriddedGraphs(props: Props) {
                   flexWrap: 'wrap',
                   alignItems: 'flex-start',
                   width: '100%',
-                  flexDirection: rtl ? 'row-reverse' : 'row',
+                  flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                 }}
               >
                 {filterSettings?.map((d, i) => (
@@ -238,7 +236,7 @@ export function GriddedGraphs(props: Props) {
                       style={{
                         fontSize: '0.875rem',
                         marginBottom: '0.5rem',
-                        textAlign: rtl ? 'right' : 'left',
+                        textAlign: graphSettings?.rtl ? 'right' : 'left',
                       }}
                     >
                       Filter by {d.filter}
@@ -246,9 +244,9 @@ export function GriddedGraphs(props: Props) {
                     {d.singleSelect ? (
                       <Select
                         className={
-                          rtl
+                          graphSettings?.rtl
                             ? `undp-viz-select-${
-                                language || 'ar'
+                                graphSettings?.language || 'ar'
                               } undp-viz-select`
                             : 'undp-viz-select'
                         }
@@ -256,7 +254,7 @@ export function GriddedGraphs(props: Props) {
                         isClearable={
                           d.clearable === undefined ? true : d.clearable
                         }
-                        isRtl={rtl}
+                        isRtl={graphSettings?.rtl}
                         isSearchable
                         controlShouldRenderValue
                         filterOption={createFilter(filterConfig)}
@@ -300,9 +298,9 @@ export function GriddedGraphs(props: Props) {
                     ) : (
                       <Select
                         className={
-                          rtl
+                          graphSettings?.rtl
                             ? `undp-viz-select-${
-                                language || 'ar'
+                                graphSettings?.language || 'ar'
                               } undp-viz-select`
                             : 'undp-viz-select'
                         }
@@ -329,7 +327,7 @@ export function GriddedGraphs(props: Props) {
                               }))
                             : undefined
                         }
-                        isRtl={rtl}
+                        isRtl={graphSettings?.rtl}
                         theme={theme => {
                           return {
                             ...theme,
@@ -361,7 +359,7 @@ export function GriddedGraphs(props: Props) {
                   display: 'flex',
                   flexWrap: 'wrap',
                   gap: '1rem',
-                  flexDirection: rtl ? 'row-reverse' : 'row',
+                  flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                 }}
               >
                 {gridOption.map((el, i) => (
@@ -379,20 +377,23 @@ export function GriddedGraphs(props: Props) {
                         transformDataForGraph(
                           dataTransform
                             ? transformDataForAggregation(
-                                data.filter((d: any) => d[columnGridBy] === el),
+                                filterData(data, dataFilter || []).filter(
+                                  (d: any) => d[columnGridBy] === el,
+                                ),
                                 dataTransform.keyColumn,
                                 dataTransform.aggregationColumnsSetting,
                               )
-                            : data.filter((d: any) => d[columnGridBy] === el),
+                            : filterData(data, dataFilter || []).filter(
+                                (d: any) => d[columnGridBy] === el,
+                              ),
                           graphType,
                           graphDataConfiguration,
                         ) || []
                       }
                       settings={{
                         ...graphSettings,
-                        rtl,
-                        language,
                         width: undefined,
+                        height: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,
                         graphTitle: `${el}`,
                         graphDescription: undefined,
@@ -411,14 +412,14 @@ export function GriddedGraphs(props: Props) {
           ) : (
             <div className='undp-viz-loader' />
           )}
-          {graphSettings.source || graphSettings.footNote ? (
+          {graphSettings?.source || graphSettings?.footNote ? (
             <GraphFooter
-              rtl={rtl}
-              language={language}
-              source={graphSettings.source}
-              sourceLink={graphSettings.sourceLink}
-              footNote={graphSettings.footNote}
-              width={graphSettings.width}
+              rtl={graphSettings?.rtl}
+              language={graphSettings?.language}
+              source={graphSettings?.source}
+              sourceLink={graphSettings?.sourceLink}
+              footNote={graphSettings?.footNote}
+              width={graphSettings?.width}
             />
           ) : null}
         </div>

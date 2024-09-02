@@ -21,6 +21,7 @@ import { transformDataForGraph } from '../../Utils/transformData/transformDataFo
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
+import { filterData } from '../../Utils/transformData/filterData';
 
 interface Props {
   dashboardId?: string;
@@ -336,11 +337,11 @@ export function MultiGraphDashboard(props: Props) {
                         graphData={transformDataForGraph(
                           el.dataTransform
                             ? transformDataForAggregation(
-                                data,
+                                filterData(data, el.dataFilter || []),
                                 el.dataTransform.keyColumn,
                                 el.dataTransform.aggregationColumnsSetting,
                               )
-                            : data,
+                            : filterData(data, el.dataFilter || []),
                           el.graphType,
                           el.graphDataConfiguration,
                         )}

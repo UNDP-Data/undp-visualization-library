@@ -74,6 +74,16 @@ export interface GroupedBarGraphDataType {
   data?: object;
 }
 
+export interface SdgChartDataType {
+  target: string | number;
+  value: (number | undefined | string)[];
+  data?: object;
+}
+
+export interface SdgChartWithDateDataType extends SdgChartDataType {
+  date: string | number;
+}
+
 export interface GroupedBarGraphWithDateDataType
   extends GroupedBarGraphDataType {
   date: string | number;
@@ -268,6 +278,11 @@ export interface GraphConfigurationDataType {
   chartConfigId: string;
 }
 
+export interface DataFilterDataType {
+  columns: string;
+  values: (string | number | boolean)[];
+}
+
 export type DashboardColumnDataType = {
   graphType: GraphType;
   columnWidth?: number;
@@ -275,6 +290,7 @@ export type DashboardColumnDataType = {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
+  dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   settings?: any;
 };

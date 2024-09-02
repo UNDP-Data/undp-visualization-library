@@ -20,6 +20,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
+  countOnly?: string;
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
@@ -42,6 +43,7 @@ export function StatCardFromData(props: Props) {
     aggregationMethod,
     rtl,
     language,
+    countOnly,
   } = props;
 
   return (
@@ -107,10 +109,12 @@ export function StatCardFromData(props: Props) {
                   'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
-              {typeof data[0].value === 'string' ||
+              {data.filter(d => typeof d.value === 'string').length > 0 ||
               aggregationMethod === 'count' ||
               !aggregationMethod
-                ? data.length
+                ? countOnly
+                  ? data.filter(d => d.value === countOnly).length
+                  : data.length
                 : aggregationMethod === 'sum'
                 ? numberFormattingFunction(
                     sum(data.map(d => d.value)),
