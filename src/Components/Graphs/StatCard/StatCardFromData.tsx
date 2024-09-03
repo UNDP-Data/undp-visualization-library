@@ -20,7 +20,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
-  countOnly?: string | number;
+  countOnly?: (string | number)[];
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
@@ -112,8 +112,8 @@ export function StatCardFromData(props: Props) {
               {data.filter(d => typeof d.value === 'string').length > 0 ||
               aggregationMethod === 'count' ||
               !aggregationMethod
-                ? countOnly
-                  ? data.filter(d => d.value === countOnly).length
+                ? countOnly && countOnly?.length !== 0
+                  ? data.filter(d => countOnly.indexOf(d.value) !== -1).length
                   : data.length
                 : aggregationMethod === 'sum'
                 ? numberFormattingFunction(
