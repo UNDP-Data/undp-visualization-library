@@ -29,6 +29,9 @@ import {
 const ajv = new Ajv();
 
 export const validateDataSchema = (data: any, graph: GraphType) => {
+  if (!data) {
+    return false;
+  }
   if (
     graph === 'geoHubCompareMap' ||
     graph === 'geoHubMap' ||

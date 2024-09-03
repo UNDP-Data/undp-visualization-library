@@ -8,16 +8,17 @@ export function transformDataForGraph(
   graph: GraphType,
   config?: GraphConfigurationDataType[],
 ) {
-  if (!data || data.length === 0) return null;
+  if (!data) return 'Cannot fetch data';
   if (
     graph === 'dataTable' ||
     graph === 'geoHubCompareMap' ||
-    graph === 'geoHubMap'
+    graph === 'geoHubMap' ||
+    data.length === 0
   )
     return data;
   if (!config) {
     console.error('Your data configuration is not accurate');
-    return null;
+    return 'No graph configuration is provided';
   }
   if (checkDataConfigValidity(config, graph, Object.keys(data[0]))) {
     const chartConfig =
@@ -60,6 +61,5 @@ export function transformDataForGraph(
     });
     return dataFormatted;
   }
-  console.error('Your data configuration is not accurate');
-  return null;
+  return 'Your data configuration is not accurate or the column names are not accurate';
 }

@@ -20,7 +20,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
-  countOnly?: string;
+  countOnly?: string | number;
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
