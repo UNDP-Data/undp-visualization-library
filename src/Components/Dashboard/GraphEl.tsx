@@ -1132,6 +1132,7 @@ function GraphEl(props: Props) {
               aggregationMethod={settings?.aggregationMethod}
               rtl={settings?.rtl}
               language={settings?.language}
+              countOnly={settings?.countOnly}
             />
           ) : null}
           {graph === 'horizontalStripChart' ? (

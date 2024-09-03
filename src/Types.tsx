@@ -488,4 +488,5 @@ export interface GraphSettingsDataType {
   sortParameter?: number | 'diff';
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
+  countOnly?: string;
 }
