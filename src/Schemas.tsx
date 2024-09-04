@@ -2124,6 +2124,12 @@ export const statCardSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    countOnly: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
   },
   required: ['data', 'graphTitle', 'source'],
 };
