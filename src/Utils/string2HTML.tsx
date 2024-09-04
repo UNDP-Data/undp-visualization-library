@@ -1,10 +1,13 @@
 import * as sanitizeHtml from 'sanitize-html';
+import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
   const dataStr = desc.split('.')[0].split('[')[0];
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
   const func = new Function(dataStr, `return ${desc}`);
-  return func(data);
+  return typeof func(data) === 'number'
+    ? numberFormattingFunction(func(data), '', '')
+    : func(data);
 }
 
 export const string2HTML = (htmlString: string, data: any) => {

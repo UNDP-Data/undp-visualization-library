@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format } from 'd3-format';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
 import { Delaunay } from 'd3-delaunay';
@@ -10,6 +9,7 @@ import { ScatterPlotDataType, ReferenceDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -235,7 +235,7 @@ export function Graph(props: Props) {
                   dy={4}
                   dx={-3}
                 >
-                  {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
+                  {numberFormattingFunction(d, '', '')}
                 </text>
               </g>
             ))}
@@ -315,7 +315,7 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={12}
                 >
-                  {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
+                  {numberFormattingFunction(d, '', '')}
                 </text>
               </g>
             ))}
