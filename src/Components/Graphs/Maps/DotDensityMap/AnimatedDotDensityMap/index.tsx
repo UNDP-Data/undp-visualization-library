@@ -12,6 +12,7 @@ import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
 import 'rc-slider/assets/index.css';
+import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
 
 interface Props {
   graphTitle?: string;
@@ -100,6 +101,7 @@ export function AnimatedDotDensityMap(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [mapShape, setMapShape] = useState<any>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -138,6 +140,16 @@ export function AnimatedDotDensityMap(props: Props) {
     if (!play) clearInterval(interval);
     return () => clearInterval(interval);
   }, [uniqDatesSorted, play]);
+  useEffect(() => {
+    if (typeof mapData === 'string') {
+      const fetchData = fetchAndParseJSON(mapData);
+      fetchData.then(d => {
+        setMapShape(d);
+      });
+    } else {
+      setMapShape(mapData || WorldMapData);
+    }
+  }, [mapData]);
 
   return (
     <div
@@ -229,10 +241,10 @@ export function AnimatedDotDensityMap(props: Props) {
             }}
             ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
+            {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph
                 data={data}
-                mapData={mapData || WorldMapData}
+                mapData={mapShape}
                 colorDomain={
                   data.filter(el => el.color).length === 0
                     ? []

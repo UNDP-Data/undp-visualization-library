@@ -6,6 +6,7 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
 
 interface Props {
   data: BivariateMapDataType[];
@@ -88,6 +89,7 @@ export function BiVariantMap(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [mapShape, setMapShape] = useState<any>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -97,6 +99,16 @@ export function BiVariantMap(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
+  useEffect(() => {
+    if (typeof mapData === 'string') {
+      const fetchData = fetchAndParseJSON(mapData);
+      fetchData.then(d => {
+        setMapShape(d);
+      });
+    } else {
+      setMapShape(mapData || WorldMapData);
+    }
+  }, [mapData]);
 
   return (
     <div
@@ -160,10 +172,10 @@ export function BiVariantMap(props: Props) {
             }}
             ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
+            {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph
                 data={data}
-                mapData={mapData || WorldMapData}
+                mapData={mapShape}
                 xDomain={xDomain}
                 yDomain={yDomain}
                 width={width || svgWidth}

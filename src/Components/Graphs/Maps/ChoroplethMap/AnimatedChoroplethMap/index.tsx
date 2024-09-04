@@ -12,6 +12,7 @@ import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
 import 'rc-slider/assets/index.css';
+import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
 
 interface Props {
   graphTitle?: string;
@@ -100,6 +101,7 @@ export function AnimatedChoroplethMap(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [mapShape, setMapShape] = useState<any>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -109,6 +111,16 @@ export function AnimatedChoroplethMap(props: Props) {
       setSvgWidth(graphDiv.current.clientWidth || 760);
     }
   }, [graphDiv?.current, width]);
+  useEffect(() => {
+    if (typeof mapData === 'string') {
+      const fetchData = fetchAndParseJSON(mapData);
+      fetchData.then(d => {
+        setMapShape(d);
+      });
+    } else {
+      setMapShape(mapData || WorldMapData);
+    }
+  }, [mapData]);
 
   const [play, setPlay] = useState(autoPlay || false);
   const uniqDatesSorted = sort(
@@ -229,10 +241,10 @@ export function AnimatedChoroplethMap(props: Props) {
             }}
             ref={graphDiv}
           >
-            {(width || svgWidth) && (height || svgHeight) ? (
+            {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph
                 data={data}
-                mapData={mapData || WorldMapData}
+                mapData={mapShape}
                 domain={domain}
                 width={width || svgWidth}
                 height={
