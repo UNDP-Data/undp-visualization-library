@@ -25,7 +25,7 @@ interface Props {
   minValue?: number;
   barPadding: number;
   truncateBy: number;
-  showBarValue: boolean;
+  showValues: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   showTicks: boolean;
   suffix: string;
@@ -44,7 +44,7 @@ export function Graph(props: Props) {
     refValues,
     maxValue,
     minValue,
-    showBarValue,
+    showValues,
     axisTitles,
     rightMargin,
     leftMargin,
@@ -247,7 +247,7 @@ export function Graph(props: Props) {
                       height={y.bandwidth()}
                     />
                   ) : null}
-                  {showBarValue ? (
+                  {showValues ? (
                     <text
                       x={d.leftBar ? xLeftBar(d.leftBar) : xLeftBar(0)}
                       y={(y(`${i}`) as number) + y.bandwidth() / 2}
@@ -417,7 +417,7 @@ export function Graph(props: Props) {
                       height={y.bandwidth()}
                     />
                   ) : null}
-                  {showBarValue ? (
+                  {showValues ? (
                     <text
                       x={d.rightBar ? xRightBar(d.rightBar) : xRightBar(0)}
                       y={(y(`${i}`) as number) + y.bandwidth() / 2}

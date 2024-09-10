@@ -16,8 +16,8 @@ interface Props {
   suffix: string;
   prefix: string;
   barPadding: number;
-  showBarLabel: boolean;
-  showBarValue: boolean;
+  showLabels: boolean;
+  showValues: boolean;
   showTicks: boolean;
   colorDomain: string[];
   truncateBy: number;
@@ -47,8 +47,8 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     barPadding,
-    showBarLabel,
-    showBarValue,
+    showLabels,
+    showValues,
     showTicks,
     colorDomain,
     truncateBy,
@@ -254,7 +254,7 @@ export function Graph(props: Props) {
                     height={Math.abs(y(d.size) - y(0))}
                   />
                 ) : null}
-                {showBarLabel ? (
+                {showLabels ? (
                   <text
                     x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
                     y={y(0)}
@@ -275,7 +275,7 @@ export function Graph(props: Props) {
                       : `${`${d.label}`.substring(0, truncateBy)}...`}
                   </text>
                 ) : null}
-                {showBarValue ? (
+                {showValues ? (
                   <text
                     x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
                     y={y(d.size || 0)}

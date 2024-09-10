@@ -16,7 +16,7 @@ interface Props {
   showLabels: boolean;
   colors: string[];
   colorDomain: string[];
-  pointRadius: number;
+  radius: number;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
@@ -40,7 +40,7 @@ export function Graph(props: Props) {
     showLabels,
     colors,
     colorDomain,
-    pointRadius,
+    radius,
     leftMargin,
     rightMargin,
     topMargin,
@@ -104,15 +104,15 @@ export function Graph(props: Props) {
             <line
               y1={0}
               y2={graphHeight}
-              x1={pointRadius + 5}
-              x2={pointRadius + 5}
+              x1={radius + 5}
+              x2={radius + 5}
               style={{
                 stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
             <text
-              x={pointRadius + 5}
+              x={radius + 5}
               y={graphHeight}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
@@ -133,15 +133,15 @@ export function Graph(props: Props) {
             <line
               y1={0}
               y2={graphHeight}
-              x1={graphWidth - (pointRadius + 5)}
-              x2={graphWidth - (pointRadius + 5)}
+              x1={graphWidth - (radius + 5)}
+              x2={graphWidth - (radius + 5)}
               style={{
                 stroke: UNDPColorModule.grays['gray-500'],
               }}
               strokeWidth={1}
             />
             <text
-              x={graphWidth - (pointRadius + 5)}
+              x={graphWidth - (radius + 5)}
               y={graphHeight}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
@@ -214,9 +214,9 @@ export function Graph(props: Props) {
                 }}
               >
                 <circle
-                  cx={pointRadius + 5}
+                  cx={radius + 5}
                   cy={y(d.y1)}
-                  r={pointRadius}
+                  r={radius}
                   style={{
                     fill:
                       data.filter(el => el.color).length === 0
@@ -285,9 +285,9 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <circle
-                  cx={graphWidth - (pointRadius + 5)}
+                  cx={graphWidth - (radius + 5)}
                   cy={y(d.y2)}
-                  r={pointRadius}
+                  r={radius}
                   style={{
                     fill:
                       data.filter(el => el.color).length === 0
@@ -356,8 +356,8 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <line
-                  x1={pointRadius + 5}
-                  x2={graphWidth - (pointRadius + 5)}
+                  x1={radius + 5}
+                  x2={graphWidth - (radius + 5)}
                   y1={y(d.y1)}
                   y2={y(d.y2)}
                   style={{

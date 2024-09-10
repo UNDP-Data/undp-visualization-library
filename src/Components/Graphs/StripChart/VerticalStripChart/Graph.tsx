@@ -15,7 +15,7 @@ interface Props {
   selectedColor?: string;
   colors: string[];
   colorDomain: string[];
-  pointRadius: number;
+  radius: number;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
@@ -43,7 +43,7 @@ export function Graph(props: Props) {
     height,
     colors,
     colorDomain,
-    pointRadius,
+    radius,
     leftMargin,
     rightMargin,
     topMargin,
@@ -185,13 +185,13 @@ export function Graph(props: Props) {
                           ? UNDPColorModule.graphGray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
-                    r={pointRadius}
+                    r={radius}
                   />
                 ) : (
                   <rect
-                    x={0 - pointRadius}
+                    x={0 - radius}
                     y={-1}
-                    width={pointRadius * 2}
+                    width={radius * 2}
                     height={2}
                     style={{
                       fill:
@@ -215,7 +215,7 @@ export function Graph(props: Props) {
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
                       y={0 + 4}
-                      x={0 + pointRadius + 3}
+                      x={0 + radius + 3}
                       style={{
                         fill:
                           highlightColor && highlightedDataPoints
@@ -252,7 +252,7 @@ export function Graph(props: Props) {
             <>
               <text
                 y={0}
-                x={graphWidth / 2 + pointRadius + 5}
+                x={graphWidth / 2 + radius + 5}
                 style={{
                   fill: UNDPColorModule.grays['gray-500'],
                   fontFamily: rtl
@@ -268,7 +268,7 @@ export function Graph(props: Props) {
               </text>
               <text
                 y={graphHeight}
-                x={graphWidth / 2 + pointRadius + 5}
+                x={graphWidth / 2 + radius + 5}
                 style={{
                   fill: UNDPColorModule.grays['gray-500'],
                   fontFamily: rtl

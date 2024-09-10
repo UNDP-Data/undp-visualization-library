@@ -26,7 +26,7 @@ interface Props {
   x: ScaleBand<string>;
   barColors: string[];
   selectedColor?: string;
-  showBarLabel: boolean;
+  showLabels: boolean;
   truncateBy: number;
   showValues: boolean;
   suffix: string;
@@ -48,7 +48,7 @@ export function Bars(props: Props) {
     x,
     barColors,
     selectedColor,
-    showBarLabel,
+    showLabels,
     showValues,
     truncateBy,
     prefix,
@@ -181,7 +181,7 @@ export function Bars(props: Props) {
                 ) : null}
               </motion.g>
             ))}
-            {showBarLabel ? (
+            {showLabels ? (
               <motion.text
                 style={{
                   fill: UNDPColorModule.grays['gray-700'],

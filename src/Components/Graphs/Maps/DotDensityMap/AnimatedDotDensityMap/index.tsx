@@ -22,7 +22,7 @@ interface Props {
   sourceLink?: string;
   width?: number;
   height?: number;
-  pointRadius?: number;
+  radius?: number;
   source?: string;
   colors?: string | string[];
   colorDomain?: string[];
@@ -35,7 +35,7 @@ interface Props {
   mapNoDataColor?: string;
   mapBorderColor?: string;
   padding?: string;
-  showLabel?: boolean;
+  showLabels?: boolean;
   relativeHeight?: number;
   isWorldMap?: boolean;
   tooltip?: string;
@@ -70,14 +70,14 @@ export function AnimatedDotDensityMap(props: Props) {
     footNote,
     colorLegendTitle,
     colorDomain,
-    pointRadius,
+    radius,
     scale,
     centerPoint,
     padding,
     mapBorderWidth,
     mapNoDataColor,
     backgroundColor,
-    showLabel,
+    showLabels,
     mapBorderColor,
     tooltip,
     relativeHeight,
@@ -274,10 +274,10 @@ export function AnimatedDotDensityMap(props: Props) {
                       UNDPColorModule.categoricalColors.colors
                 }
                 colorLegendTitle={colorLegendTitle}
-                pointRadius={
-                  checkIfNullOrUndefined(pointRadius)
+                radius={
+                  checkIfNullOrUndefined(radius)
                     ? 5
-                    : (pointRadius as number)
+                    : (radius as number)
                 }
                 mapBorderWidth={
                   checkIfNullOrUndefined(mapBorderWidth)
@@ -290,7 +290,7 @@ export function AnimatedDotDensityMap(props: Props) {
                 }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
-                showLabel={showLabel}
+                showLabels={showLabels}
                 isWorldMap={isWorldMap === undefined ? true : isWorldMap}
                 showColorScale={
                   showColorScale === undefined ? true : showColorScale

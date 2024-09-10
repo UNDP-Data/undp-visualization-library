@@ -21,7 +21,7 @@ interface Props {
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  pointRadius?: number;
+  radius?: number;
   xAxisTitle?: string;
   yAxisTitle?: string;
   backgroundColor?: string | boolean;
@@ -45,7 +45,7 @@ interface Props {
   highlightAreaColor?: string;
   showColorScale?: boolean;
   graphID?: string;
-  pointRadiusMaxValue?: number;
+  maxRadiusValue?: number;
   maxXValue?: number;
   minXValue?: number;
   maxYValue?: number;
@@ -71,7 +71,7 @@ export function ScatterPlot(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
+    radius,
     xAxisTitle,
     yAxisTitle,
     padding,
@@ -89,7 +89,7 @@ export function ScatterPlot(props: Props) {
     showColorScale,
     highlightedDataPoints,
     graphID,
-    pointRadiusMaxValue,
+    maxRadiusValue,
     maxXValue,
     minXValue,
     maxYValue,
@@ -247,10 +247,8 @@ export function ScatterPlot(props: Props) {
                       ? false
                       : (showLabels as boolean)
                   }
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
-                      ? 5
-                      : (pointRadius as number)
+                  radius={
+                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
@@ -286,7 +284,7 @@ export function ScatterPlot(props: Props) {
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
                   selectedColor={selectedColor}
-                  pointRadiusMaxValue={pointRadiusMaxValue}
+                  maxRadiusValue={maxRadiusValue}
                   maxXValue={maxXValue}
                   minXValue={minXValue}
                   maxYValue={maxYValue}

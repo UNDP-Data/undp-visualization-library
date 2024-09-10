@@ -20,8 +20,8 @@ interface Props {
   suffix: string;
   prefix: string;
   barPadding: number;
-  showBarLabel: boolean;
-  showBarValue: boolean;
+  showLabels: boolean;
+  showValues: boolean;
   showTicks: boolean;
   truncateBy: number;
   leftMargin: number;
@@ -48,8 +48,8 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     barPadding,
-    showBarLabel,
-    showBarValue,
+    showLabels,
+    showValues,
     showTicks,
     truncateBy,
     leftMargin,
@@ -238,7 +238,7 @@ export function Graph(props: Props) {
                         height={Math.abs(y(el as number) - y(0))}
                       />
                     ) : null}
-                    {showBarValue ? (
+                    {showValues ? (
                       <text
                         x={
                           (subBarScale(`${j}`) as number) +
@@ -266,7 +266,7 @@ export function Graph(props: Props) {
                     ) : null}
                   </g>
                 ))}
-                {showBarLabel ? (
+                {showLabels ? (
                   <text
                     x={x.bandwidth() / 2}
                     y={y(0)}

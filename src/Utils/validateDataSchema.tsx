@@ -36,6 +36,7 @@ export const validateDataSchema = (data: any, graph: GraphType) => {
     graph === 'geoHubCompareMap' ||
     graph === 'geoHubMap' ||
     graph === 'dataTable' ||
+    graph === 'unitChart' ||
     data.length === 0
   )
     return true;

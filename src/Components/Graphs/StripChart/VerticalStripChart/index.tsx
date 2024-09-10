@@ -20,7 +20,7 @@ interface Props {
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  pointRadius?: number;
+  radius?: number;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -61,7 +61,7 @@ export function VerticalStripChart(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
+    radius,
     padding,
     backgroundColor,
     leftMargin,
@@ -226,10 +226,8 @@ export function VerticalStripChart(props: Props) {
                         UNDPColorModule.categoricalColors.colors
                   }
                   selectedColor={selectedColor}
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
-                      ? 5
-                      : (pointRadius as number)
+                  radius={
+                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

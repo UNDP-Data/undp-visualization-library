@@ -29,8 +29,8 @@ interface Props {
   footNote?: string;
   sourceLink?: string;
   barPadding?: number;
-  showBarLabel?: boolean;
-  showBarValue?: boolean;
+  showLabels?: boolean;
+  showValues?: boolean;
   showTicks?: boolean;
   colorDomain: string[];
   colorLegendTitle?: string;
@@ -69,8 +69,8 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showBarLabel,
-    showBarValue,
+    showLabels,
+    showValues,
     showTicks,
     height,
     width,
@@ -270,15 +270,15 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
                       ? 0.25
                       : (barPadding as number)
                   }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showBarLabel as boolean)
+                      : (showLabels as boolean)
                   }
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showBarValue as boolean)
+                      : (showValues as boolean)
                   }
                   showTicks={
                     checkIfNullOrUndefined(showTicks)

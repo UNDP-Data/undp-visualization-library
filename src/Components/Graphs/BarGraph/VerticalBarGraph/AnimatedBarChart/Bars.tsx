@@ -27,9 +27,9 @@ interface Props {
   barColor: string[];
   selectedColor?: string;
   colorDomain: string[];
-  showBarLabel: boolean;
+  showLabels: boolean;
   truncateBy: number;
-  showBarValue: boolean;
+  showValues: boolean;
   suffix: string;
   prefix: string;
   colorScale: boolean;
@@ -52,8 +52,8 @@ export function Bars(props: Props) {
     barColor,
     selectedColor,
     colorDomain,
-    showBarLabel,
-    showBarValue,
+    showLabels,
+    showValues,
     truncateBy,
     prefix,
     suffix,
@@ -142,7 +142,7 @@ export function Bars(props: Props) {
             }}
             transition={{ duration: 0.5 }}
           />
-          {showBarLabel ? (
+          {showLabels ? (
             <motion.text
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
@@ -166,7 +166,7 @@ export function Bars(props: Props) {
                 : `${`${d.label}`.substring(0, truncateBy)}...`}
             </motion.text>
           ) : null}
-          {showBarValue ? (
+          {showValues ? (
             <motion.text
               style={{
                 fill:

@@ -18,7 +18,7 @@ interface Props {
   height: number;
   barColors: string[];
   barPadding: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   showTicks: boolean;
   truncateBy: number;
   leftMargin: number;
@@ -45,7 +45,7 @@ export function Graph(props: Props) {
     height,
     barColors,
     barPadding,
-    showBarLabel,
+    showLabels,
     showTicks,
     truncateBy,
     leftMargin,
@@ -284,7 +284,7 @@ export function Graph(props: Props) {
                     ) : null}
                   </g>
                 ))}
-                {showBarLabel ? (
+                {showLabels ? (
                   <text
                     x={x.bandwidth() / 2}
                     y={y(0)}

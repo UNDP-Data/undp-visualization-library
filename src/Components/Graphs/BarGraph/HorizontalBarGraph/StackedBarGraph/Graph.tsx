@@ -23,7 +23,7 @@ interface Props {
   height: number;
   rightMargin: number;
   topMargin: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   bottomMargin: number;
   suffix: string;
   prefix: string;
@@ -53,7 +53,7 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    showBarLabel,
+    showLabels,
     suffix,
     prefix,
     showValues,
@@ -236,7 +236,7 @@ export function Graph(props: Props) {
                     ) : null}
                   </g>
                 ))}
-                {showBarLabel ? (
+                {showLabels ? (
                   <text
                     style={{
                       fill: UNDPColorModule.grays['gray-700'],

@@ -26,7 +26,7 @@ interface Props {
   showLabels: boolean;
   colors: string[];
   colorDomain: string[];
-  pointRadius: number;
+  radius: number;
   xAxisTitle: string;
   yAxisTitle: string;
   leftMargin: number;
@@ -45,7 +45,7 @@ interface Props {
   ];
   selectedColor?: string;
   highlightedDataPoints: (string | number)[];
-  pointRadiusMaxValue?: number;
+  maxRadiusValue?: number;
   maxXValue?: number;
   minXValue?: number;
   maxYValue?: number;
@@ -66,7 +66,7 @@ export function Graph(props: Props) {
     showLabels,
     colors,
     colorDomain,
-    pointRadius,
+    radius,
     xAxisTitle,
     yAxisTitle,
     leftMargin,
@@ -80,7 +80,7 @@ export function Graph(props: Props) {
     highlightAreaSettings,
     selectedColor,
     highlightedDataPoints,
-    pointRadiusMaxValue,
+    maxRadiusValue,
     maxXValue,
     minXValue,
     maxYValue,
@@ -136,11 +136,11 @@ export function Graph(props: Props) {
       ? scaleSqrt()
           .domain([
             0,
-            checkIfNullOrUndefined(pointRadiusMaxValue)
+            checkIfNullOrUndefined(maxRadiusValue)
               ? (maxBy(data, 'radius')?.radius as number)
-              : (pointRadiusMaxValue as number),
+              : (maxRadiusValue as number),
           ])
-          .range([0.25, pointRadius])
+          .range([0.25, radius])
           .nice()
       : undefined;
 
@@ -448,7 +448,7 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y)
                             ? 0
                             : !radiusScale
-                            ? pointRadius
+                            ? radius
                             : radiusScale(d.radius || 0),
                       }}
                       transition={{ duration: 0.5 }}
@@ -474,7 +474,7 @@ export function Graph(props: Props) {
                         animate={{
                           y: y(d.y || 0),
                           x: !radiusScale
-                            ? x(d.x || 0) + pointRadius
+                            ? x(d.x || 0) + radius
                             : x(d.x || 0) + radiusScale(d.radius || 0),
                           opacity:
                             checkIfNullOrUndefined(d.x) ||
@@ -507,11 +507,7 @@ export function Graph(props: Props) {
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                           y={0}
-                          x={
-                            !radiusScale
-                              ? pointRadius
-                              : radiusScale(d.radius || 0)
-                          }
+                          x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                           dy={4}
                           dx={3}
                         >

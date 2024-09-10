@@ -160,43 +160,45 @@ export function DonutChart(props: Props) {
                     gap: '1.5rem',
                   }}
                 >
-                  {data.map((d, i) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        gap: '0.5rem',
-                        alignItems: 'center',
-                      }}
-                      key={i}
-                    >
+                  {sortBy(data, d => d.size)
+                    .reverse()
+                    .map((d, i) => (
                       <div
                         style={{
-                          width: '0.75rem',
-                          height: '0.75rem',
-                          borderRadius: '1rem',
-                          backgroundColor: colors
-                            ? colors[i]
-                            : UNDPColorModule.categoricalColors.colors[i],
+                          display: 'flex',
+                          gap: '0.5rem',
+                          alignItems: 'center',
                         }}
-                      />
-                      <p
-                        className='undp-viz-typography'
-                        style={{
-                          marginBottom: 0,
-                          fontSize: '0.875rem',
-                        }}
+                        key={i}
                       >
-                        {d.label}:{' '}
-                        <span style={{ fontWeight: 'bold' }}>
-                          {numberFormattingFunction(
-                            d.size,
-                            prefix || '',
-                            suffix || '',
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
+                        <div
+                          style={{
+                            width: '0.75rem',
+                            height: '0.75rem',
+                            borderRadius: '1rem',
+                            backgroundColor: colors
+                              ? colors[i]
+                              : UNDPColorModule.categoricalColors.colors[i],
+                          }}
+                        />
+                        <p
+                          className='undp-viz-typography'
+                          style={{
+                            marginBottom: 0,
+                            fontSize: '0.875rem',
+                          }}
+                        >
+                          {d.label}:{' '}
+                          <span style={{ fontWeight: 'bold' }}>
+                            {numberFormattingFunction(
+                              d.size,
+                              prefix || '',
+                              suffix || '',
+                            )}
+                          </span>
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             ) : null}

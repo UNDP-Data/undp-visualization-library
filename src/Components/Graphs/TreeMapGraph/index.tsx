@@ -29,12 +29,12 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  showLabel?: boolean;
+  showLabels?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   showColorScale?: boolean;
-  showValue?: boolean;
+  showValues?: boolean;
   graphID?: string;
   highlightedDataPoints?: (string | number)[];
   graphDownload?: boolean;
@@ -64,12 +64,12 @@ export function TreeMapGraph(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
-    showLabel,
+    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     showColorScale,
-    showValue,
+    showValues,
     graphID,
     highlightedDataPoints,
     onSeriesMouseClick,
@@ -234,15 +234,15 @@ export function TreeMapGraph(props: Props) {
                       ? 0
                       : (bottomMargin as number)
                   }
-                  showLabel={
-                    checkIfNullOrUndefined(showLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showLabel as boolean)
+                      : (showLabels as boolean)
                   }
-                  showValue={
-                    checkIfNullOrUndefined(showValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showValue as boolean)
+                      : (showValues as boolean)
                   }
                   suffix={suffix || ''}
                   prefix={prefix || ''}

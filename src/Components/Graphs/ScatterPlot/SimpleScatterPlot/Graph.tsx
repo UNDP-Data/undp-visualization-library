@@ -18,7 +18,7 @@ interface Props {
   showLabels: boolean;
   colors: string[];
   colorDomain: string[];
-  pointRadius: number;
+  radius: number;
   xAxisTitle: string;
   yAxisTitle: string;
   leftMargin: number;
@@ -37,7 +37,7 @@ interface Props {
   ];
   selectedColor?: string;
   highlightedDataPoints: (string | number)[];
-  pointRadiusMaxValue?: number;
+  maxRadiusValue?: number;
   maxXValue?: number;
   minXValue?: number;
   maxYValue?: number;
@@ -56,7 +56,7 @@ export function Graph(props: Props) {
     showLabels,
     colors,
     colorDomain,
-    pointRadius,
+    radius,
     xAxisTitle,
     yAxisTitle,
     leftMargin,
@@ -70,7 +70,7 @@ export function Graph(props: Props) {
     highlightAreaSettings,
     selectedColor,
     highlightedDataPoints,
-    pointRadiusMaxValue,
+    maxRadiusValue,
     maxXValue,
     minXValue,
     maxYValue,
@@ -98,11 +98,11 @@ export function Graph(props: Props) {
       ? scaleSqrt()
           .domain([
             0,
-            checkIfNullOrUndefined(pointRadiusMaxValue)
+            checkIfNullOrUndefined(maxRadiusValue)
               ? (maxBy(data, 'radius')?.radius as number)
-              : (pointRadiusMaxValue as number),
+              : (maxRadiusValue as number),
           ])
-          .range([0.25, pointRadius])
+          .range([0.25, radius])
           .nice()
       : undefined;
   const dataOrdered =
@@ -393,7 +393,7 @@ export function Graph(props: Props) {
                   <circle
                     cx={0}
                     cy={0}
-                    r={!radiusScale ? pointRadius : radiusScale(d.radius || 0)}
+                    r={!radiusScale ? radius : radiusScale(d.radius || 0)}
                     style={{
                       fill:
                         data.filter(el => el.color).length === 0
@@ -427,9 +427,7 @@ export function Graph(props: Props) {
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       y={0}
-                      x={
-                        !radiusScale ? pointRadius : radiusScale(d.radius || 0)
-                      }
+                      x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                       dy={4}
                       dx={3}
                     >
@@ -456,11 +454,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         y={0}
-                        x={
-                          !radiusScale
-                            ? pointRadius
-                            : radiusScale(d.radius || 0)
-                        }
+                        x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                         dy={4}
                         dx={3}
                       >

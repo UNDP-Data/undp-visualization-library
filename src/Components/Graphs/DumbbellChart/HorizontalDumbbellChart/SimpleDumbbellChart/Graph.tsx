@@ -15,7 +15,7 @@ interface Props {
   suffix: string;
   prefix: string;
   barPadding: number;
-  showDotValue: boolean;
+  showValues: boolean;
   showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
@@ -24,8 +24,8 @@ interface Props {
   truncateBy: number;
   width: number;
   height: number;
-  dotRadius: number;
-  showLabel: boolean;
+  radius: number;
+  showLabels: boolean;
   selectedColor?: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -45,7 +45,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     barPadding,
-    showDotValue,
+    showValues,
     showTicks,
     leftMargin,
     truncateBy,
@@ -54,8 +54,8 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    dotRadius,
-    showLabel,
+    radius,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     maxPositionValue,
@@ -170,7 +170,7 @@ export function Graph(props: Props) {
                 (y(`${i}`) as number) + y.bandwidth() / 2
               })`}
             >
-              {showLabel ? (
+              {showLabels ? (
                 <text
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
@@ -204,8 +204,8 @@ export function Graph(props: Props) {
                 strokeDasharray='4,8'
               />
               <line
-                x1={x(min(d.x) as number) + dotRadius}
-                x2={x(max(d.x) as number) - dotRadius}
+                x1={x(min(d.x) as number) + radius}
+                x2={x(max(d.x) as number) - radius}
                 y1={0}
                 y2={0}
                 style={{
@@ -271,7 +271,7 @@ export function Graph(props: Props) {
                   <circle
                     cx={x(el)}
                     cy={0}
-                    r={dotRadius}
+                    r={radius}
                     style={{
                       fill: dotColors[j],
                       fillOpacity: 0.85,
@@ -279,7 +279,7 @@ export function Graph(props: Props) {
                       strokeWidth: 1,
                     }}
                   />
-                  {showDotValue ? (
+                  {showValues ? (
                     <text
                       x={x(el)}
                       y={0}
@@ -295,7 +295,7 @@ export function Graph(props: Props) {
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dx={0}
-                      dy={0 - dotRadius - 3}
+                      dy={0 - radius - 3}
                     >
                       {numberFormattingFunction(el, prefix || '', suffix || '')}
                     </text>

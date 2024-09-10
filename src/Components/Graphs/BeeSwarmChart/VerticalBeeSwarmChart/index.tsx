@@ -28,14 +28,14 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  showLabel?: boolean;
+  showLabels?: boolean;
   showColorScale?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
-  pointRadius?: number;
-  pointRadiusMaxValue?: number;
+  radius?: number;
+  maxRadiusValue?: number;
   maxPositionValue?: number;
   minPositionValue?: number;
   highlightedDataPoints?: (string | number)[];
@@ -66,15 +66,15 @@ export function VerticalBeeSwarmChart(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
-    showLabel,
+    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     refValues,
     showColorScale,
     graphID,
-    pointRadius,
-    pointRadiusMaxValue,
+    radius,
+    maxRadiusValue,
     maxPositionValue,
     minPositionValue,
     highlightedDataPoints,
@@ -248,21 +248,19 @@ export function VerticalBeeSwarmChart(props: Props) {
                       ? 10
                       : (bottomMargin as number)
                   }
-                  showLabel={
-                    checkIfNullOrUndefined(showLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showLabel as boolean)
+                      : (showLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   startFromZero={false}
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
-                      ? 5
-                      : (pointRadius as number)
+                  radius={
+                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
                   }
-                  pointRadiusMaxValue={pointRadiusMaxValue}
+                  maxRadiusValue={maxRadiusValue}
                   maxPositionValue={maxPositionValue}
                   minPositionValue={minPositionValue}
                   highlightedDataPoints={highlightedDataPoints || []}

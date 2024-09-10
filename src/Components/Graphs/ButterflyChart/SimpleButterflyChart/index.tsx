@@ -37,7 +37,7 @@ interface Props {
   suffix?: string;
   prefix?: string;
   showTicks?: boolean;
-  showBarValue?: boolean;
+  showValues?: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   centerGap?: number;
   maxValue?: number;
@@ -77,7 +77,7 @@ export function ButterflyChart(props: Props) {
     truncateBy,
     onSeriesMouseClick,
     centerGap,
-    showBarValue,
+    showValues,
     maxValue,
     minValue,
     refValues,
@@ -244,10 +244,10 @@ export function ButterflyChart(props: Props) {
                   refValues={refValues || []}
                   maxValue={maxValue}
                   minValue={minValue}
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showBarValue as boolean)
+                      : (showValues as boolean)
                   }
                   onSeriesMouseClick={onSeriesMouseClick}
                   showTicks={showTicks !== false}

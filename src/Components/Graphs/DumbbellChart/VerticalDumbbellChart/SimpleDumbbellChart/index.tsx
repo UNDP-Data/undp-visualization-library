@@ -29,10 +29,10 @@ interface Props {
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
   padding?: string;
-  dotRadius?: number;
+  radius?: number;
   relativeHeight?: number;
-  showDotValue?: boolean;
-  showLabel?: boolean;
+  showValues?: boolean;
+  showLabels?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
@@ -72,9 +72,9 @@ export function VerticalDumbbellChart(props: Props) {
     colorLegendTitle,
     padding,
     backgroundColor,
-    dotRadius,
+    radius,
     tooltip,
-    showLabel,
+    showLabels,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
@@ -85,7 +85,7 @@ export function VerticalDumbbellChart(props: Props) {
     onSeriesMouseClick,
     graphDownload,
     dataDownload,
-    showDotValue,
+    showValues,
     sortParameter,
     arrowConnector,
     connectorStrokeWidth,
@@ -208,7 +208,7 @@ export function VerticalDumbbellChart(props: Props) {
                       ? (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
-                  dotRadius={!dotRadius ? 3 : dotRadius}
+                  radius={!radius ? 3 : radius}
                   barPadding={
                     checkIfNullOrUndefined(barPadding)
                       ? 0.25
@@ -244,15 +244,15 @@ export function VerticalDumbbellChart(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showLabel={
-                    checkIfNullOrUndefined(showLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showLabel as boolean)
+                      : (showLabels as boolean)
                   }
-                  showDotValue={
-                    checkIfNullOrUndefined(showDotValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showDotValue as boolean)
+                      : (showValues as boolean)
                   }
                   tooltip={tooltip}
                   suffix={suffix || ''}

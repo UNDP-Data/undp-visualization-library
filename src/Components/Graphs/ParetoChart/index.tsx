@@ -35,7 +35,7 @@ interface Props {
   dataDownload?: boolean;
   barPadding?: number;
   truncateBy?: number;
-  showLabel?: boolean;
+  showLabels?: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
@@ -70,7 +70,7 @@ export function ParetoChart(props: Props) {
     dataDownload,
     barPadding,
     truncateBy,
-    showLabel,
+    showLabels,
     onSeriesMouseClick,
     rtl,
     language,
@@ -218,7 +218,7 @@ export function ParetoChart(props: Props) {
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   barPadding={barPadding || 0.25}
-                  showLabel={showLabel !== false}
+                  showLabels={showLabels !== false}
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}

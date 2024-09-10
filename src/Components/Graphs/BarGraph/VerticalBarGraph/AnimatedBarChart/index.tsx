@@ -31,7 +31,7 @@ interface Props {
   prefix?: string;
   source?: string;
   barPadding?: number;
-  showBarValue?: boolean;
+  showValues?: boolean;
   showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -43,7 +43,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  showBarLabel?: boolean;
+  showLabels?: boolean;
   showColorScale?: boolean;
   maxValue?: number;
   minValue?: number;
@@ -74,7 +74,7 @@ export function AnimatedVerticalBarChart(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showBarValue,
+    showValues,
     showTicks,
     leftMargin,
     rightMargin,
@@ -89,7 +89,7 @@ export function AnimatedVerticalBarChart(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
-    showBarLabel,
+    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -309,10 +309,10 @@ export function AnimatedVerticalBarChart(props: Props) {
                       ? 0.25
                       : (barPadding as number)
                   }
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showBarValue as boolean)
+                      : (showValues as boolean)
                   }
                   showTicks={
                     checkIfNullOrUndefined(showTicks)
@@ -344,10 +344,10 @@ export function AnimatedVerticalBarChart(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showBarLabel as boolean)
+                      : (showLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

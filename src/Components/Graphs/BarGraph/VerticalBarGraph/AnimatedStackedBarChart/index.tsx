@@ -42,7 +42,7 @@ interface Props {
   suffix?: string;
   prefix?: string;
   showValues?: boolean;
-  showBarLabel?: boolean;
+  showLabels?: boolean;
   relativeHeight?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -86,7 +86,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     onSeriesMouseOver,
     suffix,
     prefix,
-    showBarLabel,
+    showLabels,
     relativeHeight,
     showValues,
     refValues,
@@ -297,10 +297,10 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showBarLabel as boolean)
+                      : (showLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

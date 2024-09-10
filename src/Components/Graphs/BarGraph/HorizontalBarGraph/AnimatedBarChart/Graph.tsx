@@ -23,13 +23,13 @@ interface Props {
   suffix: string;
   prefix: string;
   barPadding: number;
-  showBarValue: boolean;
+  showValues: boolean;
   showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   truncateBy: number;
   width: number;
   height: number;
@@ -55,7 +55,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     barPadding,
-    showBarValue,
+    showValues,
     showTicks,
     leftMargin,
     truncateBy,
@@ -65,7 +65,7 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    showBarLabel,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     refValues,
@@ -206,9 +206,9 @@ export function Graph(props: Props) {
             highlightedDataPoints={highlightedDataPoints}
             barColor={barColor}
             colorDomain={colorDomain}
-            showBarLabel={showBarLabel}
+            showLabels={showLabels}
             truncateBy={truncateBy}
-            showBarValue={showBarValue}
+            showValues={showValues}
             suffix={suffix}
             prefix={prefix}
             colorScale={data.filter(el => el.color).length === 0}

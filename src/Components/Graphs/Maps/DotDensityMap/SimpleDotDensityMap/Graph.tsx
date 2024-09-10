@@ -19,10 +19,10 @@ interface Props {
   centerPoint: [number, number];
   colors: string[];
   colorLegendTitle?: string;
-  pointRadius: number;
+  radius: number;
   mapBorderWidth: number;
   mapNoDataColor: string;
-  showLabel?: boolean;
+  showLabels?: boolean;
   mapBorderColor: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -44,13 +44,13 @@ export function Graph(props: Props) {
     mapData,
     colorLegendTitle,
     colorDomain,
-    pointRadius,
+    radius,
     height,
     width,
     scale,
     centerPoint,
     tooltip,
-    showLabel,
+    showLabels,
     mapBorderWidth,
     mapBorderColor,
     mapNoDataColor,
@@ -83,7 +83,7 @@ export function Graph(props: Props) {
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
           .domain([0, maxBy(data, 'radius')?.radius as number])
-          .range([0.25, pointRadius])
+          .range([0.25, radius])
           .nice()
       : undefined;
 
@@ -232,7 +232,7 @@ export function Graph(props: Props) {
                 <circle
                   cx={0}
                   cy={0}
-                  r={!radiusScale ? pointRadius : radiusScale(d.radius || 0)}
+                  r={!radiusScale ? radius : radiusScale(d.radius || 0)}
                   style={{
                     fill:
                       data.filter(el => el.color).length === 0
@@ -249,9 +249,9 @@ export function Graph(props: Props) {
                   }}
                   fillOpacity={0.8}
                 />
-                {showLabel && d.label ? (
+                {showLabels && d.label ? (
                   <text
-                    x={!radiusScale ? pointRadius : radiusScale(d.radius || 0)}
+                    x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                     y={0}
                     style={{
                       fill: UNDPColorModule.grays['gray-600'],

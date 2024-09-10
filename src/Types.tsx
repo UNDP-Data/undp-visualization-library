@@ -31,7 +31,8 @@ export type GraphType =
   | 'dataTable'
   | 'statCard'
   | 'geoHubCompareMap'
-  | 'geoHubMap';
+  | 'geoHubMap'
+  | 'unitChart';
 
 export interface TimeSeriesProps {
   year: number;
@@ -374,7 +375,6 @@ export interface GraphSettingsDataType {
   prefix?: string;
   source?: string;
   barPadding?: number;
-  showBarValue?: boolean;
   showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -386,7 +386,6 @@ export interface GraphSettingsDataType {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  showBarLabel?: boolean;
   showColorScale?: boolean;
   maxValue?: number;
   minValue?: number;
@@ -397,27 +396,22 @@ export interface GraphSettingsDataType {
   graphDownload?: boolean;
   sortData?: 'desc' | 'asc';
   dataDownload?: boolean;
-  showValues?: boolean;
-  showLabel?: boolean;
-  pointRadius?: number;
-  pointRadiusMaxValue?: number;
+  maxRadiusValue?: number;
   maxPositionValue?: number;
   minPositionValue?: number;
   leftBarTitle?: string;
   rightBarTitle?: string;
   barColors?: [string, string];
   centerGap?: number;
-  showValue?: boolean;
   columnData?: DataTableColumnDataType[];
   mainText?: string;
   subNote?: string;
   radius?: number;
   strokeWidth?: number;
   graphLegend?: boolean;
-  showDotValue?: boolean;
-  dotRadius?: number;
+  showValues?: boolean;
   scaleType?: ScaleDataType;
-  domain: number[] | string[];
+  domain?: number[] | string[];
   showColumnLabels?: boolean;
   showRowLabels?: boolean;
   noDataColor?: string;
@@ -437,7 +431,7 @@ export interface GraphSettingsDataType {
     | [number | null, number | null]
     | [number | null, number | null, number | null, number | null];
   highlightAreaColor?: string;
-  labels: string[];
+  labels?: string[];
   showColorLegendAtTop?: boolean;
   highlightedLines?: string[];
   areaId?: string;
@@ -461,7 +455,7 @@ export interface GraphSettingsDataType {
   mapStyles: [string, string];
   center?: [number, number];
   zoomLevel?: number;
-  mapStyle: string;
+  mapStyle?: string;
   barTitle?: string;
   lineTitle?: string;
   barColor?: string;
@@ -489,4 +483,9 @@ export interface GraphSettingsDataType {
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
   countOnly?: (string | number)[];
+  value?: number;
+  gridSize?: number;
+  unitPadding?: number;
+  size?: number;
+  dotColors?: string;
 }

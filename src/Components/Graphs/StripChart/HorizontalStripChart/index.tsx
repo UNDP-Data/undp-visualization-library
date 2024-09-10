@@ -21,7 +21,7 @@ interface Props {
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  pointRadius?: number;
+  radius?: number;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -61,7 +61,7 @@ export function HorizontalStripChart(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
+    radius,
     padding,
     backgroundColor,
     leftMargin,
@@ -224,10 +224,10 @@ export function HorizontalStripChart(props: Props) {
                         UNDPColorModule.categoricalColors.colors
                   }
                   selectedColor={selectedColor}
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
+                  radius={
+                    checkIfNullOrUndefined(radius)
                       ? 5
-                      : (pointRadius as number)
+                      : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

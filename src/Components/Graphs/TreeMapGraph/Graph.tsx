@@ -14,8 +14,8 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  showLabel: boolean;
-  showValue: boolean;
+  showLabels: boolean;
+  showValues: boolean;
   width: number;
   height: number;
   suffix: string;
@@ -40,11 +40,11 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    showLabel,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     selectedColor,
-    showValue,
+    showValues,
     suffix,
     prefix,
     highlightedDataPoints,
@@ -168,7 +168,7 @@ export function Graph(props: Props) {
                 />
                 {d.x1 - d.x0 > 50 &&
                 d.y1 - d.y0 > 25 &&
-                (showLabel || showValue) ? (
+                (showLabels || showValues) ? (
                   <foreignObject
                     y={0}
                     x={0}
@@ -199,7 +199,7 @@ export function Graph(props: Props) {
                         padding: '0.5rem',
                       }}
                     >
-                      {showLabel ? (
+                      {showLabels ? (
                         <p
                           className='undp-viz-typography'
                           style={{
@@ -222,7 +222,7 @@ export function Graph(props: Props) {
                           {(d.data as any).id}
                         </p>
                       ) : null}
-                      {showValue ? (
+                      {showValues ? (
                         <p
                           className='undp-viz-typography'
                           style={{

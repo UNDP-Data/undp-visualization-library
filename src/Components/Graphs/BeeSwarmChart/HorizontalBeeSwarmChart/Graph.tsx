@@ -33,7 +33,7 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  showLabel: boolean;
+  showLabels: boolean;
   width: number;
   height: number;
   tooltip?: string;
@@ -41,8 +41,8 @@ interface Props {
   refValues?: ReferenceDataType[];
   selectedColor?: string;
   startFromZero: boolean;
-  pointRadius: number;
-  pointRadiusMaxValue?: number;
+  radius: number;
+  maxRadiusValue?: number;
   maxPositionValue?: number;
   minPositionValue?: number;
   highlightedDataPoints: (string | number)[];
@@ -63,14 +63,14 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    showLabel,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     refValues,
     selectedColor,
     startFromZero,
-    pointRadius,
-    pointRadiusMaxValue,
+    radius,
+    maxRadiusValue,
     maxPositionValue,
     minPositionValue,
     highlightedDataPoints,
@@ -126,11 +126,11 @@ export function Graph(props: Props) {
       ? scaleSqrt()
           .domain([
             0,
-            checkIfNullOrUndefined(pointRadiusMaxValue)
+            checkIfNullOrUndefined(maxRadiusValue)
               ? (maxBy(data, 'radius')?.radius as number)
-              : (pointRadiusMaxValue as number),
+              : (maxRadiusValue as number),
           ])
-          .range([0.25, pointRadius])
+          .range([0.25, radius])
           .nice()
       : undefined;
   const x = scaleLinear()
@@ -149,7 +149,7 @@ export function Graph(props: Props) {
       .force(
         'collide',
         forceCollide((d: any) =>
-          radiusScale ? radiusScale(d.radius || 0) + 1 : pointRadius + 1,
+          radiusScale ? radiusScale(d.radius || 0) + 1 : radius + 1,
         ),
       )
       .force('charge', forceManyBody().strength(-15))
@@ -282,7 +282,7 @@ export function Graph(props: Props) {
                 <circle
                   cx={0}
                   cy={0}
-                  r={radiusScale ? radiusScale(d.radius || 0) : pointRadius}
+                  r={radiusScale ? radiusScale(d.radius || 0) : radius}
                   style={{
                     fill:
                       data.filter(el => el.color).length === 0
@@ -292,24 +292,16 @@ export function Graph(props: Props) {
                         : circleColors[colorDomain.indexOf(d.color)],
                   }}
                 />
-                {(radiusScale ? radiusScale(d.radius || 0) : pointRadius) >
-                  10 && showLabel ? (
+                {(radiusScale ? radiusScale(d.radius || 0) : radius) > 10 &&
+                showLabels ? (
                   <foreignObject
-                    y={
-                      0 -
-                      (radiusScale ? radiusScale(d.radius || 0) : pointRadius)
-                    }
-                    x={
-                      0 -
-                      (radiusScale ? radiusScale(d.radius || 0) : pointRadius)
-                    }
+                    y={0 - (radiusScale ? radiusScale(d.radius || 0) : radius)}
+                    x={0 - (radiusScale ? radiusScale(d.radius || 0) : radius)}
                     width={
-                      2 *
-                      (radiusScale ? radiusScale(d.radius || 0) : pointRadius)
+                      2 * (radiusScale ? radiusScale(d.radius || 0) : radius)
                     }
                     height={
-                      2 *
-                      (radiusScale ? radiusScale(d.radius || 0) : pointRadius)
+                      2 * (radiusScale ? radiusScale(d.radius || 0) : radius)
                     }
                   >
                     <div
@@ -337,7 +329,7 @@ export function Graph(props: Props) {
                         padding: '0 0.25rem',
                       }}
                     >
-                      {showLabel ? (
+                      {showLabels ? (
                         <p
                           className='undp-viz-typography'
                           style={{
@@ -346,7 +338,7 @@ export function Graph(props: Props) {
                                 Math.round(
                                   (radiusScale
                                     ? radiusScale(d.radius || 0)
-                                    : pointRadius) / 4,
+                                    : radius) / 4,
                                 ),
                                 10,
                               ),

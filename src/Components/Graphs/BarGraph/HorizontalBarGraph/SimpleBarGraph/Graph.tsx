@@ -14,13 +14,13 @@ interface Props {
   suffix: string;
   prefix: string;
   barPadding: number;
-  showBarValue: boolean;
+  showValues: boolean;
   showTicks: boolean;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   truncateBy: number;
   width: number;
   height: number;
@@ -44,7 +44,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     barPadding,
-    showBarValue,
+    showValues,
     showTicks,
     leftMargin,
     truncateBy,
@@ -54,7 +54,7 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    showBarLabel,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     refValues,
@@ -226,7 +226,7 @@ export function Graph(props: Props) {
                     height={y.bandwidth()}
                   />
                 ) : null}
-                {showBarLabel ? (
+                {showLabels ? (
                   <text
                     style={{
                       fill: UNDPColorModule.grays['gray-700'],
@@ -252,7 +252,7 @@ export function Graph(props: Props) {
                       : `${`${d.label}`.substring(0, truncateBy)}...`}
                   </text>
                 ) : null}
-                {showBarValue ? (
+                {showValues ? (
                   <text
                     x={d.size ? x(d.size) : x(0)}
                     y={(y(d.id) as number) + y.bandwidth() / 2}

@@ -33,13 +33,13 @@ interface Props {
   colorLegendTitle?: string;
   suffix?: string;
   prefix?: string;
-  showBarValue?: boolean;
+  showValues?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
-  showBarLabel?: boolean;
+  showLabels?: boolean;
   bottomMargin?: number;
   relativeHeight?: number;
   tooltip?: string;
@@ -76,13 +76,13 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     colorLegendTitle,
     suffix,
     prefix,
-    showBarValue,
+    showValues,
     padding,
     backgroundColor,
     leftMargin,
     rightMargin,
     topMargin,
-    showBarLabel,
+    showLabels,
     bottomMargin,
     relativeHeight,
     tooltip,
@@ -264,10 +264,10 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   }
                   suffix={suffix || ''}
                   prefix={prefix || ''}
-                  showBarValue={
-                    checkIfNullOrUndefined(showBarValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showBarValue as boolean)
+                      : (showValues as boolean)
                   }
                   barPadding={
                     checkIfNullOrUndefined(barPadding)
@@ -304,10 +304,10 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showBarLabel={
-                    checkIfNullOrUndefined(showBarLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showBarLabel as boolean)
+                      : (showLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

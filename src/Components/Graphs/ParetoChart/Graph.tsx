@@ -25,7 +25,7 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   barPadding: number;
   truncateBy: number;
-  showLabel: boolean;
+  showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
@@ -48,7 +48,7 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     barPadding,
     truncateBy,
-    showLabel,
+    showLabels,
     onSeriesMouseClick,
     rtl,
     language,
@@ -298,7 +298,7 @@ export function Graph(props: Props) {
                   }}
                   height={d.bar ? Math.abs(y1(d.bar) - graphHeight) : 0}
                 />
-                {showLabel ? (
+                {showLabels ? (
                   <text
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y1(0)}

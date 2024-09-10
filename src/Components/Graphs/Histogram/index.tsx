@@ -24,7 +24,7 @@ interface Props {
   height?: number;
   source?: string;
   barPadding?: number;
-  showBarValue?: boolean;
+  showValues?: boolean;
   showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -33,7 +33,7 @@ interface Props {
   topMargin?: number;
   bottomMargin?: number;
   relativeHeight?: number;
-  showBarLabel?: boolean;
+  showLabels?: boolean;
   maxValue?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -60,7 +60,7 @@ export function Histogram(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showBarValue,
+    showValues,
     showTicks,
     leftMargin,
     rightMargin,
@@ -72,7 +72,7 @@ export function Histogram(props: Props) {
     backgroundColor,
     topMargin,
     bottomMargin,
-    showBarLabel,
+    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -146,11 +146,11 @@ export function Histogram(props: Props) {
         topMargin={topMargin}
         bottomMargin={bottomMargin}
         relativeHeight={relativeHeight}
-        showLabel={showBarLabel}
+        showLabels={showLabels}
         tooltip={tooltip}
         onSeriesMouseOver={onSeriesMouseOver}
         showColorScale={false}
-        showValue={showBarValue}
+        showValues={showValues}
         graphID={graphID}
         onSeriesMouseClick={onSeriesMouseClick}
         graphDownload={graphDownload}
@@ -178,11 +178,11 @@ export function Histogram(props: Props) {
         topMargin={topMargin}
         bottomMargin={bottomMargin}
         relativeHeight={relativeHeight}
-        showLabel={showBarLabel}
+        showLabels={showLabels}
         tooltip={tooltip}
         onSeriesMouseOver={onSeriesMouseOver}
         showColorScale={false}
-        showValue={showBarValue}
+        showValues={showValues}
         graphID={graphID}
         onSeriesMouseClick={onSeriesMouseClick}
         graphDownload={graphDownload}
@@ -245,11 +245,11 @@ export function Histogram(props: Props) {
         topMargin={topMargin}
         bottomMargin={bottomMargin}
         relativeHeight={relativeHeight}
-        showBarLabel={showBarLabel}
+        showLabels={showLabels}
         tooltip={tooltip}
         onSeriesMouseOver={onSeriesMouseOver}
         showColorScale={false}
-        showBarValue={showBarValue}
+        showValues={showValues}
         graphID={graphID}
         onSeriesMouseClick={onSeriesMouseClick}
         graphDownload={graphDownload}
@@ -282,11 +282,11 @@ export function Histogram(props: Props) {
       topMargin={topMargin}
       bottomMargin={bottomMargin}
       relativeHeight={relativeHeight}
-      showBarLabel={showBarLabel}
+      showLabels={showLabels}
       tooltip={tooltip}
       onSeriesMouseOver={onSeriesMouseOver}
       showColorScale={false}
-      showBarValue={showBarValue}
+      showValues={showValues}
       graphID={graphID}
       onSeriesMouseClick={onSeriesMouseClick}
       graphDownload={graphDownload}

@@ -27,7 +27,7 @@ interface Props {
   height: number;
   rightMargin: number;
   topMargin: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   bottomMargin: number;
   suffix: string;
   prefix: string;
@@ -60,7 +60,7 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    showBarLabel,
+    showLabels,
     suffix,
     prefix,
     showValues,
@@ -178,7 +178,7 @@ export function Graph(props: Props) {
             x={x}
             y={y}
             barColors={barColors}
-            showBarLabel={showBarLabel}
+            showLabels={showLabels}
             truncateBy={truncateBy}
             showValues={
               checkIfNullOrUndefined(showValues)

@@ -28,11 +28,11 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   truncateBy: number;
-  showBarLabel: boolean;
+  showLabels: boolean;
   width: number;
   suffix: string;
   prefix: string;
-  showBarValue: boolean;
+  showValues: boolean;
   height: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -59,11 +59,11 @@ export function Graph(props: Props) {
     height,
     suffix,
     prefix,
-    showBarValue,
+    showValues,
     rightMargin,
     topMargin,
     bottomMargin,
-    showBarLabel,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     refValues,
@@ -251,7 +251,7 @@ export function Graph(props: Props) {
                         }}
                         transition={{ duration: 0.5 }}
                       />
-                      {showBarValue ? (
+                      {showValues ? (
                         <motion.text
                           y={
                             (subBarScale(`${j}`) as number) +
@@ -287,7 +287,7 @@ export function Graph(props: Props) {
                       ) : null}
                     </motion.g>
                   ))}
-                  {showBarLabel ? (
+                  {showLabels ? (
                     <text
                       style={{
                         fill: UNDPColorModule.grays['gray-700'],

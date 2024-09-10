@@ -27,15 +27,15 @@ interface Props {
   truncateBy: number;
   width: number;
   height: number;
-  dotRadius: number;
-  showLabel: boolean;
+  radius: number;
+  showLabels: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   maxPositionValue?: number;
   minPositionValue?: number;
   suffix: string;
   prefix: string;
-  showDotValue: boolean;
+  showValues: boolean;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
   dateFormat: string;
@@ -60,14 +60,14 @@ export function Graph(props: Props) {
     rightMargin,
     topMargin,
     bottomMargin,
-    dotRadius,
-    showLabel,
+    radius,
+    showLabels,
     tooltip,
     onSeriesMouseOver,
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
-    showDotValue,
+    showValues,
     suffix,
     prefix,
     selectedColor,
@@ -256,7 +256,7 @@ export function Graph(props: Props) {
                 className='undp-viz-low-opacity undp-viz-g-with-hover'
                 key={d.label}
               >
-                {showLabel ? (
+                {showLabels ? (
                   <motion.text
                     style={{
                       fill: UNDPColorModule.grays['gray-700'],
@@ -299,9 +299,9 @@ export function Graph(props: Props) {
                   }
                   animate={{
                     x1: (x(`${i}`) as number) + x.bandwidth() / 2,
-                    y1: y(min(d.x) as number) - dotRadius,
+                    y1: y(min(d.x) as number) - radius,
                     x2: (x(`${i}`) as number) + x.bandwidth() / 2,
-                    y2: y(max(d.x) as number) + dotRadius,
+                    y2: y(max(d.x) as number) + radius,
                   }}
                   transition={{ duration: 0.5 }}
                 />
@@ -349,7 +349,7 @@ export function Graph(props: Props) {
                     }}
                   >
                     <motion.circle
-                      r={dotRadius}
+                      r={radius}
                       style={{
                         fill: dotColors[j],
                         fillOpacity: 0.85,
@@ -363,7 +363,7 @@ export function Graph(props: Props) {
                       }}
                       transition={{ duration: 0.5 }}
                     />
-                    {showDotValue ? (
+                    {showValues ? (
                       <motion.text
                         style={{
                           fill: dotColors[j],
@@ -376,7 +376,7 @@ export function Graph(props: Props) {
                               : 'Noto Sans Arabic, sans-serif'
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
-                        dx={dotRadius + 3}
+                        dx={radius + 3}
                         dy={4.5}
                         animate={{
                           x: (x(`${i}`) as number) + x.bandwidth() / 2,

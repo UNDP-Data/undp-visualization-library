@@ -21,7 +21,7 @@ interface Props {
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  pointRadius?: number;
+  radius?: number;
   axisTitle?: [string, string];
   backgroundColor?: string | boolean;
   padding?: string;
@@ -59,7 +59,7 @@ export function SlopeChart(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    pointRadius,
+    radius,
     axisTitle,
     padding,
     backgroundColor,
@@ -226,10 +226,10 @@ export function SlopeChart(props: Props) {
                       ? false
                       : (showLabels as boolean)
                   }
-                  pointRadius={
-                    checkIfNullOrUndefined(pointRadius)
+                  radius={
+                    checkIfNullOrUndefined(radius)
                       ? 5
-                      : (pointRadius as number)
+                      : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

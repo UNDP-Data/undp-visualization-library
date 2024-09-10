@@ -36,7 +36,7 @@ interface Props {
   minValue?: number;
   barPadding: number;
   truncateBy: number;
-  showBarValue: boolean;
+  showValues: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   showTicks: boolean;
   suffix: string;
@@ -57,7 +57,7 @@ export function Graph(props: Props) {
     refValues,
     maxValue,
     minValue,
-    showBarValue,
+    showValues,
     axisTitles,
     rightMargin,
     leftMargin,
@@ -293,7 +293,7 @@ export function Graph(props: Props) {
                       }}
                       transition={{ duration: 0.5 }}
                     />
-                    {showBarValue ? (
+                    {showValues ? (
                       <motion.text
                         style={{
                           fill: barColors[0],
@@ -473,7 +473,7 @@ export function Graph(props: Props) {
                       }}
                       transition={{ duration: 0.5 }}
                     />
-                    {showBarValue ? (
+                    {showValues ? (
                       <motion.text
                         style={{
                           fill: barColors[1],

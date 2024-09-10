@@ -21,7 +21,7 @@ interface Props {
   prefix?: string;
   source?: string;
   barPadding?: number;
-  showDotValue?: boolean;
+  showValues?: boolean;
   showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -32,9 +32,9 @@ interface Props {
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
   padding?: string;
-  dotRadius?: number;
+  radius?: number;
   relativeHeight?: number;
-  showLabel?: boolean;
+  showLabels?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   graphID?: string;
@@ -61,7 +61,7 @@ export function HorizontalDumbbellChart(props: Props) {
     graphDescription,
     sourceLink,
     barPadding,
-    showDotValue,
+    showValues,
     showTicks,
     leftMargin,
     rightMargin,
@@ -75,9 +75,9 @@ export function HorizontalDumbbellChart(props: Props) {
     colorLegendTitle,
     padding,
     backgroundColor,
-    dotRadius,
+    radius,
     tooltip,
-    showLabel,
+    showLabels,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
@@ -213,16 +213,16 @@ export function HorizontalDumbbellChart(props: Props) {
                   }
                   suffix={suffix || ''}
                   prefix={prefix || ''}
-                  dotRadius={!dotRadius ? 3 : dotRadius}
+                  radius={!radius ? 3 : radius}
                   barPadding={
                     checkIfNullOrUndefined(barPadding)
                       ? 0.25
                       : (barPadding as number)
                   }
-                  showDotValue={
-                    checkIfNullOrUndefined(showDotValue)
+                  showValues={
+                    checkIfNullOrUndefined(showValues)
                       ? true
-                      : (showDotValue as boolean)
+                      : (showValues as boolean)
                   }
                   showTicks={
                     checkIfNullOrUndefined(showTicks)
@@ -254,10 +254,10 @@ export function HorizontalDumbbellChart(props: Props) {
                       ? 999
                       : (truncateBy as number)
                   }
-                  showLabel={
-                    checkIfNullOrUndefined(showLabel)
+                  showLabels={
+                    checkIfNullOrUndefined(showLabels)
                       ? true
-                      : (showLabel as boolean)
+                      : (showLabels as boolean)
                   }
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

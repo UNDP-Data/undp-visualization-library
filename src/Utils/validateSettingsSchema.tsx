@@ -28,6 +28,7 @@ import {
   statCardSettingsSchema,
   geoHubCompareMapSettingsSchema,
   geoHubMapSettingsSchema,
+  unitChartSettingsSchema,
 } from '../Schemas';
 
 const ajv = new Ajv();
@@ -134,6 +135,9 @@ export const validateSettingsSchema = (settings: any, graph: GraphType) => {
       break;
     case 'geoHubMap':
       schema = geoHubMapSettingsSchema;
+      break;
+    case 'unitChart':
+      schema = unitChartSettingsSchema;
       break;
     default:
       console.error('Unknown chart type:', graph);
