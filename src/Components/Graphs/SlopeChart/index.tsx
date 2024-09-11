@@ -227,9 +227,7 @@ export function SlopeChart(props: Props) {
                       : (showLabels as boolean)
                   }
                   radius={
-                    checkIfNullOrUndefined(radius)
-                      ? 5
-                      : (radius as number)
+                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)

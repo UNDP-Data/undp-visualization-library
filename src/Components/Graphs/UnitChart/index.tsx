@@ -1,19 +1,21 @@
 import { useRef } from 'react';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import sum from 'lodash.sum';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
+import { UnitChartDataType } from '../../../Types';
+import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
-  value: number;
-  maxValue?: number;
+  data: UnitChartDataType[];
+  totalNoOfDots?: number;
   gridSize?: number;
   fillContainer?: boolean;
   unitPadding?: number;
   size?: number;
   graphTitle?: string;
   source?: string;
-  dotColors?: string;
+  colors?: string[];
   graphDescription?: string;
   sourceLink?: string;
   footNote?: string;
@@ -23,18 +25,21 @@ interface Props {
   graphDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  graphLegend?: boolean;
+  showStrokeForWhiteDots?: boolean;
+  note?: string;
 }
 
 export function UnitChart(props: Props) {
   const {
-    value,
+    data,
     size,
     sourceLink,
     graphTitle,
     source,
-    dotColors,
+    colors,
     graphDescription,
-    maxValue,
+    totalNoOfDots,
     unitPadding,
     gridSize,
     footNote,
@@ -45,14 +50,14 @@ export function UnitChart(props: Props) {
     fillContainer,
     rtl,
     language,
+    graphLegend,
+    showStrokeForWhiteDots,
+    note,
   } = props;
-  const outOfValue = maxValue === undefined ? 100 : maxValue;
+  const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
+  const totalValue = sum(data.map(d => d.value));
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
   const graphParentDiv = useRef<HTMLDivElement>(null);
-  if (outOfValue < value) {
-    console.error('maxValue should be greater than value');
-    return null;
-  }
   const gridDimension =
     gridSize !== undefined ? (size || 200) / gridSize : (size || 200) / 10;
   const radius = (gridDimension - paddingValue * 2) / 2;
@@ -62,6 +67,16 @@ export function UnitChart(props: Props) {
     );
     return null;
   }
+
+  const cellsData: { color: string }[] = [];
+  data.forEach((item, index) => {
+    const count = Math.round((item.value / totalValue) * maxValue);
+    for (let i = 0; i < count; i += 1) {
+      cellsData.push({
+        color: (colors || UNDPColorModule.categoricalColors.colors)[index],
+      });
+    }
+  });
   return (
     <div
       style={{
@@ -108,7 +123,7 @@ export function UnitChart(props: Props) {
               graphDownload={graphDownload ? graphParentDiv.current : undefined}
             />
           ) : null}
-          <div>
+          {note ? (
             <h2
               className='undp-viz-typography'
               style={{
@@ -118,50 +133,96 @@ export function UnitChart(props: Props) {
                 marginTop: 0,
               }}
             >
-              {numberFormattingFunction(value, '', '').split('.')[0]} out of{' '}
-              {outOfValue}
+              {note}
             </h2>
+          ) : null}
+          {graphLegend !== false ? (
+            <div
+              style={{
+                lineHeight: 0,
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  marginBottom: 0,
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  gap: '1.5rem',
+                }}
+              >
+                {data.map((d, i) => (
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '0.5rem',
+                      alignItems: 'center',
+                    }}
+                    key={i}
+                  >
+                    <div
+                      style={{
+                        width: '0.75rem',
+                        height: '0.75rem',
+                        borderRadius: '1rem',
+                        backgroundColor: colors
+                          ? colors[i]
+                          : UNDPColorModule.categoricalColors.colors[i],
+                      }}
+                    />
+                    <p
+                      className='undp-viz-typography'
+                      style={{
+                        marginBottom: 0,
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      {d.label}:{' '}
+                      <span style={{ fontWeight: 'bold' }}>
+                        {numberFormattingFunction(d.value)}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          <div>
             <svg
               width={`${size || 200}px`}
               height={`${
-                Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
-                  gridDimension +
+                Math.floor((maxValue - 1) / (gridSize || 10)) * gridDimension +
                 gridDimension / 2 +
                 radius +
                 5
               }px`}
               viewBox={`0 0 ${size || 200} ${
-                Math.floor(((maxValue || 100) - 1) / (gridSize || 10)) *
-                  gridDimension +
+                Math.floor((maxValue - 1) / (gridSize || 10)) * gridDimension +
                 gridDimension / 2 +
                 radius +
                 5
               }`}
             >
               <g>
-                {Array.from(
-                  Array(maxValue || 100),
-                  (_, index) => index + 1,
-                ).map(d => (
+                {cellsData.map((d, i) => (
                   <circle
-                    key={d}
+                    key={i}
                     cx={
-                      ((d - 1) % (gridSize || 10)) * gridDimension +
-                      gridDimension / 2
+                      (i % (gridSize || 10)) * gridDimension + gridDimension / 2
                     }
                     cy={
-                      Math.floor((d - 1) / (gridSize || 10)) * gridDimension +
+                      Math.floor(i / (gridSize || 10)) * gridDimension +
                       gridDimension / 2
                     }
                     style={{
-                      fill:
-                        d <= Math.round(value)
-                          ? dotColors || UNDPColorModule.graphMainColor
-                          : '#FFF',
+                      fill: d.color,
                       stroke:
-                        d <= Math.round(value)
-                          ? dotColors || UNDPColorModule.graphMainColor
-                          : '#A9B1B7',
+                        (d.color.toLowerCase() === '#fff' ||
+                          d.color.toLowerCase() === '#ffffff' ||
+                          d.color.toLowerCase() === 'white') &&
+                        showStrokeForWhiteDots !== false
+                          ? '#A9B1B7'
+                          : d.color,
                       strokeWidth: 1,
                     }}
                     r={radius}

@@ -274,11 +274,7 @@ export function AnimatedDotDensityMap(props: Props) {
                       UNDPColorModule.categoricalColors.colors
                 }
                 colorLegendTitle={colorLegendTitle}
-                radius={
-                  checkIfNullOrUndefined(radius)
-                    ? 5
-                    : (radius as number)
-                }
+                radius={checkIfNullOrUndefined(radius) ? 5 : (radius as number)}
                 mapBorderWidth={
                   checkIfNullOrUndefined(mapBorderWidth)
                     ? 0.5

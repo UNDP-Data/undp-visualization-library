@@ -1218,15 +1218,14 @@ function GraphEl(props: Props) {
         };
       case 'unitChart':
         return {
-          value: settings?.value as number,
-          maxValue: settings?.maxValue,
+          totalNoOfDots: settings?.totalNoOfDots,
           gridSize: settings?.gridSize,
           fillContainer: settings?.fillContainer,
           unitPadding: settings?.unitPadding,
           size: settings?.size,
           graphTitle: settings?.graphTitle,
           source: settings?.source,
-          dotColors: settings?.dotColors,
+          colors: settings?.colors as string[] | undefined,
           graphDescription: settings?.graphDescription,
           sourceLink: settings?.sourceLink,
           footNote: settings?.footNote,
@@ -1236,6 +1235,9 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          graphLegend: settings?.graphLegend,
+          showStrokeForWhiteDots: settings?.showStrokeForWhiteDots,
+          note: settings?.note,
         };
       default:
         return {};

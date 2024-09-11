@@ -250,9 +250,7 @@ export function Graph(props: Props) {
                     cy={(projection([d.long, d.lat]) as [number, number])[1]}
                     fillOpacity={0.8}
                     animate={{
-                      r: !radiusScale
-                        ? radius
-                        : radiusScale(d.radius || 0),
+                      r: !radiusScale ? radius : radiusScale(d.radius || 0),
                       fill:
                         data.filter(el => el.color).length === 0
                           ? colors[0]

@@ -40,6 +40,12 @@ export interface TimeSeriesProps {
   data?: object;
 }
 
+export interface UnitChartDataType {
+  label: number | string;
+  value: number;
+  data?: object;
+}
+
 export interface TreeMapDataType {
   label: string | number;
   size: number;
@@ -487,5 +493,7 @@ export interface GraphSettingsDataType {
   gridSize?: number;
   unitPadding?: number;
   size?: number;
-  dotColors?: string;
+  totalNoOfDots?: number;
+  showStrokeForWhiteDots?: boolean;
+  note?: string;
 }

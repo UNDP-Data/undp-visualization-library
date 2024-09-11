@@ -202,6 +202,21 @@ export const dumbbellChartDataSchema = {
   },
 };
 
+export const unitChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      value: { type: 'number' },
+      data: { type: 'object' },
+    },
+    required: ['value', 'label'],
+  },
+};
+
 export const animatedDumbbellChartDataSchema = {
   type: 'array',
   items: {
@@ -2257,8 +2272,7 @@ export const treeMapSettingsSchema = {
 export const unitChartSettingsSchema = {
   type: 'object',
   properties: {
-    value: { type: 'number' },
-    maxValue: { type: 'number' },
+    totalNoOfDots: { type: 'number' },
     gridSize: { type: 'number' },
     fillContainer: { type: 'boolean' },
     unitPadding: { type: 'number' },
@@ -2268,7 +2282,10 @@ export const unitChartSettingsSchema = {
     footNote: { type: 'string' },
     sourceLink: { type: 'string' },
     source: { type: 'string' },
-    dotColors: { type: 'string' },
+    dotColors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -2280,6 +2297,9 @@ export const unitChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    graphLegend: { type: 'boolean' },
+    showStrokeForWhiteDots: { type: 'boolean' },
+    note: { type: 'string' },
   },
   required: ['value'],
 };

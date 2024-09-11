@@ -38,7 +38,7 @@ export { SlopeChart } from './Components/Graphs/SlopeChart';
 // Area Chart
 export { AreaChart } from './Components/Graphs/StackedAreaChart';
 // Stat Cards
-export { StatCard } from './Components/Graphs/StatCard';
+export { BasicStatCard } from './Components/Graphs/StatCard';
 export { StatCardFromData } from './Components/Graphs/StatCard/StatCardFromData';
 // Tree Maps
 export { TreeMapGraph } from './Components/Graphs/TreeMapGraph';

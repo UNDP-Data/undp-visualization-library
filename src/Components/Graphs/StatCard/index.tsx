@@ -20,7 +20,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
 }
 
-export function StatCard(props: Props) {
+export function BasicStatCard(props: Props) {
   const {
     year,
     value,

@@ -225,9 +225,7 @@ export function HorizontalStripChart(props: Props) {
                   }
                   selectedColor={selectedColor}
                   radius={
-                    checkIfNullOrUndefined(radius)
-                      ? 5
-                      : (radius as number)
+                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
