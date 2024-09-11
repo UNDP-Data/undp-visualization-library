@@ -293,7 +293,7 @@ export function VerticalBarGraph(props: Props) {
                   highlightedDataPoints={highlightedDataPoints || []}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

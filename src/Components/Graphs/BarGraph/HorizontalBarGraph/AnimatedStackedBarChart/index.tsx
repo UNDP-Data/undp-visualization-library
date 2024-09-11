@@ -319,7 +319,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                       ? true
                       : (autoSort as boolean)
                   }
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

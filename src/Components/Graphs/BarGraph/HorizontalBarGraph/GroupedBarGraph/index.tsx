@@ -246,7 +246,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   minValue={minValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

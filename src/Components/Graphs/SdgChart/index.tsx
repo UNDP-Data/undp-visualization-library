@@ -225,7 +225,7 @@ export function SdgChart(props: Props) {
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
                     naColor={noDataColor || UNDPColorModule.graphGray}
-                    rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                    rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
                   />
                 </div>
@@ -310,7 +310,7 @@ export function SdgChart(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   showTargetLabel={showValues}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   highlightTargets={highlightTargets || []}
                   defaultOpacity={

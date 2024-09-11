@@ -176,7 +176,7 @@ export function SparkLine(props: Props) {
                 onSeriesMouseOver={onSeriesMouseOver}
                 minValue={minValue}
                 maxValue={maxValue}
-                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}

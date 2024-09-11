@@ -227,7 +227,7 @@ export function HeatMap(props: Props) {
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
                     naColor={noDataColor || UNDPColorModule.graphGray}
-                    rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                    rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
                   />
                 </div>
@@ -329,7 +329,7 @@ export function HeatMap(props: Props) {
                   suffix={suffix || ''}
                   prefix={prefix || ''}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

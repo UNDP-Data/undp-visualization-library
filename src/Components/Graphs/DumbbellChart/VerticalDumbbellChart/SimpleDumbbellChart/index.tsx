@@ -272,7 +272,7 @@ export function VerticalDumbbellChart(props: Props) {
                       ? 2
                       : (connectorStrokeWidth as number)
                   }
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

@@ -210,7 +210,7 @@ export function BiVariantMap(props: Props) {
                   showAntarctica === undefined ? false : showAntarctica
                 }
                 highlightedCountryCodes={highlightedCountryCodes || []}
-                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}

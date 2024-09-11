@@ -227,7 +227,7 @@ export function MultiLineChart(props: Props) {
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
                   animateLine={animateLine}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

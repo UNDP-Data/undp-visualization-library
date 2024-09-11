@@ -220,7 +220,7 @@ export function ParetoChart(props: Props) {
                   barPadding={barPadding || 0.25}
                   showLabels={showLabels !== false}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

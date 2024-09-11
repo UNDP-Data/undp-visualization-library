@@ -55,7 +55,7 @@ export function ColorLegendWithMouseOver(props: Props) {
             display: 'flex',
             marginBottom: 0,
             flexWrap: 'wrap',
-            gap: '1.5rem',
+            gap: '0.875rem',
             flexDirection: rtl ? 'row-reverse' : 'row',
           }}
         >
@@ -63,7 +63,7 @@ export function ColorLegendWithMouseOver(props: Props) {
             <div
               style={{
                 display: 'flex',
-                gap: '0.5rem',
+                gap: '0.25rem',
                 alignItems: 'center',
                 cursor: 'pointer',
                 flexDirection: rtl ? 'row-reverse' : 'row',
@@ -89,8 +89,8 @@ export function ColorLegendWithMouseOver(props: Props) {
                   rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
                 }undp-viz-typography`}
                 style={{
-                  marginTop: '3px',
                   marginBottom: 0,
+                  marginTop: '2px',
                   fontSize: '0.875rem',
                 }}
               >
@@ -108,7 +108,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               }}
               style={{
                 display: 'flex',
-                gap: '0.5rem',
+                gap: '0.25rem',
                 alignItems: 'center',
                 cursor: 'pointer',
                 flexDirection: rtl ? 'row-reverse' : 'row',
@@ -127,7 +127,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
                 }undp-viz-typography`}
                 style={{
-                  marginTop: '3px',
+                  marginTop: '2px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
                 }}

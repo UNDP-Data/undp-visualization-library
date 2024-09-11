@@ -251,7 +251,7 @@ export function TreeMapGraph(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   onSeriesMouseClick={onSeriesMouseClick}
                   highlightedDataPoints={highlightedDataPoints || []}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

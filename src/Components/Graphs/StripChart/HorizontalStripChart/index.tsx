@@ -257,7 +257,7 @@ export function HorizontalStripChart(props: Props) {
                   prefix={prefix || ''}
                   suffix={suffix || ''}
                   stripType={stripType || 'dot'}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   highlightColor={highlightColor}
                   dotOpacity={dotOpacity || 0.3}

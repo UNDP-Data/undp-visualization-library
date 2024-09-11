@@ -281,7 +281,7 @@ export function AnimatedBiVariantMap(props: Props) {
                 highlightedCountryCodes={highlightedCountryCodes || []}
                 dateFormat={dateFormat || 'yyyy'}
                 indx={index}
-                rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
               />
             ) : null}

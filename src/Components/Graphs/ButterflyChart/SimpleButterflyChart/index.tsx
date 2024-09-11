@@ -253,7 +253,7 @@ export function ButterflyChart(props: Props) {
                   showTicks={showTicks !== false}
                   suffix={suffix || ''}
                   prefix={prefix || ''}
-                  rtl={checkIfNullOrUndefined(rtl) ? true : (rtl as boolean)}
+                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />
               ) : null}

@@ -53,7 +53,7 @@ export function ColorLegend(props: Props) {
             display: 'flex',
             marginBottom: 0,
             flexWrap: 'wrap',
-            gap: '1.5rem',
+            gap: '0.875rem',
             flexDirection: rtl ? 'row-reverse' : 'row',
           }}
         >
@@ -62,7 +62,7 @@ export function ColorLegend(props: Props) {
               key={i}
               style={{
                 display: 'flex',
-                gap: '0.5rem',
+                gap: '0.25rem',
                 alignItems: 'center',
                 flexDirection: rtl ? 'row-reverse' : 'row',
               }}
@@ -81,6 +81,7 @@ export function ColorLegend(props: Props) {
                 }undp-viz-typography`}
                 style={{
                   marginBottom: 0,
+                  marginTop: '2px',
                   fontSize: '0.875rem',
                 }}
               >
@@ -92,7 +93,7 @@ export function ColorLegend(props: Props) {
             <div
               style={{
                 display: 'flex',
-                gap: '0.5rem',
+                gap: '0.25rem',
                 alignItems: 'center',
                 flexDirection: rtl ? 'row-reverse' : 'row',
               }}
@@ -110,7 +111,7 @@ export function ColorLegend(props: Props) {
                   rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
                 }undp-viz-typography`}
                 style={{
-                  marginTop: '3px',
+                  marginTop: '2px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
                 }}
