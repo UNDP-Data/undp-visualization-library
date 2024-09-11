@@ -147,7 +147,6 @@ export function UnitChart(props: Props) {
                   display: 'flex',
                   marginBottom: 0,
                   flexWrap: 'wrap',
-                  justifyContent: 'center',
                   gap: '1.5rem',
                 }}
               >
