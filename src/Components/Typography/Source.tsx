@@ -26,7 +26,11 @@ export function Source(props: SourceProps) {
           {link ? (
             <a
               className='undp-viz-style'
-              style={{ color: UNDPColorModule.grays['gray-600'] }}
+              style={{
+                color: UNDPColorModule.grays['gray-600'],
+                fontSize: '0.875rem',
+                fontFamily: 'inherit',
+              }}
               href={link}
               target='_blank'
               rel='noreferrer'
@@ -49,7 +53,11 @@ export function Source(props: SourceProps) {
           {link ? (
             <a
               className='undp-viz-style'
-              style={{ color: UNDPColorModule.grays['gray-600'] }}
+              style={{
+                color: UNDPColorModule.grays['gray-600'],
+                fontSize: '0.875rem',
+                fontFamily: 'inherit',
+              }}
               href={link}
               target='_blank'
               rel='noreferrer'
