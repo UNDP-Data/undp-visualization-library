@@ -19,12 +19,12 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { filterData } from '../../Utils/transformData/filterData';
+import GraphEl from './GraphEl';
 
 interface Props {
   graphSettings?: any;

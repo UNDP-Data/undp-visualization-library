@@ -1529,7 +1529,7 @@ export const choroplethMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
-    mapData: { type: 'object' },
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     sourceLink: { type: 'string' },
@@ -1612,7 +1612,7 @@ export const choroplethMapSettingsSchema = {
 export const biVariateChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
-    mapData: { type: 'object' },
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1700,7 +1700,7 @@ export const dotDensityMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
-    mapData: { type: 'object' },
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     sourceLink: { type: 'string' },
@@ -1942,7 +1942,9 @@ export const scatterPlotSettingsSchema = {
     },
     highlightAreaSettings: {
       type: 'array',
-      items: { type: 'number' },
+      items: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
       minItems: 4,
       maxItems: 4,
     },

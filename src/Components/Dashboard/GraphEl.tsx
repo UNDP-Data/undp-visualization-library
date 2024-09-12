@@ -1259,7 +1259,7 @@ function GraphEl(props: Props) {
         width: settings?.width ? 'fit-content' : '100%',
       }}
     >
-      {validateSettingsSchema(settings || {}, graph) &&
+      {validateSettingsSchema(settings || {}, graph).isValid &&
       validateDataSchema(graphData, graph) &&
       GraphComponent ? (
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -1274,7 +1274,11 @@ function GraphEl(props: Props) {
             fontSize: '0.875rem',
           }}
         >
-          Graph settings or data settings are not valid. Please read the docs.
+          {GraphComponent
+            ? validateSettingsSchema(settings || {}, graph).isValid
+              ? 'Data type in the source data is nor accurate'
+              : validateSettingsSchema(settings || {}, graph).err
+            : `Invalid chart type: ${graph}`}
         </p>
       )}
     </div>

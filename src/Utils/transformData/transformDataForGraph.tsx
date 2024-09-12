@@ -20,7 +20,12 @@ export function transformDataForGraph(
     console.error('Your data configuration is not accurate');
     return 'No graph configuration is provided';
   }
-  if (checkDataConfigValidity(config, graph, Object.keys(data[0]))) {
+  const dataConfigValidity = checkDataConfigValidity(
+    config,
+    graph,
+    Object.keys(data[0]),
+  );
+  if (dataConfigValidity.isValid) {
     const chartConfig =
       ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)]
         .configuration;
@@ -61,5 +66,6 @@ export function transformDataForGraph(
     });
     return dataFormatted;
   }
-  return 'Your data configuration is not accurate or the column names are not accurate';
+  console.error(dataConfigValidity.err);
+  return dataConfigValidity.err;
 }

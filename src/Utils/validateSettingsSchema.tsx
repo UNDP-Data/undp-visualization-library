@@ -31,7 +31,7 @@ import {
   unitChartSettingsSchema,
 } from '../Schemas';
 
-const ajv = new Ajv();
+const ajv = new Ajv({ allErrors: true });
 
 export const validateSettingsSchema = (settings: any, graph: GraphType) => {
   let schema: any;
@@ -140,17 +140,31 @@ export const validateSettingsSchema = (settings: any, graph: GraphType) => {
       schema = unitChartSettingsSchema;
       break;
     default:
-      console.error('Unknown chart type:', graph);
-      break;
+      return {
+        isValid: false,
+        err: `Invalid chart type: ${graph}`,
+      };
   }
 
-  if (!schema) return false;
+  if (!schema)
+    return {
+      isValid: false,
+      err: `Invalid chart type: ${graph}`,
+    };
 
   const validate = ajv.compile(schema);
   const valid = validate(settings);
   if (!valid) {
     console.error(validate.errors);
-    return false;
+    return {
+      isValid: false,
+      err: validate.errors
+        ?.map(error => `Error at ${error.instancePath}: ${error.message}`)
+        .join('; '),
+    };
   }
-  return true;
+  return {
+    isValid: true,
+    err: undefined,
+  };
 };

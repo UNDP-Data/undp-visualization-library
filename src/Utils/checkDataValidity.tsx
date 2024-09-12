@@ -2,8 +2,8 @@ import flattenDeep from 'lodash.flattendeep';
 import { GraphConfigurationDataType, GraphType } from '../Types';
 import ChartConfiguration from './transformData/graphConfig.json';
 
-function arrayContainsArray(superset: string[], subset: string[]) {
-  return subset.every(value => superset.includes(value));
+function missingValuesInArray(superset: string[], subset: string[]): string[] {
+  return subset.filter(value => !superset.includes(value));
 }
 
 export function checkDataConfigValidity(
@@ -12,14 +12,29 @@ export function checkDataConfigValidity(
   dataKeys: string[],
 ) {
   const dataKeyFromDataConfig = flattenDeep(dataConfig.map(d => d.columnId));
-  const checkDataKeys = arrayContainsArray(dataKeys, dataKeyFromDataConfig);
-  if (!checkDataKeys) return false;
+  const checkDataKeys = missingValuesInArray(dataKeys, dataKeyFromDataConfig);
+  if (checkDataKeys.length !== 0)
+    return {
+      isValid: false,
+      err: `Key(s) in configuration that don't match keys in the data: ${checkDataKeys.join(
+        ', ',
+      )}`,
+    };
   const ids = dataConfig.map(el => el.chartConfigId);
   const requiredIds = ChartConfiguration[
     ChartConfiguration.findIndex(el => el.chartID === graph)
   ].configuration
     .filter(el => el.required)
     .map(el => el.id);
-  const ifRequiredIdsPresent = arrayContainsArray(ids, requiredIds);
-  return ifRequiredIdsPresent;
+
+  const ifRequiredIdsPresent = missingValuesInArray(ids, requiredIds);
+  return {
+    isValid: ifRequiredIdsPresent.length === 0,
+    err:
+      ifRequiredIdsPresent.length === 0
+        ? undefined
+        : `Missing required ID(s) in configuration: ${ifRequiredIdsPresent.join(
+            ', ',
+          )}`,
+  };
 }
