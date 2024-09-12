@@ -1161,7 +1161,7 @@ export const heatMapSettingsSchema = {
     width: { type: 'number' },
     height: { type: 'number' },
     source: { type: 'string' },
-    scaleType: { type: 'string', enum: ['linear', 'log', 'sqrt'] },
+    scaleType: { type: 'string', enum: ['linear', 'categorical', 'threshold'] },
     domain: {
       oneOf: [
         {
