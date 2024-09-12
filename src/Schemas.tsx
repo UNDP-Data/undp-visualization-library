@@ -1639,11 +1639,11 @@ export const biVariateChoroplethMapSettingsSchema = {
       items: {
         type: 'array',
         items: { type: 'string' },
-        minItems: 4,
-        maxItems: 4,
+        minItems: 5,
+        maxItems: 5,
       },
-      minItems: 4,
-      maxItems: 4,
+      minItems: 5,
+      maxItems: 5,
     },
     scale: { type: 'number' },
     centerPoint: {

@@ -176,9 +176,21 @@ export function DonutChart(props: Props) {
                             width: '0.75rem',
                             height: '0.75rem',
                             borderRadius: '1rem',
-                            backgroundColor: colors
-                              ? colors[i]
-                              : UNDPColorModule.categoricalColors.colors[i],
+                            backgroundColor:
+                              (colorDomain || data.map(el => el.label)).indexOf(
+                                d.label,
+                              ) !== -1
+                                ? (colors ||
+                                    UNDPColorModule.categoricalColors.colors)[
+                                    (
+                                      colorDomain || data.map(el => el.label)
+                                    ).indexOf(d.label) %
+                                      (
+                                        colors ||
+                                        UNDPColorModule.categoricalColors.colors
+                                      ).length
+                                  ]
+                                : UNDPColorModule.graphGray,
                           }}
                         />
                         <p
