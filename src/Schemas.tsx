@@ -1000,7 +1000,7 @@ export const dataTableSettingsSchema = {
       items: { $ref: '#/definitions/DataTableColumnType' },
     },
   },
-  required: ['columnData', 'data'],
+  required: ['columnData'],
   definitions: {
     DataTableColumnType: {
       type: 'object',
