@@ -36,6 +36,7 @@ export function Graph(props: Props) {
     language,
   } = props;
   const pieData = pie()
+    .sort(null)
     .startAngle(0)
     .value((d: any) => d.size);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);

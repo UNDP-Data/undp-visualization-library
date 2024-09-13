@@ -195,7 +195,9 @@ export const dumbbellChartDataSchema = {
         type: 'array',
         items: { type: 'number' },
       },
-      label: { type: 'string' },
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
       data: { type: 'object' },
     },
     required: ['x', 'label'],
@@ -226,7 +228,9 @@ export const animatedDumbbellChartDataSchema = {
         type: 'array',
         items: [{ type: 'null' }, { type: 'number' }],
       },
-      label: { type: 'string' },
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
@@ -242,7 +246,9 @@ export const donutChartDataSchema = {
     type: 'object',
     properties: {
       size: { type: 'number' },
-      label: { type: 'string' },
+      label: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
       data: { type: 'object' },
     },
     required: ['size', 'label'],

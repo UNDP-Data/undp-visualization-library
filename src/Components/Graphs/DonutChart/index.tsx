@@ -82,6 +82,13 @@ export function DonutChart(props: Props) {
     }
   }, [graphDiv?.current]);
 
+  const sortedData =
+    sortData === 'asc'
+      ? sortBy(data, d => d.size)
+      : sortData === 'desc'
+      ? sortBy(data, d => d.size).reverse()
+      : data;
+
   return (
     <div
       style={{
@@ -160,57 +167,56 @@ export function DonutChart(props: Props) {
                     gap: '1.5rem',
                   }}
                 >
-                  {sortBy(data, d => d.size)
-                    .reverse()
-                    .map((d, i) => (
+                  {sortedData.map((d, i) => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '0.5rem',
+                        alignItems: 'center',
+                      }}
+                      key={i}
+                    >
                       <div
                         style={{
-                          display: 'flex',
-                          gap: '0.5rem',
-                          alignItems: 'center',
-                        }}
-                        key={i}
-                      >
-                        <div
-                          style={{
-                            width: '0.75rem',
-                            height: '0.75rem',
-                            borderRadius: '1rem',
-                            backgroundColor:
-                              (colorDomain || data.map(el => el.label)).indexOf(
-                                d.label,
-                              ) !== -1
-                                ? (colors ||
-                                    UNDPColorModule.categoricalColors.colors)[
+                          width: '0.75rem',
+                          height: '0.75rem',
+                          borderRadius: '1rem',
+                          backgroundColor:
+                            (
+                              colorDomain || sortedData.map(el => el.label)
+                            ).indexOf(d.label) !== -1
+                              ? (colors ||
+                                  UNDPColorModule.categoricalColors.colors)[
+                                  (
+                                    colorDomain ||
+                                    sortedData.map(el => el.label)
+                                  ).indexOf(d.label) %
                                     (
-                                      colorDomain || data.map(el => el.label)
-                                    ).indexOf(d.label) %
-                                      (
-                                        colors ||
-                                        UNDPColorModule.categoricalColors.colors
-                                      ).length
-                                  ]
-                                : UNDPColorModule.graphGray,
-                          }}
-                        />
-                        <p
-                          className='undp-viz-typography'
-                          style={{
-                            marginBottom: 0,
-                            fontSize: '0.875rem',
-                          }}
-                        >
-                          {d.label}:{' '}
-                          <span style={{ fontWeight: 'bold' }}>
-                            {numberFormattingFunction(
-                              d.size,
-                              prefix || '',
-                              suffix || '',
-                            )}
-                          </span>
-                        </p>
-                      </div>
-                    ))}
+                                      colors ||
+                                      UNDPColorModule.categoricalColors.colors
+                                    ).length
+                                ]
+                              : UNDPColorModule.graphGray,
+                        }}
+                      />
+                      <p
+                        className='undp-viz-typography'
+                        style={{
+                          marginBottom: 0,
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        {d.label}:{' '}
+                        <span style={{ fontWeight: 'bold' }}>
+                          {numberFormattingFunction(
+                            d.size,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : null}
@@ -240,7 +246,7 @@ export function DonutChart(props: Props) {
                     subNote={subNote}
                     strokeWidth={strokeWidth || 50}
                     tooltip={tooltip}
-                    colorDomain={colorDomain || data.map(d => d.label)}
+                    colorDomain={colorDomain || sortedData.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
