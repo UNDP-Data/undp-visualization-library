@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
@@ -45,6 +47,7 @@ interface Props {
   animateLine?: boolean | number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  colorLegendTitle?: string;
 }
 
 export function MultiLineChart(props: Props) {
@@ -86,6 +89,7 @@ export function MultiLineChart(props: Props) {
     animateLine,
     rtl,
     language,
+    colorLegendTitle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -167,6 +171,7 @@ export function MultiLineChart(props: Props) {
                 rtl={rtl}
                 language={language}
                 colorDomain={labels}
+                colorLegendTitle={colorLegendTitle}
                 colors={colors || UNDPColorModule.categoricalColors.colors}
               />
             ) : null}

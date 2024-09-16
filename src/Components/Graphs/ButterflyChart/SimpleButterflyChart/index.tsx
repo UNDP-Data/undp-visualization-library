@@ -46,6 +46,7 @@ interface Props {
   refValues?: ReferenceDataType[];
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  colorLegendTitle?: string;
 }
 
 export function ButterflyChart(props: Props) {
@@ -87,6 +88,7 @@ export function ButterflyChart(props: Props) {
     showColorScale,
     rtl,
     language,
+    colorLegendTitle,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -166,6 +168,7 @@ export function ButterflyChart(props: Props) {
               <ColorLegend
                 rtl={rtl}
                 language={language}
+                colorLegendTitle={colorLegendTitle}
                 colorDomain={[
                   leftBarTitle || 'Left bar graph',
                   rightBarTitle || 'Right bar graph',

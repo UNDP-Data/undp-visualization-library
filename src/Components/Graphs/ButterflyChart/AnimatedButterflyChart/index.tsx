@@ -58,6 +58,7 @@ interface Props {
   autoPlay?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  colorLegendTitle?: string;
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -101,6 +102,7 @@ export function AnimatedButterflyChart(props: Props) {
     showOnlyActiveDate,
     autoPlay,
     rtl,
+    colorLegendTitle,
     language,
   } = props;
 
@@ -239,6 +241,7 @@ export function AnimatedButterflyChart(props: Props) {
               <ColorLegend
                 rtl={rtl}
                 language={language}
+                colorLegendTitle={colorLegendTitle}
                 colorDomain={[
                   leftBarTitle || 'Left bar graph',
                   rightBarTitle || 'Right bar graph',

@@ -39,6 +39,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  colorLegendTitle?: string;
 }
 
 export function ParetoChart(props: Props) {
@@ -74,6 +75,7 @@ export function ParetoChart(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    colorLegendTitle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -158,6 +160,7 @@ export function ParetoChart(props: Props) {
                 barColor || UNDPColorModule.categoricalColors.colors[0],
                 lineColor || UNDPColorModule.categoricalColors.colors[1],
               ]}
+              colorLegendTitle={colorLegendTitle}
             />
             <div
               style={{

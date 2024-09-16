@@ -1,4 +1,4 @@
-import * as sanitizeHtml from 'sanitize-html';
+import xss from 'xss';
 import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
@@ -11,7 +11,7 @@ function getDescendantProp(data: any, desc: string) {
 }
 
 export const string2HTML = (htmlString: string, data: any) => {
-  const sanitizedString = sanitizeHtml(htmlString);
+  const sanitizedString = xss(htmlString);
   const replacedString = sanitizedString.replace(
     /{{(.*?)}}/g,
     (_, str) => getDescendantProp(data, str) || 'NA',

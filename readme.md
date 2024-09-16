@@ -65,7 +65,7 @@ The dependencies that are pre-installed wit the library:
 * framer-motion - For creating animations in the animated graphs
 * react-draggable - For creating comparison maps
 * simple-statistics - For statistical functions
-* sanitize-html - For cleaning up user-submitted HTML
+* xss - For cleaning up cross scripting from user-submitted HTML
 * ajv - For schema validation
 * date-fns - For date formatting
 * dom-to-image - For downloading div as images
