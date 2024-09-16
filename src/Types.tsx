@@ -286,7 +286,7 @@ export interface GraphConfigurationDataType {
 }
 
 export interface DataFilterDataType {
-  columns: string;
+  column: string;
   values: (string | number | boolean)[];
 }
 

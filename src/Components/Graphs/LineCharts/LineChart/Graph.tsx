@@ -151,7 +151,7 @@ export function Graph(props: Props) {
   }, [x, dataFormatted]);
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && data.length > 0) {
       animate(
         scope.current,
         { pathLength: [0, 1] },
@@ -168,7 +168,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView]);
+  }, [isInView, data]);
   return (
     <>
       <svg

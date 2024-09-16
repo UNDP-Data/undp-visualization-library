@@ -166,148 +166,150 @@ export function MultiGraphDashboard(props: Props) {
           ) : null}
           {data ? (
             <>
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  flexWrap: 'wrap',
-                  alignItems: 'flex-start',
-                  width: '100%',
-                  flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
-                }}
-              >
-                {filterSettings?.map((d, i) => (
-                  <div
-                    style={{
-                      width: '25% - 0.75rem',
-                      flexGrow: 1,
-                      flexShrink: 0,
-                    }}
-                    key={i}
-                  >
-                    <p
-                      className='undp-viz-typography'
+              {filterSettings.length !== 0 ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                    width: '100%',
+                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
+                  }}
+                >
+                  {filterSettings?.map((d, i) => (
+                    <div
                       style={{
-                        fontSize: '0.875rem',
-                        marginBottom: '0.5rem',
-                        textAlign: dashboardLayout.rtl ? 'right' : 'left',
+                        width: '25% - 0.75rem',
+                        flexGrow: 1,
+                        flexShrink: 0,
                       }}
+                      key={i}
                     >
-                      Filter by {d.filter}
-                    </p>
-                    {d.singleSelect ? (
-                      <Select
-                        className={
-                          dashboardLayout.rtl
-                            ? `undp-viz-select-${
-                                dashboardLayout.language || 'ar'
-                              } undp-viz-select`
-                            : 'undp-viz-select'
-                        }
-                        options={d.availableValues}
-                        isClearable={
-                          d.clearable === undefined ? true : d.clearable
-                        }
-                        isRtl={dashboardLayout.rtl}
-                        isSearchable
-                        controlShouldRenderValue
-                        filterOption={createFilter(filterConfig)}
-                        onChange={el => {
-                          const filterTemp = [...selectedFilters];
-                          filterTemp[
-                            filterTemp.findIndex(f => f.filter === d.filter)
-                          ].value = el?.value ? [el?.value] : [];
-                          setSelectedFilters(filterTemp);
+                      <p
+                        className='undp-viz-typography'
+                        style={{
+                          fontSize: '0.875rem',
+                          marginBottom: '0.5rem',
+                          textAlign: dashboardLayout.rtl ? 'right' : 'left',
                         }}
-                        defaultValue={
-                          d.defaultValue
-                            ? {
-                                value: d.defaultValue as string,
-                                label: d.defaultValue as string,
-                              }
-                            : undefined
-                        }
-                        theme={theme => {
-                          return {
-                            ...theme,
-                            borderRadius: 0,
-                            spacing: {
-                              ...theme.spacing,
-                              baseUnit: 4,
-                              menuGutter: 2,
-                              controlHeight: 48,
-                            },
-                            colors: {
-                              ...theme.colors,
-                              danger: '#D12800',
-                              dangerLight: '#D4D6D8',
-                              neutral10: '#D4D6D8',
-                              primary50: '#B5D5F5',
-                              primary25: '#F7F7F7',
-                              primary: '#0468b1',
-                            },
-                          };
-                        }}
-                      />
-                    ) : (
-                      <Select
-                        className={
-                          dashboardLayout.rtl
-                            ? `undp-viz-select-${
-                                dashboardLayout.language || 'ar'
-                              } undp-viz-select`
-                            : 'undp-viz-select'
-                        }
-                        options={d.availableValues}
-                        isMulti
-                        isClearable={
-                          d.clearable === undefined ? true : d.clearable
-                        }
-                        isSearchable
-                        controlShouldRenderValue
-                        filterOption={createFilter(filterConfig)}
-                        onChange={el => {
-                          const filterTemp = [...selectedFilters];
-                          filterTemp[
-                            filterTemp.findIndex(f => f.filter === d.filter)
-                          ].value = el?.map(val => val.value) || [];
-                          setSelectedFilters(filterTemp);
-                        }}
-                        defaultValue={
-                          d.defaultValue
-                            ? (d.defaultValue as string[]).map(el => ({
-                                value: el,
-                                label: el,
-                              }))
-                            : undefined
-                        }
-                        isRtl={dashboardLayout.rtl}
-                        theme={theme => {
-                          return {
-                            ...theme,
-                            borderRadius: 0,
-                            spacing: {
-                              ...theme.spacing,
-                              baseUnit: 4,
-                              menuGutter: 2,
-                              controlHeight: 48,
-                            },
-                            colors: {
-                              ...theme.colors,
-                              danger: '#D12800',
-                              dangerLight: '#D4D6D8',
-                              neutral10: '#D4D6D8',
-                              primary50: '#B5D5F5',
-                              primary25: '#F7F7F7',
-                              primary: '#0468b1',
-                            },
-                          };
-                        }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
+                      >
+                        Filter by {d.filter}
+                      </p>
+                      {d.singleSelect ? (
+                        <Select
+                          className={
+                            dashboardLayout.rtl
+                              ? `undp-viz-select-${
+                                  dashboardLayout.language || 'ar'
+                                } undp-viz-select`
+                              : 'undp-viz-select'
+                          }
+                          options={d.availableValues}
+                          isClearable={
+                            d.clearable === undefined ? true : d.clearable
+                          }
+                          isRtl={dashboardLayout.rtl}
+                          isSearchable
+                          controlShouldRenderValue
+                          filterOption={createFilter(filterConfig)}
+                          onChange={el => {
+                            const filterTemp = [...selectedFilters];
+                            filterTemp[
+                              filterTemp.findIndex(f => f.filter === d.filter)
+                            ].value = el?.value ? [el?.value] : [];
+                            setSelectedFilters(filterTemp);
+                          }}
+                          defaultValue={
+                            d.defaultValue
+                              ? {
+                                  value: d.defaultValue as string,
+                                  label: d.defaultValue as string,
+                                }
+                              : undefined
+                          }
+                          theme={theme => {
+                            return {
+                              ...theme,
+                              borderRadius: 0,
+                              spacing: {
+                                ...theme.spacing,
+                                baseUnit: 4,
+                                menuGutter: 2,
+                                controlHeight: 48,
+                              },
+                              colors: {
+                                ...theme.colors,
+                                danger: '#D12800',
+                                dangerLight: '#D4D6D8',
+                                neutral10: '#D4D6D8',
+                                primary50: '#B5D5F5',
+                                primary25: '#F7F7F7',
+                                primary: '#0468b1',
+                              },
+                            };
+                          }}
+                        />
+                      ) : (
+                        <Select
+                          className={
+                            dashboardLayout.rtl
+                              ? `undp-viz-select-${
+                                  dashboardLayout.language || 'ar'
+                                } undp-viz-select`
+                              : 'undp-viz-select'
+                          }
+                          options={d.availableValues}
+                          isMulti
+                          isClearable={
+                            d.clearable === undefined ? true : d.clearable
+                          }
+                          isSearchable
+                          controlShouldRenderValue
+                          filterOption={createFilter(filterConfig)}
+                          onChange={el => {
+                            const filterTemp = [...selectedFilters];
+                            filterTemp[
+                              filterTemp.findIndex(f => f.filter === d.filter)
+                            ].value = el?.map(val => val.value) || [];
+                            setSelectedFilters(filterTemp);
+                          }}
+                          defaultValue={
+                            d.defaultValue
+                              ? (d.defaultValue as string[]).map(el => ({
+                                  value: el,
+                                  label: el,
+                                }))
+                              : undefined
+                          }
+                          isRtl={dashboardLayout.rtl}
+                          theme={theme => {
+                            return {
+                              ...theme,
+                              borderRadius: 0,
+                              spacing: {
+                                ...theme.spacing,
+                                baseUnit: 4,
+                                menuGutter: 2,
+                                controlHeight: 48,
+                              },
+                              colors: {
+                                ...theme.colors,
+                                danger: '#D12800',
+                                dangerLight: '#D4D6D8',
+                                neutral10: '#D4D6D8',
+                                primary50: '#B5D5F5',
+                                primary25: '#F7F7F7',
+                                primary: '#0468b1',
+                              },
+                            };
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
               {dashboardLayout.rows.map((d, i) => (
                 <div
                   key={i}

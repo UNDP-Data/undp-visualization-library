@@ -9,12 +9,12 @@ export function filterData(
 ) {
   if (filters.length === 0) return data;
   const filteredData = data.filter((item: any) =>
-    filters.every((filter: any) =>
-      filter.values.length > 0
+    filters.every((filter: any) => {
+      return filter.values.length > 0
         ? intersection(flattenDeep([item[filter.column]]), filter.values)
             .length > 0
-        : true,
-    ),
+        : true;
+    }),
   );
   return filteredData;
 }

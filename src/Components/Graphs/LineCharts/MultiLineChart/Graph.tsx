@@ -165,7 +165,7 @@ export function Graph(props: Props) {
   }, [x, dataFormatted]);
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && data.length > 0) {
       animate(
         'path',
         { pathLength: [0, 1] },
@@ -181,16 +181,18 @@ export function Graph(props: Props) {
           duration: animateLine === true ? 0.5 : animateLine || 0,
         },
       );
-      animate(
-        'text',
-        { opacity: [0, 1] },
-        {
-          delay: animateLine === true ? 5 : animateLine || 0,
-          duration: animateLine === true ? 0.5 : animateLine || 0,
-        },
-      );
+      if (!showColorLegendAtTop) {
+        animate(
+          'text',
+          { opacity: [0, 1] },
+          {
+            delay: animateLine === true ? 5 : animateLine || 0,
+            duration: animateLine === true ? 0.5 : animateLine || 0,
+          },
+        );
+      }
     }
-  }, [isInView]);
+  }, [isInView, showColorLegendAtTop, data]);
   return (
     <>
       <svg
