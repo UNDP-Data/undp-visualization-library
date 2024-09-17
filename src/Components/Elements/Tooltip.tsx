@@ -36,7 +36,7 @@ export function Tooltip(props: Props) {
         className={`${
           rtl ? `undp-viz-tooltip-${language || 'ar'} ` : ''
         }undp-viz-tooltip`}
-        style={{ margin: 0, padding: 'var(--spacing-07)' }}
+        style={{ margin: 0 }}
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />
     </div>
