@@ -83,7 +83,7 @@ export function GeoHubMap(props: Props) {
       );
       map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
     }
-  }, [mapContainer.current, svgWidth, mapStyle]);
+  }, [mapContainer.current, svgWidth, mapStyle, center, zoomLevel]);
   return (
     <div
       style={{
