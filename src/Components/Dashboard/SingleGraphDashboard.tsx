@@ -75,7 +75,9 @@ export function SingleGraphDashboard(props: Props) {
   };
 
   useEffect(() => {
-    if (dataFromFile) {
+    if (graphType === 'geoHubCompareMap' || graphType === 'geoHubMap') {
+      setData([]);
+    } else if (dataFromFile) {
       const filteredData = dataFromFile.filter((item: any) =>
         selectedFilters.every(filter =>
           filter.value && filter.value.length > 0
