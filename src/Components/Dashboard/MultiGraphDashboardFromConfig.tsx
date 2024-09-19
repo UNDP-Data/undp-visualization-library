@@ -33,7 +33,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
     } else {
       setConfigSettings(config);
     }
-  }, []);
+  }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
   return (
     <MultiGraphDashboard
