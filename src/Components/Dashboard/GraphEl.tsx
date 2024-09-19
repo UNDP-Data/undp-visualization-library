@@ -150,6 +150,7 @@ function GraphEl(props: Props) {
           sortData: settings?.sortData,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -260,6 +261,7 @@ function GraphEl(props: Props) {
           sortData: settings?.sortData,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'verticalGroupedBarChart':
         return {
@@ -691,6 +693,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'horizontalDumbbellChart':
         return {
@@ -801,6 +804,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'circlePacking':
         return {
@@ -833,6 +837,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'heatMap':
         return {
@@ -869,6 +874,7 @@ function GraphEl(props: Props) {
           fillContainer: settings?.fillContainer,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'horizontalStripChart':
         return {
@@ -906,6 +912,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           highlightColor: settings?.highlightColor,
           dotOpacity: settings?.dotOpacity,
+          showNAColor: settings?.showNAColor,
         };
       case 'verticalStripChart':
         return {
@@ -943,6 +950,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           highlightColor: settings?.highlightColor,
           dotOpacity: settings?.dotOpacity,
+          showNAColor: settings?.showNAColor,
         };
       case 'horizontalBeeSwarmChart':
         return {
@@ -978,6 +986,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'verticalBeeSwarmChart':
         return {
@@ -1013,6 +1022,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          showNAColor: settings?.showNAColor,
         };
       case 'butterflyChart':
         return {

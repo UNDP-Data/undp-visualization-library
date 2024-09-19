@@ -180,6 +180,7 @@ export function HorizontalDumbbellChart(props: Props) {
               colors={dotColors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
+              showNAColor={false}
             />
             <div
               style={{

@@ -43,6 +43,7 @@ interface Props {
   fillContainer?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function SlopeChart(props: Props) {
@@ -81,6 +82,7 @@ export function SlopeChart(props: Props) {
     fillContainer,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -178,7 +180,11 @@ export function SlopeChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

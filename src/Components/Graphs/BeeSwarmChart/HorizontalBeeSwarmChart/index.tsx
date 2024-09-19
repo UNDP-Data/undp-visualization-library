@@ -44,6 +44,7 @@ interface Props {
   dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function HorizontalBeeSwarmChart(props: Props) {
@@ -83,6 +84,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
     dataDownload,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -181,7 +183,11 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

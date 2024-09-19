@@ -46,6 +46,7 @@ interface Props {
   fillContainer?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function HeatMap(props: Props) {
@@ -86,6 +87,7 @@ export function HeatMap(props: Props) {
     fillContainer,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -199,7 +201,11 @@ export function HeatMap(props: Props) {
                     }
                     colorDomain={domain.map(d => `${d}`)}
                     setSelectedColor={setSelectedColor}
-                    showNAColor
+                    showNAColor={
+                      showNAColor === undefined || showNAColor === null
+                        ? true
+                        : showNAColor
+                    }
                   />
                 </div>
               ) : scale === 'threshold' ? (

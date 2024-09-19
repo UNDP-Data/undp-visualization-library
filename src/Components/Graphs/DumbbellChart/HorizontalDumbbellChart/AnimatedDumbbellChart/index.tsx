@@ -249,6 +249,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               colors={dotColors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
+              showNAColor={false}
             />
             <div
               style={{

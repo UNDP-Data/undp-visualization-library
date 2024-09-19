@@ -161,6 +161,7 @@ export function ParetoChart(props: Props) {
                 lineColor || UNDPColorModule.categoricalColors.colors[1],
               ]}
               colorLegendTitle={colorLegendTitle}
+              showNAColor={false}
             />
             <div
               style={{

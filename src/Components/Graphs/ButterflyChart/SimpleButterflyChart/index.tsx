@@ -179,6 +179,7 @@ export function ButterflyChart(props: Props) {
                     UNDPColorModule.categoricalColors.colors[1],
                   ]
                 }
+                showNAColor={false}
               />
             ) : null}
             <div

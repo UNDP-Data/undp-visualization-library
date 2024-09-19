@@ -66,6 +66,7 @@ interface Props {
   autoPlay?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -114,6 +115,7 @@ export function AnimatedScatterPlot(props: Props) {
     autoPlay,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -269,7 +271,11 @@ export function AnimatedScatterPlot(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

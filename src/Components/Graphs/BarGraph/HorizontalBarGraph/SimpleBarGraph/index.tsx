@@ -50,6 +50,7 @@ interface Props {
   sortData?: 'asc' | 'desc';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -94,6 +95,7 @@ export function HorizontalBarGraph(props: Props) {
     labelOrder,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -192,7 +194,11 @@ export function HorizontalBarGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

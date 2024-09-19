@@ -496,4 +496,5 @@ export interface GraphSettingsDataType {
   totalNoOfDots?: number;
   showStrokeForWhiteDots?: boolean;
   note?: string;
+  showNAColor?: boolean;
 }

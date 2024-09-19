@@ -163,6 +163,7 @@ export function AreaChart(props: Props) {
                 colorDomain={colorDomain}
                 colors={areaColors}
                 colorLegendTitle={colorLegendTitle}
+                showNAColor={false}
               />
             ) : null}
             <div

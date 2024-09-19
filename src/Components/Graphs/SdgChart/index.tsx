@@ -45,6 +45,7 @@ interface Props {
   defaultOpacity?: number;
   boxHeight?: number;
   boxPadding?: number;
+  showNAColor?: boolean;
 }
 
 export function SdgChart(props: Props) {
@@ -84,6 +85,7 @@ export function SdgChart(props: Props) {
     defaultOpacity,
     boxHeight,
     boxPadding,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -197,7 +199,11 @@ export function SdgChart(props: Props) {
                     }
                     colorDomain={domain.map(d => `${d}`)}
                     setSelectedColor={setSelectedColor}
-                    showNAColor
+                    showNAColor={
+                      showNAColor === undefined || showNAColor === null
+                        ? true
+                        : showNAColor
+                    }
                   />
                 </div>
               ) : scale === 'threshold' ? (

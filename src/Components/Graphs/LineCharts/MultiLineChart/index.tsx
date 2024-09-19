@@ -173,6 +173,7 @@ export function MultiLineChart(props: Props) {
                 colorDomain={labels}
                 colorLegendTitle={colorLegendTitle}
                 colors={colors || UNDPColorModule.categoricalColors.colors}
+                showNAColor={false}
               />
             ) : null}
             <div

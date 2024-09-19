@@ -176,6 +176,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
               colors={barColors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
+              showNAColor={false}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}

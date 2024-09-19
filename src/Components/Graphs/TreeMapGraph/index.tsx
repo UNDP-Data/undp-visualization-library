@@ -41,6 +41,7 @@ interface Props {
   dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function TreeMapGraph(props: Props) {
@@ -77,6 +78,7 @@ export function TreeMapGraph(props: Props) {
     dataDownload,
     rtl,
     language,
+    showNAColor,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -173,7 +175,11 @@ export function TreeMapGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

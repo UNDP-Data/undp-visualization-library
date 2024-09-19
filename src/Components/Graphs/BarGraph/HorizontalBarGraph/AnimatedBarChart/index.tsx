@@ -61,6 +61,7 @@ interface Props {
   autoSort?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -107,6 +108,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
     autoSort,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -261,7 +263,11 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

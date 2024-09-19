@@ -180,6 +180,7 @@ export function VerticalDumbbellChart(props: Props) {
               colors={dotColors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
+              showNAColor={false}
             />
             <div
               style={{

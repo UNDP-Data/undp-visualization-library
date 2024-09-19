@@ -641,6 +641,7 @@ export const simpleBarChartSettingsSchema = {
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     sortData: {
       type: 'string',
       enum: ['asc', 'desc'],
@@ -848,6 +849,7 @@ export const beeSwarmChartSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     rtl: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
@@ -974,6 +976,7 @@ export const circlePackingSettingsSchema = {
     showColorScale: { type: 'boolean' },
     showValues: { type: 'boolean' },
     graphID: { type: 'string' },
+    showNAColor: { type: 'boolean' },
     highlightedDataPoints: {
       type: 'array',
       items: {
@@ -1203,6 +1206,7 @@ export const heatMapSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     fillContainer: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     rtl: { type: 'boolean' },
     language: {
       type: 'string',
@@ -1965,6 +1969,7 @@ export const scatterPlotSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     rtl: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
@@ -2212,6 +2217,7 @@ export const stripChartSettingsSchema = {
     prefix: { type: 'string' },
     suffix: { type: 'string' },
     rtl: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
@@ -2270,6 +2276,7 @@ export const treeMapSettingsSchema = {
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
     rtl: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],

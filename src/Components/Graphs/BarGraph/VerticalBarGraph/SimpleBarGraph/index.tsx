@@ -50,6 +50,7 @@ interface Props {
   sortData?: 'asc' | 'desc';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  showNAColor?: boolean;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -94,6 +95,7 @@ export function VerticalBarGraph(props: Props) {
     labelOrder,
     rtl,
     language,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -190,7 +192,11 @@ export function VerticalBarGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

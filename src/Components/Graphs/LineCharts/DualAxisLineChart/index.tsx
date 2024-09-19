@@ -41,6 +41,7 @@ interface Props {
   highlightAreaColor?: string;
   animateLine?: boolean | number;
   rtl?: boolean;
+  showColorScale?: boolean;
   language?: 'ar' | 'he' | 'en';
 }
 
@@ -79,6 +80,7 @@ export function DualAxisLineChart(props: Props) {
     animateLine,
     rtl,
     language,
+    showColorScale,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -155,17 +157,20 @@ export function DualAxisLineChart(props: Props) {
               width: '100%',
             }}
           >
-            <ColorLegend
-              rtl={rtl}
-              language={language}
-              colorDomain={lineTitles || ['Line 1', 'Line 2']}
-              colors={
-                lineColors || [
-                  UNDPColorModule.categoricalColors.colors[0],
-                  UNDPColorModule.categoricalColors.colors[1],
-                ]
-              }
-            />
+            {showColorScale === false ? null : (
+              <ColorLegend
+                rtl={rtl}
+                language={language}
+                colorDomain={lineTitles || ['Line 1', 'Line 2']}
+                colors={
+                  lineColors || [
+                    UNDPColorModule.categoricalColors.colors[0],
+                    UNDPColorModule.categoricalColors.colors[1],
+                  ]
+                }
+                showNAColor={false}
+              />
+            )}
             <div
               style={{
                 flexGrow: 1,

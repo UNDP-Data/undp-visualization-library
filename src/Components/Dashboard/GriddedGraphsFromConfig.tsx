@@ -24,6 +24,7 @@ interface ConfigObject {
   };
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  showCommonColorScale?: boolean;
 }
 interface Props {
   config: string | ConfigObject;
@@ -58,6 +59,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       dataTransform={configSettings.dataTransform}
       graphDataConfiguration={configSettings.graphDataConfiguration}
       dataFilter={configSettings.dataFilter}
+      showCommonColorScale={configSettings.showCommonColorScale}
     />
   );
 }

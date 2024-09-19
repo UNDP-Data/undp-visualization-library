@@ -46,6 +46,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   highlightColor?: string;
   dotOpacity?: number;
+  showNAColor?: boolean;
 }
 
 export function VerticalStripChart(props: Props) {
@@ -87,6 +88,7 @@ export function VerticalStripChart(props: Props) {
     language,
     highlightColor,
     dotOpacity,
+    showNAColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -184,7 +186,11 @@ export function VerticalStripChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor
+                showNAColor={
+                  showNAColor === undefined || showNAColor === null
+                    ? true
+                    : showNAColor
+                }
               />
             ) : null}
             <div

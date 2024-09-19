@@ -25,6 +25,7 @@ import { transformDataForAggregation } from '../../Utils/transformData/transform
 import { GraphHeader } from '../Elements/GraphHeader';
 import { GraphFooter } from '../Elements/GraphFooter';
 import { filterData } from '../../Utils/transformData/filterData';
+import { ColorLegend } from '../Elements/ColorLegend';
 
 interface Props {
   noOfColumns?: number;
@@ -38,6 +39,7 @@ interface Props {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
+  showCommonColorScale?: boolean;
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
 }
@@ -54,6 +56,7 @@ export function GriddedGraphs(props: Props) {
     noOfColumns,
     columnGridBy,
     dataFilter,
+    showCommonColorScale,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -356,6 +359,25 @@ export function GriddedGraphs(props: Props) {
                   ))}
                 </div>
               ) : null}
+              {showCommonColorScale !== false && graphSettings?.colorDomain ? (
+                <ColorLegend
+                  rtl={graphSettings?.rtl}
+                  language={graphSettings?.language}
+                  width={graphSettings?.width}
+                  colorLegendTitle={graphSettings?.colorLegendTitle}
+                  colors={
+                    (graphSettings?.colors as string[] | undefined) ||
+                    UNDPColorModule.categoricalColors.colors
+                  }
+                  colorDomain={graphSettings?.colorDomain}
+                  showNAColor={
+                    graphSettings?.showNAColor === undefined ||
+                    graphSettings?.showNAColor === null
+                      ? true
+                      : graphSettings?.showNAColor
+                  }
+                />
+              ) : null}
               <div
                 style={{
                   display: 'flex',
@@ -405,6 +427,7 @@ export function GriddedGraphs(props: Props) {
                         padding: '0',
                         footNote: undefined,
                         source: undefined,
+                        showColorScale: showCommonColorScale === false,
                       }}
                     />
                   </div>

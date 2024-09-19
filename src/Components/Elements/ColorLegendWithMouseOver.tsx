@@ -4,7 +4,7 @@ interface Props {
   colors: string[];
   colorDomain: string[];
   colorLegendTitle?: string;
-  showNAColor?: boolean;
+  showNAColor: boolean;
   setSelectedColor: (_d?: string) => void;
   width?: number;
   rtl?: boolean;
