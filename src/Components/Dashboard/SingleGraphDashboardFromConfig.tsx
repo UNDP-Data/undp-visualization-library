@@ -46,7 +46,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
   if (!configSettings) return <div className='undp-viz-loader' />;
   return (
     <SingleGraphDashboard
-      graphSettings={configSettings.graphDataConfiguration}
+      graphSettings={configSettings.graphSettings}
       dataSettings={configSettings.dataSettings}
       filters={configSettings.filters}
       graphType={configSettings.graphType}
