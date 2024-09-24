@@ -232,6 +232,7 @@ export function GriddedGraphs(props: Props) {
                         width: '25% - 0.75rem',
                         flexGrow: 1,
                         flexShrink: 0,
+                        flexWrap: 'wrap',
                       }}
                       key={i}
                     >

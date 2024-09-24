@@ -206,6 +206,7 @@ export function SingleGraphDashboard(props: Props) {
                         width: '25% - 0.75rem',
                         flexGrow: 1,
                         flexShrink: 0,
+                        minWidth: '240px',
                       }}
                       key={i}
                     >
