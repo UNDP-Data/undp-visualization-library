@@ -11,7 +11,7 @@ interface DataProps {
     id: string;
     date: string | number;
     label: string | number;
-    size: number | undefined;
+    size?: number | undefined;
     color?: string;
     data?: object;
   }[];
