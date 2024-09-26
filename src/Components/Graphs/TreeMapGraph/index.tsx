@@ -89,10 +89,15 @@ export function TreeMapGraph(props: Props) {
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 620);
+    });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
+      if (!width) resizeObserver.observe(graphDiv.current);
     }
+    return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
   return (
     <div
@@ -195,7 +200,7 @@ export function TreeMapGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={data.filter(d => !checkIfNullOrUndefined(d.size))}
                   colors={
                     data.filter(el => el.color).length === 0
                       ? colors

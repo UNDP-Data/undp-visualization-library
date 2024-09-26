@@ -51,10 +51,15 @@ export function GeoHubMap(props: Props) {
   const graphDiv = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 620);
+    });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
+      if (!width) resizeObserver.observe(graphDiv.current);
     }
+    return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
   useEffect(() => {
     if (mapContainer.current && svgWidth) {

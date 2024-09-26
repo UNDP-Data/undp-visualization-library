@@ -417,7 +417,6 @@ export function Graph(props: Props) {
               <div
                 style={{
                   padding: '0.75rem 3.5rem 0.75rem 0.75rem',
-                  marginLeft: '0.75rem',
                   position: 'relative',
                   zIndex: '5',
                 }}
@@ -586,6 +585,7 @@ export function Graph(props: Props) {
           style={{
             border: 0,
             backgroundColor: 'transparent',
+            paddingLeft: 0,
           }}
           onClick={() => {
             setShowLegend(true);

@@ -48,7 +48,7 @@ export interface UnitChartDataType {
 
 export interface TreeMapDataType {
   label: string | number;
-  size: number;
+  size?: number;
   color?: string;
   data?: object;
 }
@@ -66,7 +66,7 @@ export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
 
 export interface BarGraphDataType {
   label: string | number;
-  size: number | undefined;
+  size?: number;
   color?: string;
   data?: object;
 }
@@ -121,7 +121,7 @@ export interface HistogramDataType {
 }
 
 export interface ChoroplethMapDataType {
-  x: number | string;
+  x?: number | string;
   countryCode: string;
   data?: object;
 }
@@ -134,8 +134,8 @@ export interface ChoroplethMapWithDateDataType {
 }
 
 export interface BivariateMapDataType {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   countryCode: string;
   data?: object;
 }
@@ -167,8 +167,8 @@ export interface AreaChartDataType {
 }
 
 export interface ScatterPlotDataType {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   radius?: number;
   color?: string;
   label?: string | number;

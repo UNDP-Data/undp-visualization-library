@@ -383,7 +383,6 @@ a.undp-viz-style:focus-visible {
 
 .undp-viz-bivariate-legend-container {
   width: 20rem;
-  margin-left: 0.75rem;
   position: sticky;
   bottom: 0;
   z-index: 5;
@@ -414,25 +413,22 @@ a.undp-viz-style:focus-visible {
   .undp-viz-x-axis-text {  
     font-size: 10px;
   }
-  .undp-viz-label-text {
-    font-size: 10px;
-  }
 }
 @media (max-width: 600px) {
   .undp-viz-x-axis-text {  
-    font-size: 9px;
-  }
-  .undp-viz-label-text  {
     font-size: 9px;
   }
 }
 
 @media (max-width: 420px) {
   .undp-viz-x-axis-text {  
-    display: none;
-  }
-  .undp-viz-label-text  {
     font-size: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .undp-viz-x-axis-text {  
+    display: none;
   }
 }
 

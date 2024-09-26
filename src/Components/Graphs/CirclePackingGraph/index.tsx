@@ -90,10 +90,15 @@ export function CirclePackingGraph(props: Props) {
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 620);
+    });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
+      if (!width) resizeObserver.observe(graphDiv.current);
     }
+    return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
   return (
     <div
@@ -105,7 +110,6 @@ export function CirclePackingGraph(props: Props) {
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor ? padding || '1rem' : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -198,7 +202,7 @@ export function CirclePackingGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={data.filter(d => !checkIfNullOrUndefined(d.size))}
                   colors={
                     data.filter(el => el.color).length === 0
                       ? colors

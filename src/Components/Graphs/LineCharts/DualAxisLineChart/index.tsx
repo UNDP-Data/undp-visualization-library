@@ -89,10 +89,15 @@ export function DualAxisLineChart(props: Props) {
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 620);
+    });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 620);
+      if (!width) resizeObserver.observe(graphDiv.current);
     }
+    return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
 
   return (
@@ -209,12 +214,12 @@ export function DualAxisLineChart(props: Props) {
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 80
+                      ? 60
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 80
+                      ? 60
                       : (rightMargin as number)
                   }
                   topMargin={

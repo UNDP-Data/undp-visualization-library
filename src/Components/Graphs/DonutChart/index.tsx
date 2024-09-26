@@ -72,15 +72,22 @@ export function DonutChart(props: Props) {
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setDonutRadius(
+        (min([entries[0].target.clientWidth, entries[0].target.clientHeight]) ||
+          420) / 2,
+      );
+    });
     if (graphDiv.current) {
       setDonutRadius(
         (min([graphDiv.current.clientWidth, graphDiv.current.clientHeight]) ||
           420) / 2,
       );
+      if (!radius) resizeObserver.observe(graphDiv.current);
     }
-  }, [graphDiv?.current]);
+    return () => resizeObserver.disconnect();
+  }, [graphDiv?.current, radius]);
 
   const sortedData =
     sortData === 'asc'
@@ -164,7 +171,8 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    gap: '1.5rem',
+                    rowGap: '.75rem',
+                    columnGap: '1rem',
                   }}
                 >
                   {sortedData.map((d, i) => (

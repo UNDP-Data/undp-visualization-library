@@ -183,6 +183,7 @@ export function MultiGraphDashboard(props: Props) {
                         width: '25% - 0.75rem',
                         flexGrow: 1,
                         flexShrink: 0,
+                        minWidth: '240px',
                       }}
                       key={i}
                     >
@@ -317,8 +318,10 @@ export function MultiGraphDashboard(props: Props) {
                     display: 'flex',
                     gap: '1rem',
                     alignItems: 'stretch',
-                    height: `${d.height}px` || 'auto',
+                    minHeight: `${d.height || 0}px`,
+                    height: 'auto',
                     width: '100%',
+                    flexWrap: 'wrap',
                     flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
                   }}
                 >
@@ -331,6 +334,7 @@ export function MultiGraphDashboard(props: Props) {
                           (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
                         }% - ${(d.columns.length - 1) / d.columns.length}rem)`,
                         backgroundColor: 'transparent',
+                        minWidth: '320px',
                         height: 'inherit',
                       }}
                     >

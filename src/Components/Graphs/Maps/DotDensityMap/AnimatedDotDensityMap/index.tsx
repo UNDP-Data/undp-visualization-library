@@ -106,10 +106,15 @@ export function AnimatedDotDensityMap(props: Props) {
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 760);
+    });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
       setSvgWidth(graphDiv.current.clientWidth || 760);
+      if (!width) resizeObserver.observe(graphDiv.current);
     }
+    return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
 
   const [play, setPlay] = useState(autoPlay || false);
