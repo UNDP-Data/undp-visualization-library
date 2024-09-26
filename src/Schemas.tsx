@@ -6,11 +6,13 @@ export const treeMapDataSchema = {
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
-      size: { type: 'number' },
+      size: {
+        oneOf: [{ type: 'null' }, { type: 'number' }],
+      },
       color: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['label', 'size'],
+    required: ['label'],
   },
 };
 
@@ -22,11 +24,13 @@ export const circlePackingDataSchema = {
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
-      size: { type: 'number' },
+      size: {
+        oneOf: [{ type: 'null' }, { type: 'number' }],
+      },
       color: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['label', 'size'],
+    required: ['label'],
   },
 };
 
@@ -85,7 +89,7 @@ export const barGraphDataSchema = {
       color: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['label', 'size'],
+    required: ['label'],
   },
 };
 
@@ -154,7 +158,7 @@ export const animatedGroupedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null', 'undefined'] },
+        items: { type: ['number', 'null'] },
       },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
@@ -175,7 +179,7 @@ export const animatedStackedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null', 'undefined'] },
+        items: { type: ['number', 'null'] },
       },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
@@ -273,12 +277,12 @@ export const choroplethMapDataSchema = {
     type: 'object',
     properties: {
       x: {
-        oneOf: [{ type: 'number' }, { type: 'string' }],
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
       countryCode: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['x', 'countryCode'],
+    required: ['countryCode'],
   },
 };
 
@@ -287,12 +291,12 @@ export const biVariateChoroplethMapDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: 'number' },
-      y: { type: 'number' },
+      x: { type: ['number', 'null'] },
+      y: { type: ['number', 'null'] },
       countryCode: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['x', 'y', 'countryCode'],
+    required: ['countryCode'],
   },
 };
 
@@ -387,8 +391,8 @@ export const scatterPlotDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: 'number' },
-      y: { type: 'number' },
+      x: { type: ['number', 'null'] },
+      y: { type: ['number', 'null'] },
       radius: { type: 'number' },
       color: { type: 'string' },
       label: {
@@ -396,7 +400,6 @@ export const scatterPlotDataSchema = {
       },
       data: { type: 'object' },
     },
-    required: ['x', 'y'],
   },
 };
 
@@ -437,7 +440,7 @@ export const dualAxisLineChartDataSchema = {
       },
       data: { type: 'object' },
     },
-    required: ['date', 'y1', 'y2'],
+    required: ['date'],
   },
 };
 
@@ -457,7 +460,7 @@ export const paretoChartDataSchema = {
       },
       data: { type: 'object' },
     },
-    required: ['label', 'bar', 'line'],
+    required: ['label'],
   },
 };
 
@@ -535,7 +538,7 @@ export const heatMapDataSchema = {
       },
       data: { type: 'object' },
     },
-    required: ['row', 'column', 'value'],
+    required: ['row', 'column'],
   },
 };
 

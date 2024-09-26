@@ -214,12 +214,12 @@ export function DualAxisLineChart(props: Props) {
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 80
+                      ? 60
                       : (leftMargin as number)
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 80
+                      ? 60
                       : (rightMargin as number)
                   }
                   topMargin={

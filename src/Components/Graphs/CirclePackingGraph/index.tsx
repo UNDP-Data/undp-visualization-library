@@ -110,7 +110,6 @@ export function CirclePackingGraph(props: Props) {
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
-        padding: backgroundColor ? padding || '1rem' : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -203,7 +202,7 @@ export function CirclePackingGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={data.filter(d => !checkIfNullOrUndefined(d.size))}
                   colors={
                     data.filter(el => el.color).length === 0
                       ? colors

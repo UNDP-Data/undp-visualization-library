@@ -366,53 +366,40 @@ export function Graph(props: Props) {
               </text>
             ) : null}
           </g>
-          {dataOrdered.map((d, i) => {
-            return (
-              <g key={i}>
-                <g
-                  opacity={
-                    selectedColor
-                      ? d.color
-                        ? colors[colorDomain.indexOf(`${d.color}`)] ===
-                          selectedColor
+          {dataOrdered
+            .filter(
+              d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
+            )
+            .map((d, i) => {
+              return (
+                <g key={i}>
+                  <g
+                    opacity={
+                      selectedColor
+                        ? d.color
+                          ? colors[colorDomain.indexOf(`${d.color}`)] ===
+                            selectedColor
+                            ? 1
+                            : 0.3
+                          : 0.3
+                        : mouseOverData
+                        ? mouseOverData.id === d.id
                           ? 1
                           : 0.3
-                        : 0.3
-                      : mouseOverData
-                      ? mouseOverData.id === d.id
-                        ? 1
-                        : 0.3
-                      : highlightedDataPoints.length !== 0
-                      ? highlightedDataPoints.indexOf(d.label || '') !== -1
-                        ? 1
-                        : 0.3
-                      : 1
-                  }
-                  transform={`translate(${x(d.x)},${y(d.y)})`}
-                >
-                  <circle
-                    cx={0}
-                    cy={0}
-                    r={!radiusScale ? radius : radiusScale(d.radius || 0)}
-                    style={{
-                      fill:
-                        data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
-                      stroke:
-                        data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? UNDPColorModule.graphGray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
-                    }}
-                    fillOpacity={0.6}
-                  />
-                  {showLabels && !checkIfNullOrUndefined(d.label) ? (
-                    <text
-                      fontSize={10}
+                        : highlightedDataPoints.length !== 0
+                        ? highlightedDataPoints.indexOf(d.label || '') !== -1
+                          ? 1
+                          : 0.3
+                        : 1
+                    }
+                    transform={`translate(${x(d.x as number)},${y(
+                      d.y as number,
+                    )})`}
+                  >
+                    <circle
+                      cx={0}
+                      cy={0}
+                      r={!radiusScale ? radius : radiusScale(d.radius || 0)}
                       style={{
                         fill:
                           data.filter(el => el.color).length === 0
@@ -420,24 +407,16 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule.graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        stroke:
+                          data.filter(el => el.color).length === 0
+                            ? colors[0]
+                            : !d.color
+                            ? UNDPColorModule.graphGray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       }}
-                      y={0}
-                      x={!radiusScale ? radius : radiusScale(d.radius || 0)}
-                      dy={4}
-                      dx={3}
-                    >
-                      {d.label}
-                    </text>
-                  ) : highlightedDataPoints.length !== 0 &&
-                    !checkIfNullOrUndefined(d.label) ? (
-                    highlightedDataPoints.indexOf(
-                      d.label as string | number,
-                    ) !== -1 ? (
+                      fillOpacity={0.6}
+                    />
+                    {showLabels && !checkIfNullOrUndefined(d.label) ? (
                       <text
                         fontSize={10}
                         style={{
@@ -460,49 +439,76 @@ export function Graph(props: Props) {
                       >
                         {d.label}
                       </text>
-                    ) : null
-                  ) : null}
-                </g>
-                <path
-                  d={voronoiDiagram.renderCell(i)}
-                  fill='#fff'
-                  opacity={0}
-                  onMouseEnter={event => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(d);
-                    }
-                  }}
-                  onMouseMove={event => {
-                    setMouseOverData(d);
-                    setEventY(event.clientY);
-                    setEventX(event.clientX);
-                  }}
-                  onMouseLeave={() => {
-                    setMouseOverData(undefined);
-                    setEventX(undefined);
-                    setEventY(undefined);
-                    if (onSeriesMouseOver) {
-                      onSeriesMouseOver(undefined);
-                    }
-                  }}
-                  onClick={() => {
-                    if (onSeriesMouseClick) {
-                      if (isEqual(mouseClickData, d)) {
-                        setMouseClickData(undefined);
-                        onSeriesMouseClick(undefined);
-                      } else {
-                        setMouseClickData(d);
-                        onSeriesMouseClick(d);
+                    ) : highlightedDataPoints.length !== 0 &&
+                      !checkIfNullOrUndefined(d.label) ? (
+                      highlightedDataPoints.indexOf(
+                        d.label as string | number,
+                      ) !== -1 ? (
+                        <text
+                          fontSize={10}
+                          style={{
+                            fill:
+                              data.filter(el => el.color).length === 0
+                                ? colors[0]
+                                : !d.color
+                                ? UNDPColorModule.graphGray
+                                : colors[colorDomain.indexOf(`${d.color}`)],
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          y={0}
+                          x={!radiusScale ? radius : radiusScale(d.radius || 0)}
+                          dy={4}
+                          dx={3}
+                        >
+                          {d.label}
+                        </text>
+                      ) : null
+                    ) : null}
+                  </g>
+                  <path
+                    d={voronoiDiagram.renderCell(i)}
+                    fill='#fff'
+                    opacity={0}
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
                       }
-                    }
-                  }}
-                />
-              </g>
-            );
-          })}
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick) {
+                        if (isEqual(mouseClickData, d)) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick(d);
+                        }
+                      }
+                    }}
+                  />
+                </g>
+              );
+            })}
           {refXValues ? (
             <>
               {refXValues.map((el, i) => (

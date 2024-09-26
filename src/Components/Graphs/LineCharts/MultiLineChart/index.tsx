@@ -209,7 +209,9 @@ export function MultiLineChart(props: Props) {
                   }
                   rightMargin={
                     checkIfNullOrUndefined(rightMargin)
-                      ? 30
+                      ? showColorLegendAtTop
+                        ? 30
+                        : 50
                       : (rightMargin as number)
                   }
                   topMargin={

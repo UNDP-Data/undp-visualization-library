@@ -266,7 +266,7 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
+              transform={`translate(-45, ${graphHeight / 2}) rotate(-90)`}
               fill={lineColors[0]}
               textAnchor='middle'
               style={{
@@ -323,7 +323,7 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(${graphWidth + 65}, ${
+              transform={`translate(${graphWidth + 50}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColors[1]}

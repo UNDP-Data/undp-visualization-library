@@ -165,7 +165,7 @@ export function Graph(props: Props) {
                           ],
                   }}
                 />
-                {d.r > 10 && (showLabels || showValues) ? (
+                {d.r > 20 && (showLabels || showValues) ? (
                   <foreignObject
                     y={0 - d.r}
                     x={0 - d.r}
@@ -204,7 +204,7 @@ export function Graph(props: Props) {
                           className='undp-viz-typography'
                           style={{
                             fontSize: `${Math.min(
-                              Math.max(Math.round(d.r / 4), 10),
+                              Math.max(Math.round(d.r / 4), 8),
                               20,
                             )}px`,
                             marginBottom: 0,

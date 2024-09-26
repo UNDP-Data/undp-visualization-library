@@ -200,7 +200,7 @@ export function TreeMapGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={data.filter(d => !checkIfNullOrUndefined(d.size))}
                   colors={
                     data.filter(el => el.color).length === 0
                       ? colors

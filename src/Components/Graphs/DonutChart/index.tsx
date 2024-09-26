@@ -171,7 +171,8 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    gap: '1.5rem',
+                    rowGap: '.75rem',
+                    columnGap: '1rem',
                   }}
                 >
                   {sortedData.map((d, i) => (

@@ -133,7 +133,7 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <text
                     x={x(d)}
-                    y={-12.5}
+                    y={-17.5}
                     style={{
                       fill: UNDPColorModule.grays['gray-500'],
                       fontFamily: rtl
