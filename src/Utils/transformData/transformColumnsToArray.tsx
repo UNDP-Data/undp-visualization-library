@@ -2,7 +2,7 @@ import { ColumnConfigurationDataType } from '../../Types';
 
 export function transformColumnsToArray(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  csvData: any[],
+  csvData: any,
   columnConfig: ColumnConfigurationDataType[],
 ) {
   const dataFormatted = csvData.map((el: any) => {
