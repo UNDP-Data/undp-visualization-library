@@ -5,19 +5,28 @@ import {
 } from '../../Types';
 import { validateDataSchema } from '../../Utils/validateDataSchema';
 import { validateSettingsSchema } from '../../Utils/validateSettingsSchema';
+import { AnimatedHorizontalBarChart } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedBarChart';
+import { AnimatedHorizontalGroupedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedGroupedBarGraph';
+import { AnimatedHorizontalStackedBarChart } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedStackedBarChart';
 import { HorizontalGroupedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/GroupedBarGraph';
 import { HorizontalBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/SimpleBarGraph';
 import { HorizontalStackedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/StackedBarGraph';
+import { AnimatedVerticalBarChart } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedBarChart';
+import { AnimatedVerticalGroupedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedGroupedBarGraph';
+import { AnimatedVerticalStackedBarChart } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedStackedBarChart';
 import { VerticalGroupedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/GroupedBarGraph';
 import { VerticalBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/SimpleBarGraph';
 import { VerticalStackedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/StackedBarGraph';
 import { HorizontalBeeSwarmChart } from '../Graphs/BeeSwarmChart/HorizontalBeeSwarmChart';
 import { VerticalBeeSwarmChart } from '../Graphs/BeeSwarmChart/VerticalBeeSwarmChart';
+import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/AnimatedButterflyChart';
 import { ButterflyChart } from '../Graphs/ButterflyChart/SimpleButterflyChart';
 import { CirclePackingGraph } from '../Graphs/CirclePackingGraph';
 import { DataTable } from '../Graphs/DataTable';
 import { DonutChart } from '../Graphs/DonutChart';
+import { AnimatedHorizontalDumbbellChart } from '../Graphs/DumbbellChart/HorizontalDumbbellChart/AnimatedDumbbellChart';
 import { HorizontalDumbbellChart } from '../Graphs/DumbbellChart/HorizontalDumbbellChart/SimpleDumbbellChart';
+import { AnimatedVerticalDumbbellChart } from '../Graphs/DumbbellChart/VerticalDumbbellChart/AnimatedDumbbellChart';
 import { VerticalDumbbellChart } from '../Graphs/DumbbellChart/VerticalDumbbellChart/SimpleDumbbellChart';
 import { HeatMap } from '../Graphs/HeatMap';
 import { Histogram } from '../Graphs/Histogram';
@@ -25,12 +34,16 @@ import { DualAxisLineChart } from '../Graphs/LineCharts/DualAxisLineChart';
 import { SimpleLineChart } from '../Graphs/LineCharts/LineChart';
 import { MultiLineChart } from '../Graphs/LineCharts/MultiLineChart';
 import { SparkLine } from '../Graphs/LineCharts/SparkLine';
+import { AnimatedBiVariantMap } from '../Graphs/Maps/BiVariateMap/AnimatedBiVariateMap';
 import { BiVariantMap } from '../Graphs/Maps/BiVariateMap/SimpleBiVariateMap';
+import { AnimatedChoroplethMap } from '../Graphs/Maps/ChoroplethMap/AnimatedChoroplethMap';
 import { ChoroplethMap } from '../Graphs/Maps/ChoroplethMap/SimpleChoroplethMap';
+import { AnimatedDotDensityMap } from '../Graphs/Maps/DotDensityMap/AnimatedDotDensityMap';
 import { DotDensityMap } from '../Graphs/Maps/DotDensityMap/SimpleDotDensityMap';
 import { GeoHubCompareMaps } from '../Graphs/Maps/GeoHubCompareMaps';
 import { GeoHubMap } from '../Graphs/Maps/GeoHubMap';
 import { ParetoChart } from '../Graphs/ParetoChart';
+import { AnimatedScatterPlot } from '../Graphs/ScatterPlot/AnimatedScatterPlot';
 import { ScatterPlot } from '../Graphs/ScatterPlot/SimpleScatterPlot';
 import { SlopeChart } from '../Graphs/SlopeChart';
 import { AreaChart } from '../Graphs/StackedAreaChart';
@@ -109,6 +122,19 @@ function GraphEl(props: Props) {
     geoHubCompareMap: GeoHubCompareMaps,
     geoHubMap: GeoHubMap,
     unitChart: UnitChart,
+    animatedScatterPlot: AnimatedScatterPlot,
+    animatedHorizontalBarChart: AnimatedHorizontalBarChart,
+    animatedHorizontalStackedBarChart: AnimatedHorizontalStackedBarChart,
+    animatedHorizontalGroupedBarChart: AnimatedHorizontalGroupedBarGraph,
+    animatedVerticalBarChart: AnimatedVerticalBarChart,
+    animatedVerticalStackedBarChart: AnimatedVerticalStackedBarChart,
+    animatedVerticalGroupedBarChart: AnimatedVerticalGroupedBarGraph,
+    animatedChoroplethMap: AnimatedChoroplethMap,
+    animatedBiVariateChoroplethMap: AnimatedBiVariantMap,
+    animatedDotDensityMap: AnimatedDotDensityMap,
+    animatedHorizontalDumbbellChart: AnimatedHorizontalDumbbellChart,
+    animatedVerticalDumbbellChart: AnimatedVerticalDumbbellChart,
+    animatedButterflyChart: AnimatedButterflyChart,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {

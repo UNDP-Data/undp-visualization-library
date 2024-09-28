@@ -26,6 +26,7 @@ import { GraphHeader } from '../Elements/GraphHeader';
 import { GraphFooter } from '../Elements/GraphFooter';
 import { filterData } from '../../Utils/transformData/filterData';
 import { ColorLegend } from '../Elements/ColorLegend';
+import { checkIfNullOrUndefined } from '../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   noOfColumns?: number;
@@ -42,6 +43,8 @@ interface Props {
   showCommonColorScale?: boolean;
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  minGraphHeight?: number;
+  minGraphWidth?: number;
 }
 
 export function GriddedGraphs(props: Props) {
@@ -57,6 +60,8 @@ export function GriddedGraphs(props: Props) {
     columnGridBy,
     dataFilter,
     showCommonColorScale,
+    minGraphHeight,
+    minGraphWidth,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -385,6 +390,7 @@ export function GriddedGraphs(props: Props) {
                   flexWrap: 'wrap',
                   gap: '1rem',
                   flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
+                  justifyContent: 'center',
                 }}
               >
                 {gridOption.map((el, i) => (
@@ -394,6 +400,9 @@ export function GriddedGraphs(props: Props) {
                       width: `calc(${100 / (noOfColumns || 4)}% - ${
                         ((noOfColumns || 4) - 1) / (noOfColumns || 4)
                       }rem)`,
+                      minWidth: checkIfNullOrUndefined(minGraphWidth)
+                        ? '280px'
+                        : `${minGraphWidth}px`,
                     }}
                   >
                     <GraphEl
@@ -420,6 +429,7 @@ export function GriddedGraphs(props: Props) {
                         width: undefined,
                         height: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,
+                        minHeight: minGraphHeight,
                         graphTitle: `${el}`,
                         graphDescription: undefined,
                         graphDownload: false,

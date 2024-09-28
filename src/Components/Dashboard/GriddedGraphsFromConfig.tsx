@@ -25,6 +25,8 @@ interface ConfigObject {
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   showCommonColorScale?: boolean;
+  minGraphWidth?: number;
+  minGraphHeight?: number;
 }
 interface Props {
   config: string | ConfigObject;
@@ -56,6 +58,8 @@ export function GriddedGraphsFromConfig(props: Props) {
       filters={configSettings.filters}
       graphType={configSettings.graphType}
       relativeHeightForGraph={configSettings.relativeHeightForGraph}
+      minGraphHeight={configSettings.minGraphHeight}
+      minGraphWidth={configSettings.minGraphWidth}
       dataTransform={configSettings.dataTransform}
       graphDataConfiguration={configSettings.graphDataConfiguration}
       dataFilter={configSettings.dataFilter}
