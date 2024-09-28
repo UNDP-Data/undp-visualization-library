@@ -37,6 +37,7 @@ interface Props {
   selectedColor?: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  labelOrder?: string[];
 }
 
 export function Graph(props: Props) {
@@ -65,6 +66,7 @@ export function Graph(props: Props) {
     selectedColor,
     rtl,
     language,
+    labelOrder,
   } = props;
   const margin = {
     top: topMargin,
@@ -100,9 +102,14 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
+  const allLabelInData = data.map(d => `${d.label}`);
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const x = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([0, graphWidth])
     .paddingInner(barPadding);
   const subBarScale = scaleBand()
@@ -180,9 +187,9 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {data.map((d, i) => {
-            return (
-              <g key={i} transform={`translate(${x(`${i}`)},0)`}>
+          {dataWithId.map((d, i) =>
+            !checkIfNullOrUndefined(x(d.id)) ? (
+              <g key={i} transform={`translate(${x(`${d.id}`)},0)`}>
                 {d.size.map((el, j) => (
                   <g
                     className='undp-viz-g-with-hover'
@@ -288,8 +295,39 @@ export function Graph(props: Props) {
                   </text>
                 ) : null}
               </g>
-            );
-          })}
+            ) : null,
+          )}
+          {labelOrder && showLabels
+            ? labelOrder
+                .filter(d => allLabelInData.indexOf(d) === -1)
+                .map((d, i) =>
+                  !checkIfNullOrUndefined(x(d)) ? (
+                    <g className='undp-viz-g-with-hover' key={i}>
+                      {showLabels ? (
+                        <text
+                          x={(x(`${d}`) as number) + x.bandwidth() / 2}
+                          y={y(0)}
+                          style={{
+                            fill: UNDPColorModule.grays['gray-700'],
+                            fontSize: '0.75rem',
+                            textAnchor: 'middle',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          dy='15px'
+                        >
+                          {`${d}`.length < truncateBy
+                            ? `${d}`
+                            : `${`${d}`.substring(0, truncateBy)}...`}
+                        </text>
+                      ) : null}
+                    </g>
+                  ) : null,
+                )
+            : null}
           {refValues ? (
             <>
               {refValues.map((el, i) => (

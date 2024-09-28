@@ -28,6 +28,7 @@ interface Props {
   showTicks?: boolean;
   colorDomain: string[];
   colorLegendTitle?: string;
+  labelOrder?: string[];
   truncateBy?: number;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -87,6 +88,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     dataDownload,
     rtl,
     language,
+    labelOrder,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -254,6 +256,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  labelOrder={labelOrder}
                 />
               ) : null}
             </div>

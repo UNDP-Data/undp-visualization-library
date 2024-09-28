@@ -332,7 +332,10 @@ export function MultiGraphDashboard(props: Props) {
                         display: 'flex',
                         width: `calc(${
                           (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
-                        }% - ${(d.columns.length - 1) / d.columns.length}rem)`,
+                        }% - ${
+                          (TotalWidth(d.columns) - (el.columnWidth || 1)) /
+                          TotalWidth(d.columns)
+                        }rem)`,
                         backgroundColor: 'transparent',
                         minWidth: '320px',
                         height: 'inherit',

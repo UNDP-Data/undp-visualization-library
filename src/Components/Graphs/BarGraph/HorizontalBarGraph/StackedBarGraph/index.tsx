@@ -13,6 +13,7 @@ import { UNDPColorModule } from '../../../../ColorPalette';
 interface Props {
   data: GroupedBarGraphDataType[];
   colors?: string[];
+  labelOrder?: string[];
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -85,6 +86,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     dataDownload,
     rtl,
     language,
+    labelOrder,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -245,6 +247,7 @@ export function HorizontalStackedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  labelOrder={labelOrder}
                 />
               ) : null}
             </div>

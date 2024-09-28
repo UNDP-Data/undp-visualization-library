@@ -35,6 +35,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
   rtl: boolean;
+  labelOrder?: string[];
   language: 'en' | 'he' | 'ar';
 }
 
@@ -63,6 +64,7 @@ export function Graph(props: Props) {
     selectedColor,
     rtl,
     language,
+    labelOrder,
   } = props;
   const margin = {
     top: topMargin,
@@ -81,11 +83,16 @@ export function Graph(props: Props) {
     ? (maxValue as number)
     : Math.max(...data.map(d => sum(d.size.filter(l => l !== undefined)) || 0));
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
+  const allLabelInData = data.map(d => `${d.label}`);
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
 
   const x = scaleLinear().domain([0, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([0, graphHeight])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
@@ -132,12 +139,12 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {data.map((d, i) => {
-            return (
+          {dataWithId.map((d, i) =>
+            !checkIfNullOrUndefined(y(d.id)) ? (
               <g
                 className='undp-viz-low-opacity undp-viz-g-with-hover'
                 key={i}
-                transform={`translate(${0},${y(`${i}`)})`}
+                transform={`translate(${0},${y(`${d.id}`)})`}
               >
                 {d.size.map((el, j) => (
                   <g
@@ -283,8 +290,64 @@ export function Graph(props: Props) {
                   </text>
                 ) : null}
               </g>
-            );
-          })}
+            ) : null,
+          )}
+          {labelOrder && (showLabels || showValues)
+            ? labelOrder
+                .filter(d => allLabelInData.indexOf(d) === -1)
+                .map((d, i) =>
+                  !checkIfNullOrUndefined(y(d)) ? (
+                    <g className='undp-viz-g-with-hover' key={i}>
+                      {showLabels ? (
+                        <text
+                          style={{
+                            fill: UNDPColorModule.grays['gray-700'],
+                            fontSize: '0.75rem',
+                            textAnchor: 'end',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          x={x(0)}
+                          y={(y(d) as number) + y.bandwidth() / 2}
+                          dx={-10}
+                          dy={5}
+                        >
+                          {`${d}`.length < truncateBy
+                            ? `${d}`
+                            : `${`${d}`.substring(0, truncateBy)}...`}
+                        </text>
+                      ) : null}
+                      {showValues ? (
+                        <text
+                          style={{
+                            fill: UNDPColorModule.grays['gray-700'],
+                            fontSize: '1rem',
+                            textAnchor: 'start',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          x={0}
+                          y={y.bandwidth() / 2}
+                          dx={5}
+                          dy={5}
+                        >
+                          {numberFormattingFunction(
+                            0,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </text>
+                      ) : null}
+                    </g>
+                  ) : null,
+                )
+            : null}
           <line
             x1={x(0)}
             x2={x(0)}

@@ -46,6 +46,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   rtl?: boolean;
+  labelOrder?: string[];
   language?: 'ar' | 'he' | 'en';
 }
 
@@ -87,6 +88,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     dataDownload,
     rtl,
     language,
+    labelOrder,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -252,6 +254,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   minValue={minValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
+                  labelOrder={labelOrder}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                 />

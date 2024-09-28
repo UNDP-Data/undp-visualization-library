@@ -677,6 +677,10 @@ export const groupedBarChartSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    labelOrder: {
+      type: 'array',
+      items: { type: 'string' },
+    },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -741,6 +745,10 @@ export const stackedBarChartSettingsSchema = {
   type: 'object',
   properties: {
     colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    labelOrder: {
       type: 'array',
       items: { type: 'string' },
     },

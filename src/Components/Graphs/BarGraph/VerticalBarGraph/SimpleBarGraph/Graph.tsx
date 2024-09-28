@@ -109,6 +109,7 @@ export function Graph(props: Props) {
     ...d,
     id: labelOrder ? `${d.label}` : `${i}`,
   }));
+  const allLabelInData = data.map(d => `${d.label}`);
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const x = scaleBand()
     .domain(barOrder)
@@ -304,6 +305,63 @@ export function Graph(props: Props) {
               </g>
             ) : null,
           )}
+          {labelOrder && (showLabels || showValues)
+            ? labelOrder
+                .filter(d => allLabelInData.indexOf(d) === -1)
+                .map((d, i) =>
+                  !checkIfNullOrUndefined(x(d)) ? (
+                    <g className='undp-viz-g-with-hover' key={i}>
+                      {showLabels ? (
+                        <text
+                          x={(x(`${d}`) as number) + x.bandwidth() / 2}
+                          y={y(0)}
+                          style={{
+                            fill: UNDPColorModule.grays['gray-700'],
+                            fontSize: '0.75rem',
+                            textAnchor: 'middle',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          dy='15px'
+                        >
+                          {`${d}`.length < truncateBy
+                            ? `${d}`
+                            : `${`${d}`.substring(0, truncateBy)}...`}
+                        </text>
+                      ) : null}
+                      {showValues ? (
+                        <text
+                          x={(x(`${d}`) as number) + x.bandwidth() / 2}
+                          y={y(0)}
+                          style={{
+                            fill:
+                              barColor.length > 1
+                                ? UNDPColorModule.grays['gray-600']
+                                : barColor[0],
+                            fontSize: '1rem',
+                            textAnchor: 'middle',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          dy='-5px'
+                        >
+                          {numberFormattingFunction(
+                            0,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </text>
+                      ) : null}
+                    </g>
+                  ) : null,
+                )
+            : null}
           {refValues ? (
             <>
               {refValues.map((el, i) => (

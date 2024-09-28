@@ -15,6 +15,7 @@ interface Props {
   colors?: string[];
   graphTitle?: string;
   width?: number;
+  labelOrder?: string[];
   height?: number;
   source?: string;
   graphDescription?: string;
@@ -85,6 +86,7 @@ export function VerticalStackedBarGraph(props: Props) {
     dataDownload,
     rtl,
     language,
+    labelOrder,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -243,6 +245,7 @@ export function VerticalStackedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  labelOrder={labelOrder}
                 />
               ) : null}
             </div>
