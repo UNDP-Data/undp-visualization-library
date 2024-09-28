@@ -56,6 +56,7 @@ interface Props {
   connectorStrokeWidth?: number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AnimatedVerticalDumbbellChart(props: Props) {
@@ -102,6 +103,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     arrowConnector,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -274,7 +276,11 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   radius={!radius ? 3 : radius}

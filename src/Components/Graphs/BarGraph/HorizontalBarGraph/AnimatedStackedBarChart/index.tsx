@@ -58,6 +58,7 @@ interface Props {
   autoSort?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AnimatedHorizontalStackedBarChart(props: Props) {
@@ -101,6 +102,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     autoSort,
     rtl,
     language,
+    minHeight,
   } = props;
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
 
@@ -266,7 +268,11 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   barPadding={

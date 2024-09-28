@@ -24,6 +24,7 @@ interface Props {
   graphID?: string;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function GeoHubMap(props: Props) {
@@ -44,6 +45,7 @@ export function GeoHubMap(props: Props) {
     graphID,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -150,7 +152,11 @@ export function GeoHubMap(props: Props) {
                   height:
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 }}
               >

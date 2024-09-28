@@ -51,6 +51,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -96,6 +97,7 @@ export function VerticalBarGraph(props: Props) {
     rtl,
     language,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -246,7 +248,11 @@ export function VerticalBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

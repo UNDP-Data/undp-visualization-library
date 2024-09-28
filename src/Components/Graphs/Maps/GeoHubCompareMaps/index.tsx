@@ -21,6 +21,7 @@ interface Props {
   zoomLevel?: number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function GeoHubCompareMaps(props: Props) {
@@ -41,6 +42,7 @@ export function GeoHubCompareMaps(props: Props) {
     zoomLevel,
     rtl,
     language,
+    minHeight,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -116,7 +118,11 @@ export function GeoHubCompareMaps(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 mapStyles={mapStyles}

@@ -56,6 +56,7 @@ interface Props {
   autoPlay?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AnimatedHorizontalGroupedBarGraph(props: Props) {
@@ -99,6 +100,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     autoPlay,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -265,7 +267,11 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

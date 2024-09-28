@@ -43,6 +43,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -80,6 +81,7 @@ export function CirclePackingGraph(props: Props) {
     rtl,
     language,
     showNAColor,
+    minHeight,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -224,7 +226,11 @@ export function CirclePackingGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   leftMargin={

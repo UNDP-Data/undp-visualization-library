@@ -48,6 +48,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
+  minHeight?: number;
 }
 
 export function MultiLineChart(props: Props) {
@@ -90,6 +91,7 @@ export function MultiLineChart(props: Props) {
     rtl,
     language,
     colorLegendTitle,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -193,7 +195,11 @@ export function MultiLineChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   dateFormat={dateFormat || 'yyyy'}

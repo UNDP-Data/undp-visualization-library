@@ -48,6 +48,7 @@ interface Props {
   connectorStrokeWidth?: number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -91,6 +92,7 @@ export function HorizontalDumbbellChart(props: Props) {
     connectorStrokeWidth,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -214,7 +216,11 @@ export function HorizontalDumbbellChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

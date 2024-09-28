@@ -54,6 +54,7 @@ interface Props {
   autoPlay?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AnimatedBiVariantMap(props: Props) {
@@ -97,6 +98,7 @@ export function AnimatedBiVariantMap(props: Props) {
     autoPlay,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -256,7 +258,11 @@ export function AnimatedBiVariantMap(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 scale={scale || 190}

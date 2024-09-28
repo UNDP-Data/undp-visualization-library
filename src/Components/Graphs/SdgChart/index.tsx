@@ -46,6 +46,7 @@ interface Props {
   boxHeight?: number;
   boxPadding?: number;
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function SdgChart(props: Props) {
@@ -86,6 +87,7 @@ export function SdgChart(props: Props) {
     boxHeight,
     boxPadding,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -293,7 +295,11 @@ export function SdgChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   leftMargin={

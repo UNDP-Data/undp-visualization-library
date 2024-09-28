@@ -41,6 +41,7 @@ interface Props {
   showColorScale?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AreaChart(props: Props) {
@@ -78,6 +79,7 @@ export function AreaChart(props: Props) {
     showColorScale,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -183,7 +185,11 @@ export function AreaChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   dateFormat={dateFormat || 'yyyy'}

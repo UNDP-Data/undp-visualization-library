@@ -59,6 +59,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
+  minHeight?: number;
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -104,6 +105,7 @@ export function AnimatedButterflyChart(props: Props) {
     rtl,
     colorLegendTitle,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -288,7 +290,11 @@ export function AnimatedButterflyChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   truncateBy={

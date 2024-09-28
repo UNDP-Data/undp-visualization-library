@@ -50,6 +50,7 @@ interface Props {
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function Histogram(props: Props) {
@@ -90,6 +91,7 @@ export function Histogram(props: Props) {
     sortData,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -158,6 +160,7 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         rtl={rtl}
         language={language}
+        minHeight={minHeight}
       />
     );
   if (graphType === 'treeMap')
@@ -190,6 +193,7 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         rtl={rtl}
         language={language}
+        minHeight={minHeight}
       />
     );
   if (graphType === 'donutChart')
@@ -263,6 +267,7 @@ export function Histogram(props: Props) {
         sortData={sortData}
         rtl={rtl}
         language={language}
+        minHeight={minHeight}
       />
     );
   return (
@@ -300,6 +305,7 @@ export function Histogram(props: Props) {
       sortData={sortData}
       rtl={rtl}
       language={language}
+      minHeight={minHeight}
     />
   );
 }

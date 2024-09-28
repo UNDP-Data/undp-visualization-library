@@ -497,4 +497,5 @@ export interface GraphSettingsDataType {
   showStrokeForWhiteDots?: boolean;
   note?: string;
   showNAColor?: boolean;
+  minHeight?: number;
 }

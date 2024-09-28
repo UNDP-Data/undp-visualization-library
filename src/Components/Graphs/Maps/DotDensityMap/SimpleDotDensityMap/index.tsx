@@ -46,6 +46,7 @@ interface Props {
   showAntarctica?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function DotDensityMap(props: Props) {
@@ -86,6 +87,7 @@ export function DotDensityMap(props: Props) {
     showAntarctica,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -197,7 +199,11 @@ export function DotDensityMap(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 scale={scale || 190}

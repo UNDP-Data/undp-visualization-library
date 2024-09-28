@@ -41,6 +41,7 @@ interface Props {
   animateLine?: boolean | number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -79,6 +80,7 @@ export function SimpleLineChart(props: Props) {
     animateLine,
     rtl,
     language,
+    minHeight,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -166,7 +168,11 @@ export function SimpleLineChart(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 suffix={suffix || ''}

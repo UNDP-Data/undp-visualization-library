@@ -19,6 +19,7 @@ interface Props {
   sourceLink?: string;
   width?: number;
   height?: number;
+  minHeight?: number;
   suffix?: string;
   prefix?: string;
   source?: string;
@@ -96,6 +97,7 @@ export function HorizontalBarGraph(props: Props) {
     rtl,
     language,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -248,7 +250,11 @@ export function HorizontalBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

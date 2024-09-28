@@ -67,6 +67,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -116,6 +117,7 @@ export function AnimatedScatterPlot(props: Props) {
     rtl,
     language,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -301,7 +303,11 @@ export function AnimatedScatterPlot(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   colorDomain={

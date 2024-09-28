@@ -287,7 +287,7 @@ export function Graph(props: Props) {
               </g>
             ) : null,
           )}
-          {labelOrder
+          {labelOrder && (showLabels || showValues)
             ? labelOrder
                 .filter(d => allLabelInData.indexOf(d) === -1)
                 .map((d, i) =>

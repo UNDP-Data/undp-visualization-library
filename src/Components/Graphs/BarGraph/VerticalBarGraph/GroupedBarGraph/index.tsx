@@ -48,6 +48,7 @@ interface Props {
   dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -89,6 +90,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     rtl,
     language,
     labelOrder,
+    minHeight,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -197,7 +199,11 @@ export function VerticalGroupedBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

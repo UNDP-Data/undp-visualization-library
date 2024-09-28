@@ -43,6 +43,7 @@ interface Props {
   rtl?: boolean;
   showColorScale?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -81,6 +82,7 @@ export function DualAxisLineChart(props: Props) {
     rtl,
     language,
     showColorScale,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -200,7 +202,11 @@ export function DualAxisLineChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

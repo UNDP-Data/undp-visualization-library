@@ -47,6 +47,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
+  minHeight?: number;
 }
 
 export function ButterflyChart(props: Props) {
@@ -89,6 +90,7 @@ export function ButterflyChart(props: Props) {
     rtl,
     language,
     colorLegendTitle,
+    minHeight,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -215,7 +217,11 @@ export function ButterflyChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   truncateBy={

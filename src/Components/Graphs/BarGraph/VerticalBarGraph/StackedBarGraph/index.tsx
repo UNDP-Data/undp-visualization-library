@@ -47,6 +47,7 @@ interface Props {
   dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -87,6 +88,7 @@ export function VerticalStackedBarGraph(props: Props) {
     rtl,
     language,
     labelOrder,
+    minHeight,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -191,7 +193,11 @@ export function VerticalStackedBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   barPadding={

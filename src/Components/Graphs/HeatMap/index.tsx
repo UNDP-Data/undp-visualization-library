@@ -47,6 +47,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function HeatMap(props: Props) {
@@ -88,6 +89,7 @@ export function HeatMap(props: Props) {
     rtl,
     language,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -295,7 +297,11 @@ export function HeatMap(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   showColumnLabels={

@@ -47,6 +47,7 @@ interface Props {
   highlightColor?: string;
   dotOpacity?: number;
   showNAColor?: boolean;
+  minHeight?: number;
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -89,6 +90,7 @@ export function HorizontalStripChart(props: Props) {
     highlightColor,
     dotOpacity,
     showNAColor,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -214,7 +216,11 @@ export function HorizontalStripChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   colorDomain={

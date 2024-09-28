@@ -45,6 +45,7 @@ interface Props {
   showAntarctica?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function BiVariantMap(props: Props) {
@@ -85,6 +86,7 @@ export function BiVariantMap(props: Props) {
     showAntarctica,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -187,7 +189,11 @@ export function BiVariantMap(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 scale={scale || 190}

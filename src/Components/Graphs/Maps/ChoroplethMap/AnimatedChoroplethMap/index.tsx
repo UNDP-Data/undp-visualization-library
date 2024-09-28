@@ -54,6 +54,7 @@ interface Props {
   autoPlay?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -97,6 +98,7 @@ export function AnimatedChoroplethMap(props: Props) {
     autoPlay,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -255,7 +257,11 @@ export function AnimatedChoroplethMap(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 scale={scale || 190}

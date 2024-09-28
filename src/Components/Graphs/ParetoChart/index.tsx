@@ -40,6 +40,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
+  minHeight?: number;
 }
 
 export function ParetoChart(props: Props) {
@@ -76,6 +77,7 @@ export function ParetoChart(props: Props) {
     rtl,
     language,
     colorLegendTitle,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -192,7 +194,11 @@ export function ParetoChart(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   truncateBy={

@@ -151,6 +151,7 @@ function GraphEl(props: Props) {
           sortData: settings?.sortData,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'horizontalGroupedBarChart':
@@ -189,6 +190,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'horizontalStackedBarChart':
         return {
@@ -225,6 +227,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'verticalBarChart':
         return {
@@ -265,6 +268,7 @@ function GraphEl(props: Props) {
           sortData: settings?.sortData,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'verticalGroupedBarChart':
@@ -303,6 +307,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'verticalStackedBarChart':
         return {
@@ -339,6 +344,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'lineChart':
         return {
@@ -375,6 +381,7 @@ function GraphEl(props: Props) {
           highlightAreaColor: settings?.highlightAreaColor,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
         };
       case 'dualAxisLineChart':
@@ -411,6 +418,7 @@ function GraphEl(props: Props) {
           highlightAreaColor: settings?.highlightAreaColor,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
         };
       case 'multiLineChart':
@@ -451,6 +459,7 @@ function GraphEl(props: Props) {
           highlightAreaColor: settings?.highlightAreaColor,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
         };
       case 'stackedAreaChart':
@@ -488,6 +497,7 @@ function GraphEl(props: Props) {
           showColorScale: settings?.showColorScale,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'choroplethMap':
         return {
@@ -524,6 +534,7 @@ function GraphEl(props: Props) {
           showAntarctica: settings?.showAntarctica,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'biVariateChoroplethMap':
         return {
@@ -560,6 +571,7 @@ function GraphEl(props: Props) {
           showAntarctica: settings?.showAntarctica,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'dotDensityMap':
         return {
@@ -596,6 +608,7 @@ function GraphEl(props: Props) {
           showAntarctica: settings?.showAntarctica,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'donutChart':
         return {
@@ -656,6 +669,7 @@ function GraphEl(props: Props) {
           fillContainer: settings?.fillContainer,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'scatterPlot':
         return {
@@ -699,6 +713,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'horizontalDumbbellChart':
@@ -736,6 +751,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
@@ -775,6 +791,7 @@ function GraphEl(props: Props) {
           prefix: settings?.prefix,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
@@ -810,6 +827,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'circlePacking':
@@ -843,6 +861,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'heatMap':
@@ -880,6 +899,7 @@ function GraphEl(props: Props) {
           fillContainer: settings?.fillContainer,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'horizontalStripChart':
@@ -916,6 +936,7 @@ function GraphEl(props: Props) {
           suffix: settings?.suffix,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           highlightColor: settings?.highlightColor,
           dotOpacity: settings?.dotOpacity,
           showNAColor: settings?.showNAColor,
@@ -954,6 +975,7 @@ function GraphEl(props: Props) {
           stripType: settings?.stripType,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           highlightColor: settings?.highlightColor,
           dotOpacity: settings?.dotOpacity,
           showNAColor: settings?.showNAColor,
@@ -992,6 +1014,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'verticalBeeSwarmChart':
@@ -1028,6 +1051,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
         };
       case 'butterflyChart':
@@ -1066,6 +1090,7 @@ function GraphEl(props: Props) {
           refValues: settings?.refValues,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'histogram':
         return {
@@ -1102,6 +1127,7 @@ function GraphEl(props: Props) {
           graphType: settings?.graphType,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'sparkLine':
         return {
@@ -1130,6 +1156,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'paretoChart':
         return {
@@ -1161,6 +1188,7 @@ function GraphEl(props: Props) {
           showLabels: settings?.showLabels,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'dataTable':
         return {
@@ -1194,6 +1222,7 @@ function GraphEl(props: Props) {
           aggregationMethod: settings?.aggregationMethod,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
           countOnly: settings?.countOnly,
         };
       case 'geoHubCompareMap':
@@ -1214,6 +1243,7 @@ function GraphEl(props: Props) {
           zoomLevel: settings?.zoomLevel,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'geoHubMap':
         return {
@@ -1233,6 +1263,7 @@ function GraphEl(props: Props) {
           graphID: settings?.graphID,
           rtl: settings?.rtl,
           language: settings?.language,
+          minHeight: settings?.minHeight,
         };
       case 'unitChart':
         return {

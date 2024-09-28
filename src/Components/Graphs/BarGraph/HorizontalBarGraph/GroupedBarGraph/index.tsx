@@ -36,6 +36,7 @@ interface Props {
   showLabels?: boolean;
   bottomMargin?: number;
   relativeHeight?: number;
+  minHeight?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
@@ -89,6 +90,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     rtl,
     language,
     labelOrder,
+    minHeight,
   } = props;
 
   const barColors = colors || UNDPColorModule.categoricalColors.colors;
@@ -197,7 +199,11 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   height={
                     height ||
                     (relativeHeight
-                      ? (width || svgWidth) * relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
                   suffix={suffix || ''}

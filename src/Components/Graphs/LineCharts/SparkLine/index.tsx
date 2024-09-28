@@ -34,6 +34,7 @@ interface Props {
   dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  minHeight?: number;
 }
 
 export function SparkLine(props: Props) {
@@ -65,6 +66,7 @@ export function SparkLine(props: Props) {
     dataDownload,
     rtl,
     language,
+    minHeight,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -154,7 +156,11 @@ export function SparkLine(props: Props) {
                 height={
                   height ||
                   (relativeHeight
-                    ? (width || svgWidth) * relativeHeight
+                    ? minHeight
+                      ? (width || svgWidth) * relativeHeight > minHeight
+                        ? (width || svgWidth) * relativeHeight
+                        : minHeight
+                      : (width || svgWidth) * relativeHeight
                     : svgHeight)
                 }
                 dateFormat={dateFormat || 'yyyy'}
