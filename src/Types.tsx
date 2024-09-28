@@ -32,7 +32,20 @@ export type GraphType =
   | 'statCard'
   | 'geoHubCompareMap'
   | 'geoHubMap'
-  | 'unitChart';
+  | 'unitChart'
+  | 'animatedScatterPlot'
+  | 'animatedHorizontalBarChart'
+  | 'animatedHorizontalStackedBarChart'
+  | 'animatedHorizontalGroupedBarChart'
+  | 'animatedVerticalBarChart'
+  | 'animatedVerticalStackedBarChart'
+  | 'animatedVerticalGroupedBarChart'
+  | 'animatedChoroplethMap'
+  | 'animatedBiVariateChoroplethMap'
+  | 'animatedDotDensityMap'
+  | 'animatedHorizontalDumbbellChart'
+  | 'animatedVerticalDumbbellChart'
+  | 'animatedButterflyChart';
 
 export interface TimeSeriesProps {
   year: number;
@@ -498,4 +511,7 @@ export interface GraphSettingsDataType {
   note?: string;
   showNAColor?: boolean;
   minHeight?: number;
+  autoPlay?: boolean;
+  autoSort?: boolean;
+  showOnlyActiveDate?: boolean;
 }
