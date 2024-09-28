@@ -14,7 +14,7 @@ interface ConfigObject {
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: GraphType;
+  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];

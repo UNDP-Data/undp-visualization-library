@@ -339,23 +339,35 @@ export function MultiGraphDashboard(props: Props) {
                         backgroundColor: 'transparent',
                         minWidth: '320px',
                         height: 'inherit',
+                        minHeight: 'inherit',
+                        flexGrow: 1,
                       }}
                     >
                       <GraphEl
                         graph={el.graphType}
-                        graphData={transformDataForGraph(
-                          el.dataTransform
-                            ? transformDataForAggregation(
-                                filterData(data, el.dataFilter || []),
-                                el.dataTransform.keyColumn,
-                                el.dataTransform.aggregationColumnsSetting,
+                        graphData={
+                          el.graphType === 'geoHubCompareMap' ||
+                          el.graphType === 'geoHubMap'
+                            ? data
+                            : transformDataForGraph(
+                                el.dataTransform
+                                  ? transformDataForAggregation(
+                                      filterData(data, el.dataFilter || []),
+                                      el.dataTransform.keyColumn,
+                                      el.dataTransform
+                                        .aggregationColumnsSetting,
+                                    )
+                                  : filterData(data, el.dataFilter || []),
+                                el.graphType,
+                                el.graphDataConfiguration,
                               )
-                            : filterData(data, el.dataFilter || []),
-                          el.graphType,
-                          el.graphDataConfiguration,
-                        )}
+                        }
                         settings={{
                           ...el.settings,
+                          width: undefined,
+                          height: undefined,
+                          radius: undefined,
+                          size: undefined,
                           rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
                         }}

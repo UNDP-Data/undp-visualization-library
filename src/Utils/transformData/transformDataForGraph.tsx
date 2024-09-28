@@ -8,14 +8,9 @@ export function transformDataForGraph(
   graph: GraphType,
   config?: GraphConfigurationDataType[],
 ) {
+  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap') return data;
   if (!data) return 'Cannot fetch data';
-  if (
-    graph === 'dataTable' ||
-    graph === 'geoHubCompareMap' ||
-    graph === 'geoHubMap' ||
-    data.length === 0
-  )
-    return data;
+  if (graph === 'dataTable' || data.length === 0) return data;
   if (!config) {
     console.error('Your data configuration is not accurate');
     return 'No graph configuration is provided';

@@ -1,6 +1,6 @@
 import domtoimage from 'dom-to-image';
 
-export const imageDownload = (node: HTMLElement, filename: string) => {
+export function imageDownload(node: HTMLElement, filename: string) {
   domtoimage
     .toPng(node, {
       height: node.scrollHeight,
@@ -18,4 +18,4 @@ export const imageDownload = (node: HTMLElement, filename: string) => {
       link.href = dataUrl;
       link.click();
     });
-};
+}

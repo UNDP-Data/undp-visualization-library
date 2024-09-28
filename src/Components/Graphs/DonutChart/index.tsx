@@ -36,6 +36,7 @@ interface Props {
   sortData?: 'asc' | 'desc';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  fillContainer?: boolean;
 }
 
 export function DonutChart(props: Props) {
@@ -66,6 +67,7 @@ export function DonutChart(props: Props) {
     sortData,
     rtl,
     language,
+    fillContainer,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -102,7 +104,8 @@ export function DonutChart(props: Props) {
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: radius ? 'fit-content' : '100%',
+        minHeight: 'inherit',
+        width: fillContainer || !radius ? '100%' : 'fit-content',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -110,6 +113,7 @@ export function DonutChart(props: Props) {
           : backgroundColor,
         marginLeft: 'auto',
         marginRight: 'auto',
+        flexGrow: 1,
       }}
       id={graphID}
       ref={graphParentDiv}
@@ -137,7 +141,7 @@ export function DonutChart(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              width={(radius || donutRadius) * 2}
+              width={radius && !fillContainer ? radius * 2 : undefined}
               graphDownload={graphDownload ? graphParentDiv.current : undefined}
               dataDownload={
                 dataDownload &&
@@ -149,7 +153,7 @@ export function DonutChart(props: Props) {
           ) : null}
           <div
             style={{
-              flexGrow: radius ? 0 : 1,
+              flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
               justifyContent: 'center',
@@ -230,16 +234,24 @@ export function DonutChart(props: Props) {
             ) : null}
             <div
               style={{
+                display: 'flex',
                 flexGrow: 1,
                 width: '100%',
                 lineHeight: 0,
-                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'center',
               }}
               ref={graphDiv}
             >
-              {radius || donutRadius ? (
-                <div>
+              <div
+                style={{
+                  width: '100%',
+                  lineHeight: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                {radius || donutRadius ? (
                   <Graph
                     mainText={mainText}
                     data={
@@ -260,8 +272,8 @@ export function DonutChart(props: Props) {
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
                   />
-                </div>
-              ) : null}
+                ) : null}
+              </div>
             </div>
           </div>
           {source || footNote ? (
@@ -271,9 +283,11 @@ export function DonutChart(props: Props) {
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}
-              width={(radius || donutRadius) * 2}
+              width={radius && !fillContainer ? radius * 2 : undefined}
             />
-          ) : null}
+          ) : (
+            <div />
+          )}
         </div>
       </div>
     </div>

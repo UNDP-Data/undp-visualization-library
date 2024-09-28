@@ -133,3 +133,8 @@ export { transformDataForAggregation } from './Utils/transformData/transformData
 export { transformColumnsToArray } from './Utils/transformData/transformColumnsToArray';
 export { transformDataForGraphFromFile } from './Utils/transformData/transformDataForGraphFromFile';
 export { transformDataForGraph } from './Utils/transformData/transformDataForGraph';
+export { getDataSchema, getSettingsSchema } from './Utils/getSchema';
+export {
+  validateDataSchema,
+  validateSettingsSchema,
+} from './Utils/validateSchema';

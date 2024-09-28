@@ -814,6 +814,225 @@ export const stackedBarChartSettingsSchema = {
   },
 };
 
+export const animatedSimpleBarChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    colors: {
+      oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    source: { type: 'string' },
+    barPadding: { type: 'number' },
+    showValues: { type: 'boolean' },
+    showTicks: { type: 'boolean' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    truncateBy: { type: 'number' },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    showLabels: { type: 'boolean' },
+    showColorScale: { type: 'boolean' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    tooltip: { type: 'string' },
+    refValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    graphID: { type: 'string' },
+    highlightedDataPoints: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    autoSort: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+  definitions: {
+    ReferenceDataType: {
+      type: 'object',
+      properties: {
+        value: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        text: { type: 'string' },
+        color: { type: 'string' },
+      },
+      required: ['value', 'text'],
+    },
+  },
+};
+
+export const animatedGroupedBarChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    barPadding: { type: 'number' },
+    showTicks: { type: 'boolean' },
+    truncateBy: { type: 'number' },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    showValues: { type: 'boolean' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    showLabels: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    refValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    graphID: { type: 'string' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+  required: ['colorDomain'],
+  definitions: {
+    ReferenceDataType: {
+      type: 'object',
+      properties: {
+        value: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        text: { type: 'string' },
+        color: { type: 'string' },
+      },
+      required: ['value', 'text'],
+    },
+  },
+};
+
+export const animatedStackedBarChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    barPadding: { type: 'number' },
+    showTicks: { type: 'boolean' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    truncateBy: { type: 'number' },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    showValues: { type: 'boolean' },
+    showLabels: { type: 'boolean' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    refValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    graphID: { type: 'string' },
+    maxValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+  required: ['colorDomain'],
+  definitions: {
+    ReferenceDataType: {
+      type: 'object',
+      properties: {
+        value: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        text: { type: 'string' },
+        color: { type: 'string' },
+      },
+      required: ['value', 'text'],
+    },
+  },
+};
+
 export const beeSwarmChartSettingsSchema = {
   type: 'object',
   properties: {
@@ -936,6 +1155,76 @@ export const butterflyChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+  },
+  definitions: {
+    ReferenceDataType: {
+      type: 'object',
+      properties: {
+        value: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        text: { type: 'string' },
+        color: { type: 'string' },
+      },
+      required: ['value', 'text'],
+    },
+  },
+};
+
+export const animatedButterflyChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    leftBarTitle: { type: 'string' },
+    rightBarTitle: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    barColors: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    graphID: { type: 'string' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    barPadding: { type: 'number' },
+    truncateBy: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    showTicks: { type: 'boolean' },
+    showValues: { type: 'boolean' },
+    centerGap: { type: 'number' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    showColorScale: { type: 'boolean' },
+    refValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
   },
   definitions: {
     ReferenceDataType: {
@@ -1101,6 +1390,7 @@ export const donutChartSettingsSchema = {
     graphID: { type: 'string' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
+    fillContainer: { type: 'boolean' },
     colorDomain: {
       type: 'array',
       items: { type: 'string' },
@@ -1170,6 +1460,66 @@ export const dumbbellChartSettingsSchema = {
     },
     arrowConnector: { type: 'boolean' },
     connectorStrokeWidth: { type: 'number' },
+  },
+  required: ['colorDomain'],
+};
+
+export const animatedDumbbellChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    source: { type: 'string' },
+    barPadding: { type: 'number' },
+    showValues: { type: 'boolean' },
+    showTicks: { type: 'boolean' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    truncateBy: { type: 'number' },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    radius: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    showLabels: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    graphID: { type: 'string' },
+    maxPositionValue: { type: 'number' },
+    minPositionValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    sortParameter: {
+      oneOf: [{ type: 'string', enum: ['diff'] }, { type: 'number' }],
+    },
+    arrowConnector: { type: 'boolean' },
+    connectorStrokeWidth: { type: 'number' },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
   },
   required: ['colorDomain'],
 };
@@ -1815,6 +2165,271 @@ export const dotDensityMapSettingsSchema = {
   },
 };
 
+export const animatedChoroplethMapSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    domain: {
+      oneOf: [
+        {
+          type: 'array',
+          items: { type: 'number' },
+          minItems: 1,
+        },
+        {
+          type: 'array',
+          items: { type: 'string' },
+          minItems: 1,
+        },
+      ],
+    },
+    colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    categorical: { type: 'boolean' },
+    scale: { type: 'number' },
+    centerPoint: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    mapBorderWidth: { type: 'number' },
+    mapNoDataColor: { type: 'string' },
+    mapBorderColor: { type: 'string' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    padding: { type: 'string' },
+    isWorldMap: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    showColorScale: { type: 'boolean' },
+    zoomScaleExtend: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    zoomTranslateExtend: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: { type: 'number' },
+        minItems: 2,
+        maxItems: 2,
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    graphID: { type: 'string' },
+    highlightedCountryCodes: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    mapProperty: { type: 'string' },
+    showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+  required: ['domain'],
+};
+
+export const animatedBiVariateChoroplethMapSettingsSchema = {
+  type: 'object',
+  properties: {
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    xColorLegendTitle: { type: 'string' },
+    yColorLegendTitle: { type: 'string' },
+    xDomain: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 4,
+      maxItems: 4,
+    },
+    yDomain: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 4,
+      maxItems: 4,
+    },
+    colors: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: { type: 'string' },
+        minItems: 5,
+        maxItems: 5,
+      },
+      minItems: 5,
+      maxItems: 5,
+    },
+    scale: { type: 'number' },
+    centerPoint: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    mapBorderWidth: { type: 'number' },
+    mapNoDataColor: { type: 'string' },
+    padding: { type: 'string' },
+    mapBorderColor: { type: 'string' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    isWorldMap: { type: 'boolean' },
+    zoomScaleExtend: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    zoomTranslateExtend: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: { type: 'number' },
+        minItems: 2,
+        maxItems: 2,
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    graphID: { type: 'string' },
+    highlightedCountryCodes: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    mapProperty: { type: 'string' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+};
+
+export const animatedDotDensityMapSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    radius: { type: 'number' },
+    source: { type: 'string' },
+    colors: {
+      oneOf: [
+        {
+          type: 'string',
+        },
+        {
+          type: 'array',
+          items: { type: 'string' },
+        },
+      ],
+    },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    scale: { type: 'number' },
+    centerPoint: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    mapBorderWidth: { type: 'number' },
+    mapNoDataColor: { type: 'string' },
+    mapBorderColor: { type: 'string' },
+    padding: { type: 'string' },
+    showLabels: { type: 'boolean' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    isWorldMap: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    showColorScale: { type: 'boolean' },
+    zoomScaleExtend: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    zoomTranslateExtend: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: { type: 'number' },
+        minItems: 2,
+        maxItems: 2,
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    graphID: { type: 'string' },
+    highlightedDataPoints: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    showAntarctica: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
+  },
+};
+
 export const geoHubCompareMapSettingsSchema = {
   type: 'object',
   properties: {
@@ -2005,6 +2620,102 @@ export const scatterPlotSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+  },
+  definitions: {
+    ReferenceDataType: {
+      type: 'object',
+      properties: {
+        value: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        text: { type: 'string' },
+        color: { type: 'string' },
+      },
+      required: ['value', 'text'],
+    },
+  },
+};
+
+export const animatedScatterPlotSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    showLabels: { type: 'boolean' },
+    colors: {
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'array',
+          items: { type: 'string' },
+        },
+      ],
+    },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendTitle: { type: 'string' },
+    radius: { type: 'number' },
+    xAxisTitle: { type: 'string' },
+    yAxisTitle: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    refXValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    refYValues: {
+      type: 'array',
+      items: { $ref: '#/definitions/ReferenceDataType' },
+    },
+    highlightedDataPoints: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    highlightAreaSettings: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      minItems: 4,
+      maxItems: 4,
+    },
+    highlightAreaColor: { type: 'string' },
+    showColorScale: { type: 'boolean' },
+    graphID: { type: 'string' },
+    maxRadiusValue: { type: 'number' },
+    maxXValue: { type: 'number' },
+    minXValue: { type: 'number' },
+    maxYValue: { type: 'number' },
+    minYValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    rtl: { type: 'boolean' },
+    showNAColor: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    autoPlay: { type: 'boolean' },
+    showOnlyActiveDate: { type: 'boolean' },
+    dateFormat: { type: 'string' },
   },
   definitions: {
     ReferenceDataType: {

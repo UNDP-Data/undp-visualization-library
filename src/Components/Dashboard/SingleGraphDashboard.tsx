@@ -30,7 +30,7 @@ interface Props {
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: GraphType;
+  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
@@ -75,9 +75,7 @@ export function SingleGraphDashboard(props: Props) {
   };
 
   useEffect(() => {
-    if (graphType === 'geoHubCompareMap' || graphType === 'geoHubMap') {
-      setData([]);
-    } else if (dataFromFile) {
+    if (dataFromFile) {
       const filteredData = dataFromFile.filter((item: any) =>
         selectedFilters.every(filter =>
           filter.value && filter.value.length > 0
@@ -170,25 +168,32 @@ export function SingleGraphDashboard(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {graphSettings?.graphTitle ||
-          graphSettings?.graphDescription ||
-          graphSettings?.graphDownload ||
-          graphSettings?.dataDownload ? (
-            <GraphHeader
-              rtl={graphSettings?.rtl}
-              language={graphSettings?.language}
-              graphTitle={graphSettings?.graphTitle}
-              graphDescription={graphSettings?.graphDescription}
-              width={graphSettings?.width}
-              graphDownload={
-                graphSettings?.graphDownload
-                  ? graphParentDiv.current
-                  : undefined
-              }
-            />
-          ) : null}
           {data ? (
             <>
+              {graphSettings?.graphTitle ||
+              graphSettings?.graphDescription ||
+              graphSettings?.graphDownload ||
+              graphSettings?.dataDownload ? (
+                <GraphHeader
+                  rtl={graphSettings?.rtl}
+                  language={graphSettings?.language}
+                  graphTitle={graphSettings?.graphTitle}
+                  graphDescription={graphSettings?.graphDescription}
+                  width={graphSettings?.width}
+                  graphDownload={
+                    graphSettings?.graphDownload
+                      ? graphParentDiv.current
+                      : undefined
+                  }
+                  dataDownload={
+                    graphSettings?.dataDownload && data
+                      ? data.length > 0
+                        ? data
+                        : null
+                      : null
+                  }
+                />
+              ) : null}
               {filterSettings.length !== 0 ? (
                 <div
                   style={{

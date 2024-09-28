@@ -10,13 +10,13 @@ const polarToCartesian = (
   };
 };
 
-export const describeArc = (
+export function describeArc(
   x: number,
   y: number,
   radius: number,
   startAngleInRadians: number,
   endAngleInRadians: number,
-) => {
+) {
   const start = polarToCartesian(x, y, radius, startAngleInRadians);
   const end = polarToCartesian(x, y, radius, endAngleInRadians);
   const largeArcFlag =
@@ -35,4 +35,4 @@ export const describeArc = (
     end.y,
   ].join(' ');
   return d;
-};
+}

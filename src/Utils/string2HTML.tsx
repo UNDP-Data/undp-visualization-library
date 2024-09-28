@@ -10,7 +10,7 @@ function getDescendantProp(data: any, desc: string) {
     : func(data);
 }
 
-export const string2HTML = (htmlString: string, data: any) => {
+export function string2HTML(htmlString: string, data: any) {
   // Custom XSS filter configuration
   const options = {
     whiteList: {
@@ -124,4 +124,4 @@ export const string2HTML = (htmlString: string, data: any) => {
     (_, str) => getDescendantProp(data, str) || 'NA',
   );
   return replacedString;
-};
+}

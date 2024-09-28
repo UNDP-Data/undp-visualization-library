@@ -34,7 +34,7 @@ interface Props {
   graphSettings: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: GraphType;
+  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
@@ -215,6 +215,13 @@ export function GriddedGraphs(props: Props) {
                 graphSettings?.graphDownload
                   ? graphParentDiv.current
                   : undefined
+              }
+              dataDownload={
+                graphSettings?.dataDownload && data
+                  ? data.length > 0
+                    ? data
+                    : null
+                  : null
               }
             />
           ) : null}

@@ -1,6 +1,6 @@
 import { elementToSVG } from 'dom-to-svg';
 
-export const svgDownload = (node: HTMLElement, filename: string) => {
+export function svgDownload(node: HTMLElement, filename: string) {
   const svgDocument = elementToSVG(node);
   const serializer = new XMLSerializer();
   const xmlString = serializer.serializeToString(svgDocument);
@@ -20,4 +20,4 @@ export const svgDownload = (node: HTMLElement, filename: string) => {
 
   // Remove the link from the document body
   document.body.removeChild(link);
-};
+}
