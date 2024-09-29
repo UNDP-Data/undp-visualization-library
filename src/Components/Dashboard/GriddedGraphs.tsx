@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
+import min from 'lodash.min';
 import {
   AggregationSettingsDataType,
   DataFilterDataType,
@@ -404,8 +405,16 @@ export function GriddedGraphs(props: Props) {
                   <div
                     key={i}
                     style={{
-                      width: `calc(${100 / (noOfColumns || 4)}% - ${
-                        ((noOfColumns || 4) - 1) / (noOfColumns || 4)
+                      width: `calc(${
+                        100 /
+                        (noOfColumns ||
+                          (min([4, gridOption.length || 0]) as number))
+                      }% - ${
+                        ((noOfColumns ||
+                          (min([4, gridOption.length || 0]) as number)) -
+                          1) /
+                        (noOfColumns ||
+                          (min([4, gridOption.length || 0]) as number))
                       }rem)`,
                       minWidth: checkIfNullOrUndefined(minGraphWidth)
                         ? '280px'
