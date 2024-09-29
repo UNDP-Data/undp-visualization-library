@@ -1922,7 +1922,7 @@ function GraphEl(props: Props) {
       }}
     >
       {validateSettingsSchema(settings || {}, graph).isValid &&
-      validateDataSchema(graphData, graph) &&
+      validateDataSchema(graphData, graph).isValid &&
       GraphComponent ? (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <GraphComponent {...graphProps} />
@@ -1938,7 +1938,7 @@ function GraphEl(props: Props) {
         >
           {GraphComponent
             ? validateSettingsSchema(settings || {}, graph).isValid
-              ? 'Data type in the source data is nor accurate'
+              ? validateDataSchema(graphData, graph).err
               : validateSettingsSchema(settings || {}, graph).err
             : `Invalid chart type: ${graph}`}
         </p>

@@ -5,23 +5,46 @@ import { getDataSchema, getSettingsSchema } from './getSchema';
 const ajv = new Ajv({ allErrors: true });
 
 export function validateDataSchema(data: any, graph: GraphType) {
-  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap') return true;
+  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap')
+    return {
+      isValid: true,
+      err: undefined,
+    };
   if (!data) {
-    return false;
+    return {
+      isValid: false,
+      err: `No data provided`,
+    };
   }
-  if (graph === 'dataTable' || data.length === 0) return true;
+  if (graph === 'dataTable' || data.length === 0)
+    return {
+      isValid: true,
+      err: undefined,
+    };
 
   const schema = getDataSchema(graph);
 
-  if (!schema) return false;
+  if (!schema)
+    return {
+      isValid: false,
+      err: `Invalid chart type: ${graph}`,
+    };
 
   const validate = ajv.compile(schema);
   const valid = validate(data);
   if (!valid) {
     console.error(validate.errors);
-    return false;
+    return {
+      isValid: false,
+      err: validate.errors
+        ?.map(error => `Error at ${error.instancePath}: ${error.message}`)
+        .join('; '),
+    };
   }
-  return true;
+  return {
+    isValid: true,
+    err: undefined,
+  };
 }
 
 export function validateSettingsSchema(settings: any, graph: GraphType) {
