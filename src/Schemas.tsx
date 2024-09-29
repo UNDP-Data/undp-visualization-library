@@ -3043,7 +3043,7 @@ export const unitChartSettingsSchema = {
     footNote: { type: 'string' },
     sourceLink: { type: 'string' },
     source: { type: 'string' },
-    dotColors: {
+    colors: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -3053,6 +3053,7 @@ export const unitChartSettingsSchema = {
     padding: { type: 'string' },
     graphID: { type: 'string' },
     graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
     rtl: { type: 'boolean' },
     language: {
       type: 'string',
@@ -3062,5 +3063,4 @@ export const unitChartSettingsSchema = {
     showStrokeForWhiteDots: { type: 'boolean' },
     note: { type: 'string' },
   },
-  required: ['value'],
 };

@@ -23,6 +23,7 @@ interface Props {
   padding?: string;
   graphID?: string;
   graphDownload?: boolean;
+  dataDownload?: boolean;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   graphLegend?: boolean;
@@ -53,6 +54,7 @@ export function UnitChart(props: Props) {
     graphLegend,
     showStrokeForWhiteDots,
     note,
+    dataDownload,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
   const totalValue = sum(data.map(d => d.value));
@@ -121,6 +123,12 @@ export function UnitChart(props: Props) {
               graphDescription={graphDescription}
               width={fillContainer === false ? size || 200 : undefined}
               graphDownload={graphDownload ? graphParentDiv.current : undefined}
+              dataDownload={
+                dataDownload &&
+                data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  ? data.map(d => d.data).filter(d => d !== undefined)
+                  : null
+              }
             />
           ) : null}
           {note ? (
