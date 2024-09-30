@@ -3064,3 +3064,1212 @@ export const unitChartSettingsSchema = {
     note: { type: 'string' },
   },
 };
+
+export const SettingsSchema = {
+  definitions: {
+    DataTableColumnDataType: {
+      properties: {
+        align: {
+          enum: ['center', 'left', 'right'],
+          type: 'string',
+        },
+        chip: {
+          type: 'boolean',
+        },
+        chipColors: {
+          items: {
+            properties: {
+              color: {
+                type: 'string',
+              },
+              value: {
+                type: 'string',
+              },
+            },
+            type: 'object',
+          },
+          type: 'array',
+        },
+        columnId: {
+          type: 'string',
+        },
+        columnTitle: {
+          type: 'string',
+        },
+        columnWidth: {
+          type: 'number',
+        },
+        filterOptions: {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        prefix: {
+          type: 'string',
+        },
+        separator: {
+          type: 'string',
+        },
+        sortable: {
+          type: 'boolean',
+        },
+        suffix: {
+          type: 'string',
+        },
+      },
+      type: 'object',
+    },
+    ReferenceDataType: {
+      properties: {
+        color: {
+          type: 'string',
+        },
+        text: {
+          type: 'string',
+        },
+        value: {
+          type: 'number',
+        },
+      },
+      type: 'object',
+    },
+    ScaleDataType: {
+      enum: ['categorical', 'linear', 'threshold'],
+      type: 'string',
+    },
+  },
+  properties: {
+    aggregationMethod: {
+      enum: ['average', 'count', 'max', 'min', 'sum'],
+      type: 'string',
+    },
+    animateLine: {
+      type: ['number', 'boolean'],
+    },
+    areaId: {
+      type: 'string',
+    },
+    arrowConnector: {
+      type: 'boolean',
+    },
+    autoPlay: {
+      type: 'boolean',
+    },
+    autoSort: {
+      type: 'boolean',
+    },
+    axisTitle: {
+      items: {
+        type: 'string',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    backgroundColor: {
+      type: ['string', 'boolean'],
+    },
+    barColor: {
+      type: 'string',
+    },
+    barColors: {
+      items: {
+        type: 'string',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    barGraphLayout: {
+      enum: ['horizontal', 'vertical'],
+      type: 'string',
+    },
+    barPadding: {
+      type: 'number',
+    },
+    barTitle: {
+      type: 'string',
+    },
+    bottomMargin: {
+      type: 'number',
+    },
+    categorical: {
+      type: 'boolean',
+    },
+    center: {
+      items: {
+        type: 'number',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    centerGap: {
+      type: 'number',
+    },
+    centerPoint: {
+      items: {
+        type: 'number',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    color: {
+      anyOf: [
+        {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        {
+          type: 'string',
+        },
+      ],
+    },
+    colorDomain: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    colorLegendTitle: {
+      type: 'string',
+    },
+    colors: {
+      anyOf: [
+        {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        {
+          items: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
+          },
+          type: 'array',
+        },
+        {
+          type: 'string',
+        },
+      ],
+    },
+    columnData: {
+      items: {
+        $ref: '#/definitions/DataTableColumnDataType',
+      },
+      type: 'array',
+    },
+    connectorStrokeWidth: {
+      type: 'number',
+    },
+    countOnly: {
+      items: {
+        type: ['string', 'number'],
+      },
+      type: 'array',
+    },
+    dataDownload: {
+      type: 'boolean',
+    },
+    dateFormat: {
+      type: 'string',
+    },
+    domain: {
+      anyOf: [
+        {
+          items: {
+            type: 'string',
+          },
+          type: 'array',
+        },
+        {
+          items: {
+            type: 'number',
+          },
+          type: 'array',
+        },
+      ],
+    },
+    donutColorDomain: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    donutStrokeWidth: {
+      type: 'number',
+    },
+    dotOpacity: {
+      type: 'number',
+    },
+    fillContainer: {
+      type: 'boolean',
+    },
+    footNote: {
+      type: 'string',
+    },
+    graphDescription: {
+      type: 'string',
+    },
+    graphDownload: {
+      type: 'boolean',
+    },
+    graphID: {
+      type: 'string',
+    },
+    graphLegend: {
+      type: 'boolean',
+    },
+    graphTitle: {
+      type: 'string',
+    },
+    graphType: {
+      enum: ['barGraph', 'circlePacking', 'donutChart', 'treeMap'],
+      type: 'string',
+    },
+    gridSize: {
+      type: 'number',
+    },
+    height: {
+      type: 'number',
+    },
+    highlightAreaColor: {
+      type: 'string',
+    },
+    highlightAreaSettings: {
+      anyOf: [
+        {
+          items: {
+            type: 'number',
+          },
+          maxItems: 2,
+          minItems: 2,
+          type: 'array',
+        },
+        {
+          items: {
+            type: 'number',
+          },
+          maxItems: 4,
+          minItems: 4,
+          type: 'array',
+        },
+      ],
+    },
+    highlightColor: {
+      type: 'string',
+    },
+    highlightedCountryCodes: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    highlightedDataPoints: {
+      items: {
+        type: ['string', 'number'],
+      },
+      type: 'array',
+    },
+    highlightedLines: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    isWorldMap: {
+      type: 'boolean',
+    },
+    labelOrder: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    labels: {
+      items: {
+        type: 'string',
+      },
+      type: 'array',
+    },
+    language: {
+      enum: ['ar', 'en', 'he'],
+      type: 'string',
+    },
+    leftBarTitle: {
+      type: 'string',
+    },
+    leftMargin: {
+      type: 'number',
+    },
+    lineColor: {
+      type: 'string',
+    },
+    lineColors: {
+      items: {
+        type: 'string',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    lineTitle: {
+      type: 'string',
+    },
+    lineTitles: {
+      items: {
+        type: 'string',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    mainText: {
+      type: 'string',
+    },
+    mapBorderColor: {
+      type: 'string',
+    },
+    mapBorderWidth: {
+      type: 'number',
+    },
+    mapData: {},
+    mapNoDataColor: {
+      type: 'string',
+    },
+    mapProperty: {
+      type: 'string',
+    },
+    mapStyle: {
+      type: 'string',
+    },
+    mapStyles: {
+      items: {
+        type: 'string',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    maxPositionValue: {
+      type: 'number',
+    },
+    maxRadiusValue: {
+      type: 'number',
+    },
+    maxValue: {
+      type: 'number',
+    },
+    maxXValue: {
+      type: 'number',
+    },
+    maxYValue: {
+      type: 'number',
+    },
+    minHeight: {
+      type: 'number',
+    },
+    minPositionValue: {
+      type: 'number',
+    },
+    minValue: {
+      type: 'number',
+    },
+    minXValue: {
+      type: 'number',
+    },
+    minYValue: {
+      type: 'number',
+    },
+    noDataColor: {
+      type: 'string',
+    },
+    noOfXTicks: {
+      type: 'number',
+    },
+    note: {
+      type: 'string',
+    },
+    numberOfBins: {
+      type: 'number',
+    },
+    padding: {
+      type: 'string',
+    },
+    prefix: {
+      type: 'string',
+    },
+    radius: {
+      type: 'number',
+    },
+    refValues: {
+      items: {
+        $ref: '#/definitions/ReferenceDataType',
+      },
+      type: 'array',
+    },
+    refXValues: {
+      items: {
+        $ref: '#/definitions/ReferenceDataType',
+      },
+      type: 'array',
+    },
+    refYValues: {
+      items: {
+        $ref: '#/definitions/ReferenceDataType',
+      },
+      type: 'array',
+    },
+    relativeHeight: {
+      type: 'number',
+    },
+    rightBarTitle: {
+      type: 'string',
+    },
+    rightMargin: {
+      type: 'number',
+    },
+    rtl: {
+      type: 'boolean',
+    },
+    sameAxes: {
+      type: 'boolean',
+    },
+    scale: {
+      type: 'number',
+    },
+    scaleType: {
+      $ref: '#/definitions/ScaleDataType',
+    },
+    showAntarctica: {
+      type: 'boolean',
+    },
+    showAxis: {
+      type: 'boolean',
+    },
+    showColorLegendAtTop: {
+      type: 'boolean',
+    },
+    showColorScale: {
+      type: 'boolean',
+    },
+    showColumnLabels: {
+      type: 'boolean',
+    },
+    showLabels: {
+      type: 'boolean',
+    },
+    showNAColor: {
+      type: 'boolean',
+    },
+    showOnlyActiveDate: {
+      type: 'boolean',
+    },
+    showRowLabels: {
+      type: 'boolean',
+    },
+    showStrokeForWhiteDots: {
+      type: 'boolean',
+    },
+    showTicks: {
+      type: 'boolean',
+    },
+    showValues: {
+      type: 'boolean',
+    },
+    size: {
+      type: 'number',
+    },
+    sortData: {
+      enum: ['asc', 'desc'],
+      type: 'string',
+    },
+    sortParameter: {
+      anyOf: [
+        {
+          const: 'diff',
+          type: 'string',
+        },
+        {
+          type: 'number',
+        },
+      ],
+    },
+    source: {
+      type: 'string',
+    },
+    sourceLink: {
+      type: 'string',
+    },
+    stripType: {
+      enum: ['dot', 'strip'],
+      type: 'string',
+    },
+    strokeWidth: {
+      type: 'number',
+    },
+    subNote: {
+      type: 'string',
+    },
+    suffix: {
+      type: 'string',
+    },
+    tooltip: {
+      type: 'string',
+    },
+    topMargin: {
+      type: 'number',
+    },
+    totalNoOfDots: {
+      type: 'number',
+    },
+    truncateBy: {
+      type: 'number',
+    },
+    unitPadding: {
+      type: 'number',
+    },
+    value: {
+      type: 'number',
+    },
+    width: {
+      type: 'number',
+    },
+    xAxisTitle: {
+      type: 'string',
+    },
+    xColorLegendTitle: {
+      type: 'string',
+    },
+    xDomain: {
+      items: {
+        type: 'number',
+      },
+      maxItems: 4,
+      minItems: 4,
+      type: 'array',
+    },
+    yAxisTitle: {
+      type: 'string',
+    },
+    yColorLegendTitle: {
+      type: 'string',
+    },
+    yDomain: {
+      items: {
+        type: 'number',
+      },
+      maxItems: 4,
+      minItems: 4,
+      type: 'array',
+    },
+    year: {
+      type: ['string', 'number'],
+    },
+    zoomLevel: {
+      type: 'number',
+    },
+    zoomScaleExtend: {
+      items: {
+        type: 'number',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+    zoomTranslateExtend: {
+      items: {
+        items: {
+          type: 'number',
+        },
+        maxItems: 2,
+        minItems: 2,
+        type: 'array',
+      },
+      maxItems: 2,
+      minItems: 2,
+      type: 'array',
+    },
+  },
+  type: 'object',
+};
+
+export const singleGraphJSONSchema = {
+  type: 'object',
+  properties: {
+    graphSettings: SettingsSchema,
+    dataSettings: {
+      type: 'object',
+      properties: {
+        dataURL: { type: 'string' },
+        fileType: { type: 'string', enum: ['csv', 'json'] },
+        delimiter: { type: 'string' },
+        columnsToArray: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              delimiter: { type: 'string' },
+            },
+            required: ['column'],
+          },
+        },
+        data: { type: 'array', items: {} },
+      },
+    },
+    filters: {
+      type: 'object',
+      properties: {
+        column: { type: 'string' },
+        singleSelect: { type: 'boolean' },
+        clearable: { type: 'boolean' },
+        defaultValue: {
+          oneOf: [
+            { type: 'string' },
+            { type: 'array', items: { type: 'string' } },
+          ],
+        },
+      },
+      required: ['column'],
+    },
+    graphType: {
+      type: 'string',
+      enum: [
+        'horizontalBarChart',
+        'horizontalStackedBarChart',
+        'horizontalGroupedBarChart',
+        'verticalBarChart',
+        'verticalStackedBarChart',
+        'verticalGroupedBarChart',
+        'lineChart',
+        'dualAxisLineChart',
+        'multiLineChart',
+        'stackedAreaChart',
+        'choroplethMap',
+        'biVariateChoroplethMap',
+        'dotDensityMap',
+        'donutChart',
+        'slopeChart',
+        'scatterPlot',
+        'horizontalDumbbellChart',
+        'verticalDumbbellChart',
+        'treeMap',
+        'circlePacking',
+        'heatMap',
+        'horizontalStripChart',
+        'verticalStripChart',
+        'horizontalBeeSwarmChart',
+        'verticalBeeSwarmChart',
+        'butterflyChart',
+        'histogram',
+        'sparkLine',
+        'paretoChart',
+        'dataTable',
+        'statCard',
+        'unitChart',
+        'animatedScatterPlot',
+        'animatedHorizontalBarChart',
+        'animatedHorizontalStackedBarChart',
+        'animatedHorizontalGroupedBarChart',
+        'animatedVerticalBarChart',
+        'animatedVerticalStackedBarChart',
+        'animatedVerticalGroupedBarChart',
+        'animatedChoroplethMap',
+        'animatedBiVariateChoroplethMap',
+        'animatedDotDensityMap',
+        'animatedHorizontalDumbbellChart',
+        'animatedVerticalDumbbellChart',
+        'animatedButterflyChart',
+      ],
+    },
+    dataTransform: {
+      type: 'object',
+      properties: {
+        keyColumn: { type: 'string' },
+        aggregationColumnsSetting: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              aggregationMethod: {
+                type: 'string',
+                enum: ['sum', 'average', 'min', 'max'],
+              },
+            },
+            required: ['column', 'aggregationMethod'],
+          },
+        },
+      },
+      required: ['keyColumn', 'aggregationColumnsSetting'],
+    },
+    dataFilter: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          column: { type: 'string' },
+          values: {
+            type: 'array',
+            items: {
+              oneOf: [
+                { type: 'string' },
+                { type: 'number' },
+                { type: 'boolean' },
+              ],
+            },
+          },
+        },
+        required: ['column', 'values'],
+      },
+    },
+    graphDataConfiguration: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          columnId: {
+            oneOf: [
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
+            ],
+          },
+          chartConfigId: { type: 'string' },
+        },
+        required: ['columnId', 'chartConfigId'],
+      },
+    },
+  },
+  required: ['dataSettings', 'graphType', 'graphDataConfiguration'],
+};
+
+export const griddedGraphJSONSchema = {
+  type: 'object',
+  properties: {
+    graphSettings: SettingsSchema,
+    dataSettings: {
+      type: 'object',
+      properties: {
+        dataURL: { type: 'string' },
+        fileType: { type: 'string', enum: ['csv', 'json'] },
+        delimiter: { type: 'string' },
+        columnsToArray: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              delimiter: { type: 'string' },
+            },
+            required: ['column'],
+          },
+        },
+        data: { type: 'array', items: {} },
+      },
+    },
+    filters: {
+      type: 'object',
+      properties: {
+        column: { type: 'string' },
+        singleSelect: { type: 'boolean' },
+        clearable: { type: 'boolean' },
+        defaultValue: {
+          oneOf: [
+            { type: 'string' },
+            { type: 'array', items: { type: 'string' } },
+          ],
+        },
+      },
+      required: ['column'],
+    },
+    graphType: {
+      type: 'string',
+      enum: [
+        'horizontalBarChart',
+        'horizontalStackedBarChart',
+        'horizontalGroupedBarChart',
+        'verticalBarChart',
+        'verticalStackedBarChart',
+        'verticalGroupedBarChart',
+        'lineChart',
+        'dualAxisLineChart',
+        'multiLineChart',
+        'stackedAreaChart',
+        'choroplethMap',
+        'biVariateChoroplethMap',
+        'dotDensityMap',
+        'donutChart',
+        'slopeChart',
+        'scatterPlot',
+        'horizontalDumbbellChart',
+        'verticalDumbbellChart',
+        'treeMap',
+        'circlePacking',
+        'heatMap',
+        'horizontalStripChart',
+        'verticalStripChart',
+        'horizontalBeeSwarmChart',
+        'verticalBeeSwarmChart',
+        'butterflyChart',
+        'histogram',
+        'sparkLine',
+        'paretoChart',
+        'dataTable',
+        'statCard',
+        'unitChart',
+        'animatedScatterPlot',
+        'animatedHorizontalBarChart',
+        'animatedHorizontalStackedBarChart',
+        'animatedHorizontalGroupedBarChart',
+        'animatedVerticalBarChart',
+        'animatedVerticalStackedBarChart',
+        'animatedVerticalGroupedBarChart',
+        'animatedChoroplethMap',
+        'animatedBiVariateChoroplethMap',
+        'animatedDotDensityMap',
+        'animatedHorizontalDumbbellChart',
+        'animatedVerticalDumbbellChart',
+        'animatedButterflyChart',
+      ],
+    },
+    dataTransform: {
+      type: 'object',
+      properties: {
+        keyColumn: { type: 'string' },
+        aggregationColumnsSetting: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              aggregationMethod: {
+                type: 'string',
+                enum: ['sum', 'average', 'min', 'max'],
+              },
+            },
+            required: ['column', 'aggregationMethod'],
+          },
+        },
+      },
+      required: ['keyColumn', 'aggregationColumnsSetting'],
+    },
+    dataFilter: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          column: { type: 'string' },
+          values: {
+            type: 'array',
+            items: {
+              oneOf: [
+                { type: 'string' },
+                { type: 'number' },
+                { type: 'boolean' },
+              ],
+            },
+          },
+        },
+        required: ['column', 'values'],
+      },
+    },
+    graphDataConfiguration: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          columnId: {
+            oneOf: [
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
+            ],
+          },
+          chartConfigId: { type: 'string' },
+        },
+        required: ['columnId', 'chartConfigId'],
+      },
+    },
+    noOfColumns: { type: 'number' },
+    columnGridBy: { type: 'string' },
+    relativeHeightForGraph: { type: 'number' },
+    showCommonColorScale: { type: 'boolean' },
+    minGraphHeight: { type: 'number' },
+    minGraphWidth: { type: 'number' },
+  },
+  required: [
+    'columnGridBy',
+    'dataSettings',
+    'graphType',
+    'graphDataConfiguration',
+  ],
+};
+
+export const dashboardJSONSchema = {
+  definitions: {
+    AggregationSettingsDataType: {
+      properties: {
+        aggregationMethod: {
+          enum: ['average', 'max', 'min', 'sum'],
+          type: 'string',
+        },
+        column: {
+          type: 'string',
+        },
+      },
+      type: 'object',
+      required: ['aggregationMethod', 'column'],
+    },
+    ColumnConfigurationDataType: {
+      properties: {
+        column: {
+          type: 'string',
+        },
+        delimiter: {
+          type: 'string',
+        },
+      },
+      type: 'object',
+      required: ['column'],
+    },
+    DataFilterDataType: {
+      properties: {
+        column: {
+          type: 'string',
+        },
+        values: {
+          items: {
+            type: ['string', 'number', 'boolean'],
+          },
+          type: 'array',
+        },
+      },
+      type: 'object',
+      required: ['column', 'values'],
+    },
+    DataSettingsDataType: {
+      properties: {
+        columnsToArray: {
+          items: {
+            $ref: '#/definitions/ColumnConfigurationDataType',
+          },
+          type: 'array',
+        },
+        data: {},
+        dataURL: {
+          type: 'string',
+        },
+        delimiter: {
+          type: 'string',
+        },
+        fileType: {
+          enum: ['csv', 'json'],
+          type: 'string',
+        },
+      },
+      type: 'object',
+    },
+    GraphConfigurationDataType: {
+      properties: {
+        chartConfigId: {
+          type: 'string',
+        },
+        columnId: {
+          anyOf: [
+            {
+              items: {
+                type: 'string',
+              },
+              type: 'array',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
+      },
+      required: ['chartConfigId', 'columnId'],
+      type: 'object',
+    },
+    GraphType: {
+      enum: [
+        'animatedBiVariateChoroplethMap',
+        'animatedButterflyChart',
+        'animatedChoroplethMap',
+        'animatedDotDensityMap',
+        'animatedHorizontalBarChart',
+        'animatedHorizontalDumbbellChart',
+        'animatedHorizontalGroupedBarChart',
+        'animatedHorizontalStackedBarChart',
+        'animatedScatterPlot',
+        'animatedVerticalBarChart',
+        'animatedVerticalDumbbellChart',
+        'animatedVerticalGroupedBarChart',
+        'animatedVerticalStackedBarChart',
+        'biVariateChoroplethMap',
+        'butterflyChart',
+        'choroplethMap',
+        'circlePacking',
+        'dataTable',
+        'donutChart',
+        'dotDensityMap',
+        'dualAxisLineChart',
+        'geoHubCompareMap',
+        'geoHubMap',
+        'heatMap',
+        'histogram',
+        'horizontalBarChart',
+        'horizontalBeeSwarmChart',
+        'horizontalDumbbellChart',
+        'horizontalGroupedBarChart',
+        'horizontalStackedBarChart',
+        'horizontalStripChart',
+        'lineChart',
+        'multiLineChart',
+        'paretoChart',
+        'scatterPlot',
+        'slopeChart',
+        'sparkLine',
+        'stackedAreaChart',
+        'statCard',
+        'treeMap',
+        'unitChart',
+        'verticalBarChart',
+        'verticalBeeSwarmChart',
+        'verticalDumbbellChart',
+        'verticalGroupedBarChart',
+        'verticalStackedBarChart',
+        'verticalStripChart',
+      ],
+      type: 'string',
+    },
+  },
+  properties: {
+    dashboardId: {
+      type: 'string',
+    },
+    dashboardLayout: {
+      properties: {
+        backgroundColor: {
+          type: ['string', 'boolean'],
+        },
+        description: {
+          type: 'string',
+        },
+        language: {
+          enum: ['ar', 'en', 'he'],
+          type: 'string',
+        },
+        padding: {
+          type: 'string',
+        },
+        rows: {
+          items: {
+            properties: {
+              columns: {
+                items: {
+                  properties: {
+                    columnWidth: {
+                      type: 'number',
+                    },
+                    dataFilter: {
+                      items: {
+                        $ref: '#/definitions/DataFilterDataType',
+                      },
+                      type: 'array',
+                    },
+                    dataTransform: {
+                      properties: {
+                        aggregationColumnsSetting: {
+                          items: {
+                            $ref: '#/definitions/AggregationSettingsDataType',
+                          },
+                          type: 'array',
+                        },
+                        keyColumn: {
+                          type: 'string',
+                        },
+                        required: ['aggregationColumnsSetting', 'keyColumn'],
+                      },
+                      type: 'object',
+                    },
+                    graphDataConfiguration: {
+                      items: {
+                        $ref: '#/definitions/GraphConfigurationDataType',
+                      },
+                      type: 'array',
+                    },
+                    graphType: {
+                      $ref: '#/definitions/GraphType',
+                    },
+                    settings: SettingsSchema,
+                  },
+                  type: 'object',
+                  required: ['graphType'],
+                },
+                type: 'array',
+              },
+              height: {
+                type: 'number',
+              },
+            },
+            type: 'object',
+            required: ['columns'],
+          },
+          type: 'array',
+        },
+        rtl: {
+          type: 'boolean',
+        },
+        title: {
+          type: 'string',
+        },
+      },
+      type: 'object',
+      required: ['rows'],
+    },
+    dataSettings: {
+      $ref: '#/definitions/DataSettingsDataType',
+    },
+    filters: {
+      items: {
+        properties: {
+          clearable: {
+            type: 'boolean',
+          },
+          column: {
+            type: 'string',
+          },
+          defaultValue: {
+            anyOf: [
+              {
+                items: {
+                  type: 'string',
+                },
+                type: 'array',
+              },
+              {
+                type: 'string',
+              },
+            ],
+          },
+          singleSelect: {
+            type: 'boolean',
+          },
+        },
+        required: ['column'],
+        type: 'object',
+      },
+      type: 'array',
+    },
+  },
+  type: 'object',
+  required: ['dashboardLayout', 'dataSettings'],
+};

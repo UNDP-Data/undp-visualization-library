@@ -32,7 +32,7 @@ import { checkIfNullOrUndefined } from '../../Utils/checkIfNullOrUndefined';
 interface Props {
   noOfColumns?: number;
   columnGridBy: string;
-  graphSettings: any;
+  graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
@@ -43,7 +43,7 @@ interface Props {
   };
   showCommonColorScale?: boolean;
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration?: GraphConfigurationDataType[];
+  graphDataConfiguration: GraphConfigurationDataType[];
   minGraphHeight?: number;
   minGraphWidth?: number;
 }

@@ -6,6 +6,7 @@ import {
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { MultiGraphDashboard } from './MultiGraphDashboard';
+import { validateConfigSchema } from '../../Utils/validateSchema';
 
 interface ConfigObject {
   dashboardId?: string;
@@ -35,6 +36,20 @@ export function MultiGraphDashboardFromConfig(props: Props) {
     }
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!validateConfigSchema(configSettings, 'multiGraphDashboard').isValid)
+    return (
+      <p
+        className='undp-viz-typography'
+        style={{
+          textAlign: 'center',
+          padding: '0.5rem',
+          color: '#D12800',
+          fontSize: '0.875rem',
+        }}
+      >
+        {validateConfigSchema(configSettings, 'multiGraphDashboard').err}
+      </p>
+    );
   return (
     <MultiGraphDashboard
       dashboardId={configSettings.dashboardId}

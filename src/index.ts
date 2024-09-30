@@ -138,3 +138,11 @@ export {
   validateDataSchema,
   validateSettingsSchema,
 } from './Utils/validateSchema';
+
+/* ------Schemas for JSON-----------*/
+export {
+  SettingsSchema,
+  singleGraphJSONSchema,
+  griddedGraphJSONSchema,
+  dashboardJSONSchema,
+} from './Schemas';

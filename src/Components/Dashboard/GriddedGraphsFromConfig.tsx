@@ -9,11 +9,12 @@ import {
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { GriddedGraphs } from './GriddedGraphs';
+import { validateConfigSchema } from '../../Utils/validateSchema';
 
 interface ConfigObject {
   noOfColumns?: number;
   columnGridBy: string;
-  graphSettings: any;
+  graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
@@ -23,7 +24,7 @@ interface ConfigObject {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration?: GraphConfigurationDataType[];
+  graphDataConfiguration: GraphConfigurationDataType[];
   showCommonColorScale?: boolean;
   minGraphWidth?: number;
   minGraphHeight?: number;
@@ -49,6 +50,20 @@ export function GriddedGraphsFromConfig(props: Props) {
     }
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!validateConfigSchema(configSettings, 'griddedGraph').isValid)
+    return (
+      <p
+        className='undp-viz-typography'
+        style={{
+          textAlign: 'center',
+          padding: '0.5rem',
+          color: '#D12800',
+          fontSize: '0.875rem',
+        }}
+      >
+        {validateConfigSchema(configSettings, 'griddedGraph').err}
+      </p>
+    );
   return (
     <GriddedGraphs
       noOfColumns={configSettings.noOfColumns}

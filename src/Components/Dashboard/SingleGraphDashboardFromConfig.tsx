@@ -9,6 +9,7 @@ import {
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
+import { validateConfigSchema } from '../../Utils/validateSchema';
 
 interface ConfigObject {
   graphSettings?: any;
@@ -20,7 +21,7 @@ interface ConfigObject {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration?: GraphConfigurationDataType[];
+  graphDataConfiguration: GraphConfigurationDataType[];
 }
 
 interface Props {
@@ -44,6 +45,20 @@ export function SingleGraphDashboardFromConfig(props: Props) {
     }
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!validateConfigSchema(configSettings, 'singleGraphDashboard').isValid)
+    return (
+      <p
+        className='undp-viz-typography'
+        style={{
+          textAlign: 'center',
+          padding: '0.5rem',
+          color: '#D12800',
+          fontSize: '0.875rem',
+        }}
+      >
+        {validateConfigSchema(configSettings, 'singleGraphDashboard').err}
+      </p>
+    );
   return (
     <SingleGraphDashboard
       graphSettings={configSettings.graphSettings}
