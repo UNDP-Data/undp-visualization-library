@@ -3848,7 +3848,7 @@ export const singleGraphJSONSchema = {
       },
     },
   },
-  required: ['dataSettings', 'graphType', 'graphDataConfiguration'],
+  required: ['dataSettings', 'graphType'],
 };
 
 export const griddedGraphJSONSchema = {
@@ -4004,12 +4004,7 @@ export const griddedGraphJSONSchema = {
     minGraphHeight: { type: 'number' },
     minGraphWidth: { type: 'number' },
   },
-  required: [
-    'columnGridBy',
-    'dataSettings',
-    'graphType',
-    'graphDataConfiguration',
-  ],
+  required: ['columnGridBy', 'dataSettings', 'graphType'],
 };
 
 export const dashboardJSONSchema = {

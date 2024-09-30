@@ -36,7 +36,7 @@ interface Props {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 export function SingleGraphDashboard(props: Props) {

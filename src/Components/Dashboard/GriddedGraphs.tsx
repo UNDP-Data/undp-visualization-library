@@ -43,7 +43,7 @@ interface Props {
   };
   showCommonColorScale?: boolean;
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
   minGraphHeight?: number;
   minGraphWidth?: number;
 }

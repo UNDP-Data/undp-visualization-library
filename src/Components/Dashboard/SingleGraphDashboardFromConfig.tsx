@@ -21,7 +21,7 @@ interface ConfigObject {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
 }
 
 interface Props {

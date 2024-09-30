@@ -24,7 +24,7 @@ interface ConfigObject {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   dataFilter?: DataFilterDataType[];
-  graphDataConfiguration: GraphConfigurationDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
   showCommonColorScale?: boolean;
   minGraphWidth?: number;
   minGraphHeight?: number;
