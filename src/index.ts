@@ -146,3 +146,6 @@ export {
   griddedGraphJSONSchema,
   dashboardJSONSchema,
 } from './Schemas';
+
+/* ---------GraphTypes-------------*/
+export { GraphType } from './Types';

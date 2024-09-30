@@ -634,7 +634,21 @@ export const simpleBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     highlightedDataPoints: {
@@ -654,19 +668,6 @@ export const simpleBarChartSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
-    },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
     },
   },
 };
@@ -714,7 +715,21 @@ export const groupedBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
@@ -728,19 +743,6 @@ export const groupedBarChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const stackedBarChartSettingsSchema = {
@@ -786,7 +788,21 @@ export const stackedBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
@@ -799,19 +815,6 @@ export const stackedBarChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const animatedSimpleBarChartSettingsSchema = {
@@ -855,7 +858,21 @@ export const animatedSimpleBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     highlightedDataPoints: {
@@ -876,19 +893,6 @@ export const animatedSimpleBarChartSettingsSchema = {
     autoSort: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
   },
 };
 
@@ -931,7 +935,21 @@ export const animatedGroupedBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
@@ -948,19 +966,6 @@ export const animatedGroupedBarChartSettingsSchema = {
     dateFormat: { type: 'string' },
   },
   required: ['colorDomain'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const animatedStackedBarChartSettingsSchema = {
@@ -1002,7 +1007,21 @@ export const animatedStackedBarChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
@@ -1018,19 +1037,6 @@ export const animatedStackedBarChartSettingsSchema = {
     dateFormat: { type: 'string' },
   },
   required: ['colorDomain'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const beeSwarmChartSettingsSchema = {
@@ -1067,7 +1073,21 @@ export const beeSwarmChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     radius: { type: 'number' },
@@ -1087,19 +1107,6 @@ export const beeSwarmChartSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
-    },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
     },
   },
 };
@@ -1148,25 +1155,26 @@ export const butterflyChartSettingsSchema = {
     showColorScale: { type: 'boolean' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     rtl: { type: 'boolean' },
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
-    },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
     },
   },
 };
@@ -1215,7 +1223,21 @@ export const animatedButterflyChartSettingsSchema = {
     showColorScale: { type: 'boolean' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     rtl: { type: 'boolean' },
     language: {
@@ -1225,19 +1247,6 @@ export const animatedButterflyChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
   },
 };
 
@@ -1310,52 +1319,49 @@ export const dataTableSettingsSchema = {
     graphID: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
     columnData: {
       type: 'array',
-      items: { $ref: '#/definitions/DataTableColumnType' },
+      items: {
+        type: 'object',
+        properties: {
+          columnTitle: { type: 'string' },
+          columnId: { type: 'string' },
+          sortable: { type: 'boolean' },
+          filterOptions: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+          chip: { type: 'boolean' },
+          chipColors: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                value: { type: 'string' },
+                color: { type: 'string' },
+              },
+              required: ['value', 'color'],
+            },
+          },
+          separator: { type: 'string' },
+          align: {
+            type: 'string',
+            enum: ['left', 'right', 'center'],
+          },
+          suffix: { type: 'string' },
+          prefix: { type: 'string' },
+          columnWidth: { type: 'number' },
+        },
+        required: ['columnId'],
+      },
     },
   },
   required: ['columnData'],
-  definitions: {
-    DataTableColumnType: {
-      type: 'object',
-      properties: {
-        columnTitle: { type: 'string' },
-        columnId: { type: 'string' },
-        sortable: { type: 'boolean' },
-        filterOptions: {
-          type: 'array',
-          items: { type: 'string' },
-        },
-        rtl: { type: 'boolean' },
-        language: {
-          type: 'string',
-          enum: ['ar', 'he', 'en'],
-        },
-        chip: { type: 'boolean' },
-        chipColors: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              value: { type: 'string' },
-              color: { type: 'string' },
-            },
-            required: ['value', 'color'],
-          },
-        },
-        separator: { type: 'string' },
-        align: {
-          type: 'string',
-          enum: ['left', 'right', 'center'],
-        },
-        suffix: { type: 'string' },
-        prefix: { type: 'string' },
-        columnWidth: { type: 'number' },
-      },
-      required: ['columnId'],
-    },
-  },
 };
 
 export const donutChartSettingsSchema = {
@@ -1622,7 +1628,21 @@ export const histogramSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     graphID: { type: 'string' },
     graphDownload: { type: 'boolean' },
@@ -1649,17 +1669,6 @@ export const histogramSettingsSchema = {
     },
   },
   required: ['color', 'graphType'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: { type: ['number', 'null'] },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const dualAxisLineChartSettingsSchema = {
@@ -1754,7 +1763,21 @@ export const lineChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     highlightAreaSettings: {
       type: 'array',
@@ -1776,17 +1799,6 @@ export const lineChartSettingsSchema = {
     },
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
-    },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: { type: ['number', 'null'] },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
     },
   },
 };
@@ -1829,7 +1841,21 @@ export const multiLineChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     highlightAreaSettings: {
       type: 'array',
@@ -1859,17 +1885,6 @@ export const multiLineChartSettingsSchema = {
     },
   },
   required: ['labels'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: { type: ['number', 'null'] },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['text'],
-    },
-  },
 };
 
 export const sparkLineSettingsSchema = {
@@ -2584,11 +2599,39 @@ export const scatterPlotSettingsSchema = {
     tooltip: { type: 'string' },
     refXValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     refYValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     highlightedDataPoints: {
       type: 'array',
@@ -2619,19 +2662,6 @@ export const scatterPlotSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
-    },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
     },
   },
 };
@@ -2677,11 +2707,39 @@ export const animatedScatterPlotSettingsSchema = {
     tooltip: { type: 'string' },
     refXValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     refYValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     highlightedDataPoints: {
       type: 'array',
@@ -2716,19 +2774,6 @@ export const animatedScatterPlotSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-  },
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
   },
 };
 
@@ -2832,7 +2877,21 @@ export const stackedAreaChartSettingsSchema = {
     tooltip: { type: 'string' },
     refValues: {
       type: 'array',
-      items: { $ref: '#/definitions/ReferenceDataType' },
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     highlightAreaSettings: {
       type: 'array',
@@ -2854,19 +2913,6 @@ export const stackedAreaChartSettingsSchema = {
     },
   },
   required: ['colorDomain'],
-  definitions: {
-    ReferenceDataType: {
-      type: 'object',
-      properties: {
-        value: {
-          oneOf: [{ type: 'number' }, { type: 'null' }],
-        },
-        text: { type: 'string' },
-        color: { type: 'string' },
-      },
-      required: ['value', 'text'],
-    },
-  },
 };
 
 export const statCardSettingsSchema = {
@@ -3066,79 +3112,6 @@ export const unitChartSettingsSchema = {
 };
 
 export const SettingsSchema = {
-  definitions: {
-    DataTableColumnDataType: {
-      properties: {
-        align: {
-          enum: ['center', 'left', 'right'],
-          type: 'string',
-        },
-        chip: {
-          type: 'boolean',
-        },
-        chipColors: {
-          items: {
-            properties: {
-              color: {
-                type: 'string',
-              },
-              value: {
-                type: 'string',
-              },
-            },
-            type: 'object',
-          },
-          type: 'array',
-        },
-        columnId: {
-          type: 'string',
-        },
-        columnTitle: {
-          type: 'string',
-        },
-        columnWidth: {
-          type: 'number',
-        },
-        filterOptions: {
-          items: {
-            type: 'string',
-          },
-          type: 'array',
-        },
-        prefix: {
-          type: 'string',
-        },
-        separator: {
-          type: 'string',
-        },
-        sortable: {
-          type: 'boolean',
-        },
-        suffix: {
-          type: 'string',
-        },
-      },
-      type: 'object',
-    },
-    ReferenceDataType: {
-      properties: {
-        color: {
-          type: 'string',
-        },
-        text: {
-          type: 'string',
-        },
-        value: {
-          type: 'number',
-        },
-      },
-      type: 'object',
-    },
-    ScaleDataType: {
-      enum: ['categorical', 'linear', 'threshold'],
-      type: 'string',
-    },
-  },
   properties: {
     aggregationMethod: {
       enum: ['average', 'count', 'max', 'min', 'sum'],
@@ -3262,7 +3235,58 @@ export const SettingsSchema = {
     },
     columnData: {
       items: {
-        $ref: '#/definitions/DataTableColumnDataType',
+        properties: {
+          align: {
+            enum: ['center', 'left', 'right'],
+            type: 'string',
+          },
+          chip: {
+            type: 'boolean',
+          },
+          chipColors: {
+            items: {
+              properties: {
+                color: {
+                  type: 'string',
+                },
+                value: {
+                  type: 'string',
+                },
+              },
+              type: 'object',
+            },
+            type: 'array',
+          },
+          columnId: {
+            type: 'string',
+          },
+          columnTitle: {
+            type: 'string',
+          },
+          columnWidth: {
+            type: 'number',
+          },
+          filterOptions: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
+          },
+          prefix: {
+            type: 'string',
+          },
+          separator: {
+            type: 'string',
+          },
+          sortable: {
+            type: 'boolean',
+          },
+          suffix: {
+            type: 'string',
+          },
+        },
+        type: 'object',
+        required: ['columnId'],
       },
       type: 'array',
     },
@@ -3511,19 +3535,55 @@ export const SettingsSchema = {
     },
     refValues: {
       items: {
-        $ref: '#/definitions/ReferenceDataType',
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
       },
       type: 'array',
     },
     refXValues: {
       items: {
-        $ref: '#/definitions/ReferenceDataType',
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
       },
       type: 'array',
     },
     refYValues: {
       items: {
-        $ref: '#/definitions/ReferenceDataType',
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
       },
       type: 'array',
     },
@@ -3546,7 +3606,8 @@ export const SettingsSchema = {
       type: 'number',
     },
     scaleType: {
-      $ref: '#/definitions/ScaleDataType',
+      enum: ['categorical', 'linear', 'threshold'],
+      type: 'string',
     },
     showAntarctica: {
       type: 'boolean',
@@ -4008,144 +4069,6 @@ export const griddedGraphJSONSchema = {
 };
 
 export const dashboardJSONSchema = {
-  definitions: {
-    AggregationSettingsDataType: {
-      properties: {
-        aggregationMethod: {
-          enum: ['average', 'max', 'min', 'sum'],
-          type: 'string',
-        },
-        column: {
-          type: 'string',
-        },
-      },
-      type: 'object',
-      required: ['aggregationMethod', 'column'],
-    },
-    ColumnConfigurationDataType: {
-      properties: {
-        column: {
-          type: 'string',
-        },
-        delimiter: {
-          type: 'string',
-        },
-      },
-      type: 'object',
-      required: ['column'],
-    },
-    DataFilterDataType: {
-      properties: {
-        column: {
-          type: 'string',
-        },
-        values: {
-          items: {
-            type: ['string', 'number', 'boolean'],
-          },
-          type: 'array',
-        },
-      },
-      type: 'object',
-      required: ['column', 'values'],
-    },
-    DataSettingsDataType: {
-      properties: {
-        columnsToArray: {
-          items: {
-            $ref: '#/definitions/ColumnConfigurationDataType',
-          },
-          type: 'array',
-        },
-        data: {},
-        dataURL: {
-          type: 'string',
-        },
-        delimiter: {
-          type: 'string',
-        },
-        fileType: {
-          enum: ['csv', 'json'],
-          type: 'string',
-        },
-      },
-      type: 'object',
-    },
-    GraphConfigurationDataType: {
-      properties: {
-        chartConfigId: {
-          type: 'string',
-        },
-        columnId: {
-          anyOf: [
-            {
-              items: {
-                type: 'string',
-              },
-              type: 'array',
-            },
-            {
-              type: 'string',
-            },
-          ],
-        },
-      },
-      required: ['chartConfigId', 'columnId'],
-      type: 'object',
-    },
-    GraphType: {
-      enum: [
-        'animatedBiVariateChoroplethMap',
-        'animatedButterflyChart',
-        'animatedChoroplethMap',
-        'animatedDotDensityMap',
-        'animatedHorizontalBarChart',
-        'animatedHorizontalDumbbellChart',
-        'animatedHorizontalGroupedBarChart',
-        'animatedHorizontalStackedBarChart',
-        'animatedScatterPlot',
-        'animatedVerticalBarChart',
-        'animatedVerticalDumbbellChart',
-        'animatedVerticalGroupedBarChart',
-        'animatedVerticalStackedBarChart',
-        'biVariateChoroplethMap',
-        'butterflyChart',
-        'choroplethMap',
-        'circlePacking',
-        'dataTable',
-        'donutChart',
-        'dotDensityMap',
-        'dualAxisLineChart',
-        'geoHubCompareMap',
-        'geoHubMap',
-        'heatMap',
-        'histogram',
-        'horizontalBarChart',
-        'horizontalBeeSwarmChart',
-        'horizontalDumbbellChart',
-        'horizontalGroupedBarChart',
-        'horizontalStackedBarChart',
-        'horizontalStripChart',
-        'lineChart',
-        'multiLineChart',
-        'paretoChart',
-        'scatterPlot',
-        'slopeChart',
-        'sparkLine',
-        'stackedAreaChart',
-        'statCard',
-        'treeMap',
-        'unitChart',
-        'verticalBarChart',
-        'verticalBeeSwarmChart',
-        'verticalDumbbellChart',
-        'verticalGroupedBarChart',
-        'verticalStackedBarChart',
-        'verticalStripChart',
-      ],
-      type: 'string',
-    },
-  },
   properties: {
     dashboardId: {
       type: 'string',
@@ -4176,7 +4099,19 @@ export const dashboardJSONSchema = {
                     },
                     dataFilter: {
                       items: {
-                        $ref: '#/definitions/DataFilterDataType',
+                        properties: {
+                          column: {
+                            type: 'string',
+                          },
+                          values: {
+                            items: {
+                              type: ['string', 'number', 'boolean'],
+                            },
+                            type: 'array',
+                          },
+                        },
+                        type: 'object',
+                        required: ['column', 'values'],
                       },
                       type: 'array',
                     },
@@ -4184,7 +4119,17 @@ export const dashboardJSONSchema = {
                       properties: {
                         aggregationColumnsSetting: {
                           items: {
-                            $ref: '#/definitions/AggregationSettingsDataType',
+                            properties: {
+                              aggregationMethod: {
+                                enum: ['average', 'max', 'min', 'sum'],
+                                type: 'string',
+                              },
+                              column: {
+                                type: 'string',
+                              },
+                            },
+                            type: 'object',
+                            required: ['aggregationMethod', 'column'],
                           },
                           type: 'array',
                         },
@@ -4197,12 +4142,80 @@ export const dashboardJSONSchema = {
                     },
                     graphDataConfiguration: {
                       items: {
-                        $ref: '#/definitions/GraphConfigurationDataType',
+                        properties: {
+                          chartConfigId: {
+                            type: 'string',
+                          },
+                          columnId: {
+                            anyOf: [
+                              {
+                                items: {
+                                  type: 'string',
+                                },
+                                type: 'array',
+                              },
+                              {
+                                type: 'string',
+                              },
+                            ],
+                          },
+                        },
+                        required: ['chartConfigId', 'columnId'],
+                        type: 'object',
                       },
                       type: 'array',
                     },
                     graphType: {
-                      $ref: '#/definitions/GraphType',
+                      enum: [
+                        'animatedBiVariateChoroplethMap',
+                        'animatedButterflyChart',
+                        'animatedChoroplethMap',
+                        'animatedDotDensityMap',
+                        'animatedHorizontalBarChart',
+                        'animatedHorizontalDumbbellChart',
+                        'animatedHorizontalGroupedBarChart',
+                        'animatedHorizontalStackedBarChart',
+                        'animatedScatterPlot',
+                        'animatedVerticalBarChart',
+                        'animatedVerticalDumbbellChart',
+                        'animatedVerticalGroupedBarChart',
+                        'animatedVerticalStackedBarChart',
+                        'biVariateChoroplethMap',
+                        'butterflyChart',
+                        'choroplethMap',
+                        'circlePacking',
+                        'dataTable',
+                        'donutChart',
+                        'dotDensityMap',
+                        'dualAxisLineChart',
+                        'geoHubCompareMap',
+                        'geoHubMap',
+                        'heatMap',
+                        'histogram',
+                        'horizontalBarChart',
+                        'horizontalBeeSwarmChart',
+                        'horizontalDumbbellChart',
+                        'horizontalGroupedBarChart',
+                        'horizontalStackedBarChart',
+                        'horizontalStripChart',
+                        'lineChart',
+                        'multiLineChart',
+                        'paretoChart',
+                        'scatterPlot',
+                        'slopeChart',
+                        'sparkLine',
+                        'stackedAreaChart',
+                        'statCard',
+                        'treeMap',
+                        'unitChart',
+                        'verticalBarChart',
+                        'verticalBeeSwarmChart',
+                        'verticalDumbbellChart',
+                        'verticalGroupedBarChart',
+                        'verticalStackedBarChart',
+                        'verticalStripChart',
+                      ],
+                      type: 'string',
                     },
                     settings: SettingsSchema,
                   },
@@ -4231,7 +4244,35 @@ export const dashboardJSONSchema = {
       required: ['rows'],
     },
     dataSettings: {
-      $ref: '#/definitions/DataSettingsDataType',
+      properties: {
+        columnsToArray: {
+          items: {
+            properties: {
+              column: {
+                type: 'string',
+              },
+              delimiter: {
+                type: 'string',
+              },
+            },
+            type: 'object',
+            required: ['column'],
+          },
+          type: 'array',
+        },
+        data: {},
+        dataURL: {
+          type: 'string',
+        },
+        delimiter: {
+          type: 'string',
+        },
+        fileType: {
+          enum: ['csv', 'json'],
+          type: 'string',
+        },
+      },
+      type: 'object',
     },
     filters: {
       items: {
