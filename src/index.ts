@@ -148,4 +148,4 @@ export {
 } from './Schemas';
 
 /* ---------GraphTypes-------------*/
-export { GraphType } from './Types';
+export type { GraphType } from './Types';
