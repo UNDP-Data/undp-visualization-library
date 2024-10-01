@@ -3787,19 +3787,35 @@ export const singleGraphJSONSchema = {
       },
     },
     filters: {
-      type: 'object',
-      properties: {
-        column: { type: 'string' },
-        singleSelect: { type: 'boolean' },
-        clearable: { type: 'boolean' },
-        defaultValue: {
-          oneOf: [
-            { type: 'string' },
-            { type: 'array', items: { type: 'string' } },
-          ],
+      items: {
+        properties: {
+          clearable: {
+            type: 'boolean',
+          },
+          column: {
+            type: 'string',
+          },
+          defaultValue: {
+            anyOf: [
+              {
+                items: {
+                  type: 'string',
+                },
+                type: 'array',
+              },
+              {
+                type: 'string',
+              },
+            ],
+          },
+          singleSelect: {
+            type: 'boolean',
+          },
         },
+        required: ['column'],
+        type: 'object',
       },
-      required: ['column'],
+      type: 'array',
     },
     graphType: {
       type: 'string',
@@ -3937,19 +3953,35 @@ export const griddedGraphJSONSchema = {
       },
     },
     filters: {
-      type: 'object',
-      properties: {
-        column: { type: 'string' },
-        singleSelect: { type: 'boolean' },
-        clearable: { type: 'boolean' },
-        defaultValue: {
-          oneOf: [
-            { type: 'string' },
-            { type: 'array', items: { type: 'string' } },
-          ],
+      items: {
+        properties: {
+          clearable: {
+            type: 'boolean',
+          },
+          column: {
+            type: 'string',
+          },
+          defaultValue: {
+            anyOf: [
+              {
+                items: {
+                  type: 'string',
+                },
+                type: 'array',
+              },
+              {
+                type: 'string',
+              },
+            ],
+          },
+          singleSelect: {
+            type: 'boolean',
+          },
         },
+        required: ['column'],
+        type: 'object',
       },
-      required: ['column'],
+      type: 'array',
     },
     graphType: {
       type: 'string',
