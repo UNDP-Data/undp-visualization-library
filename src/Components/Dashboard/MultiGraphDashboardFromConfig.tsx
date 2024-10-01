@@ -13,6 +13,7 @@ interface ConfigObject {
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  debugMode?: boolean;
 }
 
 interface Props {
@@ -56,6 +57,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       dashboardLayout={configSettings.dashboardLayout}
       dataSettings={configSettings.dataSettings}
       filters={configSettings.filters}
+      debugMode={configSettings.debugMode}
     />
   );
 }

@@ -28,6 +28,7 @@ interface ConfigObject {
   showCommonColorScale?: boolean;
   minGraphWidth?: number;
   minGraphHeight?: number;
+  debugMode?: boolean;
 }
 interface Props {
   config: string | ConfigObject;
@@ -79,6 +80,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       graphDataConfiguration={configSettings.graphDataConfiguration}
       dataFilter={configSettings.dataFilter}
       showCommonColorScale={configSettings.showCommonColorScale}
+      debugMode={configSettings.debugMode}
     />
   );
 }

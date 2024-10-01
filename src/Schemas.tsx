@@ -3924,6 +3924,7 @@ export const singleGraphJSONSchema = {
         required: ['columnId', 'chartConfigId'],
       },
     },
+    debugMode: { type: 'boolean' },
   },
   required: ['dataSettings', 'graphType'],
 };
@@ -4096,6 +4097,7 @@ export const griddedGraphJSONSchema = {
     showCommonColorScale: { type: 'boolean' },
     minGraphHeight: { type: 'number' },
     minGraphWidth: { type: 'number' },
+    debugMode: { type: 'boolean' },
   },
   required: ['columnGridBy', 'dataSettings', 'graphType'],
 };
@@ -4168,8 +4170,8 @@ export const dashboardJSONSchema = {
                         keyColumn: {
                           type: 'string',
                         },
-                        required: ['aggregationColumnsSetting', 'keyColumn'],
                       },
+                      required: ['aggregationColumnsSetting', 'keyColumn'],
                       type: 'object',
                     },
                     graphDataConfiguration: {
@@ -4337,6 +4339,7 @@ export const dashboardJSONSchema = {
       },
       type: 'array',
     },
+    debugMode: { type: 'boolean' },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],

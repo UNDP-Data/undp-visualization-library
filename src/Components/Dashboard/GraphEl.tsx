@@ -59,10 +59,19 @@ interface Props {
   graph: GraphType;
   graphData: any;
   settings?: GraphSettingsDataType;
+  debugMode?: boolean;
 }
 
 function GraphEl(props: Props) {
-  const { settings, graph, graphData } = props;
+  const { settings, graph, graphData, debugMode } = props;
+  if (debugMode) {
+    // eslint-disable-next-line no-console
+    console.log(`Graph: ${graph}`);
+    // eslint-disable-next-line no-console
+    console.log('Transformed data:', graphData);
+    // eslint-disable-next-line no-console
+    console.log('Settings:', settings);
+  }
   if (typeof graphData === 'string')
     return (
       <div

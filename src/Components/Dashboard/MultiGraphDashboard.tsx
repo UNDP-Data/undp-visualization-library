@@ -28,6 +28,7 @@ interface Props {
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  debugMode?: boolean;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -37,7 +38,8 @@ const TotalWidth = (columns: DashboardColumnDataType[]) => {
 };
 
 export function MultiGraphDashboard(props: Props) {
-  const { dashboardId, dashboardLayout, dataSettings, filters } = props;
+  const { dashboardId, dashboardLayout, dataSettings, filters, debugMode } =
+    props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
   const [selectedFilters, setSelectedFilters] = useState<
@@ -362,6 +364,7 @@ export function MultiGraphDashboard(props: Props) {
                                 el.graphDataConfiguration,
                               )
                         }
+                        debugMode={debugMode}
                         settings={{
                           ...el.settings,
                           width: undefined,

@@ -7,7 +7,7 @@ import {
   singleGraphJSONSchema,
 } from '../Schemas';
 
-const ajv = new Ajv({ allErrors: true });
+const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
 export function validateDataSchema(data: any, graph: GraphType) {
   if (graph === 'geoHubCompareMap' || graph === 'geoHubMap')
@@ -83,7 +83,6 @@ export function validateConfigSchema(
   graph: 'singleGraphDashboard' | 'multiGraphDashboard' | 'griddedGraph',
 ) {
   let schema: any;
-
   switch (graph) {
     case 'griddedGraph':
       schema = griddedGraphJSONSchema;
@@ -103,7 +102,6 @@ export function validateConfigSchema(
       isValid: false,
       err: `Invalid chart type: ${graph}`,
     };
-
   const validate = ajv.compile(schema);
   const valid = validate(config);
   if (!valid) {

@@ -22,6 +22,7 @@ interface ConfigObject {
   };
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  debugMode?: boolean;
 }
 
 interface Props {
@@ -68,6 +69,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       dataTransform={configSettings.dataTransform}
       graphDataConfiguration={configSettings.graphDataConfiguration}
       dataFilter={configSettings.dataFilter}
+      debugMode={configSettings.debugMode}
     />
   );
 }

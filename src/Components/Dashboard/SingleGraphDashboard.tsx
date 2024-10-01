@@ -37,6 +37,7 @@ interface Props {
   };
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  debugMode?: boolean;
 }
 
 export function SingleGraphDashboard(props: Props) {
@@ -48,6 +49,7 @@ export function SingleGraphDashboard(props: Props) {
     dataTransform,
     graphDataConfiguration,
     dataFilter,
+    debugMode,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -358,6 +360,7 @@ export function SingleGraphDashboard(props: Props) {
                   graphType,
                   graphDataConfiguration,
                 )}
+                debugMode={debugMode}
                 settings={
                   graphSettings
                     ? {

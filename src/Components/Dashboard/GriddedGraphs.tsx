@@ -46,6 +46,7 @@ interface Props {
   graphDataConfiguration?: GraphConfigurationDataType[];
   minGraphHeight?: number;
   minGraphWidth?: number;
+  debugMode?: boolean;
 }
 
 export function GriddedGraphs(props: Props) {
@@ -63,6 +64,7 @@ export function GriddedGraphs(props: Props) {
     showCommonColorScale,
     minGraphHeight,
     minGraphWidth,
+    debugMode,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -440,6 +442,7 @@ export function GriddedGraphs(props: Props) {
                           graphDataConfiguration,
                         ) || []
                       }
+                      debugMode={debugMode}
                       settings={{
                         ...graphSettings,
                         width: undefined,
