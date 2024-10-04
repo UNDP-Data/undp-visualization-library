@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   AggregationSettingsDataType,
   DataFilterDataType,
+  DataSelectionDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
@@ -29,6 +30,7 @@ interface ConfigObject {
   minGraphWidth?: number;
   minGraphHeight?: number;
   debugMode?: boolean;
+  dataSelectionOptions?: DataSelectionDataType[];
 }
 interface Props {
   config: string | ConfigObject;
@@ -81,6 +83,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       dataFilter={configSettings.dataFilter}
       showCommonColorScale={configSettings.showCommonColorScale}
       debugMode={configSettings.debugMode}
+      dataSelectionOptions={configSettings.dataSelectionOptions}
     />
   );
 }

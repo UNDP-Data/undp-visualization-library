@@ -96,7 +96,7 @@ export interface GroupedBarGraphDataType {
 
 export interface SdgChartDataType {
   target: string | number;
-  value: (number | undefined | string)[];
+  value: number | undefined | string;
   data?: object;
 }
 
@@ -296,6 +296,16 @@ export type AnnotationDataType = {
 export interface GraphConfigurationDataType {
   columnId: string | string[];
   chartConfigId: string;
+}
+
+export interface DataSelectionDataType {
+  label?: string;
+  allowedColumnIds: {
+    value: string;
+    label: string;
+  }[];
+  chartConfigId: string;
+  mode: 'multiple' | 'single';
 }
 
 export interface DataFilterDataType {

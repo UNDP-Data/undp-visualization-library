@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   AggregationSettingsDataType,
   DataFilterDataType,
+  DataSelectionDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
@@ -23,6 +24,7 @@ interface ConfigObject {
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   debugMode?: boolean;
+  dataSelectionOptions?: DataSelectionDataType[];
 }
 
 interface Props {
@@ -70,6 +72,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       graphDataConfiguration={configSettings.graphDataConfiguration}
       dataFilter={configSettings.dataFilter}
       debugMode={configSettings.debugMode}
+      dataSelectionOptions={configSettings.dataSelectionOptions}
     />
   );
 }

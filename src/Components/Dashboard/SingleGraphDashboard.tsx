@@ -5,6 +5,7 @@ import flattenDeep from 'lodash.flattendeep';
 import {
   AggregationSettingsDataType,
   DataFilterDataType,
+  DataSelectionDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
   FilterUiSettingsDataType,
@@ -37,6 +38,7 @@ interface Props {
   };
   dataFilter?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  dataSelectionOptions?: DataSelectionDataType[];
   debugMode?: boolean;
 }
 
@@ -50,9 +52,13 @@ export function SingleGraphDashboard(props: Props) {
     graphDataConfiguration,
     dataFilter,
     debugMode,
+    dataSelectionOptions,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
+  const [graphConfig, setGraphConfig] = useState<
+    GraphConfigurationDataType[] | undefined
+  >(graphDataConfiguration);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   const [selectedFilters, setSelectedFilters] = useState<
     SelectedFilterDataType[]
@@ -196,7 +202,8 @@ export function SingleGraphDashboard(props: Props) {
                   }
                 />
               ) : null}
-              {filterSettings.length !== 0 ? (
+              {filterSettings.length !== 0 &&
+              (dataSelectionOptions || []).length !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -207,6 +214,134 @@ export function SingleGraphDashboard(props: Props) {
                     flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                   }}
                 >
+                  {dataSelectionOptions?.map((d, i) => (
+                    <div
+                      style={{
+                        width: '25% - 0.75rem',
+                        flexGrow: 1,
+                        flexShrink: 0,
+                        minWidth: '240px',
+                      }}
+                      key={i}
+                    >
+                      <p
+                        className={
+                          graphSettings?.rtl
+                            ? `undp-viz-typography-${
+                                graphSettings?.language || 'ar'
+                              } undp-viz-typography`
+                            : 'undp-viz-typography'
+                        }
+                        style={{
+                          fontSize: '0.875rem',
+                          marginBottom: '0.5rem',
+                          textAlign: graphSettings?.rtl ? 'right' : 'left',
+                        }}
+                      >
+                        {d.label || `Visualize ${d.chartConfigId} by`}
+                      </p>
+                      {d.singleSelect !== false ? (
+                        <Select
+                          className={
+                            graphSettings?.rtl
+                              ? `undp-viz-select-${
+                                  graphSettings?.language || 'ar'
+                                } undp-viz-select`
+                              : 'undp-viz-select'
+                          }
+                          options={d.allowedColumnIds}
+                          isClearable={false}
+                          isRtl={graphSettings?.rtl}
+                          isSearchable
+                          controlShouldRenderValue
+                          onChange={el => {
+                            const newGraphConfig = {
+                              columnId: el?.value as string,
+                              chartConfigId: d.chartConfigId,
+                            };
+                            const updatedConfig = graphConfig?.map(item =>
+                              item.chartConfigId ===
+                              newGraphConfig.chartConfigId
+                                ? newGraphConfig
+                                : item,
+                            );
+                            setGraphConfig(updatedConfig);
+                          }}
+                          theme={theme => {
+                            return {
+                              ...theme,
+                              borderRadius: 0,
+                              spacing: {
+                                ...theme.spacing,
+                                baseUnit: 4,
+                                menuGutter: 2,
+                                controlHeight: 48,
+                              },
+                              colors: {
+                                ...theme.colors,
+                                danger: '#D12800',
+                                dangerLight: '#D4D6D8',
+                                neutral10: '#D4D6D8',
+                                primary50: '#B5D5F5',
+                                primary25: '#F7F7F7',
+                                primary: '#0468b1',
+                              },
+                            };
+                          }}
+                        />
+                      ) : (
+                        <Select
+                          className={
+                            graphSettings?.rtl
+                              ? `undp-viz-select-${
+                                  graphSettings?.language || 'ar'
+                                } undp-viz-select`
+                              : 'undp-viz-select'
+                          }
+                          options={d.allowedColumnIds}
+                          isMulti
+                          isSearchable
+                          controlShouldRenderValue
+                          filterOption={createFilter(filterConfig)}
+                          onChange={el => {
+                            const newGraphConfig = {
+                              columnId: el.map(item => item.value) as string[],
+                              chartConfigId: d.chartConfigId,
+                            };
+                            const updatedConfig = graphConfig?.map(item =>
+                              item.chartConfigId ===
+                              newGraphConfig.chartConfigId
+                                ? newGraphConfig
+                                : item,
+                            );
+                            setGraphConfig(updatedConfig);
+                          }}
+                          isRtl={graphSettings?.rtl}
+                          theme={theme => {
+                            return {
+                              ...theme,
+                              borderRadius: 0,
+                              spacing: {
+                                ...theme.spacing,
+                                baseUnit: 4,
+                                menuGutter: 2,
+                                controlHeight: 48,
+                              },
+                              colors: {
+                                ...theme.colors,
+                                danger: '#D12800',
+                                dangerLight: '#D4D6D8',
+                                neutral10: '#D4D6D8',
+                                primary50: '#B5D5F5',
+                                primary25: '#F7F7F7',
+                                primary: '#0468b1',
+                              },
+                            };
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
                   {filterSettings?.map((d, i) => (
                     <div
                       style={{
@@ -358,7 +493,7 @@ export function SingleGraphDashboard(props: Props) {
                       )
                     : filterData(data, dataFilter || []),
                   graphType,
-                  graphDataConfiguration,
+                  graphConfig,
                 )}
                 debugMode={debugMode}
                 settings={

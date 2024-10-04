@@ -18,7 +18,7 @@ export function checkDataConfigValidity(
       isValid: false,
       err: `Key(s) in configuration that don't match keys in the data: ${checkDataKeys.join(
         ', ',
-      )}`,
+      )}. Possible reason: If you are using 'dataTransform' then the allowed keys (columns) are only the one present in 'aggregationColumnsSetting' array in 'dataTransform' object plus n additional key called 'count'.`,
     };
   const ids = dataConfig.map(el => el.chartConfigId);
   const requiredIds = ChartConfiguration[

@@ -236,7 +236,17 @@ export function Graph(props: Props) {
                             )}px`,
                             textAlign: 'center',
                             marginBottom: 0,
-                            color: UNDPColorModule.grays.white,
+                            color: getTextColorBasedOnBgColor(
+                              data.filter(el => el.color).length === 0
+                                ? colors[0]
+                                : !(d.data as any).data.color
+                                ? UNDPColorModule.graphGray
+                                : colors[
+                                    colorDomain.indexOf(
+                                      (d.data as any).data.color,
+                                    )
+                                  ],
+                            ),
                           }}
                         >
                           {numberFormattingFunction(
