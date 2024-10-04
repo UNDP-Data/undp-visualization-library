@@ -305,7 +305,7 @@ export interface DataSelectionDataType {
     label: string;
   }[];
   chartConfigId: string;
-  mode: 'multiple' | 'single';
+  singleSelect?: boolean;
 }
 
 export interface DataFilterDataType {
