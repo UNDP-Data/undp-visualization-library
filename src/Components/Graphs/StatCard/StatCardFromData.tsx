@@ -123,7 +123,9 @@ export function StatCardFromData(props: Props) {
                   )
                 : aggregationMethod === 'average'
                 ? numberFormattingFunction(
-                    sum(data.map(d => d.value)) / data.length,
+                    parseFloat(
+                      (sum(data.map(d => d.value)) / data.length).toFixed(2),
+                    ),
                     prefix || '',
                     suffix || '',
                   )

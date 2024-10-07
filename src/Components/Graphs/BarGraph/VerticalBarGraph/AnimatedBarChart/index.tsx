@@ -237,6 +237,9 @@ export function AnimatedVerticalBarChart(props: Props) {
               onChangeComplete={nextValue => {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
+              onChange={nextValue => {
+                setIndex(uniqDatesSorted.indexOf(nextValue as number));
+              }}
               className='undp-viz-slider'
             />
           </div>

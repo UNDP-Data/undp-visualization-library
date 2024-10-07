@@ -3,6 +3,7 @@ import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
+  APISettingsDataType,
   DashboardColumnDataType,
   DashboardLayoutDataType,
   DataSettingsDataType,
@@ -13,9 +14,9 @@ import {
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
+  fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 import GraphEl from './GraphEl';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
@@ -26,7 +27,7 @@ import { filterData } from '../../Utils/transformData/filterData';
 interface Props {
   dashboardId?: string;
   dashboardLayout: DashboardLayoutDataType;
-  dataSettings: DataSettingsDataType;
+  dataSettings: DataSettingsDataType | APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
   debugMode?: boolean;
 }
@@ -79,23 +80,51 @@ export function MultiGraphDashboard(props: Props) {
   }, [selectedFilters, dataFromFile]);
 
   useEffect(() => {
-    if (dataSettings.dataURL) {
-      const fetchData =
-        dataSettings.fileType === 'json'
-          ? fetchAndParseJSON(dataSettings.dataURL)
-          : fetchAndParseCSV(dataSettings.dataURL, dataSettings.delimiter);
+    if (Object.keys(dataSettings).indexOf('requestURL') !== -1) {
+      const fetchData = fetchAndTransformDataFromAPI(
+        (dataSettings as APISettingsDataType).requestURL,
+        (dataSettings as APISettingsDataType).method,
+        (dataSettings as APISettingsDataType).headers,
+        (dataSettings as APISettingsDataType).requestBody,
+        (dataSettings as APISettingsDataType).dataTransform,
+      );
       fetchData.then(d => {
-        const tempData = dataSettings.columnsToArray
-          ? transformColumnsToArray(d, dataSettings.columnsToArray)
-          : d;
-        setDataFromFile(tempData);
+        setDataFromFile(d);
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(tempData, el.column).map(v => ({
+            availableValues: getUniqValue(d, el.column).map(v => ({
+              value: v,
+              label: v,
+            })),
+          })) || [],
+        );
+      });
+    } else if ((dataSettings as DataSettingsDataType).dataURL) {
+      const fetchData =
+        (dataSettings as DataSettingsDataType).fileType === 'json'
+          ? fetchAndParseJSON(
+              (dataSettings as DataSettingsDataType).dataURL as string,
+              (dataSettings as DataSettingsDataType).columnsToArray,
+            )
+          : fetchAndParseCSV(
+              (dataSettings as DataSettingsDataType).dataURL as string,
+              (dataSettings as DataSettingsDataType).delimiter,
+              true,
+              (dataSettings as DataSettingsDataType).columnsToArray,
+            );
+      fetchData.then(d => {
+        setDataFromFile(d);
+        setFilterSettings(
+          filters?.map(el => ({
+            filter: el.column,
+            singleSelect: el.singleSelect,
+            clearable: el.clearable,
+            defaultValue: el.defaultValue,
+            availableValues: getUniqValue(d, el.column).map(v => ({
               value: v,
               label: v,
             })),
@@ -103,19 +132,20 @@ export function MultiGraphDashboard(props: Props) {
         );
       });
     } else {
-      setDataFromFile(dataSettings.data);
+      setDataFromFile((dataSettings as DataSettingsDataType).data);
       setFilterSettings(
         filters?.map(el => ({
           filter: el.column,
           singleSelect: el.singleSelect,
           clearable: el.clearable,
           defaultValue: el.defaultValue,
-          availableValues: getUniqValue(dataSettings.data, el.column).map(
-            v => ({
-              value: v,
-              label: v,
-            }),
-          ),
+          availableValues: getUniqValue(
+            (dataSettings as DataSettingsDataType).data,
+            el.column,
+          ).map(v => ({
+            value: v,
+            label: v,
+          })),
         })) || [],
       );
     }
@@ -347,6 +377,7 @@ export function MultiGraphDashboard(props: Props) {
                     >
                       <GraphEl
                         graph={el.graphType}
+                        graphDataConfiguration={el.graphDataConfiguration}
                         graphData={
                           el.graphType === 'geoHubCompareMap' ||
                           el.graphType === 'geoHubMap'

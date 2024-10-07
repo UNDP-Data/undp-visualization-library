@@ -110,7 +110,7 @@ export interface GroupedBarGraphWithDateDataType
 }
 
 export interface DumbbellChartDataType {
-  x: number[];
+  x: (number | undefined)[];
   label: string;
   data?: object;
 }
@@ -305,7 +305,6 @@ export interface DataSelectionDataType {
     label: string;
   }[];
   chartConfigId: string;
-  singleSelect?: boolean;
 }
 
 export interface DataFilterDataType {
@@ -361,6 +360,15 @@ export interface DataSettingsDataType {
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
   data?: any;
+}
+
+export interface APISettingsDataType {
+  requestURL: string;
+  headers?: any;
+  method: 'POST' | 'GET' | 'DELETE' | 'PUT';
+  requestBody?: any;
+  dataTransform?: string;
+  queryKey?: string;
 }
 
 export interface AggregationSettingsDataType {

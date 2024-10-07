@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   AggregationSettingsDataType,
+  APISettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -16,7 +17,7 @@ interface ConfigObject {
   noOfColumns?: number;
   columnGridBy: string;
   graphSettings?: any;
-  dataSettings: DataSettingsDataType;
+  dataSettings: DataSettingsDataType | APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   relativeHeightForGraph?: number;

@@ -204,8 +204,18 @@ export function VerticalDumbbellChart(props: Props) {
                   data={
                     sortParameter !== undefined
                       ? sortParameter === 'diff'
-                        ? sortBy(data, d => d.x[d.x.length - 1] - d.x[0])
-                        : sortBy(data, d => d.x[sortParameter])
+                        ? sortBy(data, d =>
+                            checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+                            checkIfNullOrUndefined(d.x[0])
+                              ? -Infinity
+                              : (d.x[d.x.length - 1] as number) -
+                                (d.x[0] as number),
+                          )
+                        : sortBy(data, d =>
+                            checkIfNullOrUndefined(d.x[sortParameter])
+                              ? -Infinity
+                              : d.x[sortParameter],
+                          )
                       : data
                   }
                   dotColors={dotColors}

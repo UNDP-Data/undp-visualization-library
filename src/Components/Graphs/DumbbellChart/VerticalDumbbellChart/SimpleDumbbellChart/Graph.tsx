@@ -287,7 +287,7 @@ export function Graph(props: Props) {
                   }}
                 >
                   <circle
-                    cy={y(el)}
+                    cy={y(el || 0)}
                     cx={0}
                     r={radius}
                     style={{
@@ -295,17 +295,19 @@ export function Graph(props: Props) {
                       fillOpacity: 0.85,
                       stroke: dotColors[j],
                       strokeWidth: 1,
+                      opacity: checkIfNullOrUndefined(el) ? 0 : 1,
                     }}
                   />
                   {showValues ? (
                     <text
-                      y={y(el)}
+                      y={y(el || 0)}
                       x={0}
                       style={{
                         fill: dotColors[j],
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
                         textAnchor: 'start',
+                        opacity: checkIfNullOrUndefined(el) ? 0 : 1,
                         fontFamily: rtl
                           ? language === 'he'
                             ? 'Noto Sans Hebrew, sans-serif'

@@ -207,7 +207,11 @@ export function SlopeChart(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={data.filter(
+                    d =>
+                      !checkIfNullOrUndefined(d.y1) &&
+                      !checkIfNullOrUndefined(d.y2),
+                  )}
                   width={width || svgWidth}
                   height={
                     height ||

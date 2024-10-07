@@ -268,38 +268,49 @@ export function Graph(props: Props) {
                     }
                   }}
                 >
-                  <circle
-                    cx={x(el)}
-                    cy={0}
-                    r={radius}
-                    style={{
-                      fill: dotColors[j],
-                      fillOpacity: 0.85,
-                      stroke: dotColors[j],
-                      strokeWidth: 1,
-                    }}
-                  />
-                  {showValues ? (
-                    <text
-                      x={x(el)}
-                      y={0}
-                      style={{
-                        fill: dotColors[j],
-                        fontSize: '0.875rem',
-                        fontWeight: 'bold',
-                        textAnchor: 'middle',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      }}
-                      dx={0}
-                      dy={0 - radius - 3}
-                    >
-                      {numberFormattingFunction(el, prefix || '', suffix || '')}
-                    </text>
-                  ) : null}
+                  {checkIfNullOrUndefined(el) ? null : (
+                    <>
+                      <circle
+                        cx={x(el || 0)}
+                        cy={0}
+                        r={radius}
+                        opacity={checkIfNullOrUndefined(el) ? 0 : 1}
+                        style={{
+                          fill: dotColors[j],
+                          fillOpacity: 0.85,
+                          stroke: dotColors[j],
+                          strokeWidth: 1,
+                          opacity: checkIfNullOrUndefined(el) ? 0 : 1,
+                        }}
+                      />
+                      {showValues ? (
+                        <text
+                          x={x(el || 0)}
+                          y={0}
+                          style={{
+                            fill: dotColors[j],
+                            fontSize: '0.875rem',
+                            fontWeight: 'bold',
+                            textAnchor: 'middle',
+                            opacity: checkIfNullOrUndefined(el) ? 0 : 1,
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          dx={0}
+                          dy={0 - radius - 3}
+                        >
+                          {numberFormattingFunction(
+                            el,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </text>
+                      ) : null}
+                    </>
+                  )}
                 </g>
               ))}
             </g>

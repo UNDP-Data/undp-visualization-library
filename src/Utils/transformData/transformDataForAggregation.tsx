@@ -22,8 +22,12 @@ export function transformDataForAggregation(
       aggregationSettings.forEach(el => {
         dataObj[el.column] =
           el.aggregationMethod === 'average'
-            ? sum(filteredData.map((j: any) => j[el.column])) /
-              filteredData.length
+            ? parseFloat(
+                (
+                  sum(filteredData.map((j: any) => j[el.column])) /
+                  filteredData.length
+                ).toFixed(2),
+              )
             : el.aggregationMethod === 'max'
             ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
             : el.aggregationMethod === 'min'
@@ -48,8 +52,12 @@ export function transformDataForAggregation(
     aggregationSettings.forEach(el => {
       dataObj[el.column] =
         el.aggregationMethod === 'average'
-          ? sum(filteredData.map((j: any) => j[el.column])) /
-            filteredData.length
+          ? parseFloat(
+              (
+                sum(filteredData.map((j: any) => j[el.column])) /
+                filteredData.length
+              ).toFixed(2),
+            )
           : el.aggregationMethod === 'max'
           ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
           : el.aggregationMethod === 'min'

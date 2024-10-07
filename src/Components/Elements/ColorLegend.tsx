@@ -33,7 +33,7 @@ export function ColorLegend(props: Props) {
       }}
     >
       <div>
-        {colorLegendTitle ? (
+        {colorLegendTitle && colorLegendTitle !== '' ? (
           <p
             className={`${
               rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
@@ -75,18 +75,20 @@ export function ColorLegend(props: Props) {
                   backgroundColor: colors[i % colors.length],
                 }}
               />
-              <p
-                className={`${
-                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                }undp-viz-typography`}
-                style={{
-                  marginBottom: 0,
-                  marginTop: '2px',
-                  fontSize: '0.875rem',
-                }}
-              >
-                {d}
-              </p>
+              {d === '' ? null : (
+                <p
+                  className={`${
+                    rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                  }undp-viz-typography`}
+                  style={{
+                    marginBottom: 0,
+                    marginTop: '2px',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  {d}
+                </p>
+              )}
             </div>
           ))}
           {showNAColor ? (

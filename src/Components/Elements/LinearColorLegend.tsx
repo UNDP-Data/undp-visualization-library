@@ -21,7 +21,7 @@ export function LinearColorLegend(props: Props) {
         maxWidth: width || 'none',
       }}
     >
-      {colorLegendTitle ? (
+      {colorLegendTitle && colorLegendTitle !== '' ? (
         <p
           className='undp-viz-typography'
           style={{

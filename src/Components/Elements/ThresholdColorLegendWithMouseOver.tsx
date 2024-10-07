@@ -40,7 +40,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
         justifyContent: 'center',
       }}
     >
-      {colorLegendTitle ? (
+      {colorLegendTitle && colorLegendTitle !== '' ? (
         <p
           style={{
             fill: UNDPColorModule.grays['gray-700'],
