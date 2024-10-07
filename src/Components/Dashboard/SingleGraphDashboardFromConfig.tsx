@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   AggregationSettingsDataType,
-  APISettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -15,7 +14,7 @@ import { validateConfigSchema } from '../../Utils/validateSchema';
 
 interface ConfigObject {
   graphSettings?: any;
-  dataSettings: DataSettingsDataType | APISettingsDataType;
+  dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   dataTransform?: {

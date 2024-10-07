@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  APISettingsDataType,
   DashboardLayoutDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
@@ -12,7 +11,7 @@ import { validateConfigSchema } from '../../Utils/validateSchema';
 interface ConfigObject {
   dashboardId?: string;
   dashboardLayout: DashboardLayoutDataType;
-  dataSettings: DataSettingsDataType | APISettingsDataType;
+  dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   debugMode?: boolean;
 }

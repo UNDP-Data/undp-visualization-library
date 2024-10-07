@@ -38,7 +38,8 @@ interface Props {
   noOfColumns?: number;
   columnGridBy: string;
   graphSettings?: any;
-  dataSettings: DataSettingsDataType | APISettingsDataType;
+  dataSettings?: DataSettingsDataType;
+  dataFromAPISettings?: APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
   relativeHeightForGraph?: number;
@@ -72,6 +73,7 @@ export function GriddedGraphs(props: Props) {
     minGraphWidth,
     debugMode,
     dataSelectionOptions,
+    dataFromAPISettings,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -117,12 +119,14 @@ export function GriddedGraphs(props: Props) {
   }, [selectedFilters, dataFromFile]);
 
   useEffect(() => {
-    if (Object.keys(dataSettings).indexOf('requestURL') !== -1) {
+    if (dataFromAPISettings) {
       const fetchData = fetchAndTransformDataFromAPI(
-        (dataSettings as APISettingsDataType).requestURL,
-        (dataSettings as APISettingsDataType).method,
-        (dataSettings as APISettingsDataType).headers,
-        (dataSettings as APISettingsDataType).requestBody,
+        dataFromAPISettings.requestURL,
+        dataFromAPISettings.method || 'GET',
+        dataFromAPISettings.headers,
+        dataFromAPISettings.requestBody,
+        dataFromAPISettings.apiDataTransform,
+        debugMode,
       );
       fetchData.then(d => {
         setDataFromFile(d);
@@ -141,67 +145,88 @@ export function GriddedGraphs(props: Props) {
           })) || [],
         );
       });
-    } else if ((dataSettings as DataSettingsDataType).dataURL) {
-      const fetchData =
-        (dataSettings as DataSettingsDataType).fileType === 'json'
-          ? fetchAndParseJSON(
-              (dataSettings as DataSettingsDataType).dataURL as string,
-              (dataSettings as DataSettingsDataType).columnsToArray,
-            )
-          : fetchAndParseCSV(
-              (dataSettings as DataSettingsDataType).dataURL as string,
-              (dataSettings as DataSettingsDataType).delimiter,
-              true,
-              (dataSettings as DataSettingsDataType).columnsToArray,
-            );
-      fetchData.then(d => {
-        setDataFromFile(d);
-        const gridValue = getUniqValue(d, columnGridBy) as (string | number)[];
-        setGridOption(gridValue);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(d, el.column).map(v => ({
-              value: v,
-              label: v,
-            })),
-          })) || [],
-        );
-      });
-    } else {
-      const tempData = (dataSettings as DataSettingsDataType).columnsToArray
-        ? transformColumnsToArray(
-            (dataSettings as DataSettingsDataType).data,
-            (dataSettings as DataSettingsDataType)
-              .columnsToArray as ColumnConfigurationDataType[],
-          )
-        : (dataSettings as DataSettingsDataType).data;
-      setDataFromFile(tempData);
-      const gridValue = getUniqValue(tempData, columnGridBy) as (
-        | string
-        | number
-      )[];
-      setGridOption(gridValue);
-      setFilterSettings(
-        filters?.map(el => ({
-          filter: el.column,
-          singleSelect: el.singleSelect,
-          clearable: el.clearable,
-          defaultValue: el.defaultValue,
-          availableValues: getUniqValue(
-            (dataSettings as DataSettingsDataType).data,
-            el.column,
-          ).map(v => ({
-            value: v,
-            label: v,
-          })),
-        })) || [],
-      );
     }
-  }, [dataSettings]);
+    if (dataSettings && !dataFromAPISettings) {
+      if (dataSettings.dataURL) {
+        const fetchData =
+          dataSettings.fileType === 'json'
+            ? fetchAndParseJSON(
+                dataSettings.dataURL as string,
+                dataSettings.columnsToArray,
+                debugMode,
+              )
+            : fetchAndParseCSV(
+                dataSettings.dataURL as string,
+                dataSettings.delimiter,
+                true,
+                dataSettings.columnsToArray,
+                debugMode,
+              );
+        fetchData.then(d => {
+          setDataFromFile(d);
+          const gridValue = getUniqValue(d, columnGridBy) as (
+            | string
+            | number
+          )[];
+          setGridOption(gridValue);
+          setFilterSettings(
+            filters?.map(el => ({
+              filter: el.column,
+              singleSelect: el.singleSelect,
+              clearable: el.clearable,
+              defaultValue: el.defaultValue,
+              availableValues: getUniqValue(d, el.column).map(v => ({
+                value: v,
+                label: v,
+              })),
+            })) || [],
+          );
+        });
+      } else {
+        const tempData = dataSettings.columnsToArray
+          ? transformColumnsToArray(
+              dataSettings.data,
+              dataSettings.columnsToArray as ColumnConfigurationDataType[],
+            )
+          : dataSettings.data;
+        setDataFromFile(tempData);
+        const gridValue = getUniqValue(tempData, columnGridBy) as (
+          | string
+          | number
+        )[];
+        setGridOption(gridValue);
+        setFilterSettings(
+          filters?.map(el => ({
+            filter: el.column,
+            singleSelect: el.singleSelect,
+            clearable: el.clearable,
+            defaultValue: el.defaultValue,
+            availableValues: getUniqValue(dataSettings.data, el.column).map(
+              v => ({
+                value: v,
+                label: v,
+              }),
+            ),
+          })) || [],
+        );
+      }
+    }
+  }, [dataSettings, dataFromAPISettings]);
+  if (!dataFromAPISettings && !dataSettings)
+    return (
+      <p
+        className='undp-viz-typography'
+        style={{
+          textAlign: 'center',
+          padding: '0.5rem',
+          color: '#D12800',
+          fontSize: '0.875rem',
+        }}
+      >
+        Please make sure either `dataSettings` or `dataFromAPISettings` props
+        are present as they are required for data.
+      </p>
+    );
   return (
     <div
       style={{

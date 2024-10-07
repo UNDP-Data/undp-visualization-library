@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 import Papa from 'papaparse';
-import { checkIfCodeIsSafe } from './checkIfCodeIsSafe';
 import { ColumnConfigurationDataType } from '../Types';
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
 
@@ -8,6 +8,7 @@ export async function fetchAndParseCSV(
   delimiter?: string,
   header?: boolean,
   columnsToArray?: ColumnConfigurationDataType[],
+  debugMode?: boolean,
 ) {
   return new Promise((resolve, reject) => {
     Papa.parse(dataURL, {
@@ -17,8 +18,21 @@ export async function fetchAndParseCSV(
       header: header !== false,
       delimiter: delimiter || ',',
       complete(results) {
+        if (debugMode) {
+          console.log('Data from file:', results.data);
+        }
         if (columnsToArray) {
-          resolve(transformColumnsToArray(results.data, columnsToArray));
+          const transformedData = transformColumnsToArray(
+            results.data,
+            columnsToArray,
+          );
+          if (debugMode) {
+            console.log(
+              'Data after transformation of column to array:',
+              transformedData,
+            );
+          }
+          resolve(transformedData);
         } else resolve(results.data);
       },
       error(error: any) {
@@ -31,6 +45,7 @@ export async function fetchAndParseCSV(
 export async function fetchAndParseJSON(
   dataURL: string,
   columnsToArray?: ColumnConfigurationDataType[],
+  debugMode?: boolean,
 ) {
   const url = dataURL;
   try {
@@ -39,8 +54,18 @@ export async function fetchAndParseJSON(
       throw new Error(`Response status: ${response.status}`);
     }
     const json = await response.json();
+    if (debugMode) {
+      console.log('Data from file:', json);
+    }
     if (columnsToArray) {
-      return transformColumnsToArray(json, columnsToArray);
+      const transformedData = transformColumnsToArray(json, columnsToArray);
+      if (debugMode) {
+        console.log(
+          'Data after transformation of column to array:',
+          transformedData,
+        );
+      }
+      return transformedData;
     }
     return json;
   } catch (error) {
@@ -53,7 +78,8 @@ export async function fetchAndTransformDataFromAPI(
   method: 'POST' | 'GET' | 'DELETE' | 'PUT',
   headers?: any,
   requestBody?: any,
-  dataTransform?: string,
+  dataTransform?: (_d: any) => any,
+  debugMode?: boolean,
 ) {
   const response = await fetch(requestURL, {
     method,
@@ -63,20 +89,15 @@ export async function fetchAndTransformDataFromAPI(
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
+  if (debugMode) {
+    console.log('Data from file:', response.json());
+  }
   if (dataTransform) {
-    if (!checkIfCodeIsSafe(dataTransform)) {
-      throw new Error(
-        'Unsafe code detected in `dataTransform`. Avoid using `eval`, `Function`, `window`, `document`, `while` or `for` loops in the code.',
-      );
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-implied-eval
-      const func = new Function(
-        'data',
-        `"use strict"; return (${dataTransform})(data);`,
-      );
-      const result = func(response.json());
-      return result;
+    const result = dataTransform(response.json());
+    if (debugMode) {
+      console.log('Data after transformation of column to array:', result);
     }
+    return result;
   }
   return response.json();
 }

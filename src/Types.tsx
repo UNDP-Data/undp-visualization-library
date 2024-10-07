@@ -365,10 +365,9 @@ export interface DataSettingsDataType {
 export interface APISettingsDataType {
   requestURL: string;
   headers?: any;
-  method: 'POST' | 'GET' | 'DELETE' | 'PUT';
+  method?: 'POST' | 'GET' | 'DELETE' | 'PUT';
   requestBody?: any;
-  dataTransform?: string;
-  queryKey?: string;
+  apiDataTransform?: (_d: any) => any;
 }
 
 export interface AggregationSettingsDataType {
