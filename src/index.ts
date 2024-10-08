@@ -129,6 +129,7 @@ export { excelDownload } from './Utils/excelDownload';
 export { getUniqValue } from './Utils/getUniqValue';
 export { fetchAndParseCSV } from './Utils/fetchAndParseData';
 export { fetchAndParseJSON } from './Utils/fetchAndParseData';
+export { fetchAndTransformDataFromAPI } from './Utils/fetchAndParseData';
 export { transformDataForAggregation } from './Utils/transformData/transformDataForAggregation';
 export { transformColumnsToArray } from './Utils/transformData/transformColumnsToArray';
 export { transformDataForGraphFromFile } from './Utils/transformData/transformDataForGraphFromFile';
