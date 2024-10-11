@@ -179,14 +179,16 @@ export function Graph(props: Props) {
           duration: animateLine === true ? 5 : animateLine || 0,
         },
       );
-      animate(
-        'circle',
-        { opacity: [0, 1] },
-        {
-          delay: animateLine === true ? 5 : animateLine || 0,
-          duration: animateLine === true ? 0.5 : animateLine || 0,
-        },
-      );
+      if (showDots) {
+        animate(
+          'circle',
+          { opacity: [0, 1] },
+          {
+            delay: animateLine === true ? 5 : animateLine || 0,
+            duration: animateLine === true ? 0.5 : animateLine || 0,
+          },
+        );
+      }
       if (!showColorLegendAtTop) {
         animate(
           'text',
