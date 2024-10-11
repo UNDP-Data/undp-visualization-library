@@ -38,6 +38,8 @@ interface Props {
   animateLine?: boolean | number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  strokeWidth: number;
+  showDots: boolean;
 }
 
 export function Graph(props: Props) {
@@ -65,6 +67,8 @@ export function Graph(props: Props) {
     animateLine,
     rtl,
     language,
+    strokeWidth,
+    showDots,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -91,7 +95,9 @@ export function Graph(props: Props) {
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = dataFormatted[0].date;
   const maxYear = dataFormatted[dataFormatted.length - 1].date;
-  const minParam: number = minBy(dataFormatted, d => d.y)?.y
+  const minParam: number = !checkIfNullOrUndefined(minValue)
+    ? (minValue as number)
+    : minBy(dataFormatted, d => d.y)?.y
     ? (minBy(dataFormatted, d => d.y)?.y as number) > 0
       ? 0
       : (minBy(dataFormatted, d => d.y)?.y as number)
@@ -102,7 +108,7 @@ export function Graph(props: Props) {
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
     .domain([
-      checkIfNullOrUndefined(minValue) ? minParam : (minValue as number),
+      minParam,
       checkIfNullOrUndefined(maxValue)
         ? maxParam > 0
           ? maxParam
@@ -149,7 +155,6 @@ export function Graph(props: Props) {
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
   }, [x, dataFormatted]);
-
   useEffect(() => {
     if (isInView && data.length > 0) {
       animate(
@@ -241,8 +246,8 @@ export function Graph(props: Props) {
               ) : null,
             )}
             <line
-              y1={y(0)}
-              y2={y(0)}
+              y1={y(minParam < 0 ? 0 : minParam)}
+              y2={y(minParam < 0 ? 0 : minParam)}
               x1={-20}
               x2={width}
               style={{
@@ -252,7 +257,7 @@ export function Graph(props: Props) {
             />
             <text
               x={-25}
-              y={y(0)}
+              y={y(minParam < 0 ? 0 : minParam)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
                 fontFamily: rtl
@@ -265,7 +270,7 @@ export function Graph(props: Props) {
               fontSize={12}
               dy={3}
             >
-              {numberFormattingFunction(0, '', '')}
+              {numberFormattingFunction(minParam < 0 ? 0 : minParam, '', '')}
             </text>
           </g>
           <g>
@@ -299,7 +304,7 @@ export function Graph(props: Props) {
               style={{
                 stroke: color,
               }}
-              strokeWidth={2}
+              strokeWidth={strokeWidth}
               ref={scope}
             />
             {mouseOverData ? (
@@ -319,20 +324,22 @@ export function Graph(props: Props) {
               <g key={i}>
                 {d.y !== undefined ? (
                   <g>
-                    <circle
-                      cx={x(d.date)}
-                      cy={y(d.y)}
-                      r={
-                        graphWidth / dataFormatted.length < 5
-                          ? 0
-                          : graphWidth / dataFormatted.length < 20
-                          ? 2
-                          : 4
-                      }
-                      style={{
-                        fill: color,
-                      }}
-                    />
+                    {showDots ? (
+                      <circle
+                        cx={x(d.date)}
+                        cy={y(d.y)}
+                        r={
+                          graphWidth / dataFormatted.length < 5
+                            ? 0
+                            : graphWidth / dataFormatted.length < 20
+                            ? 2
+                            : 4
+                        }
+                        style={{
+                          fill: color,
+                        }}
+                      />
+                    ) : null}
                     {showValues ? (
                       <text
                         x={x(d.date)}

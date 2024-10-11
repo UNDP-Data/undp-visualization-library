@@ -221,10 +221,11 @@ export function Graph(props: Props) {
             indx={indx}
             rtl={rtl}
             language={language}
+            xMinValue={xMinValue}
           />
           <line
-            x1={x(0)}
-            x2={x(0)}
+            x1={x(xMinValue < 0 ? 0 : xMinValue)}
+            x2={x(xMinValue < 0 ? 0 : xMinValue)}
             y1={-2.5}
             y2={graphHeight + margin.bottom}
             stroke='#212121'

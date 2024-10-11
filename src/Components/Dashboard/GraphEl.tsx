@@ -56,6 +56,7 @@ import { VerticalStripChart } from '../Graphs/StripChart/VerticalStripChart';
 import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
+import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 
 interface Props {
   graph: GraphType;
@@ -150,6 +151,7 @@ function GraphEl(props: Props) {
     animatedHorizontalDumbbellChart: AnimatedHorizontalDumbbellChart,
     animatedVerticalDumbbellChart: AnimatedVerticalDumbbellChart,
     animatedButterflyChart: AnimatedButterflyChart,
+    differenceLineChart: DifferenceLineChart,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -705,6 +707,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
         };
       case 'dualAxisLineChart':
         return {
@@ -746,6 +750,9 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
+          colorLegendTitle: settings?.colorLegendTitle,
         };
       case 'multiLineChart':
         return {
@@ -789,6 +796,58 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
+          colorLegendTitle: settings?.colorLegendTitle,
+        };
+      case 'differenceLineChart':
+        return {
+          data: graphData,
+          lineColors: settings?.colors as [string, string] | undefined,
+          diffAreaColors: settings?.diffAreaColors,
+          graphTitle: settings?.graphTitle,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          sourceLink: settings?.sourceLink,
+          width: settings?.width,
+          height: settings?.height,
+          source: settings?.source,
+          noOfXTicks: settings?.noOfXTicks,
+          dateFormat: settings?.dateFormat,
+          suffix: settings?.suffix,
+          prefix: settings?.prefix,
+          labels: settings?.labels || [
+            getValues('y1', graphDataConfiguration || []),
+            getValues('y2', graphDataConfiguration || []),
+          ],
+          backgroundColor: settings?.backgroundColor,
+          padding: settings?.padding,
+          leftMargin: settings?.leftMargin,
+          rightMargin: settings?.rightMargin,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
+          showValues: settings?.showValues,
+          relativeHeight: settings?.relativeHeight,
+          showColorLegendAtTop: settings?.showColorLegendAtTop,
+          tooltip: settings?.tooltip,
+          refValues: settings?.refValues,
+          highlightAreaSettings: settings?.highlightAreaSettings as
+            | [number | null, number | null]
+            | undefined,
+          graphID: settings?.graphID,
+          maxValue: settings?.maxValue,
+          minValue: settings?.minValue,
+          graphDownload: settings?.graphDownload,
+          dataDownload: settings?.dataDownload,
+          highlightAreaColor: settings?.highlightAreaColor,
+          rtl: settings?.rtl,
+          language: settings?.language,
+          minHeight: settings?.minHeight,
+          animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
+          colorLegendTitle: settings?.colorLegendTitle,
+          idSuffix: settings?.idSuffix,
         };
       case 'stackedAreaChart':
         return {
@@ -2035,7 +2094,7 @@ function GraphEl(props: Props) {
         width: settings?.width ? 'fit-content' : '100%',
       }}
     >
-      {validateSettingsSchema(settings || {}, graph).isValid &&
+      {validateSettingsSchema(getGraphProps(graph) || {}, graph).isValid &&
       validateDataSchema(graphData, graph).isValid &&
       GraphComponent ? (
         // eslint-disable-next-line react/jsx-props-no-spreading

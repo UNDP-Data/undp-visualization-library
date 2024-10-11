@@ -113,35 +113,32 @@ export function Graph(props: Props) {
           'radius',
           'desc',
         );
-
+  const xMinVal = checkIfNullOrUndefined(minXValue)
+    ? (minBy(data, 'x')?.x as number) > 0
+      ? 0
+      : (minBy(data, 'x')?.x as number)
+    : (minXValue as number);
+  const xMaxVal = checkIfNullOrUndefined(maxXValue)
+    ? (maxBy(data, 'x')?.x as number) > 0
+      ? (maxBy(data, 'x')?.x as number)
+      : 0
+    : (maxXValue as number);
   const x = scaleLinear()
-    .domain([
-      checkIfNullOrUndefined(minXValue)
-        ? (minBy(data, 'x')?.x as number) > 0
-          ? 0
-          : (minBy(data, 'x')?.x as number)
-        : (minXValue as number),
-      checkIfNullOrUndefined(maxXValue)
-        ? (maxBy(data, 'x')?.x as number) > 0
-          ? (maxBy(data, 'x')?.x as number)
-          : 0
-        : (maxXValue as number),
-    ])
+    .domain([xMinVal, xMaxVal])
     .range([0, graphWidth])
     .nice();
+  const yMinVal = checkIfNullOrUndefined(minYValue)
+    ? (minBy(data, 'y')?.y as number) > 0
+      ? 0
+      : (minBy(data, 'y')?.y as number)
+    : (minYValue as number);
+  const yMaxVal = checkIfNullOrUndefined(maxYValue)
+    ? (maxBy(data, 'y')?.y as number) > 0
+      ? (maxBy(data, 'y')?.y as number)
+      : 0
+    : (maxYValue as number);
   const y = scaleLinear()
-    .domain([
-      checkIfNullOrUndefined(minYValue)
-        ? (minBy(data, 'y')?.y as number) > 0
-          ? 0
-          : (minBy(data, 'y')?.y as number)
-        : (minYValue as number),
-      checkIfNullOrUndefined(maxYValue)
-        ? (maxBy(data, 'y')?.y as number) > 0
-          ? (maxBy(data, 'y')?.y as number)
-          : 0
-        : (maxYValue as number),
-    ])
+    .domain([yMinVal, yMaxVal])
     .range([graphHeight, 0])
     .nice();
   const xTicks = x.ticks(5);
@@ -242,8 +239,8 @@ export function Graph(props: Props) {
             <line
               x1={0}
               x2={graphWidth}
-              y1={y(0)}
-              y2={y(0)}
+              y1={y(yMinVal < 0 ? 0 : yMinVal)}
+              y2={y(yMinVal < 0 ? 0 : yMinVal)}
               style={{
                 stroke: UNDPColorModule.grays['gray-700'],
               }}
@@ -251,7 +248,7 @@ export function Graph(props: Props) {
             />
             <text
               x={0}
-              y={y(0)}
+              y={y(yMinVal < 0 ? 0 : yMinVal)}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
                 fontFamily: rtl
@@ -265,7 +262,7 @@ export function Graph(props: Props) {
               dy={4}
               dx={-3}
             >
-              0
+              {numberFormattingFunction(yMinVal < 0 ? 0 : yMinVal)}
             </text>
             {yAxisTitle ? (
               <text
@@ -322,15 +319,15 @@ export function Graph(props: Props) {
             <line
               y1={0}
               y2={graphHeight}
-              x1={x(0)}
-              x2={x(0)}
+              x1={x(xMinVal < 0 ? 0 : xMinVal)}
+              x2={x(xMinVal < 0 ? 0 : xMinVal)}
               style={{
                 stroke: UNDPColorModule.grays['gray-700'],
               }}
               strokeWidth={1}
             />
             <text
-              x={x(0)}
+              x={x(xMinVal < 0 ? 0 : xMinVal)}
               y={graphHeight}
               style={{
                 fill: UNDPColorModule.grays['gray-700'],
@@ -344,7 +341,7 @@ export function Graph(props: Props) {
               fontSize={12}
               dy={15}
             >
-              {0}
+              {numberFormattingFunction(xMinVal < 0 ? 0 : xMinVal)}
             </text>
             {xAxisTitle ? (
               <text

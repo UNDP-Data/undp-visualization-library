@@ -41,6 +41,8 @@ interface Props {
   animateLine?: boolean | number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  strokeWidth: number;
+  showDots: boolean;
 }
 
 export function Graph(props: Props) {
@@ -71,6 +73,8 @@ export function Graph(props: Props) {
     animateLine,
     rtl,
     language,
+    strokeWidth,
+    showDots,
   } = props;
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -104,11 +108,13 @@ export function Graph(props: Props) {
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = dataFormatted[0].date;
   const maxYear = dataFormatted[dataFormatted.length - 1].date;
-  const minParam: number = min(dataFormatted.map(d => min(d.y)))
-    ? (min(dataFormatted.map(d => min(d.y))) as number) > 0
-      ? 0
-      : (min(dataFormatted.map(d => min(d.y))) as number)
-    : 0;
+  const minParam: number = checkIfNullOrUndefined(minValue)
+    ? min(dataFormatted.map(d => min(d.y)))
+      ? (min(dataFormatted.map(d => min(d.y))) as number) > 0
+        ? 0
+        : (min(dataFormatted.map(d => min(d.y))) as number)
+      : 0
+    : (minValue as number);
   const maxParam: number = (max(dataFormatted.map(d => max(d.y))) as number)
     ? (max(dataFormatted.map(d => max(d.y))) as number)
     : 0;
@@ -265,8 +271,8 @@ export function Graph(props: Props) {
               ) : null,
             )}
             <line
-              y1={y(0)}
-              y2={y(0)}
+              y1={y(minParam < 0 ? 0 : minParam)}
+              y2={y(minParam < 0 ? 0 : minParam)}
               x1={-20}
               x2={width}
               style={{
@@ -289,7 +295,7 @@ export function Graph(props: Props) {
               fontSize={12}
               dy={3}
             >
-              {numberFormattingFunction(0, '', '')}
+              {numberFormattingFunction(minParam < 0 ? 0 : minParam, '', '')}
             </text>
           </g>
           <g>
@@ -335,27 +341,29 @@ export function Graph(props: Props) {
                   style={{
                     stroke: colors[i],
                   }}
-                  strokeWidth={2}
+                  strokeWidth={strokeWidth}
                 />
                 <g>
                   {d.map((el, j) => (
                     <g key={j}>
                       {el.y !== undefined ? (
                         <g>
-                          <circle
-                            cx={x(el.date)}
-                            cy={y(el.y)}
-                            r={
-                              graphWidth / dataFormatted.length < 5
-                                ? 0
-                                : graphWidth / dataFormatted.length < 20
-                                ? 2
-                                : 4
-                            }
-                            style={{
-                              fill: colors[i],
-                            }}
-                          />
+                          {showDots ? (
+                            <circle
+                              cx={x(el.date)}
+                              cy={y(el.y)}
+                              r={
+                                graphWidth / dataFormatted.length < 5
+                                  ? 0
+                                  : graphWidth / dataFormatted.length < 20
+                                  ? 2
+                                  : 4
+                              }
+                              style={{
+                                fill: colors[i],
+                              }}
+                            />
+                          ) : null}
                           {showValues ? (
                             <text
                               x={x(el.date)}

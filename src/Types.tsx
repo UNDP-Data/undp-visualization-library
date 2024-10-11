@@ -8,6 +8,7 @@ export type GraphType =
   | 'lineChart'
   | 'dualAxisLineChart'
   | 'multiLineChart'
+  | 'differenceLineChart'
   | 'stackedAreaChart'
   | 'choroplethMap'
   | 'biVariateChoroplethMap'
@@ -202,6 +203,13 @@ export interface DualAxisLineChartDataType {
   date: number | string;
   y1?: number;
   y2?: number;
+  data?: object;
+}
+
+export interface DifferenceLineChartDataType {
+  date: number | string;
+  y1: number;
+  y2: number;
   data?: object;
 }
 
@@ -531,4 +539,7 @@ export interface GraphSettingsDataType {
   autoPlay?: boolean;
   autoSort?: boolean;
   showOnlyActiveDate?: boolean;
+  showDots?: boolean;
+  diffAreaColors?: [string, string];
+  idSuffix?: string;
 }

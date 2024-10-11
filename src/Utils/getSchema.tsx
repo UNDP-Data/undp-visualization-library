@@ -70,6 +70,8 @@ import {
   treeMapSettingsSchema,
   unitChartSettingsSchema,
   unitChartDataSchema,
+  differenceLineChartDataSchema,
+  differenceLineChartSettingsSchema,
 } from '../Schemas';
 
 export function getDataSchema(graph: GraphType) {
@@ -112,6 +114,8 @@ export function getDataSchema(graph: GraphType) {
       return lineChartDataSchema;
     case 'dualAxisLineChart':
       return dualAxisLineChartDataSchema;
+    case 'differenceLineChart':
+      return differenceLineChartDataSchema;
     case 'multiLineChart':
       return multiLineChartDataSchema;
     case 'stackedAreaChart':
@@ -210,6 +214,8 @@ export function getSettingsSchema(graph: GraphType) {
       return dualAxisLineChartSettingsSchema;
     case 'multiLineChart':
       return multiLineChartSettingsSchema;
+    case 'differenceLineChart':
+      return differenceLineChartSettingsSchema;
     case 'stackedAreaChart':
       return stackedAreaChartSettingsSchema;
     case 'choroplethMap':

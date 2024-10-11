@@ -44,6 +44,9 @@ interface Props {
   showColorScale?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  strokeWidth?: number;
+  showDots?: boolean;
+  colorLegendTitle?: string;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -83,6 +86,9 @@ export function DualAxisLineChart(props: Props) {
     language,
     showColorScale,
     minHeight,
+    strokeWidth,
+    showDots,
+    colorLegendTitle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -169,6 +175,7 @@ export function DualAxisLineChart(props: Props) {
                 rtl={rtl}
                 language={language}
                 colorDomain={lineTitles || ['Line 1', 'Line 2']}
+                colorLegendTitle={colorLegendTitle}
                 colors={
                   lineColors || [
                     UNDPColorModule.categoricalColors.colors[0],
@@ -248,6 +255,8 @@ export function DualAxisLineChart(props: Props) {
                   animateLine={animateLine}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  strokeWidth={strokeWidth || 2}
+                  showDots={showDots !== false}
                 />
               ) : null}
             </div>

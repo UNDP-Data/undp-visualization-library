@@ -42,6 +42,8 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  strokeWidth?: number;
+  showDots?: boolean;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -81,6 +83,8 @@ export function SimpleLineChart(props: Props) {
     rtl,
     language,
     minHeight,
+    strokeWidth,
+    showDots,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -214,6 +218,8 @@ export function SimpleLineChart(props: Props) {
                 animateLine={animateLine}
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
+                strokeWidth={strokeWidth || 2}
+                showDots={showDots !== false}
               />
             ) : null}
           </div>

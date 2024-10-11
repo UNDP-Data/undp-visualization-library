@@ -1,63 +1,65 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef, useEffect } from 'react';
+
 import { Graph } from './Graph';
-import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { ColorLegend } from '../../../Elements/ColorLegend';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { ColorLegend } from '../../../Elements/ColorLegend';
+import {
+  DifferenceLineChartDataType,
+  ReferenceDataType,
+} from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
-  data: MultiLineChartDataType[];
-  colors?: string[];
+  data: DifferenceLineChartDataType[];
   graphTitle?: string;
   graphDescription?: string;
+  diffAreaColors?: [string, string];
   footNote?: string;
   sourceLink?: string;
   width?: number;
   height?: number;
+  suffix?: string;
+  prefix?: string;
   source?: string;
   noOfXTicks?: number;
   dateFormat?: string;
-  suffix?: string;
-  prefix?: string;
-  labels: string[];
+  showValues?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  showValues?: boolean;
+  lineColors?: [string, string];
   relativeHeight?: number;
-  showColorLegendAtTop?: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
   highlightAreaSettings?: [number | null, number | null];
   graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  highlightedLines?: string[];
   graphDownload?: boolean;
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
-  colorLegendTitle?: string;
   minHeight?: number;
+  showColorLegendAtTop?: boolean;
+  labels: [string, string];
+  colorLegendTitle?: string;
+  idSuffix: string;
   strokeWidth?: number;
   showDots?: boolean;
+  refValues?: ReferenceDataType[];
+  maxValue?: number;
+  minValue?: number;
 }
 
-export function MultiLineChart(props: Props) {
+export function DifferenceLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
     suffix,
     source,
     prefix,
@@ -68,34 +70,36 @@ export function MultiLineChart(props: Props) {
     footNote,
     noOfXTicks,
     dateFormat,
-    labels,
-    padding,
     showValues,
+    padding,
+    lineColors,
     backgroundColor,
     leftMargin,
     rightMargin,
     topMargin,
     bottomMargin,
     tooltip,
+    highlightAreaSettings,
     relativeHeight,
     onSeriesMouseOver,
-    showColorLegendAtTop,
-    refValues,
-    highlightAreaSettings,
     graphID,
-    minValue,
-    maxValue,
-    highlightedLines,
     graphDownload,
     dataDownload,
     highlightAreaColor,
     animateLine,
     rtl,
     language,
-    colorLegendTitle,
     minHeight,
+    labels,
+    showColorLegendAtTop,
+    colorLegendTitle,
+    diffAreaColors,
+    idSuffix,
     strokeWidth,
     showDots,
+    refValues,
+    minValue,
+    maxValue,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -120,9 +124,9 @@ export function MultiLineChart(props: Props) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: 'inherit',
         width: width ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
+        height: 'inherit',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
@@ -183,18 +187,35 @@ export function MultiLineChart(props: Props) {
                 language={language}
                 colorDomain={labels}
                 colorLegendTitle={colorLegendTitle}
-                colors={colors || UNDPColorModule.categoricalColors.colors}
+                colors={
+                  lineColors || [
+                    UNDPColorModule.categoricalColors.colors[0],
+                    UNDPColorModule.categoricalColors.colors[1],
+                  ]
+                }
                 showNAColor={false}
               />
             ) : null}
             <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              style={{
+                flexGrow: 1,
+                flexDirection: 'column',
+                display: 'flex',
+                justifyContent: 'center',
+                lineHeight: 0,
+              }}
               ref={graphDiv}
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  colors={colors || UNDPColorModule.categoricalColors.colors}
+                  lineColors={
+                    lineColors || [
+                      UNDPColorModule.categoricalColors.colors[0],
+                      UNDPColorModule.categoricalColors.colors[1],
+                    ]
+                  }
+                  colorDomain={labels}
                   width={width || svgWidth}
                   height={
                     height ||
@@ -206,7 +227,10 @@ export function MultiLineChart(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight)
                   }
+                  suffix={suffix || ''}
+                  prefix={prefix || ''}
                   dateFormat={dateFormat || 'yyyy'}
+                  showValues={showValues}
                   noOfXTicks={
                     checkIfNullOrUndefined(noOfXTicks)
                       ? 10
@@ -214,7 +238,7 @@ export function MultiLineChart(props: Props) {
                   }
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
-                      ? 50
+                      ? 60
                       : (leftMargin as number)
                   }
                   rightMargin={
@@ -234,26 +258,28 @@ export function MultiLineChart(props: Props) {
                       ? 25
                       : (bottomMargin as number)
                   }
-                  labels={labels}
+                  highlightAreaSettings={highlightAreaSettings || [null, null]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   showColorLegendAtTop={showColorLegendAtTop}
-                  showValues={showValues}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
-                  refValues={refValues}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  highlightedLines={highlightedLines || []}
                   highlightAreaColor={
                     highlightAreaColor || UNDPColorModule.grays['gray-300']
                   }
                   animateLine={animateLine}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  diffAreaColors={
+                    diffAreaColors || [
+                      UNDPColorModule.alerts.red,
+                      UNDPColorModule.alerts.darkGreen,
+                    ]
+                  }
+                  idSuffix={idSuffix}
                   strokeWidth={strokeWidth || 2}
                   showDots={showDots !== false}
+                  refValues={refValues}
+                  minValue={minValue}
+                  maxValue={maxValue}
                 />
               ) : null}
             </div>

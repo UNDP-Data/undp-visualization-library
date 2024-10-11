@@ -444,6 +444,26 @@ export const dualAxisLineChartDataSchema = {
   },
 };
 
+export const differenceLineChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      date: {
+        oneOf: [{ type: 'number' }, { type: 'string' }],
+      },
+      y1: {
+        oneOf: [{ type: 'number' }],
+      },
+      y2: {
+        oneOf: [{ type: 'number' }],
+      },
+      data: { type: 'object' },
+    },
+    required: ['date', 'y1', 'y2'],
+  },
+};
+
 export const paretoChartDataSchema = {
   type: 'array',
   items: {
@@ -1730,6 +1750,9 @@ export const dualAxisLineChartSettingsSchema = {
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
+    colorLegendTitle: { type: 'string' },
   },
 };
 
@@ -1800,7 +1823,102 @@ export const lineChartSettingsSchema = {
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
   },
+};
+
+export const differenceLineChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    lineColors: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    diffAreaColors: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    sourceLink: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    source: { type: 'string' },
+    noOfXTicks: { type: 'number' },
+    dateFormat: { type: 'string' },
+    showValues: { type: 'boolean' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    labels: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    showColorLegendAtTop: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    refValues: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
+    },
+    highlightAreaSettings: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'number' }, { type: 'null' }],
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    graphID: { type: 'string' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    highlightAreaColor: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    animateLine: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
+    idSuffix: { type: 'string' },
+    colorLegendTitle: { type: 'string' },
+  },
+  required: ['labels', 'idSuffix'],
 };
 
 export const multiLineChartSettingsSchema = {
@@ -1883,6 +2001,9 @@ export const multiLineChartSettingsSchema = {
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
+    colorLegendTitle: { type: 'string' },
   },
   required: ['labels'],
 };

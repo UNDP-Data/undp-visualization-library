@@ -37,6 +37,7 @@ interface Props {
   setEventX: (d?: number) => void;
   setMouseOverData: (d: any) => void;
   indx: number;
+  xMinValue: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
 }
@@ -64,6 +65,7 @@ export function Bars(props: Props) {
     indx,
     rtl,
     language,
+    xMinValue,
   } = props;
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
 
@@ -162,7 +164,7 @@ export function Bars(props: Props) {
               dx={d.size ? (d.size < 0 ? 10 : -10) : -10}
               dy={5}
               animate={{
-                x: x(0),
+                x: x(xMinValue < 0 ? 0 : xMinValue),
                 y: (y(d.id) as number) + y.bandwidth() / 2,
               }}
               transition={{ duration: 0.5 }}

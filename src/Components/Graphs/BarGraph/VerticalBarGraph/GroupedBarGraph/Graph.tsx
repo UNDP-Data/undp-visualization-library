@@ -126,8 +126,8 @@ export function Graph(props: Props) {
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
-            y1={y(0)}
-            y2={y(0)}
+            y1={y(xMinValue < 0 ? 0 : xMinValue)}
+            y2={y(xMinValue < 0 ? 0 : xMinValue)}
             x1={0 - margin.left}
             x2={graphWidth + margin.right}
             style={{
@@ -137,7 +137,7 @@ export function Graph(props: Props) {
           />
           <text
             x={0 - margin.left + 2}
-            y={y(0)}
+            y={y(xMinValue < 0 ? 0 : xMinValue)}
             style={{
               fill: UNDPColorModule.grays['gray-700'],
               fontFamily: rtl

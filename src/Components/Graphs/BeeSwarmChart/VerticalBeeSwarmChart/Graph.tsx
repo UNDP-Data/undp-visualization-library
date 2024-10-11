@@ -170,8 +170,8 @@ export function Graph(props: Props) {
             {showTicks ? (
               <g>
                 <line
-                  y1={y(0)}
-                  y2={y(0)}
+                  y1={y(yMinValue < 0 ? 0 : yMinValue)}
+                  y2={y(yMinValue < 0 ? 0 : yMinValue)}
                   x1={0 - margin.left}
                   x2={graphWidth + margin.right}
                   style={{
@@ -181,7 +181,7 @@ export function Graph(props: Props) {
                 />
                 <text
                   x={0 - margin.left + 2}
-                  y={y(0)}
+                  y={y(yMinValue < 0 ? 0 : yMinValue)}
                   style={{
                     fill: UNDPColorModule.grays['gray-700'],
                     fontFamily: rtl
@@ -194,7 +194,11 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={-3}
                 >
-                  0
+                  {numberFormattingFunction(
+                    yMinValue < 0 ? 0 : yMinValue,
+                    '',
+                    '',
+                  )}
                 </text>
                 {yTicks.map((d, i) => (
                   <g key={i}>

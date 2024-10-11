@@ -262,7 +262,7 @@ export function Graph(props: Props) {
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
-                    x={x(0)}
+                    x={x(xMinValue < 0 ? 0 : xMinValue)}
                     y={y.bandwidth() / 2}
                     dx={-10}
                     dy={5}
@@ -293,7 +293,7 @@ export function Graph(props: Props) {
                                 : 'Noto Sans Arabic, sans-serif'
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
-                          x={x(0)}
+                          x={x(xMinValue < 0 ? 0 : xMinValue)}
                           y={(y(d) as number) + y.bandwidth() / 2}
                           dx={-10}
                           dy={5}
@@ -308,8 +308,8 @@ export function Graph(props: Props) {
                 )
             : null}
           <line
-            x1={x(0)}
-            x2={x(0)}
+            x1={x(xMinValue < 0 ? 0 : xMinValue)}
+            x2={x(xMinValue < 0 ? 0 : xMinValue)}
             y1={-2.5}
             y2={graphHeight + margin.bottom}
             stroke='#212121'

@@ -317,7 +317,7 @@ export function Graph(props: Props) {
                       ) : null}
                       {showValues ? (
                         <text
-                          x={x(0)}
+                          x={x(xMinValue < 0 ? 0 : xMinValue)}
                           y={(y(d) as number) + y.bandwidth() / 2}
                           style={{
                             fill:
@@ -347,8 +347,8 @@ export function Graph(props: Props) {
                 )
             : null}
           <line
-            x1={x(0)}
-            x2={x(0)}
+            x1={xMinValue < 0 ? 0 : xMinValue}
+            x2={xMinValue < 0 ? 0 : xMinValue}
             y1={-2.5}
             y2={graphHeight + margin.bottom}
             stroke='#212121'

@@ -312,7 +312,11 @@ export function Graph(props: Props) {
                         dx={d.leftBar ? (d.leftBar > 0 ? -5 : 5) : 5}
                         dy={5}
                         animate={{
-                          x: d.leftBar ? xLeftBar(d.leftBar) : xLeftBar(0),
+                          x: d.leftBar
+                            ? xLeftBar(d.leftBar)
+                            : xLeftBar(
+                                xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar,
+                              ),
                           y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
@@ -329,8 +333,8 @@ export function Graph(props: Props) {
               })}
             </AnimatePresence>
             <line
-              x1={xLeftBar(0)}
-              x2={xLeftBar(0)}
+              x1={xLeftBar(xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar)}
+              x2={xLeftBar(xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
               stroke='#212121'
@@ -492,7 +496,11 @@ export function Graph(props: Props) {
                         dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                         dy={5}
                         animate={{
-                          x: d.rightBar ? xRightBar(d.rightBar) : xRightBar(0),
+                          x: d.rightBar
+                            ? xRightBar(d.rightBar)
+                            : xRightBar(
+                                xMinValueRightBar < 0 ? 0 : xMinValueRightBar,
+                              ),
                           y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
@@ -509,8 +517,8 @@ export function Graph(props: Props) {
               })}
             </AnimatePresence>
             <line
-              x1={xRightBar(0)}
-              x2={xRightBar(0)}
+              x1={xRightBar(xMinValueRightBar < 0 ? 0 : xMinValueRightBar)}
+              x2={xRightBar(xMinValueRightBar < 0 ? 0 : xMinValueRightBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
               stroke='#212121'
