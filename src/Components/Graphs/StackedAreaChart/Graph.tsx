@@ -27,7 +27,7 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
-  highlightAreaSettings: [number | null, number | null];
+  highlightAreaSettings: [number | string | null, number | string | null];
   maxValue?: number;
   minValue?: number;
   highlightAreaColor: string;
@@ -76,6 +76,14 @@ export function Graph(props: Props) {
     })),
     'date',
   );
+  const highlightAreaSettingsFormatted = [
+    highlightAreaSettings[0] === null
+      ? null
+      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
+    highlightAreaSettings[1] === null
+      ? null
+      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
+  ];
   const dataArray = dataFormatted[0].y.map((_d, i) => {
     return dataFormatted.map(el => ({
       date: el.date,
@@ -144,27 +152,27 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettings[0] === null &&
-          highlightAreaSettings[1] === null ? null : (
+          {highlightAreaSettingsFormatted[0] === null &&
+          highlightAreaSettingsFormatted[1] === null ? null : (
             <g>
               <rect
                 style={{
                   fill: highlightAreaColor,
                 }}
                 x={
-                  highlightAreaSettings[0]
-                    ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[0]
+                    ? x(highlightAreaSettingsFormatted[0])
                     : 0
                 }
                 width={
-                  highlightAreaSettings[1]
-                    ? (highlightAreaSettings[1] as number) * graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[1]
+                    ? x(highlightAreaSettingsFormatted[1]) -
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                     : graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                 }
                 y={0}

@@ -32,7 +32,7 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
-  highlightAreaSettings?: [number | null, number | null];
+  highlightAreaSettings?: [number | string | null, number | string | null];
   maxValue?: number;
   minValue?: number;
   graphDownload?: boolean;

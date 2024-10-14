@@ -1712,6 +1712,7 @@ export const dualAxisLineChartSettingsSchema = {
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     showValues: { type: 'boolean' },
+    showColorScale: { type: 'boolean' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -1733,7 +1734,7 @@ export const dualAxisLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
       minItems: 2,
       maxItems: 2,
@@ -1805,7 +1806,7 @@ export const lineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
       minItems: 2,
       maxItems: 2,
@@ -1894,7 +1895,7 @@ export const differenceLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
       minItems: 2,
       maxItems: 2,
@@ -1978,7 +1979,7 @@ export const multiLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
       minItems: 2,
       maxItems: 2,
@@ -3016,7 +3017,9 @@ export const stackedAreaChartSettingsSchema = {
     },
     highlightAreaSettings: {
       type: 'array',
-      items: { type: 'number' },
+      items: {
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+      },
       minItems: 2,
       maxItems: 2,
     },
@@ -3492,7 +3495,7 @@ export const SettingsSchema = {
       anyOf: [
         {
           items: {
-            type: 'number',
+            oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
           },
           maxItems: 2,
           minItems: 2,
@@ -3500,7 +3503,7 @@ export const SettingsSchema = {
         },
         {
           items: {
-            type: 'number',
+            oneOf: [{ type: 'number' }, { type: 'null' }],
           },
           maxItems: 4,
           minItems: 4,

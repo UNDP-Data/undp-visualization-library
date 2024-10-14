@@ -406,6 +406,13 @@ export interface MarginDataType {
   right: number;
 }
 
+export interface HighlightAreasSettingsDataType {
+  coordinates:
+    | [number | string | null, number | string | null]
+    | [number | null, number | null, number | null, number | null];
+  color?: string;
+}
+
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
   graphTitle?: string;
@@ -472,7 +479,7 @@ export interface GraphSettingsDataType {
   lineColors?: [string, string];
   sameAxes?: boolean;
   highlightAreaSettings?:
-    | [number | null, number | null]
+    | [number | string | null, number | string | null]
     | [number | null, number | null, number | null, number | null];
   highlightAreaColor?: string;
   labels?: string[];

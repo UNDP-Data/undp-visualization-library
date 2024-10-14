@@ -696,7 +696,7 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null]
+            | [number | string | null, number | string | null]
             | undefined,
           maxValue: settings?.maxValue,
           minValue: settings?.minValue,
@@ -740,7 +740,7 @@ function GraphEl(props: Props) {
           relativeHeight: settings?.relativeHeight,
           tooltip: settings?.tooltip,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null]
+            | [number | string | null, number | string | null]
             | undefined,
           graphID: settings?.graphID,
           graphDownload: settings?.graphDownload,
@@ -783,7 +783,7 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null]
+            | [number | string | null, number | string | null]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,
@@ -832,7 +832,7 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null]
+            | [number | string | null, number | string | null]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,
@@ -875,7 +875,7 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null]
+            | [number | string | null, number | string | null]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,

@@ -12,6 +12,7 @@ import { DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: DualAxisLineChartDataType[];
@@ -29,7 +30,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   sameAxes?: boolean;
-  highlightAreaSettings: [number | null, number | null];
+  highlightAreaSettings: [number | string | null, number | string | null];
   highlightAreaColor: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -89,6 +90,14 @@ export function Graph(props: Props) {
     })),
     'date',
   );
+  const highlightAreaSettingsFormatted = [
+    highlightAreaSettings[0] === null
+      ? null
+      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
+    highlightAreaSettings[1] === null
+      ? null
+      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
+  ];
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = dataFormatted[0].date;
@@ -202,27 +211,27 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettings[0] === null &&
-          highlightAreaSettings[1] === null ? null : (
+          {highlightAreaSettingsFormatted[0] === null &&
+          highlightAreaSettingsFormatted[1] === null ? null : (
             <g>
               <rect
                 style={{
                   fill: highlightAreaColor,
                 }}
                 x={
-                  highlightAreaSettings[0]
-                    ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[0]
+                    ? x(highlightAreaSettingsFormatted[0])
                     : 0
                 }
                 width={
-                  highlightAreaSettings[1]
-                    ? (highlightAreaSettings[1] as number) * graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[1]
+                    ? x(highlightAreaSettingsFormatted[1]) -
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                     : graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                 }
                 y={0}
@@ -430,7 +439,13 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y1(d.y1)}
-                        dy={-8}
+                        dy={
+                          checkIfNullOrUndefined(d.y2)
+                            ? -8
+                            : (d.y2 as number) < d.y1
+                            ? -8
+                            : 15
+                        }
                         fontSize={12}
                         textAnchor='middle'
                         style={{
@@ -474,7 +489,13 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y2(d.y2)}
-                        dy={-8}
+                        dy={
+                          checkIfNullOrUndefined(d.y1)
+                            ? -8
+                            : (d.y1 as number) < d.y2
+                            ? -8
+                            : 15
+                        }
                         fontSize={12}
                         textAnchor='middle'
                         style={{

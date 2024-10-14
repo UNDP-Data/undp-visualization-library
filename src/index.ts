@@ -24,6 +24,7 @@ export { VerticalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/Vertica
 export { DualAxisLineChart } from './Components/Graphs/LineCharts/DualAxisLineChart';
 export { SimpleLineChart } from './Components/Graphs/LineCharts/LineChart';
 export { MultiLineChart } from './Components/Graphs/LineCharts/MultiLineChart';
+export { DifferenceLineChart } from './Components/Graphs/LineCharts/DifferenceLineChart';
 export { SparkLine } from './Components/Graphs/LineCharts/SparkLine';
 // Maps
 export { BiVariantMap } from './Components/Graphs/Maps/BiVariateMap/SimpleBiVariateMap';

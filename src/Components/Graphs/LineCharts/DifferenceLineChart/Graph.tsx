@@ -32,7 +32,7 @@ interface Props {
   leftMargin: number;
   topMargin: number;
   bottomMargin: number;
-  highlightAreaSettings: [number | null, number | null];
+  highlightAreaSettings: [number | string | null, number | string | null];
   highlightAreaColor: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -82,7 +82,7 @@ export function Graph(props: Props) {
     maxValue,
   } = props;
   const [scope, animate] = useAnimate();
-  const [labelScope] = useAnimate();
+  const [areaScope, areaAnimate] = useAnimate();
   const isInView = useInView(scope);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -103,6 +103,14 @@ export function Graph(props: Props) {
     })),
     'date',
   );
+  const highlightAreaSettingsFormatted = [
+    highlightAreaSettings[0] === null
+      ? null
+      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
+    highlightAreaSettings[1] === null
+      ? null
+      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
+  ];
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = dataFormatted[0].date;
@@ -212,6 +220,16 @@ export function Graph(props: Props) {
           duration: animateLine === true ? 5 : animateLine || 0,
         },
       );
+      if (showDots) {
+        animate(
+          'circle',
+          { opacity: [0, 1] },
+          {
+            delay: animateLine === true ? 5 : animateLine || 0,
+            duration: animateLine === true ? 0.5 : animateLine || 0,
+          },
+        );
+      }
       if (!showColorLegendAtTop) {
         animate(
           'text',
@@ -222,6 +240,14 @@ export function Graph(props: Props) {
           },
         );
       }
+      areaAnimate(
+        areaScope.current,
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
     }
   }, [isInView, showColorLegendAtTop, data]);
   return (
@@ -248,27 +274,27 @@ export function Graph(props: Props) {
               }}
             />
           </clipPath>
-          {highlightAreaSettings[0] === null &&
-          highlightAreaSettings[1] === null ? null : (
+          {highlightAreaSettingsFormatted[0] === null &&
+          highlightAreaSettingsFormatted[1] === null ? null : (
             <g>
               <rect
                 style={{
                   fill: highlightAreaColor,
                 }}
                 x={
-                  highlightAreaSettings[0]
-                    ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[0]
+                    ? x(highlightAreaSettingsFormatted[0])
                     : 0
                 }
                 width={
-                  highlightAreaSettings[1]
-                    ? (highlightAreaSettings[1] as number) * graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                  highlightAreaSettingsFormatted[1]
+                    ? x(highlightAreaSettingsFormatted[1]) -
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                     : graphWidth -
-                      (highlightAreaSettings[0]
-                        ? (highlightAreaSettings[0] as number) * graphWidth
+                      (highlightAreaSettingsFormatted[0]
+                        ? x(highlightAreaSettingsFormatted[0])
                         : 0)
                 }
                 y={0}
@@ -375,7 +401,7 @@ export function Graph(props: Props) {
               </g>
             ))}
           </g>
-          <g ref={scope}>
+          <g ref={areaScope}>
             <path
               d={mainGraphArea(dataFormatted as any) as string}
               clipPath={`url(#below${idSuffix})`}
@@ -390,6 +416,8 @@ export function Graph(props: Props) {
                 fill: diffAreaColors[0],
               }}
             />
+          </g>
+          <g ref={scope}>
             <path
               d={lineShape1(dataFormatted as any) as string}
               fill='none'
@@ -453,8 +481,6 @@ export function Graph(props: Props) {
                 strokeWidth={1}
               />
             ) : null}
-          </g>
-          <g ref={labelScope}>
             {dataFormatted.map((d, i) => (
               <g key={i}>
                 {d.y1 !== undefined ? (
@@ -479,7 +505,7 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y(d.y1)}
-                        dy={-8}
+                        dy={d.y2 < d.y1 ? -8 : 15}
                         fontSize={12}
                         textAnchor='middle'
                         style={{
@@ -523,7 +549,7 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y(d.y2)}
-                        dy={-8}
+                        dy={d.y2 > d.y1 ? -8 : 15}
                         fontSize={12}
                         textAnchor='middle'
                         style={{

@@ -26,6 +26,12 @@ export function numberFormattingFunction(
   suffix?: string,
 ) {
   if (checkIfNullOrUndefined(value)) return 'NA';
+  if (
+    (value as number) < 10000 &&
+    (value as number) > -10000 &&
+    Math.round(value as number) === value
+  )
+    return value;
   return `${prefix || ''}${
     Math.abs(value as number) < 1
       ? (value as number).toFixed(3).replace(/(\.\d*?[1-9])0+$|\.0*$/, '$1')

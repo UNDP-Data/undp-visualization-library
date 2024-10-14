@@ -34,7 +34,7 @@ interface Props {
   relativeHeight?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  highlightAreaSettings?: [number | null, number | null];
+  highlightAreaSettings?: [number | string | null, number | string | null];
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
