@@ -4,6 +4,7 @@ import { ascending, sort } from 'd3-array';
 import { format, parse } from 'date-fns';
 import Slider from 'rc-slider';
 import {
+  AnnotationSettingsDataType,
   ReferenceDataType,
   ScatterPlotWithDateDataType,
 } from '../../../../Types';
@@ -68,6 +69,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -118,6 +120,7 @@ export function AnimatedScatterPlot(props: Props) {
     language,
     showNAColor,
     minHeight,
+    annotations,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -386,6 +389,7 @@ export function AnimatedScatterPlot(props: Props) {
                   indx={index}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  annotations={annotations || []}
                 />
               ) : null}
             </div>

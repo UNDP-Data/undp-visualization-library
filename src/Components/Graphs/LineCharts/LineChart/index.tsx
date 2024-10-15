@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { LineChartDataType, ReferenceDataType } from '../../../../Types';
+import {
+  AnnotationSettingsDataType,
+  LineChartDataType,
+  ReferenceDataType,
+} from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
@@ -44,6 +48,7 @@ interface Props {
   minHeight?: number;
   strokeWidth?: number;
   showDots?: boolean;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function SimpleLineChart(props: Props) {
@@ -85,6 +90,7 @@ export function SimpleLineChart(props: Props) {
     minHeight,
     strokeWidth,
     showDots,
+    annotations,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -220,6 +226,7 @@ export function SimpleLineChart(props: Props) {
                 language={language || (rtl ? 'ar' : 'en')}
                 strokeWidth={strokeWidth || 2}
                 showDots={showDots !== false}
+                annotations={annotations || []}
               />
             ) : null}
           </div>

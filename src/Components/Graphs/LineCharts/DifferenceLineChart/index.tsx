@@ -6,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
+  AnnotationSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
 } from '../../../../Types';
@@ -54,6 +55,7 @@ interface Props {
   refValues?: ReferenceDataType[];
   maxValue?: number;
   minValue?: number;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -100,6 +102,7 @@ export function DifferenceLineChart(props: Props) {
     refValues,
     minValue,
     maxValue,
+    annotations,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -280,6 +283,7 @@ export function DifferenceLineChart(props: Props) {
                   refValues={refValues}
                   minValue={minValue}
                   maxValue={maxValue}
+                  annotations={annotations || []}
                 />
               ) : null}
             </div>

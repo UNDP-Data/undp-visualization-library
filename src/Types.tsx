@@ -406,11 +406,18 @@ export interface MarginDataType {
   right: number;
 }
 
-export interface HighlightAreasSettingsDataType {
-  coordinates:
-    | [number | string | null, number | string | null]
-    | [number | null, number | null, number | null, number | null];
+export interface AnnotationSettingsDataType {
+  text: string;
+  maxWidth?: number;
+  xCoordinate?: number | string;
+  yCoordinate?: number | string;
+  xOffset?: number;
+  yOffset?: number;
+  align?: 'center' | 'left' | 'right';
   color?: string;
+  fontWeight?: 'regular' | 'bold' | 'medium';
+  showConnector?: boolean | number;
+  connectorRadius?: number;
 }
 
 export interface GraphSettingsDataType {

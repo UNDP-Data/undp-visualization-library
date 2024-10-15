@@ -1,6 +1,10 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
-import { ReferenceDataType, ScatterPlotDataType } from '../../../../Types';
+import {
+  ReferenceDataType,
+  ScatterPlotDataType,
+  AnnotationSettingsDataType,
+} from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -57,6 +61,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function ScatterPlot(props: Props) {
@@ -104,6 +109,7 @@ export function ScatterPlot(props: Props) {
     language,
     showNAColor,
     minHeight,
+    annotations,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -309,6 +315,7 @@ export function ScatterPlot(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  annotations={annotations || []}
                 />
               ) : null}
             </div>

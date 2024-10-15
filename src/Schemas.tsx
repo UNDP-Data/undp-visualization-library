@@ -1803,6 +1803,50 @@ export const lineChartSettingsSchema = {
         required: ['value', 'text'],
       },
     },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
+    },
     highlightAreaSettings: {
       type: 'array',
       items: {
@@ -1892,6 +1936,50 @@ export const differenceLineChartSettingsSchema = {
         required: ['value', 'text'],
       },
     },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
+    },
     highlightAreaSettings: {
       type: 'array',
       items: {
@@ -1974,6 +2062,50 @@ export const multiLineChartSettingsSchema = {
         },
         type: 'object',
         required: ['value', 'text'],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
       },
     },
     highlightAreaSettings: {
@@ -2755,6 +2887,50 @@ export const scatterPlotSettingsSchema = {
         required: ['value', 'text'],
       },
     },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
+    },
     highlightedDataPoints: {
       type: 'array',
       items: {
@@ -2861,6 +3037,50 @@ export const animatedScatterPlotSettingsSchema = {
         },
         type: 'object',
         required: ['value', 'text'],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
       },
     },
     highlightedDataPoints: {
@@ -3013,6 +3233,50 @@ export const stackedAreaChartSettingsSchema = {
         },
         type: 'object',
         required: ['value', 'text'],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
       },
     },
     highlightAreaSettings: {
@@ -3243,6 +3507,50 @@ export const SettingsSchema = {
     },
     animateLine: {
       type: ['number', 'boolean'],
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
     },
     areaId: {
       type: 'string',

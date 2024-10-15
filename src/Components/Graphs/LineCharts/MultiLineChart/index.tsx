@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
+import {
+  AnnotationSettingsDataType,
+  MultiLineChartDataType,
+  ReferenceDataType,
+} from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { ColorLegend } from '../../../Elements/ColorLegend';
@@ -51,6 +55,7 @@ interface Props {
   minHeight?: number;
   strokeWidth?: number;
   showDots?: boolean;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function MultiLineChart(props: Props) {
@@ -96,6 +101,7 @@ export function MultiLineChart(props: Props) {
     minHeight,
     strokeWidth,
     showDots,
+    annotations,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -254,6 +260,7 @@ export function MultiLineChart(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   strokeWidth={strokeWidth || 2}
                   showDots={showDots !== false}
+                  annotations={annotations || []}
                 />
               ) : null}
             </div>

@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { AreaChartDataType, ReferenceDataType } from '../../../Types';
+import {
+  AnnotationSettingsDataType,
+  AreaChartDataType,
+  ReferenceDataType,
+} from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegend } from '../../Elements/ColorLegend';
@@ -42,6 +46,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  annotations?: AnnotationSettingsDataType[];
 }
 
 export function AreaChart(props: Props) {
@@ -80,6 +85,7 @@ export function AreaChart(props: Props) {
     rtl,
     language,
     minHeight,
+    annotations,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -229,6 +235,7 @@ export function AreaChart(props: Props) {
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  annotations={annotations || []}
                 />
               ) : null}
             </div>

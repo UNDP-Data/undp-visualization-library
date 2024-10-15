@@ -8,11 +8,16 @@ import sortBy from 'lodash.sortby';
 import min from 'lodash.min';
 import max from 'lodash.max';
 import { useAnimate, useInView } from 'framer-motion';
-import { MultiLineChartDataType, ReferenceDataType } from '../../../../Types';
+import {
+  AnnotationSettingsDataType,
+  MultiLineChartDataType,
+  ReferenceDataType,
+} from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -43,6 +48,7 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   strokeWidth: number;
   showDots: boolean;
+  annotations: AnnotationSettingsDataType[];
 }
 
 export function Graph(props: Props) {
@@ -75,8 +81,10 @@ export function Graph(props: Props) {
     language,
     strokeWidth,
     showDots,
+    annotations,
   } = props;
   const [scope, animate] = useAnimate();
+  const [annotationsScope, annotationsAnimate] = useAnimate();
   const isInView = useInView(scope);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -207,6 +215,14 @@ export function Graph(props: Props) {
           },
         );
       }
+      annotationsAnimate(
+        annotationsScope.current,
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
     }
   }, [isInView, showColorLegendAtTop, data]);
   return (
@@ -474,6 +490,153 @@ export function Graph(props: Props) {
               ))}
             </>
           ) : null}
+          <g ref={annotationsScope}>
+            {annotations.map((d, i) => {
+              const endPoints = getLineEndPoint(
+                {
+                  x: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                      (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
+                  y: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
+                    : 0 + (d.yOffset || 0) - 8,
+                },
+                {
+                  x: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
+                    : 0,
+                  y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                },
+                checkIfNullOrUndefined(d.connectorRadius)
+                  ? 3.5
+                  : (d.connectorRadius as number),
+              );
+              return (
+                <g key={i}>
+                  {d.showConnector ? (
+                    <>
+                      <circle
+                        cy={d.yCoordinate ? y(d.yCoordinate as number) : 0}
+                        cx={
+                          d.xCoordinate
+                            ? x(
+                                parse(
+                                  `${d.xCoordinate}`,
+                                  dateFormat,
+                                  new Date(),
+                                ),
+                              )
+                            : 0
+                        }
+                        r={
+                          checkIfNullOrUndefined(d.connectorRadius)
+                            ? 3.5
+                            : (d.connectorRadius as number)
+                        }
+                        style={{
+                          strokeWidth:
+                            d.showConnector === true
+                              ? 2
+                              : Math.min(d.showConnector, 1),
+                          fill: 'none',
+                          stroke: d.color || UNDPColorModule.grays['gray-700'],
+                        }}
+                      />
+                      <line
+                        y1={endPoints.y}
+                        x1={endPoints.x}
+                        y2={
+                          d.yCoordinate
+                            ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                            : 0 + (d.yOffset || 0)
+                        }
+                        x2={
+                          d.xCoordinate
+                            ? x(
+                                parse(
+                                  `${d.xCoordinate}`,
+                                  dateFormat,
+                                  new Date(),
+                                ),
+                              ) + (d.xOffset || 0)
+                            : 0 + (d.xOffset || 0)
+                        }
+                        style={{
+                          strokeWidth:
+                            d.showConnector === true
+                              ? 2
+                              : Math.min(d.showConnector, 1),
+                          fill: 'none',
+                          stroke: d.color || UNDPColorModule.grays['gray-700'],
+                        }}
+                      />
+                    </>
+                  ) : null}
+                  <foreignObject
+                    key={i}
+                    y={
+                      d.yCoordinate
+                        ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
+                        : 0 + (d.yOffset || 0) - 8
+                    }
+                    x={
+                      rtl
+                        ? 0
+                        : d.xCoordinate
+                        ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                          (d.xOffset || 0)
+                        : 0 + (d.xOffset || 0)
+                    }
+                    width={
+                      rtl
+                        ? d.xCoordinate
+                          ? x(
+                              parse(`${d.xCoordinate}`, dateFormat, new Date()),
+                            ) + (d.xOffset || 0)
+                          : 0 + (d.xOffset || 0)
+                        : graphWidth -
+                          (d.xCoordinate
+                            ? x(
+                                parse(
+                                  `${d.xCoordinate}`,
+                                  dateFormat,
+                                  new Date(),
+                                ),
+                              ) + (d.xOffset || 0)
+                            : 0 + (d.xOffset || 0))
+                    }
+                    height={1}
+                    style={{
+                      overflow: 'visible',
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: d.color || UNDPColorModule.grays['gray-700'],
+                        fontWeight: d.fontWeight || 'regular',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        whiteSpace: 'normal',
+                        fontSize: '14px',
+                        textAlign: d.align || (rtl ? 'right' : 'left'),
+                        maxWidth: d.maxWidth || 'auto',
+                        lineHeight: 1.2,
+                        margin: 0,
+                        paddingLeft: rtl ? 0 : '4px',
+                        paddingRight: !rtl ? 0 : '4px',
+                      }}
+                    >
+                      {d.text}
+                    </p>
+                  </foreignObject>
+                </g>
+              );
+            })}
+          </g>
           <rect
             ref={MouseoverRectRef}
             fill='none'

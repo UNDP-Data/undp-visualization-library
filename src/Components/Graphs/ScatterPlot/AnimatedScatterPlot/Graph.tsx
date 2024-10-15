@@ -13,12 +13,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   ScatterPlotWithDateDataType,
   ReferenceDataType,
+  AnnotationSettingsDataType,
 } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { ensureCompleteDataForScatterPlot } from '../../../../Utils/ensureCompleteData';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
+import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 
 interface Props {
   data: ScatterPlotWithDateDataType[];
@@ -57,6 +59,7 @@ interface Props {
   indx: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  annotations: AnnotationSettingsDataType[];
 }
 
 export function Graph(props: Props) {
@@ -92,6 +95,7 @@ export function Graph(props: Props) {
     indx,
     rtl,
     language,
+    annotations,
   } = props;
 
   const dataFormatted = sortBy(
@@ -636,6 +640,125 @@ export function Graph(props: Props) {
               ))}
             </>
           ) : null}
+          <g>
+            {annotations.map((d, i) => {
+              const endPoints = getLineEndPoint(
+                {
+                  x: d.xCoordinate
+                    ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
+                  y: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
+                    : 0 + (d.yOffset || 0) - 8,
+                },
+                {
+                  x: d.xCoordinate ? x(d.xCoordinate as number) : 0,
+                  y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                },
+                checkIfNullOrUndefined(d.connectorRadius)
+                  ? 3.5
+                  : (d.connectorRadius as number),
+              );
+              return (
+                <g key={i}>
+                  {d.showConnector ? (
+                    <>
+                      <circle
+                        cy={d.yCoordinate ? y(d.yCoordinate as number) : 0}
+                        cx={d.xCoordinate ? x(d.xCoordinate as number) : 0}
+                        r={
+                          checkIfNullOrUndefined(d.connectorRadius)
+                            ? 3.5
+                            : (d.connectorRadius as number)
+                        }
+                        style={{
+                          strokeWidth:
+                            d.showConnector === true
+                              ? 2
+                              : Math.min(d.showConnector, 1),
+                          fill: 'none',
+                          stroke: d.color || UNDPColorModule.grays['gray-700'],
+                        }}
+                      />
+                      <line
+                        y1={endPoints.y}
+                        x1={endPoints.x}
+                        y2={
+                          d.yCoordinate
+                            ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                            : 0 + (d.yOffset || 0)
+                        }
+                        x2={
+                          d.xCoordinate
+                            ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                            : 0 + (d.xOffset || 0)
+                        }
+                        style={{
+                          strokeWidth:
+                            d.showConnector === true
+                              ? 2
+                              : Math.min(d.showConnector, 1),
+                          fill: 'none',
+                          stroke: d.color || UNDPColorModule.grays['gray-700'],
+                        }}
+                      />
+                    </>
+                  ) : null}
+                  <foreignObject
+                    key={i}
+                    y={
+                      d.yCoordinate
+                        ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
+                        : 0 + (d.yOffset || 0) - 8
+                    }
+                    x={
+                      rtl
+                        ? 0
+                        : d.xCoordinate
+                        ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                        : 0 + (d.xOffset || 0)
+                    }
+                    width={
+                      rtl
+                        ? d.xCoordinate
+                          ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                          : 0 + (d.xOffset || 0)
+                        : graphWidth -
+                          (d.xCoordinate
+                            ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                            : 0 + (d.xOffset || 0))
+                    }
+                    height={1}
+                    style={{
+                      overflow: 'visible',
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: d.color || UNDPColorModule.grays['gray-700'],
+                        fontWeight: d.fontWeight || 'regular',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        whiteSpace: 'normal',
+                        fontSize: '14px',
+                        textAlign: d.align || (rtl ? 'right' : 'left'),
+                        maxWidth: d.maxWidth || 'auto',
+                        lineHeight: 1.2,
+                        margin: 0,
+                        paddingLeft: rtl ? 0 : '4px',
+                        paddingRight: !rtl ? 0 : '4px',
+                      }}
+                    >
+                      {d.text}
+                    </p>
+                  </foreignObject>
+                </g>
+              );
+            })}
+          </g>
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
