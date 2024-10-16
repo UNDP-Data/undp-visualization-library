@@ -10,6 +10,7 @@ import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'framer-motion';
 import {
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
 } from '../../../../Types';
@@ -18,6 +19,7 @@ import { Tooltip } from '../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
+import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
 
 interface Props {
   data: DifferenceLineChartDataType[];
@@ -50,6 +52,7 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   annotations: AnnotationSettingsDataType[];
+  customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
 }
 
 export function Graph(props: Props) {
@@ -84,6 +87,7 @@ export function Graph(props: Props) {
     minValue,
     maxValue,
     annotations,
+    customHighlightAreaSettings,
   } = props;
   const [scope, animate] = useAnimate();
   const [areaScope, areaAnimate] = useAnimate();
@@ -315,6 +319,43 @@ export function Graph(props: Props) {
               />
             </g>
           )}
+          {customHighlightAreaSettings.map((d, i) => (
+            <g key={i}>
+              {d.coordinates.length !== 4 ? (
+                <path
+                  d={getPathFromPoints(
+                    d.coordinates.map((el, j) =>
+                      j % 2 === 0
+                        ? x(parse(`${el}`, dateFormat, new Date()))
+                        : y(el as number),
+                    ),
+                  )}
+                  style={{
+                    fill:
+                      d.coordinates.length > 4
+                        ? d.color || UNDPColorModule.grays['gray-300']
+                        : 'none',
+                    strokeWidth: d.strokeWidth || 0,
+                    stroke: d.color || UNDPColorModule.grays['gray-300'],
+                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
+                  }}
+                />
+              ) : (
+                <line
+                  x1={x(parse(`${d.coordinates[0]}`, dateFormat, new Date()))}
+                  y1={y(d.coordinates[1] as number)}
+                  x2={x(parse(`${d.coordinates[2]}`, dateFormat, new Date()))}
+                  y2={y(d.coordinates[3] as number)}
+                  style={{
+                    fill: 'none',
+                    strokeWidth: d.strokeWidth || 1,
+                    stroke: d.color || UNDPColorModule.grays['gray-300'],
+                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
+                  }}
+                />
+              )}
+            </g>
+          ))}
           <g>
             <g>
               {yTicks.map((d, i) =>

@@ -7,6 +7,7 @@ import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
 } from '../../../../Types';
@@ -56,6 +57,7 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   annotations?: AnnotationSettingsDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -103,6 +105,7 @@ export function DifferenceLineChart(props: Props) {
     minValue,
     maxValue,
     annotations,
+    customHighlightAreaSettings,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -284,6 +287,9 @@ export function DifferenceLineChart(props: Props) {
                   minValue={minValue}
                   maxValue={maxValue}
                   annotations={annotations || []}
+                  customHighlightAreaSettings={
+                    customHighlightAreaSettings || []
+                  }
                 />
               ) : null}
             </div>

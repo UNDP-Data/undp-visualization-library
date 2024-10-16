@@ -4,6 +4,7 @@ import {
   ReferenceDataType,
   ScatterPlotDataType,
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
 } from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -46,6 +47,7 @@ interface Props {
     number | null,
     number | null,
   ];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   highlightAreaColor?: string;
   showColorScale?: boolean;
   graphID?: string;
@@ -110,6 +112,7 @@ export function ScatterPlot(props: Props) {
     showNAColor,
     minHeight,
     annotations,
+    customHighlightAreaSettings,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -316,6 +319,9 @@ export function ScatterPlot(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   annotations={annotations || []}
+                  customHighlightAreaSettings={
+                    customHighlightAreaSettings || []
+                  }
                 />
               ) : null}
             </div>

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
 } from '../../../../Types';
@@ -56,6 +57,7 @@ interface Props {
   strokeWidth?: number;
   showDots?: boolean;
   annotations?: AnnotationSettingsDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
 }
 
 export function MultiLineChart(props: Props) {
@@ -102,6 +104,7 @@ export function MultiLineChart(props: Props) {
     strokeWidth,
     showDots,
     annotations,
+    customHighlightAreaSettings,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -261,6 +264,9 @@ export function MultiLineChart(props: Props) {
                   strokeWidth={strokeWidth || 2}
                   showDots={showDots !== false}
                   annotations={annotations || []}
+                  customHighlightAreaSettings={
+                    customHighlightAreaSettings || []
+                  }
                 />
               ) : null}
             </div>

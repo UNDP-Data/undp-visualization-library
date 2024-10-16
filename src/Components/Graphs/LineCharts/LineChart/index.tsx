@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
   LineChartDataType,
   ReferenceDataType,
 } from '../../../../Types';
@@ -49,6 +50,7 @@ interface Props {
   strokeWidth?: number;
   showDots?: boolean;
   annotations?: AnnotationSettingsDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
 }
 
 export function SimpleLineChart(props: Props) {
@@ -91,6 +93,7 @@ export function SimpleLineChart(props: Props) {
     strokeWidth,
     showDots,
     annotations,
+    customHighlightAreaSettings,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -227,6 +230,7 @@ export function SimpleLineChart(props: Props) {
                 strokeWidth={strokeWidth || 2}
                 showDots={showDots !== false}
                 annotations={annotations || []}
+                customHighlightAreaSettings={customHighlightAreaSettings || []}
               />
             ) : null}
           </div>

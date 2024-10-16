@@ -420,6 +420,13 @@ export interface AnnotationSettingsDataType {
   connectorRadius?: number;
 }
 
+export interface CustomHighlightAreaSettingsDataType {
+  coordinates: (number | string)[];
+  color?: string;
+  strokeWidth?: number;
+  dashedStroke?: boolean;
+}
+
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
   graphTitle?: string;
@@ -523,6 +530,7 @@ export interface GraphSettingsDataType {
   yAxisTitle?: string;
   refXValues?: ReferenceDataType[];
   refYValues?: ReferenceDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   maxXValue?: number;
   minXValue?: number;
   maxYValue?: number;

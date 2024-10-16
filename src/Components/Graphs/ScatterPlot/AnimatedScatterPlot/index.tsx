@@ -5,6 +5,7 @@ import { format, parse } from 'date-fns';
 import Slider from 'rc-slider';
 import {
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
   ScatterPlotWithDateDataType,
 } from '../../../../Types';
@@ -70,6 +71,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -121,6 +123,7 @@ export function AnimatedScatterPlot(props: Props) {
     showNAColor,
     minHeight,
     annotations,
+    customHighlightAreaSettings,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -390,6 +393,9 @@ export function AnimatedScatterPlot(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   annotations={annotations || []}
+                  customHighlightAreaSettings={
+                    customHighlightAreaSettings || []
+                  }
                 />
               ) : null}
             </div>

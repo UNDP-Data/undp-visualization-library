@@ -1847,6 +1847,28 @@ export const lineChartSettingsSchema = {
         required: ['text'],
       },
     },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
+    },
     highlightAreaSettings: {
       type: 'array',
       items: {
@@ -1980,6 +2002,28 @@ export const differenceLineChartSettingsSchema = {
         required: ['text'],
       },
     },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
+    },
     highlightAreaSettings: {
       type: 'array',
       items: {
@@ -2107,6 +2151,28 @@ export const multiLineChartSettingsSchema = {
         type: 'object',
         required: ['text'],
       },
+    },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -2961,6 +3027,28 @@ export const scatterPlotSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            type: 'number',
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
+    },
   },
 };
 
@@ -3116,6 +3204,28 @@ export const animatedScatterPlotSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            type: 'number',
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
+    },
   },
 };
 
@@ -3278,6 +3388,28 @@ export const stackedAreaChartSettingsSchema = {
         type: 'object',
         required: ['text'],
       },
+    },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -4018,6 +4150,28 @@ export const SettingsSchema = {
         required: ['value', 'text'],
       },
       type: 'array',
+    },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+      minItems: 4,
     },
     relativeHeight: {
       type: 'number',

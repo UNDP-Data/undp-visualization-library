@@ -9,12 +9,14 @@ import {
   ScatterPlotDataType,
   ReferenceDataType,
   AnnotationSettingsDataType,
+  CustomHighlightAreaSettingsDataType,
 } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
+import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -52,6 +54,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   annotations: AnnotationSettingsDataType[];
+  customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
 }
 
 export function Graph(props: Props) {
@@ -86,6 +89,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     annotations,
+    customHighlightAreaSettings,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -209,6 +213,41 @@ export function Graph(props: Props) {
               />
             </g>
           )}
+          {customHighlightAreaSettings.map((d, i) => (
+            <g key={i}>
+              {d.coordinates.length !== 4 ? (
+                <path
+                  d={getPathFromPoints(
+                    d.coordinates.map((el, j) =>
+                      j % 2 === 0 ? x(el as number) : y(el as number),
+                    ),
+                  )}
+                  style={{
+                    fill:
+                      d.coordinates.length > 4
+                        ? d.color || UNDPColorModule.grays['gray-300']
+                        : 'none',
+                    strokeWidth: d.strokeWidth || 0,
+                    stroke: d.color || UNDPColorModule.grays['gray-300'],
+                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
+                  }}
+                />
+              ) : (
+                <line
+                  x1={x(d.coordinates[0] as number)}
+                  y1={y(d.coordinates[1] as number)}
+                  x2={x(d.coordinates[2] as number)}
+                  y2={y(d.coordinates[3] as number)}
+                  style={{
+                    fill: 'none',
+                    strokeWidth: d.strokeWidth || 1,
+                    stroke: d.color || UNDPColorModule.grays['gray-300'],
+                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
+                  }}
+                />
+              )}
+            </g>
+          ))}
           <g>
             {yTicks.map((d, i) => (
               <g key={i} opacity={d === 0 ? 0 : 1}>

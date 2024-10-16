@@ -3,6 +3,7 @@ import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
   AreaChartDataType,
+  CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -47,6 +48,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
 }
 
 export function AreaChart(props: Props) {
@@ -86,6 +88,7 @@ export function AreaChart(props: Props) {
     language,
     minHeight,
     annotations,
+    customHighlightAreaSettings,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -236,6 +239,9 @@ export function AreaChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   annotations={annotations || []}
+                  customHighlightAreaSettings={
+                    customHighlightAreaSettings || []
+                  }
                 />
               ) : null}
             </div>
