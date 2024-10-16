@@ -265,6 +265,26 @@
         ]
     },
     {
+        "chartID": "differenceLineChart",
+        "configuration": [
+            {
+                "id": "date",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "y1",
+                "multiple": false,
+                "required": true
+            },
+            {
+                "id": "y2",
+                "multiple": false,
+                "required": true
+            }
+        ]
+    },
+    {
         "chartID": "multiLineChart",
         "configuration": [
             {
