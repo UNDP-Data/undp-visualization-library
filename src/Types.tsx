@@ -317,7 +317,8 @@ export interface DataSelectionDataType {
 
 export interface DataFilterDataType {
   column: string;
-  values: (string | number | boolean)[];
+  includeValues?: (string | number | boolean)[];
+  excludeValues?: (string | number | boolean)[];
 }
 
 export type DashboardColumnDataType = {
@@ -327,7 +328,7 @@ export type DashboardColumnDataType = {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  dataFilter?: DataFilterDataType[];
+  dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   settings?: any;
 };

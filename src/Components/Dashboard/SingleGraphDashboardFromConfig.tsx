@@ -21,7 +21,7 @@ interface ConfigObject {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  dataFilter?: DataFilterDataType[];
+  dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
@@ -70,7 +70,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       graphType={configSettings.graphType}
       dataTransform={configSettings.dataTransform}
       graphDataConfiguration={configSettings.graphDataConfiguration}
-      dataFilter={configSettings.dataFilter}
+      dataFilters={configSettings.dataFilters}
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
     />

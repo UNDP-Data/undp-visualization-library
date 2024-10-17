@@ -4474,13 +4474,23 @@ export const singleGraphJSONSchema = {
       },
       required: ['keyColumn', 'aggregationColumnsSetting'],
     },
-    dataFilter: {
+    dataFilters: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
           column: { type: 'string' },
-          values: {
+          includeValues: {
+            type: 'array',
+            items: {
+              oneOf: [
+                { type: 'string' },
+                { type: 'number' },
+                { type: 'boolean' },
+              ],
+            },
+          },
+          excludeValues: {
             type: 'array',
             items: {
               oneOf: [
@@ -4491,7 +4501,7 @@ export const singleGraphJSONSchema = {
             },
           },
         },
-        required: ['column', 'values'],
+        required: ['column'],
       },
     },
     graphDataConfiguration: {
@@ -4641,13 +4651,23 @@ export const griddedGraphJSONSchema = {
       },
       required: ['keyColumn', 'aggregationColumnsSetting'],
     },
-    dataFilter: {
+    dataFilters: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
           column: { type: 'string' },
-          values: {
+          excludeValues: {
+            type: 'array',
+            items: {
+              oneOf: [
+                { type: 'string' },
+                { type: 'number' },
+                { type: 'boolean' },
+              ],
+            },
+          },
+          includeValues: {
             type: 'array',
             items: {
               oneOf: [
@@ -4658,7 +4678,7 @@ export const griddedGraphJSONSchema = {
             },
           },
         },
-        required: ['column', 'values'],
+        required: ['column'],
       },
     },
     graphDataConfiguration: {
@@ -4717,21 +4737,35 @@ export const dashboardJSONSchema = {
                     columnWidth: {
                       type: 'number',
                     },
-                    dataFilter: {
+                    dataFilters: {
                       items: {
                         properties: {
                           column: {
                             type: 'string',
                           },
-                          values: {
-                            items: {
-                              type: ['string', 'number', 'boolean'],
-                            },
+                          excludeValues: {
                             type: 'array',
+                            items: {
+                              oneOf: [
+                                { type: 'string' },
+                                { type: 'number' },
+                                { type: 'boolean' },
+                              ],
+                            },
+                          },
+                          includeValues: {
+                            type: 'array',
+                            items: {
+                              oneOf: [
+                                { type: 'string' },
+                                { type: 'number' },
+                                { type: 'boolean' },
+                              ],
+                            },
                           },
                         },
                         type: 'object',
-                        required: ['column', 'values'],
+                        required: ['column'],
                       },
                       type: 'array',
                     },

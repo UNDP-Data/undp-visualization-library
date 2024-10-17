@@ -39,7 +39,7 @@ interface Props {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  dataFilter?: DataFilterDataType[];
+  dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
   debugMode?: boolean;
@@ -53,7 +53,7 @@ export function SingleGraphDashboard(props: Props) {
     graphType,
     dataTransform,
     graphDataConfiguration,
-    dataFilter,
+    dataFilters,
     debugMode,
     dataSelectionOptions,
     dataFromAPISettings,
@@ -542,11 +542,11 @@ export function SingleGraphDashboard(props: Props) {
                 graphData={transformDataForGraph(
                   dataTransform
                     ? transformDataForAggregation(
-                        filterData(data, dataFilter || []),
+                        filterData(data, dataFilters || []),
                         dataTransform.keyColumn,
                         dataTransform.aggregationColumnsSetting,
                       )
-                    : filterData(data, dataFilter || []),
+                    : filterData(data, dataFilters || []),
                   graphType,
                   graphConfig,
                 )}

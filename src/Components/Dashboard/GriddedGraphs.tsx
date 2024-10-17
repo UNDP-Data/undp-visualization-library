@@ -48,7 +48,7 @@ interface Props {
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
   showCommonColorScale?: boolean;
-  dataFilter?: DataFilterDataType[];
+  dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
   minGraphHeight?: number;
@@ -67,7 +67,7 @@ export function GriddedGraphs(props: Props) {
     relativeHeightForGraph,
     noOfColumns,
     columnGridBy,
-    dataFilter,
+    dataFilters,
     showCommonColorScale,
     minGraphHeight,
     minGraphWidth,
@@ -620,13 +620,13 @@ export function GriddedGraphs(props: Props) {
                         transformDataForGraph(
                           dataTransform
                             ? transformDataForAggregation(
-                                filterData(data, dataFilter || []).filter(
+                                filterData(data, dataFilters || []).filter(
                                   (d: any) => d[columnGridBy] === el,
                                 ),
                                 dataTransform.keyColumn,
                                 dataTransform.aggregationColumnsSetting,
                               )
-                            : filterData(data, dataFilter || []).filter(
+                            : filterData(data, dataFilters || []).filter(
                                 (d: any) => d[columnGridBy] === el,
                               ),
                           graphType,

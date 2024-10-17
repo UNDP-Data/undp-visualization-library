@@ -24,7 +24,7 @@ interface ConfigObject {
     keyColumn: string;
     aggregationColumnsSetting: AggregationSettingsDataType[];
   };
-  dataFilter?: DataFilterDataType[];
+  dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   showCommonColorScale?: boolean;
   minGraphWidth?: number;
@@ -80,7 +80,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       minGraphWidth={configSettings.minGraphWidth}
       dataTransform={configSettings.dataTransform}
       graphDataConfiguration={configSettings.graphDataConfiguration}
-      dataFilter={configSettings.dataFilter}
+      dataFilters={configSettings.dataFilters}
       showCommonColorScale={configSettings.showCommonColorScale}
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}

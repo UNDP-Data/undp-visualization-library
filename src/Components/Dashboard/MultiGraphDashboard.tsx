@@ -412,12 +412,12 @@ export function MultiGraphDashboard(props: Props) {
                             : transformDataForGraph(
                                 el.dataTransform
                                   ? transformDataForAggregation(
-                                      filterData(data, el.dataFilter || []),
+                                      filterData(data, el.dataFilters || []),
                                       el.dataTransform.keyColumn,
                                       el.dataTransform
                                         .aggregationColumnsSetting,
                                     )
-                                  : filterData(data, el.dataFilter || []),
+                                  : filterData(data, el.dataFilters || []),
                                 el.graphType,
                                 el.graphDataConfiguration,
                               )

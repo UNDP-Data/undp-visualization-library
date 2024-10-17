@@ -8,13 +8,30 @@ export function filterData(
   filters: DataFilterDataType[],
 ) {
   if (filters.length === 0) return data;
-  const filteredData = data.filter((item: any) =>
-    filters.every((filter: any) => {
-      return filter.values.length > 0
-        ? intersection(flattenDeep([item[filter.column]]), filter.values)
-            .length > 0
+  const filteredDataWithIncludeValue = data.filter((item: any) =>
+    filters.every(filter => {
+      return filter.includeValues
+        ? filter.includeValues.length > 0
+          ? intersection(
+              flattenDeep([item[filter.column]]),
+              filter.includeValues,
+            ).length > 0
+          : true
         : true;
     }),
   );
-  return filteredData;
+  const filteredDataWithExcludeValue = filteredDataWithIncludeValue.filter(
+    (item: any) =>
+      filters.every(filter => {
+        return filter.excludeValues
+          ? filter.excludeValues.length > 0
+            ? intersection(
+                flattenDeep([item[filter.column]]),
+                filter.excludeValues,
+              ).length === 0
+            : true
+          : true;
+      }),
+  );
+  return filteredDataWithExcludeValue;
 }
