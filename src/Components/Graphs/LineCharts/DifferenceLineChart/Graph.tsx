@@ -490,7 +490,6 @@ export function Graph(props: Props) {
                   style={{
                     fill: lineColors[0],
                     fontSize: '12px',
-                    fontWeight: 'bold',
                     fontFamily: rtl
                       ? language === 'he'
                         ? 'Noto Sans Hebrew, sans-serif'
@@ -508,7 +507,6 @@ export function Graph(props: Props) {
                   style={{
                     fill: lineColors[1],
                     fontSize: '12px',
-                    fontWeight: 'bold',
                     fontFamily: rtl
                       ? language === 'he'
                         ? 'Noto Sans Hebrew, sans-serif'

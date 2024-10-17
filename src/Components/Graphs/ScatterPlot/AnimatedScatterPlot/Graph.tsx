@@ -346,7 +346,6 @@ export function Graph(props: Props) {
                 transform={`translate(-30, ${graphHeight / 2}) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule.grays['gray-700'],
-                  fontWeight: 'bold',
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -425,7 +424,6 @@ export function Graph(props: Props) {
                 transform={`translate(${graphWidth / 2}, ${graphHeight})`}
                 style={{
                   fill: UNDPColorModule.grays['gray-700'],
-                  fontWeight: 'bold',
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'

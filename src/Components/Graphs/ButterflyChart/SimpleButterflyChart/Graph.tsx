@@ -539,7 +539,6 @@ export function Graph(props: Props) {
               style={{
                 fill: barColors[0],
                 fontSize: '1rem',
-                fontWeight: 'bold',
                 textAnchor: 'end',
                 fontFamily: rtl
                   ? language === 'he'
@@ -558,7 +557,6 @@ export function Graph(props: Props) {
               style={{
                 fill: barColors[1],
                 fontSize: '1rem',
-                fontWeight: 'bold',
                 textAnchor: 'start',
                 fontFamily: rtl
                   ? language === 'he'

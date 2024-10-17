@@ -465,7 +465,6 @@ export function Graph(props: Props) {
                     style={{
                       fill: colors[i],
                       fontSize: '12px',
-                      fontWeight: 'bold',
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
