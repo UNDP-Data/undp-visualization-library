@@ -13,7 +13,7 @@ export async function transformDataForGraphFromFile(
   try {
     const fetchedData = await (fileType === 'json'
       ? fetchAndParseJSON(dataURL)
-      : fetchAndParseCSV(dataURL, delimiter));
+      : fetchAndParseCSV(dataURL, undefined, false, delimiter));
 
     const formattedData = transformDataForGraph(
       fetchedData,

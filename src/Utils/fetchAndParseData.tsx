@@ -5,10 +5,10 @@ import { transformColumnsToArray } from './transformData/transformColumnsToArray
 
 export async function fetchAndParseCSV(
   dataURL: string,
-  delimiter?: string,
-  header?: boolean,
   columnsToArray?: ColumnConfigurationDataType[],
   debugMode?: boolean,
+  delimiter?: string,
+  header?: boolean,
 ) {
   return new Promise((resolve, reject) => {
     Papa.parse(dataURL, {
@@ -44,10 +44,10 @@ export async function fetchAndParseCSV(
 
 export async function fetchAndParseCSVFromTextBlob(
   data: string,
-  delimiter?: string,
-  header?: boolean,
   columnsToArray?: ColumnConfigurationDataType[],
   debugMode?: boolean,
+  delimiter?: string,
+  header?: boolean,
 ) {
   return new Promise((resolve, reject) => {
     Papa.parse(data, {

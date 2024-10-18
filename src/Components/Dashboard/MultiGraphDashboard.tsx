@@ -124,10 +124,10 @@ export function MultiGraphDashboard(props: Props) {
               )
             : fetchAndParseCSV(
                 dataSettings.dataURL as string,
-                dataSettings.delimiter,
-                true,
                 dataSettings.columnsToArray,
                 debugMode,
+                dataSettings.delimiter,
+                true,
               );
         fetchData.then(d => {
           setDataFromFile(d);
