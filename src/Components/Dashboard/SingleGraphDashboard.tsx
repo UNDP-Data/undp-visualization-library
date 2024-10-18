@@ -28,6 +28,7 @@ import { GraphHeader } from '../Elements/GraphHeader';
 import { filterData } from '../../Utils/transformData/filterData';
 import GraphEl from './GraphEl';
 import { checkIfMultiple } from '../../Utils/checkIfMultiple';
+import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 
 interface Props {
   graphSettings?: any;
@@ -160,7 +161,14 @@ export function SingleGraphDashboard(props: Props) {
           );
         });
       } else {
-        setDataFromFile(dataSettings.data);
+        setDataFromFile(
+          dataSettings.columnsToArray
+            ? transformColumnsToArray(
+                dataSettings.data,
+                dataSettings.columnsToArray,
+              )
+            : dataSettings.data,
+        );
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,

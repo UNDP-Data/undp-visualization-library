@@ -23,6 +23,7 @@ import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { filterData } from '../../Utils/transformData/filterData';
+import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 
 interface Props {
   dashboardId?: string;
@@ -146,7 +147,14 @@ export function MultiGraphDashboard(props: Props) {
           );
         });
       } else {
-        setDataFromFile(dataSettings.data);
+        setDataFromFile(
+          dataSettings.columnsToArray
+            ? transformColumnsToArray(
+                dataSettings.data,
+                dataSettings.columnsToArray,
+              )
+            : dataSettings.data,
+        );
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
