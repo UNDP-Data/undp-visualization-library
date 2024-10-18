@@ -42,6 +42,43 @@ export async function fetchAndParseCSV(
   });
 }
 
+export async function fetchAndParseCSVFromTextBlob(
+  data: string,
+  delimiter?: string,
+  header?: boolean,
+  columnsToArray?: ColumnConfigurationDataType[],
+  debugMode?: boolean,
+) {
+  return new Promise((resolve, reject) => {
+    Papa.parse(data, {
+      skipEmptyLines: true,
+      header: header !== false,
+      delimiter: delimiter || ',',
+      complete(results) {
+        if (debugMode) {
+          console.log('Data from file:', results.data);
+        }
+        if (columnsToArray) {
+          const transformedData = transformColumnsToArray(
+            results.data,
+            columnsToArray,
+          );
+          if (debugMode) {
+            console.log(
+              'Data after transformation of column to array:',
+              transformedData,
+            );
+          }
+          resolve(transformedData);
+        } else resolve(results.data);
+      },
+      error(error: any) {
+        reject(error);
+      },
+    });
+  });
+}
+
 export async function fetchAndParseJSON(
   dataURL: string,
   columnsToArray?: ColumnConfigurationDataType[],
