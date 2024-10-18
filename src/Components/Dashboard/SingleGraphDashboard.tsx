@@ -161,14 +161,13 @@ export function SingleGraphDashboard(props: Props) {
           );
         });
       } else {
-        setDataFromFile(
-          dataSettings.columnsToArray
-            ? transformColumnsToArray(
-                dataSettings.data,
-                dataSettings.columnsToArray,
-              )
-            : dataSettings.data,
-        );
+        const tempData = dataSettings.columnsToArray
+          ? transformColumnsToArray(
+              dataSettings.data,
+              dataSettings.columnsToArray,
+            )
+          : dataSettings.data;
+        setDataFromFile(tempData);
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
@@ -176,12 +175,10 @@ export function SingleGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(dataSettings.data, el.column).map(
-              v => ({
-                value: v,
-                label: v,
-              }),
-            ),
+            availableValues: getUniqValue(tempData, el.column).map(v => ({
+              value: v,
+              label: v,
+            })),
           })) || [],
         );
       }

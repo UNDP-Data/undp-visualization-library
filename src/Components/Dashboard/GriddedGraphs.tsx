@@ -6,7 +6,6 @@ import min from 'lodash.min';
 import {
   AggregationSettingsDataType,
   APISettingsDataType,
-  ColumnConfigurationDataType,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -188,7 +187,7 @@ export function GriddedGraphs(props: Props) {
         const tempData = dataSettings.columnsToArray
           ? transformColumnsToArray(
               dataSettings.data,
-              dataSettings.columnsToArray as ColumnConfigurationDataType[],
+              dataSettings.columnsToArray,
             )
           : dataSettings.data;
         setDataFromFile(tempData);
@@ -204,12 +203,10 @@ export function GriddedGraphs(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(dataSettings.data, el.column).map(
-              v => ({
-                value: v,
-                label: v,
-              }),
-            ),
+            availableValues: getUniqValue(tempData, el.column).map(v => ({
+              value: v,
+              label: v,
+            })),
           })) || [],
         );
       }
