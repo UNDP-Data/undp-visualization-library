@@ -3469,7 +3469,7 @@ export const statCardSettingsSchema = {
       },
     },
   },
-  required: ['data', 'graphTitle', 'source'],
+  required: ['graphTitle'],
 };
 
 export const stripChartSettingsSchema = {
@@ -4394,6 +4394,9 @@ export const singleGraphJSONSchema = {
               },
             ],
           },
+          label: {
+            type: 'string',
+          },
           singleSelect: {
             type: 'boolean',
           },
@@ -4468,11 +4471,11 @@ export const singleGraphJSONSchema = {
                 enum: ['sum', 'average', 'min', 'max'],
               },
             },
-            required: ['column', 'aggregationMethod'],
+            required: ['column'],
           },
         },
       },
-      required: ['keyColumn', 'aggregationColumnsSetting'],
+      required: ['keyColumn'],
     },
     dataFilters: {
       type: 'array',
@@ -4571,6 +4574,9 @@ export const griddedGraphJSONSchema = {
               },
             ],
           },
+          label: {
+            type: 'string',
+          },
           singleSelect: {
             type: 'boolean',
           },
@@ -4645,11 +4651,11 @@ export const griddedGraphJSONSchema = {
                 enum: ['sum', 'average', 'min', 'max'],
               },
             },
-            required: ['column', 'aggregationMethod'],
+            required: ['column'],
           },
         },
       },
-      required: ['keyColumn', 'aggregationColumnsSetting'],
+      required: ['keyColumn'],
     },
     dataFilters: {
       type: 'array',
@@ -4783,7 +4789,7 @@ export const dashboardJSONSchema = {
                               },
                             },
                             type: 'object',
-                            required: ['aggregationMethod', 'column'],
+                            required: ['column'],
                           },
                           type: 'array',
                         },
@@ -4791,7 +4797,7 @@ export const dashboardJSONSchema = {
                           type: 'string',
                         },
                       },
-                      required: ['aggregationColumnsSetting', 'keyColumn'],
+                      required: ['keyColumn'],
                       type: 'object',
                     },
                     graphDataConfiguration: {
@@ -4949,6 +4955,9 @@ export const dashboardJSONSchema = {
                 type: 'string',
               },
             ],
+          },
+          label: {
+            type: 'string',
           },
           singleSelect: {
             type: 'boolean',

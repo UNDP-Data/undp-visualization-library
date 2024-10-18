@@ -326,7 +326,7 @@ export type DashboardColumnDataType = {
   columnWidth?: number;
   dataTransform?: {
     keyColumn: string;
-    aggregationColumnsSetting: AggregationSettingsDataType[];
+    aggregationColumnsSetting?: AggregationSettingsDataType[];
   };
   dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
@@ -340,6 +340,7 @@ export type StatCardsFromDataSheetDataType = {
 
 export type FilterUiSettingsDataType = {
   column: string;
+  label?: string;
   singleSelect?: boolean;
   clearable?: boolean;
   defaultValue?: string[] | string;
@@ -381,7 +382,7 @@ export interface APISettingsDataType {
 
 export interface AggregationSettingsDataType {
   column: string;
-  aggregationMethod: 'sum' | 'average' | 'min' | 'max';
+  aggregationMethod?: 'sum' | 'average' | 'min' | 'max';
 }
 
 export interface SelectedFilterDataType {
@@ -392,6 +393,7 @@ export interface SelectedFilterDataType {
 export interface FilterSettingsDataType {
   filter: string;
   singleSelect?: boolean;
+  label: string;
   clearable?: boolean;
   defaultValue?: string[] | string;
   availableValues: {

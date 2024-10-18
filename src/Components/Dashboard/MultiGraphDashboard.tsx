@@ -101,6 +101,7 @@ export function MultiGraphDashboard(props: Props) {
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
+            label: el.label || `Filter by ${el.column}`,
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
@@ -133,6 +134,7 @@ export function MultiGraphDashboard(props: Props) {
           setFilterSettings(
             filters?.map(el => ({
               filter: el.column,
+              label: el.label || `Filter by ${el.column}`,
               singleSelect: el.singleSelect,
               clearable: el.clearable,
               defaultValue: el.defaultValue,
@@ -148,6 +150,7 @@ export function MultiGraphDashboard(props: Props) {
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
+            label: el.label || `Filter by ${el.column}`,
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
@@ -254,7 +257,7 @@ export function MultiGraphDashboard(props: Props) {
                           textAlign: dashboardLayout.rtl ? 'right' : 'left',
                         }}
                       >
-                        Filter by {d.filter}
+                        {d.label}
                       </p>
                       {d.singleSelect ? (
                         <Select

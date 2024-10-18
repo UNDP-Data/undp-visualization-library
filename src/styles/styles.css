@@ -581,10 +581,9 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   color: #000;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.125rem;
   margin: 0;position: relative;
-  text-transform: uppercase;
   width: 100%;
 }
 

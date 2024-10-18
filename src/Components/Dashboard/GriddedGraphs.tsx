@@ -45,7 +45,7 @@ interface Props {
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
-    aggregationColumnsSetting: AggregationSettingsDataType[];
+    aggregationColumnsSetting?: AggregationSettingsDataType[];
   };
   showCommonColorScale?: boolean;
   dataFilters?: DataFilterDataType[];
@@ -135,6 +135,7 @@ export function GriddedGraphs(props: Props) {
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
+            label: el.label || `Filter by ${el.column}`,
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
@@ -172,6 +173,7 @@ export function GriddedGraphs(props: Props) {
           setFilterSettings(
             filters?.map(el => ({
               filter: el.column,
+              label: el.label || `Filter by ${el.column}`,
               singleSelect: el.singleSelect,
               clearable: el.clearable,
               defaultValue: el.defaultValue,
@@ -198,6 +200,7 @@ export function GriddedGraphs(props: Props) {
         setFilterSettings(
           filters?.map(el => ({
             filter: el.column,
+            label: el.label || `Filter by ${el.column}`,
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
@@ -449,7 +452,7 @@ export function GriddedGraphs(props: Props) {
                           textAlign: graphSettings?.rtl ? 'right' : 'left',
                         }}
                       >
-                        Filter by {d.filter}
+                        {d.label}
                       </p>
                       {d.singleSelect ? (
                         <Select

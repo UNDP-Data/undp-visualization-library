@@ -407,8 +407,8 @@ export function Graph(props: Props) {
               }}
             >
               <div>
-                {colorLegendTitle ? (
-                  <div
+                {colorLegendTitle && colorLegendTitle !== '' ? (
+                  <p
                     style={{
                       lineHeight: 'normal',
                       fontSize: '0.75rem',
@@ -416,11 +416,14 @@ export function Graph(props: Props) {
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
-                      marginBottom: '0.5rem',
+                      margin: '0 0 0.5rem 0',
+                      padding: 0,
+                      fontFamily:
+                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                   >
                     {colorLegendTitle}
-                  </div>
+                  </p>
                 ) : null}
                 <svg width='100%' viewBox='0 0 320 30'>
                   <g>

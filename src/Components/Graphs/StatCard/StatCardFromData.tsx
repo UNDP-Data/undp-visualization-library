@@ -14,7 +14,7 @@ interface Props {
   graphDescription?: string;
   suffix?: string;
   prefix?: string;
-  source: string;
+  source?: string;
   sourceLink?: string;
   footNote?: string;
   backgroundColor?: string | boolean;

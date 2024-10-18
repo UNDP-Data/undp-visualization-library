@@ -22,7 +22,7 @@ interface ConfigObject {
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
-    aggregationColumnsSetting: AggregationSettingsDataType[];
+    aggregationColumnsSetting?: AggregationSettingsDataType[];
   };
   dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];

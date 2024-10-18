@@ -9,7 +9,7 @@ export function transformDataForAggregation(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any,
   keyColumn: string,
-  aggregationSettings: AggregationSettingsDataType[],
+  aggregationSettings?: AggregationSettingsDataType[],
 ) {
   if (typeof data[0][keyColumn] !== 'object') {
     const uniqValues = uniqBy(data, (d: any) => d[keyColumn]).map(d => {
@@ -19,7 +19,7 @@ export function transformDataForAggregation(
         (j: any) => j[keyColumn] === d[keyColumn],
       );
       dataObj.count = filteredData.length;
-      aggregationSettings.forEach(el => {
+      aggregationSettings?.forEach(el => {
         dataObj[el.column] =
           el.aggregationMethod === 'average'
             ? parseFloat(
@@ -49,7 +49,7 @@ export function transformDataForAggregation(
       (j: any) => j[keyColumn].indexOf(d) !== -1,
     );
     dataObj.count = filteredData.length;
-    aggregationSettings.forEach(el => {
+    aggregationSettings?.forEach(el => {
       dataObj[el.column] =
         el.aggregationMethod === 'average'
           ? parseFloat(
