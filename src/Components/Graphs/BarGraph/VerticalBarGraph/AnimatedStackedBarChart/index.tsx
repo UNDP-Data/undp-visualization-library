@@ -59,6 +59,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedVerticalStackedBarChart(props: Props) {
@@ -103,8 +104,10 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
-  const barColors = colors || UNDPColorModule.categoricalColors.colors;
+  const barColors =
+    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -168,7 +171,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -205,6 +208,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -220,7 +224,11 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -257,6 +265,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
+              mode={mode || 'light'}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -335,6 +344,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -347,6 +357,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

@@ -40,6 +40,7 @@ interface Props {
   dateFormat: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -71,6 +72,7 @@ export function Graph(props: Props) {
     indx,
     rtl,
     language,
+    mode,
   } = props;
   const groupedData = Array.from(
     group(
@@ -347,7 +349,10 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={masterPath}
                                 style={{
-                                  stroke: UNDPColorModule.grays['gray-700'],
+                                  stroke:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-700'
+                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -371,7 +376,10 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={path}
                                 style={{
-                                  stroke: UNDPColorModule.grays['gray-700'],
+                                  stroke:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-700'
+                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -392,7 +400,8 @@ export function Graph(props: Props) {
         >
           <div
             style={{
-              backgroundColor: 'rgba(255,255,255,0.75)',
+              backgroundColor:
+                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               padding: '1rem',
               display: 'flex',
@@ -453,7 +462,11 @@ export function Graph(props: Props) {
                           height={8}
                           fill={colors[i]}
                           stroke={
-                            selectedColor === colors[i] ? '#212121' : colors[i]
+                            selectedColor === colors[i]
+                              ? UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ]
+                              : colors[i]
                           }
                         />
                         <text
@@ -465,13 +478,15 @@ export function Graph(props: Props) {
                           y={25}
                           textAnchor='middle'
                           fontSize={12}
-                          fill='#212121'
                           style={{
                             fontFamily: rtl
                               ? language === 'he'
                                 ? 'Noto Sans Hebrew, sans-serif'
                                 : 'Noto Sans Arabic, sans-serif'
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                           }}
                         >
                           {categorical
@@ -496,7 +511,9 @@ export function Graph(props: Props) {
                           fill={colors[domain.length]}
                           stroke={
                             selectedColor === colors[domain.length]
-                              ? '#212121'
+                              ? UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ]
                               : colors[domain.length]
                           }
                           strokeWidth={1}
@@ -519,6 +536,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

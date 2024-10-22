@@ -37,6 +37,8 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   labelOrder?: string[];
+  mode: 'light' | 'dark';
+  maxBarWidth?: number;
 }
 
 export function Graph(props: Props) {
@@ -65,6 +67,8 @@ export function Graph(props: Props) {
     rtl,
     language,
     labelOrder,
+    mode,
+    maxBarWidth,
   } = props;
   const margin = {
     top: topMargin,
@@ -92,7 +96,12 @@ export function Graph(props: Props) {
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const x = scaleBand()
     .domain(barOrder)
-    .range([0, graphWidth])
+    .range([
+      0,
+      maxBarWidth
+        ? Math.min(graphWidth, maxBarWidth * barOrder.length)
+        : graphWidth,
+    ])
     .paddingInner(barPadding);
   const yTicks = y.ticks(5);
   return (
@@ -109,7 +118,7 @@ export function Graph(props: Props) {
             x1={0 - margin.left}
             x2={graphWidth + margin.right}
             style={{
-              stroke: UNDPColorModule.grays['gray-700'],
+              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
             }}
             strokeWidth={1}
           />
@@ -117,7 +126,7 @@ export function Graph(props: Props) {
             x={0 - margin.left + 2}
             y={y(0)}
             style={{
-              fill: UNDPColorModule.grays['gray-700'],
+              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontFamily: rtl
                 ? language === 'he'
                   ? 'Noto Sans Hebrew, sans-serif'
@@ -140,7 +149,8 @@ export function Graph(props: Props) {
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
                     style={{
-                      stroke: UNDPColorModule.grays['gray-500'],
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -159,7 +169,7 @@ export function Graph(props: Props) {
                           ? 'Noto Sans Hebrew, sans-serif'
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule.grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -295,7 +305,7 @@ export function Graph(props: Props) {
                     x={x.bandwidth() / 2}
                     y={y(0)}
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
@@ -314,7 +324,7 @@ export function Graph(props: Props) {
                 {showValues ? (
                   <text
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '1rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
@@ -348,7 +358,9 @@ export function Graph(props: Props) {
                           x={(x(`${d}`) as number) + x.bandwidth() / 2}
                           y={y(0)}
                           style={{
-                            fill: UNDPColorModule.grays['gray-700'],
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                             fontSize: '0.75rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
@@ -369,7 +381,9 @@ export function Graph(props: Props) {
                           x={(x(`${d}`) as number) + x.bandwidth() / 2}
                           y={y(0)}
                           style={{
-                            fill: UNDPColorModule.grays['gray-700'],
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                             fontSize: '1rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
@@ -397,7 +411,9 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || UNDPColorModule.grays['gray-700'],
+                      stroke:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -411,7 +427,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fill:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
@@ -438,6 +456,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

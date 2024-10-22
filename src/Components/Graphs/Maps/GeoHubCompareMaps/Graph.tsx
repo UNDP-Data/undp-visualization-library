@@ -14,6 +14,7 @@ interface Props {
   mapStyles: [string, string];
   center: [number, number];
   zoomLevel: number;
+  mode: 'light' | 'dark';
 }
 
 function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
@@ -47,7 +48,7 @@ function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
 }
 
 export function Graph(props: Props) {
-  const { height, width, mapStyles, center, zoomLevel } = props;
+  const { height, width, mapStyles, center, zoomLevel, mode } = props;
   const [sliderPosition, setSliderPosition] = useState(width / 2);
   const graphDiv = useRef<HTMLDivElement>(null);
   const leftMapRef = useRef<HTMLDivElement>(null);
@@ -177,7 +178,8 @@ export function Graph(props: Props) {
             >
               <div
                 style={{
-                  backgroundColor: UNDPColorModule.primaryColors['blue-600'],
+                  backgroundColor:
+                    UNDPColorModule[mode || 'light'].primaryColors['blue-600'],
                   boxShadow: 'inset 0 0 0 1px #fff',
                   display: 'flex',
                   borderRadius: '50%',

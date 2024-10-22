@@ -18,12 +18,10 @@ import {
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import GraphEl from './GraphEl';
-import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
-import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
 import { GraphHeader } from '../Elements/GraphHeader';
-import { filterData } from '../../Utils/transformData/filterData';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+import { SingleGraphDashboard } from './SingleGraphDashboard';
 
 interface Props {
   dashboardId?: string;
@@ -32,6 +30,11 @@ interface Props {
   dataFromAPISettings?: APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
   debugMode?: boolean;
+  mode?: 'dark' | 'light';
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -48,6 +51,8 @@ export function MultiGraphDashboard(props: Props) {
     filters,
     debugMode,
     dataFromAPISettings,
+    mode,
+    readableHeader,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -177,7 +182,7 @@ export function MultiGraphDashboard(props: Props) {
         style={{
           textAlign: 'center',
           padding: '0.5rem',
-          color: '#D12800',
+          color: UNDPColorModule[mode || 'light'].alerts.darkRed,
           fontSize: '0.875rem',
         }}
       >
@@ -199,7 +204,7 @@ export function MultiGraphDashboard(props: Props) {
         backgroundColor: !dashboardLayout.backgroundColor
           ? 'transparent'
           : dashboardLayout.backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
@@ -229,6 +234,8 @@ export function MultiGraphDashboard(props: Props) {
               language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
+              mode={mode || 'light'}
+              isDashboard
             />
           ) : null}
           {data ? (
@@ -308,12 +315,27 @@ export function MultiGraphDashboard(props: Props) {
                               },
                               colors: {
                                 ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
+                                danger:
+                                  UNDPColorModule[mode || 'light'].alerts
+                                    .darkRed,
+                                dangerLight:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                neutral10:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                primary50:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-400'],
+                                primary25:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-200'
+                                  ],
+                                primary:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-600'],
                               },
                             };
                           }}
@@ -363,12 +385,27 @@ export function MultiGraphDashboard(props: Props) {
                               },
                               colors: {
                                 ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
+                                danger:
+                                  UNDPColorModule[mode || 'light'].alerts
+                                    .darkRed,
+                                dangerLight:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                neutral10:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                primary50:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-400'],
+                                primary25:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-200'
+                                  ],
+                                primary:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-600'],
                               },
                             };
                           }}
@@ -410,37 +447,49 @@ export function MultiGraphDashboard(props: Props) {
                         flexGrow: 1,
                       }}
                     >
-                      <GraphEl
-                        graph={el.graphType}
-                        graphDataConfiguration={el.graphDataConfiguration}
-                        graphData={
-                          el.graphType === 'geoHubCompareMap' ||
-                          el.graphType === 'geoHubMap'
-                            ? data
-                            : transformDataForGraph(
-                                el.dataTransform
-                                  ? transformDataForAggregation(
-                                      filterData(data, el.dataFilters || []),
-                                      el.dataTransform.keyColumn,
-                                      el.dataTransform
-                                        .aggregationColumnsSetting,
-                                    )
-                                  : filterData(data, el.dataFilters || []),
-                                el.graphType,
-                                el.graphDataConfiguration,
-                              )
-                        }
-                        debugMode={debugMode}
-                        settings={{
-                          ...el.settings,
-                          width: undefined,
-                          height: undefined,
-                          radius: undefined,
-                          size: undefined,
-                          rtl: dashboardLayout.rtl,
-                          language: dashboardLayout.language,
-                        }}
-                      />
+                      {el.graphType === 'geoHubCompareMap' ||
+                      el.graphType === 'geoHubMap' ? (
+                        <GraphEl
+                          graph={el.graphType}
+                          graphDataConfiguration={el.graphDataConfiguration}
+                          graphData={data}
+                          debugMode={debugMode}
+                          settings={{
+                            ...el.settings,
+                            width: undefined,
+                            height: undefined,
+                            radius: undefined,
+                            size: undefined,
+                            rtl: dashboardLayout.rtl,
+                            language: dashboardLayout.language,
+                            mode: mode || el.settings?.mode,
+                          }}
+                          readableHeader={readableHeader || []}
+                        />
+                      ) : (
+                        <SingleGraphDashboard
+                          graphType={el.graphType}
+                          dataFilters={el.dataFilters}
+                          graphSettings={{
+                            ...el.settings,
+                            width: undefined,
+                            height: undefined,
+                            radius: undefined,
+                            size: undefined,
+                            rtl: dashboardLayout.rtl,
+                            language: dashboardLayout.language,
+                            mode: mode || el.settings?.mode,
+                          }}
+                          dataSettings={{
+                            data,
+                          }}
+                          dataTransform={el.dataTransform}
+                          dataSelectionOptions={el.dataSelectionOptions}
+                          graphDataConfiguration={el.graphDataConfiguration}
+                          debugMode={debugMode}
+                          readableHeader={readableHeader || []}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>

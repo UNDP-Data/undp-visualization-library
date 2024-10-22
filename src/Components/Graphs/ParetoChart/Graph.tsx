@@ -29,6 +29,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -52,6 +53,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -245,7 +247,7 @@ export function Graph(props: Props) {
               x1={-15}
               x2={graphWidth + 15}
               style={{
-                stroke: UNDPColorModule.grays['gray-500'],
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -303,7 +305,7 @@ export function Graph(props: Props) {
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y1(0)}
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
@@ -395,6 +397,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

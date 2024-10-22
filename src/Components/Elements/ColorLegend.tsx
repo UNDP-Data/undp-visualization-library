@@ -9,6 +9,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   isCenter?: boolean;
+  mode: 'dark' | 'light';
 }
 
 export function ColorLegend(props: Props) {
@@ -21,6 +22,7 @@ export function ColorLegend(props: Props) {
     rtl,
     language,
     isCenter,
+    mode,
   } = props;
 
   return (
@@ -39,7 +41,7 @@ export function ColorLegend(props: Props) {
               rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
             }undp-viz-typography`}
             style={{
-              fill: UNDPColorModule.grays['gray-700'],
+              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
               marginBottom: '0.5rem',
@@ -105,7 +107,7 @@ export function ColorLegend(props: Props) {
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
-                  backgroundColor: UNDPColorModule.graphGray,
+                  backgroundColor: UNDPColorModule[mode || 'light'].graphGray,
                 }}
               />
               <p

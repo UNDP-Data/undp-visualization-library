@@ -63,6 +63,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -111,6 +112,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
     language,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -174,7 +176,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -199,6 +201,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
+              mode={mode || 'light'}
               rtl={rtl}
               language={language}
               graphTitle={graphTitle}
@@ -226,7 +229,11 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -263,7 +270,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -278,6 +285,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -298,9 +306,14 @@ export function AnimatedHorizontalBarChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -386,6 +399,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -398,6 +412,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

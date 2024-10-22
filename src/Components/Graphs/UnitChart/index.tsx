@@ -29,6 +29,7 @@ interface Props {
   graphLegend?: boolean;
   showStrokeForWhiteDots?: boolean;
   note?: string;
+  mode?: 'light' | 'dark';
 }
 
 export function UnitChart(props: Props) {
@@ -55,6 +56,7 @@ export function UnitChart(props: Props) {
     showStrokeForWhiteDots,
     note,
     dataDownload,
+    mode,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
   const totalValue = sum(data.map(d => d.value));
@@ -75,7 +77,8 @@ export function UnitChart(props: Props) {
     const count = Math.round((item.value / totalValue) * maxValue);
     for (let i = 0; i < count; i += 1) {
       cellsData.push({
-        color: (colors || UNDPColorModule.categoricalColors.colors)[index],
+        color: (colors ||
+          UNDPColorModule[mode || 'light'].categoricalColors.colors)[index],
       });
     }
   });
@@ -92,7 +95,7 @@ export function UnitChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -129,6 +132,7 @@ export function UnitChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           {note ? (
@@ -139,6 +143,7 @@ export function UnitChart(props: Props) {
                 fontWeight: 'bold',
                 marginBottom: '0.25rem',
                 marginTop: 0,
+                color: UNDPColorModule[mode || 'light'].grays.black,
               }}
             >
               {note}
@@ -174,7 +179,8 @@ export function UnitChart(props: Props) {
                         borderRadius: '1rem',
                         backgroundColor: colors
                           ? colors[i]
-                          : UNDPColorModule.categoricalColors.colors[i],
+                          : UNDPColorModule[mode || 'light'].categoricalColors
+                              .colors[i],
                       }}
                     />
                     <p
@@ -182,6 +188,7 @@ export function UnitChart(props: Props) {
                       style={{
                         marginBottom: 0,
                         fontSize: '0.875rem',
+                        color: UNDPColorModule[mode || 'light'].grays.black,
                       }}
                     >
                       {d.label}:{' '}
@@ -228,7 +235,7 @@ export function UnitChart(props: Props) {
                           d.color.toLowerCase() === '#ffffff' ||
                           d.color.toLowerCase() === 'white') &&
                         showStrokeForWhiteDots !== false
-                          ? '#A9B1B7'
+                          ? UNDPColorModule[mode || 'light'].grays['gray-400']
                           : d.color,
                       strokeWidth: 1,
                     }}
@@ -246,6 +253,7 @@ export function UnitChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={fillContainer === false ? size || 200 : undefined}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

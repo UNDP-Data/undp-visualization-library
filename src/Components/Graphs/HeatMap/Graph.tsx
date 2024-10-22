@@ -33,6 +33,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -60,6 +61,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const margin = {
     top: topMargin,
@@ -134,7 +136,8 @@ export function Graph(props: Props) {
                         textAlign: 'center',
                         lineHeight: '1.15',
                         marginBottom: 0,
-                        color: UNDPColorModule.grays['gray-600'],
+                        color:
+                          UNDPColorModule[mode || 'light'].grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -181,7 +184,8 @@ export function Graph(props: Props) {
                         textAlign: 'right',
                         lineHeight: '1.15',
                         marginBottom: 0,
-                        color: UNDPColorModule.grays['gray-600'],
+                        color:
+                          UNDPColorModule[mode || 'light'].grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -205,7 +209,7 @@ export function Graph(props: Props) {
                   height={barHeight}
                   fill={noDataColor}
                   strokeWidth={1}
-                  stroke={UNDPColorModule.grays.white}
+                  stroke={UNDPColorModule[mode || 'light'].grays.white}
                 />
               ))}
             </g>
@@ -264,7 +268,7 @@ export function Graph(props: Props) {
                     height={barHeight}
                     fill={color}
                     strokeWidth={1}
-                    stroke={UNDPColorModule.grays.white}
+                    stroke={UNDPColorModule[mode || 'light'].grays.white}
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
                     <foreignObject
@@ -276,7 +280,9 @@ export function Graph(props: Props) {
                     >
                       <div
                         style={{
-                          fill: UNDPColorModule.grays['gray-600'],
+                          fill: UNDPColorModule[mode || 'light'].grays[
+                            'gray-600'
+                          ],
                           fontFamily: rtl
                             ? language === 'he'
                               ? 'Noto Sans Hebrew, sans-serif'
@@ -321,7 +327,7 @@ export function Graph(props: Props) {
               fill='none'
               fillOpacity={0}
               strokeWidth={1.5}
-              stroke={UNDPColorModule.grays['gray-700']}
+              stroke={UNDPColorModule[mode || 'light'].grays['gray-700']}
             />
           ) : null}
         </g>
@@ -334,6 +340,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

@@ -57,6 +57,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedVerticalDumbbellChart(props: Props) {
@@ -104,6 +105,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -126,7 +128,8 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
 
-  const dotColors = colors || UNDPColorModule.categoricalColors.colors;
+  const dotColors =
+    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [play, setPlay] = useState(autoPlay || false);
 
@@ -171,7 +174,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -208,6 +211,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -223,7 +227,11 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -260,6 +268,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
+              mode={mode || 'light'}
             />
             <div
               style={{
@@ -355,6 +364,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -367,6 +377,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

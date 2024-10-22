@@ -7,6 +7,7 @@ import {
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { MultiGraphDashboard } from './MultiGraphDashboard';
 import { validateConfigSchema } from '../../Utils/validateSchema';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface ConfigObject {
   dashboardId?: string;
@@ -14,6 +15,11 @@ interface ConfigObject {
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   debugMode?: boolean;
+  mode?: 'dark' | 'light';
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 interface Props {
@@ -44,7 +50,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
         style={{
           textAlign: 'center',
           padding: '0.5rem',
-          color: '#D12800',
+          color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
           fontSize: '0.875rem',
         }}
       >
@@ -58,6 +64,8 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       dataSettings={configSettings.dataSettings}
       filters={configSettings.filters}
       debugMode={configSettings.debugMode}
+      mode={configSettings.mode}
+      readableHeader={configSettings.readableHeader}
     />
   );
 }

@@ -11,6 +11,7 @@ interface Props {
   naColor?: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'dark' | 'light';
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -23,6 +24,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     naColor,
     rtl,
     language,
+    mode,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -43,7 +45,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <p
           style={{
-            fill: UNDPColorModule.grays['gray-700'],
+            fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
@@ -81,15 +83,19 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 width={mainColorWidth / colors.length - 2}
                 height={8}
                 fill={colors[i]}
-                stroke={hoveredColor === colors[i] ? '#212121' : colors[i]}
+                stroke={
+                  hoveredColor === colors[i]
+                    ? UNDPColorModule[mode || 'light'].grays['gray-700']
+                    : colors[i]
+                }
               />
               <text
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
                 textAnchor='middle'
                 fontSize={12}
-                fill='#212121'
                 style={{
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -118,7 +124,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               fill={colors[colorDomain.length]}
               stroke={
                 hoveredColor === colors[colorDomain.length]
-                  ? '#212121'
+                  ? UNDPColorModule[mode || 'light'].grays['gray-700']
                   : colors[colorDomain.length]
               }
               strokeWidth={1}
@@ -143,7 +149,11 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 width={24}
                 height={8}
                 fill={naColor || '#D4D6D8'}
-                stroke={hoveredColor === naColor ? '#212121' : naColor}
+                stroke={
+                  hoveredColor === naColor
+                    ? UNDPColorModule[mode || 'light'].grays['gray-700']
+                    : naColor
+                }
                 strokeWidth={1}
               />
               <text
@@ -151,8 +161,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={25}
                 textAnchor='start'
                 fontSize={12}
-                fill='#212121'
                 style={{
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'

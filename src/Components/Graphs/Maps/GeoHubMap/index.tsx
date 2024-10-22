@@ -6,6 +6,8 @@ import { select } from 'd3-selection';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { fetchAndParseJSON } from '../../../../Utils/fetchAndParseData';
+import { filterData } from '../../../../Utils/transformData/filterData';
 
 interface Props {
   mapStyle: string;
@@ -25,6 +27,9 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
+  includeLayers?: string[];
+  excludeLayers?: string[];
 }
 
 export function GeoHubMap(props: Props) {
@@ -46,6 +51,9 @@ export function GeoHubMap(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
+    includeLayers,
+    excludeLayers,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -65,32 +73,54 @@ export function GeoHubMap(props: Props) {
   }, [graphDiv?.current, width]);
   useEffect(() => {
     if (mapContainer.current && svgWidth) {
-      const mapDiv = select(mapContainer.current);
-      mapDiv.selectAll('div').remove();
-      const protocol = new pmtiles.Protocol();
-      maplibreGl.addProtocol('pmtiles', protocol.tile);
-      const mapObj: any = {
-        container: mapContainer.current as any,
-        style: mapStyle,
-      };
-      if (center) {
-        mapObj.center = center;
-      }
-      if (zoomLevel) {
-        mapObj.zoom = zoomLevel;
-      }
-      const map = new maplibreGl.Map(mapObj);
-      map.addControl(
-        new maplibreGl.NavigationControl({
-          visualizePitch: true,
-          showZoom: true,
-          showCompass: true,
-        }),
-        'bottom-right',
-      );
-      map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+      fetchAndParseJSON(mapStyle).then(d => {
+        const mapDiv = select(mapContainer.current);
+        mapDiv.selectAll('div').remove();
+        const protocol = new pmtiles.Protocol();
+        maplibreGl.addProtocol('pmtiles', protocol.tile);
+        const mapObj: any = {
+          container: mapContainer.current as any,
+          style:
+            !includeLayers && !excludeLayers
+              ? d
+              : {
+                  ...d,
+                  layers: filterData(d.layers, [
+                    {
+                      column: 'id',
+                      includeValues: includeLayers,
+                      excludeValues: excludeLayers,
+                    },
+                  ]),
+                },
+        };
+        if (center) {
+          mapObj.center = center;
+        }
+        if (zoomLevel) {
+          mapObj.zoom = zoomLevel;
+        }
+        const map = new maplibreGl.Map(mapObj);
+        map.addControl(
+          new maplibreGl.NavigationControl({
+            visualizePitch: true,
+            showZoom: true,
+            showCompass: true,
+          }),
+          'bottom-right',
+        );
+        map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+      });
     }
-  }, [mapContainer.current, svgWidth, mapStyle, center, zoomLevel]);
+  }, [
+    mapContainer.current,
+    svgWidth,
+    mapStyle,
+    center,
+    zoomLevel,
+    includeLayers,
+    excludeLayers,
+  ]);
   return (
     <div
       style={{
@@ -104,7 +134,7 @@ export function GeoHubMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -133,6 +163,7 @@ export function GeoHubMap(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -176,6 +207,7 @@ export function GeoHubMap(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

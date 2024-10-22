@@ -8,6 +8,7 @@ interface Props {
   nodeID: string | HTMLElement;
   filename?: string;
   buttonSmall?: boolean;
+  mode?: 'dark' | 'light';
 }
 
 export function SVGDownloadButton(props: Props) {
@@ -18,13 +19,14 @@ export function SVGDownloadButton(props: Props) {
     buttonType,
     buttonArrow,
     buttonSmall,
+    mode,
   } = props;
   return (
     <button
       type='button'
       className={`undp-viz-download-button undp-viz-button button-${
         buttonType || 'quaternary'
-      }${buttonArrow ? ' button-arrow' : ''}`}
+      }${mode === 'dark' ? ' dark' : ''}${buttonArrow ? ' button-arrow' : ''}`}
       style={{
         padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
       }}
@@ -43,7 +45,7 @@ export function SVGDownloadButton(props: Props) {
         }
       }}
     >
-      {buttonContent || <ImageDown />}
+      {buttonContent || <ImageDown mode={mode || 'light'} />}
     </button>
   );
 }

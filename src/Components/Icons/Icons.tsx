@@ -1,4 +1,11 @@
-export function FileDown() {
+import { UNDPColorModule } from '../ColorPalette';
+
+interface Props {
+  mode: 'light' | 'dark';
+}
+
+export function FileDown(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -6,7 +13,7 @@ export function FileDown() {
       height='20'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='#000000'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -19,7 +26,8 @@ export function FileDown() {
   );
 }
 
-export function ImageDown() {
+export function ImageDown(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -27,7 +35,7 @@ export function ImageDown() {
       height='20'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='#000000'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -40,7 +48,8 @@ export function ImageDown() {
   );
 }
 
-export function Copy() {
+export function Copy(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -48,7 +57,7 @@ export function Copy() {
       height='20'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='#000000'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -229,7 +238,8 @@ export function ChevronLeftRight() {
   );
 }
 
-export function Play() {
+export function Play(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -240,14 +250,15 @@ export function Play() {
       <circle cx={24} cy={24} r={24} fill='#EDEFF0' />
       <polygon
         points='6 3 20 12 6 21 6 3'
-        fill='#D12800'
+        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
         transform='translate(10,10) scale(1.25)'
       />
     </svg>
   );
 }
 
-export function Pause() {
+export function Pause(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -262,7 +273,7 @@ export function Pause() {
         width='4'
         height='16'
         rx='1'
-        fill='#D12800'
+        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
         transform='translate(10,10) scale(1.25)'
       />
       <rect
@@ -271,7 +282,7 @@ export function Pause() {
         width='4'
         height='16'
         rx='1'
-        fill='#D12800'
+        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
         transform='translate(10,10) scale(1.25)'
       />
     </svg>

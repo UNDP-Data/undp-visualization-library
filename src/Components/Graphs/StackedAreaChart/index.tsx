@@ -49,6 +49,7 @@ interface Props {
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function AreaChart(props: Props) {
@@ -89,6 +90,7 @@ export function AreaChart(props: Props) {
     minHeight,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -108,7 +110,8 @@ export function AreaChart(props: Props) {
     return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
 
-  const areaColors = colors || UNDPColorModule.categoricalColors.colors;
+  const areaColors =
+    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   return (
     <div
@@ -123,7 +126,7 @@ export function AreaChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -160,6 +163,7 @@ export function AreaChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -180,6 +184,7 @@ export function AreaChart(props: Props) {
                 colors={areaColors}
                 colorLegendTitle={colorLegendTitle}
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -234,7 +239,8 @@ export function AreaChart(props: Props) {
                   minValue={minValue}
                   maxValue={maxValue}
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
@@ -242,6 +248,7 @@ export function AreaChart(props: Props) {
                   customHighlightAreaSettings={
                     customHighlightAreaSettings || []
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -254,6 +261,7 @@ export function AreaChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

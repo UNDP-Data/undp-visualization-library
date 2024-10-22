@@ -45,6 +45,7 @@ interface Props {
   connectorStrokeWidth: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -78,6 +79,7 @@ export function Graph(props: Props) {
     connectorStrokeWidth,
     rtl,
     language,
+    mode,
   } = props;
 
   const dataFormatted = sortBy(
@@ -180,7 +182,7 @@ export function Graph(props: Props) {
             >
               <path
                 d='M 0 0 L 10 5 L 0 10 z'
-                fill={UNDPColorModule.grays['gray-600']}
+                fill={UNDPColorModule[mode || 'light'].grays['gray-600']}
               />
             </marker>
           </defs>
@@ -192,7 +194,7 @@ export function Graph(props: Props) {
             x1={0 - margin.left}
             x2={graphWidth + margin.right}
             style={{
-              stroke: UNDPColorModule.grays['gray-700'],
+              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
             }}
             strokeWidth={1}
           />
@@ -200,7 +202,7 @@ export function Graph(props: Props) {
             x={0 - margin.left + 2}
             y={y(0)}
             style={{
-              fill: UNDPColorModule.grays['gray-700'],
+              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontFamily: rtl
                 ? language === 'he'
                   ? 'Noto Sans Hebrew, sans-serif'
@@ -223,7 +225,8 @@ export function Graph(props: Props) {
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
                     style={{
-                      stroke: UNDPColorModule.grays['gray-500'],
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -242,7 +245,7 @@ export function Graph(props: Props) {
                           ? 'Noto Sans Hebrew, sans-serif'
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule.grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -259,7 +262,7 @@ export function Graph(props: Props) {
                 {showLabels ? (
                   <motion.text
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
@@ -282,7 +285,7 @@ export function Graph(props: Props) {
                 ) : null}
                 <motion.line
                   style={{
-                    stroke: UNDPColorModule.grays['gray-600'],
+                    stroke: UNDPColorModule[mode || 'light'].grays['gray-600'],
                     strokeWidth: connectorStrokeWidth,
                   }}
                   opacity={selectedColor ? 0.3 : 1}
@@ -407,6 +410,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

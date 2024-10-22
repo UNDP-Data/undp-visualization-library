@@ -29,6 +29,7 @@ interface Props {
   highlightTargets: string[];
   boxHeight: number;
   boxPadding: number;
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -55,6 +56,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const margin = {
     top: topMargin,
@@ -1713,6 +1715,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

@@ -22,6 +22,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function GeoHubCompareMaps(props: Props) {
@@ -43,6 +44,7 @@ export function GeoHubCompareMaps(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -71,7 +73,7 @@ export function GeoHubCompareMaps(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -100,6 +102,7 @@ export function GeoHubCompareMaps(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -128,6 +131,7 @@ export function GeoHubCompareMaps(props: Props) {
                 mapStyles={mapStyles}
                 center={center || [0, 0]}
                 zoomLevel={zoomLevel || 3}
+                mode={mode || 'light'}
               />
             ) : null}
           </div>
@@ -139,6 +143,7 @@ export function GeoHubCompareMaps(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

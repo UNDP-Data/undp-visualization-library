@@ -51,6 +51,7 @@ interface Props {
   showDots?: boolean;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function SimpleLineChart(props: Props) {
@@ -94,6 +95,7 @@ export function SimpleLineChart(props: Props) {
     showDots,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -124,7 +126,7 @@ export function SimpleLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -161,6 +163,7 @@ export function SimpleLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -176,7 +179,10 @@ export function SimpleLineChart(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                color={color || UNDPColorModule.primaryColors['blue-600']}
+                color={
+                  color ||
+                  UNDPColorModule[mode || 'light'].primaryColors['blue-600']
+                }
                 width={width || svgWidth}
                 height={
                   height ||
@@ -222,7 +228,8 @@ export function SimpleLineChart(props: Props) {
                 minValue={minValue}
                 maxValue={maxValue}
                 highlightAreaColor={
-                  highlightAreaColor || UNDPColorModule.grays['gray-300']
+                  highlightAreaColor ||
+                  UNDPColorModule[mode || 'light'].grays['gray-300']
                 }
                 animateLine={animateLine}
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
@@ -231,6 +238,7 @@ export function SimpleLineChart(props: Props) {
                 showDots={showDots !== false}
                 annotations={annotations || []}
                 customHighlightAreaSettings={customHighlightAreaSettings || []}
+                mode={mode || 'light'}
               />
             ) : null}
           </div>
@@ -242,6 +250,7 @@ export function SimpleLineChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

@@ -49,6 +49,8 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
+  maxBarWidth?: number;
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -93,6 +95,8 @@ export function VerticalDumbbellChart(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
+    maxBarWidth,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -115,7 +119,8 @@ export function VerticalDumbbellChart(props: Props) {
     return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
 
-  const dotColors = colors || UNDPColorModule.categoricalColors.colors;
+  const dotColors =
+    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   return (
     <div
@@ -130,7 +135,7 @@ export function VerticalDumbbellChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -167,6 +172,7 @@ export function VerticalDumbbellChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -188,6 +194,7 @@ export function VerticalDumbbellChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
+              mode={mode || 'light'}
             />
             <div
               style={{
@@ -296,6 +303,8 @@ export function VerticalDumbbellChart(props: Props) {
                   }
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
+                  maxBarWidth={maxBarWidth}
                 />
               ) : null}
             </div>
@@ -308,6 +317,7 @@ export function VerticalDumbbellChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

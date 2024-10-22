@@ -32,6 +32,7 @@ interface Props {
   data: any;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  mode?: 'light' | 'dark';
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -55,6 +56,7 @@ export function DataTable(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
@@ -136,6 +138,7 @@ export function DataTable(props: Props) {
             graphTitle={graphTitle}
             graphDescription={graphDescription}
             width={width}
+            mode={mode || 'light'}
           />
         ) : null}
         <div
@@ -159,7 +162,8 @@ export function DataTable(props: Props) {
                   style={{
                     fontWeight: '600',
                     textAlign: 'left',
-                    backgroundColor: UNDPColorModule.grays['gray-300'],
+                    backgroundColor:
+                      UNDPColorModule[mode || 'light'].grays['gray-300'],
                   }}
                 >
                   <tr>
@@ -259,8 +263,15 @@ export function DataTable(props: Props) {
                                         ? rect.left + window.scrollX
                                         : rect.left + window.scrollX - 160,
                                     padding: '0.75rem',
-                                    background: `${UNDPColorModule.grays.white}`,
-                                    border: `1px solid ${UNDPColorModule.grays['gray-300']}`,
+                                    background: `${
+                                      UNDPColorModule[mode || 'light'].grays
+                                        .white
+                                    }`,
+                                    border: `1px solid ${
+                                      UNDPColorModule[mode || 'light'].grays[
+                                        'gray-300'
+                                      ]
+                                    }`,
                                     zIndex: '1000',
                                     borderRadius: '2px',
                                     width: '10rem',
@@ -289,10 +300,12 @@ export function DataTable(props: Props) {
                     <tr
                       key={i}
                       style={{
-                        borderBottom: `1px solid ${UNDPColorModule.grays['gray-400']}`,
+                        borderBottom: `1px solid ${
+                          UNDPColorModule[mode || 'light'].grays['gray-400']
+                        }`,
                         cursor: onSeriesMouseClick ? 'pointer' : 'auto',
                         backgroundColor: isEqual(mouseClickData, d)
-                          ? UNDPColorModule.grays['gray-200']
+                          ? UNDPColorModule[mode || 'light'].grays['gray-200']
                           : 'transparent',
                       }}
                       onClick={() => {
@@ -351,7 +364,9 @@ export function DataTable(props: Props) {
                                             c => c.value === d[el.columnId],
                                           )
                                         ].color
-                                      : UNDPColorModule.grays['gray-300']
+                                      : UNDPColorModule[mode || 'light'].grays[
+                                          'gray-300'
+                                        ]
                                     : 'transparent',
                                   padding: el.chip ? '0.5rem' : 0,
                                   width: 'fit-content',
@@ -395,9 +410,8 @@ export function DataTable(props: Props) {
                                                       d[el.columnId],
                                                   )
                                                 ].color
-                                              : UNDPColorModule.grays[
-                                                  'gray-300'
-                                                ]
+                                              : UNDPColorModule[mode || 'light']
+                                                  .grays['gray-300']
                                             : 'transparent',
                                           padding: el.chip ? '0.5rem' : 0,
                                           width: 'fit-content',
@@ -425,7 +439,8 @@ export function DataTable(props: Props) {
                                               c => c.value === d[el.columnId],
                                             )
                                           ].color
-                                        : UNDPColorModule.grays['gray-300']
+                                        : UNDPColorModule[mode || 'light']
+                                            .grays['gray-300']
                                       : 'transparent',
                                     padding: el.chip ? '0.5rem' : 0,
                                     width: 'fit-content',
@@ -456,6 +471,7 @@ export function DataTable(props: Props) {
             sourceLink={sourceLink}
             footNote={footNote}
             width={width}
+            mode={mode || 'light'}
           />
         ) : null}
       </div>

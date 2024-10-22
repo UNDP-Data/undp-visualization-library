@@ -88,9 +88,7 @@ export { AnimatedDotDensityMap } from './Components/Graphs/Maps/DotDensityMap/An
 // Animated Scatter Plot
 export { AnimatedScatterPlot } from './Components/Graphs/ScatterPlot/AnimatedScatterPlot';
 
-/* ------- All Button & Card Slider Components ------- */
-// Card slider
-export { CardsSlider } from './Components/CardsSlider';
+/* ------- All Button ------- */
 // Utility Buttons
 export { ExcelDownloadButton } from './Components/Actions/ExcelDownloadButton';
 export { ImageDownloadButton } from './Components/Actions/ImageDownloadButton';

@@ -58,6 +58,7 @@ interface Props {
   showDots?: boolean;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function MultiLineChart(props: Props) {
@@ -105,6 +106,7 @@ export function MultiLineChart(props: Props) {
     showDots,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -137,7 +139,7 @@ export function MultiLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -174,6 +176,7 @@ export function MultiLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -192,8 +195,12 @@ export function MultiLineChart(props: Props) {
                 language={language}
                 colorDomain={labels}
                 colorLegendTitle={colorLegendTitle}
-                colors={colors || UNDPColorModule.categoricalColors.colors}
+                colors={
+                  colors ||
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                }
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -203,7 +210,10 @@ export function MultiLineChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  colors={colors || UNDPColorModule.categoricalColors.colors}
+                  colors={
+                    colors ||
+                    UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  }
                   width={width || svgWidth}
                   height={
                     height ||
@@ -256,7 +266,8 @@ export function MultiLineChart(props: Props) {
                   maxValue={maxValue}
                   highlightedLines={highlightedLines || []}
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   animateLine={animateLine}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
@@ -267,6 +278,7 @@ export function MultiLineChart(props: Props) {
                   customHighlightAreaSettings={
                     customHighlightAreaSettings || []
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -279,6 +291,7 @@ export function MultiLineChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

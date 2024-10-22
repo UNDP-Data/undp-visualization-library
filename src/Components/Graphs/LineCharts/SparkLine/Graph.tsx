@@ -29,6 +29,7 @@ interface Props {
   minValue?: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -49,6 +50,7 @@ export function Graph(props: Props) {
     maxValue,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -169,7 +171,7 @@ export function Graph(props: Props) {
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
-                fill: UNDPColorModule.grays['gray-700'],
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 fontFamily: rtl
                   ? language === 'he'
                     ? 'Noto Sans Hebrew, sans-serif'
@@ -186,7 +188,7 @@ export function Graph(props: Props) {
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
-                fill: UNDPColorModule.grays['gray-700'],
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 fontFamily: rtl
                   ? language === 'he'
                     ? 'Noto Sans Hebrew, sans-serif'
@@ -242,6 +244,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

@@ -18,6 +18,7 @@ interface Props {
   colorDomain: string[];
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -34,6 +35,7 @@ export function Graph(props: Props) {
     colorDomain,
     rtl,
     language,
+    mode,
   } = props;
   const pieData = pie()
     .sort(null)
@@ -60,7 +62,7 @@ export function Graph(props: Props) {
             >
               <div
                 style={{
-                  fill: UNDPColorModule.grays.black,
+                  fill: UNDPColorModule[mode || 'light'].grays.black,
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -123,7 +125,7 @@ export function Graph(props: Props) {
                         colorDomain.indexOf((d.data as any).label) %
                           colors.length
                       ]
-                    : UNDPColorModule.graphGray,
+                    : UNDPColorModule[mode || 'light'].graphGray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1
@@ -174,6 +176,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

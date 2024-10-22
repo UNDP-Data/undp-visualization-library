@@ -313,6 +313,7 @@ export interface DataSelectionDataType {
     label: string;
   }[];
   chartConfigId: string;
+  ui?: 'select' | 'radio';
 }
 
 export interface DataFilterDataType {
@@ -330,6 +331,7 @@ export type DashboardColumnDataType = {
   };
   dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
+  dataSelectionOptions?: DataSelectionDataType[];
   settings?: any;
 };
 
@@ -567,4 +569,8 @@ export interface GraphSettingsDataType {
   showDots?: boolean;
   diffAreaColors?: [string, string];
   idSuffix?: string;
+  mode?: 'dark' | 'light';
+  maxBarWidth?: number;
+  includeLayers?: string[];
+  excludeLayers?: string[];
 }

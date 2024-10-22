@@ -34,6 +34,7 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   highlightColor?: string;
   dotOpacity: number;
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -63,6 +64,7 @@ export function Graph(props: Props) {
     language,
     highlightColor,
     dotOpacity,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -177,12 +179,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
@@ -201,12 +203,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
@@ -224,12 +226,12 @@ export function Graph(props: Props) {
                               : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule.graphGray
+                              ? UNDPColorModule[mode || 'light'].graphGray
                               : colors[colorDomain.indexOf(d.color)]
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(d.color)],
                         fontFamily: rtl
                           ? language === 'he'
@@ -254,7 +256,7 @@ export function Graph(props: Props) {
                 y={0}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule.grays['gray-500'],
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -270,7 +272,7 @@ export function Graph(props: Props) {
                 y={graphHeight}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule.grays['gray-500'],
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -294,6 +296,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

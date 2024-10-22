@@ -35,6 +35,7 @@ interface Props {
   showAntarctica: boolean;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -64,6 +65,7 @@ export function Graph(props: Props) {
     showAntarctica,
     rtl,
     language,
+    mode,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -177,7 +179,7 @@ export function Graph(props: Props) {
               data.filter(el => el.color).length === 0
                 ? colors[0]
                 : !d.color
-                ? UNDPColorModule.graphGray
+                ? UNDPColorModule[mode || 'light'].graphGray
                 : colors[colorDomain.indexOf(`${d.color}`)];
             return (
               <g
@@ -238,13 +240,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                   }}
                   fillOpacity={0.8}
@@ -254,7 +256,7 @@ export function Graph(props: Props) {
                     x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                     y={0}
                     style={{
-                      fill: UNDPColorModule.grays['gray-600'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-600'],
                       fontSize: '1rem',
                       textAnchor: 'start',
                       fontFamily: rtl
@@ -282,7 +284,8 @@ export function Graph(props: Props) {
         >
           <div
             style={{
-              backgroundColor: 'rgba(255,255,255,0.75)',
+              backgroundColor:
+                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               padding: '1rem',
               display: 'flex',
@@ -332,7 +335,11 @@ export function Graph(props: Props) {
                           height={8}
                           fill={colors[i]}
                           stroke={
-                            selectedColor === colors[i] ? '#212121' : colors[i]
+                            selectedColor === colors[i]
+                              ? UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ]
+                              : colors[i]
                           }
                         />
                         <text
@@ -343,13 +350,15 @@ export function Graph(props: Props) {
                           y={25}
                           textAnchor='middle'
                           fontSize={12}
-                          fill='#212121'
                           style={{
                             fontFamily: rtl
                               ? language === 'he'
                                 ? 'Noto Sans Hebrew, sans-serif'
                                 : 'Noto Sans Arabic, sans-serif'
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                           }}
                         >
                           {d}
@@ -371,6 +380,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

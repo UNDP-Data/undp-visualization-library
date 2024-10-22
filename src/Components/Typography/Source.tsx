@@ -5,17 +5,18 @@ interface SourceProps {
   link?: string;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  mode: 'dark' | 'light';
 }
 
 export function Source(props: SourceProps) {
-  const { text, link, rtl, language } = props;
+  const { text, link, rtl, language, mode } = props;
   return (
     <p
       className={`${
         rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
       }undp-viz-typography`}
       style={{
-        color: UNDPColorModule.grays['gray-600'],
+        color: UNDPColorModule[mode || 'light'].grays['gray-600'],
         fontSize: '0.875rem',
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',
@@ -27,7 +28,7 @@ export function Source(props: SourceProps) {
             <a
               className='undp-viz-style'
               style={{
-                color: UNDPColorModule.grays['gray-600'],
+                color: UNDPColorModule[mode || 'light'].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
@@ -54,7 +55,7 @@ export function Source(props: SourceProps) {
             <a
               className='undp-viz-style'
               style={{
-                color: UNDPColorModule.grays['gray-600'],
+                color: UNDPColorModule[mode || 'light'].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}

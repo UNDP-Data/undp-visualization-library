@@ -58,6 +58,7 @@ interface Props {
   minValue?: number;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -106,6 +107,7 @@ export function DifferenceLineChart(props: Props) {
     maxValue,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -138,7 +140,7 @@ export function DifferenceLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -175,6 +177,7 @@ export function DifferenceLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -195,11 +198,14 @@ export function DifferenceLineChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   lineColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[0],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[1],
                   ]
                 }
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -217,8 +223,10 @@ export function DifferenceLineChart(props: Props) {
                   data={data}
                   lineColors={
                     lineColors || [
-                      UNDPColorModule.categoricalColors.colors[0],
-                      UNDPColorModule.categoricalColors.colors[1],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[0],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[1],
                     ]
                   }
                   colorDomain={labels}
@@ -269,15 +277,16 @@ export function DifferenceLineChart(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   showColorLegendAtTop={showColorLegendAtTop}
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   animateLine={animateLine}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   diffAreaColors={
                     diffAreaColors || [
-                      UNDPColorModule.alerts.red,
-                      UNDPColorModule.alerts.darkGreen,
+                      UNDPColorModule[mode || 'light'].alerts.red,
+                      UNDPColorModule[mode || 'light'].alerts.darkGreen,
                     ]
                   }
                   idSuffix={idSuffix}
@@ -290,6 +299,7 @@ export function DifferenceLineChart(props: Props) {
                   customHighlightAreaSettings={
                     customHighlightAreaSettings || []
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -302,6 +312,7 @@ export function DifferenceLineChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

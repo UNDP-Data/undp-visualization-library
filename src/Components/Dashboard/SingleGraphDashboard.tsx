@@ -29,9 +29,15 @@ import { filterData } from '../../Utils/transformData/filterData';
 import GraphEl from './GraphEl';
 import { checkIfMultiple } from '../../Utils/checkIfMultiple';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+import Checkbox from '../Elements/Checkbox';
+import Radio from '../Elements/Radio';
 
 interface Props {
   graphSettings?: any;
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
   dataSettings?: DataSettingsDataType;
   dataFromAPISettings?: APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
@@ -44,6 +50,7 @@ interface Props {
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
   debugMode?: boolean;
+  mode?: 'dark' | 'light';
 }
 
 export function SingleGraphDashboard(props: Props) {
@@ -58,6 +65,8 @@ export function SingleGraphDashboard(props: Props) {
     debugMode,
     dataSelectionOptions,
     dataFromAPISettings,
+    mode,
+    readableHeader,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -191,7 +200,7 @@ export function SingleGraphDashboard(props: Props) {
         style={{
           textAlign: 'center',
           padding: '0.5rem',
-          color: '#D12800',
+          color: UNDPColorModule[mode || 'light'].alerts.darkRed,
           fontSize: '0.875rem',
         }}
       >
@@ -212,7 +221,7 @@ export function SingleGraphDashboard(props: Props) {
         backgroundColor: !graphSettings?.backgroundColor
           ? 'transparent'
           : graphSettings?.backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : graphSettings?.backgroundColor,
       }}
       id={graphSettings?.graphId}
@@ -261,9 +270,10 @@ export function SingleGraphDashboard(props: Props) {
                         : null
                       : null
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
-              {filterSettings.length !== 0 &&
+              {filterSettings.length !== 0 ||
               (dataSelectionOptions || []).length !== 0 ? (
                 <div
                   style={{
@@ -302,55 +312,125 @@ export function SingleGraphDashboard(props: Props) {
                         {d.label || `Visualize ${d.chartConfigId} by`}
                       </p>
                       {!checkIfMultiple(d.chartConfigId, graphConfig || []) ? (
-                        <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
-                          options={d.allowedColumnIds}
-                          isClearable={false}
-                          isRtl={graphSettings?.rtl}
-                          isSearchable
-                          controlShouldRenderValue
-                          onChange={el => {
-                            const newGraphConfig = {
-                              columnId: el?.value as string,
-                              chartConfigId: d.chartConfigId,
-                            };
-                            const updatedConfig = graphConfig?.map(item =>
-                              item.chartConfigId ===
-                              newGraphConfig.chartConfigId
-                                ? newGraphConfig
-                                : item,
-                            );
-                            setGraphConfig(updatedConfig);
-                          }}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
-                              },
-                            };
-                          }}
-                        />
-                      ) : (
+                        d.ui !== 'radio' ? (
+                          <Select
+                            className={
+                              graphSettings?.rtl
+                                ? `undp-viz-select-${
+                                    graphSettings?.language || 'ar'
+                                  } undp-viz-select`
+                                : 'undp-viz-select'
+                            }
+                            options={d.allowedColumnIds}
+                            isClearable={false}
+                            isRtl={graphSettings?.rtl}
+                            isSearchable
+                            controlShouldRenderValue
+                            defaultValue={
+                              graphDataConfiguration
+                                ? d.allowedColumnIds[
+                                    d.allowedColumnIds.findIndex(
+                                      j =>
+                                        j.value ===
+                                        (graphDataConfiguration[
+                                          graphDataConfiguration.findIndex(
+                                            el =>
+                                              el.chartConfigId ===
+                                              d.chartConfigId,
+                                          )
+                                        ].columnId as string),
+                                    )
+                                  ]
+                                : undefined
+                            }
+                            onChange={el => {
+                              const newGraphConfig = {
+                                columnId: el?.value as string,
+                                chartConfigId: d.chartConfigId,
+                              };
+                              const updatedConfig = graphConfig?.map(item =>
+                                item.chartConfigId ===
+                                newGraphConfig.chartConfigId
+                                  ? newGraphConfig
+                                  : item,
+                              );
+                              setGraphConfig(updatedConfig);
+                            }}
+                            theme={theme => {
+                              return {
+                                ...theme,
+                                borderRadius: 0,
+                                spacing: {
+                                  ...theme.spacing,
+                                  baseUnit: 4,
+                                  menuGutter: 2,
+                                  controlHeight: 48,
+                                },
+                                colors: {
+                                  ...theme.colors,
+                                  danger:
+                                    UNDPColorModule[mode || 'light'].alerts
+                                      .darkRed,
+                                  dangerLight:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  neutral10:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  primary50:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-400'],
+                                  primary25:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-200'
+                                    ],
+                                  primary:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-600'],
+                                },
+                              };
+                            }}
+                          />
+                        ) : (
+                          <Radio
+                            rtl={graphSettings?.rtl}
+                            options={d.allowedColumnIds}
+                            language={graphSettings?.language}
+                            defaultValue={
+                              graphDataConfiguration
+                                ? d.allowedColumnIds[
+                                    d.allowedColumnIds.findIndex(
+                                      j =>
+                                        j.value ===
+                                        (graphDataConfiguration[
+                                          graphDataConfiguration.findIndex(
+                                            el =>
+                                              el.chartConfigId ===
+                                              d.chartConfigId,
+                                          )
+                                        ].columnId as string),
+                                    )
+                                  ].value
+                                : ''
+                            }
+                            onChange={el => {
+                              const newGraphConfig = {
+                                columnId: el,
+                                chartConfigId: d.chartConfigId,
+                              };
+                              const updatedConfig = graphConfig?.map(item =>
+                                item.chartConfigId ===
+                                newGraphConfig.chartConfigId
+                                  ? newGraphConfig
+                                  : item,
+                              );
+                              setGraphConfig(updatedConfig);
+                            }}
+                          />
+                        )
+                      ) : d.ui !== 'radio' ? (
                         <Select
                           className={
                             graphSettings?.rtl
@@ -363,6 +443,25 @@ export function SingleGraphDashboard(props: Props) {
                           isMulti
                           isSearchable
                           controlShouldRenderValue
+                          defaultValue={
+                            graphDataConfiguration
+                              ? (
+                                  graphDataConfiguration[
+                                    graphDataConfiguration.findIndex(
+                                      el =>
+                                        el.chartConfigId === d.chartConfigId,
+                                    )
+                                  ].columnId as string[]
+                                ).map(
+                                  el =>
+                                    d.allowedColumnIds[
+                                      d.allowedColumnIds.findIndex(
+                                        j => j.value === el,
+                                      )
+                                    ],
+                                )
+                              : undefined
+                          }
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
                             const newGraphConfig = {
@@ -392,14 +491,69 @@ export function SingleGraphDashboard(props: Props) {
                               },
                               colors: {
                                 ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
+                                danger:
+                                  UNDPColorModule[mode || 'light'].alerts
+                                    .darkRed,
+                                dangerLight:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                neutral10:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                primary50:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-400'],
+                                primary25:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-200'
+                                  ],
+                                primary:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-600'],
                               },
                             };
+                          }}
+                        />
+                      ) : (
+                        <Checkbox
+                          rtl={graphSettings?.rtl}
+                          options={d.allowedColumnIds}
+                          language={graphSettings?.language}
+                          defaultValue={
+                            graphDataConfiguration
+                              ? (
+                                  graphDataConfiguration[
+                                    graphDataConfiguration.findIndex(
+                                      el =>
+                                        el.chartConfigId === d.chartConfigId,
+                                    )
+                                  ].columnId as string[]
+                                )
+                                  .map(
+                                    el =>
+                                      d.allowedColumnIds[
+                                        d.allowedColumnIds.findIndex(
+                                          j => j.value === el,
+                                        )
+                                      ],
+                                  )
+                                  .map(el => el.value)
+                              : []
+                          }
+                          onChange={el => {
+                            const newGraphConfig = {
+                              columnId: el || [],
+                              chartConfigId: d.chartConfigId,
+                            };
+                            const updatedConfig = graphConfig?.map(item =>
+                              item.chartConfigId ===
+                              newGraphConfig.chartConfigId
+                                ? newGraphConfig
+                                : item,
+                            );
+                            setGraphConfig(updatedConfig);
                           }}
                         />
                       )}
@@ -475,12 +629,27 @@ export function SingleGraphDashboard(props: Props) {
                               },
                               colors: {
                                 ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
+                                danger:
+                                  UNDPColorModule[mode || 'light'].alerts
+                                    .darkRed,
+                                dangerLight:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                neutral10:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                primary50:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-400'],
+                                primary25:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-200'
+                                  ],
+                                primary:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-600'],
                               },
                             };
                           }}
@@ -530,12 +699,27 @@ export function SingleGraphDashboard(props: Props) {
                               },
                               colors: {
                                 ...theme.colors,
-                                danger: '#D12800',
-                                dangerLight: '#D4D6D8',
-                                neutral10: '#D4D6D8',
-                                primary50: '#B5D5F5',
-                                primary25: '#F7F7F7',
-                                primary: '#0468b1',
+                                danger:
+                                  UNDPColorModule[mode || 'light'].alerts
+                                    .darkRed,
+                                dangerLight:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                neutral10:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-400'
+                                  ],
+                                primary50:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-400'],
+                                primary25:
+                                  UNDPColorModule[mode || 'light'].grays[
+                                    'gray-200'
+                                  ],
+                                primary:
+                                  UNDPColorModule[mode || 'light']
+                                    .primaryColors['blue-600'],
                               },
                             };
                           }}
@@ -560,6 +744,7 @@ export function SingleGraphDashboard(props: Props) {
                 )}
                 graphDataConfiguration={graphConfig}
                 debugMode={debugMode}
+                readableHeader={readableHeader || []}
                 settings={
                   graphSettings
                     ? {

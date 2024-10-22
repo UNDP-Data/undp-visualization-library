@@ -689,6 +689,11 @@ export const simpleBarChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    maxBarWidth: { type: 'number' },
   },
 };
 
@@ -761,6 +766,11 @@ export const groupedBarChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    maxBarWidth: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -833,6 +843,11 @@ export const stackedBarChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    maxBarWidth: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -913,6 +928,10 @@ export const animatedSimpleBarChartSettingsSchema = {
     autoSort: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -984,6 +1003,10 @@ export const animatedGroupedBarChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -1055,6 +1078,10 @@ export const animatedStackedBarChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -1128,6 +1155,10 @@ export const beeSwarmChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -1195,6 +1226,10 @@ export const butterflyChartSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
 };
@@ -1267,6 +1302,10 @@ export const animatedButterflyChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -1325,6 +1364,10 @@ export const circlePackingSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -1343,6 +1386,10 @@ export const dataTableSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
     columnData: {
       type: 'array',
@@ -1430,6 +1477,10 @@ export const donutChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -1486,6 +1537,11 @@ export const dumbbellChartSettingsSchema = {
     },
     arrowConnector: { type: 'boolean' },
     connectorStrokeWidth: { type: 'number' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    maxBarWidth: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1546,6 +1602,10 @@ export const animatedDumbbellChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -1606,6 +1666,10 @@ export const heatMapSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
   required: ['domain'],
@@ -1687,6 +1751,10 @@ export const histogramSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['color', 'graphType'],
 };
@@ -1754,6 +1822,10 @@ export const dualAxisLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -1785,6 +1857,10 @@ export const lineChartSettingsSchema = {
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
     tooltip: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
     refValues: {
       type: 'array',
       items: {
@@ -2043,6 +2119,10 @@ export const differenceLineChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
@@ -2197,6 +2277,10 @@ export const multiLineChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
     animateLine: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
@@ -2240,6 +2324,10 @@ export const sparkLineSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
 };
@@ -2324,6 +2412,10 @@ export const choroplethMapSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
   required: ['domain'],
@@ -2414,6 +2506,10 @@ export const biVariateChoroplethMapSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -2496,6 +2592,10 @@ export const dotDensityMapSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
 };
@@ -2584,6 +2684,10 @@ export const animatedChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['domain'],
 };
@@ -2676,6 +2780,10 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -2759,6 +2867,10 @@ export const animatedDotDensityMapSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
@@ -2800,6 +2912,10 @@ export const geoHubCompareMapSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['mapStyles'],
 };
@@ -2833,6 +2949,18 @@ export const geoHubMapSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    includeLayers: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    excludeLayers: {
+      type: 'array',
+      items: { type: 'string' },
     },
   },
   required: ['mapStyle'],
@@ -2874,6 +3002,10 @@ export const paretoChartSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
 };
@@ -3026,6 +3158,10 @@ export const scatterPlotSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
     customHighlightAreaSettings: {
       type: 'array',
@@ -3201,6 +3337,10 @@ export const animatedScatterPlotSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
@@ -3289,6 +3429,10 @@ export const slopeChartSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
   },
 };
@@ -3431,6 +3575,10 @@ export const stackedAreaChartSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -3461,6 +3609,10 @@ export const statCardSettingsSchema = {
     language: {
       type: 'string',
       enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
     },
     countOnly: {
       type: 'array',
@@ -3535,6 +3687,10 @@ export const stripChartSettingsSchema = {
     },
     highlightColor: { type: 'string' },
     dotOpacity: { type: 'number' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -3593,6 +3749,10 @@ export const treeMapSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
@@ -3628,11 +3788,28 @@ export const unitChartSettingsSchema = {
     graphLegend: { type: 'boolean' },
     showStrokeForWhiteDots: { type: 'boolean' },
     note: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
   },
 };
 
 export const SettingsSchema = {
   properties: {
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    includeLayers: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    excludeLayers: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    maxBarWidth: { type: 'number' },
     aggregationMethod: {
       enum: ['average', 'count', 'max', 'min', 'sum'],
       type: 'string',
@@ -4523,7 +4700,49 @@ export const singleGraphJSONSchema = {
         required: ['columnId', 'chartConfigId'],
       },
     },
+    readableHeader: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+        },
+        required: ['value', 'label'],
+      },
+    },
+    dataSelectionOptions: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          chartConfigId: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+          allowedColumnIds: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                value: { type: 'string' },
+                label: {
+                  type: 'string',
+                },
+              },
+              required: ['value', 'label'],
+            },
+            minItems: 1,
+          },
+          ui: { type: 'string', enum: ['select', 'radio'] },
+        },
+        required: ['chartConfigId', 'allowedColumnIds'],
+      },
+    },
     debugMode: { type: 'boolean' },
+    mode: { type: 'string', enum: ['dark', 'light'] },
   },
   required: ['dataSettings', 'graphType'],
 };
@@ -4709,7 +4928,49 @@ export const griddedGraphJSONSchema = {
     showCommonColorScale: { type: 'boolean' },
     minGraphHeight: { type: 'number' },
     minGraphWidth: { type: 'number' },
+    readableHeader: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+        },
+        required: ['value', 'label'],
+      },
+    },
+    dataSelectionOptions: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          chartConfigId: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+          allowedColumnIds: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                value: { type: 'string' },
+                label: {
+                  type: 'string',
+                },
+              },
+              required: ['value', 'label'],
+            },
+            minItems: 1,
+          },
+          ui: { type: 'string', enum: ['select', 'radio'] },
+        },
+        required: ['chartConfigId', 'allowedColumnIds'],
+      },
+    },
     debugMode: { type: 'boolean' },
+    mode: { type: 'string', enum: ['dark', 'light'] },
   },
   required: ['columnGridBy', 'dataSettings', 'graphType'],
 };
@@ -4878,6 +5139,34 @@ export const dashboardJSONSchema = {
                       type: 'string',
                     },
                     settings: SettingsSchema,
+                    dataSelectionOptions: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          chartConfigId: { type: 'string' },
+                          label: {
+                            type: 'string',
+                          },
+                          allowedColumnIds: {
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                value: { type: 'string' },
+                                label: {
+                                  type: 'string',
+                                },
+                              },
+                              required: ['value', 'label'],
+                            },
+                            minItems: 1,
+                          },
+                          ui: { type: 'string', enum: ['select', 'radio'] },
+                        },
+                        required: ['chartConfigId', 'allowedColumnIds'],
+                      },
+                    },
                   },
                   type: 'object',
                   required: ['graphType'],
@@ -4968,7 +5257,21 @@ export const dashboardJSONSchema = {
       },
       type: 'array',
     },
+    readableHeader: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+        },
+        required: ['value', 'label'],
+      },
+    },
     debugMode: { type: 'boolean' },
+    mode: { type: 'string', enum: ['dark', 'light'] },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],

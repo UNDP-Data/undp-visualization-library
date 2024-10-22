@@ -24,6 +24,7 @@ interface Props {
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  mode?: 'light' | 'dark';
 }
 
 export function StatCardFromData(props: Props) {
@@ -44,6 +45,7 @@ export function StatCardFromData(props: Props) {
     rtl,
     language,
     countOnly,
+    mode,
   } = props;
 
   return (
@@ -56,7 +58,7 @@ export function StatCardFromData(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -84,6 +86,7 @@ export function StatCardFromData(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -99,8 +102,14 @@ export function StatCardFromData(props: Props) {
                 fontSize: '4.375rem',
                 lineHeight: '1',
                 textShadow: 'none',
-                WebkitTextStroke: `2px ${UNDPColorModule.grays.black}`,
-                color: UNDPColorModule.grays['gray-200'],
+                WebkitTextStroke: `2px ${
+                  UNDPColorModule[mode || 'light'].grays.black
+                }`,
+                color: !backgroundColor
+                  ? 'rgba(0,0,0,0)'
+                  : backgroundColor === true
+                  ? UNDPColorModule[mode || 'light'].grays['gray-200']
+                  : backgroundColor,
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',
@@ -148,8 +157,10 @@ export function StatCardFromData(props: Props) {
                     lineHeight: '1.09',
                     textShadow: 'none',
                     fontWeight: 'normal',
-                    WebkitTextStroke: `0px ${UNDPColorModule.grays.black}`,
-                    color: UNDPColorModule.grays['gray-500'],
+                    WebkitTextStroke: `0px ${
+                      UNDPColorModule[mode || 'light'].grays.black
+                    }`,
+                    color: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
                     fontFamily: rtl
@@ -171,6 +182,7 @@ export function StatCardFromData(props: Props) {
               source={source}
               sourceLink={sourceLink}
               footNote={footNote}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

@@ -46,6 +46,7 @@ interface Props {
   autoSort: boolean;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -79,6 +80,7 @@ export function Graph(props: Props) {
     autoSort,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -176,7 +178,7 @@ export function Graph(props: Props) {
             x1={0 - margin.left}
             x2={graphWidth + margin.right}
             style={{
-              stroke: UNDPColorModule.grays['gray-700'],
+              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
             }}
             strokeWidth={1}
           />
@@ -184,7 +186,7 @@ export function Graph(props: Props) {
             x={0 - margin.left + 2}
             y={y(0)}
             style={{
-              fill: UNDPColorModule.grays['gray-700'],
+              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontFamily: rtl
                 ? language === 'he'
                   ? 'Noto Sans Hebrew, sans-serif'
@@ -207,7 +209,8 @@ export function Graph(props: Props) {
                     x1={0 - margin.left}
                     x2={graphWidth + margin.right}
                     style={{
-                      stroke: UNDPColorModule.grays['gray-500'],
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -226,7 +229,7 @@ export function Graph(props: Props) {
                           ? 'Noto Sans Hebrew, sans-serif'
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule.grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -256,6 +259,7 @@ export function Graph(props: Props) {
             indx={indx}
             rtl={rtl}
             language={language}
+            mode={mode}
           />
           {refValues ? (
             <>
@@ -263,7 +267,9 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || UNDPColorModule.grays['gray-700'],
+                      stroke:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -277,7 +283,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fill:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
@@ -304,6 +312,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

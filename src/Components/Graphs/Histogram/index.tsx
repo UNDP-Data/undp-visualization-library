@@ -51,6 +51,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function Histogram(props: Props) {
@@ -92,6 +93,7 @@ export function Histogram(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -133,7 +135,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -161,12 +163,13 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
+        mode={mode || 'light'}
       />
     );
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -194,6 +197,7 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
+        mode={mode || 'light'}
       />
     );
   if (graphType === 'donutChart')
@@ -201,7 +205,7 @@ export function Histogram(props: Props) {
       <DonutChart
         colors={
           (color as string[] | undefined) ||
-          UNDPColorModule.categoricalColors.colors
+          UNDPColorModule[mode || 'light'].categoricalColors.colors
         }
         graphTitle={graphTitle}
         graphDescription={graphDescription}
@@ -229,12 +233,13 @@ export function Histogram(props: Props) {
         sortData={sortData}
         rtl={rtl}
         language={language}
+        mode={mode || 'light'}
       />
     );
   if (barGraphLayout === 'horizontal')
     return (
       <HorizontalBarGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -268,11 +273,12 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
+        mode={mode || 'light'}
       />
     );
   return (
     <VerticalBarGraph
-      colors={color || UNDPColorModule.graphMainColor}
+      colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}
@@ -306,6 +312,7 @@ export function Histogram(props: Props) {
       rtl={rtl}
       language={language}
       minHeight={minHeight}
+      mode={mode || 'light'}
     />
   );
 }

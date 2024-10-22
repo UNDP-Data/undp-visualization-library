@@ -30,6 +30,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -55,6 +56,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -107,7 +109,7 @@ export function Graph(props: Props) {
               x1={radius + 5}
               x2={radius + 5}
               style={{
-                stroke: UNDPColorModule.grays['gray-500'],
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -115,7 +117,7 @@ export function Graph(props: Props) {
               x={radius + 5}
               y={graphHeight}
               style={{
-                fill: UNDPColorModule.grays['gray-700'],
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 fontFamily: rtl
                   ? language === 'he'
                     ? 'Noto Sans Hebrew, sans-serif'
@@ -136,7 +138,7 @@ export function Graph(props: Props) {
               x1={graphWidth - (radius + 5)}
               x2={graphWidth - (radius + 5)}
               style={{
-                stroke: UNDPColorModule.grays['gray-500'],
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -144,7 +146,7 @@ export function Graph(props: Props) {
               x={graphWidth - (radius + 5)}
               y={graphHeight}
               style={{
-                fill: UNDPColorModule.grays['gray-700'],
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 fontFamily: rtl
                   ? language === 'he'
                     ? 'Noto Sans Hebrew, sans-serif'
@@ -222,13 +224,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                   }}
                   fillOpacity={0.6}
@@ -241,7 +243,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       fontFamily: rtl
                         ? language === 'he'
@@ -266,7 +268,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         fontFamily: rtl
                           ? language === 'he'
@@ -293,13 +295,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                   }}
                   fillOpacity={0.6}
@@ -312,7 +314,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       fontFamily: rtl
                         ? language === 'he'
@@ -337,7 +339,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         fontFamily: rtl
                           ? language === 'he'
@@ -366,7 +368,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
                   }}
@@ -384,6 +386,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

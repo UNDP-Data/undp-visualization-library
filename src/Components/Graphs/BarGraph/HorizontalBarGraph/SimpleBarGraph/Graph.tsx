@@ -35,6 +35,8 @@ interface Props {
   labelOrder?: string[];
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
+  maxBarWidth?: number;
 }
 
 export function Graph(props: Props) {
@@ -66,6 +68,8 @@ export function Graph(props: Props) {
     labelOrder,
     rtl,
     language,
+    mode,
+    maxBarWidth,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -111,7 +115,12 @@ export function Graph(props: Props) {
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const y = scaleBand()
     .domain(barOrder)
-    .range([0, graphHeight])
+    .range([
+      0,
+      maxBarWidth
+        ? Math.min(graphHeight, maxBarWidth * barOrder.length)
+        : graphHeight,
+    ])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
 
@@ -132,7 +141,8 @@ export function Graph(props: Props) {
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom + margin.top}
                     style={{
-                      stroke: UNDPColorModule.grays['gray-500'],
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -152,7 +162,7 @@ export function Graph(props: Props) {
                           ? 'Noto Sans Hebrew, sans-serif'
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule.grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
                     {numberFormattingFunction(d, '', '')}
@@ -221,7 +231,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? barColor[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : barColor[colorDomain.indexOf(d.color)],
                     }}
                     height={y.bandwidth()}
@@ -230,7 +240,7 @@ export function Graph(props: Props) {
                 {showLabels ? (
                   <text
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: d.size
                         ? d.size < 0
@@ -260,7 +270,7 @@ export function Graph(props: Props) {
                     style={{
                       fill:
                         barColor.length > 1
-                          ? UNDPColorModule.grays['gray-600']
+                          ? UNDPColorModule[mode || 'light'].grays['gray-600']
                           : barColor[0],
                       fontSize: '1rem',
                       textAnchor: d.size
@@ -296,7 +306,9 @@ export function Graph(props: Props) {
                       {showLabels ? (
                         <text
                           style={{
-                            fill: UNDPColorModule.grays['gray-700'],
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                             fontSize: '0.75rem',
                             textAnchor: 'end',
                             fontFamily: rtl
@@ -322,7 +334,9 @@ export function Graph(props: Props) {
                           style={{
                             fill:
                               barColor.length > 1
-                                ? UNDPColorModule.grays['gray-600']
+                                ? UNDPColorModule[mode || 'light'].grays[
+                                    'gray-600'
+                                  ]
                                 : barColor[0],
                             fontSize: '1rem',
                             textAnchor: 'start',
@@ -351,7 +365,9 @@ export function Graph(props: Props) {
             x2={xMinValue < 0 ? 0 : xMinValue}
             y1={-2.5}
             y2={graphHeight + margin.bottom}
-            stroke='#212121'
+            style={{
+              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
+            }}
             strokeWidth={1}
           />
           {refValues ? (
@@ -360,7 +376,9 @@ export function Graph(props: Props) {
                 <g key={i}>
                   <line
                     style={{
-                      stroke: el.color || UNDPColorModule.grays['gray-700'],
+                      stroke:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       strokeWidth: 1.5,
                     }}
                     strokeDasharray='4,4'
@@ -374,7 +392,9 @@ export function Graph(props: Props) {
                     fontWeight='bold'
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || UNDPColorModule.grays['gray-700'],
+                      fill:
+                        el.color ||
+                        UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
@@ -407,6 +427,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

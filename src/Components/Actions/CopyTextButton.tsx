@@ -8,10 +8,11 @@ interface Props {
   successMessage?: string;
   buttonText?: string;
   buttonSmall?: boolean;
+  mode: 'dark' | 'light';
 }
 
 export function CopyTextButton(props: Props) {
-  const { text, successMessage, buttonText, buttonSmall } = props;
+  const { text, successMessage, buttonText, buttonSmall, mode } = props;
   const [showMessage, setShowMessage] = useState(false);
 
   const handleShowMessage = () => {
@@ -23,7 +24,9 @@ export function CopyTextButton(props: Props) {
     <>
       <button
         type='button'
-        className='undp-viz-button button-quaternary'
+        className={`undp-viz-button button-quaternary${
+          mode === 'dark' ? ' dark' : ''
+        }`}
         style={{
           display: 'flex',
           padding: buttonSmall ? '0.5rem' : '1rem',
@@ -35,12 +38,12 @@ export function CopyTextButton(props: Props) {
           handleShowMessage();
         }}
       >
-        <Copy />
+        <Copy mode={mode} />
         {buttonText ? (
           <p
             className='undp-viz-typography'
             style={{
-              color: UNDPColorModule.grays['gray-700'],
+              color: UNDPColorModule[mode || 'light'].grays['gray-700'],
               textTransform: 'uppercase',
               marginBottom: 0,
               fontSize: '0.875rem',
@@ -54,6 +57,7 @@ export function CopyTextButton(props: Props) {
         <AutoCloseMessage
           message={successMessage || 'Text copied'}
           duration={2000}
+          mode={mode}
         />
       )}
     </>

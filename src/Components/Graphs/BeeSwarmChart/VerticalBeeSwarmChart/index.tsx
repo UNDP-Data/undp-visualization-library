@@ -46,6 +46,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function VerticalBeeSwarmChart(props: Props) {
@@ -87,6 +88,7 @@ export function VerticalBeeSwarmChart(props: Props) {
     language,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -122,7 +124,7 @@ export function VerticalBeeSwarmChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -159,6 +161,7 @@ export function VerticalBeeSwarmChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -180,7 +183,7 @@ export function VerticalBeeSwarmChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -195,6 +198,7 @@ export function VerticalBeeSwarmChart(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -215,9 +219,14 @@ export function VerticalBeeSwarmChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -284,6 +293,7 @@ export function VerticalBeeSwarmChart(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -296,6 +306,7 @@ export function VerticalBeeSwarmChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

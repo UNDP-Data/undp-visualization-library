@@ -48,6 +48,7 @@ interface Props {
   dotOpacity?: number;
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -91,6 +92,7 @@ export function HorizontalStripChart(props: Props) {
     dotOpacity,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -123,7 +125,7 @@ export function HorizontalStripChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -160,6 +162,7 @@ export function HorizontalStripChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -181,7 +184,7 @@ export function HorizontalStripChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -196,6 +199,7 @@ export function HorizontalStripChart(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -236,9 +240,14 @@ export function HorizontalStripChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   selectedColor={selectedColor}
                   radius={
@@ -278,6 +287,7 @@ export function HorizontalStripChart(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   highlightColor={highlightColor}
                   dotOpacity={dotOpacity || 0.3}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -290,6 +300,7 @@ export function HorizontalStripChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

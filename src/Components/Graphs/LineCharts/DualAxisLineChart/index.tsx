@@ -47,6 +47,7 @@ interface Props {
   strokeWidth?: number;
   showDots?: boolean;
   colorLegendTitle?: string;
+  mode?: 'light' | 'dark';
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -89,6 +90,7 @@ export function DualAxisLineChart(props: Props) {
     strokeWidth,
     showDots,
     colorLegendTitle,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -121,7 +123,7 @@ export function DualAxisLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -158,6 +160,7 @@ export function DualAxisLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -178,11 +181,14 @@ export function DualAxisLineChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   lineColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[0],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[1],
                   ]
                 }
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             )}
             <div
@@ -201,8 +207,10 @@ export function DualAxisLineChart(props: Props) {
                   sameAxes={sameAxes}
                   lineColors={
                     lineColors || [
-                      UNDPColorModule.categoricalColors.colors[0],
-                      UNDPColorModule.categoricalColors.colors[1],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[0],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[1],
                     ]
                   }
                   width={width || svgWidth}
@@ -250,13 +258,15 @@ export function DualAxisLineChart(props: Props) {
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   animateLine={animateLine}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   strokeWidth={strokeWidth || 2}
                   showDots={showDots !== false}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -269,6 +279,7 @@ export function DualAxisLineChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

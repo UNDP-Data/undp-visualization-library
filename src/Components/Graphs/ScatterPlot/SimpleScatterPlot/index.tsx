@@ -64,6 +64,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function ScatterPlot(props: Props) {
@@ -113,6 +114,7 @@ export function ScatterPlot(props: Props) {
     minHeight,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -147,7 +149,7 @@ export function ScatterPlot(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -184,6 +186,7 @@ export function ScatterPlot(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -205,7 +208,7 @@ export function ScatterPlot(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -220,6 +223,7 @@ export function ScatterPlot(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -260,9 +264,14 @@ export function ScatterPlot(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   xAxisTitle={xAxisTitle || 'X Axis'}
                   yAxisTitle={yAxisTitle || 'Y Axis'}
@@ -307,7 +316,8 @@ export function ScatterPlot(props: Props) {
                       : highlightedDataPoints || []
                   }
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   selectedColor={selectedColor}
                   maxRadiusValue={maxRadiusValue}
@@ -322,6 +332,7 @@ export function ScatterPlot(props: Props) {
                   customHighlightAreaSettings={
                     customHighlightAreaSettings || []
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -334,6 +345,7 @@ export function ScatterPlot(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

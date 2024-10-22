@@ -39,6 +39,7 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   strokeWidth: number;
   showDots: boolean;
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -67,6 +68,7 @@ export function Graph(props: Props) {
     language,
     strokeWidth,
     showDots,
+    mode,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -362,7 +364,7 @@ export function Graph(props: Props) {
               x1={-15}
               x2={graphWidth + 15}
               style={{
-                stroke: UNDPColorModule.grays['gray-500'],
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
               }}
               strokeWidth={1}
             />
@@ -373,7 +375,7 @@ export function Graph(props: Props) {
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: UNDPColorModule.grays['gray-700'],
+                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     fontFamily: rtl
                       ? language === 'he'
                         ? 'Noto Sans Hebrew, sans-serif'
@@ -408,7 +410,9 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                stroke='#212121'
+                style={{
+                  stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                }}
                 strokeDasharray='4 8'
                 strokeWidth={1}
               />
@@ -537,6 +541,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

@@ -11,6 +11,7 @@ import {
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { validateConfigSchema } from '../../Utils/validateSchema';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface ConfigObject {
   graphSettings?: any;
@@ -25,6 +26,11 @@ interface ConfigObject {
   graphDataConfiguration?: GraphConfigurationDataType[];
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
+  mode?: 'dark' | 'light';
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 interface Props {
@@ -55,7 +61,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
         style={{
           textAlign: 'center',
           padding: '0.5rem',
-          color: '#D12800',
+          color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
           fontSize: '0.875rem',
         }}
       >
@@ -73,6 +79,8 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       dataFilters={configSettings.dataFilters}
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
+      mode={configSettings.mode}
+      readableHeader={configSettings.readableHeader}
     />
   );
 }

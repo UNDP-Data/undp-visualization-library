@@ -41,6 +41,7 @@ interface Props {
   dateFormat: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -72,6 +73,7 @@ export function Graph(props: Props) {
     indx,
     rtl,
     language,
+    mode,
   } = props;
   const groupedData = Array.from(
     group(
@@ -196,7 +198,7 @@ export function Graph(props: Props) {
                 data.filter(el => el.color).length === 0
                   ? colors[0]
                   : !d.color
-                  ? UNDPColorModule.graphGray
+                  ? UNDPColorModule[mode || 'light'].graphGray
                   : colors[colorDomain.indexOf(`${d.color}`)];
               return (
                 <g
@@ -255,13 +257,13 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       stroke:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.graphGray
+                          ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                     }}
                     transition={{ duration: 0.5 }}
@@ -279,7 +281,9 @@ export function Graph(props: Props) {
                       }
                       y={(projection([d.long, d.lat]) as [number, number])[1]}
                       style={{
-                        fill: UNDPColorModule.grays['gray-600'],
+                        fill: UNDPColorModule[mode || 'light'].grays[
+                          'gray-600'
+                        ],
                         fontSize: '1rem',
                         textAnchor: 'start',
                         fontFamily: rtl
@@ -362,7 +366,11 @@ export function Graph(props: Props) {
                           height={8}
                           fill={colors[i]}
                           stroke={
-                            selectedColor === colors[i] ? '#212121' : colors[i]
+                            selectedColor === colors[i]
+                              ? UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ]
+                              : colors[i]
                           }
                         />
                         <text
@@ -373,13 +381,15 @@ export function Graph(props: Props) {
                           y={25}
                           textAnchor='middle'
                           fontSize={12}
-                          fill='#212121'
                           style={{
                             fontFamily: rtl
                               ? language === 'he'
                                 ? 'Noto Sans Hebrew, sans-serif'
                                 : 'Noto Sans Arabic, sans-serif'
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                            fill: UNDPColorModule[mode || 'light'].grays[
+                              'gray-700'
+                            ],
                           }}
                         >
                           {d}
@@ -401,6 +411,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

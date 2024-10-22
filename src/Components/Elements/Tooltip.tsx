@@ -9,10 +9,11 @@ interface Props {
   data: any;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
+  mode: 'dark' | 'light';
 }
 
 export function Tooltip(props: Props) {
-  const { body, xPos, yPos, data, rtl, language } = props;
+  const { body, xPos, yPos, data, rtl, language, mode } = props;
   const htmlString = string2HTML(body, data);
   return (
     <div
@@ -20,8 +21,10 @@ export function Tooltip(props: Props) {
         display: 'block',
         position: 'fixed',
         zIndex: '8',
-        backgroundColor: UNDPColorModule.grays['gray-200'],
-        border: `1px solid ${UNDPColorModule.grays['gray-300']}`,
+        backgroundColor: UNDPColorModule[mode || 'light'].grays['gray-200'],
+        border: `1px solid ${
+          UNDPColorModule[mode || 'light'].grays['gray-300']
+        }`,
         wordWrap: 'break-word',
         top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
         left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,
@@ -35,7 +38,7 @@ export function Tooltip(props: Props) {
       <div
         className={`${
           rtl ? `undp-viz-tooltip-${language || 'ar'} ` : ''
-        }undp-viz-tooltip`}
+        }undp-viz-tooltip${mode === 'dark' ? ' undp-viz-tooltip-dark' : ''}`}
         style={{ margin: 0 }}
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />

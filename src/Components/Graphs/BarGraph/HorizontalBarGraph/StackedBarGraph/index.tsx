@@ -48,6 +48,8 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
+  maxBarWidth?: number;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -89,8 +91,11 @@ export function HorizontalStackedBarGraph(props: Props) {
     language,
     labelOrder,
     minHeight,
+    mode,
+    maxBarWidth,
   } = props;
-  const barColors = colors || UNDPColorModule.categoricalColors.colors;
+  const barColors =
+    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -124,7 +129,7 @@ export function HorizontalStackedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -161,6 +166,7 @@ export function HorizontalStackedBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -182,6 +188,7 @@ export function HorizontalStackedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
+              mode={mode || 'light'}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -254,6 +261,8 @@ export function HorizontalStackedBarGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   labelOrder={labelOrder}
+                  mode={mode || 'light'}
+                  maxBarWidth={maxBarWidth}
                 />
               ) : null}
             </div>
@@ -266,6 +275,7 @@ export function HorizontalStackedBarGraph(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

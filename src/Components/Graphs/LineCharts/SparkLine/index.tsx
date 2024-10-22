@@ -35,6 +35,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function SparkLine(props: Props) {
@@ -67,6 +68,7 @@ export function SparkLine(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -99,7 +101,7 @@ export function SparkLine(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -136,6 +138,7 @@ export function SparkLine(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -151,7 +154,10 @@ export function SparkLine(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                color={color || UNDPColorModule.primaryColors['blue-600']}
+                color={
+                  color ||
+                  UNDPColorModule[mode || 'light'].primaryColors['blue-600']
+                }
                 width={width || svgWidth}
                 height={
                   height ||
@@ -189,6 +195,7 @@ export function SparkLine(props: Props) {
                 maxValue={maxValue}
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
+                mode={mode || 'light'}
               />
             ) : null}
           </div>
@@ -200,6 +207,7 @@ export function SparkLine(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

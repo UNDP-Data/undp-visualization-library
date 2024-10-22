@@ -6,10 +6,11 @@ interface Props {
   colorDomain: number[];
   colorLegendTitle?: string;
   width?: number;
+  mode: 'dark' | 'light';
 }
 
 export function LinearColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, width } = props;
+  const { colorLegendTitle, colorDomain, colors, width, mode } = props;
   return (
     <div
       style={{
@@ -25,7 +26,7 @@ export function LinearColorLegend(props: Props) {
         <p
           className='undp-viz-typography'
           style={{
-            fill: UNDPColorModule.grays['gray-700'],
+            fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',

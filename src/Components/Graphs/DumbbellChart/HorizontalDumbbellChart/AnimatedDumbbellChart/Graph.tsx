@@ -45,6 +45,7 @@ interface Props {
   connectorStrokeWidth: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -78,6 +79,7 @@ export function Graph(props: Props) {
     arrowConnector,
     rtl,
     language,
+    mode,
   } = props;
   const dataFormatted = sortBy(
     data.map(d => ({
@@ -184,7 +186,7 @@ export function Graph(props: Props) {
             >
               <path
                 d='M 0 0 L 10 5 L 0 10 z'
-                fill={UNDPColorModule.grays['gray-600']}
+                fill={UNDPColorModule[mode || 'light'].grays['gray-600']}
               />
             </marker>
           </defs>
@@ -197,7 +199,7 @@ export function Graph(props: Props) {
                     x={x(d)}
                     y={-17.5}
                     style={{
-                      fill: UNDPColorModule.grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
@@ -215,7 +217,8 @@ export function Graph(props: Props) {
                     y1={-2.5}
                     y2={graphHeight + margin.bottom}
                     style={{
-                      stroke: UNDPColorModule.grays['gray-500'],
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
@@ -233,7 +236,7 @@ export function Graph(props: Props) {
                 {showLabels ? (
                   <motion.text
                     style={{
-                      fill: UNDPColorModule.grays['gray-700'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       fontSize: '0.75rem',
                       textAnchor: 'end',
                       fontFamily: rtl
@@ -259,7 +262,7 @@ export function Graph(props: Props) {
                   x1={0}
                   x2={graphWidth}
                   style={{
-                    stroke: UNDPColorModule.grays['gray-500'],
+                    stroke: UNDPColorModule[mode || 'light'].grays['gray-400'],
                   }}
                   strokeWidth={1}
                   strokeDasharray='4,8'
@@ -271,7 +274,7 @@ export function Graph(props: Props) {
                 />
                 <motion.line
                   style={{
-                    stroke: UNDPColorModule.grays['gray-600'],
+                    stroke: UNDPColorModule[mode || 'light'].grays['gray-600'],
                     strokeWidth: connectorStrokeWidth,
                   }}
                   animate={{
@@ -395,6 +398,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

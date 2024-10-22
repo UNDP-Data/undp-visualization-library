@@ -37,6 +37,7 @@ interface Props {
   indx: number;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Bars(props: Props) {
@@ -59,6 +60,7 @@ export function Bars(props: Props) {
     indx,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
 
@@ -184,7 +186,7 @@ export function Bars(props: Props) {
             {showLabels ? (
               <motion.text
                 style={{
-                  fill: UNDPColorModule.grays['gray-700'],
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontSize: '0.75rem',
                   textAnchor: 'middle',
                   fontFamily: rtl
@@ -208,7 +210,7 @@ export function Bars(props: Props) {
             {showValues ? (
               <motion.text
                 style={{
-                  fill: UNDPColorModule.grays['gray-700'],
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontSize: '1rem',
                   textAnchor: 'middle',
                   fontFamily: rtl

@@ -45,6 +45,7 @@ interface Props {
   dateFormat: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -75,6 +76,7 @@ export function Graph(props: Props) {
     indx,
     rtl,
     language,
+    mode,
   } = props;
 
   const dataFormatted = sortBy(
@@ -205,7 +207,8 @@ export function Graph(props: Props) {
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom + topMargin}
                       style={{
-                        stroke: UNDPColorModule.grays['gray-500'],
+                        stroke:
+                          UNDPColorModule[mode || 'light'].grays['gray-500'],
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'
@@ -225,7 +228,9 @@ export function Graph(props: Props) {
                             ? 'Noto Sans Hebrew, sans-serif'
                             : 'Noto Sans Arabic, sans-serif'
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        fill: UNDPColorModule.grays['gray-500'],
+                        fill: UNDPColorModule[mode || 'light'].grays[
+                          'gray-500'
+                        ],
                       }}
                     >
                       {numberFormattingFunction(d, '', '')}
@@ -337,7 +342,9 @@ export function Graph(props: Props) {
               x2={xLeftBar(xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
-              stroke='#212121'
+              style={{
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              }}
               strokeWidth={1}
             />
             {refValues ? (
@@ -346,7 +353,9 @@ export function Graph(props: Props) {
                   <g key={i}>
                     <line
                       style={{
-                        stroke: el.color || UNDPColorModule.grays['gray-700'],
+                        stroke:
+                          el.color ||
+                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         strokeWidth: 1.5,
                       }}
                       strokeDasharray='4,4'
@@ -360,7 +369,9 @@ export function Graph(props: Props) {
                       fontWeight='bold'
                       x={xLeftBar(el.value as number) as number}
                       style={{
-                        fill: el.color || UNDPColorModule.grays['gray-700'],
+                        fill:
+                          el.color ||
+                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         fontFamily: rtl
                           ? language === 'he'
                             ? 'Noto Sans Hebrew, sans-serif'
@@ -389,7 +400,8 @@ export function Graph(props: Props) {
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom + topMargin}
                       style={{
-                        stroke: UNDPColorModule.grays['gray-500'],
+                        stroke:
+                          UNDPColorModule[mode || 'light'].grays['gray-500'],
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'
@@ -409,7 +421,9 @@ export function Graph(props: Props) {
                             ? 'Noto Sans Hebrew, sans-serif'
                             : 'Noto Sans Arabic, sans-serif'
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        fill: UNDPColorModule.grays['gray-500'],
+                        fill: UNDPColorModule[mode || 'light'].grays[
+                          'gray-500'
+                        ],
                       }}
                     >
                       {numberFormattingFunction(d, '', '')}
@@ -521,7 +535,9 @@ export function Graph(props: Props) {
               x2={xRightBar(xMinValueRightBar < 0 ? 0 : xMinValueRightBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
-              stroke='#212121'
+              style={{
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              }}
               strokeWidth={1}
             />
             {refValues ? (
@@ -530,7 +546,9 @@ export function Graph(props: Props) {
                   <g key={i}>
                     <line
                       style={{
-                        stroke: el.color || UNDPColorModule.grays['gray-700'],
+                        stroke:
+                          el.color ||
+                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         strokeWidth: 1.5,
                       }}
                       strokeDasharray='4,4'
@@ -544,7 +562,9 @@ export function Graph(props: Props) {
                       fontWeight='bold'
                       x={xRightBar(el.value as number) as number}
                       style={{
-                        fill: el.color || UNDPColorModule.grays['gray-700'],
+                        fill:
+                          el.color ||
+                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         fontFamily: rtl
                           ? language === 'he'
                             ? 'Noto Sans Hebrew, sans-serif'
@@ -568,7 +588,7 @@ export function Graph(props: Props) {
               return (
                 <text
                   style={{
-                    fill: UNDPColorModule.grays['gray-700'],
+                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     fontSize: '0.75rem',
                     textAnchor: 'middle',
                     fontFamily: rtl
@@ -638,6 +658,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

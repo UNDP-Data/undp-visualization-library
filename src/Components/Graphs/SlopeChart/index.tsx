@@ -45,6 +45,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function SlopeChart(props: Props) {
@@ -85,6 +86,7 @@ export function SlopeChart(props: Props) {
     language,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -119,7 +121,7 @@ export function SlopeChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -156,6 +158,7 @@ export function SlopeChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -177,7 +180,7 @@ export function SlopeChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -192,6 +195,7 @@ export function SlopeChart(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -236,9 +240,14 @@ export function SlopeChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   selectedColor={selectedColor}
                   axisTitle={axisTitle || ['', '']}
@@ -278,6 +287,7 @@ export function SlopeChart(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -290,6 +300,7 @@ export function SlopeChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

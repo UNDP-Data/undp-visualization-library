@@ -11,6 +11,7 @@ export function transformDataForAggregation(
   keyColumn: string,
   aggregationSettings?: AggregationSettingsDataType[],
 ) {
+  if (data.length === 0) return [];
   if (typeof data[0][keyColumn] !== 'object') {
     const uniqValues = uniqBy(data, (d: any) => d[keyColumn]).map(d => {
       const dataObj: any = {};

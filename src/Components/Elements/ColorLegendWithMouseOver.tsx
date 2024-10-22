@@ -10,6 +10,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   isCenter?: boolean;
+  mode: 'dark' | 'light';
 }
 
 export function ColorLegendWithMouseOver(props: Props) {
@@ -23,6 +24,7 @@ export function ColorLegendWithMouseOver(props: Props) {
     rtl,
     language,
     isCenter,
+    mode,
   } = props;
 
   return (
@@ -41,7 +43,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
             }undp-viz-typography`}
             style={{
-              fill: UNDPColorModule.grays['gray-700'],
+              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
               marginBottom: '0.5rem',
@@ -103,7 +105,7 @@ export function ColorLegendWithMouseOver(props: Props) {
           {showNAColor ? (
             <div
               onMouseEnter={() => {
-                setSelectedColor(UNDPColorModule.graphGray);
+                setSelectedColor(UNDPColorModule[mode || 'light'].graphGray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -121,7 +123,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
-                  backgroundColor: UNDPColorModule.graphGray,
+                  backgroundColor: UNDPColorModule[mode || 'light'].graphGray,
                 }}
               />
               <p

@@ -60,6 +60,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -106,6 +107,7 @@ export function AnimatedButterflyChart(props: Props) {
     colorLegendTitle,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -167,7 +169,7 @@ export function AnimatedButterflyChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -204,6 +206,7 @@ export function AnimatedButterflyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -219,7 +222,11 @@ export function AnimatedButterflyChart(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -258,11 +265,14 @@ export function AnimatedButterflyChart(props: Props) {
                 ]}
                 colors={
                   barColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[0],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[1],
                   ]
                 }
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -280,8 +290,10 @@ export function AnimatedButterflyChart(props: Props) {
                   data={data}
                   barColors={
                     barColors || [
-                      UNDPColorModule.categoricalColors.colors[0],
-                      UNDPColorModule.categoricalColors.colors[1],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[0],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[1],
                     ]
                   }
                   width={width || svgWidth}
@@ -348,6 +360,7 @@ export function AnimatedButterflyChart(props: Props) {
                   indx={index}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -360,6 +373,7 @@ export function AnimatedButterflyChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

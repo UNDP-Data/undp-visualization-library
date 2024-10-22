@@ -57,6 +57,7 @@ import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
+import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   graph: GraphType;
@@ -64,11 +65,21 @@ interface Props {
   settings?: GraphSettingsDataType;
   debugMode?: boolean;
   graphDataConfiguration?: GraphConfigurationDataType[];
+  readableHeader: {
+    value: string;
+    label: string;
+  }[];
 }
 
 function GraphEl(props: Props) {
-  const { settings, graph, graphData, debugMode, graphDataConfiguration } =
-    props;
+  const {
+    settings,
+    graph,
+    graphData,
+    debugMode,
+    graphDataConfiguration,
+    readableHeader,
+  } = props;
   if (debugMode) {
     // eslint-disable-next-line no-console
     console.log(`Graph: ${graph}`);
@@ -95,7 +106,7 @@ function GraphEl(props: Props) {
           style={{
             textAlign: 'center',
             padding: '0.5rem',
-            color: '#D12800',
+            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
             fontSize: '0.875rem',
           }}
         >
@@ -157,6 +168,7 @@ function GraphEl(props: Props) {
     switch (graphType) {
       case 'horizontalBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -178,7 +190,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -200,9 +216,11 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'horizontalGroupedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -215,8 +233,13 @@ function GraphEl(props: Props) {
           barPadding: settings?.barPadding,
           showTicks: settings?.showTicks,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -240,9 +263,11 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'horizontalStackedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -257,8 +282,13 @@ function GraphEl(props: Props) {
           leftMargin: settings?.leftMargin,
           rightMargin: settings?.rightMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -279,9 +309,11 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'verticalBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -304,7 +336,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -325,9 +361,11 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'verticalGroupedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -341,8 +379,13 @@ function GraphEl(props: Props) {
           labelOrder: settings?.labelOrder,
           showTicks: settings?.showTicks,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -365,9 +408,11 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'verticalStackedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -383,8 +428,13 @@ function GraphEl(props: Props) {
           leftMargin: settings?.leftMargin,
           rightMargin: settings?.rightMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -404,9 +454,11 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'animatedHorizontalBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -428,7 +480,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -456,6 +512,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedHorizontalGroupedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -468,8 +525,13 @@ function GraphEl(props: Props) {
           barPadding: settings?.barPadding,
           showTicks: settings?.showTicks,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -498,6 +560,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedHorizontalStackedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -512,8 +575,13 @@ function GraphEl(props: Props) {
           leftMargin: settings?.leftMargin,
           rightMargin: settings?.rightMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -539,6 +607,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedVerticalBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -560,7 +629,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -588,6 +661,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedVerticalGroupedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -600,8 +674,13 @@ function GraphEl(props: Props) {
           barPadding: settings?.barPadding,
           showTicks: settings?.showTicks,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -630,6 +709,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedVerticalStackedBarChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -644,8 +724,13 @@ function GraphEl(props: Props) {
           leftMargin: settings?.leftMargin,
           rightMargin: settings?.rightMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('size', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'size',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -671,6 +756,7 @@ function GraphEl(props: Props) {
         };
       case 'lineChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphID: settings?.graphID,
           color: settings?.color as string | undefined,
@@ -712,12 +798,13 @@ function GraphEl(props: Props) {
         };
       case 'dualAxisLineChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           lineTitles: settings?.lineTitles || [
-            getValues('y1', graphDataConfiguration || []),
-            getValues('y2', graphDataConfiguration || []),
+            getValues('y1', graphDataConfiguration || [], readableHeader || []),
+            getValues('y2', graphDataConfiguration || [], readableHeader || []),
           ],
           footNote: settings?.footNote,
           sourceLink: settings?.sourceLink,
@@ -756,6 +843,7 @@ function GraphEl(props: Props) {
         };
       case 'multiLineChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -769,8 +857,13 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
-          labels: (settings?.labels ||
-            getValues('y', graphDataConfiguration || [])) as string[],
+          labels:
+            settings?.labels ||
+            (getValues(
+              'y',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,
@@ -802,6 +895,7 @@ function GraphEl(props: Props) {
         };
       case 'differenceLineChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           lineColors: settings?.colors as [string, string] | undefined,
           diffAreaColors: settings?.diffAreaColors,
@@ -817,8 +911,8 @@ function GraphEl(props: Props) {
           suffix: settings?.suffix,
           prefix: settings?.prefix,
           labels: settings?.labels || [
-            getValues('y1', graphDataConfiguration || []),
-            getValues('y2', graphDataConfiguration || []),
+            getValues('y1', graphDataConfiguration || [], readableHeader || []),
+            getValues('y2', graphDataConfiguration || [], readableHeader || []),
           ],
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -851,6 +945,7 @@ function GraphEl(props: Props) {
         };
       case 'stackedAreaChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -862,8 +957,13 @@ function GraphEl(props: Props) {
           source: settings?.source,
           noOfXTicks: settings?.noOfXTicks,
           dateFormat: settings?.dateFormat,
-          colorDomain: (settings?.colorDomain ||
-            getValues('y', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'y',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           colorLegendTitle: settings?.colorLegendTitle,
@@ -890,6 +990,7 @@ function GraphEl(props: Props) {
         };
       case 'choroplethMap':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -903,7 +1004,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('x', graphDataConfiguration || []),
+              : getValues(
+                  'x',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -931,6 +1036,7 @@ function GraphEl(props: Props) {
         };
       case 'biVariateChoroplethMap':
         return {
+          mode: settings?.mode,
           data: graphData,
           mapData: settings?.mapData,
           graphTitle: settings?.graphTitle,
@@ -943,11 +1049,19 @@ function GraphEl(props: Props) {
           xColorLegendTitle:
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
-              : getValues('x', graphDataConfiguration || []),
+              : getValues(
+                  'x',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
-              : getValues('y', graphDataConfiguration || []),
+              : getValues(
+                  'y',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -975,6 +1089,7 @@ function GraphEl(props: Props) {
         };
       case 'dotDensityMap':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -989,7 +1104,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1016,6 +1135,7 @@ function GraphEl(props: Props) {
         };
       case 'donutChart':
         return {
+          mode: settings?.mode,
           mainText: settings?.mainText,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1043,6 +1163,7 @@ function GraphEl(props: Props) {
         };
       case 'slopeChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1057,7 +1178,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           radius: settings?.radius,
           axisTitle: settings?.axisTitle,
           backgroundColor: settings?.backgroundColor,
@@ -1082,6 +1207,7 @@ function GraphEl(props: Props) {
         };
       case 'scatterPlot':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1096,7 +1222,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           radius: settings?.radius,
           xAxisTitle: settings?.xAxisTitle,
           yAxisTitle: settings?.yAxisTitle,
@@ -1131,6 +1261,7 @@ function GraphEl(props: Props) {
         };
       case 'horizontalDumbbellChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1150,8 +1281,13 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('x', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'x',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1170,9 +1306,11 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'verticalDumbbellChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1189,8 +1327,13 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('x', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'x',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1212,9 +1355,11 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
+          maxBarWidth: settings?.maxBarWidth,
         };
       case 'treeMap':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1232,7 +1377,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1253,6 +1402,7 @@ function GraphEl(props: Props) {
         };
       case 'circlePacking':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1270,7 +1420,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1291,6 +1445,7 @@ function GraphEl(props: Props) {
         };
       case 'heatMap':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1309,7 +1464,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1333,6 +1492,7 @@ function GraphEl(props: Props) {
         };
       case 'horizontalStripChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1347,7 +1507,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           radius: settings?.radius,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1376,6 +1540,7 @@ function GraphEl(props: Props) {
         };
       case 'verticalStripChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1389,7 +1554,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           radius: settings?.radius,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1419,6 +1588,7 @@ function GraphEl(props: Props) {
         };
       case 'horizontalBeeSwarmChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1435,7 +1605,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1460,6 +1634,7 @@ function GraphEl(props: Props) {
         };
       case 'verticalBeeSwarmChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1476,7 +1651,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1501,17 +1680,26 @@ function GraphEl(props: Props) {
         };
       case 'butterflyChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           leftBarTitle:
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
-              : getValues('leftBar', graphDataConfiguration || []),
+              : getValues(
+                  'leftBar',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
-              : getValues('rightBar', graphDataConfiguration || []),
+              : getValues(
+                  'rightBar',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           footNote: settings?.footNote,
           sourceLink: settings?.sourceLink,
           width: settings?.width,
@@ -1546,6 +1734,7 @@ function GraphEl(props: Props) {
         };
       case 'histogram':
         return {
+          mode: settings?.mode,
           data: graphData,
           color: settings?.color,
           graphTitle: settings?.graphTitle,
@@ -1584,6 +1773,7 @@ function GraphEl(props: Props) {
         };
       case 'sparkLine':
         return {
+          mode: settings?.mode,
           data: graphData,
           color: settings?.color as string | undefined,
           graphTitle: settings?.graphTitle,
@@ -1614,17 +1804,26 @@ function GraphEl(props: Props) {
         };
       case 'paretoChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           barTitle:
             Object.keys(settings || {}).indexOf('barTitle') !== -1
               ? settings?.barTitle
-              : getValues('barTitle', graphDataConfiguration || []),
+              : getValues(
+                  'barTitle',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           lineTitle:
             Object.keys(settings || {}).indexOf('lineTitle') !== -1
               ? settings?.lineTitle
-              : getValues('lineTitle', graphDataConfiguration || []),
+              : getValues(
+                  'lineTitle',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           footNote: settings?.footNote,
           sourceLink: settings?.sourceLink,
           width: settings?.width,
@@ -1653,6 +1852,7 @@ function GraphEl(props: Props) {
         };
       case 'dataTable':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           source: settings?.source,
           graphDescription: settings?.graphDescription,
@@ -1668,6 +1868,7 @@ function GraphEl(props: Props) {
         };
       case 'statCard':
         return {
+          mode: settings?.mode,
           year: settings?.year,
           data: graphData,
           graphTitle: settings?.graphTitle || '',
@@ -1688,6 +1889,7 @@ function GraphEl(props: Props) {
         };
       case 'geoHubCompareMap':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           source: settings?.source,
           graphDescription: settings?.graphDescription,
@@ -1708,6 +1910,7 @@ function GraphEl(props: Props) {
         };
       case 'geoHubMap':
         return {
+          mode: settings?.mode,
           mapStyle: settings?.mapStyle as string,
           center: settings?.center,
           zoomLevel: settings?.zoomLevel,
@@ -1725,9 +1928,12 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          includeLayers: settings?.includeLayers,
+          excludeLayers: settings?.excludeLayers,
         };
       case 'unitChart':
         return {
+          mode: settings?.mode,
           totalNoOfDots: settings?.totalNoOfDots,
           gridSize: settings?.gridSize,
           fillContainer: settings?.fillContainer,
@@ -1752,6 +1958,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedBiVariateChoroplethMap':
         return {
+          mode: settings?.mode,
           data: graphData,
           mapData: settings?.mapData,
           graphTitle: settings?.graphTitle,
@@ -1764,11 +1971,19 @@ function GraphEl(props: Props) {
           xColorLegendTitle:
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
-              : getValues('x', graphDataConfiguration || []),
+              : getValues(
+                  'x',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
-              : getValues('y', graphDataConfiguration || []),
+              : getValues(
+                  'y',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -1799,6 +2014,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedChoroplethMap':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -1812,7 +2028,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('x', graphDataConfiguration || []),
+              : getValues(
+                  'x',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -1843,6 +2063,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedDotDensityMap':
         return {
+          mode: settings?.mode,
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -1857,7 +2078,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1887,17 +2112,26 @@ function GraphEl(props: Props) {
         };
       case 'animatedButterflyChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           leftBarTitle:
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
-              : getValues('leftBar', graphDataConfiguration || []),
+              : getValues(
+                  'leftBar',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
-              : getValues('rightBar', graphDataConfiguration || []),
+              : getValues(
+                  'rightBar',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           footNote: settings?.footNote,
           sourceLink: settings?.sourceLink,
           width: settings?.width,
@@ -1935,6 +2169,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedHorizontalDumbbellChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1954,8 +2189,13 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('x', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'x',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1980,6 +2220,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedVerticalDumbbellChart':
         return {
+          mode: settings?.mode,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1996,8 +2237,13 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           truncateBy: settings?.truncateBy,
-          colorDomain: (settings?.colorDomain ||
-            getValues('x', graphDataConfiguration || [])) as string[],
+          colorDomain:
+            settings?.colorDomain ||
+            (getValues(
+              'x',
+              graphDataConfiguration || [],
+              readableHeader || [],
+            ) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -2025,6 +2271,7 @@ function GraphEl(props: Props) {
         };
       case 'animatedScatterPlot':
         return {
+          mode: settings?.mode,
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2039,7 +2286,11 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues('color', graphDataConfiguration || []),
+              : getValues(
+                  'color',
+                  graphDataConfiguration || [],
+                  readableHeader || [],
+                ),
           radius: settings?.radius,
           xAxisTitle: settings?.xAxisTitle,
           yAxisTitle: settings?.yAxisTitle,
@@ -2105,7 +2356,7 @@ function GraphEl(props: Props) {
           style={{
             textAlign: 'center',
             padding: '0.5rem',
-            color: '#D12800',
+            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
             fontSize: '0.875rem',
           }}
         >

@@ -41,6 +41,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function ParetoChart(props: Props) {
@@ -78,6 +79,7 @@ export function ParetoChart(props: Props) {
     language,
     colorLegendTitle,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -110,7 +112,7 @@ export function ParetoChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -147,6 +149,7 @@ export function ParetoChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -164,11 +167,14 @@ export function ParetoChart(props: Props) {
               language={language}
               colorDomain={[barTitle || 'Bar graph', lineTitle || 'Line chart']}
               colors={[
-                barColor || UNDPColorModule.categoricalColors.colors[0],
-                lineColor || UNDPColorModule.categoricalColors.colors[1],
+                barColor ||
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors[0],
+                lineColor ||
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors[1],
               ]}
               colorLegendTitle={colorLegendTitle}
               showNAColor={false}
+              mode={mode || 'light'}
             />
             <div
               style={{
@@ -185,10 +191,12 @@ export function ParetoChart(props: Props) {
                   data={data}
                   sameAxes={sameAxes}
                   lineColor={
-                    lineColor || UNDPColorModule.categoricalColors.colors[1]
+                    lineColor ||
+                    UNDPColorModule[mode || 'light'].categoricalColors.colors[1]
                   }
                   barColor={
-                    barColor || UNDPColorModule.categoricalColors.colors[0]
+                    barColor ||
+                    UNDPColorModule[mode || 'light'].categoricalColors.colors[0]
                   }
                   width={width || svgWidth}
                   height={
@@ -237,6 +245,7 @@ export function ParetoChart(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -249,6 +258,7 @@ export function ParetoChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

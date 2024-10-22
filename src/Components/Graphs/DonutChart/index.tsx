@@ -37,6 +37,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   fillContainer?: boolean;
+  mode?: 'light' | 'dark';
 }
 
 export function DonutChart(props: Props) {
@@ -68,6 +69,7 @@ export function DonutChart(props: Props) {
     rtl,
     language,
     fillContainer,
+    mode,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -109,7 +111,7 @@ export function DonutChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -149,6 +151,7 @@ export function DonutChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -198,17 +201,19 @@ export function DonutChart(props: Props) {
                               colorDomain || sortedData.map(el => el.label)
                             ).indexOf(d.label) !== -1
                               ? (colors ||
-                                  UNDPColorModule.categoricalColors.colors)[
+                                  UNDPColorModule[mode || 'light']
+                                    .categoricalColors.colors)[
                                   (
                                     colorDomain ||
                                     sortedData.map(el => el.label)
                                   ).indexOf(d.label) %
                                     (
                                       colors ||
-                                      UNDPColorModule.categoricalColors.colors
+                                      UNDPColorModule[mode || 'light']
+                                        .categoricalColors.colors
                                     ).length
                                 ]
-                              : UNDPColorModule.graphGray,
+                              : UNDPColorModule[mode || 'light'].graphGray,
                         }}
                       />
                       <p
@@ -261,7 +266,10 @@ export function DonutChart(props: Props) {
                         ? sortBy(data, d => d.size).reverse()
                         : data
                     }
-                    colors={colors || UNDPColorModule.categoricalColors.colors}
+                    colors={
+                      colors ||
+                      UNDPColorModule[mode || 'light'].categoricalColors.colors
+                    }
                     radius={radius || donutRadius}
                     subNote={subNote}
                     strokeWidth={strokeWidth || 50}
@@ -271,6 +279,7 @@ export function DonutChart(props: Props) {
                     onSeriesMouseClick={onSeriesMouseClick}
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
+                    mode={mode || 'light'}
                   />
                 ) : null}
               </div>
@@ -284,6 +293,7 @@ export function DonutChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={radius && !fillContainer ? radius * 2 : undefined}
+              mode={mode || 'light'}
             />
           ) : (
             <div />

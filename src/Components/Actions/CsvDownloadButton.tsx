@@ -16,6 +16,7 @@ interface Props {
   headers: HeaderProps[];
   separator?: ',' | ';';
   buttonSmall?: boolean;
+  mode: 'dark' | 'light';
 }
 
 export function CsvDownloadButton(props: Props) {
@@ -28,6 +29,7 @@ export function CsvDownloadButton(props: Props) {
     headers,
     separator,
     buttonSmall,
+    mode,
   } = props;
   return (
     <CSVLink
@@ -43,13 +45,15 @@ export function CsvDownloadButton(props: Props) {
       <div
         className={`undp-viz-download-button undp-viz-button button-${
           buttonType || 'quaternary'
-        }${buttonArrow ? ' button-arrow' : ''}`}
+        }${mode === 'dark' ? ' dark' : ''}${
+          buttonArrow ? ' button-arrow' : ''
+        }`}
         style={{
           textDecoration: 'none',
           padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
         }}
       >
-        {buttonContent || <FileDown />}
+        {buttonContent || <FileDown mode={mode} />}
       </div>
     </CSVLink>
   );

@@ -55,6 +55,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -99,6 +100,7 @@ export function AnimatedChoroplethMap(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -171,7 +173,7 @@ export function AnimatedChoroplethMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -208,6 +210,7 @@ export function AnimatedChoroplethMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -223,7 +226,11 @@ export function AnimatedChoroplethMap(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -272,12 +279,12 @@ export function AnimatedChoroplethMap(props: Props) {
                 colors={
                   colors ||
                   (categorical
-                    ? UNDPColorModule.sequentialColors[
+                    ? UNDPColorModule[mode || 'light'].sequentialColors[
                         `neutralColorsx0${
                           domain.length as 4 | 5 | 6 | 7 | 8 | 9
                         }`
                       ]
-                    : UNDPColorModule.sequentialColors[
+                    : UNDPColorModule[mode || 'light'].sequentialColors[
                         `neutralColorsx0${
                           (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                         }`
@@ -289,10 +296,13 @@ export function AnimatedChoroplethMap(props: Props) {
                     ? 0.5
                     : (mapBorderWidth as number)
                 }
-                mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
+                mapNoDataColor={
+                  mapNoDataColor || UNDPColorModule[mode || 'light'].graphNoData
+                }
                 categorical={categorical}
                 mapBorderColor={
-                  mapBorderColor || UNDPColorModule.grays['gray-500']
+                  mapBorderColor ||
+                  UNDPColorModule[mode || 'light'].grays['gray-500']
                 }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
@@ -312,6 +322,7 @@ export function AnimatedChoroplethMap(props: Props) {
                 indx={index}
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
+                mode={mode || 'light'}
               />
             ) : null}
           </div>
@@ -323,6 +334,7 @@ export function AnimatedChoroplethMap(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

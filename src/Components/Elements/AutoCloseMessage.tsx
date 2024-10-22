@@ -5,10 +5,11 @@ import { UNDPColorModule } from '../ColorPalette';
 interface Props {
   message: string;
   duration: number;
+  mode: 'dark' | 'light';
 }
 
 function AutoCloseMessage(props: Props) {
-  const { message, duration } = props;
+  const { message, duration, mode } = props;
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -30,8 +31,10 @@ function AutoCloseMessage(props: Props) {
         position: 'fixed',
         top: '1rem',
         zIndex: '1000',
-        backgroundColor: UNDPColorModule.alerts.lightGreen,
-        border: `1px solid ${UNDPColorModule.alerts.darkGreen}`,
+        backgroundColor: UNDPColorModule[mode || 'light'].alerts.lightGreen,
+        border: `1px solid ${
+          UNDPColorModule[mode || 'light'].alerts.darkGreen
+        }`,
         borderRadius: '2px',
         maxWidth: '300px',
         margin: 'auto',

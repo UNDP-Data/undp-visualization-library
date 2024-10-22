@@ -47,6 +47,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function DotDensityMap(props: Props) {
@@ -88,6 +89,7 @@ export function DotDensityMap(props: Props) {
     rtl,
     language,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -131,7 +133,7 @@ export function DotDensityMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -168,6 +170,7 @@ export function DotDensityMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -212,9 +215,13 @@ export function DotDensityMap(props: Props) {
                   data.filter(el => el.color).length === 0
                     ? colors
                       ? [colors as string]
-                      : [UNDPColorModule.primaryColors['blue-600']]
+                      : [
+                          UNDPColorModule[mode || 'light'].primaryColors[
+                            'blue-600'
+                          ],
+                        ]
                     : (colors as string[] | undefined) ||
-                      UNDPColorModule.categoricalColors.colors
+                      UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorLegendTitle={colorLegendTitle}
                 radius={checkIfNullOrUndefined(radius) ? 5 : (radius as number)}
@@ -223,9 +230,12 @@ export function DotDensityMap(props: Props) {
                     ? 0.5
                     : (mapBorderWidth as number)
                 }
-                mapNoDataColor={mapNoDataColor || UNDPColorModule.graphNoData}
+                mapNoDataColor={
+                  mapNoDataColor || UNDPColorModule[mode || 'light'].graphNoData
+                }
                 mapBorderColor={
-                  mapBorderColor || UNDPColorModule.grays['gray-500']
+                  mapBorderColor ||
+                  UNDPColorModule[mode || 'light'].grays['gray-500']
                 }
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
@@ -243,6 +253,7 @@ export function DotDensityMap(props: Props) {
                 }
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
+                mode={mode || 'light'}
               />
             ) : null}
           </div>
@@ -254,6 +265,7 @@ export function DotDensityMap(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

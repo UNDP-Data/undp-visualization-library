@@ -7,6 +7,7 @@ export function getUniqValue(
   csvData: any,
   column: string,
 ) {
+  if (csvData.length === 0) return [];
   if (typeof csvData[0][column] !== 'object') {
     const uniqValues = sortBy(
       uniqBy(csvData, (d: any) => d[column]),

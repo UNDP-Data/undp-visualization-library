@@ -48,6 +48,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function HeatMap(props: Props) {
@@ -90,6 +91,7 @@ export function HeatMap(props: Props) {
     language,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -132,7 +134,7 @@ export function HeatMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -169,6 +171,7 @@ export function HeatMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -192,15 +195,16 @@ export function HeatMap(props: Props) {
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule.categoricalColors.colors
+                        ? UNDPColorModule[mode || 'light'].categoricalColors
+                            .colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule.sequentialColors[
+                        : UNDPColorModule[mode || 'light'].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -213,6 +217,7 @@ export function HeatMap(props: Props) {
                         ? true
                         : showNAColor
                     }
+                    mode={mode || 'light'}
                   />
                 </div>
               ) : scale === 'threshold' ? (
@@ -223,15 +228,16 @@ export function HeatMap(props: Props) {
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule.categoricalColors.colors
+                        ? UNDPColorModule[mode || 'light'].categoricalColors
+                            .colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule.sequentialColors[
+                        : UNDPColorModule[mode || 'light'].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -239,9 +245,12 @@ export function HeatMap(props: Props) {
                     }
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
-                    naColor={noDataColor || UNDPColorModule.graphGray}
+                    naColor={
+                      noDataColor || UNDPColorModule[mode || 'light'].graphGray
+                    }
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
+                    mode={mode || 'light'}
                   />
                 </div>
               ) : (
@@ -251,11 +260,14 @@ export function HeatMap(props: Props) {
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors || [
-                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                        UNDPColorModule[mode || 'light'].sequentialColors
+                          .neutralColorsx09[0],
+                        UNDPColorModule[mode || 'light'].sequentialColors
+                          .neutralColorsx09[8],
                       ]
                     }
                     colorDomain={domain as number[]}
+                    mode={mode || 'light'}
                   />
                 </div>
               )
@@ -280,19 +292,24 @@ export function HeatMap(props: Props) {
                   colors={
                     colors ||
                     (typeof domain[0] === 'string'
-                      ? UNDPColorModule.categoricalColors.colors
+                      ? UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                       : domain.length === 2
                       ? [
-                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                          UNDPColorModule[mode || 'light'].sequentialColors
+                            .neutralColorsx09[0],
+                          UNDPColorModule[mode || 'light'].sequentialColors
+                            .neutralColorsx09[8],
                         ]
-                      : UNDPColorModule.sequentialColors[
+                      : UNDPColorModule[mode || 'light'].sequentialColors[
                           `neutralColorsx0${
                             (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                           }`
                         ])
                   }
-                  noDataColor={noDataColor || UNDPColorModule.graphGray}
+                  noDataColor={
+                    noDataColor || UNDPColorModule[mode || 'light'].graphGray
+                  }
                   scaleType={scale}
                   height={
                     height ||
@@ -348,6 +365,7 @@ export function HeatMap(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -360,6 +378,7 @@ export function HeatMap(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

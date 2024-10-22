@@ -47,6 +47,7 @@ interface Props {
   boxPadding?: number;
   showNAColor?: boolean;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function SdgChart(props: Props) {
@@ -88,6 +89,7 @@ export function SdgChart(props: Props) {
     boxPadding,
     showNAColor,
     minHeight,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -130,7 +132,7 @@ export function SdgChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -167,6 +169,7 @@ export function SdgChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -190,15 +193,16 @@ export function SdgChart(props: Props) {
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule.categoricalColors.colors
+                        ? UNDPColorModule[mode || 'light'].categoricalColors
+                            .colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule.sequentialColors[
+                        : UNDPColorModule[mode || 'light'].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -211,6 +215,7 @@ export function SdgChart(props: Props) {
                         ? true
                         : showNAColor
                     }
+                    mode={mode || 'light'}
                   />
                 </div>
               ) : scale === 'threshold' ? (
@@ -221,15 +226,16 @@ export function SdgChart(props: Props) {
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule.categoricalColors.colors
+                        ? UNDPColorModule[mode || 'light'].categoricalColors
+                            .colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule.sequentialColors
+                            UNDPColorModule[mode || 'light'].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule.sequentialColors[
+                        : UNDPColorModule[mode || 'light'].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -237,9 +243,12 @@ export function SdgChart(props: Props) {
                     }
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
-                    naColor={noDataColor || UNDPColorModule.graphGray}
+                    naColor={
+                      noDataColor || UNDPColorModule[mode || 'light'].graphGray
+                    }
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
+                    mode={mode || 'light'}
                   />
                 </div>
               ) : (
@@ -249,11 +258,14 @@ export function SdgChart(props: Props) {
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors || [
-                        UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                        UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                        UNDPColorModule[mode || 'light'].sequentialColors
+                          .neutralColorsx09[0],
+                        UNDPColorModule[mode || 'light'].sequentialColors
+                          .neutralColorsx09[8],
                       ]
                     }
                     colorDomain={domain as number[]}
+                    mode={mode || 'light'}
                   />
                 </div>
               )
@@ -278,19 +290,24 @@ export function SdgChart(props: Props) {
                   colors={
                     colors ||
                     (typeof domain[0] === 'string'
-                      ? UNDPColorModule.categoricalColors.colors
+                      ? UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                       : domain.length === 2
                       ? [
-                          UNDPColorModule.sequentialColors.neutralColorsx09[0],
-                          UNDPColorModule.sequentialColors.neutralColorsx09[8],
+                          UNDPColorModule[mode || 'light'].sequentialColors
+                            .neutralColorsx09[0],
+                          UNDPColorModule[mode || 'light'].sequentialColors
+                            .neutralColorsx09[8],
                         ]
-                      : UNDPColorModule.sequentialColors[
+                      : UNDPColorModule[mode || 'light'].sequentialColors[
                           `neutralColorsx0${
                             (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                           }`
                         ])
                   }
-                  noDataColor={noDataColor || UNDPColorModule.graphGray}
+                  noDataColor={
+                    noDataColor || UNDPColorModule[mode || 'light'].graphGray
+                  }
                   scaleType={scale}
                   height={
                     height ||
@@ -337,6 +354,7 @@ export function SdgChart(props: Props) {
                   }
                   boxHeight={boxHeight || 40}
                   boxPadding={boxPadding || 10}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -349,6 +367,7 @@ export function SdgChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

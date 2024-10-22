@@ -17,6 +17,7 @@ interface Props {
   xlsxHeader: any;
   wscols: WsColInterface[];
   buttonSmall?: boolean;
+  mode?: 'dark' | 'light';
 }
 
 export function ExcelDownloadButton(props: Props) {
@@ -30,13 +31,14 @@ export function ExcelDownloadButton(props: Props) {
     xlsxHeader,
     wscols,
     buttonSmall,
+    mode,
   } = props;
   return (
     <button
       type='button'
       className={`undp-viz-download-button undp-viz-button button-${
         buttonType || 'quaternary'
-      }${buttonArrow ? ' button-arrow' : ''}`}
+      }${mode === 'dark' ? ' dark' : ''}${buttonArrow ? ' button-arrow' : ''}`}
       style={{
         padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
       }}
@@ -44,7 +46,7 @@ export function ExcelDownloadButton(props: Props) {
         excelDownload(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
     >
-      {buttonContent || <FileDown />}
+      {buttonContent || <FileDown mode={mode || 'light'} />}
     </button>
   );
 }

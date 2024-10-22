@@ -41,6 +41,7 @@ interface Props {
   dateFormat: string;
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -72,6 +73,7 @@ export function Graph(props: Props) {
     indx,
     rtl,
     language,
+    mode,
   } = props;
   const groupedData = Array.from(
     group(
@@ -292,7 +294,9 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? UNDPColorModule.grays['gray-400']
+                                  ? UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ]
                                   : '#fff',
                             }}
                             strokeWidth={mapBorderWidth}
@@ -320,7 +324,9 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? UNDPColorModule.grays['gray-400']
+                                  ? UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ]
                                   : '#fff',
                             }}
                             strokeWidth={mapBorderWidth}
@@ -362,7 +368,10 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={masterPath}
                                 style={{
-                                  stroke: UNDPColorModule.grays['gray-700'],
+                                  stroke:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-700'
+                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -386,7 +395,10 @@ export function Graph(props: Props) {
                                 key={j}
                                 d={path}
                                 style={{
-                                  stroke: UNDPColorModule.grays['gray-700'],
+                                  stroke:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-700'
+                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -408,7 +420,8 @@ export function Graph(props: Props) {
           <div
             style={{
               alignItems: 'flex-start',
-              backgroundColor: 'rgba(255,255,255,0.75)',
+              backgroundColor:
+                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               display: 'flex',
             }}
@@ -442,7 +455,11 @@ export function Graph(props: Props) {
                                 height={23}
                                 strokeWidth={selectedColor === el ? 2 : 0.25}
                                 stroke={
-                                  selectedColor === el ? '#212121' : '#fff'
+                                  selectedColor === el
+                                    ? UNDPColorModule[mode || 'light'].grays[
+                                        'gray-700'
+                                      ]
+                                    : '#fff'
                                 }
                                 style={{ cursor: 'pointer' }}
                                 onMouseOver={() => {
@@ -461,7 +478,6 @@ export function Graph(props: Props) {
                               key={j}
                               y={10}
                               x={(j + 1) * 25}
-                              fill='#212121'
                               fontSize={10}
                               textAnchor='middle'
                               style={{
@@ -470,6 +486,9 @@ export function Graph(props: Props) {
                                     ? 'Noto Sans Hebrew, sans-serif'
                                     : 'Noto Sans Arabic, sans-serif'
                                   : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                fill: UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ],
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -491,7 +510,6 @@ export function Graph(props: Props) {
                               x={0}
                               transform='rotate(-90)'
                               y={0}
-                              fill='#212121'
                               fontSize={10}
                               textAnchor='middle'
                               style={{
@@ -500,6 +518,9 @@ export function Graph(props: Props) {
                                     ? 'Noto Sans Hebrew, sans-serif'
                                     : 'Noto Sans Arabic, sans-serif'
                                   : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                fill: UNDPColorModule[mode || 'light'].grays[
+                                  'gray-700'
+                                ],
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -525,7 +546,8 @@ export function Graph(props: Props) {
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
-                        color: UNDPColorModule.grays['gray-700'],
+                        color:
+                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                       }}
@@ -545,7 +567,7 @@ export function Graph(props: Props) {
                       fontStyle: 'normal',
                       fontSize: '0.75rem',
                       width: '8.125rem',
-                      color: UNDPColorModule.grays['gray-700'],
+                      color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       display: '-webkit-box',
                       position: 'absolute',
                       top: '80px',
@@ -604,9 +626,12 @@ export function Graph(props: Props) {
               cursor: 'pointer',
               textTransform: 'uppercase',
               padding: '0.5rem',
-              border: `1px solid ${UNDPColorModule.grays['gray-400']}`,
-              color: UNDPColorModule.grays['gray-600'],
-              backgroundColor: UNDPColorModule.grays['gray-300'],
+              border: `1px solid ${
+                UNDPColorModule[mode || 'light'].grays['gray-400']
+              }`,
+              color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+              backgroundColor:
+                UNDPColorModule[mode || 'light'].grays['gray-300'],
               marginBottom: '0.75rem',
               display: 'flex',
             }}
@@ -623,6 +648,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>

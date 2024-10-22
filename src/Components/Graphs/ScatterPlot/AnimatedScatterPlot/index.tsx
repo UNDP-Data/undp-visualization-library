@@ -72,6 +72,7 @@ interface Props {
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  mode?: 'light' | 'dark';
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -124,6 +125,7 @@ export function AnimatedScatterPlot(props: Props) {
     minHeight,
     annotations,
     customHighlightAreaSettings,
+    mode,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -188,7 +190,7 @@ export function AnimatedScatterPlot(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -225,6 +227,7 @@ export function AnimatedScatterPlot(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -240,7 +243,11 @@ export function AnimatedScatterPlot(props: Props) {
                 cursor: 'pointer',
               }}
             >
-              {play ? <Pause /> : <Play />}
+              {play ? (
+                <Pause mode={mode || 'light'} />
+              ) : (
+                <Play mode={mode || 'light'} />
+              )}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -277,7 +284,7 @@ export function AnimatedScatterPlot(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule.categoricalColors.colors
+                  UNDPColorModule[mode || 'light'].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -292,6 +299,7 @@ export function AnimatedScatterPlot(props: Props) {
                     ? true
                     : showNAColor
                 }
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -332,9 +340,14 @@ export function AnimatedScatterPlot(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule.primaryColors['blue-600']]
+                        : [
+                            UNDPColorModule[mode || 'light'].primaryColors[
+                              'blue-600'
+                            ],
+                          ]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule.categoricalColors.colors
+                        UNDPColorModule[mode || 'light'].categoricalColors
+                          .colors
                   }
                   xAxisTitle={xAxisTitle || 'X Axis'}
                   yAxisTitle={yAxisTitle || 'Y Axis'}
@@ -379,7 +392,8 @@ export function AnimatedScatterPlot(props: Props) {
                       : highlightedDataPoints || []
                   }
                   highlightAreaColor={
-                    highlightAreaColor || UNDPColorModule.grays['gray-300']
+                    highlightAreaColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-300']
                   }
                   selectedColor={selectedColor}
                   maxRadiusValue={maxRadiusValue}
@@ -396,6 +410,7 @@ export function AnimatedScatterPlot(props: Props) {
                   customHighlightAreaSettings={
                     customHighlightAreaSettings || []
                   }
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -408,6 +423,7 @@ export function AnimatedScatterPlot(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

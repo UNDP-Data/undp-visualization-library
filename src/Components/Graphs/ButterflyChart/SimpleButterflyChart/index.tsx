@@ -48,6 +48,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
+  mode?: 'light' | 'dark';
 }
 
 export function ButterflyChart(props: Props) {
@@ -91,6 +92,7 @@ export function ButterflyChart(props: Props) {
     language,
     colorLegendTitle,
     minHeight,
+    mode,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -122,7 +124,7 @@ export function ButterflyChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule.grays['gray-200']
+          ? UNDPColorModule[mode || 'light'].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -159,6 +161,7 @@ export function ButterflyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
+              mode={mode || 'light'}
             />
           ) : null}
           <div
@@ -182,11 +185,14 @@ export function ButterflyChart(props: Props) {
                 ]}
                 colors={
                   barColors || [
-                    UNDPColorModule.categoricalColors.colors[0],
-                    UNDPColorModule.categoricalColors.colors[1],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[0],
+                    UNDPColorModule[mode || 'light'].categoricalColors
+                      .colors[1],
                   ]
                 }
                 showNAColor={false}
+                mode={mode || 'light'}
               />
             ) : null}
             <div
@@ -204,8 +210,10 @@ export function ButterflyChart(props: Props) {
                   data={data}
                   barColors={
                     barColors || [
-                      UNDPColorModule.categoricalColors.colors[0],
-                      UNDPColorModule.categoricalColors.colors[1],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[0],
+                      UNDPColorModule[mode || 'light'].categoricalColors
+                        .colors[1],
                     ]
                   }
                   width={width || svgWidth}
@@ -270,6 +278,7 @@ export function ButterflyChart(props: Props) {
                   prefix={prefix || ''}
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
+                  mode={mode || 'light'}
                 />
               ) : null}
             </div>
@@ -282,6 +291,7 @@ export function ButterflyChart(props: Props) {
               sourceLink={sourceLink}
               footNote={footNote}
               width={width}
+              mode={mode || 'light'}
             />
           ) : null}
         </div>

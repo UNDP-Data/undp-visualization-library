@@ -27,6 +27,7 @@ interface Props {
   highlightedDataPoints: (string | number)[];
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
+  mode: 'light' | 'dark';
 }
 
 export function Graph(props: Props) {
@@ -51,6 +52,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     rtl,
     language,
+    mode,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -160,7 +162,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !(d.data as any).data.color
-                        ? UNDPColorModule.graphGray
+                        ? UNDPColorModule[mode || 'light'].graphGray
                         : colors[
                             colorDomain.indexOf((d.data as any).data.color)
                           ],
@@ -181,7 +183,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !(d.data as any).data.color
-                            ? UNDPColorModule.graphGray
+                            ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
@@ -210,7 +212,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.graphGray
+                                ? UNDPColorModule[mode || 'light'].graphGray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -232,7 +234,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.graphGray
+                                ? UNDPColorModule[mode || 'light'].graphGray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -265,6 +267,7 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
+          mode={mode}
         />
       ) : null}
     </>
