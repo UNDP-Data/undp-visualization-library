@@ -346,6 +346,7 @@ export type FilterUiSettingsDataType = {
   singleSelect?: boolean;
   clearable?: boolean;
   defaultValue?: string[] | string;
+  excludeValues?: string[];
 };
 
 export type DashboardLayoutDataType = {
@@ -361,6 +362,33 @@ export type DashboardLayoutDataType = {
   }[];
 };
 
+export type DashboardFromWideToLongFormatColumnDataType = {
+  graphType:
+    | 'donutChart'
+    | 'verticalBarChart'
+    | 'horizontalBarChart'
+    | 'unitChart'
+    | 'treeMap'
+    | 'circlePacking';
+  columnWidth?: number;
+  dataFilters?: DataFilterDataType[];
+  graphDataConfiguration?: GraphConfigurationDataType[];
+  settings?: any;
+};
+
+export type DashboardFromWideToLongFormatLayoutDataType = {
+  title?: string;
+  description?: string;
+  padding?: string;
+  backgroundColor?: string | boolean;
+  rtl?: boolean;
+  language?: 'ar' | 'en' | 'he';
+  rows: {
+    columns: DashboardFromWideToLongFormatColumnDataType[];
+    height?: number;
+  }[];
+};
+
 export interface ColumnConfigurationDataType {
   column: string;
   delimiter?: string;
@@ -372,6 +400,14 @@ export interface DataSettingsDataType {
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
   data?: any;
+}
+
+export interface DataSettingsWideToLongDataType {
+  dataURL?: string;
+  fileType?: 'csv' | 'json';
+  delimiter?: string;
+  data?: any;
+  keyColumn: string;
 }
 
 export interface APISettingsDataType {

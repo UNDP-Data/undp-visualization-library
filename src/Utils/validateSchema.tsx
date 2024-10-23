@@ -5,6 +5,7 @@ import {
   dashboardJSONSchema,
   griddedGraphJSONSchema,
   singleGraphJSONSchema,
+  dashboardWideToLongFormatJSONSchema,
 } from '../Schemas';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
@@ -80,7 +81,11 @@ export function validateSettingsSchema(settings: any, graph: GraphType) {
 
 export function validateConfigSchema(
   config: any,
-  graph: 'singleGraphDashboard' | 'multiGraphDashboard' | 'griddedGraph',
+  graph:
+    | 'singleGraphDashboard'
+    | 'multiGraphDashboard'
+    | 'griddedGraph'
+    | 'multiGraphDashboardWideToLongFormat',
 ) {
   let schema: any;
   switch (graph) {
@@ -92,6 +97,9 @@ export function validateConfigSchema(
       break;
     case 'singleGraphDashboard':
       schema = singleGraphJSONSchema;
+      break;
+    case 'multiGraphDashboardWideToLongFormat':
+      schema = dashboardWideToLongFormatJSONSchema;
       break;
     default:
       break;

@@ -5277,3 +5277,166 @@ export const dashboardJSONSchema = {
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],
 };
+
+export const dashboardWideToLongFormatJSONSchema = {
+  properties: {
+    dashboardId: {
+      type: 'string',
+    },
+    dashboardLayout: {
+      properties: {
+        backgroundColor: {
+          type: ['string', 'boolean'],
+        },
+        description: {
+          type: 'string',
+        },
+        language: {
+          enum: ['ar', 'en', 'he'],
+          type: 'string',
+        },
+        padding: {
+          type: 'string',
+        },
+        rows: {
+          items: {
+            properties: {
+              columns: {
+                items: {
+                  properties: {
+                    columnWidth: {
+                      type: 'number',
+                    },
+                    dataFilters: {
+                      items: {
+                        properties: {
+                          column: {
+                            type: 'string',
+                          },
+                          excludeValues: {
+                            type: 'array',
+                            items: {
+                              oneOf: [
+                                { type: 'string' },
+                                { type: 'number' },
+                                { type: 'boolean' },
+                              ],
+                            },
+                          },
+                          includeValues: {
+                            type: 'array',
+                            items: {
+                              oneOf: [
+                                { type: 'string' },
+                                { type: 'number' },
+                                { type: 'boolean' },
+                              ],
+                            },
+                          },
+                        },
+                        type: 'object',
+                        required: ['column'],
+                      },
+                      type: 'array',
+                    },
+                    graphDataConfiguration: {
+                      items: {
+                        properties: {
+                          chartConfigId: {
+                            type: 'string',
+                          },
+                          columnId: {
+                            anyOf: [
+                              {
+                                items: {
+                                  type: 'string',
+                                },
+                                type: 'array',
+                              },
+                              {
+                                type: 'string',
+                              },
+                            ],
+                          },
+                        },
+                        required: ['chartConfigId', 'columnId'],
+                        type: 'object',
+                      },
+                      type: 'array',
+                    },
+                    graphType: {
+                      enum: [
+                        'circlePacking',
+                        'donutChart',
+                        'horizontalBarChart',
+                        'treeMap',
+                        'unitChart',
+                        'verticalBarChart',
+                      ],
+                      type: 'string',
+                    },
+                    settings: SettingsSchema,
+                  },
+                  type: 'object',
+                  required: ['graphType'],
+                },
+                type: 'array',
+              },
+              height: {
+                type: 'number',
+              },
+            },
+            type: 'object',
+            required: ['columns'],
+          },
+          type: 'array',
+        },
+        rtl: {
+          type: 'boolean',
+        },
+        title: {
+          type: 'string',
+        },
+      },
+      type: 'object',
+      required: ['rows'],
+    },
+    dataSettings: {
+      properties: {
+        data: {},
+        dataURL: {
+          type: 'string',
+        },
+        delimiter: {
+          type: 'string',
+        },
+        fileType: {
+          enum: ['csv', 'json'],
+          type: 'string',
+        },
+        keyColumn: {
+          type: 'string',
+        },
+      },
+      required: ['keyColumn'],
+      type: 'object',
+    },
+    readableHeader: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'string' },
+          label: {
+            type: 'string',
+          },
+        },
+        required: ['value', 'label'],
+      },
+    },
+    debugMode: { type: 'boolean' },
+    mode: { type: 'string', enum: ['dark', 'light'] },
+  },
+  type: 'object',
+  required: ['dashboardLayout', 'dataSettings'],
+};

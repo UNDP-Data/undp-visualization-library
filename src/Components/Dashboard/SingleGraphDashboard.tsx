@@ -129,10 +129,17 @@ export function SingleGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(d, el.column).map(v => ({
-              value: v,
-              label: v,
-            })),
+            availableValues: getUniqValue(
+              filterData(d, dataFilters || []),
+              el.column,
+            )
+              .filter(v =>
+                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+              )
+              .map(v => ({
+                value: v,
+                label: v,
+              })),
           })) || [],
         );
       });
@@ -162,10 +169,14 @@ export function SingleGraphDashboard(props: Props) {
               singleSelect: el.singleSelect,
               clearable: el.clearable,
               defaultValue: el.defaultValue,
-              availableValues: getUniqValue(d, el.column).map(v => ({
-                value: v,
-                label: v,
-              })),
+              availableValues: getUniqValue(d, el.column)
+                .filter(v =>
+                  el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+                )
+                .map(v => ({
+                  value: v,
+                  label: v,
+                })),
             })) || [],
           );
         });
@@ -184,15 +195,22 @@ export function SingleGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(tempData, el.column).map(v => ({
-              value: v,
-              label: v,
-            })),
+            availableValues: getUniqValue(
+              filterData(tempData, dataFilters || []),
+              el.column,
+            )
+              .filter(v =>
+                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+              )
+              .map(v => ({
+                value: v,
+                label: v,
+              })),
           })) || [],
         );
       }
     }
-  }, [dataSettings, dataFromAPISettings]);
+  }, [dataSettings, dataFromAPISettings, dataFilters]);
   if (!dataFromAPISettings && !dataSettings)
     return (
       <p

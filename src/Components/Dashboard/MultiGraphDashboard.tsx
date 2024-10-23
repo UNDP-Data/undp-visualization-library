@@ -111,10 +111,14 @@ export function MultiGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(d, el.column).map(v => ({
-              value: v,
-              label: v,
-            })),
+            availableValues: getUniqValue(d, el.column)
+              .filter(v =>
+                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+              )
+              .map(v => ({
+                value: v,
+                label: v,
+              })),
           })) || [],
         );
       });
@@ -144,10 +148,14 @@ export function MultiGraphDashboard(props: Props) {
               singleSelect: el.singleSelect,
               clearable: el.clearable,
               defaultValue: el.defaultValue,
-              availableValues: getUniqValue(d, el.column).map(v => ({
-                value: v,
-                label: v,
-              })),
+              availableValues: getUniqValue(d, el.column)
+                .filter(v =>
+                  el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+                )
+                .map(v => ({
+                  value: v,
+                  label: v,
+                })),
             })) || [],
           );
         });
@@ -166,10 +174,14 @@ export function MultiGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
-            availableValues: getUniqValue(tempData, el.column).map(v => ({
-              value: v,
-              label: v,
-            })),
+            availableValues: getUniqValue(tempData, el.column)
+              .filter(v =>
+                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+              )
+              .map(v => ({
+                value: v,
+                label: v,
+              })),
           })) || [],
         );
       }
