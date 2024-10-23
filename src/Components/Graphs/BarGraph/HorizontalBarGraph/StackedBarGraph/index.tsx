@@ -49,7 +49,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -92,7 +92,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     labelOrder,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -262,7 +262,7 @@ export function HorizontalStackedBarGraph(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   labelOrder={labelOrder}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

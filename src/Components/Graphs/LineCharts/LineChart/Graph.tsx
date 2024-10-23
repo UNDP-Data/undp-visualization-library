@@ -613,6 +613,9 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
+                      className={`${
+                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                      }undp-viz-typography`}
                       style={{
                         color:
                           d.color ||

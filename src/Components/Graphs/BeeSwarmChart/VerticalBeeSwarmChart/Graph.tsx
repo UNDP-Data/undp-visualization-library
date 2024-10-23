@@ -346,7 +346,11 @@ export function Graph(props: Props) {
                     >
                       {showLabels ? (
                         <p
-                          className='undp-viz-typography'
+                          className={`${
+                            rtl
+                              ? `undp-viz-typography-${language || 'ar'} `
+                              : ''
+                          }undp-viz-typography`}
                           style={{
                             fontSize: `${Math.min(
                               Math.max(

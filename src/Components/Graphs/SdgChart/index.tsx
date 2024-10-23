@@ -266,6 +266,8 @@ export function SdgChart(props: Props) {
                     }
                     colorDomain={domain as number[]}
                     mode={mode || 'light'}
+                    rtl={rtl}
+                    language={language}
                   />
                 </div>
               )

@@ -50,7 +50,7 @@ interface Props {
   labelOrder?: string[];
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function HorizontalGroupedBarGraph(props: Props) {
@@ -94,7 +94,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     labelOrder,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
 
   const barColors =
@@ -271,7 +271,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

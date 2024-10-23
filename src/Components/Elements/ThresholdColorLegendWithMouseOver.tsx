@@ -44,19 +44,17 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <p
+          className={`${
+            rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+          }undp-viz-typography`}
           style={{
-            fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+            color: UNDPColorModule[mode || 'light'].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
             marginBottom: '0.5rem',
             marginTop: 0,
             lineHeight: 1.4,
-            fontFamily: rtl
-              ? language === 'he'
-                ? 'Noto Sans Hebrew, sans-serif'
-                : 'Noto Sans Arabic, sans-serif'
-              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
           }}
         >
           {colorLegendTitle}

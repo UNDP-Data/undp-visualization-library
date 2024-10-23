@@ -693,7 +693,7 @@ export const simpleBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    maxBarWidth: { type: 'number' },
+    maxBarThickness: { type: 'number' },
   },
 };
 
@@ -770,7 +770,7 @@ export const groupedBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    maxBarWidth: { type: 'number' },
+    maxBarThickness: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -847,7 +847,7 @@ export const stackedBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    maxBarWidth: { type: 'number' },
+    maxBarThickness: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1541,7 +1541,7 @@ export const dumbbellChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    maxBarWidth: { type: 'number' },
+    maxBarThickness: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1755,6 +1755,7 @@ export const histogramSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    maxBarThickness: { type: 'number' },
   },
   required: ['color', 'graphType'],
 };
@@ -3809,7 +3810,7 @@ export const SettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
-    maxBarWidth: { type: 'number' },
+    maxBarThickness: { type: 'number' },
     aggregationMethod: {
       enum: ['average', 'count', 'max', 'min', 'sum'],
       type: 'string',

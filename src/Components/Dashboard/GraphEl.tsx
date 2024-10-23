@@ -216,7 +216,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -263,7 +263,7 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'horizontalStackedBarChart':
         return {
@@ -309,7 +309,7 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'verticalBarChart':
         return {
@@ -361,7 +361,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'verticalGroupedBarChart':
         return {
@@ -408,7 +408,7 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'verticalStackedBarChart':
         return {
@@ -454,7 +454,7 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'animatedHorizontalBarChart':
         return {
@@ -1306,7 +1306,7 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'verticalDumbbellChart':
         return {
@@ -1355,7 +1355,7 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
-          maxBarWidth: settings?.maxBarWidth,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'treeMap':
         return {
@@ -1770,6 +1770,7 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'sparkLine':
         return {

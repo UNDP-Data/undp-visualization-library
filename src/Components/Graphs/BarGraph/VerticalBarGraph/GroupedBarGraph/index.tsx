@@ -50,7 +50,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -94,7 +94,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     labelOrder,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
 
   const barColors =
@@ -271,7 +271,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   labelOrder={labelOrder}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

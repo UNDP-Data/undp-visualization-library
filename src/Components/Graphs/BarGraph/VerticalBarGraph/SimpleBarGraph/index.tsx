@@ -53,7 +53,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -101,7 +101,7 @@ export function VerticalBarGraph(props: Props) {
     showNAColor,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -324,7 +324,7 @@ export function VerticalBarGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

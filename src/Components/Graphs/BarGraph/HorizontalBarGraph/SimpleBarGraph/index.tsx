@@ -53,7 +53,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -101,7 +101,7 @@ export function HorizontalBarGraph(props: Props) {
     showNAColor,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -326,7 +326,7 @@ export function HorizontalBarGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

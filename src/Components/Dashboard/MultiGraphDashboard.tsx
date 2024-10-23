@@ -262,11 +262,18 @@ export function MultiGraphDashboard(props: Props) {
                       key={i}
                     >
                       <p
-                        className='undp-viz-typography'
+                        className={
+                          dashboardLayout.rtl
+                            ? `undp-viz-typography-${
+                                dashboardLayout.language || 'ar'
+                              } undp-viz-typography`
+                            : 'undp-viz-typography'
+                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
                           textAlign: dashboardLayout.rtl ? 'right' : 'left',
+                          color: UNDPColorModule[mode || 'light'].grays.black,
                         }}
                       >
                         {d.label}

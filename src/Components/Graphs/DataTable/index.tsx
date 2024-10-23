@@ -479,7 +479,9 @@ export function DataTable(props: Props) {
         <div style={popupStyle}>
           <div style={{ maxWidth: '15rem' }}>
             <p
-              className='undp-viz-typography'
+              className={`${
+                rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+              }undp-viz-typography`}
               style={{
                 fontSize: '0.875rem',
                 marginBottom: '0.25rem',

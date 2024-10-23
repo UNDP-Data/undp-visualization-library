@@ -401,6 +401,9 @@ export function Graph(props: Props) {
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <p
+                    className={`${
+                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                    }undp-viz-typography`}
                     style={{
                       lineHeight: 'normal',
                       fontSize: '0.75rem',
@@ -410,8 +413,6 @@ export function Graph(props: Props) {
                       overflow: 'hidden',
                       margin: '0 0 0.5rem 0',
                       padding: 0,
-                      fontFamily:
-                        'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     }}
                   >

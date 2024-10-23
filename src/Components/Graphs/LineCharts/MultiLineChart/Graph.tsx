@@ -670,20 +670,23 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
+                      className={`${
+                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                      }undp-viz-typography`}
                       style={{
                         color:
                           d.color ||
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
                         fontWeight: d.fontWeight || 'regular',
+                        whiteSpace: 'normal',
+                        fontSize: '14px',
+                        textAlign: d.align || (rtl ? 'right' : 'left'),
+                        maxWidth: d.maxWidth || 'auto',
                         fontFamily: rtl
                           ? language === 'he'
                             ? 'Noto Sans Hebrew, sans-serif'
                             : 'Noto Sans Arabic, sans-serif'
                           : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        whiteSpace: 'normal',
-                        fontSize: '14px',
-                        textAlign: d.align || (rtl ? 'right' : 'left'),
-                        maxWidth: d.maxWidth || 'auto',
                         lineHeight: 1.2,
                         margin: 0,
                         paddingLeft: rtl ? 0 : '4px',

@@ -81,11 +81,14 @@ export function Graph(props: Props) {
               >
                 {mainText ? (
                   <h2
-                    className='undp-viz-typography'
+                    className={`${
+                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                    }undp-viz-typography`}
                     style={{
                       lineHeight: '1',
                       textAlign: 'center',
                       marginBottom: 0,
+                      color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
                     {mainText}
@@ -93,12 +96,15 @@ export function Graph(props: Props) {
                 ) : null}
                 {subNote ? (
                   <p
-                    className='undp-viz-typography'
+                    className={`${
+                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                    }undp-viz-typography`}
                     style={{
                       lineHeight: '1',
                       textAlign: 'center',
                       fontWeight: 'bold',
                       marginBottom: 0,
+                      color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
                     {subNote}

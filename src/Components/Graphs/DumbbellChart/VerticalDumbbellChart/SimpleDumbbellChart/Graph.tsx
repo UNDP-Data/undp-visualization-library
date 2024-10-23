@@ -37,7 +37,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -69,7 +69,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
   const margin = {
     top: topMargin,
@@ -104,8 +104,8 @@ export function Graph(props: Props) {
     .domain(dataWithId.map(d => `${d.id}`))
     .range([
       0,
-      maxBarWidth
-        ? Math.min(graphWidth, maxBarWidth * dataWithId.length)
+      maxBarThickness
+        ? Math.min(graphWidth, maxBarThickness * dataWithId.length)
         : graphWidth,
     ])
     .paddingInner(barPadding);

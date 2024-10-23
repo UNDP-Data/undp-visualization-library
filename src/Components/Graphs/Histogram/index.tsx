@@ -51,6 +51,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
+  maxBarThickness?: number;
   mode?: 'light' | 'dark';
 }
 
@@ -94,6 +95,7 @@ export function Histogram(props: Props) {
     language,
     minHeight,
     mode,
+    maxBarThickness,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -274,6 +276,7 @@ export function Histogram(props: Props) {
         language={language}
         minHeight={minHeight}
         mode={mode || 'light'}
+        maxBarThickness={maxBarThickness}
       />
     );
   return (
@@ -313,6 +316,7 @@ export function Histogram(props: Props) {
       language={language}
       minHeight={minHeight}
       mode={mode || 'light'}
+      maxBarThickness={maxBarThickness}
     />
   );
 }

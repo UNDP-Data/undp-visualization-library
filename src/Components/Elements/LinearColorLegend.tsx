@@ -7,10 +7,13 @@ interface Props {
   colorLegendTitle?: string;
   width?: number;
   mode: 'dark' | 'light';
+  rtl?: boolean;
+  language?: 'ar' | 'he' | 'en';
 }
 
 export function LinearColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, width, mode } = props;
+  const { colorLegendTitle, colorDomain, colors, width, mode, rtl, language } =
+    props;
   return (
     <div
       style={{
@@ -24,9 +27,11 @@ export function LinearColorLegend(props: Props) {
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <p
-          className='undp-viz-typography'
+          className={`${
+            rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+          }undp-viz-typography`}
           style={{
-            fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+            color: UNDPColorModule[mode || 'light'].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
@@ -67,13 +72,21 @@ export function LinearColorLegend(props: Props) {
         >
           <p
             className='undp-viz-typography'
-            style={{ marginBottom: 0, fontSize: '0.875rem' }}
+            style={{
+              marginBottom: 0,
+              fontSize: '0.875rem',
+              color: UNDPColorModule[mode || 'light'].grays.black,
+            }}
           >
             {numberFormattingFunction(colorDomain[0], '', '')}
           </p>
           <p
             className='undp-viz-typography'
-            style={{ marginBottom: 0, fontSize: '0.875rem' }}
+            style={{
+              marginBottom: 0,
+              fontSize: '0.875rem',
+              color: UNDPColorModule[mode || 'light'].grays.black,
+            }}
           >
             {numberFormattingFunction(colorDomain[1], '', '')}
           </p>

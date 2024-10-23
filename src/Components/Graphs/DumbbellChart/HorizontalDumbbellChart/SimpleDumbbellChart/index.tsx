@@ -50,7 +50,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -96,7 +96,7 @@ export function HorizontalDumbbellChart(props: Props) {
     language,
     minHeight,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -304,7 +304,7 @@ export function HorizontalDumbbellChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
-                  maxBarWidth={maxBarWidth}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

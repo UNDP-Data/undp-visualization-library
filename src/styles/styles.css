@@ -691,23 +691,33 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 16px;
   margin-bottom: 0;
   position: relative;
-  gap: 8px;
+  gap: 4px;
 }
 
-.undp-checkbox.en{
+.undp-checkbox p{
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px !important;
+  color: #000;
+}
+
+.undp-checkbox.dark-mode p{
+  color: #fff;
+}
+
+.undp-checkbox.en p{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 
-.undp-checkbox.ar{
+.undp-checkbox.ar p{
   font-family: "Noto Sans Arabic", sans-serif !important;
   text-align: right;
 }
 
-.undp-checkbox.he{
+.undp-checkbox.he p{
   font-family: "Noto Sans Hebrew", sans-serif !important;
   text-align: right;
 }
@@ -718,18 +728,21 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   cursor: pointer;
 }
 
+
 .undp-checkbox-box {
-  height: 14px;
-  width: 14px;
-  background-color: #FFF;
+  height: 12px;
+  width: 12px;
+  background-color: rgba(255, 255, 255,0.1);
   border-radius: 0;
-  border: 2px solid #232E3D;
+  border: 2px solid #006EB5;
   transition: background-color 0.2s;
 }
+.undp-checkbox:hover .undp-checkbox-box{
+  opacity: 0.5;
+}
 
-.undp-checkbox input:checked ~ .undp-checkbox-box {
-  background-color: #3288CE; /* Green when checked */
-  border-color: #006EB5;
+.undp-checkbox-box.dark-mode {
+  border: 1px solid rgba(255,255,255,0.8);
 }
 
 .undp-checkbox-box:after {
@@ -743,38 +756,59 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 .undp-checkbox .undp-checkbox-box:after {
-  width: 4px;
-  height: 8px;
-  margin-right: 4px;
-  margin-left: 4px;
-  border: solid #fff;
+  width: 3px;
+  height: 6px;
+  margin-top: 1px;
+  margin-right: 3px;
+  margin-left: 3px;
+  border: solid #006EB5;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
+
+.undp-checkbox .undp-checkbox-box.dark-mode:after {
+  width: 3px;
+  height: 6px;
+  margin-top: 1px;
+  margin-right: 3px;
+  margin-left: 3px;
+  border: solid #FFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
 
 
 .undp-radio {
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: 16px;
   margin-bottom: 0;
   position: relative;
-  gap: 8px;
+  gap: 4px;
+}
+.undp-radio p{
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px !important;
+  color: #000;
 }
 
-.undp-radio.en{
+.undp-radio.dark-mode p{
+  color: #fff;
+}
+
+.undp-radio.en p{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 
-.undp-radio.ar{
+.undp-radio.ar p{
   font-family: "Noto Sans Arabic", sans-serif !important;
   text-align: right;
 }
 
-.undp-radio.he{
+.undp-radio.he p{
   font-family: "Noto Sans Hebrew", sans-serif !important;
   text-align: right;
 }
@@ -786,17 +820,16 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 .undp-radio-box {
-  height: 14px;
-  width: 14px;
-  background-color: #FFF;
-  border-radius: 14px;
-  border: 2px solid #232E3D;
+  height: 12px;
+  width: 12px;
+  background-color: rgba(255, 255, 255,0.1);
+  border-radius: 12px;
+  border: 2px solid #006EB5;
   transition: background-color 0.2s;
 }
 
-.undp-radio input:checked ~ .undp-radio-box {
-  background-color: #3288CE; /* Green when checked */
-  border-color: #006EB5;
+.undp-radio-box.dark-mode {
+  border: 1px solid rgba(255,255,255,0.8);
 }
 
 .undp-radio-box:after {
@@ -810,9 +843,17 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 .undp-radio .undp-radio-box:after {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   margin: 3px;
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: #006EB5;
+  border-radius: 6px;
+}
+
+.undp-radio .undp-radio-box.dark-mode:after {
+  width: 6px;
+  height: 6px;
+  margin: 3px;
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 6px;
 }

@@ -196,7 +196,13 @@ export function SingleGraphDashboard(props: Props) {
   if (!dataFromAPISettings && !dataSettings)
     return (
       <p
-        className='undp-viz-typography'
+        className={
+          graphSettings?.rtl
+            ? `undp-viz-typography-${
+                graphSettings?.language || 'ar'
+              } undp-viz-typography`
+            : 'undp-viz-typography'
+        }
         style={{
           textAlign: 'center',
           padding: '0.5rem',
@@ -307,6 +313,7 @@ export function SingleGraphDashboard(props: Props) {
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
                           textAlign: graphSettings?.rtl ? 'right' : 'left',
+                          color: UNDPColorModule[mode || 'light'].grays.black,
                         }}
                       >
                         {d.label || `Visualize ${d.chartConfigId} by`}
@@ -581,6 +588,7 @@ export function SingleGraphDashboard(props: Props) {
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
                           textAlign: graphSettings?.rtl ? 'right' : 'left',
+                          color: UNDPColorModule[mode || 'light'].grays.black,
                         }}
                       >
                         {d.label}

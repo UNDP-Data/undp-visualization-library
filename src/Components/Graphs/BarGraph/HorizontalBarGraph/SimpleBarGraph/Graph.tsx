@@ -36,7 +36,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -69,7 +69,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
-    maxBarWidth,
+    maxBarThickness,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -117,8 +117,8 @@ export function Graph(props: Props) {
     .domain(barOrder)
     .range([
       0,
-      maxBarWidth
-        ? Math.min(graphHeight, maxBarWidth * barOrder.length)
+      maxBarThickness
+        ? Math.min(graphHeight, maxBarThickness * barOrder.length)
         : graphHeight,
     ])
     .paddingInner(barPadding);

@@ -570,7 +570,7 @@ export interface GraphSettingsDataType {
   diffAreaColors?: [string, string];
   idSuffix?: string;
   mode?: 'dark' | 'light';
-  maxBarWidth?: number;
+  maxBarThickness?: number;
   includeLayers?: string[];
   excludeLayers?: string[];
 }

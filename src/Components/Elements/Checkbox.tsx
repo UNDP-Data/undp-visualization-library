@@ -10,10 +10,11 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   defaultValue?: string[];
   onChange: (_d: string[]) => void;
+  mode?: 'light' | 'dark';
 }
 
 function Checkbox(props: Props) {
-  const { rtl, options, onChange, defaultValue, language } = props;
+  const { rtl, options, onChange, defaultValue, language, mode } = props;
   const [checkedItems, setCheckedItems] = useState(
     options.map(d => ({
       value: d.value,
@@ -43,7 +44,7 @@ function Checkbox(props: Props) {
         <label
           className={`undp-checkbox${
             rtl ? ` ${language || 'ar'}` : ` ${language || 'en'}`
-          }`}
+          }${mode === 'dark' ? ` dark-mode` : ''}`}
           key={i}
         >
           <input
@@ -55,8 +56,12 @@ function Checkbox(props: Props) {
             }
             onChange={handleCheckboxChange}
           />
-          <span className='undp-checkbox-box' />
-          {d.label}
+          <span
+            className={`undp-checkbox-box${
+              mode === 'dark' ? ` dark-mode` : ''
+            }`}
+          />
+          <p>{d.label}</p>
         </label>
       ))}
     </div>

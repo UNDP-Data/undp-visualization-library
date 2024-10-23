@@ -203,7 +203,11 @@ export function Graph(props: Props) {
                     >
                       {showLabels ? (
                         <p
-                          className='undp-viz-typography'
+                          className={`${
+                            rtl
+                              ? `undp-viz-typography-${language || 'ar'} `
+                              : ''
+                          }undp-viz-typography`}
                           style={{
                             fontSize: '14px',
                             lineHeight: '1',
@@ -242,6 +246,11 @@ export function Graph(props: Props) {
                                   ],
                             ),
                             fontWeight: 'bold',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {numberFormattingFunction(

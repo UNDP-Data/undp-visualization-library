@@ -112,12 +112,10 @@ export function Graph(props: Props) {
                   height={margin.top}
                 >
                   <div
+                    className={`${
+                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                    }undp-viz-typography`}
                     style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'middle',
                       whiteSpace: 'normal',
                       display: 'flex',
@@ -130,7 +128,9 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className='undp-viz-typography'
+                      className={`${
+                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                      }undp-viz-typography`}
                       style={{
                         fontSize: '16px',
                         textAlign: 'center',
@@ -138,6 +138,11 @@ export function Graph(props: Props) {
                         marginBottom: 0,
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -178,7 +183,9 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className='undp-viz-typography'
+                      className={`${
+                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                      }undp-viz-typography`}
                       style={{
                         fontSize: '16px',
                         textAlign: 'right',
@@ -186,6 +193,11 @@ export function Graph(props: Props) {
                         marginBottom: 0,
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                     >
                       {`${d}`.length < truncateBy

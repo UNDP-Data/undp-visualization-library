@@ -184,7 +184,9 @@ export function UnitChart(props: Props) {
                       }}
                     />
                     <p
-                      className='undp-viz-typography'
+                      className={`${
+                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                      }undp-viz-typography`}
                       style={{
                         marginBottom: 0,
                         fontSize: '0.875rem',

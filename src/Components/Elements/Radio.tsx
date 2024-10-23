@@ -10,10 +10,11 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   defaultValue: string;
   onChange: (_d: string) => void;
+  mode?: 'light' | 'dark';
 }
 
 function Radio(props: Props) {
-  const { rtl, options, onChange, defaultValue, language } = props;
+  const { rtl, options, onChange, defaultValue, language, mode } = props;
   const [selectedOption, setSelectedOption] = useState(defaultValue);
 
   const handleOptionChange = (event: any) => {
@@ -34,7 +35,7 @@ function Radio(props: Props) {
         <label
           className={`undp-radio${
             rtl ? ` ${language || 'ar'}` : ` ${language || 'en'}`
-          }`}
+          }${mode === 'dark' ? ` dark-mode` : ''}`}
           key={i}
         >
           <input
@@ -43,8 +44,10 @@ function Radio(props: Props) {
             checked={selectedOption === d.value}
             onChange={handleOptionChange}
           />
-          <span className='undp-radio-box' />
-          {d.label}
+          <span
+            className={`undp-radio-box${mode === 'dark' ? ` dark-mode` : ''}`}
+          />
+          <p>{d.label}</p>
         </label>
       ))}
     </div>

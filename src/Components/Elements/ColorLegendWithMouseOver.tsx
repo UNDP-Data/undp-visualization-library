@@ -43,7 +43,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
             }undp-viz-typography`}
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              color: UNDPColorModule[mode || 'light'].grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
               marginBottom: '0.5rem',
@@ -95,6 +95,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                     marginBottom: 0,
                     marginTop: '2px',
                     fontSize: '0.875rem',
+                    color: UNDPColorModule[mode || 'light'].grays.black,
                   }}
                 >
                   {d}
@@ -134,6 +135,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   marginTop: '2px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
+                  color: UNDPColorModule[mode || 'light'].grays.black,
                 }}
               >
                 {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
