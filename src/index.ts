@@ -62,10 +62,12 @@ export { Histogram } from './Components/Graphs/Histogram';
 export { SdgChart } from './Components/Graphs/SdgChart';
 // Dashboard
 export { MultiGraphDashboard } from './Components/Dashboard/MultiGraphDashboard';
+export { MultiGraphDashboardWideToLongFormat } from './Components/Dashboard/MultiGraphDashboardWideToLongFormat';
 export { SingleGraphDashboard } from './Components/Dashboard/SingleGraphDashboard';
 export { GriddedGraphs } from './Components/Dashboard/GriddedGraphs';
 // Dashboard from Config Files
 export { MultiGraphDashboardFromConfig } from './Components/Dashboard/MultiGraphDashboardFromConfig';
+export { MultiGraphDashboardWideToLongFormatFromConfig } from './Components/Dashboard/MultiGraphDashboardWideToLongFormatFromConfig';
 export { SingleGraphDashboardFromConfig } from './Components/Dashboard/SingleGraphDashboardFromConfig';
 export { GriddedGraphsFromConfig } from './Components/Dashboard/GriddedGraphsFromConfig';
 // Animated Horizontal Bar Graphs
@@ -146,6 +148,7 @@ export {
   singleGraphJSONSchema,
   griddedGraphJSONSchema,
   dashboardJSONSchema,
+  dashboardWideToLongFormatJSONSchema,
 } from './Schemas';
 
 /* ---------GraphTypes-------------*/

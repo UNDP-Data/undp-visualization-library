@@ -78,7 +78,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
               dataSettings.delimiter,
               true,
             );
-      fetchData.then(d => {
+      fetchData.then((d: any) => {
         setFilterValues(d.map((el: any) => el[dataSettings.keyColumn]));
         setSelectedFilterValues(d[0][dataSettings.keyColumn]);
         const tempData = wideToLongTransformation(
