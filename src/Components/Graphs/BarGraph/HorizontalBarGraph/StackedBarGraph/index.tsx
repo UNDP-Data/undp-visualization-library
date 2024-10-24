@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import sortBy from 'lodash.sortby';
+import sum from 'lodash.sum';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
@@ -50,6 +52,9 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  sortParameter?: number | 'total';
+  maxNumberOfBars?: number;
+  minBarThickness?: number;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -93,6 +98,9 @@ export function HorizontalStackedBarGraph(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    sortParameter,
+    maxNumberOfBars,
+    minBarThickness,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -196,7 +204,29 @@ export function HorizontalStackedBarGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={
+                    sortParameter !== undefined
+                      ? sortParameter === 'total'
+                        ? sortBy(data, d =>
+                            sum(d.size.filter(el => el !== undefined)),
+                          )
+                            .reverse()
+                            .filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                        : sortBy(data, d =>
+                            checkIfNullOrUndefined(d.size[sortParameter])
+                              ? -Infinity
+                              : d.size[sortParameter],
+                          )
+                            .reverse()
+                            .filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                      : data.filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
+                  }
                   barColors={barColors}
                   width={width || svgWidth}
                   height={
@@ -263,6 +293,7 @@ export function HorizontalStackedBarGraph(props: Props) {
                   labelOrder={labelOrder}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

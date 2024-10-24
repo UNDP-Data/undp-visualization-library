@@ -60,6 +60,9 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  sortParameter?: number | 'total';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function AnimatedHorizontalStackedBarChart(props: Props) {
@@ -105,6 +108,9 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     language,
     minHeight,
     mode,
+    sortParameter,
+    maxBarThickness,
+    minBarThickness,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -338,6 +344,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   selectedColor={selectedColor}
                   dateFormat={dateFormat || 'yyyy'}
                   indx={index}
+                  sortParameter={sortParameter}
                   autoSort={
                     checkIfNullOrUndefined(autoSort)
                       ? true
@@ -346,6 +353,8 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

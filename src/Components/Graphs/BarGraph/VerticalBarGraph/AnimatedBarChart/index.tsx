@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import Slider from 'rc-slider';
@@ -64,6 +62,8 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function AnimatedVerticalBarChart(props: Props) {
@@ -113,6 +113,8 @@ export function AnimatedVerticalBarChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    maxBarThickness,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -399,6 +401,8 @@ export function AnimatedVerticalBarChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

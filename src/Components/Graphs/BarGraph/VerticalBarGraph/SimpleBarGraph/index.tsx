@@ -54,6 +54,8 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  maxNumberOfBars?: number;
+  minBarThickness?: number;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -102,6 +104,8 @@ export function VerticalBarGraph(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    maxNumberOfBars,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -227,10 +231,18 @@ export function VerticalBarGraph(props: Props) {
                 <Graph
                   data={
                     sortData === 'asc'
-                      ? sortBy(data, d => d.size)
+                      ? sortBy(data, d => d.size).filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
                       : sortData === 'desc'
-                      ? sortBy(data, d => d.size).reverse()
-                      : data
+                      ? sortBy(data, d => d.size)
+                          .reverse()
+                          .filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                      : data.filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
                   }
                   barColor={
                     data.filter(el => el.color).length === 0
@@ -325,6 +337,7 @@ export function VerticalBarGraph(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

@@ -38,6 +38,7 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -70,6 +71,7 @@ export function Graph(props: Props) {
     language,
     mode,
     maxBarThickness,
+    minBarThickness,
   } = props;
   const margin = {
     top: topMargin,
@@ -104,7 +106,9 @@ export function Graph(props: Props) {
     .domain(dataWithId.map(d => `${d.id}`))
     .range([
       0,
-      maxBarThickness
+      minBarThickness
+        ? Math.max(graphWidth, minBarThickness * dataWithId.length)
+        : maxBarThickness
         ? Math.min(graphWidth, maxBarThickness * dataWithId.length)
         : graphWidth,
     ])

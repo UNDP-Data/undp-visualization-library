@@ -149,7 +149,7 @@ export function GriddedGraphs(props: Props) {
             defaultValue: el.defaultValue,
             availableValues: getUniqValue(d, el.column)
               .filter(v =>
-                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+                el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
               )
               .map(v => ({
                 value: v,
@@ -191,7 +191,7 @@ export function GriddedGraphs(props: Props) {
               defaultValue: el.defaultValue,
               availableValues: getUniqValue(d, el.column)
                 .filter(v =>
-                  el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+                  el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
                 )
                 .map(v => ({
                   value: v,
@@ -222,7 +222,7 @@ export function GriddedGraphs(props: Props) {
             defaultValue: el.defaultValue,
             availableValues: getUniqValue(tempData, el.column)
               .filter(v =>
-                el.excludeValues ? el.excludeValues.indexOf(v) !== -1 : true,
+                el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
               )
               .map(v => ({
                 value: v,

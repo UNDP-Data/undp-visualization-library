@@ -51,6 +51,8 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  maxNumberOfBars?: number;
+  minBarThickness?: number;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -97,6 +99,8 @@ export function HorizontalDumbbellChart(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    maxNumberOfBars,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -217,13 +221,23 @@ export function HorizontalDumbbellChart(props: Props) {
                               ? -Infinity
                               : (d.x[d.x.length - 1] as number) -
                                 (d.x[0] as number),
-                          ).reverse()
+                          )
+                            .reverse()
+                            .filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
                         : sortBy(data, d =>
                             checkIfNullOrUndefined(d.x[sortParameter])
                               ? -Infinity
                               : d.x[sortParameter],
-                          ).reverse()
-                      : data
+                          )
+                            .reverse()
+                            .filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                      : data.filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
                   }
                   dotColors={dotColors}
                   width={width || svgWidth}
@@ -305,6 +319,7 @@ export function HorizontalDumbbellChart(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

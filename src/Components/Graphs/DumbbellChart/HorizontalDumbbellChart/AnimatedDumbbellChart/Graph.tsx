@@ -46,6 +46,8 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -80,6 +82,8 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    maxBarThickness,
+    minBarThickness,
   } = props;
   const dataFormatted = sortBy(
     data.map(d => ({
@@ -162,7 +166,14 @@ export function Graph(props: Props) {
 
   const y = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
-    .range([0, graphHeight])
+    .range([
+      0,
+      minBarThickness
+        ? Math.max(graphHeight, minBarThickness * uniqLabels.length)
+        : maxBarThickness
+        ? Math.min(graphHeight, maxBarThickness * uniqLabels.length)
+        : graphHeight,
+    ])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
 

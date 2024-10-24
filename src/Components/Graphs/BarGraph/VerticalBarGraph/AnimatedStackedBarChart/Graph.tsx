@@ -44,6 +44,9 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  sortParameter?: number | 'total';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -75,6 +78,9 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    sortParameter,
+    maxBarThickness,
+    minBarThickness,
   } = props;
 
   const dataFormatted = sortBy(
@@ -92,19 +98,31 @@ export function Graph(props: Props) {
     ),
     ([date, values]) => ({
       date,
-      values: autoSort
-        ? sortBy(values, d => sum(d.size.map(el => el || 0))).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          }))
-        : (
-            uniqLabels.map(label =>
-              values.find(o => o.label === label),
-            ) as GroupedBarGraphWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+      values:
+        sortParameter !== undefined || autoSort
+          ? sortParameter === 'total' || sortParameter === undefined
+            ? sortBy(data, d => sum(d.size.filter(el => el !== undefined))).map(
+                (el, i) => ({
+                  ...el,
+                  id: `${i}`,
+                }),
+              )
+            : sortBy(data, d =>
+                checkIfNullOrUndefined(d.size[sortParameter])
+                  ? -Infinity
+                  : d.size[sortParameter],
+              ).map((el, i) => ({
+                ...el,
+                id: `${i}`,
+              }))
+          : (
+              uniqLabels.map(label =>
+                values.find(o => o.label === label),
+              ) as GroupedBarGraphWithDateDataType[]
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            })),
     }),
   );
 
@@ -127,7 +145,14 @@ export function Graph(props: Props) {
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
-    .range([0, graphWidth])
+    .range([
+      0,
+      minBarThickness
+        ? Math.max(graphWidth, minBarThickness * uniqLabels.length)
+        : maxBarThickness
+        ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
+        : graphWidth,
+    ])
     .paddingInner(barPadding);
   const yTicks = y.ticks(5);
 

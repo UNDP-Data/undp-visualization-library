@@ -47,6 +47,8 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -81,6 +83,8 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    maxBarThickness,
+    minBarThickness,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -152,7 +156,14 @@ export function Graph(props: Props) {
     .nice();
   const y = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
-    .range([0, graphHeight])
+    .range([
+      0,
+      minBarThickness
+        ? Math.max(graphHeight, minBarThickness * uniqLabels.length)
+        : maxBarThickness
+        ? Math.min(graphHeight, maxBarThickness * uniqLabels.length)
+        : graphHeight,
+    ])
     .paddingInner(barPadding);
   const xTicks = x.ticks(5);
 

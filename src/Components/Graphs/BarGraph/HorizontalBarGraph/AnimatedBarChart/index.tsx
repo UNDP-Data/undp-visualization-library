@@ -64,6 +64,8 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -113,6 +115,8 @@ export function AnimatedHorizontalBarChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    maxBarThickness,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -400,6 +404,8 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

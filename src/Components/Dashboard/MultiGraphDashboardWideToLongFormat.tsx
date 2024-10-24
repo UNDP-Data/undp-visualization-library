@@ -277,7 +277,23 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                         dataSettings={{
                           data,
                         }}
-                        graphDataConfiguration={el.graphDataConfiguration}
+                        graphDataConfiguration={
+                          el.graphType === 'unitChart'
+                            ? [
+                                {
+                                  columnId: 'indicator',
+                                  chartConfigId: 'label',
+                                },
+                                { columnId: 'value', chartConfigId: 'value' },
+                              ]
+                            : [
+                                {
+                                  columnId: 'indicator',
+                                  chartConfigId: 'label',
+                                },
+                                { columnId: 'value', chartConfigId: 'size' },
+                              ]
+                        }
                         debugMode={debugMode}
                         readableHeader={readableHeader || []}
                       />

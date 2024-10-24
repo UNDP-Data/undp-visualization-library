@@ -37,6 +37,7 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function Graph(props: Props) {
@@ -70,6 +71,7 @@ export function Graph(props: Props) {
     language,
     mode,
     maxBarThickness,
+    minBarThickness,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -117,7 +119,9 @@ export function Graph(props: Props) {
     .domain(barOrder)
     .range([
       0,
-      maxBarThickness
+      minBarThickness
+        ? Math.max(graphHeight, minBarThickness * barOrder.length)
+        : maxBarThickness
         ? Math.min(graphHeight, maxBarThickness * barOrder.length)
         : graphHeight,
     ])

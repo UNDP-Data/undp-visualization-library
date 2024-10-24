@@ -372,7 +372,6 @@ export type DashboardFromWideToLongFormatColumnDataType = {
     | 'circlePacking';
   columnWidth?: number;
   dataFilters?: DataFilterDataType[];
-  graphDataConfiguration?: GraphConfigurationDataType[];
   settings?: any;
 };
 
@@ -586,7 +585,7 @@ export interface GraphSettingsDataType {
   animateLine?: boolean | number;
   highlightColor?: string;
   dotOpacity?: number;
-  sortParameter?: number | 'diff';
+  sortParameter?: number | 'diff' | 'total';
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
   countOnly?: (string | number)[];
@@ -607,6 +606,8 @@ export interface GraphSettingsDataType {
   idSuffix?: string;
   mode?: 'dark' | 'light';
   maxBarThickness?: number;
+  minBarThickness?: number;
+  maxNumberOfBars?: number;
   includeLayers?: string[];
   excludeLayers?: string[];
 }

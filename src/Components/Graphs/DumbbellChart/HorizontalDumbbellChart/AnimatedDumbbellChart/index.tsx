@@ -58,6 +58,8 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  maxBarThickness?: number;
+  minBarThickness?: number;
 }
 
 export function AnimatedHorizontalDumbbellChart(props: Props) {
@@ -106,6 +108,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     language,
     minHeight,
     mode,
+    maxBarThickness,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -365,6 +369,8 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

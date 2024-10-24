@@ -694,6 +694,8 @@ export const simpleBarChartSettingsSchema = {
       enum: ['light', 'dark'],
     },
     maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
+    maxNumberOfBars: { type: 'number' },
   },
 };
 
@@ -847,7 +849,12 @@ export const stackedBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    sortParameter: {
+      oneOf: [{ type: 'string', enum: ['total'] }, { type: 'number' }],
+    },
     maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
+    maxNumberOfBars: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -932,6 +939,8 @@ export const animatedSimpleBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
   },
 };
 
@@ -1082,6 +1091,14 @@ export const animatedStackedBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    autoSort: {
+      type: 'boolean',
+    },
+    sortParameter: {
+      oneOf: [{ type: 'string', enum: ['total'] }, { type: 'number' }],
+    },
+    maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1542,6 +1559,8 @@ export const dumbbellChartSettingsSchema = {
       enum: ['light', 'dark'],
     },
     maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
+    maxNumberOfBars: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1606,6 +1625,8 @@ export const animatedDumbbellChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -3811,6 +3832,8 @@ export const SettingsSchema = {
       items: { type: 'string' },
     },
     maxBarThickness: { type: 'number' },
+    minBarThickness: { type: 'number' },
+    maxNumberOfBars: { type: 'number' },
     aggregationMethod: {
       enum: ['average', 'count', 'max', 'min', 'sum'],
       type: 'string',
@@ -4419,8 +4442,8 @@ export const SettingsSchema = {
     sortParameter: {
       anyOf: [
         {
-          const: 'diff',
           type: 'string',
+          enum: ['diff', 'total'],
         },
         {
           type: 'number',

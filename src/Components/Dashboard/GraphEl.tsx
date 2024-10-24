@@ -217,6 +217,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -310,6 +312,9 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
+          sorParameter: settings?.sortParameter,
         };
       case 'verticalBarChart':
         return {
@@ -362,6 +367,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
         };
       case 'verticalGroupedBarChart':
         return {
@@ -455,6 +462,9 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
+          sorParameter: settings?.sortParameter,
         };
       case 'animatedHorizontalBarChart':
         return {
@@ -509,6 +519,8 @@ function GraphEl(props: Props) {
           autoSort: settings?.autoSort,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
         };
       case 'animatedHorizontalGroupedBarChart':
         return {
@@ -604,6 +616,9 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          sorParameter: settings?.sortParameter,
         };
       case 'animatedVerticalBarChart':
         return {
@@ -658,6 +673,8 @@ function GraphEl(props: Props) {
           autoSort: settings?.autoSort,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
         };
       case 'animatedVerticalGroupedBarChart':
         return {
@@ -753,6 +770,9 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          sorParameter: settings?.sortParameter,
         };
       case 'lineChart':
         return {
@@ -1307,6 +1327,8 @@ function GraphEl(props: Props) {
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
         };
       case 'verticalDumbbellChart':
         return {
@@ -1356,6 +1378,8 @@ function GraphEl(props: Props) {
           arrowConnector: settings?.arrowConnector,
           connectorStrokeWidth: settings?.connectorStrokeWidth,
           maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
+          maxNumberOfBars: settings?.maxNumberOfBars,
         };
       case 'treeMap':
         return {
@@ -2218,6 +2242,8 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
         };
       case 'animatedVerticalDumbbellChart':
         return {
@@ -2269,6 +2295,8 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
+          minBarThickness: settings?.minBarThickness,
         };
       case 'animatedScatterPlot':
         return {

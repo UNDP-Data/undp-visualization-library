@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import sortBy from 'lodash.sortby';
+import sum from 'lodash.sum';
 import { Graph } from './Graph';
 import {
   ReferenceDataType,
@@ -50,6 +52,9 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  sortParameter?: number | 'total';
+  maxNumberOfBars?: number;
+  minBarThickness?: number;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -93,6 +98,9 @@ export function VerticalStackedBarGraph(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    sortParameter,
+    maxNumberOfBars,
+    minBarThickness,
   } = props;
 
   const barColors =
@@ -194,7 +202,25 @@ export function VerticalStackedBarGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data}
+                  data={
+                    sortParameter !== undefined
+                      ? sortParameter === 'total'
+                        ? sortBy(data, d =>
+                            sum(d.size.filter(el => el !== undefined)),
+                          ).filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                        : sortBy(data, d =>
+                            checkIfNullOrUndefined(d.size[sortParameter])
+                              ? -Infinity
+                              : d.size[sortParameter],
+                          ).filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                      : data.filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
+                  }
                   barColors={barColors}
                   width={width || svgWidth}
                   height={
@@ -261,6 +287,7 @@ export function VerticalStackedBarGraph(props: Props) {
                   labelOrder={labelOrder}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>

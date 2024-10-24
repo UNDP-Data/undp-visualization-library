@@ -51,6 +51,8 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  maxNumberOfBars?: number;
+  minBarThickness?: number;
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -97,6 +99,8 @@ export function VerticalDumbbellChart(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    maxNumberOfBars,
+    minBarThickness,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -217,13 +221,19 @@ export function VerticalDumbbellChart(props: Props) {
                               ? -Infinity
                               : (d.x[d.x.length - 1] as number) -
                                 (d.x[0] as number),
+                          ).filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
                           )
                         : sortBy(data, d =>
                             checkIfNullOrUndefined(d.x[sortParameter])
                               ? -Infinity
                               : d.x[sortParameter],
+                          ).filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
                           )
-                      : data
+                      : data.filter((_d, i) =>
+                          maxNumberOfBars ? i < maxNumberOfBars : true,
+                        )
                   }
                   dotColors={dotColors}
                   width={width || svgWidth}
@@ -305,6 +315,7 @@ export function VerticalDumbbellChart(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  minBarThickness={minBarThickness}
                 />
               ) : null}
             </div>
