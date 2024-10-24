@@ -981,6 +981,7 @@ export const animatedGroupedBarChartSettingsSchema = {
     minHeight: { type: 'number' },
     showLabels: { type: 'boolean' },
     tooltip: { type: 'string' },
+    maxBarThickness: { type: 'number' },
     refValues: {
       type: 'array',
       items: {

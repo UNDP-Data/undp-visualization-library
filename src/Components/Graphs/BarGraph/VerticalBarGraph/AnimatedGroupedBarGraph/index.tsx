@@ -58,6 +58,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  maxBarThickness?: number;
 }
 
 export function AnimatedVerticalGroupedBarGraph(props: Props) {
@@ -103,6 +104,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     language,
     minHeight,
     mode,
+    maxBarThickness,
   } = props;
 
   const barColors =
@@ -346,6 +348,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  maxBarThickness={maxBarThickness}
                 />
               ) : null}
             </div>

@@ -464,7 +464,7 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
-          sorParameter: settings?.sortParameter,
+          sortParameter: settings?.sortParameter,
         };
       case 'animatedHorizontalBarChart':
         return {
@@ -569,6 +569,7 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'animatedHorizontalStackedBarChart':
         return {
@@ -618,7 +619,7 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
-          sorParameter: settings?.sortParameter,
+          sortParameter: settings?.sortParameter,
         };
       case 'animatedVerticalBarChart':
         return {
@@ -723,6 +724,7 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          maxBarThickness: settings?.maxBarThickness,
         };
       case 'animatedVerticalStackedBarChart':
         return {
@@ -772,7 +774,7 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
-          sorParameter: settings?.sortParameter,
+          sortParameter: settings?.sortParameter,
         };
       case 'lineChart':
         return {
@@ -2391,8 +2393,10 @@ function GraphEl(props: Props) {
         >
           {GraphComponent
             ? validateSettingsSchema(settings || {}, graph).isValid
-              ? validateDataSchema(graphData, graph).err
-              : validateSettingsSchema(settings || {}, graph).err
+              ? `Error in data: ${validateDataSchema(graphData, graph).err}`
+              : `Error in settings: ${
+                  validateSettingsSchema(settings || {}, graph).err
+                }`
             : `Invalid chart type: ${graph}`}
         </p>
       )}
