@@ -314,7 +314,7 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
-          sorParameter: settings?.sortParameter,
+          sortParameter: settings?.sortParameter,
         };
       case 'verticalBarChart':
         return {
