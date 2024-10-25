@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import Select, { createFilter } from 'react-select';
 import maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -10,7 +11,7 @@ import { fetchAndParseJSON } from '../../../../Utils/fetchAndParseData';
 import { filterData } from '../../../../Utils/transformData/filterData';
 
 interface Props {
-  mapStyle: string;
+  mapStyle: string | { style: string; name: string }[];
   center?: [number, number];
   zoomLevel?: number;
   graphTitle?: string;
@@ -57,9 +58,18 @@ export function GeoHubMap(props: Props) {
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
+  const [selectedMapStyle, setSelectedMapStyle] = useState(
+    typeof mapStyle === 'string' ? mapStyle : mapStyle[0].style,
+  );
   const [svgHeight, setSvgHeight] = useState(0);
   const graphDiv = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
+
+  const filterConfig = {
+    ignoreCase: true,
+    ignoreAccents: true,
+    trim: true,
+  };
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       setSvgWidth(width || entries[0].target.clientWidth || 620);
@@ -73,7 +83,7 @@ export function GeoHubMap(props: Props) {
   }, [graphDiv?.current, width]);
   useEffect(() => {
     if (mapContainer.current && svgWidth) {
-      fetchAndParseJSON(mapStyle).then(d => {
+      fetchAndParseJSON(selectedMapStyle).then(d => {
         const mapDiv = select(mapContainer.current);
         mapDiv.selectAll('div').remove();
         const protocol = new pmtiles.Protocol();
@@ -115,7 +125,7 @@ export function GeoHubMap(props: Props) {
   }, [
     mapContainer.current,
     svgWidth,
-    mapStyle,
+    selectedMapStyle,
     center,
     zoomLevel,
     includeLayers,
@@ -166,6 +176,58 @@ export function GeoHubMap(props: Props) {
               mode={mode || 'light'}
             />
           ) : null}
+          {typeof mapStyle === 'string' ? null : (
+            <Select
+              className={
+                rtl
+                  ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                  : 'undp-viz-select'
+              }
+              options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
+              isClearable={false}
+              isRtl={rtl}
+              isSearchable
+              filterOption={createFilter(filterConfig)}
+              defaultValue={{
+                label: mapStyle[0].name,
+                value: mapStyle[0].style,
+              }}
+              controlShouldRenderValue
+              onChange={el => {
+                if (el) setSelectedMapStyle(el.value);
+              }}
+              theme={theme => {
+                return {
+                  ...theme,
+                  borderRadius: 0,
+                  spacing: {
+                    ...theme.spacing,
+                    baseUnit: 4,
+                    menuGutter: 2,
+                    controlHeight: 48,
+                  },
+                  colors: {
+                    ...theme.colors,
+                    danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
+                    dangerLight:
+                      UNDPColorModule[mode || 'light'].grays['gray-400'],
+                    neutral10:
+                      UNDPColorModule[mode || 'light'].grays['gray-400'],
+                    primary50:
+                      UNDPColorModule[mode || 'light'].primaryColors[
+                        'blue-400'
+                      ],
+                    primary25:
+                      UNDPColorModule[mode || 'light'].grays['gray-200'],
+                    primary:
+                      UNDPColorModule[mode || 'light'].primaryColors[
+                        'blue-600'
+                      ],
+                  },
+                };
+              }}
+            />
+          )}
           <div
             style={{
               flexGrow: 1,
