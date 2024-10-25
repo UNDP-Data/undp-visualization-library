@@ -64,6 +64,7 @@ export function GeoHubMap(props: Props) {
   const [svgHeight, setSvgHeight] = useState(0);
   const graphDiv = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
 
   const filterConfig = {
     ignoreCase: true,
@@ -82,7 +83,7 @@ export function GeoHubMap(props: Props) {
     return () => resizeObserver.disconnect();
   }, [graphDiv?.current, width]);
   useEffect(() => {
-    if (mapContainer.current && svgWidth) {
+    if (mapContainer.current && svgWidth && !mapRef.current) {
       fetchAndParseJSON(selectedMapStyle).then(d => {
         const mapDiv = select(mapContainer.current);
         mapDiv.selectAll('div').remove();
@@ -110,8 +111,8 @@ export function GeoHubMap(props: Props) {
         if (zoomLevel) {
           mapObj.zoom = zoomLevel;
         }
-        const map = new maplibreGl.Map(mapObj);
-        map.addControl(
+        mapRef.current = new maplibreGl.Map(mapObj);
+        mapRef.current.addControl(
           new maplibreGl.NavigationControl({
             visualizePitch: true,
             showZoom: true,
@@ -119,7 +120,7 @@ export function GeoHubMap(props: Props) {
           }),
           'bottom-right',
         );
-        map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
+        mapRef.current.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       });
     }
   }, [
@@ -131,6 +132,11 @@ export function GeoHubMap(props: Props) {
     includeLayers,
     excludeLayers,
   ]);
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.setStyle(selectedMapStyle);
+    }
+  }, [selectedMapStyle]);
   return (
     <div
       style={{
