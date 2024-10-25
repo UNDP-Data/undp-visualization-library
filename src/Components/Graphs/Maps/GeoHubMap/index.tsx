@@ -134,7 +134,19 @@ export function GeoHubMap(props: Props) {
   ]);
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.setStyle(selectedMapStyle);
+      fetchAndParseJSON(selectedMapStyle).then(d => {
+        const mapStyleObj: any = {
+          ...d,
+          layers: filterData(d.layers, [
+            {
+              column: 'id',
+              includeValues: includeLayers,
+              excludeValues: excludeLayers,
+            },
+          ]),
+        };
+        mapRef.current.setStyle(mapStyleObj);
+      });
     }
   }, [selectedMapStyle]);
   return (
