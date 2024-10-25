@@ -560,7 +560,7 @@ export interface GraphSettingsDataType {
   mapStyles: [string, string];
   center?: [number, number];
   zoomLevel?: number;
-  mapStyle?: string;
+  mapStyle?: string | { style: string; name: string }[];
   barTitle?: string;
   lineTitle?: string;
   barColor?: string;

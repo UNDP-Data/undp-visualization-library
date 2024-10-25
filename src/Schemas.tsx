@@ -2946,7 +2946,23 @@ export const geoHubCompareMapSettingsSchema = {
 export const geoHubMapSettingsSchema = {
   type: 'object',
   properties: {
-    mapStyle: { type: 'string' },
+    mapStyle: {
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              style: { type: 'string' },
+            },
+            required: ['name', 'style'],
+          },
+          minItems: 1,
+        },
+      ],
+    },
     center: {
       type: 'array',
       items: { type: 'number' },
@@ -4238,7 +4254,21 @@ export const SettingsSchema = {
       type: 'string',
     },
     mapStyle: {
-      type: 'string',
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              style: { type: 'string' },
+            },
+            required: ['name', 'style'],
+          },
+          minItems: 1,
+        },
+      ],
     },
     mapStyles: {
       items: {
