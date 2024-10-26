@@ -1,14 +1,10 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select, { createFilter } from 'react-select';
-import maplibreGl from 'maplibre-gl';
-import * as pmtiles from 'pmtiles';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { select } from 'd3-selection';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
-import { fetchAndParseJSON } from '../../../../Utils/fetchAndParseData';
-import { filterData } from '../../../../Utils/transformData/filterData';
+import { GeoHubMultipleMap } from './GeoHubMultipleMap';
+import { GeoHubSingleMap } from './GeoHubSingleMap';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
@@ -57,98 +53,20 @@ export function GeoHubMap(props: Props) {
     excludeLayers,
   } = props;
 
-  const [svgWidth, setSvgWidth] = useState(0);
   const [selectedMapStyle, setSelectedMapStyle] = useState(
     typeof mapStyle === 'string' ? mapStyle : mapStyle[0].style,
   );
-  const [svgHeight, setSvgHeight] = useState(0);
-  const graphDiv = useRef<HTMLDivElement>(null);
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
 
+  useEffect(() => {
+    setSelectedMapStyle(
+      typeof mapStyle === 'string' ? mapStyle : mapStyle[0].style,
+    );
+  }, [mapStyle]);
   const filterConfig = {
     ignoreCase: true,
     ignoreAccents: true,
     trim: true,
   };
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => {
-      setSvgWidth(width || entries[0].target.clientWidth || 620);
-    });
-    if (graphDiv.current) {
-      setSvgHeight(graphDiv.current.clientHeight || 480);
-      setSvgWidth(graphDiv.current.clientWidth || 620);
-      if (!width) resizeObserver.observe(graphDiv.current);
-    }
-    return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width]);
-  useEffect(() => {
-    if (mapContainer.current && svgWidth && !mapRef.current) {
-      fetchAndParseJSON(selectedMapStyle).then(d => {
-        const mapDiv = select(mapContainer.current);
-        mapDiv.selectAll('div').remove();
-        const protocol = new pmtiles.Protocol();
-        maplibreGl.addProtocol('pmtiles', protocol.tile);
-        const mapObj: any = {
-          container: mapContainer.current as any,
-          style:
-            !includeLayers && !excludeLayers
-              ? d
-              : {
-                  ...d,
-                  layers: filterData(d.layers, [
-                    {
-                      column: 'id',
-                      includeValues: includeLayers,
-                      excludeValues: excludeLayers,
-                    },
-                  ]),
-                },
-        };
-        if (center) {
-          mapObj.center = center;
-        }
-        if (zoomLevel) {
-          mapObj.zoom = zoomLevel;
-        }
-        mapRef.current = new maplibreGl.Map(mapObj);
-        mapRef.current.addControl(
-          new maplibreGl.NavigationControl({
-            visualizePitch: true,
-            showZoom: true,
-            showCompass: true,
-          }),
-          'bottom-right',
-        );
-        mapRef.current.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
-      });
-    }
-  }, [
-    mapContainer.current,
-    svgWidth,
-    selectedMapStyle,
-    center,
-    zoomLevel,
-    includeLayers,
-    excludeLayers,
-  ]);
-  useEffect(() => {
-    if (mapRef.current) {
-      fetchAndParseJSON(selectedMapStyle).then(d => {
-        const mapStyleObj: any = {
-          ...d,
-          layers: filterData(d.layers, [
-            {
-              column: 'id',
-              includeValues: includeLayers,
-              excludeValues: excludeLayers,
-            },
-          ]),
-        };
-        mapRef.current.setStyle(mapStyleObj);
-      });
-    }
-  }, [selectedMapStyle]);
   return (
     <div
       style={{
@@ -246,39 +164,31 @@ export function GeoHubMap(props: Props) {
               }}
             />
           )}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}
-            ref={graphDiv}
-          >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <div
-                style={{
-                  width: width || svgWidth,
-                  height:
-                    height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight),
-                }}
-              >
-                <div
-                  ref={mapContainer}
-                  className='map maplibre-show-control'
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
-            ) : null}
-          </div>
+          {typeof mapStyle === 'string' ? (
+            <GeoHubSingleMap
+              mapStyle={mapStyle}
+              center={center}
+              zoomLevel={zoomLevel}
+              width={width}
+              height={height}
+              relativeHeight={relativeHeight}
+              minHeight={minHeight}
+              includeLayers={includeLayers}
+              excludeLayers={excludeLayers}
+            />
+          ) : (
+            <GeoHubMultipleMap
+              mapStyle={selectedMapStyle}
+              center={center}
+              zoomLevel={zoomLevel}
+              width={width}
+              height={height}
+              relativeHeight={relativeHeight}
+              minHeight={minHeight}
+              includeLayers={includeLayers}
+              excludeLayers={excludeLayers}
+            />
+          )}
           {source || footNote ? (
             <GraphFooter
               rtl={rtl}
