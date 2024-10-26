@@ -1938,7 +1938,7 @@ function GraphEl(props: Props) {
       case 'geoHubMap':
         return {
           mode: settings?.mode,
-          mapStyle: settings?.mapStyle as string,
+          mapStyle: settings?.mapStyle,
           center: settings?.center,
           zoomLevel: settings?.zoomLevel,
           graphTitle: settings?.graphTitle,

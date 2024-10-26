@@ -41,7 +41,7 @@ interface Props {
   dataSettings?: DataSettingsDataType;
   dataFromAPISettings?: APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
+  graphType: GraphType;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -97,69 +97,32 @@ export function SingleGraphDashboard(props: Props) {
   };
 
   useEffect(() => {
-    if (dataFromFile) {
-      const filteredData = dataFromFile.filter((item: any) =>
-        selectedFilters.every(filter =>
-          filter.value && filter.value.length > 0
-            ? intersection(flattenDeep([item[filter.filter]]), filter.value)
-                .length > 0
-            : true,
-        ),
-      );
-      setData(filteredData);
+    if (graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap') {
+      if (dataFromFile) {
+        const filteredData = dataFromFile.filter((item: any) =>
+          selectedFilters.every(filter =>
+            filter.value && filter.value.length > 0
+              ? intersection(flattenDeep([item[filter.filter]]), filter.value)
+                  .length > 0
+              : true,
+          ),
+        );
+        setData(filteredData);
+      }
     }
-  }, [selectedFilters, dataFromFile]);
+  }, [selectedFilters, dataFromFile, graphType]);
 
   useEffect(() => {
-    if (dataFromAPISettings) {
-      const fetchData = fetchAndTransformDataFromAPI(
-        dataFromAPISettings.requestURL,
-        dataFromAPISettings.method || 'GET',
-        dataFromAPISettings.headers,
-        dataFromAPISettings.requestBody,
-        dataFromAPISettings.apiDataTransform,
-        debugMode,
-      );
-      fetchData.then(d => {
-        setDataFromFile(d);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            label: el.label || `Filter by ${el.column}`,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(
-              filterData(d, dataFilters || []),
-              el.column,
-            )
-              .filter(v =>
-                el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
-              )
-              .map(v => ({
-                value: v,
-                label: v,
-              })),
-          })) || [],
+    if (graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap') {
+      if (dataFromAPISettings) {
+        const fetchData = fetchAndTransformDataFromAPI(
+          dataFromAPISettings.requestURL,
+          dataFromAPISettings.method || 'GET',
+          dataFromAPISettings.headers,
+          dataFromAPISettings.requestBody,
+          dataFromAPISettings.apiDataTransform,
+          debugMode,
         );
-      });
-    }
-    if (dataSettings && !dataFromAPISettings) {
-      if (dataSettings.dataURL) {
-        const fetchData =
-          dataSettings.fileType === 'json'
-            ? fetchAndParseJSON(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-              )
-            : fetchAndParseCSV(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-                dataSettings.delimiter,
-                true,
-              );
         fetchData.then(d => {
           setDataFromFile(d);
           setFilterSettings(
@@ -169,7 +132,10 @@ export function SingleGraphDashboard(props: Props) {
               singleSelect: el.singleSelect,
               clearable: el.clearable,
               defaultValue: el.defaultValue,
-              availableValues: getUniqValue(d, el.column)
+              availableValues: getUniqValue(
+                filterData(d, dataFilters || []),
+                el.column,
+              )
                 .filter(v =>
                   el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
                 )
@@ -180,38 +146,83 @@ export function SingleGraphDashboard(props: Props) {
             })) || [],
           );
         });
-      } else {
-        const tempData = dataSettings.columnsToArray
-          ? transformColumnsToArray(
-              dataSettings.data,
-              dataSettings.columnsToArray,
-            )
-          : dataSettings.data;
-        setDataFromFile(tempData);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            label: el.label || `Filter by ${el.column}`,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(
-              filterData(tempData, dataFilters || []),
-              el.column,
-            )
-              .filter(v =>
-                el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
+      }
+      if (dataSettings && !dataFromAPISettings) {
+        if (dataSettings.dataURL) {
+          const fetchData =
+            dataSettings.fileType === 'json'
+              ? fetchAndParseJSON(
+                  dataSettings.dataURL as string,
+                  dataSettings.columnsToArray,
+                  debugMode,
+                )
+              : fetchAndParseCSV(
+                  dataSettings.dataURL as string,
+                  dataSettings.columnsToArray,
+                  debugMode,
+                  dataSettings.delimiter,
+                  true,
+                );
+          fetchData.then(d => {
+            setDataFromFile(d);
+            setFilterSettings(
+              filters?.map(el => ({
+                filter: el.column,
+                label: el.label || `Filter by ${el.column}`,
+                singleSelect: el.singleSelect,
+                clearable: el.clearable,
+                defaultValue: el.defaultValue,
+                availableValues: getUniqValue(d, el.column)
+                  .filter(v =>
+                    el.excludeValues
+                      ? el.excludeValues.indexOf(v) === -1
+                      : true,
+                  )
+                  .map(v => ({
+                    value: v,
+                    label: v,
+                  })),
+              })) || [],
+            );
+          });
+        } else {
+          const tempData = dataSettings.columnsToArray
+            ? transformColumnsToArray(
+                dataSettings.data,
+                dataSettings.columnsToArray,
               )
-              .map(v => ({
-                value: v,
-                label: v,
-              })),
-          })) || [],
-        );
+            : dataSettings.data;
+          setDataFromFile(tempData);
+          setFilterSettings(
+            filters?.map(el => ({
+              filter: el.column,
+              label: el.label || `Filter by ${el.column}`,
+              singleSelect: el.singleSelect,
+              clearable: el.clearable,
+              defaultValue: el.defaultValue,
+              availableValues: getUniqValue(
+                filterData(tempData, dataFilters || []),
+                el.column,
+              )
+                .filter(v =>
+                  el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
+                )
+                .map(v => ({
+                  value: v,
+                  label: v,
+                })),
+            })) || [],
+          );
+        }
       }
     }
-  }, [dataSettings, dataFromAPISettings, dataFilters]);
-  if (!dataFromAPISettings && !dataSettings)
+  }, [dataSettings, dataFromAPISettings, dataFilters, graphType]);
+  if (
+    !dataFromAPISettings &&
+    !dataSettings &&
+    graphType !== 'geoHubMap' &&
+    graphType !== 'geoHubCompareMap'
+  )
     return (
       <p
         className={
@@ -270,7 +281,9 @@ export function SingleGraphDashboard(props: Props) {
             justifyContent: 'space-between',
           }}
         >
-          {data ? (
+          {data ||
+          graphType === 'geoHubMap' ||
+          graphType === 'geoHubCompareMap' ? (
             <>
               {graphSettings?.graphTitle ||
               graphSettings?.graphDescription ||
@@ -757,17 +770,21 @@ export function SingleGraphDashboard(props: Props) {
               ) : null}
               <GraphEl
                 graph={graphType}
-                graphData={transformDataForGraph(
-                  dataTransform
-                    ? transformDataForAggregation(
-                        filterData(data, dataFilters || []),
-                        dataTransform.keyColumn,
-                        dataTransform.aggregationColumnsSetting,
+                graphData={
+                  graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap'
+                    ? transformDataForGraph(
+                        dataTransform
+                          ? transformDataForAggregation(
+                              filterData(data, dataFilters || []),
+                              dataTransform.keyColumn,
+                              dataTransform.aggregationColumnsSetting,
+                            )
+                          : filterData(data, dataFilters || []),
+                        graphType,
+                        graphConfig,
                       )
-                    : filterData(data, dataFilters || []),
-                  graphType,
-                  graphConfig,
-                )}
+                    : undefined
+                }
                 graphDataConfiguration={graphConfig}
                 debugMode={debugMode}
                 readableHeader={readableHeader || []}

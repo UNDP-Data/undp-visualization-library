@@ -4802,6 +4802,20 @@ export const singleGraphJSONSchema = {
   required: ['dataSettings', 'graphType'],
 };
 
+export const singleGraphForGeoHubMapJSONSchema = {
+  type: 'object',
+  properties: {
+    graphSettings: SettingsSchema,
+    graphType: {
+      type: 'string',
+      enum: ['geoHubMap', 'geoHubCompareMap'],
+    },
+    debugMode: { type: 'boolean' },
+    mode: { type: 'string', enum: ['dark', 'light'] },
+  },
+  required: ['graphType'],
+};
+
 export const griddedGraphJSONSchema = {
   type: 'object',
   properties: {

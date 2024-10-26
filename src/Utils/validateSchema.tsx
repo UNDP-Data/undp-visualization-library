@@ -6,6 +6,7 @@ import {
   griddedGraphJSONSchema,
   singleGraphJSONSchema,
   dashboardWideToLongFormatJSONSchema,
+  singleGraphForGeoHubMapJSONSchema,
 } from '../Schemas';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
@@ -96,7 +97,12 @@ export function validateConfigSchema(
       schema = dashboardJSONSchema;
       break;
     case 'singleGraphDashboard':
-      schema = singleGraphJSONSchema;
+      if (
+        config.graphType === 'geoHubMap' ||
+        config.graphType === 'geoHubCompareMap'
+      ) {
+        schema = singleGraphForGeoHubMapJSONSchema;
+      } else schema = singleGraphJSONSchema;
       break;
     case 'multiGraphDashboardWideToLongFormat':
       schema = dashboardWideToLongFormatJSONSchema;

@@ -17,7 +17,6 @@ import {
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
-import GraphEl from './GraphEl';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
@@ -466,49 +465,28 @@ export function MultiGraphDashboard(props: Props) {
                         flexGrow: 1,
                       }}
                     >
-                      {el.graphType === 'geoHubCompareMap' ||
-                      el.graphType === 'geoHubMap' ? (
-                        <GraphEl
-                          graph={el.graphType}
-                          graphDataConfiguration={el.graphDataConfiguration}
-                          graphData={data}
-                          debugMode={debugMode}
-                          settings={{
-                            ...el.settings,
-                            width: undefined,
-                            height: undefined,
-                            radius: undefined,
-                            size: undefined,
-                            rtl: dashboardLayout.rtl,
-                            language: dashboardLayout.language,
-                            mode: mode || el.settings?.mode,
-                          }}
-                          readableHeader={readableHeader || []}
-                        />
-                      ) : (
-                        <SingleGraphDashboard
-                          graphType={el.graphType}
-                          dataFilters={el.dataFilters}
-                          graphSettings={{
-                            ...el.settings,
-                            width: undefined,
-                            height: undefined,
-                            radius: undefined,
-                            size: undefined,
-                            rtl: dashboardLayout.rtl,
-                            language: dashboardLayout.language,
-                            mode: mode || el.settings?.mode,
-                          }}
-                          dataSettings={{
-                            data,
-                          }}
-                          dataTransform={el.dataTransform}
-                          dataSelectionOptions={el.dataSelectionOptions}
-                          graphDataConfiguration={el.graphDataConfiguration}
-                          debugMode={debugMode}
-                          readableHeader={readableHeader || []}
-                        />
-                      )}
+                      <SingleGraphDashboard
+                        graphType={el.graphType}
+                        dataFilters={el.dataFilters}
+                        graphSettings={{
+                          ...el.settings,
+                          width: undefined,
+                          height: undefined,
+                          radius: undefined,
+                          size: undefined,
+                          rtl: dashboardLayout.rtl,
+                          language: dashboardLayout.language,
+                          mode: mode || el.settings?.mode,
+                        }}
+                        dataSettings={{
+                          data,
+                        }}
+                        dataTransform={el.dataTransform}
+                        dataSelectionOptions={el.dataSelectionOptions}
+                        graphDataConfiguration={el.graphDataConfiguration}
+                        debugMode={debugMode}
+                        readableHeader={readableHeader || []}
+                      />
                     </div>
                   ))}
                 </div>

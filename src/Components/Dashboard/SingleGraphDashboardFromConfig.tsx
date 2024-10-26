@@ -15,9 +15,9 @@ import { UNDPColorModule } from '../ColorPalette';
 
 interface ConfigObject {
   graphSettings?: any;
-  dataSettings: DataSettingsDataType;
+  dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
+  graphType: GraphType;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
