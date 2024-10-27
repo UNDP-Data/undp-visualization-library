@@ -489,7 +489,6 @@ export function MultiGraphDashboard(props: Props) {
                           size: undefined,
                           rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
-                          mode: mode || el.settings?.mode,
                         }}
                         dataSettings={{
                           data,
@@ -499,6 +498,7 @@ export function MultiGraphDashboard(props: Props) {
                         graphDataConfiguration={el.graphDataConfiguration}
                         debugMode={debugMode}
                         readableHeader={readableHeader || []}
+                        mode={mode}
                       />
                     </div>
                   ))}

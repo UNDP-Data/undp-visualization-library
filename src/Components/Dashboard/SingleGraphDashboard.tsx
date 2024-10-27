@@ -814,6 +814,7 @@ export function SingleGraphDashboard(props: Props) {
                         dataDownload: false,
                         backgroundColor: undefined,
                         padding: '0',
+                        mode,
                       }
                     : ({
                         graphTitle: undefined,
@@ -822,6 +823,7 @@ export function SingleGraphDashboard(props: Props) {
                         dataDownload: false,
                         backgroundColor: undefined,
                         padding: '0',
+                        mode,
                       } as GraphSettingsDataType)
                 }
               />
