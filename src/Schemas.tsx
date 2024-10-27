@@ -4610,6 +4610,12 @@ export const singleGraphJSONSchema = {
           clearable: {
             type: 'boolean',
           },
+          excludeValues: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
+          },
           column: {
             type: 'string',
           },
@@ -4845,6 +4851,12 @@ export const griddedGraphJSONSchema = {
         properties: {
           clearable: {
             type: 'boolean',
+          },
+          excludeValues: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
           },
           column: {
             type: 'string',
@@ -5297,6 +5309,12 @@ export const dashboardJSONSchema = {
         properties: {
           clearable: {
             type: 'boolean',
+          },
+          excludeValues: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
           },
           column: {
             type: 'string',

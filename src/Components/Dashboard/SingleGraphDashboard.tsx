@@ -150,7 +150,9 @@ export function SingleGraphDashboard(props: Props) {
                 el.column,
               )
                 .filter(v =>
-                  el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
+                  el.excludeValues
+                    ? el.excludeValues.indexOf(`${v}`) === -1
+                    : true,
                 )
                 .map(v => ({
                   value: v,
@@ -188,7 +190,7 @@ export function SingleGraphDashboard(props: Props) {
                 availableValues: getUniqValue(d, el.column)
                   .filter(v =>
                     el.excludeValues
-                      ? el.excludeValues.indexOf(v) === -1
+                      ? el.excludeValues.indexOf(`${v}`) === -1
                       : true,
                   )
                   .map(v => ({
@@ -218,7 +220,9 @@ export function SingleGraphDashboard(props: Props) {
                 el.column,
               )
                 .filter(v =>
-                  el.excludeValues ? el.excludeValues.indexOf(v) === -1 : true,
+                  el.excludeValues
+                    ? el.excludeValues.indexOf(`${v}`) === -1
+                    : true,
                 )
                 .map(v => ({
                   value: v,
