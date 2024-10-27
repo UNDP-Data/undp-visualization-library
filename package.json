@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

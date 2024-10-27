@@ -84,7 +84,6 @@ export function ColorLegend(props: Props) {
                   }undp-viz-typography`}
                   style={{
                     marginBottom: 0,
-                    marginTop: '2px',
                     fontSize: '0.875rem',
                     color: UNDPColorModule[mode || 'light'].grays.black,
                   }}
@@ -116,7 +115,6 @@ export function ColorLegend(props: Props) {
                   rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
                 }undp-viz-typography`}
                 style={{
-                  marginTop: '2px',
                   marginBottom: 0,
                   fontSize: '0.875rem',
                   color: UNDPColorModule[mode || 'light'].grays.black,
