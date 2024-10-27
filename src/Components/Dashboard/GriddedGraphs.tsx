@@ -113,6 +113,19 @@ export function GriddedGraphs(props: Props) {
   };
 
   useEffect(() => {
+    setSelectedFilters(
+      filters?.map(d => ({
+        filter: d.column,
+        value: d.defaultValue
+          ? typeof d.defaultValue === 'string'
+            ? [d.defaultValue]
+            : d.defaultValue
+          : undefined,
+      })) || [],
+    );
+  }, [filters]);
+
+  useEffect(() => {
     if (dataFromFile) {
       const filteredData = dataFromFile.filter((item: any) =>
         selectedFilters.every(filter =>
@@ -233,6 +246,9 @@ export function GriddedGraphs(props: Props) {
       }
     }
   }, [dataSettings, dataFromAPISettings]);
+  useEffect(() => {
+    setGraphConfig(graphDataConfiguration);
+  }, [graphDataConfiguration]);
   if (!dataFromAPISettings && !dataSettings)
     return (
       <p

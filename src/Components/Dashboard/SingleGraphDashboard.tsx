@@ -97,6 +97,19 @@ export function SingleGraphDashboard(props: Props) {
   };
 
   useEffect(() => {
+    setSelectedFilters(
+      filters?.map(d => ({
+        filter: d.column,
+        value: d.defaultValue
+          ? typeof d.defaultValue === 'string'
+            ? [d.defaultValue]
+            : d.defaultValue
+          : undefined,
+      })) || [],
+    );
+  }, [filters]);
+
+  useEffect(() => {
     if (graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap') {
       if (dataFromFile) {
         const filteredData = dataFromFile.filter((item: any) =>
@@ -217,6 +230,9 @@ export function SingleGraphDashboard(props: Props) {
       }
     }
   }, [dataSettings, dataFromAPISettings, dataFilters, graphType]);
+  useEffect(() => {
+    setGraphConfig(graphDataConfiguration);
+  }, [graphDataConfiguration]);
   if (
     !dataFromAPISettings &&
     !dataSettings &&
