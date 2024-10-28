@@ -316,11 +316,15 @@ export function Graph(props: Props) {
         >
           <div
             style={{
-              backgroundColor: 'rgba(255,255,255,0.75)',
+              backgroundColor:
+                mode === 'dark'
+                  ? 'rgba(255,255,255,0.05)'
+                  : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               padding: '1rem',
               display: 'flex',
               alignItems: 'flex-end',
+              alignSelf: rtl ? 'flex-end' : 'flex-start',
             }}
           >
             <div

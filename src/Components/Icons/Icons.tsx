@@ -106,7 +106,8 @@ export function CircleCheckBig() {
   );
 }
 
-export function SortingIcon() {
+export function SortingIcon(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -114,7 +115,7 @@ export function SortingIcon() {
       height='14'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='currentColor'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -126,7 +127,8 @@ export function SortingIcon() {
     </svg>
   );
 }
-export function SortingIconDescending() {
+export function SortingIconDescending(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -134,7 +136,7 @@ export function SortingIconDescending() {
       height='14'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='currentColor'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -148,7 +150,8 @@ export function SortingIconDescending() {
   );
 }
 
-export function SortingIconAscending() {
+export function SortingIconAscending(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -156,7 +159,7 @@ export function SortingIconAscending() {
       height='14'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='currentColor'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -170,7 +173,8 @@ export function SortingIconAscending() {
   );
 }
 
-export function FilterIcon() {
+export function FilterIcon(props: Props) {
+  const { mode } = props;
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -178,7 +182,7 @@ export function FilterIcon() {
       height='14'
       viewBox='0 0 24 24'
       fill='none'
-      stroke='currentColor'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -188,7 +192,8 @@ export function FilterIcon() {
   );
 }
 
-export function FilterIconApplied() {
+export function FilterIconApplied(props: Props) {
+  const { mode } = props;
   return (
     <svg
       width='14'
@@ -200,7 +205,7 @@ export function FilterIconApplied() {
       <path
         d='M16.926 9L14 12.46V21L10 19V12.46L2 3H14.5'
         fill='none'
-        stroke='currentColor'
+        stroke={UNDPColorModule[mode || 'light'].grays.black}
         strokeWidth='1.25'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -209,8 +214,8 @@ export function FilterIconApplied() {
         cx='20'
         cy='4'
         r='3'
-        fill='currentColor'
-        stroke='currentColor'
+        fill={UNDPColorModule[mode || 'light'].grays.black}
+        stroke={UNDPColorModule[mode || 'light'].grays.black}
         strokeWidth='1.25'
         strokeLinecap='round'
         strokeLinejoin='round'

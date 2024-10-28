@@ -399,13 +399,18 @@ export function Graph(props: Props) {
       {showLegend ? (
         <div
           className='undp-viz-bivariate-legend-container'
-          style={{ position: 'relative' }}
+          style={{
+            position: 'relative',
+            alignSelf: rtl ? 'flex-end' : 'flex-start',
+          }}
         >
           <div
             style={{
               alignItems: 'flex-start',
               backgroundColor:
-                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
+                mode === 'dark'
+                  ? 'rgba(255,255,255,0.05)'
+                  : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               display: 'flex',
             }}
@@ -592,6 +597,7 @@ export function Graph(props: Props) {
             border: 0,
             backgroundColor: 'transparent',
             paddingLeft: 0,
+            alignSelf: rtl ? 'flex-end' : 'flex-start',
           }}
           onClick={() => {
             setShowLegend(true);

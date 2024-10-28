@@ -285,11 +285,14 @@ export function Graph(props: Props) {
           <div
             style={{
               backgroundColor:
-                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
+                mode === 'dark'
+                  ? 'rgba(255,255,255,0.05)'
+                  : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               padding: '1rem',
               display: 'flex',
               alignItems: 'flex-end',
+              alignSelf: rtl ? 'flex-end' : 'flex-start',
             }}
           >
             <div

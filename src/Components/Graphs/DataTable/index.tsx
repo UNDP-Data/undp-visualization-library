@@ -178,6 +178,7 @@ export function DataTable(props: Props) {
                               columnData.map(cd => cd.columnWidth || 1),
                             )
                           }%`,
+                          color: UNDPColorModule[mode || 'light'].grays.black,
                         }}
                         key={i}
                       >
@@ -190,7 +191,7 @@ export function DataTable(props: Props) {
                             padding: '1rem',
                           }}
                         >
-                          <div
+                          <p
                             style={{
                               textAlign: d.align || 'left',
                               flexGrow: 1,
@@ -199,10 +200,14 @@ export function DataTable(props: Props) {
                                   ? 'Noto Sans Hebrew, sans-serif'
                                   : 'Noto Sans Arabic, sans-serif'
                                 : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                              color:
+                                UNDPColorModule[mode || 'light'].grays.black,
+                              margin: 0,
+                              fontSize: '0.875rem',
                             }}
                           >
                             {d.columnTitle || d.columnId}
-                          </div>
+                          </p>
                           {d.sortable ? (
                             <button
                               type='button'
@@ -229,12 +234,16 @@ export function DataTable(props: Props) {
                             >
                               {columnSortBy === d.columnId ? (
                                 sortDirection === 'asc' ? (
-                                  <SortingIconAscending />
+                                  <SortingIconAscending
+                                    mode={mode || 'light'}
+                                  />
                                 ) : (
-                                  <SortingIconDescending />
+                                  <SortingIconDescending
+                                    mode={mode || 'light'}
+                                  />
                                 )
                               ) : (
-                                <SortingIcon />
+                                <SortingIcon mode={mode || 'light'} />
                               )}
                             </button>
                           ) : null}
@@ -284,9 +293,9 @@ export function DataTable(props: Props) {
                                   el => el.id === d.columnId,
                                 )
                               ].option.length === d.filterOptions?.length ? (
-                                <FilterIcon />
+                                <FilterIcon mode={mode || 'light'} />
                               ) : (
-                                <FilterIconApplied />
+                                <FilterIconApplied mode={mode || 'light'} />
                               )}
                             </button>
                           ) : null}
@@ -333,6 +342,7 @@ export function DataTable(props: Props) {
                                 columnData.map(cd => cd.columnWidth || 1),
                               )
                             }%`,
+                            color: UNDPColorModule[mode || 'light'].grays.black,
                           }}
                         >
                           <div
@@ -345,10 +355,12 @@ export function DataTable(props: Props) {
                                   ? 'center'
                                   : 'flex-start',
                               padding: '1rem',
+                              color:
+                                UNDPColorModule[mode || 'light'].grays.black,
                             }}
                           >
                             {typeof d[el.columnId] === 'number' ? (
-                              <div
+                              <p
                                 style={{
                                   textAlign: el.align || 'left',
                                   flexGrow: el.chip ? 0 : 1,
@@ -371,6 +383,11 @@ export function DataTable(props: Props) {
                                   padding: el.chip ? '0.5rem' : 0,
                                   width: 'fit-content',
                                   borderRadius: el.chip ? '2px' : 0,
+                                  color:
+                                    UNDPColorModule[mode || 'light'].grays
+                                      .black,
+                                  margin: 0,
+                                  fontSize: '0.875rem',
                                 }}
                               >
                                 {numberFormattingFunction(
@@ -378,7 +395,7 @@ export function DataTable(props: Props) {
                                   el.prefix || '',
                                   el.suffix || '',
                                 )}
-                              </div>
+                              </p>
                             ) : typeof d[el.columnId] === 'string' ? (
                               el.separator ? (
                                 <div
@@ -386,12 +403,15 @@ export function DataTable(props: Props) {
                                     display: 'flex',
                                     flexWrap: 'wrap',
                                     gap: '0.5rem',
+                                    color:
+                                      UNDPColorModule[mode || 'light'].grays
+                                        .black,
                                   }}
                                 >
                                   {d[el.columnId]
                                     .split(el.separator)
                                     .map((element: string, indx: number) => (
-                                      <div
+                                      <p
                                         key={indx}
                                         style={{
                                           textAlign: el.align || 'left',
@@ -416,14 +436,19 @@ export function DataTable(props: Props) {
                                           padding: el.chip ? '0.5rem' : 0,
                                           width: 'fit-content',
                                           borderRadius: el.chip ? '2px' : 0,
+                                          color:
+                                            UNDPColorModule[mode || 'light']
+                                              .grays.black,
+                                          margin: 0,
+                                          fontSize: '0.875rem',
                                         }}
                                       >{`${el.prefix || ''}${element}${
                                         el.suffix || ''
-                                      }`}</div>
+                                      }`}</p>
                                     ))}
                                 </div>
                               ) : (
-                                <div
+                                <p
                                   style={{
                                     textAlign: el.align || 'left',
                                     flexGrow: el.chip ? 0 : 1,
@@ -445,10 +470,15 @@ export function DataTable(props: Props) {
                                     padding: el.chip ? '0.5rem' : 0,
                                     width: 'fit-content',
                                     borderRadius: el.chip ? '2px' : 0,
+                                    color:
+                                      UNDPColorModule[mode || 'light'].grays
+                                        .black,
+                                    margin: 0,
+                                    fontSize: '0.875rem',
                                   }}
                                 >{`${el.prefix || ''}${d[el.columnId]}${
                                   el.suffix || ''
-                                }`}</div>
+                                }`}</p>
                               )
                             ) : (
                               <div>{d[el.columnId]}</div>

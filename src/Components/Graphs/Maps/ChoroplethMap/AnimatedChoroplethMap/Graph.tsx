@@ -396,12 +396,17 @@ export function Graph(props: Props) {
       {showColorScale === false ? null : (
         <div
           className='undp-viz-bivariate-legend-container'
-          style={{ position: 'relative' }}
+          style={{
+            position: 'relative',
+            alignSelf: rtl ? 'flex-end' : 'flex-start',
+          }}
         >
           <div
             style={{
               backgroundColor:
-                mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.75)',
+                mode === 'dark'
+                  ? 'rgba(255,255,255,0.05)'
+                  : 'rgba(255,255,255,0.75)',
               marginBottom: '0.75rem',
               padding: '1rem',
               display: 'flex',
