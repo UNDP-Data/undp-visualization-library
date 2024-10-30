@@ -640,7 +640,7 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 .undp-viz-select [class$="-control"]>div{
-  padding: 0 0 12px 0 !important;
+  padding: 6px 12px !important;
 }
 
 .undp-viz-select div{

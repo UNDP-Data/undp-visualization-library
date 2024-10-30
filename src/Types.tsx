@@ -373,6 +373,7 @@ export type DashboardFromWideToLongFormatColumnDataType = {
   columnWidth?: number;
   dataFilters?: DataFilterDataType[];
   settings?: any;
+  graphDataConfiguration?: GraphConfigurationDataType[];
 };
 
 export type DashboardFromWideToLongFormatLayoutDataType = {

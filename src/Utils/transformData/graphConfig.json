@@ -888,5 +888,20 @@
                 "multiple": false
             }
         ]
+    },
+    {
+        "chartID": "unitChart",
+        "configuration": [
+            {
+                "id": "label",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "value",
+                "required": true,
+                "multiple": false
+            }
+        ]
     }
 ]

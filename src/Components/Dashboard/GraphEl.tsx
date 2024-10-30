@@ -1982,6 +1982,7 @@ function GraphEl(props: Props) {
           graphLegend: settings?.graphLegend,
           showStrokeForWhiteDots: settings?.showStrokeForWhiteDots,
           note: settings?.note,
+          data: graphData,
         };
       case 'animatedBiVariateChoroplethMap':
         return {

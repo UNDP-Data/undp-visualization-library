@@ -4,9 +4,10 @@ import isEqual from 'lodash.isequal';
 import { DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
+import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
-  mainText?: string;
+  mainText?: string | { indicator: string; suffix?: string; prefix?: string };
   radius: number;
   colors: string[];
   subNote?: string;
@@ -91,7 +92,18 @@ export function Graph(props: Props) {
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
-                    {mainText}
+                    {typeof mainText === 'string'
+                      ? mainText
+                      : data.findIndex(d => d.label === mainText.indicator) !==
+                        -1
+                      ? numberFormattingFunction(
+                          data[
+                            data.findIndex(d => d.label === mainText.indicator)
+                          ].size,
+                          mainText.prefix,
+                          mainText.suffix,
+                        )
+                      : 'NA'}
                   </h2>
                 ) : null}
                 {subNote ? (
@@ -109,7 +121,22 @@ export function Graph(props: Props) {
                   >
                     {subNote}
                   </p>
-                ) : null}
+                ) : typeof mainText === 'string' || !mainText ? null : (
+                  <p
+                    className={`${
+                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                    }undp-viz-typography`}
+                    style={{
+                      lineHeight: '1',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      marginBottom: 0,
+                      color: UNDPColorModule[mode || 'light'].grays.black,
+                    }}
+                  >
+                    {mainText.indicator}
+                  </p>
+                )}
               </div>
             </foreignObject>
           ) : null}

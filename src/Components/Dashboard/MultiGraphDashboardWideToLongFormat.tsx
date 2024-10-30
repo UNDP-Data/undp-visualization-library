@@ -286,7 +286,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           data,
                         }}
                         graphDataConfiguration={
-                          el.graphType === 'unitChart'
+                          el.graphDataConfiguration
+                            ? el.graphDataConfiguration
+                            : el.graphType === 'unitChart'
                             ? [
                                 {
                                   columnId: 'indicator',

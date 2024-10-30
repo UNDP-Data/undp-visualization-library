@@ -59,6 +59,7 @@ export function UnitChart(props: Props) {
     mode,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
+  console.log(data);
   const totalValue = sum(data.map(d => d.value));
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
   const graphParentDiv = useRef<HTMLDivElement>(null);
