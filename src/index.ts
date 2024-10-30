@@ -32,6 +32,7 @@ export { ChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/SimpleChor
 export { DotDensityMap } from './Components/Graphs/Maps/DotDensityMap/SimpleDotDensityMap';
 export { GeoHubMap } from './Components/Graphs/Maps/GeoHubMap';
 export { GeoHubCompareMaps } from './Components/Graphs/Maps/GeoHubCompareMaps';
+export { GeoHubMapWithLayerSelection } from './Components/Graphs/Maps/GeoHubMapWithLayerSelection';
 // Scatter Plot
 export { ScatterPlot } from './Components/Graphs/ScatterPlot/SimpleScatterPlot';
 // Slope Chart
