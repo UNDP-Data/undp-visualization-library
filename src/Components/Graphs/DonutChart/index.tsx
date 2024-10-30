@@ -10,7 +10,7 @@ import { UNDPColorModule } from '../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
-  mainText?: string | { indicator: string; suffix?: string; prefix?: string };
+  mainText?: string | { label: string; suffix?: string; prefix?: string };
   data: DonutChartDataType[];
   colors?: string[];
   graphTitle?: string;

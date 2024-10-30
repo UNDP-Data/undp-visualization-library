@@ -7,7 +7,7 @@ import { UNDPColorModule } from '../../ColorPalette';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
-  mainText?: string | { indicator: string; suffix?: string; prefix?: string };
+  mainText?: string | { label: string; suffix?: string; prefix?: string };
   radius: number;
   colors: string[];
   subNote?: string;
@@ -94,12 +94,10 @@ export function Graph(props: Props) {
                   >
                     {typeof mainText === 'string'
                       ? mainText
-                      : data.findIndex(d => d.label === mainText.indicator) !==
-                        -1
+                      : data.findIndex(d => d.label === mainText.label) !== -1
                       ? numberFormattingFunction(
-                          data[
-                            data.findIndex(d => d.label === mainText.indicator)
-                          ].size,
+                          data[data.findIndex(d => d.label === mainText.label)]
+                            .size,
                           mainText.prefix,
                           mainText.suffix,
                         )
@@ -134,7 +132,7 @@ export function Graph(props: Props) {
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
-                    {mainText.indicator}
+                    {mainText.label}
                   </p>
                 )}
               </div>
