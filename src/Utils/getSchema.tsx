@@ -53,6 +53,7 @@ import {
   dumbbellChartSettingsSchema,
   geoHubCompareMapSettingsSchema,
   geoHubMapSettingsSchema,
+  geoHubMapWithLayerSelectionSettingsSchema,
   groupedBarChartSettingsSchema,
   heatMapSettingsSchema,
   histogramSettingsSchema,
@@ -75,7 +76,12 @@ import {
 } from '../Schemas';
 
 export function getDataSchema(graph: GraphType) {
-  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap') return null;
+  if (
+    graph === 'geoHubCompareMap' ||
+    graph === 'geoHubMap' ||
+    graph === 'geoHubMapWithLayerSelection'
+  )
+    return null;
 
   switch (graph) {
     case 'dataTable':
@@ -278,6 +284,8 @@ export function getSettingsSchema(graph: GraphType) {
       return geoHubCompareMapSettingsSchema;
     case 'geoHubMap':
       return geoHubMapSettingsSchema;
+    case 'geoHubMapWithLayerSelection':
+      return geoHubMapWithLayerSelectionSettingsSchema;
     case 'unitChart':
       return unitChartSettingsSchema;
     default:

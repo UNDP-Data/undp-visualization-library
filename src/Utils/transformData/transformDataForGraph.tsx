@@ -8,7 +8,12 @@ export function transformDataForGraph(
   graph: GraphType,
   config?: GraphConfigurationDataType[],
 ) {
-  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap') return data;
+  if (
+    graph === 'geoHubCompareMap' ||
+    graph === 'geoHubMap' ||
+    graph === 'geoHubMapWithLayerSelection'
+  )
+    return data;
   if (!data) return 'Cannot fetch data';
   if (graph === 'dataTable' || data.length === 0) return data;
   if (!config) {

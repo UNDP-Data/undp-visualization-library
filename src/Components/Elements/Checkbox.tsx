@@ -57,11 +57,6 @@ function Checkbox(props: Props) {
             }
             onChange={handleCheckboxChange}
           />
-          <span
-            className={`undp-checkbox-box${
-              mode === 'dark' ? ` dark-mode` : ''
-            }`}
-          />
           <p>{d.label}</p>
         </label>
       ))}

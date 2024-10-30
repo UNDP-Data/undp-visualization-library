@@ -19,7 +19,10 @@ interface ConfigObject {
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
-  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap'>;
+  graphType: Exclude<
+    GraphType,
+    'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
+  >;
   relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;

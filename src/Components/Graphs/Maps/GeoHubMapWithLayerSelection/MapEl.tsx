@@ -14,7 +14,7 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   minHeight?: number;
-  selectedLayer: string;
+  selectedLayer: string[];
   layerIdList: string[];
 }
 
@@ -63,7 +63,9 @@ export function MapEl(props: Props) {
             layers: filterData(d.layers, [
               {
                 column: 'id',
-                excludeValues: layerIdList.filter(el => el !== selectedLayer),
+                excludeValues: layerIdList.filter(
+                  el => selectedLayer.indexOf(el) === -1,
+                ),
               },
             ]),
           },
@@ -95,7 +97,9 @@ export function MapEl(props: Props) {
           layers: filterData(mapStyleData.layers, [
             {
               column: 'id',
-              excludeValues: layerIdList.filter(el => el !== selectedLayer),
+              excludeValues: layerIdList.filter(
+                el => selectedLayer.indexOf(el) === -1,
+              ),
             },
           ]),
         };
@@ -107,7 +111,9 @@ export function MapEl(props: Props) {
             layers: filterData(d.layers, [
               {
                 column: 'id',
-                excludeValues: layerIdList.filter(el => el !== selectedLayer),
+                excludeValues: layerIdList.filter(
+                  el => selectedLayer.indexOf(el) === -1,
+                ),
               },
             ]),
           };

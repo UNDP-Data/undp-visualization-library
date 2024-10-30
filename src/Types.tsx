@@ -33,6 +33,7 @@ export type GraphType =
   | 'statCard'
   | 'geoHubCompareMap'
   | 'geoHubMap'
+  | 'geoHubMapWithLayerSelection'
   | 'unitChart'
   | 'animatedScatterPlot'
   | 'animatedHorizontalBarChart'
@@ -612,4 +613,5 @@ export interface GraphSettingsDataType {
   maxNumberOfBars?: number;
   includeLayers?: string[];
   excludeLayers?: string[];
+  layerSelection?: { layerID: string; name: string[] }[];
 }

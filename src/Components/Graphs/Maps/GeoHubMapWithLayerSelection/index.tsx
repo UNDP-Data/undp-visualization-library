@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Select, { createFilter } from 'react-select';
+import flattenDeep from 'lodash.flattendeep';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
@@ -24,7 +25,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
-  layerSelection: { layerID: string; name: string }[];
+  layerSelection: { layerID: string[]; name: string }[];
 }
 
 export function GeoHubMapWithLayerSelection(props: Props) {
@@ -169,7 +170,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             relativeHeight={relativeHeight}
             minHeight={minHeight}
             selectedLayer={selectedLayer}
-            layerIdList={layerSelection.map(d => d.layerID)}
+            layerIdList={flattenDeep(layerSelection.map(d => d.layerID))}
           />
           {source || footNote ? (
             <GraphFooter

@@ -45,11 +45,6 @@ function Radio(props: Props) {
             checked={selectedOption === d.value}
             onChange={handleOptionChange}
           />
-          <span
-            className={`undp-viz-radio-box${
-              mode === 'dark' ? ` dark-mode` : ''
-            }`}
-          />
           <p>{d.label}</p>
         </label>
       ))}

@@ -110,7 +110,11 @@ export function SingleGraphDashboard(props: Props) {
   }, [filters]);
 
   useEffect(() => {
-    if (graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap') {
+    if (
+      graphType !== 'geoHubMap' &&
+      graphType !== 'geoHubCompareMap' &&
+      graphType !== 'geoHubMapWithLayerSelection'
+    ) {
       if (dataFromFile) {
         const filteredData = dataFromFile.filter((item: any) =>
           selectedFilters.every(filter =>
@@ -126,7 +130,11 @@ export function SingleGraphDashboard(props: Props) {
   }, [selectedFilters, dataFromFile, graphType]);
 
   useEffect(() => {
-    if (graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap') {
+    if (
+      graphType !== 'geoHubMap' &&
+      graphType !== 'geoHubCompareMap' &&
+      graphType !== 'geoHubMapWithLayerSelection'
+    ) {
       if (dataFromAPISettings) {
         const fetchData = fetchAndTransformDataFromAPI(
           dataFromAPISettings.requestURL,
@@ -241,7 +249,8 @@ export function SingleGraphDashboard(props: Props) {
     !dataFromAPISettings &&
     !dataSettings &&
     graphType !== 'geoHubMap' &&
-    graphType !== 'geoHubCompareMap'
+    graphType !== 'geoHubCompareMap' &&
+    graphType !== 'geoHubMapWithLayerSelection'
   )
     return (
       <p
@@ -303,7 +312,8 @@ export function SingleGraphDashboard(props: Props) {
         >
           {data ||
           graphType === 'geoHubMap' ||
-          graphType === 'geoHubCompareMap' ? (
+          graphType === 'geoHubCompareMap' ||
+          graphType === 'geoHubMapWithLayerSelection' ? (
             <>
               {graphSettings?.graphTitle ||
               graphSettings?.graphDescription ||

@@ -12,7 +12,11 @@ import {
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
 export function validateDataSchema(data: any, graph: GraphType) {
-  if (graph === 'geoHubCompareMap' || graph === 'geoHubMap')
+  if (
+    graph === 'geoHubCompareMap' ||
+    graph === 'geoHubMap' ||
+    graph === 'geoHubMapWithLayerSelection'
+  )
     return {
       isValid: true,
       err: undefined,
@@ -99,7 +103,8 @@ export function validateConfigSchema(
     case 'singleGraphDashboard':
       if (
         config.graphType === 'geoHubMap' ||
-        config.graphType === 'geoHubCompareMap'
+        config.graphType === 'geoHubCompareMap' ||
+        config.graphType === 'geoHubMapWithLayerSelection'
       ) {
         schema = singleGraphForGeoHubMapJSONSchema;
       } else schema = singleGraphJSONSchema;

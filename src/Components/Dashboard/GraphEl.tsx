@@ -58,6 +58,7 @@ import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 import { UNDPColorModule } from '../ColorPalette';
+import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
 
 interface Props {
   graph: GraphType;
@@ -163,6 +164,7 @@ function GraphEl(props: Props) {
     animatedVerticalDumbbellChart: AnimatedVerticalDumbbellChart,
     animatedButterflyChart: AnimatedButterflyChart,
     differenceLineChart: DifferenceLineChart,
+    geoHubMapWithLayerSelection: GeoHubMapWithLayerSelection,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -1957,6 +1959,28 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           includeLayers: settings?.includeLayers,
           excludeLayers: settings?.excludeLayers,
+        };
+      case 'geoHubMapWithLayerSelection':
+        return {
+          mode: settings?.mode,
+          mapStyle: settings?.mapStyle,
+          center: settings?.center,
+          zoomLevel: settings?.zoomLevel,
+          graphTitle: settings?.graphTitle,
+          source: settings?.source,
+          graphDescription: settings?.graphDescription,
+          sourceLink: settings?.sourceLink,
+          footNote: settings?.footNote,
+          backgroundColor: settings?.backgroundColor,
+          padding: settings?.padding,
+          width: settings?.width,
+          height: settings?.height,
+          relativeHeight: settings?.relativeHeight,
+          graphID: settings?.graphID,
+          rtl: settings?.rtl,
+          language: settings?.language,
+          minHeight: settings?.minHeight,
+          layerSelection: settings?.layerSelection,
         };
       case 'unitChart':
         return {

@@ -700,7 +700,15 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 
 
 label.undp-viz-checkbox {
-  display: flex;
+  display: flex !important;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+
+label.undp-viz-radio {
+  display: flex !important;
+  align-items: center;
   gap: 0.25rem;
 }
 

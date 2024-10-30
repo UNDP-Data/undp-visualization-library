@@ -178,7 +178,7 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    rowGap: '0.75rem',
+                    rowGap: '0',
                     columnGap: '1rem',
                   }}
                 >
@@ -227,7 +227,9 @@ export function DonutChart(props: Props) {
                         }}
                       >
                         {d.label}:{' '}
-                        <span style={{ fontWeight: 'bold' }}>
+                        <span
+                          style={{ fontWeight: 'bold', fontSize: 'inherit' }}
+                        >
                           {numberFormattingFunction(
                             d.size,
                             prefix || '',

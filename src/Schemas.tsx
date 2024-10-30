@@ -3005,6 +3005,59 @@ export const geoHubMapSettingsSchema = {
   required: ['mapStyle'],
 };
 
+export const geoHubMapWithLayerSelectionSettingsSchema = {
+  type: 'object',
+  properties: {
+    mapStyle: { type: 'string' },
+    center: {
+      type: 'array',
+      items: { type: 'number' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    zoomLevel: { type: 'number' },
+    graphTitle: { type: 'string' },
+    source: { type: 'string' },
+    graphDescription: { type: 'string' },
+    sourceLink: { type: 'string' },
+    footNote: { type: 'string' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    graphID: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    layerSelection: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            layerID: { type: 'array', items: { type: 'string' }, minItem: 1 },
+          },
+          required: ['name', 'layerID'],
+        },
+        minItems: 1,
+      },
+    },
+  },
+  required: ['mapStyle', 'layerSelection'],
+};
+
 export const paretoChartSettingsSchema = {
   type: 'object',
   properties: {
@@ -3847,6 +3900,21 @@ export const SettingsSchema = {
     excludeLayers: {
       type: 'array',
       items: { type: 'string' },
+    },
+    layerSelection: {
+      type: 'array',
+      items: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            layerID: { type: 'array', items: { type: 'string' }, minItem: 1 },
+          },
+          required: ['name', 'layerID'],
+        },
+        minItems: 1,
+      },
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
@@ -4816,7 +4884,7 @@ export const singleGraphForGeoHubMapJSONSchema = {
     graphSettings: SettingsSchema,
     graphType: {
       type: 'string',
-      enum: ['geoHubMap', 'geoHubCompareMap'],
+      enum: ['geoHubMap', 'geoHubCompareMap', 'geoHubMapWithLayerSelection'],
     },
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
@@ -5198,6 +5266,7 @@ export const dashboardJSONSchema = {
                         'dualAxisLineChart',
                         'geoHubCompareMap',
                         'geoHubMap',
+                        'geoHubMapWithLayerSelection',
                         'heatMap',
                         'histogram',
                         'horizontalBarChart',

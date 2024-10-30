@@ -114,6 +114,7 @@ export function UnitChart(props: Props) {
             flexDirection: 'column',
             gap: '0.75rem',
             width: '100%',
+            justifyContent: 'space-between',
             flexGrow: 1,
           }}
         >
@@ -159,7 +160,7 @@ export function UnitChart(props: Props) {
                   display: 'flex',
                   marginBottom: 0,
                   flexWrap: 'wrap',
-                  rowGap: '0.75rem',
+                  rowGap: '0',
                   columnGap: '1rem',
                 }}
               >
@@ -194,7 +195,7 @@ export function UnitChart(props: Props) {
                       }}
                     >
                       {d.label}:{' '}
-                      <span style={{ fontWeight: 'bold' }}>
+                      <span style={{ fontWeight: 'bold', fontSize: 'inherit' }}>
                         {numberFormattingFunction(d.value)}
                       </span>
                     </p>
@@ -203,7 +204,7 @@ export function UnitChart(props: Props) {
               </div>
             </div>
           ) : null}
-          <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+          <div>
             <svg
               width={`${size || 200}px`}
               height={`${
