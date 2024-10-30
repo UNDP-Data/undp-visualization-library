@@ -13,6 +13,7 @@ import { UNDPColorModule } from '../ColorPalette';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
+import { filterData } from '../../Utils/transformData/filterData';
 
 interface Props {
   dashboardId?: string;
@@ -79,10 +80,13 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
               true,
             );
       fetchData.then((d: any) => {
-        setFilterValues(d.map((el: any) => el[dataSettings.keyColumn]));
-        setSelectedFilterValues(d[0][dataSettings.keyColumn]);
+        const filteredData = filterData(d, dataSettings.dataFilters || []);
+        setFilterValues(
+          filteredData.map((el: any) => el[dataSettings.keyColumn]),
+        );
+        setSelectedFilterValues(filteredData[0][dataSettings.keyColumn]);
         const tempData = wideToLongTransformation(
-          d,
+          filteredData,
           dataSettings.keyColumn,
           readableHeader || [],
           debugMode,
@@ -90,16 +94,20 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         setDataFromFile(tempData);
       });
     } else {
-      const tempData = wideToLongTransformation(
+      const filteredData = filterData(
         dataSettings.data,
+        dataSettings.dataFilters || [],
+      );
+      const tempData = wideToLongTransformation(
+        filteredData,
         dataSettings.keyColumn,
         readableHeader || [],
         debugMode,
       );
       setFilterValues(
-        dataSettings.data.map((el: any) => el[dataSettings.keyColumn]),
+        filteredData.map((el: any) => el[dataSettings.keyColumn]),
       );
-      setSelectedFilterValues(dataSettings.data[0][dataSettings.keyColumn]);
+      setSelectedFilterValues(filteredData[0][dataSettings.keyColumn]);
       setDataFromFile(tempData);
     }
   }, [dataSettings]);

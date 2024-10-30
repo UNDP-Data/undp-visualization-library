@@ -318,8 +318,8 @@ export interface DataSelectionDataType {
 
 export interface DataFilterDataType {
   column: string;
-  includeValues?: (string | number | boolean)[];
-  excludeValues?: (string | number | boolean)[];
+  includeValues?: (string | number | boolean | null | undefined)[];
+  excludeValues?: (string | number | boolean | null | undefined)[];
 }
 
 export type DashboardColumnDataType = {
@@ -407,6 +407,7 @@ export interface DataSettingsWideToLongDataType {
   delimiter?: string;
   data?: any;
   keyColumn: string;
+  dataFilters?: DataFilterDataType[];
 }
 
 export interface APISettingsDataType {
