@@ -119,6 +119,7 @@ export function HorizontalBarGraph(props: Props) {
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       setSvgWidth(width || entries[0].target.clientWidth || 620);
+      setSvgHeight(height || entries[0].target.clientHeight || 480);
     });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);

@@ -42,13 +42,14 @@ function Checkbox(props: Props) {
     >
       {options.map((d, i) => (
         <label
-          className={`undp-checkbox${
+          className={`undp-viz-checkbox${
             rtl ? ` ${language || 'ar'}` : ` ${language || 'en'}`
           }${mode === 'dark' ? ` dark-mode` : ''}`}
           key={i}
         >
           <input
             type='checkbox'
+            className='undp-viz-checkbox'
             name={d.value}
             checked={
               checkedItems[checkedItems.findIndex(el => el.value === d.value)]

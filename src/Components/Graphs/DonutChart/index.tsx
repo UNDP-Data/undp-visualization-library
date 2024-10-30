@@ -178,7 +178,7 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    rowGap: '.75rem',
+                    rowGap: '0.75rem',
                     columnGap: '1rem',
                   }}
                 >

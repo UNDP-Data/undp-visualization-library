@@ -59,7 +59,6 @@ export function UnitChart(props: Props) {
     mode,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
-  console.log(data);
   const totalValue = sum(data.map(d => d.value));
   const paddingValue = unitPadding === undefined ? 3 : unitPadding;
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -115,7 +114,6 @@ export function UnitChart(props: Props) {
             flexDirection: 'column',
             gap: '0.75rem',
             width: '100%',
-            justifyContent: 'space-between',
             flexGrow: 1,
           }}
         >
@@ -161,7 +159,8 @@ export function UnitChart(props: Props) {
                   display: 'flex',
                   marginBottom: 0,
                   flexWrap: 'wrap',
-                  gap: '1.5rem',
+                  rowGap: '0.75rem',
+                  columnGap: '1rem',
                 }}
               >
                 {data.map((d, i) => (
@@ -204,7 +203,7 @@ export function UnitChart(props: Props) {
               </div>
             </div>
           ) : null}
-          <div>
+          <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
             <svg
               width={`${size || 200}px`}
               height={`${

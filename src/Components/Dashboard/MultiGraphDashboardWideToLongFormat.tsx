@@ -277,7 +277,10 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           width: undefined,
                           height: undefined,
                           radius: undefined,
-                          size: undefined,
+                          size:
+                            el.graphType === 'unitChart'
+                              ? el.settings.size
+                              : undefined,
                           rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
                           mode: mode || el.settings?.mode,

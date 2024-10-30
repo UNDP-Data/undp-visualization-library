@@ -693,112 +693,19 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 .undp-viz-typography-en{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
+
 .rtl {
   direction: rtl;
 }
 
-.undp-checkbox {
+
+label.undp-viz-checkbox {
   display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 0;
-  position: relative;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
-.undp-checkbox p{
-  margin: 0;
-  font-weight: normal;
-  font-size: 16px !important;
-  color: #000;
-}
-
-.undp-checkbox.dark-mode p{
-  color: #fff;
-}
-
-.undp-checkbox.en p{
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-}
-
-
-.undp-checkbox.ar p{
-  font-family: "Noto Sans Arabic", sans-serif !important;
-  text-align: right;
-}
-
-.undp-checkbox.he p{
-  font-family: "Noto Sans Hebrew", sans-serif !important;
-  text-align: right;
-}
-
-.undp-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-
-.undp-checkbox-box {
-  height: 12px;
-  width: 12px;
-  background-color: rgba(255, 255, 255,0.1);
-  border-radius: 0;
-  border: 2px solid #006EB5;
-  transition: background-color 0.2s;
-}
-.undp-checkbox:hover .undp-checkbox-box{
-  opacity: 0.5;
-}
-
-.undp-checkbox-box.dark-mode {
-  border: 1px solid rgba(255,255,255,0.8);
-}
-
-.undp-checkbox-box:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.undp-checkbox input:checked ~ .undp-checkbox-box:after {
-  display: block;
-}
-
-.undp-checkbox .undp-checkbox-box:after {
-  width: 3px;
-  height: 6px;
-  margin-top: 1px;
-  margin-right: 3px;
-  margin-left: 3px;
-  border: solid #006EB5;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-
-.undp-checkbox .undp-checkbox-box.dark-mode:after {
-  width: 3px;
-  height: 6px;
-  margin-top: 1px;
-  margin-right: 3px;
-  margin-left: 3px;
-  border: solid #FFF;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-
-.undp-viz-radio {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 0;
-  position: relative;
-  gap: 4px;
-}
 .undp-viz-radio p{
-  margin: 0;
+  margin: 0 !important;
   font-weight: normal;
   font-size: 16px !important;
   color: #000;
@@ -823,47 +730,88 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   text-align: right;
 }
 
-.undp-viz-radio input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
+input.undp-viz-radio[type=radio] {
+	appearance: none;
+	border: 2px solid #d12800;
+	cursor: pointer;
+	height: 16px;
+	margin: 0;
+	width: 16px;
 }
 
-.undp-viz-radio-box {
-  height: 12px;
-  width: 12px;
-  background-color: rgba(255, 255, 255,0.1);
-  border-radius: 12px;
-  border: 2px solid #006EB5;
-  transition: background-color 0.2s;
+input.undp-viz-radio[type=radio]:hover {
+	border-color: #ffb4ae;
 }
 
-.undp-viz-radio-box.dark-mode {
-  border: 1px solid rgba(255,255,255,0.8);
+input.undp-viz-radio[type=radio]:focus-visible {
+	box-shadow: 0 0 4px #0468b1;
+	outline: 0;
 }
 
-.undp-viz-radio-box:after {
-  content: "";
-  position: absolute;
-  display: none;
+input.undp-viz-radio[type=radio] {
+	background-color: transparent;
+	border-radius: 100%;
+	box-shadow: inset 0 0 0 #fff;
 }
 
-.undp-viz-radio input:checked ~ .undp-viz-radio-box:after {
-  display: block;
+input.undp-viz-radio[type=radio]:checked {
+	background-color: #d12800;
+	box-shadow: inset 0 0 0 3px #fff;
 }
 
-.undp-viz-radio .undp-viz-radio-box:after {
-  width: 6px;
-  height: 6px;
-  margin: 3px;
-  background-color: #006EB5;
-  border-radius: 6px;
+label.undp-viz-checkbox {
+  display: flex;
+  gap: 0.25rem;
 }
 
-.undp-viz-radio .undp-viz-radio-box.dark-mode:after {
-  width: 6px;
-  height: 6px;
-  margin: 3px;
-  background-color: rgba(255,255,255,0.8);
-  border-radius: 6px;
+input.undp-viz-checkbox[type=checkbox] {
+	appearance: none;
+	border: 2px solid #d12800;
+	cursor: pointer;
+	height: 16px;
+	margin: 0;
+	width: 16px;
+}
+
+input.undp-viz-checkbox[type=checkbox]:hover {
+	border-color: #ffb4ae;
+}
+
+input.undp-viz-checkbox[type=checkbox]:focus-visible {
+	box-shadow: 0 0 4px #0468b1;
+	outline: 0;
+}
+
+input.undp-viz-checkbox[type=checkbox] {
+	border-radius: 0
+}
+
+input.undp-viz-checkbox[type=checkbox]:checked {
+	background: url(https://design.undp.org/static/media/icon-check.b332b98d.svg) 1px 0 no-repeat;
+}
+
+.undp-viz-checkbox p{
+  margin: 0 !important;
+  font-weight: normal;
+  font-size: 16px !important;
+  color: #000;
+}
+
+.undp-viz-checkbox.dark-mode p{
+  color: #fff;
+}
+
+.undp-viz-checkbox.en p{
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
+}
+
+
+.undp-viz-checkbox.ar p{
+  font-family: "Noto Sans Arabic", sans-serif !important;
+  text-align: right;
+}
+
+.undp-viz-checkbox.he p{
+  font-family: "Noto Sans Hebrew", sans-serif !important;
+  text-align: right;
 }

@@ -33,8 +33,8 @@ export function numberFormattingFunction(
   )
     return value;
   return `${prefix || ''}${
-    Math.abs(value as number) < 1
-      ? (value as number).toFixed(3).replace(/(\.\d*?[1-9])0+$|\.0*$/, '$1')
+    Math.abs(value as number) < 1000
+      ? (value as number).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0*$/, '$1')
       : formatNumberToReadableString(value as number)
   }${suffix || ''}`;
 }

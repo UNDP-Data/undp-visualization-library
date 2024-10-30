@@ -40,6 +40,7 @@ function Radio(props: Props) {
         >
           <input
             type='radio'
+            className='undp-viz-radio'
             name={d.value}
             checked={selectedOption === d.value}
             onChange={handleOptionChange}
