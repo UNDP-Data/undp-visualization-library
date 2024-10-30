@@ -599,8 +599,14 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   font-weight: 500;
   line-height: 1.125rem;
   margin: 0;position: relative;
+  text-transform: none;
   width: 100%;
 }
+
+.undp-viz-select div input {
+  height: 18px !important;
+}
+
 
 .undp-viz-select-ar {
   font-family: "Noto Sans Arabic", sans-serif !important;
@@ -634,7 +640,11 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 .undp-viz-select [class$="-control"]>div{
-  padding: 6px 12px !important;
+  padding: 0 0 12px 0 !important;
+}
+
+.undp-viz-select div{
+  font-size: 1rem !important;
 }
 
 .undp-viz-slider {
@@ -779,7 +789,7 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 }
 
 
-.undp-radio {
+.undp-viz-radio {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -787,39 +797,39 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   position: relative;
   gap: 4px;
 }
-.undp-radio p{
+.undp-viz-radio p{
   margin: 0;
   font-weight: normal;
   font-size: 16px !important;
   color: #000;
 }
 
-.undp-radio.dark-mode p{
+.undp-viz-radio.dark-mode p{
   color: #fff;
 }
 
-.undp-radio.en p{
+.undp-viz-radio.en p{
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
 
-.undp-radio.ar p{
+.undp-viz-radio.ar p{
   font-family: "Noto Sans Arabic", sans-serif !important;
   text-align: right;
 }
 
-.undp-radio.he p{
+.undp-viz-radio.he p{
   font-family: "Noto Sans Hebrew", sans-serif !important;
   text-align: right;
 }
 
-.undp-radio input {
+.undp-viz-radio input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.undp-radio-box {
+.undp-viz-radio-box {
   height: 12px;
   width: 12px;
   background-color: rgba(255, 255, 255,0.1);
@@ -828,21 +838,21 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   transition: background-color 0.2s;
 }
 
-.undp-radio-box.dark-mode {
+.undp-viz-radio-box.dark-mode {
   border: 1px solid rgba(255,255,255,0.8);
 }
 
-.undp-radio-box:after {
+.undp-viz-radio-box:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-.undp-radio input:checked ~ .undp-radio-box:after {
+.undp-viz-radio input:checked ~ .undp-viz-radio-box:after {
   display: block;
 }
 
-.undp-radio .undp-radio-box:after {
+.undp-viz-radio .undp-viz-radio-box:after {
   width: 6px;
   height: 6px;
   margin: 3px;
@@ -850,7 +860,7 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   border-radius: 6px;
 }
 
-.undp-radio .undp-radio-box.dark-mode:after {
+.undp-viz-radio .undp-viz-radio-box.dark-mode:after {
   width: 6px;
   height: 6px;
   margin: 3px;

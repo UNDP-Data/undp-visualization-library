@@ -33,7 +33,7 @@ function Radio(props: Props) {
     >
       {options.map((d, i) => (
         <label
-          className={`undp-radio${
+          className={`undp-viz-radio${
             rtl ? ` ${language || 'ar'}` : ` ${language || 'en'}`
           }${mode === 'dark' ? ` dark-mode` : ''}`}
           key={i}
@@ -45,7 +45,9 @@ function Radio(props: Props) {
             onChange={handleOptionChange}
           />
           <span
-            className={`undp-radio-box${mode === 'dark' ? ` dark-mode` : ''}`}
+            className={`undp-viz-radio-box${
+              mode === 'dark' ? ` dark-mode` : ''
+            }`}
           />
           <p>{d.label}</p>
         </label>
