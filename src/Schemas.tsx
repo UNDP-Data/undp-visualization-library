@@ -3047,7 +3047,7 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
           type: 'object',
           properties: {
             name: { type: 'string' },
-            layerID: { type: 'array', items: { type: 'string' }, minItem: 1 },
+            layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
           },
           required: ['name', 'layerID'],
         },
@@ -3909,7 +3909,7 @@ export const SettingsSchema = {
           type: 'object',
           properties: {
             name: { type: 'string' },
-            layerID: { type: 'array', items: { type: 'string' }, minItem: 1 },
+            layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
           },
           required: ['name', 'layerID'],
         },
