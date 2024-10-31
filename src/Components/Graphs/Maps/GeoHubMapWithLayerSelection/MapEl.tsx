@@ -42,6 +42,7 @@ export function MapEl(props: Props) {
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       setSvgWidth(width || entries[0].target.clientWidth || 620);
+      setSvgHeight(height || entries[0].target.clientHeight || 480);
     });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -49,7 +50,7 @@ export function MapEl(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width]);
+  }, [graphDiv?.current, width, height]);
   useEffect(() => {
     if (mapContainer.current && svgWidth && !mapRef.current) {
       fetchAndParseJSON(mapStyle).then(d => {
@@ -65,9 +66,10 @@ export function MapEl(props: Props) {
             layers: filterData(d.layers, [
               {
                 column: 'id',
-                excludeValues: layerIdList.filter(
-                  el => selectedLayer.indexOf(el) === -1,
-                ),
+                excludeValues: [
+                  ...excludeLayers,
+                  ...layerIdList.filter(el => selectedLayer.indexOf(el) === -1),
+                ],
               },
             ]),
           },
@@ -114,9 +116,10 @@ export function MapEl(props: Props) {
             layers: filterData(d.layers, [
               {
                 column: 'id',
-                excludeValues: layerIdList.filter(
-                  el => selectedLayer.indexOf(el) === -1,
-                ),
+                excludeValues: [
+                  ...excludeLayers,
+                  ...layerIdList.filter(el => selectedLayer.indexOf(el) === -1),
+                ],
               },
             ]),
           };

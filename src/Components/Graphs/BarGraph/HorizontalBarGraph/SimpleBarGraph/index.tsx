@@ -127,7 +127,7 @@ export function HorizontalBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width]);
+  }, [graphDiv?.current, width, height]);
 
   return (
     <div

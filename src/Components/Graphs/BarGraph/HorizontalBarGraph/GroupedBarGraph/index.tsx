@@ -111,6 +111,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       setSvgWidth(width || entries[0].target.clientWidth || 620);
+      setSvgHeight(height || entries[0].target.clientHeight || 480);
     });
     if (graphDiv.current) {
       setSvgHeight(graphDiv.current.clientHeight || 480);
@@ -118,7 +119,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width]);
+  }, [graphDiv?.current, width, height]);
 
   return (
     <div
