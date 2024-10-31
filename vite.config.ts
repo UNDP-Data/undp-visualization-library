@@ -7,11 +7,14 @@ import dts from 'vite-plugin-dts';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [dts({ rollupTypes: true }), react(), eslint()],
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     cssCodeSplit: false,
     lib: {
       entry: 'src/index.ts',
-      name: 'index',
+      name: 'undpViz',
       fileName: format => {
         if (format === 'es') return 'index.js'; // ES Module
         if (format === 'cjs') return 'index.cjs'; // CommonJS Module
