@@ -3054,6 +3054,10 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
         minItems: 1,
       },
     },
+    excludeLayers: {
+      type: 'array',
+      items: { type: 'string' },
+    },
   },
   required: ['mapStyle', 'layerSelection'],
 };

@@ -89,8 +89,6 @@ export function UnitChart(props: Props) {
         flexDirection: 'column',
         height: 'inherit',
         width: fillContainer === false ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
         flexGrow: size ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
@@ -114,7 +112,6 @@ export function UnitChart(props: Props) {
             flexDirection: 'column',
             gap: '0.75rem',
             width: '100%',
-            justifyContent: 'space-between',
             flexGrow: 1,
           }}
         >

@@ -26,6 +26,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   layerSelection: { layerID: string[]; name: string }[];
+  excludeLayers?: string[];
 }
 
 export function GeoHubMapWithLayerSelection(props: Props) {
@@ -49,6 +50,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     minHeight,
     mode,
     layerSelection,
+    excludeLayers,
   } = props;
 
   const [selectedLayer, setSelectedLayer] = useState(layerSelection[0].layerID);
@@ -106,61 +108,53 @@ export function GeoHubMapWithLayerSelection(props: Props) {
               mode={mode || 'light'}
             />
           ) : null}
-          {typeof mapStyle === 'string' ? null : (
-            <Select
-              className={
-                rtl
-                  ? `undp-viz-select-${language || 'ar'} undp-viz-select`
-                  : 'undp-viz-select'
-              }
-              options={layerSelection.map(d => ({
-                label: d.name,
-                value: d.layerID,
-              }))}
-              isClearable={false}
-              isRtl={rtl}
-              isSearchable
-              filterOption={createFilter(filterConfig)}
-              defaultValue={{
-                label: layerSelection[0].name,
-                value: layerSelection[0].layerID,
-              }}
-              controlShouldRenderValue
-              onChange={el => {
-                if (el) setSelectedLayer(el.value);
-              }}
-              theme={theme => {
-                return {
-                  ...theme,
-                  borderRadius: 0,
-                  spacing: {
-                    ...theme.spacing,
-                    baseUnit: 4,
-                    menuGutter: 2,
-                    controlHeight: 48,
-                  },
-                  colors: {
-                    ...theme.colors,
-                    danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
-                    dangerLight:
-                      UNDPColorModule[mode || 'light'].grays['gray-400'],
-                    neutral10:
-                      UNDPColorModule[mode || 'light'].grays['gray-400'],
-                    primary50:
-                      UNDPColorModule[mode || 'light'].primaryColors[
-                        'blue-400'
-                      ],
-                    primary25:
-                      UNDPColorModule[mode || 'light'].grays['gray-200'],
-                    primary:
-                      UNDPColorModule[mode || 'light'].primaryColors[
-                        'blue-600'
-                      ],
-                  },
-                };
-              }}
-            />
-          )}
+          <Select
+            className={
+              rtl
+                ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                : 'undp-viz-select'
+            }
+            options={layerSelection.map(d => ({
+              label: d.name,
+              value: d.layerID,
+            }))}
+            isClearable={false}
+            isRtl={rtl}
+            isSearchable
+            filterOption={createFilter(filterConfig)}
+            defaultValue={{
+              label: layerSelection[0].name,
+              value: layerSelection[0].layerID,
+            }}
+            controlShouldRenderValue
+            onChange={el => {
+              if (el) setSelectedLayer(el.value);
+            }}
+            theme={theme => {
+              return {
+                ...theme,
+                borderRadius: 0,
+                spacing: {
+                  ...theme.spacing,
+                  baseUnit: 4,
+                  menuGutter: 2,
+                  controlHeight: 48,
+                },
+                colors: {
+                  ...theme.colors,
+                  danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
+                  dangerLight:
+                    UNDPColorModule[mode || 'light'].grays['gray-400'],
+                  neutral10: UNDPColorModule[mode || 'light'].grays['gray-400'],
+                  primary50:
+                    UNDPColorModule[mode || 'light'].primaryColors['blue-400'],
+                  primary25: UNDPColorModule[mode || 'light'].grays['gray-200'],
+                  primary:
+                    UNDPColorModule[mode || 'light'].primaryColors['blue-600'],
+                },
+              };
+            }}
+          />
           <MapEl
             mapStyle={mapStyle}
             center={center}
@@ -171,6 +165,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             minHeight={minHeight}
             selectedLayer={selectedLayer}
             layerIdList={flattenDeep(layerSelection.map(d => d.layerID))}
+            excludeLayers={excludeLayers || []}
           />
           {source || footNote ? (
             <GraphFooter

@@ -16,6 +16,7 @@ interface Props {
   minHeight?: number;
   selectedLayer: string[];
   layerIdList: string[];
+  excludeLayers: string[];
 }
 
 export function MapEl(props: Props) {
@@ -29,6 +30,7 @@ export function MapEl(props: Props) {
     minHeight,
     selectedLayer,
     layerIdList,
+    excludeLayers,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -97,9 +99,10 @@ export function MapEl(props: Props) {
           layers: filterData(mapStyleData.layers, [
             {
               column: 'id',
-              excludeValues: layerIdList.filter(
-                el => selectedLayer.indexOf(el) === -1,
-              ),
+              excludeValues: [
+                ...excludeLayers,
+                ...layerIdList.filter(el => selectedLayer.indexOf(el) === -1),
+              ],
             },
           ]),
         };

@@ -1981,6 +1981,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           layerSelection: settings?.layerSelection,
+          excludeLayers: settings?.excludeLayers,
         };
       case 'unitChart':
         return {
@@ -2395,7 +2396,7 @@ function GraphEl(props: Props) {
         margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: graph !== 'unitChart' ? 'center' : 'flex-start',
         height: 'inherit',
         minHeight: 'inherit',
         width: settings?.width ? 'fit-content' : '100%',
