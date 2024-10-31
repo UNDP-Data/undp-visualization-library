@@ -1,18 +1,20 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "0.1.41",
-  "main": "./dist/index.umd.cjs",
+  "version": "0.1.42",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "browser": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/index.umd.cjs",
+    "dist/index.cjs",
+    "dist/index.umd.js",
     "dist/index.d.ts",
     "dist/style.css"
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.umd.cjs",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
     "./dist/style.css": {

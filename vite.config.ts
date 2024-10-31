@@ -12,7 +12,12 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       name: 'index',
-      fileName: 'index',
+      fileName: format => {
+        if (format === 'es') return 'index.js'; // ES Module
+        if (format === 'cjs') return 'index.cjs'; // CommonJS Module
+        return 'index.umd.js'; // UMD Module
+      },
+      formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into the library.
