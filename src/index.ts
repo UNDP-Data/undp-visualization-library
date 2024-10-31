@@ -154,3 +154,11 @@ export {
 
 /* ---------GraphTypes-------------*/
 export type { GraphType } from './Types';
+
+/* ----------Renderers For Vanilla JS-------------*/
+export {
+  Dashboard,
+  DashboardWithDataTransform,
+  GriddedGraph,
+  Graph,
+} from './Renderer';
