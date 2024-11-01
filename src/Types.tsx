@@ -295,13 +295,6 @@ export interface ReferenceDataType {
   color?: string;
 }
 
-export type AnnotationDataType = {
-  refPoint: [number, number];
-  text: string;
-  arrow: boolean;
-  color?: string;
-};
-
 export interface GraphConfigurationDataType {
   columnId: string | string[];
   chartConfigId: string;
@@ -614,4 +607,5 @@ export interface GraphSettingsDataType {
   includeLayers?: string[];
   excludeLayers?: string[];
   layerSelection?: { layerID: string; name: string[] }[];
+  annotations?: AnnotationSettingsDataType[];
 }

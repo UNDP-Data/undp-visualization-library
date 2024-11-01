@@ -1951,7 +1951,11 @@ export const lineChartSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            oneOf: [{ type: 'string' }, { type: 'number' }],
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -1966,7 +1970,6 @@ export const lineChartSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -2106,7 +2109,11 @@ export const differenceLineChartSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            oneOf: [{ type: 'string' }, { type: 'number' }],
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -2121,7 +2128,6 @@ export const differenceLineChartSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -2260,7 +2266,11 @@ export const multiLineChartSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            oneOf: [{ type: 'string' }, { type: 'number' }],
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -2275,7 +2285,6 @@ export const multiLineChartSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -3264,7 +3273,11 @@ export const scatterPlotSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            type: 'number',
+            type: 'array',
+            items: {
+              type: 'number',
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -3279,7 +3292,6 @@ export const scatterPlotSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
   },
 };
@@ -3445,7 +3457,11 @@ export const animatedScatterPlotSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            type: 'number',
+            type: 'array',
+            items: {
+              type: 'number',
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -3460,7 +3476,6 @@ export const animatedScatterPlotSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
   },
 };
@@ -3634,7 +3649,11 @@ export const stackedAreaChartSettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            oneOf: [{ type: 'string' }, { type: 'number' }],
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -3649,7 +3668,6 @@ export const stackedAreaChartSettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
     highlightAreaSettings: {
       type: 'array',
@@ -4460,7 +4478,11 @@ export const SettingsSchema = {
       items: {
         properties: {
           coordinates: {
-            oneOf: [{ type: 'string' }, { type: 'number' }],
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
           },
           color: {
             type: 'string',
@@ -4475,7 +4497,6 @@ export const SettingsSchema = {
         type: 'object',
         required: ['coordinates'],
       },
-      minItems: 4,
     },
     relativeHeight: {
       type: 'number',

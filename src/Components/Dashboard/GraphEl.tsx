@@ -819,6 +819,8 @@ function GraphEl(props: Props) {
           animateLine: settings?.animateLine,
           strokeWidth: settings?.strokeWidth,
           showDots: settings?.showDots,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       case 'dualAxisLineChart':
         return {
@@ -916,6 +918,8 @@ function GraphEl(props: Props) {
           strokeWidth: settings?.strokeWidth,
           showDots: settings?.showDots,
           colorLegendTitle: settings?.colorLegendTitle,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       case 'differenceLineChart':
         return {
@@ -966,6 +970,8 @@ function GraphEl(props: Props) {
           showDots: settings?.showDots,
           colorLegendTitle: settings?.colorLegendTitle,
           idSuffix: settings?.idSuffix,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       case 'stackedAreaChart':
         return {
@@ -1011,6 +1017,8 @@ function GraphEl(props: Props) {
           rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       case 'choroplethMap':
         return {
@@ -1282,6 +1290,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       case 'horizontalDumbbellChart':
         return {
@@ -2382,6 +2392,8 @@ function GraphEl(props: Props) {
           autoPlay: settings?.autoPlay,
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
         };
       default:
         return {};
