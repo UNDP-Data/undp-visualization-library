@@ -1452,7 +1452,20 @@ export const dataTableSettingsSchema = {
 export const donutChartSettingsSchema = {
   type: 'object',
   properties: {
-    mainText: { type: 'string' },
+    mainText: {
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'object',
+          properties: {
+            label: { type: 'string' },
+            suffix: { type: 'string' },
+            prefix: { type: 'string' },
+          },
+          required: ['label'],
+        },
+      ],
+    },
     colors: {
       oneOf: [
         { type: 'string' },
@@ -4328,7 +4341,18 @@ export const SettingsSchema = {
       type: 'array',
     },
     mainText: {
-      type: 'string',
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'object',
+          properties: {
+            label: { type: 'string' },
+            suffix: { type: 'string' },
+            prefix: { type: 'string' },
+          },
+          required: ['label'],
+        },
+      ],
     },
     mapBorderColor: {
       type: 'string',
