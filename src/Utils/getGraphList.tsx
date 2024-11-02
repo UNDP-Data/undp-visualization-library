@@ -31,157 +31,6 @@ export function getGraphList() {
       availableInGriddedGraph: true,
     },
     {
-      graphName: 'Line chart',
-      graphID: 'lineChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Dual-axes line chart',
-      graphID: 'dualAxisLineChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Multi-line chart',
-      graphID: 'multiLineChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Difference line chart',
-      graphID: 'differenceLineChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Stacked area chart/area chart',
-      graphID: 'stackedAreaChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Choropleth map',
-      graphID: 'choroplethMap',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Bi-variate choropleth map',
-      graphID: 'biVariateChoroplethMap',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Dot density map',
-      graphID: 'dotDensityMap',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Pie/donut chart',
-      graphID: 'donutChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Slope chart',
-      graphID: 'slopeChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Scatter plot',
-      graphID: 'scatterPlot',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Horizontal dumbbell chart',
-      graphID: 'horizontalDumbbellChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Vertical dumbbell chart',
-      graphID: 'verticalDumbbellChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Tree map',
-      graphID: 'treeMap',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Circle packing',
-      graphID: 'circlePacking',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Heat map',
-      graphID: 'heatMap',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Horizontal strip chart',
-      graphID: 'horizontalStripChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Vertical strip chart',
-      graphID: 'verticalStripChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Horizontal bee swarm chart',
-      graphID: 'horizontalBeeSwarmChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Vertical bee swarm chart',
-      graphID: 'verticalBeeSwarmChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Butterfly chart',
-      graphID: 'butterflyChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Histogram',
-      graphID: 'histogram',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Spark line',
-      graphID: 'sparkLine',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Pareto chart',
-      graphID: 'paretoChart',
-      availableInGriddedGraph: true,
-    },
-    { graphName: 'Table', graphID: 'dataTable', availableInGriddedGraph: true },
-    {
-      graphName: 'Statistic card',
-      graphID: 'statCard',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'GeoHub map with comparison',
-      graphID: 'geoHubCompareMap',
-      availableInGriddedGraph: false,
-    },
-    {
-      graphName: 'GeoHub map',
-      graphID: 'geoHubMap',
-      availableInGriddedGraph: false,
-    },
-    {
-      graphName: 'GeoHub map with layer selection',
-      graphID: 'geoHubMapWithLayerSelection',
-      availableInGriddedGraph: false,
-    },
-    {
-      graphName: 'Unit chart',
-      graphID: 'unitChart',
-      availableInGriddedGraph: true,
-    },
-    {
-      graphName: 'Animated scatter plot',
-      graphID: 'animatedScatterPlot',
-      availableInGriddedGraph: true,
-    },
-    {
       graphName: 'Animated horizontal bar chart',
       graphID: 'animatedHorizontalBarChart',
       availableInGriddedGraph: true,
@@ -212,6 +61,111 @@ export function getGraphList() {
       availableInGriddedGraph: true,
     },
     {
+      graphName: 'Horizontal bee swarm chart',
+      graphID: 'horizontalBeeSwarmChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Vertical bee swarm chart',
+      graphID: 'verticalBeeSwarmChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Butterfly chart',
+      graphID: 'butterflyChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Animated butterfly chart',
+      graphID: 'animatedButterflyChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Circle packing',
+      graphID: 'circlePacking',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Data table',
+      graphID: 'dataTable',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Pie/donut chart',
+      graphID: 'donutChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Horizontal dumbbell chart',
+      graphID: 'horizontalDumbbellChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Vertical dumbbell chart',
+      graphID: 'verticalDumbbellChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Animated horizontal dumbbell chart',
+      graphID: 'animatedHorizontalDumbbellChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Animated vertical dumbbell chart',
+      graphID: 'animatedVerticalDumbbellChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Heat map',
+      graphID: 'heatMap',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Histogram',
+      graphID: 'histogram',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Line chart',
+      graphID: 'lineChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Multi-line chart',
+      graphID: 'multiLineChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Difference line chart',
+      graphID: 'differenceLineChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Dual-axes line chart',
+      graphID: 'dualAxisLineChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Spark line',
+      graphID: 'sparkLine',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Choropleth map',
+      graphID: 'choroplethMap',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Bi-variate choropleth map',
+      graphID: 'biVariateChoroplethMap',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Dot density map',
+      graphID: 'dotDensityMap',
+      availableInGriddedGraph: true,
+    },
+    {
       graphName: 'Animated choropleth map',
       graphID: 'animatedChoroplethMap',
       availableInGriddedGraph: true,
@@ -227,18 +181,68 @@ export function getGraphList() {
       availableInGriddedGraph: true,
     },
     {
-      graphName: 'Animated horizontal dumbbell chart',
-      graphID: 'animatedHorizontalDumbbellChart',
+      graphName: 'GeoHub map with comparison',
+      graphID: 'geoHubCompareMap',
+      availableInGriddedGraph: false,
+    },
+    {
+      graphName: 'GeoHub map',
+      graphID: 'geoHubMap',
+      availableInGriddedGraph: false,
+    },
+    {
+      graphName: 'GeoHub map with layer selection',
+      graphID: 'geoHubMapWithLayerSelection',
+      availableInGriddedGraph: false,
+    },
+    {
+      graphName: 'Pareto chart',
+      graphID: 'paretoChart',
       availableInGriddedGraph: true,
     },
     {
-      graphName: 'Animated vertical dumbbell chart',
-      graphID: 'animatedVerticalDumbbellChart',
+      graphName: 'Scatter plot',
+      graphID: 'scatterPlot',
       availableInGriddedGraph: true,
     },
     {
-      graphName: 'Animated butterfly chart',
-      graphID: 'animatedButterflyChart',
+      graphName: 'Animated scatter plot',
+      graphID: 'animatedScatterPlot',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Slope chart',
+      graphID: 'slopeChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Stacked area chart/area chart',
+      graphID: 'stackedAreaChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Statistic card',
+      graphID: 'statCard',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Horizontal strip chart',
+      graphID: 'horizontalStripChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Vertical strip chart',
+      graphID: 'verticalStripChart',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Tree map',
+      graphID: 'treeMap',
+      availableInGriddedGraph: true,
+    },
+    {
+      graphName: 'Unit chart',
+      graphID: 'unitChart',
       availableInGriddedGraph: true,
     },
   ];
