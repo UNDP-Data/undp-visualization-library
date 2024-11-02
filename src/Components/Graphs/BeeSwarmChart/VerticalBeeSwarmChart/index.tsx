@@ -2,7 +2,11 @@ import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { BeeSwarmChartDataType, ReferenceDataType } from '../../../../Types';
+import {
+  BeeSwarmChartDataType,
+  ReferenceDataType,
+  SourcesDataType,
+} from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
@@ -14,10 +18,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   showTicks?: boolean;
   leftMargin?: number;
   rightMargin?: number;
@@ -54,9 +57,8 @@ export function VerticalBeeSwarmChart(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     showTicks,
     leftMargin,
     rightMargin,
@@ -299,12 +301,11 @@ export function VerticalBeeSwarmChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

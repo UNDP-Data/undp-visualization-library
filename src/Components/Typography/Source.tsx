@@ -1,15 +1,15 @@
+import { SourcesDataType } from '../../Types';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface SourceProps {
-  text: string;
-  link?: string;
+  sources: SourcesDataType[];
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode: 'dark' | 'light';
 }
 
 export function Source(props: SourceProps) {
-  const { text, link, rtl, language, mode } = props;
+  const { sources, rtl, language, mode } = props;
   return (
     <p
       className={`${
@@ -24,23 +24,34 @@ export function Source(props: SourceProps) {
     >
       {rtl ? (
         <>
-          {link ? (
-            <a
-              className='undp-viz-style'
+          {sources.map((d, i) => (
+            <span
+              key={i}
               style={{
                 color: UNDPColorModule[mode || 'light'].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
-              href={link}
-              target='_blank'
-              rel='noreferrer'
             >
-              {text}
-            </a>
-          ) : (
-            text
-          )}{' '}
+              {d.link ? (
+                <a
+                  className='undp-viz-style'
+                  style={{
+                    color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                    fontSize: '0.875rem',
+                    fontFamily: 'inherit',
+                  }}
+                  href={d.link}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  {d.source}
+                </a>
+              ) : (
+                d.source
+              )}
+            </span>
+          ))}{' '}
           :
           {language === 'he'
             ? 'מָקוֹר'
@@ -51,23 +62,34 @@ export function Source(props: SourceProps) {
       ) : (
         <>
           Source:{' '}
-          {link ? (
-            <a
-              className='undp-viz-style'
+          {sources.map((d, i) => (
+            <span
+              key={i}
               style={{
                 color: UNDPColorModule[mode || 'light'].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
-              href={link}
-              target='_blank'
-              rel='noreferrer'
             >
-              {text}
-            </a>
-          ) : (
-            text
-          )}
+              {d.link ? (
+                <a
+                  className='undp-viz-style'
+                  style={{
+                    color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                    fontSize: '0.875rem',
+                    fontFamily: 'inherit',
+                  }}
+                  href={d.link}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  {d.source}
+                </a>
+              ) : (
+                d.source
+              )}
+            </span>
+          ))}
         </>
       )}
     </p>

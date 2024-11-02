@@ -15,10 +15,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   scaleType?: ScaleDataType;
   domain: number[] | string[];
   showColumnLabels?: boolean;
@@ -56,9 +55,8 @@ export function HeatMap(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     showColumnLabels,
     leftMargin,
     rightMargin,
@@ -373,12 +371,11 @@ export function HeatMap(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

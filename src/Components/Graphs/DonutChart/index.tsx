@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { DonutChartDataType } from '../../../Types';
+import { DonutChartDataType, SourcesDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -16,9 +16,8 @@ interface Props {
   graphTitle?: string;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
-  sourceLink?: string;
   subNote?: string;
   footNote?: string;
   radius?: number;
@@ -36,8 +35,11 @@ interface Props {
   sortData?: 'asc' | 'desc';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
-  fillContainer?: boolean;
   mode?: 'light' | 'dark';
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
 }
 
 export function DonutChart(props: Props) {
@@ -46,11 +48,10 @@ export function DonutChart(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     strokeWidth,
     graphDescription,
-    sourceLink,
     subNote,
     footNote,
     radius,
@@ -68,30 +69,41 @@ export function DonutChart(props: Props) {
     sortData,
     rtl,
     language,
-    fillContainer,
     mode,
+    width,
+    height,
+    minHeight,
+    relativeHeight,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
+  const [svgWidth, setSvgWidth] = useState(0);
+  const [svgHeight, setSvgHeight] = useState(0);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
+      setSvgWidth(width || entries[0].target.clientWidth || 420);
+      setSvgHeight(height || entries[0].target.clientHeight || 420);
       setDonutRadius(
-        (min([entries[0].target.clientWidth, entries[0].target.clientHeight]) ||
-          420) / 2,
+        (min([
+          width || entries[0].target.clientWidth || 620,
+          height || entries[0].target.clientHeight || 480,
+        ]) || 420) / 2,
       );
     });
     if (graphDiv.current) {
+      setSvgHeight(graphDiv.current.clientHeight || 420);
+      setSvgWidth(graphDiv.current.clientWidth || 420);
       setDonutRadius(
         (min([graphDiv.current.clientWidth, graphDiv.current.clientHeight]) ||
           420) / 2,
       );
-      if (!radius) resizeObserver.observe(graphDiv.current);
+      if (!width || !radius) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, radius]);
+  }, [graphDiv?.current, width, height]);
 
   const sortedData =
     sortData === 'asc'
@@ -107,7 +119,7 @@ export function DonutChart(props: Props) {
         flexDirection: 'column',
         height: 'inherit',
         minHeight: 'inherit',
-        width: fillContainer || !radius ? '100%' : 'fit-content',
+        width: width ? 'fit-content' : '100%',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -115,7 +127,7 @@ export function DonutChart(props: Props) {
           : backgroundColor,
         marginLeft: 'auto',
         marginRight: 'auto',
-        flexGrow: 1,
+        flexGrow: width ? 0 : 1,
       }}
       id={graphID}
       ref={graphParentDiv}
@@ -143,7 +155,7 @@ export function DonutChart(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              width={radius && !fillContainer ? radius * 2 : undefined}
+              width={width}
               graphDownload={graphDownload ? graphParentDiv.current : undefined}
               dataDownload={
                 dataDownload &&
@@ -163,7 +175,7 @@ export function DonutChart(props: Props) {
               alignItems: 'stretch',
               gap: '1rem',
               flexWrap: 'wrap',
-              width: '100%',
+              width: width ? `${width}px` : '100%',
             }}
           >
             {graphLegend !== false ? (
@@ -245,8 +257,20 @@ export function DonutChart(props: Props) {
             <div
               style={{
                 display: 'flex',
-                flexGrow: 1,
-                width: '100%',
+                flexGrow: width ? 0 : 1,
+                width: width ? `${width}px` : '100%',
+                height: height
+                  ? `${
+                      height ||
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight)
+                    }px`
+                  : 'auto',
                 lineHeight: 0,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -290,14 +314,13 @@ export function DonutChart(props: Props) {
               </div>
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
-              width={radius && !fillContainer ? radius * 2 : undefined}
+              width={width}
               mode={mode || 'light'}
             />
           ) : (

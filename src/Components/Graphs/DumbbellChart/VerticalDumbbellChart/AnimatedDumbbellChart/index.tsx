@@ -4,7 +4,10 @@ import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
-import { DumbbellChartWithDateDataType } from '../../../../../Types';
+import {
+  DumbbellChartWithDateDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -19,10 +22,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showTicks?: boolean;
   leftMargin?: number;
@@ -67,9 +69,8 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     barPadding,
     showTicks,
     leftMargin,
@@ -376,12 +377,11 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

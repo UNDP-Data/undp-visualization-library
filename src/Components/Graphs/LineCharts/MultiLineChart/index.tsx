@@ -7,6 +7,7 @@ import {
   CustomHighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -20,10 +21,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   noOfXTicks?: number;
   dateFormat?: string;
   suffix?: string;
@@ -67,10 +67,9 @@ export function MultiLineChart(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -284,12 +283,11 @@ export function MultiLineChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

@@ -5,15 +5,15 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { MapEl } from './MapEl';
+import { SourcesDataType } from '../../../../Types';
 
 interface Props {
   mapStyle: string;
   center?: [number, number];
   zoomLevel?: number;
   graphTitle?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
-  sourceLink?: string;
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -32,12 +32,11 @@ interface Props {
 export function GeoHubMapWithLayerSelection(props: Props) {
   const {
     mapStyle,
-    sourceLink,
     graphTitle,
     height,
     width,
     relativeHeight,
-    source,
+    sources,
     graphDescription,
     footNote,
     padding,
@@ -167,12 +166,11 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             layerIdList={flattenDeep(layerSelection.map(d => d.layerID))}
             excludeLayers={excludeLayers || []}
           />
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

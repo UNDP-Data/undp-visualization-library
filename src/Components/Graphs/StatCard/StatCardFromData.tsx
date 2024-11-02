@@ -5,7 +5,10 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { UNDPColorModule } from '../../ColorPalette';
-import { StatCardsFromDataSheetDataType } from '../../../Types';
+import {
+  SourcesDataType,
+  StatCardsFromDataSheetDataType,
+} from '../../../Types';
 
 interface Props {
   year?: number | string;
@@ -14,8 +17,7 @@ interface Props {
   graphDescription?: string;
   suffix?: string;
   prefix?: string;
-  source?: string;
-  sourceLink?: string;
+  sources?: SourcesDataType[];
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -33,8 +35,7 @@ export function StatCardFromData(props: Props) {
     data,
     graphTitle,
     suffix,
-    source,
-    sourceLink,
+    sources,
     prefix,
     graphDescription,
     footNote,
@@ -175,12 +176,11 @@ export function StatCardFromData(props: Props) {
               ) : null}
             </h3>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               mode={mode || 'light'}
             />

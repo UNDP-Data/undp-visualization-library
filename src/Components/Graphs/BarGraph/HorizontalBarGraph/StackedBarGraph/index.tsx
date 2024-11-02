@@ -6,6 +6,7 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import {
   GroupedBarGraphDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -19,10 +20,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showTicks?: boolean;
   leftMargin?: number;
@@ -62,9 +62,8 @@ export function HorizontalStackedBarGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     barPadding,
     showTicks,
     leftMargin,
@@ -299,12 +298,11 @@ export function HorizontalStackedBarGraph(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

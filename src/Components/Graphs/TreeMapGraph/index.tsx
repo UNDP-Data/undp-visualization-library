@@ -2,7 +2,7 @@ import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { TreeMapDataType } from '../../../Types';
+import { TreeMapDataType, SourcesDataType } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
@@ -14,12 +14,11 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   leftMargin?: number;
   rightMargin?: number;
   colorDomain?: string[];
@@ -52,10 +51,9 @@ export function TreeMapGraph(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     leftMargin,
     rightMargin,
     height,
@@ -285,12 +283,11 @@ export function TreeMapGraph(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

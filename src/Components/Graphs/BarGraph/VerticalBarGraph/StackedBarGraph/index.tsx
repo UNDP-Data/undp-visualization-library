@@ -5,6 +5,7 @@ import { Graph } from './Graph';
 import {
   ReferenceDataType,
   GroupedBarGraphDataType,
+  SourcesDataType,
 } from '../../../../../Types';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -19,10 +20,9 @@ interface Props {
   width?: number;
   labelOrder?: string[];
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   barPadding?: number;
   showLabels?: boolean;
   showTicks?: boolean;
@@ -62,9 +62,8 @@ export function VerticalStackedBarGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     barPadding,
     showLabels,
     showTicks,
@@ -293,12 +292,11 @@ export function VerticalStackedBarGraph(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

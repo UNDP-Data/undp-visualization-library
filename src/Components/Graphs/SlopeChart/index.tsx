@@ -1,6 +1,6 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
-import { SlopeChartDataType } from '../../../Types';
+import { SlopeChartDataType, SourcesDataType } from '../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -13,10 +13,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   showLabels?: boolean;
   colors?: string | string[];
   colorDomain?: string[];
@@ -53,9 +52,8 @@ export function SlopeChart(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     showLabels,
     height,
     width,
@@ -293,12 +291,11 @@ export function SlopeChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

@@ -7,7 +7,10 @@ import { Graph } from './Graph';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { DotDensityMapWithDateDataType } from '../../../../../Types';
+import {
+  DotDensityMapWithDateDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
@@ -19,11 +22,10 @@ interface Props {
   mapData?: any;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   radius?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
@@ -64,9 +66,8 @@ export function AnimatedDotDensityMap(props: Props) {
     mapData,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -335,12 +336,11 @@ export function AnimatedDotDensityMap(props: Props) {
               />
             ) : null}
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

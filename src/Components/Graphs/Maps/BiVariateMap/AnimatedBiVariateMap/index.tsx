@@ -4,7 +4,10 @@ import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
-import { BivariateMapWithDateDataType } from '../../../../../Types';
+import {
+  BivariateMapWithDateDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -20,10 +23,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   xColorLegendTitle?: string;
   yColorLegendTitle?: string;
   xDomain: [number, number, number, number];
@@ -64,9 +66,8 @@ export function AnimatedBiVariantMap(props: Props) {
     mapData,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -315,12 +316,11 @@ export function AnimatedBiVariantMap(props: Props) {
               />
             ) : null}
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

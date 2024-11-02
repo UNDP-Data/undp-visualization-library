@@ -10,6 +10,7 @@ import {
   CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 
@@ -19,12 +20,11 @@ interface Props {
   graphDescription?: string;
   diffAreaColors?: [string, string];
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   noOfXTicks?: number;
   dateFormat?: string;
   showValues?: boolean;
@@ -66,10 +66,9 @@ export function DifferenceLineChart(props: Props) {
     data,
     graphTitle,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -305,12 +304,11 @@ export function DifferenceLineChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

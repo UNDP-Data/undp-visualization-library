@@ -49,6 +49,11 @@ export type GraphType =
   | 'animatedVerticalDumbbellChart'
   | 'animatedButterflyChart';
 
+export interface SourcesDataType {
+  source: string;
+  link?: string;
+}
+
 export interface TimeSeriesProps {
   year: number;
   value: number;
@@ -469,12 +474,11 @@ export interface GraphSettingsDataType {
   labelOrder?: string[];
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   height?: number;
   width?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showTicks?: boolean;
   leftMargin?: number;

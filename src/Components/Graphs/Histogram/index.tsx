@@ -5,6 +5,7 @@ import {
   ReferenceDataType,
   HistogramDataType,
   DonutChartDataType,
+  SourcesDataType,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
@@ -19,10 +20,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showValues?: boolean;
   showTicks?: boolean;
@@ -59,9 +59,8 @@ export function Histogram(props: Props) {
   const {
     data,
     graphTitle,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     barPadding,
     showValues,
     showTicks,
@@ -141,10 +140,9 @@ export function Histogram(props: Props) {
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
-        sourceLink={sourceLink}
         width={width}
         height={height}
-        source={source}
+        sources={sources}
         leftMargin={leftMargin}
         rightMargin={rightMargin}
         backgroundColor={backgroundColor}
@@ -175,10 +173,9 @@ export function Histogram(props: Props) {
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
-        sourceLink={sourceLink}
         width={width}
         height={height}
-        source={source}
+        sources={sources}
         leftMargin={leftMargin}
         rightMargin={rightMargin}
         backgroundColor={backgroundColor}
@@ -212,7 +209,6 @@ export function Histogram(props: Props) {
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
-        sourceLink={sourceLink}
         radius={
           width && height
             ? width < height
@@ -220,7 +216,7 @@ export function Histogram(props: Props) {
               : height
             : width || height || undefined
         }
-        source={source}
+        sources={sources}
         backgroundColor={backgroundColor}
         padding={padding}
         tooltip={tooltip}
@@ -245,10 +241,9 @@ export function Histogram(props: Props) {
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
-        sourceLink={sourceLink}
         width={width}
         height={height}
-        source={source}
+        sources={sources}
         leftMargin={leftMargin}
         rightMargin={rightMargin}
         backgroundColor={backgroundColor}
@@ -285,10 +280,9 @@ export function Histogram(props: Props) {
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}
-      sourceLink={sourceLink}
       width={width}
       height={height}
-      source={source}
+      sources={sources}
       leftMargin={leftMargin}
       rightMargin={rightMargin}
       backgroundColor={backgroundColor}

@@ -5,15 +5,15 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
+import { SourcesDataType } from '../../../../Types';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
   center?: [number, number];
   zoomLevel?: number;
   graphTitle?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
-  sourceLink?: string;
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -32,12 +32,11 @@ interface Props {
 export function GeoHubMap(props: Props) {
   const {
     mapStyle,
-    sourceLink,
     graphTitle,
     height,
     width,
     relativeHeight,
-    source,
+    sources,
     graphDescription,
     footNote,
     padding,
@@ -189,12 +188,11 @@ export function GeoHubMap(props: Props) {
               excludeLayers={excludeLayers}
             />
           )}
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

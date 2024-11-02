@@ -5,7 +5,11 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
-import { ButterflyChartDataType, ReferenceDataType } from '../../../../Types';
+import {
+  ButterflyChartDataType,
+  ReferenceDataType,
+  SourcesDataType,
+} from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
@@ -15,10 +19,9 @@ interface Props {
   leftBarTitle?: string;
   rightBarTitle?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -55,9 +58,8 @@ export function ButterflyChart(props: Props) {
   const {
     data,
     graphTitle,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -284,12 +286,11 @@ export function ButterflyChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

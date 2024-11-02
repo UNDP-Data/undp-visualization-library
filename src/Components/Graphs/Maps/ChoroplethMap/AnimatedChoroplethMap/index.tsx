@@ -4,7 +4,10 @@ import uniqBy from 'lodash.uniqby';
 import { ascending, sort } from 'd3-array';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
-import { ChoroplethMapWithDateDataType } from '../../../../../Types';
+import {
+  ChoroplethMapWithDateDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -19,10 +22,9 @@ interface Props {
   mapData?: any;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   domain: number[] | string[];
   colors?: string[];
   colorLegendTitle?: string;
@@ -64,9 +66,8 @@ export function AnimatedChoroplethMap(props: Props) {
     mapData,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -327,12 +328,11 @@ export function AnimatedChoroplethMap(props: Props) {
               />
             ) : null}
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

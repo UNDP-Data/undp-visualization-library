@@ -4,7 +4,10 @@ import uniqBy from 'lodash.uniqby';
 import { ascending, sort } from 'd3-array';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
-import { DumbbellChartWithDateDataType } from '../../../../../Types';
+import {
+  DumbbellChartWithDateDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -19,12 +22,11 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showValues?: boolean;
   showTicks?: boolean;
@@ -68,10 +70,9 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     barPadding,
     showValues,
     showTicks,
@@ -376,12 +377,11 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

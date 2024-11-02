@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
-import { BivariateMapDataType } from '../../../../../Types';
+import { BivariateMapDataType, SourcesDataType } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -14,10 +14,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   xColorLegendTitle?: string;
   yColorLegendTitle?: string;
   xDomain: [number, number, number, number];
@@ -55,9 +54,8 @@ export function BiVariantMap(props: Props) {
     mapData,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -237,12 +235,11 @@ export function BiVariantMap(props: Props) {
               />
             ) : null}
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

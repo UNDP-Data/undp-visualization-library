@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
-import { DataTableColumnDataType } from '../../../Types';
+import { DataTableColumnDataType, SourcesDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -20,9 +20,8 @@ import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   graphTitle?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
-  sourceLink?: string;
   footNote?: string;
   graphID?: string;
   width?: number;
@@ -45,9 +44,8 @@ export function DataTable(props: Props) {
   const {
     width,
     height,
-    sourceLink,
     graphTitle,
-    source,
+    sources,
     graphDescription,
     footNote,
     graphID,
@@ -493,12 +491,11 @@ export function DataTable(props: Props) {
             ) : null}
           </div>
         </div>
-        {source || footNote ? (
+        {sources || footNote ? (
           <GraphFooter
             rtl={rtl}
             language={language}
-            source={source}
-            sourceLink={sourceLink}
+            sources={sources}
             footNote={footNote}
             width={width}
             mode={mode || 'light'}

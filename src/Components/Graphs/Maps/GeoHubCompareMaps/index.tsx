@@ -3,12 +3,12 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { Graph } from './Graph';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { SourcesDataType } from '../../../../Types';
 
 interface Props {
   graphTitle?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
-  sourceLink?: string;
   footNote?: string;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -27,12 +27,11 @@ interface Props {
 
 export function GeoHubCompareMaps(props: Props) {
   const {
-    sourceLink,
     graphTitle,
     height,
     width,
     relativeHeight,
-    source,
+    sources,
     graphDescription,
     footNote,
     padding,
@@ -136,12 +135,11 @@ export function GeoHubCompareMaps(props: Props) {
               />
             ) : null}
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

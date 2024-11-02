@@ -7,6 +7,7 @@ import { Graph } from './Graph';
 import {
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -22,10 +23,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showTicks?: boolean;
   truncateBy?: number;
@@ -66,9 +66,8 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     barPadding,
     showTicks,
     truncateBy,
@@ -353,12 +352,11 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

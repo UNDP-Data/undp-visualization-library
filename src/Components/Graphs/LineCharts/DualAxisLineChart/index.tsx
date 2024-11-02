@@ -5,7 +5,7 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
-import { DualAxisLineChartDataType } from '../../../../Types';
+import { DualAxisLineChartDataType, SourcesDataType } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
@@ -14,12 +14,11 @@ interface Props {
   graphDescription?: string;
   lineTitles?: [string, string];
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   noOfXTicks?: number;
   dateFormat?: string;
   showValues?: boolean;
@@ -55,10 +54,9 @@ export function DualAxisLineChart(props: Props) {
     data,
     graphTitle,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -272,12 +270,11 @@ export function DualAxisLineChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

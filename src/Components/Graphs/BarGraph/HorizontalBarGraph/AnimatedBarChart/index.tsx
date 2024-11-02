@@ -10,6 +10,7 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import {
   BarGraphWithDateDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -24,12 +25,11 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   barPadding?: number;
   showValues?: boolean;
   showTicks?: boolean;
@@ -74,10 +74,9 @@ export function AnimatedHorizontalBarChart(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     barPadding,
     showValues,
     showTicks,
@@ -411,12 +410,11 @@ export function AnimatedHorizontalBarChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

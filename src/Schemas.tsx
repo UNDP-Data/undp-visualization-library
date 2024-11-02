@@ -622,12 +622,21 @@ export const simpleBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showValues: { type: 'boolean' },
     showTicks: { type: 'boolean' },
@@ -713,10 +722,19 @@ export const groupedBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showTicks: { type: 'boolean' },
     truncateBy: { type: 'number' },
@@ -791,10 +809,19 @@ export const stackedBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showTicks: { type: 'boolean' },
     leftMargin: { type: 'number' },
@@ -868,12 +895,21 @@ export const animatedSimpleBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showValues: { type: 'boolean' },
     showTicks: { type: 'boolean' },
@@ -954,10 +990,19 @@ export const animatedGroupedBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showTicks: { type: 'boolean' },
     truncateBy: { type: 'number' },
@@ -1031,10 +1076,19 @@ export const animatedStackedBarChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showTicks: { type: 'boolean' },
     leftMargin: { type: 'number' },
@@ -1113,10 +1167,19 @@ export const beeSwarmChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     showTicks: { type: 'boolean' },
     leftMargin: { type: 'number' },
     rightMargin: { type: 'number' },
@@ -1188,10 +1251,19 @@ export const butterflyChartSettingsSchema = {
     leftBarTitle: { type: 'string' },
     rightBarTitle: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -1260,10 +1332,19 @@ export const animatedButterflyChartSettingsSchema = {
     leftBarTitle: { type: 'string' },
     rightBarTitle: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -1342,12 +1423,21 @@ export const circlePackingSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     leftMargin: { type: 'number' },
     rightMargin: { type: 'number' },
     colorDomain: {
@@ -1393,9 +1483,18 @@ export const dataTableSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     graphDescription: { type: 'string' },
-    sourceLink: { type: 'string' },
     footNote: { type: 'string' },
     graphID: { type: 'string' },
     width: { type: 'number' },
@@ -1478,9 +1577,18 @@ export const donutChartSettingsSchema = {
     graphTitle: { type: 'string' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     graphDescription: { type: 'string' },
-    sourceLink: { type: 'string' },
     subNote: { type: 'string' },
     footNote: { type: 'string' },
     radius: { type: 'number' },
@@ -1494,7 +1602,6 @@ export const donutChartSettingsSchema = {
     graphID: { type: 'string' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    fillContainer: { type: 'boolean' },
     colorDomain: {
       type: 'array',
       items: { type: 'string' },
@@ -1512,6 +1619,10 @@ export const donutChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
   },
 };
 
@@ -1525,12 +1636,21 @@ export const dumbbellChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showValues: { type: 'boolean' },
     showTicks: { type: 'boolean' },
@@ -1589,12 +1709,21 @@ export const animatedDumbbellChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showValues: { type: 'boolean' },
     showTicks: { type: 'boolean' },
@@ -1655,10 +1784,19 @@ export const heatMapSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     scaleType: { type: 'string', enum: ['linear', 'categorical', 'threshold'] },
     domain: {
       oneOf: [
@@ -1725,10 +1863,19 @@ export const histogramSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     barPadding: { type: 'number' },
     showValues: { type: 'boolean' },
     showTicks: { type: 'boolean' },
@@ -1807,12 +1954,21 @@ export const dualAxisLineChartSettingsSchema = {
       maxItems: 2,
     },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     showValues: { type: 'boolean' },
@@ -1873,12 +2029,21 @@ export const lineChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     showValues: { type: 'boolean' },
@@ -2028,10 +2193,19 @@ export const differenceLineChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     showValues: { type: 'boolean' },
@@ -2186,10 +2360,19 @@ export const multiLineChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     suffix: { type: 'string' },
@@ -2343,10 +2526,19 @@ export const sparkLineSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     dateFormat: { type: 'string' },
     areaId: { type: 'string' },
     backgroundColor: {
@@ -2384,10 +2576,19 @@ export const choroplethMapSettingsSchema = {
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     domain: {
       oneOf: [
         {
@@ -2473,10 +2674,19 @@ export const biVariateChoroplethMapSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     xColorLegendTitle: { type: 'string' },
     yColorLegendTitle: { type: 'string' },
     xDomain: {
@@ -2565,11 +2775,20 @@ export const dotDensityMapSettingsSchema = {
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     radius: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     colors: {
       oneOf: [
         {
@@ -2652,10 +2871,19 @@ export const animatedChoroplethMapSettingsSchema = {
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     domain: {
       oneOf: [
         {
@@ -2744,10 +2972,19 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     xColorLegendTitle: { type: 'string' },
     yColorLegendTitle: { type: 'string' },
     xDomain: {
@@ -2839,11 +3076,20 @@ export const animatedDotDensityMapSettingsSchema = {
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
     radius: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     colors: {
       oneOf: [
         {
@@ -2926,9 +3172,18 @@ export const geoHubCompareMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     graphDescription: { type: 'string' },
-    sourceLink: { type: 'string' },
     footNote: { type: 'string' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -2993,9 +3248,18 @@ export const geoHubMapSettingsSchema = {
     },
     zoomLevel: { type: 'number' },
     graphTitle: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     graphDescription: { type: 'string' },
-    sourceLink: { type: 'string' },
     footNote: { type: 'string' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -3039,9 +3303,18 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
     },
     zoomLevel: { type: 'number' },
     graphTitle: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     graphDescription: { type: 'string' },
-    sourceLink: { type: 'string' },
     footNote: { type: 'string' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -3092,10 +3365,19 @@ export const paretoChartSettingsSchema = {
     barTitle: { type: 'string' },
     lineTitle: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -3134,10 +3416,19 @@ export const scatterPlotSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     showLabels: { type: 'boolean' },
     colors: {
       oneOf: [
@@ -3315,10 +3606,19 @@ export const animatedScatterPlotSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     showLabels: { type: 'boolean' },
     colors: {
       oneOf: [
@@ -3499,10 +3799,19 @@ export const slopeChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     showLabels: { type: 'boolean' },
     colors: {
       oneOf: [
@@ -3572,10 +3881,19 @@ export const stackedAreaChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     noOfXTicks: { type: 'number' },
     dateFormat: { type: 'string' },
     colorDomain: {
@@ -3720,8 +4038,17 @@ export const statCardSettingsSchema = {
     graphDescription: { type: 'string' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
-    sourceLink: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     footNote: { type: 'string' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -3757,10 +4084,19 @@ export const stripChartSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     stripType: {
       type: 'string',
       enum: ['strip', 'dot'],
@@ -3836,12 +4172,23 @@ export const treeMapSettingsSchema = {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
     suffix: { type: 'string' },
     prefix: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     leftMargin: { type: 'number' },
     rightMargin: { type: 'number' },
     colorDomain: {
@@ -3855,8 +4202,6 @@ export const treeMapSettingsSchema = {
     padding: { type: 'string' },
     topMargin: { type: 'number' },
     bottomMargin: { type: 'number' },
-    relativeHeight: { type: 'number' },
-    minHeight: { type: 'number' },
     showLabels: { type: 'boolean' },
     tooltip: { type: 'string' },
     showColorScale: { type: 'boolean' },
@@ -3888,14 +4233,22 @@ export const unitChartSettingsSchema = {
   properties: {
     totalNoOfDots: { type: 'number' },
     gridSize: { type: 'number' },
-    fillContainer: { type: 'boolean' },
     unitPadding: { type: 'number' },
     size: { type: 'number' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
-    sourceLink: { type: 'string' },
-    source: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -3919,6 +4272,10 @@ export const unitChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
   },
 };
 
@@ -4598,11 +4955,16 @@ export const SettingsSchema = {
         },
       ],
     },
-    source: {
-      type: 'string',
-    },
-    sourceLink: {
-      type: 'string',
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
     },
     stripType: {
       enum: ['dot', 'strip'],

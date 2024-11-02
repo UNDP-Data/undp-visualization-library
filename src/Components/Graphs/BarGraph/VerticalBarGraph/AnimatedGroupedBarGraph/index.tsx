@@ -8,6 +8,7 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import {
   ReferenceDataType,
   GroupedBarGraphWithDateDataType,
+  SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -24,10 +25,9 @@ interface Props {
   height?: number;
   suffix?: string;
   prefix?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   barPadding?: number;
   showLabels?: boolean;
   showValues?: boolean;
@@ -67,10 +67,9 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     graphTitle,
     colors,
     suffix,
-    source,
+    sources,
     prefix,
     graphDescription,
-    sourceLink,
     barPadding,
     showLabels,
     showValues,
@@ -354,12 +353,11 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

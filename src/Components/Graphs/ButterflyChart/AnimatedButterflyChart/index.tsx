@@ -11,6 +11,7 @@ import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   ButterflyChartWithDateDataType,
   ReferenceDataType,
+  SourcesDataType,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { Pause, Play } from '../../../Icons/Icons';
@@ -24,10 +25,9 @@ interface Props {
   leftBarTitle?: string;
   rightBarTitle?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -67,9 +67,8 @@ export function AnimatedButterflyChart(props: Props) {
   const {
     data,
     graphTitle,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     height,
     width,
     footNote,
@@ -366,12 +365,11 @@ export function AnimatedButterflyChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

@@ -1,10 +1,10 @@
+import { SourcesDataType } from '../../Types';
 import { FootNote } from '../Typography/FootNote';
 import { Source } from '../Typography/Source';
 
 interface Props {
-  sourceLink?: string;
   footNote?: string;
-  source?: string;
+  sources?: SourcesDataType[];
   width?: number;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
@@ -12,8 +12,12 @@ interface Props {
 }
 
 export function GraphFooter(props: Props) {
-  const { source, footNote, sourceLink, width, rtl, language, mode } = props;
-  if (source === undefined && footNote === undefined) return null;
+  const { sources, footNote, width, rtl, language, mode } = props;
+  if (
+    (sources === undefined || (sources || []).length === 0) &&
+    footNote === undefined
+  )
+    return null;
   return (
     <div
       style={{
@@ -23,14 +27,8 @@ export function GraphFooter(props: Props) {
         maxWidth: width || 'none',
       }}
     >
-      {source ? (
-        <Source
-          text={source}
-          link={sourceLink}
-          rtl={rtl}
-          language={language}
-          mode={mode}
-        />
+      {sources ? (
+        <Source sources={sources} rtl={rtl} language={language} mode={mode} />
       ) : null}
       {footNote ? (
         <FootNote text={footNote} rtl={rtl} language={language} mode={mode} />

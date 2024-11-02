@@ -8,6 +8,7 @@ import {
   CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
   ScatterPlotWithDateDataType,
+  SourcesDataType,
 } from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -23,10 +24,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   showLabels?: boolean;
   colors?: string | string[];
   colorDomain?: string[];
@@ -80,9 +80,8 @@ export function AnimatedScatterPlot(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     showLabels,
     height,
     width,
@@ -416,12 +415,11 @@ export function AnimatedScatterPlot(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}

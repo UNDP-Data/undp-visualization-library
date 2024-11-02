@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
-import { ScaleDataType, SdgChartDataType } from '../../../Types';
+import {
+  ScaleDataType,
+  SdgChartDataType,
+  SourcesDataType,
+} from '../../../Types';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
@@ -15,10 +19,9 @@ interface Props {
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  sourceLink?: string;
   width?: number;
   height?: number;
-  source?: string;
+  sources?: SourcesDataType[];
   scaleType?: ScaleDataType;
   domain: number[] | string[];
   leftMargin?: number;
@@ -55,9 +58,8 @@ export function SdgChart(props: Props) {
     data,
     graphTitle,
     colors,
-    source,
+    sources,
     graphDescription,
-    sourceLink,
     leftMargin,
     rightMargin,
     height,
@@ -362,12 +364,11 @@ export function SdgChart(props: Props) {
               ) : null}
             </div>
           </div>
-          {source || footNote ? (
+          {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
               language={language}
-              source={source}
-              sourceLink={sourceLink}
+              sources={sources}
               footNote={footNote}
               width={width}
               mode={mode || 'light'}
