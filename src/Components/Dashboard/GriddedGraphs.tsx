@@ -899,8 +899,7 @@ export function GriddedGraphs(props: Props) {
             <GraphFooter
               rtl={graphSettings?.rtl}
               language={graphSettings?.language}
-              source={graphSettings?.source}
-              sourceLink={graphSettings?.sourceLink}
+              sources={graphSettings?.sources}
               footNote={graphSettings?.footNote}
               width={graphSettings?.width}
               mode={mode || 'light'}

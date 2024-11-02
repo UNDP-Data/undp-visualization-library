@@ -5,6 +5,7 @@ import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
+import { linearRegression } from 'simple-statistics';
 import {
   ScatterPlotDataType,
   ReferenceDataType,
@@ -56,6 +57,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  regressionLine: boolean | string;
 }
 
 export function Graph(props: Props) {
@@ -92,6 +94,7 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    regressionLine,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -166,6 +169,11 @@ export function Graph(props: Props) {
     graphWidth < 0 ? 0 : graphWidth,
     graphHeight < 0 ? 0 : graphHeight,
   ]);
+  const regressionLineParam = linearRegression(
+    data
+      .filter(d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y))
+      .map(d => [x(d.x as number), y(d.y as number)]),
+  );
   return (
     <>
       <svg
@@ -773,6 +781,32 @@ export function Graph(props: Props) {
               );
             })}
           </g>
+          {regressionLine ? (
+            <line
+              x1={
+                regressionLineParam.b > graphHeight
+                  ? (graphHeight - regressionLineParam.b) /
+                    regressionLineParam.m
+                  : 0
+              }
+              x2={graphWidth}
+              y1={
+                regressionLineParam.b > graphHeight
+                  ? graphHeight
+                  : regressionLineParam.b
+              }
+              y2={regressionLineParam.m * graphWidth + regressionLineParam.b}
+              style={{
+                fill: 'none',
+                strokeWidth: 1.5,
+                stroke:
+                  typeof regressionLine === 'string'
+                    ? regressionLine
+                    : UNDPColorModule[mode || 'light'].grays['gray-700'],
+                strokeDasharray: '4,4',
+              }}
+            />
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

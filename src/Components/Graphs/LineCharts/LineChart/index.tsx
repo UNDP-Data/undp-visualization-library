@@ -52,6 +52,7 @@ interface Props {
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
+  regressionLine?: boolean | string;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -95,6 +96,7 @@ export function SimpleLineChart(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    regressionLine,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -239,6 +241,7 @@ export function SimpleLineChart(props: Props) {
                 annotations={annotations || []}
                 customHighlightAreaSettings={customHighlightAreaSettings || []}
                 mode={mode || 'light'}
+                regressionLine={regressionLine || false}
               />
             ) : null}
           </div>

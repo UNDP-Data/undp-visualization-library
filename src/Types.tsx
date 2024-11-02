@@ -612,4 +612,5 @@ export interface GraphSettingsDataType {
   excludeLayers?: string[];
   layerSelection?: { layerID: string; name: string[] }[];
   annotations?: AnnotationSettingsDataType[];
+  regressionLine?: boolean | string;
 }

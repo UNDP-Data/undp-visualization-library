@@ -808,6 +808,7 @@ function GraphEl(props: Props) {
           showDots: settings?.showDots,
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
+          regressionLine: settings?.regressionLine,
         };
       case 'dualAxisLineChart':
         return {
@@ -1273,6 +1274,7 @@ function GraphEl(props: Props) {
           showNAColor: settings?.showNAColor,
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
+          regressionLine: settings?.regressionLine,
         };
       case 'horizontalDumbbellChart':
         return {

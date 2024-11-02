@@ -8,6 +8,7 @@ import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'framer-motion';
+import { linearRegression } from 'simple-statistics';
 import {
   AnnotationSettingsDataType,
   CustomHighlightAreaSettingsDataType,
@@ -50,6 +51,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  regressionLine: boolean | string;
 }
 
 export function Graph(props: Props) {
@@ -82,10 +84,12 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    regressionLine,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
   const [annotationsScope, annotationsAnimate] = useAnimate();
+  const [regLineScope, regLineAnimate] = useAnimate();
   const isInView = useInView(scope);
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -202,8 +206,23 @@ export function Graph(props: Props) {
           duration: animateLine === true ? 0.5 : animateLine || 0,
         },
       );
+      regLineAnimate(
+        regLineScope.current,
+        { opacity: [0, 1] },
+        {
+          delay: animateLine === true ? 5 : animateLine || 0,
+          duration: animateLine === true ? 0.5 : animateLine || 0,
+        },
+      );
     }
   }, [isInView, data]);
+  const regressionLineParam = linearRegression(
+    dataFormatted
+      .filter(
+        d => !checkIfNullOrUndefined(d.date) && !checkIfNullOrUndefined(d.y),
+      )
+      .map(d => [x(d.date), y(d.y as number)]),
+  );
   return (
     <>
       <svg
@@ -642,6 +661,34 @@ export function Graph(props: Props) {
                 </g>
               );
             })}
+          </g>
+          <g ref={regLineScope}>
+            {regressionLine ? (
+              <line
+                x1={
+                  regressionLineParam.b > graphHeight
+                    ? (graphHeight - regressionLineParam.b) /
+                      regressionLineParam.m
+                    : 0
+                }
+                x2={graphWidth}
+                y1={
+                  regressionLineParam.b > graphHeight
+                    ? graphHeight
+                    : regressionLineParam.b
+                }
+                y2={regressionLineParam.m * graphWidth + regressionLineParam.b}
+                style={{
+                  fill: 'none',
+                  strokeWidth: 1.5,
+                  stroke:
+                    typeof regressionLine === 'string'
+                      ? regressionLine
+                      : UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  strokeDasharray: '4,4',
+                }}
+              />
+            ) : null}
           </g>
           <rect
             ref={MouseoverRectRef}

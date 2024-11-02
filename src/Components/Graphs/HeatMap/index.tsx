@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
-import { HeatMapDataType, ScaleDataType } from '../../../Types';
+import {
+  HeatMapDataType,
+  ScaleDataType,
+  SourcesDataType,
+} from '../../../Types';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';

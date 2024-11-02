@@ -65,6 +65,7 @@ interface Props {
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
   mode?: 'light' | 'dark';
+  regressionLine?: boolean | string;
 }
 
 export function ScatterPlot(props: Props) {
@@ -114,6 +115,7 @@ export function ScatterPlot(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    regressionLine,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -333,6 +335,7 @@ export function ScatterPlot(props: Props) {
                     customHighlightAreaSettings || []
                   }
                   mode={mode || 'light'}
+                  regressionLine={regressionLine || false}
                 />
               ) : null}
             </div>

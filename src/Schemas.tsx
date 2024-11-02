@@ -2025,6 +2025,9 @@ export const lineChartSettingsSchema = {
   type: 'object',
   properties: {
     graphID: { type: 'string' },
+    regressionLine: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
     color: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -3414,6 +3417,9 @@ export const scatterPlotSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    regressionLine: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -4284,6 +4290,9 @@ export const SettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    regressionLine: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
     includeLayers: {
       type: 'array',
