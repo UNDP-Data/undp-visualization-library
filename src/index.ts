@@ -142,6 +142,7 @@ export {
   validateDataSchema,
   validateSettingsSchema,
 } from './Utils/validateSchema';
+export { getGraphList } from './Utils/getGraphList';
 
 /* ------Schemas for JSON-----------*/
 export {
