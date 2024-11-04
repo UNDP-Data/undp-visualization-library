@@ -1,5 +1,6 @@
 import xss from 'xss';
 import { numberFormattingFunction } from './numberFormattingFunction';
+import { checkIfNullOrUndefined } from './checkIfNullOrUndefined';
 
 function getDescendantProp(data: any, desc: string) {
   const dataStr = desc.split('.')[0].split('[')[0];
@@ -119,9 +120,10 @@ export function string2HTML(htmlString: string, data: any) {
     },
   };
   const sanitizedString = xss(htmlString, options);
-  const replacedString = sanitizedString.replace(
-    /{{(.*?)}}/g,
-    (_, str) => getDescendantProp(data, str) || 'NA',
+  const replacedString = sanitizedString.replace(/{{(.*?)}}/g, (_, str) =>
+    checkIfNullOrUndefined(getDescendantProp(data, str))
+      ? 'NA'
+      : getDescendantProp(data, str),
   );
   return replacedString;
 }

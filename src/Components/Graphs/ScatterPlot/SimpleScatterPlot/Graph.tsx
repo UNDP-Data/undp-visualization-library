@@ -160,7 +160,7 @@ export function Graph(props: Props) {
   const xTicks = x.ticks(5);
   const yTicks = y.ticks(5);
   const voronoiDiagram = Delaunay.from(
-    data,
+    dataOrdered,
     d => x(d.x as number),
     d => y(d.y as number),
   ).voronoi([
@@ -527,7 +527,6 @@ export function Graph(props: Props) {
                   </g>
                   <path
                     d={voronoiDiagram.renderCell(i)}
-                    fill='#fff'
                     opacity={0}
                     onMouseEnter={event => {
                       setMouseOverData(d);
