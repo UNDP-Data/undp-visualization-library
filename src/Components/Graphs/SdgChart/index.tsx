@@ -51,6 +51,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function SdgChart(props: Props) {
@@ -92,6 +93,7 @@ export function SdgChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -140,6 +142,12 @@ export function SdgChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -286,6 +294,7 @@ export function SdgChart(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

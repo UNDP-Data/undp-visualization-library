@@ -44,6 +44,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -82,6 +83,7 @@ export function CirclePackingGraph(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -121,6 +123,14 @@ export function CirclePackingGraph(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a chart where data points are represented by circles, and their sizes reflect their values.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -204,6 +214,7 @@ export function CirclePackingGraph(props: Props) {
                 width: '100%',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

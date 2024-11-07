@@ -53,6 +53,7 @@ interface Props {
   minHeight?: number;
   maxBarThickness?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function Histogram(props: Props) {
@@ -95,6 +96,7 @@ export function Histogram(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    ariaLabel,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -164,6 +166,7 @@ export function Histogram(props: Props) {
         language={language}
         minHeight={minHeight}
         mode={mode || 'light'}
+        ariaLabel={ariaLabel}
       />
     );
   if (graphType === 'treeMap')
@@ -197,6 +200,7 @@ export function Histogram(props: Props) {
         language={language}
         minHeight={minHeight}
         mode={mode || 'light'}
+        ariaLabel={ariaLabel}
       />
     );
   if (graphType === 'donutChart')
@@ -232,6 +236,7 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         mode={mode || 'light'}
+        ariaLabel={ariaLabel}
       />
     );
   if (barGraphLayout === 'horizontal')
@@ -272,6 +277,7 @@ export function Histogram(props: Props) {
         minHeight={minHeight}
         mode={mode || 'light'}
         maxBarThickness={maxBarThickness}
+        ariaLabel={ariaLabel}
       />
     );
   return (
@@ -311,6 +317,7 @@ export function Histogram(props: Props) {
       minHeight={minHeight}
       mode={mode || 'light'}
       maxBarThickness={maxBarThickness}
+      ariaLabel={ariaLabel}
     />
   );
 }

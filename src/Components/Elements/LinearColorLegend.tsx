@@ -24,6 +24,7 @@ export function LinearColorLegend(props: Props) {
         lineHeight: 0,
         maxWidth: width || 'none',
       }}
+      aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <p

@@ -37,6 +37,7 @@ export function GraphHeader(props: Props) {
         gap: '0.5rem',
         flexDirection: rtl ? 'row-reverse' : 'row',
       }}
+      aria-label='Graph header'
     >
       <div style={{ flexDirection: 'column', display: 'flex', gap: '0.125em' }}>
         {graphTitle ? (

@@ -45,6 +45,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function SlopeChart(props: Props) {
@@ -85,6 +86,7 @@ export function SlopeChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -125,6 +127,14 @@ export function SlopeChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a slope chart showing changes in data between two category or starting and ending time. Each line represents a different row in data, with lines sloping up or down to show increase or decrease over two categories or time.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -207,6 +217,7 @@ export function SlopeChart(props: Props) {
                 width: '100%',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

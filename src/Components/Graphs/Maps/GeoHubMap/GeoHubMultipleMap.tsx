@@ -124,6 +124,7 @@ export function GeoHubMultipleMap(props: Props) {
         lineHeight: 0,
       }}
       ref={graphDiv}
+      aria-label='Map area'
     >
       {(width || svgWidth) && (height || svgHeight) ? (
         <div

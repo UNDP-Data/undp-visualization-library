@@ -35,6 +35,7 @@ export function ColorLegendWithMouseOver(props: Props) {
         display: 'flex',
         justifyContent: isCenter ? 'center' : rtl ? 'flex-end' : 'flex-start',
       }}
+      aria-label='Color legend'
     >
       <div>
         {colorLegendTitle && colorLegendTitle !== '' ? (

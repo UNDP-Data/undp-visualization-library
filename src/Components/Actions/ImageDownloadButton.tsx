@@ -44,6 +44,7 @@ export function ImageDownloadButton(props: Props) {
           imageDownload(nodeID as HTMLElement, filename || 'image');
         }
       }}
+      aria-label='Click to download the graph as image'
     >
       {buttonContent || <ImageDown mode={mode || 'light'} />}
     </button>

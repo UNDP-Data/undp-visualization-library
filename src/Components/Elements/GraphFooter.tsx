@@ -26,6 +26,7 @@ export function GraphFooter(props: Props) {
         flexDirection: 'column',
         maxWidth: width || 'none',
       }}
+      aria-label='Graph footer'
     >
       {sources ? (
         <Source sources={sources} rtl={rtl} language={language} mode={mode} />

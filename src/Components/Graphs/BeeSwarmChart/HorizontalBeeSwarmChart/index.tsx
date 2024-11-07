@@ -50,6 +50,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function HorizontalBeeSwarmChart(props: Props) {
@@ -91,6 +92,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -132,6 +134,14 @@ export function HorizontalBeeSwarmChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a bee swarm chart showing the distribution along the x-axes. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -214,6 +224,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                 width: '100%',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

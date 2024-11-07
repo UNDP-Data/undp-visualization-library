@@ -51,6 +51,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
+  ariaLabel?: string;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -94,6 +95,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     minHeight,
     mode,
     maxBarThickness,
+    ariaLabel,
   } = props;
 
   const barColors =
@@ -138,6 +140,14 @@ export function VerticalGroupedBarGraph(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a grouped bar chart. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -197,6 +207,7 @@ export function VerticalGroupedBarGraph(props: Props) {
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

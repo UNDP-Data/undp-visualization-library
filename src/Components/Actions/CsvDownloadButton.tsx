@@ -41,6 +41,7 @@ export function CsvDownloadButton(props: Props) {
       asyncOnClick
       target='_blank'
       style={{ backgroundImage: 'none', textDecoration: 'none' }}
+      aria-label='Click to download the data as csv'
     >
       <div
         className={`undp-viz-download-button undp-viz-button button-${

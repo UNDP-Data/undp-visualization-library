@@ -52,6 +52,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function HeatMap(props: Props) {
@@ -94,6 +95,7 @@ export function HeatMap(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -142,6 +144,12 @@ export function HeatMap(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a heatmap. ${graphDescription ? ` ${graphDescription}` : ''}`
+      }
     >
       <div
         style={{
@@ -288,6 +296,7 @@ export function HeatMap(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

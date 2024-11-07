@@ -23,6 +23,7 @@ export function GraphTitle(props: Props) {
           textAlign: rtl ? 'right' : 'left',
           color: UNDPColorModule[mode || 'light'].grays.black,
         }}
+        aria-label='Dashboard title'
       >
         {text}
       </h5>
@@ -37,6 +38,7 @@ export function GraphTitle(props: Props) {
         textAlign: rtl ? 'right' : 'left',
         color: UNDPColorModule[mode || 'light'].grays.black,
       }}
+      aria-label='Graph title'
     >
       {text}
     </p>

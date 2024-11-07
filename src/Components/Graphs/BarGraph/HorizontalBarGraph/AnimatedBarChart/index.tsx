@@ -66,6 +66,7 @@ interface Props {
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
+  ariaLabel?: string;
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -116,6 +117,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
     mode,
     maxBarThickness,
     minBarThickness,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -185,6 +187,14 @@ export function AnimatedHorizontalBarChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated bar chart showing data changes over time. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -232,6 +242,9 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -253,6 +266,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -302,6 +316,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

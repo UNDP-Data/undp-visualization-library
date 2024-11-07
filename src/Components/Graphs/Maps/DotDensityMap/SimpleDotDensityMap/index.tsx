@@ -47,6 +47,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function DotDensityMap(props: Props) {
@@ -88,6 +89,7 @@ export function DotDensityMap(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -137,6 +139,14 @@ export function DotDensityMap(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a dot density map showing the distribution of a variable across a region or world, with each dot representing a data point.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -181,6 +191,7 @@ export function DotDensityMap(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='Map area'
           >
             {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph

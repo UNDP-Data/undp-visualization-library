@@ -48,6 +48,7 @@ interface Props {
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -91,6 +92,7 @@ export function HorizontalStripChart(props: Props) {
     showNAColor,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -129,6 +131,14 @@ export function HorizontalStripChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a strip chart showing distribution of data along the horizontal axis. Each dot represents an individual data point, helping to visualize the spread and clustering of values.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -211,6 +221,7 @@ export function HorizontalStripChart(props: Props) {
                 width: '100%',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

@@ -20,6 +20,7 @@ export function FootNote(props: Props) {
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',
       }}
+      aria-label='Graph footnote'
     >
       {text}
     </p>

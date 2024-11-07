@@ -20,6 +20,7 @@ export function GraphDescription(props: Props) {
         fontSize: '0.875rem',
         textAlign: rtl ? 'right' : 'left',
       }}
+      aria-label='Graph description'
     >
       {text}
     </p>

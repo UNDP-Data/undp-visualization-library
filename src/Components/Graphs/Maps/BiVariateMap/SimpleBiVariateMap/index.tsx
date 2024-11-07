@@ -46,6 +46,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function BiVariantMap(props: Props) {
@@ -87,6 +88,7 @@ export function BiVariantMap(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -136,6 +138,14 @@ export function BiVariantMap(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is bi-variate choropleth map where geographic areas are colored in proportion to two variables.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -180,6 +190,7 @@ export function BiVariantMap(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='Map area'
           >
             {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph

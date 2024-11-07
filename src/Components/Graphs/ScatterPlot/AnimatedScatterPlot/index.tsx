@@ -73,6 +73,7 @@ interface Props {
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -125,6 +126,7 @@ export function AnimatedScatterPlot(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -195,6 +197,14 @@ export function AnimatedScatterPlot(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated scatter plot that shows correlation between two variables showing data changes over time.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -242,6 +252,9 @@ export function AnimatedScatterPlot(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -263,6 +276,7 @@ export function AnimatedScatterPlot(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -312,6 +326,7 @@ export function AnimatedScatterPlot(props: Props) {
                 width: '100%',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

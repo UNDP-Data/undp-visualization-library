@@ -50,6 +50,7 @@ interface Props {
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function AreaChart(props: Props) {
@@ -90,6 +91,7 @@ export function AreaChart(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -131,6 +133,14 @@ export function AreaChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a stacked area chart that shows trends over time.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -190,6 +200,7 @@ export function AreaChart(props: Props) {
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

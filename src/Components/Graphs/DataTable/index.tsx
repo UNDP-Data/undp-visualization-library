@@ -32,6 +32,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -55,6 +56,7 @@ export function DataTable(props: Props) {
     rtl,
     language,
     mode,
+    ariaLabel,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
@@ -118,6 +120,14 @@ export function DataTable(props: Props) {
         backgroundColor: 'transparent',
       }}
       id={graphID}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an data table. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{

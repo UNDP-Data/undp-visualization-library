@@ -35,6 +35,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function SparkLine(props: Props) {
@@ -67,6 +68,7 @@ export function SparkLine(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -105,6 +107,14 @@ export function SparkLine(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a line chart that show trends over time.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -149,6 +159,7 @@ export function SparkLine(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='Graph area'
           >
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph

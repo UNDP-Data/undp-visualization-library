@@ -121,6 +121,7 @@ export function Graph(props: Props) {
         lineHeight: 0,
       }}
       ref={graphDiv}
+      aria-label='Map area'
     >
       <div
         style={{

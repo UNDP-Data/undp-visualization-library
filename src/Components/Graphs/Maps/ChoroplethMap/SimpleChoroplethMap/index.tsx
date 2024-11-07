@@ -46,6 +46,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function ChoroplethMap(props: Props) {
@@ -87,6 +88,7 @@ export function ChoroplethMap(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -136,6 +138,14 @@ export function ChoroplethMap(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a choropleth map where geographic areas are colored in proportion to a specific variable.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -180,6 +190,7 @@ export function ChoroplethMap(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='Map area'
           >
             {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph

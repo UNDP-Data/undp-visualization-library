@@ -45,6 +45,7 @@ export function ExcelDownloadButton(props: Props) {
       onClick={() =>
         excelDownload(csvData, fileName || 'data', headers, xlsxHeader, wscols)
       }
+      aria-label='Click to download the data as xlsx'
     >
       {buttonContent || <FileDown mode={mode || 'light'} />}
     </button>

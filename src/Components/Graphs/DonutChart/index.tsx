@@ -40,6 +40,7 @@ interface Props {
   height?: number;
   minHeight?: number;
   relativeHeight?: number;
+  ariaLabel?: string;
 }
 
 export function DonutChart(props: Props) {
@@ -74,6 +75,7 @@ export function DonutChart(props: Props) {
     height,
     minHeight,
     relativeHeight,
+    ariaLabel,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -131,6 +133,14 @@ export function DonutChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a donut or pie chart chart. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -183,6 +193,7 @@ export function DonutChart(props: Props) {
                 style={{
                   lineHeight: 0,
                 }}
+                aria-label='Color legend'
               >
                 <div
                   style={{
@@ -276,6 +287,7 @@ export function DonutChart(props: Props) {
                 justifyContent: 'center',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               <div
                 style={{

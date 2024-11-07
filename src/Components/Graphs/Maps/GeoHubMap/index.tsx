@@ -27,6 +27,7 @@ interface Props {
   mode?: 'light' | 'dark';
   includeLayers?: string[];
   excludeLayers?: string[];
+  ariaLabel?: string;
 }
 
 export function GeoHubMap(props: Props) {
@@ -50,6 +51,7 @@ export function GeoHubMap(props: Props) {
     mode,
     includeLayers,
     excludeLayers,
+    ariaLabel,
   } = props;
 
   const [selectedMapStyle, setSelectedMapStyle] = useState(
@@ -83,6 +85,12 @@ export function GeoHubMap(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      aria-label={
+        ariaLabel ||
+        `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a map.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{

@@ -613,4 +613,5 @@ export interface GraphSettingsDataType {
   layerSelection?: { layerID: string; name: string[] }[];
   annotations?: AnnotationSettingsDataType[];
   regressionLine?: boolean | string;
+  ariaLabel?: string;
 }

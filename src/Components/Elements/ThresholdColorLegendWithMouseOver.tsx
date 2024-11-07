@@ -41,6 +41,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
         flexWrap: 'wrap',
         justifyContent: 'center',
       }}
+      aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <p

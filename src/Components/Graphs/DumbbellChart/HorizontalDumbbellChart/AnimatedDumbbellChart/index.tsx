@@ -62,6 +62,7 @@ interface Props {
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
+  ariaLabel?: string;
 }
 
 export function AnimatedHorizontalDumbbellChart(props: Props) {
@@ -111,6 +112,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     mode,
     maxBarThickness,
     minBarThickness,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -185,6 +187,14 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated dumbbell chart that shows comparisons between two or more data points across categories. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -232,6 +242,9 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -253,6 +266,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -285,6 +299,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                 justifyContent: 'center',
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

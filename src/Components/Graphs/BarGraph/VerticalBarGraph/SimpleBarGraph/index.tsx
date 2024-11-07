@@ -59,6 +59,7 @@ interface Props {
   maxBarThickness?: number;
   maxNumberOfBars?: number;
   minBarThickness?: number;
+  ariaLabel?: string;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -108,6 +109,7 @@ export function VerticalBarGraph(props: Props) {
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -147,6 +149,14 @@ export function VerticalBarGraph(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a grouped bar chart. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -229,6 +239,7 @@ export function VerticalBarGraph(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

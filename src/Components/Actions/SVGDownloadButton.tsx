@@ -44,6 +44,7 @@ export function SVGDownloadButton(props: Props) {
           svgDownload(nodeID as HTMLElement, filename || 'image');
         }
       }}
+      aria-label='Click to download the graph as svg'
     >
       {buttonContent || <ImageDown mode={mode || 'light'} />}
     </button>

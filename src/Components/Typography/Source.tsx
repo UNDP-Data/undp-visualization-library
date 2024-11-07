@@ -21,6 +21,7 @@ export function Source(props: SourceProps) {
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',
       }}
+      aria-label='Data sources'
     >
       {rtl ? (
         <>

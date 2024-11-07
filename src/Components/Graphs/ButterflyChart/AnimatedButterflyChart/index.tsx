@@ -61,6 +61,7 @@ interface Props {
   colorLegendTitle?: string;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -107,6 +108,7 @@ export function AnimatedButterflyChart(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -174,6 +176,14 @@ export function AnimatedButterflyChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated diverging bar chart showing data changes over time. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -221,6 +231,9 @@ export function AnimatedButterflyChart(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -242,6 +255,7 @@ export function AnimatedButterflyChart(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -284,6 +298,7 @@ export function AnimatedButterflyChart(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

@@ -37,6 +37,7 @@ export function CopyTextButton(props: Props) {
           navigator.clipboard.writeText(text);
           handleShowMessage();
         }}
+        aria-label='Click to copy the text'
       >
         <Copy mode={mode} />
         {buttonText ? (

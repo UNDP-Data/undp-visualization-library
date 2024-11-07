@@ -63,6 +63,7 @@ interface Props {
   sortParameter?: number | 'total';
   maxBarThickness?: number;
   minBarThickness?: number;
+  ariaLabel?: string;
 }
 
 export function AnimatedHorizontalStackedBarChart(props: Props) {
@@ -110,6 +111,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     sortParameter,
     maxBarThickness,
     minBarThickness,
+    ariaLabel,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -183,6 +185,14 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated stacked bar chart showing data changes over time. ${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -230,6 +240,9 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -251,6 +264,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -277,6 +291,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

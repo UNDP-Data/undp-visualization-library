@@ -23,6 +23,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function GeoHubCompareMaps(props: Props) {
@@ -44,6 +45,7 @@ export function GeoHubCompareMaps(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -77,6 +79,14 @@ export function GeoHubCompareMaps(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a comparison between two maps.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -114,6 +124,7 @@ export function GeoHubCompareMaps(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='map area'
           >
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph

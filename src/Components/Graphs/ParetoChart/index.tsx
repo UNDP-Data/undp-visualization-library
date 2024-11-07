@@ -41,6 +41,7 @@ interface Props {
   colorLegendTitle?: string;
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function ParetoChart(props: Props) {
@@ -78,6 +79,7 @@ export function ParetoChart(props: Props) {
     colorLegendTitle,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -116,6 +118,14 @@ export function ParetoChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a pareto chart that shows a variable as bars and another as line chart.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -184,6 +194,7 @@ export function ParetoChart(props: Props) {
                 lineHeight: 0,
               }}
               ref={graphDiv}
+              aria-label='Graph area'
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph

@@ -27,6 +27,7 @@ interface Props {
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function StatCardFromData(props: Props) {
@@ -47,6 +48,7 @@ export function StatCardFromData(props: Props) {
     language,
     countOnly,
     mode,
+    ariaLabel,
   } = props;
 
   return (
@@ -63,6 +65,14 @@ export function StatCardFromData(props: Props) {
           : backgroundColor,
       }}
       id={graphID}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is a statistic card.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{

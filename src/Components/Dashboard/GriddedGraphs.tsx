@@ -297,6 +297,18 @@ export function GriddedGraphs(props: Props) {
       }}
       id={graphSettings?.graphId}
       ref={graphParentDiv}
+      aria-label={
+        graphSettings?.ariaLabel ||
+        `${
+          graphSettings?.graphTitle
+            ? `The graph shows ${graphSettings?.graphTitle}. `
+            : ''
+        }This is a gridded chart.${
+          graphSettings?.graphDescription
+            ? ` ${graphSettings?.graphDescription}`
+            : ''
+        }`
+      }
     >
       <div
         style={{

@@ -32,6 +32,7 @@ interface Props {
   height?: number;
   minHeight?: number;
   relativeHeight?: number;
+  ariaLabel?: string;
 }
 
 export function UnitChart(props: Props) {
@@ -61,6 +62,7 @@ export function UnitChart(props: Props) {
     height,
     minHeight,
     relativeHeight,
+    ariaLabel,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
   const totalValue = sum(data.map(d => d.value));
@@ -105,6 +107,12 @@ export function UnitChart(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -168,6 +176,7 @@ export function UnitChart(props: Props) {
                     lineHeight: 0,
                     width: width ? `${width}px` : '100%',
                   }}
+                  aria-label='Color legend'
                 >
                   <div
                     style={{
@@ -222,7 +231,7 @@ export function UnitChart(props: Props) {
                   </div>
                 </div>
               ) : null}
-              <div>
+              <div aria-label='Graph area'>
                 <svg
                   width={`${width || size || 200}px`}
                   height={`${

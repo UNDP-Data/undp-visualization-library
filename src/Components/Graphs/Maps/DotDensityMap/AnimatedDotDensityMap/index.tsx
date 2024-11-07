@@ -58,6 +58,7 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
+  ariaLabel?: string;
 }
 
 export function AnimatedDotDensityMap(props: Props) {
@@ -102,6 +103,7 @@ export function AnimatedDotDensityMap(props: Props) {
     language,
     minHeight,
     mode,
+    ariaLabel,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -180,6 +182,14 @@ export function AnimatedDotDensityMap(props: Props) {
       }}
       id={graphID}
       ref={graphParentDiv}
+      aria-label={
+        ariaLabel ||
+        `${
+          graphTitle ? `The graph shows ${graphTitle}. ` : ''
+        }This is an animated dot density map showing the distribution of a variable across a region or world, with each dot representing a data point and changes over time.${
+          graphDescription ? ` ${graphDescription}` : ''
+        }`
+      }
     >
       <div
         style={{
@@ -227,6 +237,9 @@ export function AnimatedDotDensityMap(props: Props) {
                 backgroundColor: 'transparent',
                 cursor: 'pointer',
               }}
+              aria-label={
+                play ? 'Click to pause animation' : 'Click to play animation'
+              }
             >
               {play ? (
                 <Pause mode={mode || 'light'} />
@@ -248,6 +261,7 @@ export function AnimatedDotDensityMap(props: Props) {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
               className='undp-viz-slider'
+              aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
           <div
@@ -259,6 +273,7 @@ export function AnimatedDotDensityMap(props: Props) {
               lineHeight: 0,
             }}
             ref={graphDiv}
+            aria-label='Map area'
           >
             {(width || svgWidth) && (height || svgHeight) && mapShape ? (
               <Graph
