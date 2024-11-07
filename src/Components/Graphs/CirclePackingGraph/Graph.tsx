@@ -198,7 +198,7 @@ export function Graph(props: Props) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: 'inherit',
-                        padding: '0 0.25rem',
+                        padding: '0 0.375rem',
                       }}
                     >
                       {showLabels ? (
@@ -210,7 +210,13 @@ export function Graph(props: Props) {
                           }undp-viz-typography`}
                           style={{
                             fontSize: `${Math.min(
-                              Math.max(Math.round(d.r / 4), 8),
+                              Math.max(Math.round(d.r / 4), 9),
+                              Math.max(
+                                Math.round(
+                                  (d.r * 12) / (d.data as any).id.length,
+                                ),
+                                9,
+                              ),
                               20,
                             )}px`,
                             marginBottom: 0,
@@ -227,6 +233,7 @@ export function Graph(props: Props) {
                                     )
                                   ],
                             ),
+                            hyphens: 'auto',
                           }}
                         >
                           {(d.data as any).id}

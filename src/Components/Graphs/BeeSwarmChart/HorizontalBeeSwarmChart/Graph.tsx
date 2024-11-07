@@ -338,7 +338,7 @@ export function Graph(props: Props) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: 'inherit',
-                        padding: '0 0.25rem',
+                        padding: '0 0.375rem',
                       }}
                     >
                       {showLabels ? (
@@ -358,6 +358,16 @@ export function Graph(props: Props) {
                                 ),
                                 10,
                               ),
+                              Math.max(
+                                Math.round(
+                                  ((radiusScale
+                                    ? radiusScale(d.radius || 0)
+                                    : radius) *
+                                    12) /
+                                    `${d.label}`.length,
+                                ),
+                                10,
+                              ),
                               20,
                             )}px`,
                             marginBottom: 0,
@@ -370,6 +380,7 @@ export function Graph(props: Props) {
                                 ? UNDPColorModule[mode || 'light'].graphGray
                                 : circleColors[colorDomain.indexOf(d.color)],
                             ),
+                            hyphens: 'auto',
                           }}
                         >
                           {d.label}
