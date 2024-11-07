@@ -142,6 +142,7 @@ export function Graph(props: Props) {
   const xTicks = x.ticks(5);
 
   useEffect(() => {
+    setFinalData(null);
     const dataTemp = (dataOrdered as BeeSwarmChartDataType[]).filter(
       d => d.position,
     );
@@ -158,7 +159,7 @@ export function Graph(props: Props) {
       .on('end ', () => {
         setFinalData(dataTemp as BeeSwarmChartDataTypeForBubbleChart[]);
       });
-  }, []);
+  }, [data, radius, graphHeight, graphWidth, xMinValue, xMaxValue]);
 
   return (
     <>

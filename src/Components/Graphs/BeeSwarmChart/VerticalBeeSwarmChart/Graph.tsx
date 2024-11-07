@@ -158,7 +158,7 @@ export function Graph(props: Props) {
       .on('end ', () => {
         setFinalData(dataTemp as BeeSwarmChartDataTypeForBubbleChart[]);
       });
-  }, []);
+  }, [data, radius, graphHeight, graphWidth, yMinValue, yMaxValue]);
 
   return (
     <>
