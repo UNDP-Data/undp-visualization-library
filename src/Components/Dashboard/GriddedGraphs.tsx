@@ -812,7 +812,9 @@ export function GriddedGraphs(props: Props) {
                   ))}
                 </div>
               ) : null}
-              {showCommonColorScale !== false && graphSettings?.colorDomain ? (
+              {showCommonColorScale !== false &&
+              graphSettings?.colorDomain &&
+              graphSettings?.showColorScale !== false ? (
                 <ColorLegend
                   rtl={graphSettings?.rtl}
                   language={graphSettings?.language}
@@ -896,7 +898,10 @@ export function GriddedGraphs(props: Props) {
                         padding: '0',
                         footNote: undefined,
                         source: undefined,
-                        showColorScale: showCommonColorScale === false,
+                        showColorScale:
+                          graphSettings?.showColorScale === false
+                            ? false
+                            : showCommonColorScale === false,
                       }}
                       readableHeader={readableHeader || []}
                     />
