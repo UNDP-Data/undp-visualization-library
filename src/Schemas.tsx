@@ -705,6 +705,7 @@ export const simpleBarChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
+    ariaLabel: { type: 'string' },
   },
 };
 
@@ -791,6 +792,7 @@ export const groupedBarChartSettingsSchema = {
       enum: ['light', 'dark'],
     },
     maxBarThickness: { type: 'number' },
+    ariaLabel: { type: 'string' },
   },
   required: ['colorDomain'],
 };
@@ -811,6 +813,7 @@ export const stackedBarChartSettingsSchema = {
     footNote: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
+    ariaLabel: { type: 'string' },
     sources: {
       type: 'array',
       items: {
@@ -892,6 +895,7 @@ export const animatedSimpleBarChartSettingsSchema = {
     colors: {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -987,6 +991,7 @@ export const animatedGroupedBarChartSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1073,6 +1078,7 @@ export const animatedStackedBarChartSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1164,6 +1170,7 @@ export const beeSwarmChartSettingsSchema = {
     colors: {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1248,6 +1255,7 @@ export const butterflyChartSettingsSchema = {
   properties: {
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
+    ariaLabel: { type: 'string' },
     leftBarTitle: { type: 'string' },
     rightBarTitle: { type: 'string' },
     footNote: { type: 'string' },
@@ -1328,6 +1336,7 @@ export const animatedButterflyChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     leftBarTitle: { type: 'string' },
     rightBarTitle: { type: 'string' },
@@ -1420,6 +1429,7 @@ export const circlePackingSettingsSchema = {
         },
       ],
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1483,6 +1493,7 @@ export const dataTableSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     sources: {
       type: 'array',
       items: {
@@ -1565,6 +1576,7 @@ export const donutChartSettingsSchema = {
         },
       ],
     },
+    ariaLabel: { type: 'string' },
     colors: {
       oneOf: [
         { type: 'string' },
@@ -1629,6 +1641,7 @@ export const donutChartSettingsSchema = {
 export const dumbbellChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1702,6 +1715,7 @@ export const dumbbellChartSettingsSchema = {
 export const animatedDumbbellChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1777,6 +1791,7 @@ export const animatedDumbbellChartSettingsSchema = {
 export const heatMapSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1851,6 +1866,7 @@ export const heatMapSettingsSchema = {
 export const histogramSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     color: {
       oneOf: [
         { type: 'string' },
@@ -1945,6 +1961,7 @@ export const histogramSettingsSchema = {
 export const dualAxisLineChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     lineTitles: {
@@ -2024,6 +2041,7 @@ export const dualAxisLineChartSettingsSchema = {
 export const lineChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     graphID: { type: 'string' },
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -2181,6 +2199,7 @@ export const lineChartSettingsSchema = {
 export const differenceLineChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     lineColors: {
       type: 'array',
       items: { type: 'string' },
@@ -2356,6 +2375,7 @@ export const differenceLineChartSettingsSchema = {
 export const multiLineChartSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -2526,6 +2546,7 @@ export const sparkLineSettingsSchema = {
   type: 'object',
   properties: {
     color: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -2576,6 +2597,7 @@ export const choroplethMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -2673,6 +2695,7 @@ export const choroplethMapSettingsSchema = {
 export const biVariateChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -2774,6 +2797,7 @@ export const biVariateChoroplethMapSettingsSchema = {
 export const dotDensityMapSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
@@ -2870,6 +2894,7 @@ export const dotDensityMapSettingsSchema = {
 export const animatedChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
@@ -2972,6 +2997,7 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -3076,6 +3102,7 @@ export const animatedDotDensityMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -3175,6 +3202,7 @@ export const geoHubCompareMapSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     sources: {
       type: 'array',
       items: {
@@ -3249,6 +3277,7 @@ export const geoHubMapSettingsSchema = {
       minItems: 2,
       maxItems: 2,
     },
+    ariaLabel: { type: 'string' },
     zoomLevel: { type: 'number' },
     graphTitle: { type: 'string' },
     sources: {
@@ -3317,6 +3346,7 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
         required: ['source'],
       },
     },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     backgroundColor: {
@@ -3364,6 +3394,7 @@ export const paretoChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     barTitle: { type: 'string' },
     lineTitle: { type: 'string' },
@@ -3417,6 +3448,7 @@ export const scatterPlotSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -3610,6 +3642,7 @@ export const animatedScatterPlotSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -3803,6 +3836,7 @@ export const slopeChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -3884,6 +3918,7 @@ export const stackedAreaChartSettingsSchema = {
       items: { type: 'string' },
       minItems: 0,
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -4040,6 +4075,7 @@ export const statCardSettingsSchema = {
     year: {
       oneOf: [{ type: 'number' }, { type: 'string' }],
     },
+    ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     suffix: { type: 'string' },
@@ -4088,6 +4124,7 @@ export const stripChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -4176,6 +4213,7 @@ export const treeMapSettingsSchema = {
       ],
     },
     graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -4238,6 +4276,7 @@ export const unitChartSettingsSchema = {
   type: 'object',
   properties: {
     totalNoOfDots: { type: 'number' },
+    ariaLabel: { type: 'string' },
     gridSize: { type: 'number' },
     unitPadding: { type: 'number' },
     size: { type: 'number' },
@@ -4294,6 +4333,7 @@ export const SettingsSchema = {
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
+    ariaLabel: { type: 'string' },
     includeLayers: {
       type: 'array',
       items: { type: 'string' },
