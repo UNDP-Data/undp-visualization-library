@@ -4,7 +4,6 @@ import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
   AggregationSettingsDataType,
-  APISettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -18,6 +17,7 @@ import {
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
+  fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
@@ -39,7 +39,6 @@ interface Props {
     label: string;
   }[];
   dataSettings?: DataSettingsDataType;
-  dataFromAPISettings?: APISettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: GraphType;
   dataTransform?: {
@@ -64,7 +63,6 @@ export function SingleGraphDashboard(props: Props) {
     dataFilters,
     debugMode,
     dataSelectionOptions,
-    dataFromAPISettings,
     mode,
     readableHeader,
   } = props;
@@ -135,56 +133,37 @@ export function SingleGraphDashboard(props: Props) {
       graphType !== 'geoHubCompareMap' &&
       graphType !== 'geoHubMapWithLayerSelection'
     ) {
-      if (dataFromAPISettings) {
-        const fetchData = fetchAndTransformDataFromAPI(
-          dataFromAPISettings.requestURL,
-          dataFromAPISettings.method || 'GET',
-          dataFromAPISettings.headers,
-          dataFromAPISettings.requestBody,
-          dataFromAPISettings.apiDataTransform,
-          debugMode,
-        );
-        fetchData.then(d => {
-          setDataFromFile(d);
-          setFilterSettings(
-            filters?.map(el => ({
-              filter: el.column,
-              label: el.label || `Filter by ${el.column}`,
-              singleSelect: el.singleSelect,
-              clearable: el.clearable,
-              defaultValue: el.defaultValue,
-              availableValues: getUniqValue(
-                filterData(d, dataFilters || []),
-                el.column,
-              )
-                .filter(v =>
-                  el.excludeValues
-                    ? el.excludeValues.indexOf(`${v}`) === -1
-                    : true,
-                )
-                .map(v => ({
-                  value: v,
-                  label: v,
-                })),
-            })) || [],
-          );
-        });
-      }
-      if (dataSettings && !dataFromAPISettings) {
+      if (dataSettings) {
         if (dataSettings.dataURL) {
           const fetchData =
-            dataSettings.fileType === 'json'
-              ? fetchAndParseJSON(
-                  dataSettings.dataURL as string,
-                  dataSettings.columnsToArray,
-                  debugMode,
-                )
-              : fetchAndParseCSV(
-                  dataSettings.dataURL as string,
-                  dataSettings.columnsToArray,
-                  debugMode,
-                  dataSettings.delimiter,
-                  true,
+            typeof dataSettings.dataURL === 'string'
+              ? dataSettings.fileType === 'json'
+                ? fetchAndParseJSON(
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    dataSettings.columnsToArray,
+                    debugMode,
+                  )
+                : dataSettings.fileType === 'api'
+                ? fetchAndTransformDataFromAPI(
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    dataSettings.apiMethod || 'GET',
+                    dataSettings.apiHeaders,
+                    dataSettings.apiRequestBody,
+                    debugMode,
+                  )
+                : fetchAndParseCSV(
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    dataSettings.columnsToArray,
+                    debugMode,
+                    dataSettings.delimiter,
+                    true,
+                  )
+              : fetchAndParseMultipleDataSources(
+                  dataSettings.dataURL,
+                  dataSettings.idColumnTitle,
                 );
           fetchData.then(d => {
             setDataFromFile(d);
@@ -241,12 +220,11 @@ export function SingleGraphDashboard(props: Props) {
         }
       }
     }
-  }, [dataSettings, dataFromAPISettings, dataFilters, graphType]);
+  }, [dataSettings, dataFilters, graphType]);
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
   }, [graphDataConfiguration]);
   if (
-    !dataFromAPISettings &&
     !dataSettings &&
     graphType !== 'geoHubMap' &&
     graphType !== 'geoHubCompareMap' &&
@@ -268,8 +246,8 @@ export function SingleGraphDashboard(props: Props) {
           fontSize: '0.875rem',
         }}
       >
-        Please make sure either `dataSettings` or `dataFromAPISettings` props
-        are present as they are required for data.
+        Please make sure either `dataSettings` props are present as they are
+        required for data.
       </p>
     );
   return (

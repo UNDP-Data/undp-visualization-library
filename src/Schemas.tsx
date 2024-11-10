@@ -1486,6 +1486,8 @@ export const circlePackingSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    radius: { type: 'number' },
+    maxRadiusValue: { type: 'number' },
   },
 };
 

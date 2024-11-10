@@ -1,14 +1,14 @@
 import xss from 'xss';
+import Handlebars from 'handlebars';
 import { numberFormattingFunction } from './numberFormattingFunction';
-import { checkIfNullOrUndefined } from './checkIfNullOrUndefined';
 
 function getDescendantProp(data: any, desc: string) {
-  const dataStr = desc.split('.')[0].split('[')[0];
-  // eslint-disable-next-line @typescript-eslint/no-implied-eval
-  const func = new Function(dataStr, `return ${desc}`);
-  return typeof func(data) === 'number'
-    ? numberFormattingFunction(func(data), '', '')
-    : func(data);
+  Handlebars.registerHelper('formatNumber', value => {
+    if (typeof value === 'string') return value;
+    return numberFormattingFunction(value);
+  });
+  const template = Handlebars.compile(desc);
+  return template(data);
 }
 
 export function string2HTML(htmlString: string, data: any) {
@@ -120,10 +120,6 @@ export function string2HTML(htmlString: string, data: any) {
     },
   };
   const sanitizedString = xss(htmlString, options);
-  const replacedString = sanitizedString.replace(/{{(.*?)}}/g, (_, str) =>
-    checkIfNullOrUndefined(getDescendantProp(data, str))
-      ? 'NA'
-      : getDescendantProp(data, str),
-  );
+  const replacedString = getDescendantProp(data, sanitizedString);
   return replacedString;
 }

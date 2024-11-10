@@ -393,29 +393,43 @@ export interface ColumnConfigurationDataType {
   delimiter?: string;
 }
 
-export interface DataSettingsDataType {
-  dataURL?: string;
-  fileType?: 'csv' | 'json';
+export interface FileSettingsDataType {
+  dataURL: string;
+  idColumnName: string;
+  fileType?: 'csv' | 'json' | 'api';
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
+  apiHeaders?: any;
+  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
+  dataTransformation?: string;
+  apiRequestBody?: any;
+}
+
+export interface DataSettingsDataType {
+  dataURL?: string | FileSettingsDataType[];
+  fileType?: 'csv' | 'json' | 'api';
+  delimiter?: string;
+  columnsToArray?: ColumnConfigurationDataType[];
+  apiHeaders?: any;
+  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
+  apiRequestBody?: any;
+  dataTransformation?: string;
+  idColumnTitle?: string;
   data?: any;
 }
 
 export interface DataSettingsWideToLongDataType {
-  dataURL?: string;
-  fileType?: 'csv' | 'json';
+  dataURL?: string | FileSettingsDataType[];
+  fileType?: 'csv' | 'json' | 'api';
   delimiter?: string;
   data?: any;
   keyColumn: string;
+  idColumnTitle?: string;
+  dataTransformation?: string;
+  apiHeaders?: any;
+  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
+  apiRequestBody?: any;
   dataFilters?: DataFilterDataType[];
-}
-
-export interface APISettingsDataType {
-  requestURL: string;
-  headers?: any;
-  method?: 'POST' | 'GET' | 'DELETE' | 'PUT';
-  requestBody?: any;
-  apiDataTransform?: (_d: any) => any;
 }
 
 export interface AggregationSettingsDataType {

@@ -3,7 +3,6 @@ import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
-  APISettingsDataType,
   DashboardColumnDataType,
   DashboardLayoutDataType,
   DataSettingsDataType,
@@ -14,6 +13,7 @@ import {
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
+  fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
@@ -25,8 +25,7 @@ import { SingleGraphDashboard } from './SingleGraphDashboard';
 interface Props {
   dashboardId?: string;
   dashboardLayout: DashboardLayoutDataType;
-  dataSettings?: DataSettingsDataType;
-  dataFromAPISettings?: APISettingsDataType;
+  dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
@@ -49,7 +48,6 @@ export function MultiGraphDashboard(props: Props) {
     dataSettings,
     filters,
     debugMode,
-    dataFromAPISettings,
     mode,
     readableHeader,
   } = props;
@@ -105,15 +103,37 @@ export function MultiGraphDashboard(props: Props) {
   }, [selectedFilters, dataFromFile]);
 
   useEffect(() => {
-    if (dataFromAPISettings) {
-      const fetchData = fetchAndTransformDataFromAPI(
-        dataFromAPISettings.requestURL,
-        dataFromAPISettings.method || 'GET',
-        dataFromAPISettings.headers,
-        dataFromAPISettings.requestBody,
-        dataFromAPISettings.apiDataTransform,
-        debugMode,
-      );
+    if (dataSettings.dataURL) {
+      const fetchData =
+        typeof dataSettings.dataURL === 'string'
+          ? dataSettings.fileType === 'json'
+            ? fetchAndParseJSON(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.columnsToArray,
+                debugMode,
+              )
+            : dataSettings.fileType === 'api'
+            ? fetchAndTransformDataFromAPI(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.apiMethod || 'GET',
+                dataSettings.apiHeaders,
+                dataSettings.apiRequestBody,
+                debugMode,
+              )
+            : fetchAndParseCSV(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.columnsToArray,
+                debugMode,
+                dataSettings.delimiter,
+                true,
+              )
+          : fetchAndParseMultipleDataSources(
+              dataSettings.dataURL,
+              dataSettings.idColumnTitle,
+            );
       fetchData.then(d => {
         setDataFromFile(d);
         setFilterSettings(
@@ -136,90 +156,33 @@ export function MultiGraphDashboard(props: Props) {
           })) || [],
         );
       });
-    }
-    if (dataSettings && !dataFromAPISettings) {
-      if (dataSettings.dataURL) {
-        const fetchData =
-          dataSettings.fileType === 'json'
-            ? fetchAndParseJSON(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-              )
-            : fetchAndParseCSV(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-                dataSettings.delimiter,
-                true,
-              );
-        fetchData.then(d => {
-          setDataFromFile(d);
-          setFilterSettings(
-            filters?.map(el => ({
-              filter: el.column,
-              label: el.label || `Filter by ${el.column}`,
-              singleSelect: el.singleSelect,
-              clearable: el.clearable,
-              defaultValue: el.defaultValue,
-              availableValues: getUniqValue(d, el.column)
-                .filter(v =>
-                  el.excludeValues
-                    ? el.excludeValues.indexOf(`${v}`) === -1
-                    : true,
-                )
-                .map(v => ({
-                  value: v,
-                  label: v,
-                })),
-            })) || [],
-          );
-        });
-      } else {
-        const tempData = dataSettings.columnsToArray
-          ? transformColumnsToArray(
-              dataSettings.data,
-              dataSettings.columnsToArray,
+    } else {
+      const tempData = dataSettings.columnsToArray
+        ? transformColumnsToArray(
+            dataSettings.data,
+            dataSettings.columnsToArray,
+          )
+        : dataSettings.data;
+      setDataFromFile(tempData);
+      setFilterSettings(
+        filters?.map(el => ({
+          filter: el.column,
+          label: el.label || `Filter by ${el.column}`,
+          singleSelect: el.singleSelect,
+          clearable: el.clearable,
+          defaultValue: el.defaultValue,
+          availableValues: getUniqValue(tempData, el.column)
+            .filter(v =>
+              el.excludeValues ? el.excludeValues.indexOf(`${v}`) === -1 : true,
             )
-          : dataSettings.data;
-        setDataFromFile(tempData);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            label: el.label || `Filter by ${el.column}`,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(tempData, el.column)
-              .filter(v =>
-                el.excludeValues
-                  ? el.excludeValues.indexOf(`${v}`) === -1
-                  : true,
-              )
-              .map(v => ({
-                value: v,
-                label: v,
-              })),
-          })) || [],
-        );
-      }
+            .map(v => ({
+              value: v,
+              label: v,
+            })),
+        })) || [],
+      );
     }
-  }, [dataSettings, dataFromAPISettings]);
-  if (!dataFromAPISettings && !dataSettings)
-    return (
-      <p
-        className='undp-viz-typography'
-        style={{
-          textAlign: 'center',
-          padding: '0.5rem',
-          color: UNDPColorModule[mode || 'light'].alerts.darkRed,
-          fontSize: '0.875rem',
-        }}
-      >
-        Please make sure either `dataSettings` or `dataFromAPISettings` props
-        are present as they are required for data.
-      </p>
-    );
+  }, [dataSettings]);
   return (
     <div
       style={{

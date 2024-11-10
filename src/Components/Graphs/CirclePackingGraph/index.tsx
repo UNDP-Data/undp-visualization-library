@@ -1,6 +1,8 @@
 import uniqBy from 'lodash.uniqby';
 
 import { useState, useRef, useEffect } from 'react';
+import sum from 'lodash.sum';
+import maxBy from 'lodash.maxby';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { SourcesDataType, TreeMapDataType } from '../../../Types';
@@ -45,6 +47,8 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  radius?: number;
+  maxRadiusValue?: number;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -84,6 +88,8 @@ export function CirclePackingGraph(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    radius,
+    maxRadiusValue,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -218,7 +224,7 @@ export function CirclePackingGraph(props: Props) {
             >
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
-                  data={data.filter(d => !checkIfNullOrUndefined(d.size))}
+                  data={data}
                   colors={
                     data.filter(el => el.color).length === 0
                       ? colors
@@ -279,7 +285,7 @@ export function CirclePackingGraph(props: Props) {
                   }
                   showValues={
                     checkIfNullOrUndefined(showValues)
-                      ? true
+                      ? data.filter(el => el.size).length !== 0
                       : (showValues as boolean)
                   }
                   selectedColor={selectedColor}
@@ -292,6 +298,30 @@ export function CirclePackingGraph(props: Props) {
                   rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
+                  radius={
+                    checkIfNullOrUndefined(radius)
+                      ? (Math.min(
+                          width || svgWidth,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        ) *
+                          (data.filter(d => d.size !== undefined).length === 0
+                            ? 1
+                            : (maxBy(data, 'size') as any).size)) /
+                        (data.filter(d => d.size !== undefined).length === 0
+                          ? data.length
+                          : sum(data.filter(d => d.size).map(d => d.size)) *
+                            1.25)
+                      : (radius as number)
+                  }
+                  maxRadiusValue={maxRadiusValue}
                 />
               ) : null}
             </div>

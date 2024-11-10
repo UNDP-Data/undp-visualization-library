@@ -8,6 +8,8 @@ import {
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
+  fetchAndParseMultipleDataSources,
+  fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
 import { GraphHeader } from '../Elements/GraphHeader';
@@ -66,18 +68,34 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   useEffect(() => {
     if (dataSettings.dataURL) {
       const fetchData =
-        dataSettings.fileType === 'json'
-          ? fetchAndParseJSON(
-              dataSettings.dataURL as string,
-              undefined,
-              debugMode,
-            )
-          : fetchAndParseCSV(
-              dataSettings.dataURL as string,
-              undefined,
-              debugMode,
-              dataSettings.delimiter,
-              true,
+        typeof dataSettings.dataURL === 'string'
+          ? dataSettings.fileType === 'json'
+            ? fetchAndParseJSON(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                undefined,
+                debugMode,
+              )
+            : dataSettings.fileType === 'api'
+            ? fetchAndTransformDataFromAPI(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.apiMethod || 'GET',
+                dataSettings.apiHeaders,
+                dataSettings.apiRequestBody,
+                debugMode,
+              )
+            : fetchAndParseCSV(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                undefined,
+                debugMode,
+                dataSettings.delimiter,
+                true,
+              )
+          : fetchAndParseMultipleDataSources(
+              dataSettings.dataURL,
+              dataSettings.idColumnTitle,
             );
       fetchData.then((d: any) => {
         const filteredData = filterData(d, dataSettings.dataFilters || []);

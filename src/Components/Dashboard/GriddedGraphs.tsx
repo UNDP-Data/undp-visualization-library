@@ -5,7 +5,6 @@ import flattenDeep from 'lodash.flattendeep';
 import min from 'lodash.min';
 import {
   AggregationSettingsDataType,
-  APISettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -18,6 +17,7 @@ import {
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
+  fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
 import { UNDPColorModule } from '../ColorPalette';
@@ -39,8 +39,7 @@ interface Props {
   noOfColumns?: number;
   columnGridBy: string;
   graphSettings?: any;
-  dataSettings?: DataSettingsDataType;
-  dataFromAPISettings?: APISettingsDataType;
+  dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: Exclude<
     GraphType,
@@ -82,7 +81,6 @@ export function GriddedGraphs(props: Props) {
     minGraphWidth,
     debugMode,
     dataSelectionOptions,
-    dataFromAPISettings,
     mode,
     readableHeader,
   } = props;
@@ -143,15 +141,37 @@ export function GriddedGraphs(props: Props) {
   }, [selectedFilters, dataFromFile]);
 
   useEffect(() => {
-    if (dataFromAPISettings) {
-      const fetchData = fetchAndTransformDataFromAPI(
-        dataFromAPISettings.requestURL,
-        dataFromAPISettings.method || 'GET',
-        dataFromAPISettings.headers,
-        dataFromAPISettings.requestBody,
-        dataFromAPISettings.apiDataTransform,
-        debugMode,
-      );
+    if (dataSettings.dataURL) {
+      const fetchData =
+        typeof dataSettings.dataURL === 'string'
+          ? dataSettings.fileType === 'json'
+            ? fetchAndParseJSON(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.columnsToArray,
+                debugMode,
+              )
+            : dataSettings.fileType === 'api'
+            ? fetchAndTransformDataFromAPI(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.apiMethod || 'GET',
+                dataSettings.apiHeaders,
+                dataSettings.apiRequestBody,
+                debugMode,
+              )
+            : fetchAndParseCSV(
+                dataSettings.dataURL,
+                dataSettings.dataTransformation,
+                dataSettings.columnsToArray,
+                debugMode,
+                dataSettings.delimiter,
+                true,
+              )
+          : fetchAndParseMultipleDataSources(
+              dataSettings.dataURL,
+              dataSettings.idColumnTitle,
+            );
       fetchData.then(d => {
         setDataFromFile(d);
         const gridValue = getUniqValue(d, columnGridBy) as (string | number)[];
@@ -176,109 +196,41 @@ export function GriddedGraphs(props: Props) {
           })) || [],
         );
       });
-    }
-    if (dataSettings && !dataFromAPISettings) {
-      if (dataSettings.dataURL) {
-        const fetchData =
-          dataSettings.fileType === 'json'
-            ? fetchAndParseJSON(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-              )
-            : fetchAndParseCSV(
-                dataSettings.dataURL as string,
-                dataSettings.columnsToArray,
-                debugMode,
-                dataSettings.delimiter,
-                true,
-              );
-        fetchData.then(d => {
-          setDataFromFile(d);
-          const gridValue = getUniqValue(d, columnGridBy) as (
-            | string
-            | number
-          )[];
-          setGridOption(gridValue);
-          setFilterSettings(
-            filters?.map(el => ({
-              filter: el.column,
-              label: el.label || `Filter by ${el.column}`,
-              singleSelect: el.singleSelect,
-              clearable: el.clearable,
-              defaultValue: el.defaultValue,
-              availableValues: getUniqValue(d, el.column)
-                .filter(v =>
-                  el.excludeValues
-                    ? el.excludeValues.indexOf(`${v}`) === -1
-                    : true,
-                )
-                .map(v => ({
-                  value: v,
-                  label: v,
-                })),
-            })) || [],
-          );
-        });
-      } else {
-        const tempData = dataSettings.columnsToArray
-          ? transformColumnsToArray(
-              dataSettings.data,
-              dataSettings.columnsToArray,
+    } else {
+      const tempData = dataSettings.columnsToArray
+        ? transformColumnsToArray(
+            dataSettings.data,
+            dataSettings.columnsToArray,
+          )
+        : dataSettings.data;
+      setDataFromFile(tempData);
+      const gridValue = getUniqValue(tempData, columnGridBy) as (
+        | string
+        | number
+      )[];
+      setGridOption(gridValue);
+      setFilterSettings(
+        filters?.map(el => ({
+          filter: el.column,
+          label: el.label || `Filter by ${el.column}`,
+          singleSelect: el.singleSelect,
+          clearable: el.clearable,
+          defaultValue: el.defaultValue,
+          availableValues: getUniqValue(tempData, el.column)
+            .filter(v =>
+              el.excludeValues ? el.excludeValues.indexOf(`${v}`) === -1 : true,
             )
-          : dataSettings.data;
-        setDataFromFile(tempData);
-        const gridValue = getUniqValue(tempData, columnGridBy) as (
-          | string
-          | number
-        )[];
-        setGridOption(gridValue);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            label: el.label || `Filter by ${el.column}`,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(tempData, el.column)
-              .filter(v =>
-                el.excludeValues
-                  ? el.excludeValues.indexOf(`${v}`) === -1
-                  : true,
-              )
-              .map(v => ({
-                value: v,
-                label: v,
-              })),
-          })) || [],
-        );
-      }
+            .map(v => ({
+              value: v,
+              label: v,
+            })),
+        })) || [],
+      );
     }
-  }, [dataSettings, dataFromAPISettings]);
+  }, [dataSettings]);
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
   }, [graphDataConfiguration]);
-  if (!dataFromAPISettings && !dataSettings)
-    return (
-      <p
-        className={
-          graphSettings?.rtl
-            ? `undp-viz-typography-${
-                graphSettings?.language || 'ar'
-              } undp-viz-typography`
-            : 'undp-viz-typography'
-        }
-        style={{
-          textAlign: 'center',
-          padding: '0.5rem',
-          color: UNDPColorModule[mode || 'light'].alerts.darkRed,
-          fontSize: '0.875rem',
-        }}
-      >
-        Please make sure either `dataSettings` or `dataFromAPISettings` props
-        are present as they are required for data.
-      </p>
-    );
   return (
     <div
       style={{

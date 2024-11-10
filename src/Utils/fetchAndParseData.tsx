@@ -1,10 +1,23 @@
 /* eslint-disable no-console */
 import Papa from 'papaparse';
-import { ColumnConfigurationDataType } from '../Types';
+import Handlebars from 'handlebars';
+import { ColumnConfigurationDataType, FileSettingsDataType } from '../Types';
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
+import { mergeMultipleData } from './transformData/mergeMultipleData';
+
+function reFormatData(data: any, dataTransformation?: string) {
+  if (!dataTransformation) return data;
+  Handlebars.registerHelper(
+    'json',
+    context => new Handlebars.SafeString(JSON.stringify(context, null, 2)),
+  );
+  const template = Handlebars.compile(dataTransformation);
+  return JSON.parse(template(data));
+}
 
 export async function fetchAndParseCSV(
   dataURL: string,
+  dataTransformation?: string,
   columnsToArray?: ColumnConfigurationDataType[],
   debugMode?: boolean,
   delimiter?: string,
@@ -32,8 +45,8 @@ export async function fetchAndParseCSV(
               transformedData,
             );
           }
-          resolve(transformedData);
-        } else resolve(results.data);
+          resolve(reFormatData(transformedData, dataTransformation));
+        } else resolve(reFormatData(results.data, dataTransformation));
       },
       error(error: any) {
         reject(error);
@@ -44,6 +57,7 @@ export async function fetchAndParseCSV(
 
 export async function fetchAndParseCSVFromTextBlob(
   data: string,
+  dataTransformation?: string,
   columnsToArray?: ColumnConfigurationDataType[],
   debugMode?: boolean,
   delimiter?: string,
@@ -69,8 +83,8 @@ export async function fetchAndParseCSVFromTextBlob(
               transformedData,
             );
           }
-          resolve(transformedData);
-        } else resolve(results.data);
+          resolve(reFormatData(transformedData, dataTransformation));
+        } else resolve(reFormatData(results.data, dataTransformation));
       },
       error(error: any) {
         reject(error);
@@ -81,6 +95,7 @@ export async function fetchAndParseCSVFromTextBlob(
 
 export async function fetchAndParseJSON(
   dataURL: string,
+  dataTransformation?: string,
   columnsToArray?: ColumnConfigurationDataType[],
   debugMode?: boolean,
 ) {
@@ -102,9 +117,9 @@ export async function fetchAndParseJSON(
           transformedData,
         );
       }
-      return transformedData;
+      return reFormatData(json, dataTransformation);
     }
-    return json;
+    return reFormatData(json, dataTransformation);
   } catch (error) {
     return error;
   }
@@ -112,14 +127,14 @@ export async function fetchAndParseJSON(
 
 export async function fetchAndTransformDataFromAPI(
   requestURL: string,
-  method: 'POST' | 'GET' | 'DELETE' | 'PUT',
+  dataTransformation?: string,
+  method?: 'POST' | 'GET' | 'DELETE' | 'PUT',
   headers?: any,
   requestBody?: any,
-  dataTransform?: (_d: any) => any,
   debugMode?: boolean,
 ) {
   const response = await fetch(requestURL, {
-    method,
+    method: method || 'GET',
     headers,
     body: requestBody,
   });
@@ -127,14 +142,53 @@ export async function fetchAndTransformDataFromAPI(
     throw new Error('Network response was not ok');
   }
   if (debugMode) {
-    console.log('Data from file:', response.json());
+    console.log('Data from api:', response.json());
+    console.log(
+      'Data from api after transformation:',
+      reFormatData(response.json(), dataTransformation),
+    );
   }
-  if (dataTransform) {
-    const result = dataTransform(response.json());
-    if (debugMode) {
-      console.log('Data after transformation of column to array:', result);
-    }
-    return result;
-  }
-  return response.json();
+  return reFormatData(response.json(), dataTransformation);
+}
+
+export async function fetchAndParseMultipleDataSources(
+  dataURL: FileSettingsDataType[],
+  idColumnTitle?: string,
+) {
+  const data = await Promise.all(
+    dataURL.map(d =>
+      d.fileType === 'json'
+        ? fetchAndParseJSON(
+            d.dataURL as string,
+            d.dataTransformation,
+            d.columnsToArray,
+            false,
+          )
+        : d.fileType === 'api'
+        ? fetchAndTransformDataFromAPI(
+            d.dataURL as string,
+            d.dataTransformation,
+            d.apiMethod || 'GET',
+            d.apiHeaders,
+            d.apiRequestBody,
+            false,
+          )
+        : fetchAndParseCSV(
+            d.dataURL as string,
+            d.dataTransformation,
+            d.columnsToArray,
+            false,
+            d.delimiter,
+            true,
+          ),
+    ),
+  );
+  const mergedData = mergeMultipleData(
+    data.map((d: any, i: number) => ({
+      data: d,
+      idColumn: dataURL[i].idColumnName,
+    })),
+    idColumnTitle,
+  );
+  return mergedData;
 }

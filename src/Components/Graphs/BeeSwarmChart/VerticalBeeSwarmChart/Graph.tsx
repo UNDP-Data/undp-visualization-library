@@ -142,6 +142,7 @@ export function Graph(props: Props) {
   const yTicks = y.ticks(5);
 
   useEffect(() => {
+    setFinalData(null);
     const dataTemp = (dataOrdered as BeeSwarmChartDataType[]).filter(
       d => d.position,
     );
