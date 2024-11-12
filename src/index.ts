@@ -61,6 +61,8 @@ export { ButterflyChart } from './Components/Graphs/ButterflyChart/SimpleButterf
 export { Histogram } from './Components/Graphs/Histogram';
 // SDG target list chart
 export { SdgChart } from './Components/Graphs/SdgChart';
+// Sankey Chart
+export { SankeyChart } from './Components/Graphs/SankeyChart';
 // Dashboard
 export { MultiGraphDashboard } from './Components/Dashboard/MultiGraphDashboard';
 export { MultiGraphDashboardWideToLongFormat } from './Components/Dashboard/MultiGraphDashboardWideToLongFormat';

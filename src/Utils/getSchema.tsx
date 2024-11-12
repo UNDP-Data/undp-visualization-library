@@ -73,6 +73,8 @@ import {
   unitChartDataSchema,
   differenceLineChartDataSchema,
   differenceLineChartSettingsSchema,
+  sankeyChartDataSchema,
+  sankeyChartSettingsSchema,
 } from '../Schemas';
 
 export function getDataSchema(graph: GraphType) {
@@ -182,6 +184,8 @@ export function getDataSchema(graph: GraphType) {
       return statCardDataSchema;
     case 'unitChart':
       return unitChartDataSchema;
+    case 'sankeyChart':
+      return sankeyChartDataSchema;
     default:
       console.error('Unknown chart type:', graph);
       return null;
@@ -288,6 +292,8 @@ export function getSettingsSchema(graph: GraphType) {
       return geoHubMapWithLayerSelectionSettingsSchema;
     case 'unitChart':
       return unitChartSettingsSchema;
+    case 'sankeyChart':
+      return sankeyChartSettingsSchema;
     default:
       console.error('Unknown chart type:', graph);
       return null;

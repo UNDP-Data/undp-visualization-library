@@ -245,6 +245,11 @@ export function getGraphList() {
       graphID: 'unitChart',
       availableInGriddedGraph: true,
     },
+    {
+      graphName: 'Sankey chart',
+      graphID: 'sankeyChart',
+      availableInGriddedGraph: true,
+    },
   ];
   return graphList;
 }

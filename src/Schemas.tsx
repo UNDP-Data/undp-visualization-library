@@ -34,6 +34,24 @@ export const circlePackingDataSchema = {
   },
 };
 
+export const sankeyChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      source: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      target: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+      value: { type: 'number' },
+      data: { type: 'object' },
+    },
+    required: ['source', 'target', 'value'],
+  },
+};
+
 export const butterflyChartDataSchema = {
   type: 'array',
   items: {
@@ -606,6 +624,96 @@ export const statCardDataSchema = {
       data: { type: 'object' },
     },
     required: ['value'],
+  },
+};
+
+export const sankeyChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
+    showValues: { type: 'boolean' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    truncateBy: { type: 'number' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    showLabels: { type: 'boolean' },
+    tooltip: { type: 'string' },
+    graphID: { type: 'string' },
+    highlightedSourceDataPoints: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    highlightedTargetDataPoints: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    sortNodes: {
+      type: 'string',
+      enum: ['asc', 'desc', 'mostReadable', 'none'],
+    },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    ariaLabel: { type: 'string' },
+    nodePadding: { type: 'number' },
+    nodeWidth: { type: 'number' },
+    defaultLinkOpacity: { type: 'number', minimum: 0, maximum: 1 },
+    sourceTitle: { type: 'string' },
+    targetTitle: { type: 'string' },
+    fillContainer: { type: 'boolean' },
+    animateLinks: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
+    sourceColors: {
+      oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    },
+    targetColors: {
+      oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    },
+    sourceColorDomain: {
+      type: 'array',
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    },
+    targetColorDomain: {
+      type: 'array',
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    },
   },
 };
 

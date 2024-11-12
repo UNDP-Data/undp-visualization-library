@@ -59,6 +59,7 @@ import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 import { UNDPColorModule } from '../ColorPalette';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
+import { SankeyChart } from '../Graphs/SankeyChart';
 
 interface Props {
   graph: GraphType;
@@ -165,6 +166,7 @@ function GraphEl(props: Props) {
     animatedButterflyChart: AnimatedButterflyChart,
     differenceLineChart: DifferenceLineChart,
     geoHubMapWithLayerSelection: GeoHubMapWithLayerSelection,
+    sankeyChart: SankeyChart,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -2403,6 +2405,51 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
+        };
+      case 'sankeyChart':
+        return {
+          mode: settings?.mode,
+          data: graphData,
+          graphTitle: settings?.graphTitle,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          width: settings?.width,
+          height: settings?.height,
+          sources: settings?.sources,
+          showLabels: settings?.showLabels,
+          leftMargin: settings?.leftMargin,
+          rightMargin: settings?.rightMargin,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
+          truncateBy: settings?.truncateBy,
+          padding: settings?.padding,
+          backgroundColor: settings?.backgroundColor,
+          tooltip: settings?.tooltip,
+          suffix: settings?.suffix,
+          prefix: settings?.prefix,
+          relativeHeight: settings?.relativeHeight,
+          showValues: settings?.showValues,
+          graphID: settings?.graphID,
+          graphDownload: settings?.graphDownload,
+          dataDownload: settings?.dataDownload,
+          fillContainer: settings?.fillContainer,
+          rtl: settings?.rtl,
+          language: settings?.language,
+          minHeight: settings?.minHeight,
+          ariaLabel: settings?.ariaLabel,
+          sourceColors: settings?.sourceColors,
+          targetColors: settings?.targetColors,
+          sourceColorDomain: settings?.sourceColorDomain,
+          targetColorDomain: settings?.targetColorDomain,
+          nodePadding: settings?.nodePadding,
+          nodeWidth: settings?.nodeWidth,
+          highlightedSourceDataPoints: settings?.highlightedSourceDataPoints,
+          highlightedTargetDataPoints: settings?.highlightedTargetDataPoints,
+          defaultLinkOpacity: settings?.defaultLinkOpacity,
+          sourceTitle: settings?.sourceTitle,
+          targetTitle: settings?.targetTitle,
+          animateLinks: settings?.animateLinks,
+          sortNodes: settings?.sortNodes,
         };
       default:
         return {};

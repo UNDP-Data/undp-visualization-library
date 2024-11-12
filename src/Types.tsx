@@ -47,7 +47,8 @@ export type GraphType =
   | 'animatedDotDensityMap'
   | 'animatedHorizontalDumbbellChart'
   | 'animatedVerticalDumbbellChart'
-  | 'animatedButterflyChart';
+  | 'animatedButterflyChart'
+  | 'sankeyChart';
 
 export interface SourcesDataType {
   source: string;
@@ -254,6 +255,13 @@ export interface HeatMapDataType {
   data?: object;
 }
 
+export interface SankeyDataType {
+  source: string | number;
+  target: string | number;
+  value: number;
+  data?: object;
+}
+
 export interface BeeSwarmChartDataType {
   label: string | number;
   position: number;
@@ -267,6 +275,22 @@ export interface StripChartDataType {
   position: number;
   color?: string;
   data?: object;
+}
+
+export interface NodeDataType {
+  name: string;
+  color: string;
+  type: 'source' | 'target';
+  label: string;
+}
+
+export interface NodesLinkDataType {
+  nodes: NodeDataType[];
+  links: {
+    source: number;
+    target: number;
+    value: number;
+  }[];
 }
 
 export interface TableColumnSettingsDataType {
@@ -628,4 +652,17 @@ export interface GraphSettingsDataType {
   annotations?: AnnotationSettingsDataType[];
   regressionLine?: boolean | string;
   ariaLabel?: string;
+  nodePadding?: number;
+  nodeWidth?: number;
+  highlightedSourceDataPoints?: string[];
+  highlightedTargetDataPoints?: string[];
+  defaultLinkOpacity?: number;
+  sourceTitle?: string;
+  targetTitle?: string;
+  animateLinks?: boolean | number;
+  sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
+  sourceColors?: string[] | string;
+  targetColors?: string[] | string;
+  sourceColorDomain?: string[];
+  targetColorDomain?: string[];
 }
