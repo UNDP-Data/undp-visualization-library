@@ -1488,6 +1488,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          radius: settings?.radius,
+          maxRadiusValue: settings?.maxRadiusValue,
         };
       case 'heatMap':
         return {

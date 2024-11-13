@@ -130,15 +130,17 @@ export function GeoHubMultipleMap(props: Props) {
         <div
           style={{
             width: width || svgWidth,
-            height:
+            height: Math.max(
+              minHeight || 0,
               height ||
-              (relativeHeight
-                ? minHeight
-                  ? (width || svgWidth) * relativeHeight > minHeight
-                    ? (width || svgWidth) * relativeHeight
-                    : minHeight
-                  : (width || svgWidth) * relativeHeight
-                : svgHeight),
+                (relativeHeight
+                  ? minHeight
+                    ? (width || svgWidth) * relativeHeight > minHeight
+                      ? (width || svgWidth) * relativeHeight
+                      : minHeight
+                    : (width || svgWidth) * relativeHeight
+                  : svgHeight),
+            ),
           }}
         >
           <div

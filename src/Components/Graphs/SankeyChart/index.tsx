@@ -307,16 +307,17 @@ export function SankeyChart(props: Props) {
                       ? 5
                       : (nodeWidth as number)
                   }
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   showLabels={
                     checkIfNullOrUndefined(showLabels)
                       ? true

@@ -234,7 +234,8 @@ export function UnitChart(props: Props) {
               <div aria-label='Graph area'>
                 <svg
                   width={`${width || size || 200}px`}
-                  height={`${
+                  height={`${Math.max(
+                    minHeight || 0,
                     height
                       ? relativeHeight && width
                         ? minHeight
@@ -245,11 +246,12 @@ export function UnitChart(props: Props) {
                         : height
                       : Math.floor((maxValue - 1) / (gridSize || 10)) *
                           gridDimension +
-                        gridDimension / 2 +
-                        radius +
-                        5
-                  }px`}
-                  viewBox={`0 0 ${width || size || 200} ${
+                          gridDimension / 2 +
+                          radius +
+                          5,
+                  )}px`}
+                  viewBox={`0 0 ${width || size || 200} ${Math.max(
+                    minHeight || 0,
                     height
                       ? relativeHeight && width
                         ? minHeight
@@ -260,10 +262,10 @@ export function UnitChart(props: Props) {
                         : height
                       : Math.floor((maxValue - 1) / (gridSize || 10)) *
                           gridDimension +
-                        gridDimension / 2 +
-                        radius +
-                        5
-                  }`}
+                          gridDimension / 2 +
+                          radius +
+                          5,
+                  )}`}
                 >
                   <g>
                     {cellsData.map((d, i) => (

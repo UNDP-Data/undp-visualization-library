@@ -124,10 +124,15 @@ export function Graph(props: Props) {
         ),
       )
       .force('charge', forceManyBody().strength(-15))
+      .alphaDecay(0.05)
+      .tick(10000)
+      .on('tick', () => {
+        setFinalData(dataTemp as TreeMapDataTypeForBubbleChart[]);
+      })
       .on('end ', () => {
         setFinalData(dataTemp as TreeMapDataTypeForBubbleChart[]);
       });
-  }, [data, radius, graphHeight, graphWidth]);
+  }, [data, radius, graphHeight, graphWidth, maxRadiusValue]);
   return (
     <>
       {finalData ? (

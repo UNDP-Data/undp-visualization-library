@@ -664,11 +664,31 @@
             },
             {
                 "id": "size",
-                "required": true,
+                "required": false,
                 "multiple": false
             },
             {
                 "id": "color",
+                "required": false,
+                "multiple": false
+            }
+        ]
+    },
+    {
+        "chartID": "sankeyChart",
+        "configuration": [
+            {
+                "id": "source",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "target",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "value",
                 "required": false,
                 "multiple": false
             }

@@ -253,16 +253,17 @@ export function VerticalBeeSwarmChart(props: Props) {
                   }
                   width={width || svgWidth}
                   selectedColor={selectedColor}
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   showTicks={
                     checkIfNullOrUndefined(showTicks)
                       ? true

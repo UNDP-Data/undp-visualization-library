@@ -281,16 +281,17 @@ export function AnimatedChoroplethMap(props: Props) {
                 mapData={mapShape}
                 domain={domain}
                 width={width || svgWidth}
-                height={
+                height={Math.max(
+                  minHeight || 0,
                   height ||
-                  (relativeHeight
-                    ? minHeight
-                      ? (width || svgWidth) * relativeHeight > minHeight
-                        ? (width || svgWidth) * relativeHeight
-                        : minHeight
-                      : (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
+                    (relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
+                      : svgHeight),
+                )}
                 scale={scale || 190}
                 centerPoint={centerPoint || [10, 10]}
                 colors={

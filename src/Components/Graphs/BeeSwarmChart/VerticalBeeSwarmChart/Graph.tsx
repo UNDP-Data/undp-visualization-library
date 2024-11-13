@@ -156,7 +156,12 @@ export function Graph(props: Props) {
         ),
       )
       .force('charge', forceManyBody().strength(-15))
-      .on('end ', () => {
+      .alphaDecay(0.05)
+      .tick(10000)
+      .on('tick', () => {
+        setFinalData(dataTemp as BeeSwarmChartDataTypeForBubbleChart[]);
+      })
+      .on('end', () => {
         setFinalData(dataTemp as BeeSwarmChartDataTypeForBubbleChart[]);
       });
   }, [data, radius, graphHeight, graphWidth, yMinValue, yMaxValue]);

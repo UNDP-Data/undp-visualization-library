@@ -226,16 +226,17 @@ export function MultiLineChart(props: Props) {
                     UNDPColorModule[mode || 'light'].categoricalColors.colors
                   }
                   width={width || svgWidth}
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   dateFormat={dateFormat || 'yyyy'}
                   noOfXTicks={
                     checkIfNullOrUndefined(noOfXTicks)

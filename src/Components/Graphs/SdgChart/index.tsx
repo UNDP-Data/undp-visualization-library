@@ -323,16 +323,17 @@ export function SdgChart(props: Props) {
                     noDataColor || UNDPColorModule[mode || 'light'].graphGray
                   }
                   scaleType={scale}
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   leftMargin={
                     checkIfNullOrUndefined(leftMargin)
                       ? 100

@@ -240,16 +240,17 @@ export function HorizontalStackedBarGraph(props: Props) {
                   }
                   barColors={barColors}
                   width={width || svgWidth}
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   barPadding={
                     checkIfNullOrUndefined(barPadding)
                       ? 0.25

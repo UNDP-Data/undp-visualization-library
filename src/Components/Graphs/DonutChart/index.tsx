@@ -271,16 +271,17 @@ export function DonutChart(props: Props) {
                 flexGrow: width ? 0 : 1,
                 width: width ? `${width}px` : '100%',
                 height: height
-                  ? `${
+                  ? `${Math.max(
+                      minHeight || 0,
                       height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight)
-                    }px`
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}px`
                   : 'auto',
                 lineHeight: 0,
                 alignItems: 'center',

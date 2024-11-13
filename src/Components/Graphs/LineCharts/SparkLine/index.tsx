@@ -169,16 +169,17 @@ export function SparkLine(props: Props) {
                   UNDPColorModule[mode || 'light'].primaryColors['blue-600']
                 }
                 width={width || svgWidth}
-                height={
+                height={Math.max(
+                  minHeight || 0,
                   height ||
-                  (relativeHeight
-                    ? minHeight
-                      ? (width || svgWidth) * relativeHeight > minHeight
-                        ? (width || svgWidth) * relativeHeight
-                        : minHeight
-                      : (width || svgWidth) * relativeHeight
-                    : svgHeight)
-                }
+                    (relativeHeight
+                      ? minHeight
+                        ? (width || svgWidth) * relativeHeight > minHeight
+                          ? (width || svgWidth) * relativeHeight
+                          : minHeight
+                        : (width || svgWidth) * relativeHeight
+                      : svgHeight),
+                )}
                 dateFormat={dateFormat || 'yyyy'}
                 areaId={areaId}
                 leftMargin={

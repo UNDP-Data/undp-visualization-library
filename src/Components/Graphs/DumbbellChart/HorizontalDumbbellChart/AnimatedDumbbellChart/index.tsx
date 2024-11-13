@@ -306,16 +306,17 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                   data={data}
                   dotColors={dotColors}
                   width={width || svgWidth}
-                  height={
+                  height={Math.max(
+                    minHeight || 0,
                     height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight)
-                  }
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
                   suffix={suffix || ''}
                   prefix={prefix || ''}
                   radius={!radius ? 3 : radius}
