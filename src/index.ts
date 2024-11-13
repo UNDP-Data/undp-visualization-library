@@ -131,21 +131,27 @@ export { imageDownload } from './Utils/imageDownload';
 export { svgDownload } from './Utils/svgDownload';
 export { excelDownload } from './Utils/excelDownload';
 export { getUniqValue } from './Utils/getUniqValue';
+
+/* ---------Data fetch and Parse ------------*/
 export { fetchAndParseCSV } from './Utils/fetchAndParseData';
 export { fetchAndParseJSON } from './Utils/fetchAndParseData';
 export { fetchAndTransformDataFromAPI } from './Utils/fetchAndParseData';
 export { fetchAndParseCSVFromTextBlob } from './Utils/fetchAndParseData';
+export { fetchAndParseMultipleDataSources } from './Utils/fetchAndParseData';
+
+/* ---------Data Transformations ------------*/
 export { transformDataForAggregation } from './Utils/transformData/transformDataForAggregation';
 export { transformColumnsToArray } from './Utils/transformData/transformColumnsToArray';
 export { transformDataForGraphFromFile } from './Utils/transformData/transformDataForGraphFromFile';
 export { transformDataForGraph } from './Utils/transformData/transformDataForGraph';
+
+/* ------Schemas and Schema Validation-----------*/
 export { getDataSchema, getSettingsSchema } from './Utils/getSchema';
 export {
   validateDataSchema,
   validateSettingsSchema,
 } from './Utils/validateSchema';
 
-/* ------Schemas for JSON-----------*/
 export {
   SettingsSchema,
   singleGraphJSONSchema,
