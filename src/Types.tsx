@@ -1,4 +1,4 @@
-export type GraphType =
+export type GraphTypeForGriddedGraph =
   | 'horizontalBarChart'
   | 'horizontalStackedBarChart'
   | 'horizontalGroupedBarChart'
@@ -31,9 +31,6 @@ export type GraphType =
   | 'paretoChart'
   | 'dataTable'
   | 'statCard'
-  | 'geoHubCompareMap'
-  | 'geoHubMap'
-  | 'geoHubMapWithLayerSelection'
   | 'unitChart'
   | 'animatedScatterPlot'
   | 'animatedHorizontalBarChart'
@@ -49,6 +46,13 @@ export type GraphType =
   | 'animatedVerticalDumbbellChart'
   | 'animatedButterflyChart'
   | 'sankeyChart';
+
+export type GeoHubGraphType =
+  | 'geoHubCompareMap'
+  | 'geoHubMap'
+  | 'geoHubMapWithLayerSelection';
+
+export type GraphType = GraphTypeForGriddedGraph | GeoHubGraphType;
 
 export interface SourcesDataType {
   source: string;

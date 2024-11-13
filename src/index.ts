@@ -144,7 +144,6 @@ export {
   validateDataSchema,
   validateSettingsSchema,
 } from './Utils/validateSchema';
-export { getGraphList } from './Utils/getGraphList';
 
 /* ------Schemas for JSON-----------*/
 export {
@@ -156,7 +155,12 @@ export {
 } from './Schemas';
 
 /* ---------GraphTypes-------------*/
-export type { GraphType } from './Types';
+export type {
+  GraphType,
+  GeoHubGraphType,
+  GraphTypeForGriddedGraph,
+} from './Types';
+export { GraphList } from './Utils/getGraphList';
 
 /* ----------Renderers For Vanilla JS-------------*/
 export {
