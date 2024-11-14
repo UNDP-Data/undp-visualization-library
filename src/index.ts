@@ -159,14 +159,13 @@ export {
   getDataFiltersSchema,
   getDataTransformSchema,
   getGraphDataConfigurationSchema,
-  SettingsSchema,
   getSingleGraphJSONSchema,
   getGriddedGraphJSONSchema,
   getDashboardJSONSchema,
   getDashboardWideToLongFormatJSONSchema,
   getDataSchema,
   getSettingsSchema,
-} from './Schemas';
+} from './Schemas/getSchema';
 
 /* ---------GraphTypes-------------*/
 export type {

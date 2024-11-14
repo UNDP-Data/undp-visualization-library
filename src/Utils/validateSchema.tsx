@@ -2,12 +2,12 @@ import Ajv from 'ajv';
 import { GraphType } from '../Types';
 import {
   getDashboardJSONSchema,
-  getGriddedGraphJSONSchema,
-  getSingleGraphJSONSchema,
   getDashboardWideToLongFormatJSONSchema,
   getDataSchema,
+  getGriddedGraphJSONSchema,
   getSettingsSchema,
-} from '../Schemas';
+  getSingleGraphJSONSchema,
+} from '../Schemas/getSchema';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
