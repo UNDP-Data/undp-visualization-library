@@ -146,18 +146,26 @@ export { transformDataForGraphFromFile } from './Utils/transformData/transformDa
 export { transformDataForGraph } from './Utils/transformData/transformDataForGraph';
 
 /* ------Schemas and Schema Validation-----------*/
-export { getDataSchema, getSettingsSchema } from './Utils/getSchema';
 export {
   validateDataSchema,
   validateSettingsSchema,
 } from './Utils/validateSchema';
 
 export {
+  getDataSettingsSchema,
+  getReadableHeaderSchema,
+  getFiltersSchema,
+  getDataSelectionSchema,
+  getDataFiltersSchema,
+  getDataTransformSchema,
+  getGraphDataConfigurationSchema,
   SettingsSchema,
-  singleGraphJSONSchema,
-  griddedGraphJSONSchema,
-  dashboardJSONSchema,
-  dashboardWideToLongFormatJSONSchema,
+  getSingleGraphJSONSchema,
+  getGriddedGraphJSONSchema,
+  getDashboardJSONSchema,
+  getDashboardWideToLongFormatJSONSchema,
+  getDataSchema,
+  getSettingsSchema,
 } from './Schemas';
 
 /* ---------GraphTypes-------------*/

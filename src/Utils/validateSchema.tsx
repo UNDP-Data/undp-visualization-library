@@ -1,12 +1,12 @@
 import Ajv from 'ajv';
 import { GraphType } from '../Types';
-import { getDataSchema, getSettingsSchema } from './getSchema';
 import {
-  dashboardJSONSchema,
-  griddedGraphJSONSchema,
-  singleGraphJSONSchema,
-  dashboardWideToLongFormatJSONSchema,
-  singleGraphForGeoHubMapJSONSchema,
+  getDashboardJSONSchema,
+  getGriddedGraphJSONSchema,
+  getSingleGraphJSONSchema,
+  getDashboardWideToLongFormatJSONSchema,
+  getDataSchema,
+  getSettingsSchema,
 } from '../Schemas';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
@@ -95,22 +95,16 @@ export function validateConfigSchema(
   let schema: any;
   switch (graph) {
     case 'griddedGraph':
-      schema = griddedGraphJSONSchema;
+      schema = getGriddedGraphJSONSchema(undefined, config.graphType);
       break;
     case 'multiGraphDashboard':
-      schema = dashboardJSONSchema;
+      schema = getDashboardJSONSchema();
       break;
     case 'singleGraphDashboard':
-      if (
-        config.graphType === 'geoHubMap' ||
-        config.graphType === 'geoHubCompareMap' ||
-        config.graphType === 'geoHubMapWithLayerSelection'
-      ) {
-        schema = singleGraphForGeoHubMapJSONSchema;
-      } else schema = singleGraphJSONSchema;
+      schema = getSingleGraphJSONSchema(undefined, config.graphType);
       break;
     case 'multiGraphDashboardWideToLongFormat':
-      schema = dashboardWideToLongFormatJSONSchema;
+      schema = getDashboardWideToLongFormatJSONSchema();
       break;
     default:
       break;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   DashboardFromWideToLongFormatLayoutDataType,
+  DataFilterDataType,
   DataSettingsWideToLongDataType,
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
@@ -18,6 +19,7 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
+  dataFilters?: DataFilterDataType[];
 }
 
 interface Props {
@@ -71,6 +73,7 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       debugMode={configSettings.debugMode}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
+      dataFilters={configSettings.dataFilters}
     />
   );
 }

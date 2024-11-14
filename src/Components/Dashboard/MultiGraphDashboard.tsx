@@ -5,6 +5,7 @@ import flattenDeep from 'lodash.flattendeep';
 import {
   DashboardColumnDataType,
   DashboardLayoutDataType,
+  DataFilterDataType,
   DataSettingsDataType,
   FilterSettingsDataType,
   FilterUiSettingsDataType,
@@ -21,12 +22,14 @@ import { getUniqValue } from '../../Utils/getUniqValue';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
+import { filterData } from '../../Utils/transformData/filterData';
 
 interface Props {
   dashboardId?: string;
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  dataFilters?: DataFilterDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
   readableHeader?: {
@@ -50,6 +53,7 @@ export function MultiGraphDashboard(props: Props) {
     debugMode,
     mode,
     readableHeader,
+    dataFilters,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -463,7 +467,7 @@ export function MultiGraphDashboard(props: Props) {
                           language: dashboardLayout.language,
                         }}
                         dataSettings={{
-                          data,
+                          data: filterData(data, dataFilters || []),
                         }}
                         dataTransform={el.dataTransform}
                         dataSelectionOptions={el.dataSelectionOptions}

@@ -3,6 +3,7 @@ import Select, { createFilter } from 'react-select';
 import {
   DashboardFromWideToLongFormatColumnDataType,
   DashboardFromWideToLongFormatLayoutDataType,
+  DataFilterDataType,
   DataSettingsWideToLongDataType,
 } from '../../Types';
 import {
@@ -27,6 +28,7 @@ interface Props {
     value: string;
     label: string;
   }[];
+  dataFilters?: DataFilterDataType[];
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -43,6 +45,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     debugMode,
     mode,
     readableHeader,
+    dataFilters,
   } = props;
 
   const filterConfig = {
@@ -98,7 +101,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
               dataSettings.idColumnTitle,
             );
       fetchData.then((d: any) => {
-        const filteredData = filterData(d, dataSettings.dataFilters || []);
+        const filteredData = filterData(d, dataFilters || []);
         setFilterValues(
           filteredData.map((el: any) => el[dataSettings.keyColumn]),
         );
@@ -112,10 +115,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         setDataFromFile(tempData);
       });
     } else {
-      const filteredData = filterData(
-        dataSettings.data,
-        dataSettings.dataFilters || [],
-      );
+      const filteredData = filterData(dataSettings.data, dataFilters || []);
       const tempData = wideToLongTransformation(
         filteredData,
         dataSettings.keyColumn,
@@ -128,7 +128,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
       setSelectedFilterValues(filteredData[0][dataSettings.keyColumn]);
       setDataFromFile(tempData);
     }
-  }, [dataSettings]);
+  }, [dataSettings, dataFilters]);
   return (
     <div
       style={{

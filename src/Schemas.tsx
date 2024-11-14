@@ -1,3 +1,4 @@
+import { GraphType } from './Types';
 import { GraphList } from './Utils/getGraphList';
 
 export const treeMapDataSchema = {
@@ -5258,399 +5259,563 @@ export const SettingsSchema = {
   type: 'object',
 };
 
-export const singleGraphJSONSchema = {
-  type: 'object',
+export function getDataSchema(graph: GraphType) {
+  if (
+    graph === 'geoHubCompareMap' ||
+    graph === 'geoHubMap' ||
+    graph === 'geoHubMapWithLayerSelection'
+  )
+    return null;
+
+  switch (graph) {
+    case 'dataTable':
+      return {
+        type: 'array',
+        items: {
+          type: 'object',
+          additionalProperties: true,
+        },
+      };
+    case 'horizontalBarChart':
+      return barGraphDataSchema;
+    case 'horizontalStackedBarChart':
+      return stackedBarGraphDataSchema;
+    case 'horizontalGroupedBarChart':
+      return groupedBarGraphDataSchema;
+    case 'verticalBarChart':
+      return barGraphDataSchema;
+    case 'verticalStackedBarChart':
+      return stackedBarGraphDataSchema;
+    case 'verticalGroupedBarChart':
+      return groupedBarGraphDataSchema;
+    case 'animatedHorizontalBarChart':
+      return animatedBarGraphDataSchema;
+    case 'animatedHorizontalStackedBarChart':
+      return animatedStackedBarGraphDataSchema;
+    case 'animatedHorizontalGroupedBarChart':
+      return animatedGroupedBarGraphDataSchema;
+    case 'animatedVerticalBarChart':
+      return animatedBarGraphDataSchema;
+    case 'animatedVerticalStackedBarChart':
+      return animatedStackedBarGraphDataSchema;
+    case 'animatedVerticalGroupedBarChart':
+      return animatedGroupedBarGraphDataSchema;
+    case 'lineChart':
+      return lineChartDataSchema;
+    case 'dualAxisLineChart':
+      return dualAxisLineChartDataSchema;
+    case 'differenceLineChart':
+      return differenceLineChartDataSchema;
+    case 'multiLineChart':
+      return multiLineChartDataSchema;
+    case 'stackedAreaChart':
+      return areaChartDataSchema;
+    case 'choroplethMap':
+      return choroplethMapDataSchema;
+    case 'biVariateChoroplethMap':
+      return biVariateChoroplethMapDataSchema;
+    case 'dotDensityMap':
+      return dotDensityMapDataSchema;
+    case 'animatedChoroplethMap':
+      return animatedChoroplethMapDataSchema;
+    case 'animatedBiVariateChoroplethMap':
+      return animatedBiVariateChoroplethMapDataSchema;
+    case 'animatedDotDensityMap':
+      return animatedDotDensityMapDataSchema;
+    case 'donutChart':
+      return donutChartDataSchema;
+    case 'slopeChart':
+      return slopeChartDataSchema;
+    case 'scatterPlot':
+      return scatterPlotDataSchema;
+    case 'animatedScatterPlot':
+      return animatedScatterPlotDataSchema;
+    case 'horizontalDumbbellChart':
+      return dumbbellChartDataSchema;
+    case 'verticalDumbbellChart':
+      return dumbbellChartDataSchema;
+    case 'animatedHorizontalDumbbellChart':
+      return animatedDumbbellChartDataSchema;
+    case 'animatedVerticalDumbbellChart':
+      return animatedDumbbellChartDataSchema;
+    case 'treeMap':
+      return treeMapDataSchema;
+    case 'circlePacking':
+      return circlePackingDataSchema;
+    case 'heatMap':
+      return heatMapDataSchema;
+    case 'horizontalStripChart':
+      return stripChartDataSchema;
+    case 'verticalStripChart':
+      return stripChartDataSchema;
+    case 'horizontalBeeSwarmChart':
+      return beeSwarmChartDataSchema;
+    case 'verticalBeeSwarmChart':
+      return beeSwarmChartDataSchema;
+    case 'butterflyChart':
+      return butterflyChartDataSchema;
+    case 'animatedButterflyChart':
+      return animatedButterflyChartDataSchema;
+    case 'histogram':
+      return histogramDataSchema;
+    case 'sparkLine':
+      return lineChartDataSchema;
+    case 'paretoChart':
+      return paretoChartDataSchema;
+    case 'statCard':
+      return statCardDataSchema;
+    case 'unitChart':
+      return unitChartDataSchema;
+    case 'sankeyChart':
+      return sankeyChartDataSchema;
+    default:
+      console.error('Unknown chart type:', graph);
+      return null;
+  }
+}
+
+export function getSettingsSchema(graph: GraphType) {
+  switch (graph) {
+    case 'horizontalBarChart':
+      return simpleBarChartSettingsSchema;
+    case 'horizontalStackedBarChart':
+      return stackedBarChartSettingsSchema;
+    case 'horizontalGroupedBarChart':
+      return groupedBarChartSettingsSchema;
+    case 'verticalBarChart':
+      return simpleBarChartSettingsSchema;
+    case 'verticalStackedBarChart':
+      return stackedBarChartSettingsSchema;
+    case 'verticalGroupedBarChart':
+      return groupedBarChartSettingsSchema;
+    case 'animatedHorizontalBarChart':
+      return animatedSimpleBarChartSettingsSchema;
+    case 'animatedHorizontalStackedBarChart':
+      return animatedStackedBarChartSettingsSchema;
+    case 'animatedHorizontalGroupedBarChart':
+      return animatedGroupedBarChartSettingsSchema;
+    case 'animatedVerticalBarChart':
+      return animatedSimpleBarChartSettingsSchema;
+    case 'animatedVerticalStackedBarChart':
+      return animatedStackedBarChartSettingsSchema;
+    case 'animatedVerticalGroupedBarChart':
+      return animatedGroupedBarChartSettingsSchema;
+    case 'lineChart':
+      return lineChartSettingsSchema;
+    case 'dualAxisLineChart':
+      return dualAxisLineChartSettingsSchema;
+    case 'multiLineChart':
+      return multiLineChartSettingsSchema;
+    case 'differenceLineChart':
+      return differenceLineChartSettingsSchema;
+    case 'stackedAreaChart':
+      return stackedAreaChartSettingsSchema;
+    case 'choroplethMap':
+      return choroplethMapSettingsSchema;
+    case 'biVariateChoroplethMap':
+      return biVariateChoroplethMapSettingsSchema;
+    case 'dotDensityMap':
+      return dotDensityMapSettingsSchema;
+    case 'animatedChoroplethMap':
+      return animatedChoroplethMapSettingsSchema;
+    case 'animatedBiVariateChoroplethMap':
+      return animatedBiVariateChoroplethMapSettingsSchema;
+    case 'animatedDotDensityMap':
+      return animatedDotDensityMapSettingsSchema;
+    case 'donutChart':
+      return donutChartSettingsSchema;
+    case 'slopeChart':
+      return slopeChartSettingsSchema;
+    case 'scatterPlot':
+      return scatterPlotSettingsSchema;
+    case 'animatedScatterPlot':
+      return animatedScatterPlotSettingsSchema;
+    case 'horizontalDumbbellChart':
+      return dumbbellChartSettingsSchema;
+    case 'verticalDumbbellChart':
+      return dumbbellChartSettingsSchema;
+    case 'animatedHorizontalDumbbellChart':
+      return animatedDumbbellChartSettingsSchema;
+    case 'animatedVerticalDumbbellChart':
+      return animatedDumbbellChartSettingsSchema;
+    case 'treeMap':
+      return treeMapSettingsSchema;
+    case 'circlePacking':
+      return circlePackingSettingsSchema;
+    case 'heatMap':
+      return heatMapSettingsSchema;
+    case 'horizontalStripChart':
+      return stripChartSettingsSchema;
+    case 'verticalStripChart':
+      return stripChartSettingsSchema;
+    case 'horizontalBeeSwarmChart':
+      return beeSwarmChartSettingsSchema;
+    case 'verticalBeeSwarmChart':
+      return beeSwarmChartSettingsSchema;
+    case 'butterflyChart':
+      return butterflyChartSettingsSchema;
+    case 'animatedButterflyChart':
+      return animatedButterflyChartSettingsSchema;
+    case 'histogram':
+      return histogramSettingsSchema;
+    case 'sparkLine':
+      return sparkLineSettingsSchema;
+    case 'paretoChart':
+      return paretoChartSettingsSchema;
+    case 'dataTable':
+      return dataTableSettingsSchema;
+    case 'statCard':
+      return statCardSettingsSchema;
+    case 'geoHubCompareMap':
+      return geoHubCompareMapSettingsSchema;
+    case 'geoHubMap':
+      return geoHubMapSettingsSchema;
+    case 'geoHubMapWithLayerSelection':
+      return geoHubMapWithLayerSelectionSettingsSchema;
+    case 'unitChart':
+      return unitChartSettingsSchema;
+    case 'sankeyChart':
+      return sankeyChartSettingsSchema;
+    default:
+      console.error('Unknown chart type:', graph);
+      return null;
+  }
+}
+
+function getColumnEnum(columns?: string[]) {
+  if (columns) return { enum: columns };
+  return {};
+}
+
+export const getDataSettingsSchema = (columnList?: string[]) => ({
   properties: {
-    graphSettings: SettingsSchema,
-    dataSettings: {
-      type: 'object',
-      properties: {
-        dataURL: { type: 'string' },
-        fileType: { type: 'string', enum: ['csv', 'json'] },
-        delimiter: { type: 'string' },
-        columnsToArray: {
+    columnsToArray: {
+      items: {
+        properties: {
+          column: {
+            type: 'string',
+            ...getColumnEnum(columnList),
+          },
+          delimiter: {
+            type: 'string',
+          },
+        },
+        type: 'object',
+        required: ['column'],
+      },
+      type: 'array',
+    },
+    data: {},
+    dataURL: {
+      oneOf: [
+        { type: 'string' },
+        {
           type: 'array',
           items: {
             type: 'object',
             properties: {
-              column: { type: 'string' },
-              delimiter: { type: 'string' },
+              fileType: {
+                enum: ['csv', 'json', 'api'],
+                type: 'string',
+              },
+              apiHeaders: {},
+              apiRequestBody: {},
+              apiMethod: {
+                enum: ['POST', 'GET', 'DELETE', 'PUT'],
+                type: 'string',
+              },
+              dataTransformation: {
+                type: 'string',
+              },
+              idColumnName: {
+                type: 'string',
+              },
+              dataURL: { type: 'string' },
+              delimiter: {
+                type: 'string',
+              },
+              columnsToArray: {
+                items: {
+                  properties: {
+                    column: {
+                      type: 'string',
+                    },
+                    delimiter: {
+                      type: 'string',
+                    },
+                  },
+                  type: 'object',
+                  required: ['column'],
+                },
+                type: 'array',
+              },
             },
-            required: ['column'],
+            required: ['dataURL', 'idColumnName'],
           },
         },
-        data: { type: 'array', items: {} },
+      ],
+    },
+    delimiter: {
+      type: 'string',
+    },
+    fileType: {
+      enum: ['csv', 'json', 'api'],
+      type: 'string',
+    },
+    apiHeaders: {},
+    apiRequestBody: {},
+    apiMethod: {
+      enum: ['POST', 'GET', 'DELETE', 'PUT'],
+      type: 'string',
+    },
+    dataTransformation: {
+      type: 'string',
+    },
+    idColumnTitle: {
+      type: 'string',
+    },
+  },
+  type: 'object',
+});
+
+export const getReadableHeaderSchema = (columnList?: string[]) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      value: { type: 'string', ...getColumnEnum(columnList) },
+      label: {
+        type: 'string',
       },
     },
-    filters: {
-      items: {
-        properties: {
-          clearable: {
-            type: 'boolean',
-          },
-          excludeValues: {
+    required: ['value', 'label'],
+  },
+});
+
+export const getFiltersSchema = (columnList?: string[]) => ({
+  items: {
+    properties: {
+      clearable: {
+        type: 'boolean',
+      },
+      excludeValues: {
+        items: {
+          type: 'string',
+        },
+        type: 'array',
+      },
+      column: {
+        type: 'string',
+        ...getColumnEnum(columnList),
+      },
+      defaultValue: {
+        anyOf: [
+          {
             items: {
               type: 'string',
             },
             type: 'array',
           },
-          column: {
+          {
             type: 'string',
           },
-          defaultValue: {
-            anyOf: [
-              {
-                items: {
-                  type: 'string',
-                },
-                type: 'array',
-              },
-              {
-                type: 'string',
-              },
-            ],
-          },
-          label: {
-            type: 'string',
-          },
-          singleSelect: {
-            type: 'boolean',
-          },
-        },
-        required: ['column'],
-        type: 'object',
+        ],
       },
-      type: 'array',
-    },
-    graphType: {
-      type: 'string',
-      enum: GraphList.map(el => el.graphID),
-    },
-    dataTransform: {
-      type: 'object',
-      properties: {
-        keyColumn: { type: 'string' },
-        aggregationColumnsSetting: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              aggregationMethod: {
-                type: 'string',
-                enum: ['sum', 'average', 'min', 'max'],
-              },
-            },
-            required: ['column'],
-          },
-        },
+      label: {
+        type: 'string',
       },
-      required: ['keyColumn'],
-    },
-    dataFilters: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          column: { type: 'string' },
-          includeValues: {
-            type: 'array',
-            items: {
-              oneOf: [
-                { type: 'string' },
-                { type: 'number' },
-                { type: 'boolean' },
-                { type: 'null' },
-              ],
-            },
-          },
-          excludeValues: {
-            type: 'array',
-            items: {
-              oneOf: [
-                { type: 'string' },
-                { type: 'number' },
-                { type: 'boolean' },
-                { type: 'null' },
-              ],
-            },
-          },
-        },
-        required: ['column'],
+      singleSelect: {
+        type: 'boolean',
       },
     },
-    graphDataConfiguration: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          columnId: {
-            oneOf: [
-              { type: 'string' },
-              { type: 'array', items: { type: 'string' } },
-            ],
-          },
-          chartConfigId: { type: 'string' },
-        },
-        required: ['columnId', 'chartConfigId'],
-      },
-    },
-    readableHeader: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-        },
-        required: ['value', 'label'],
-      },
-    },
-    dataSelectionOptions: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          chartConfigId: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-          allowedColumnIds: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                value: { type: 'string' },
-                label: {
-                  type: 'string',
-                },
-              },
-              required: ['value', 'label'],
-            },
-            minItems: 1,
-          },
-          ui: { type: 'string', enum: ['select', 'radio'] },
-        },
-        required: ['chartConfigId', 'allowedColumnIds'],
-      },
-    },
-    debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
+    required: ['column'],
+    type: 'object',
   },
-  required: ['dataSettings', 'graphType'],
-};
+  type: 'array',
+});
 
-export const singleGraphForGeoHubMapJSONSchema = {
-  type: 'object',
-  properties: {
-    graphSettings: SettingsSchema,
-    graphType: {
-      type: 'string',
-      enum: GraphList.filter(el => el.geoHubMapPresentation).map(
-        el => el.graphID,
-      ),
-    },
-    debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
-  },
-  required: ['graphType'],
-};
-
-export const griddedGraphJSONSchema = {
-  type: 'object',
-  properties: {
-    graphSettings: SettingsSchema,
-    dataSettings: {
-      type: 'object',
-      properties: {
-        dataURL: { type: 'string' },
-        fileType: { type: 'string', enum: ['csv', 'json'] },
-        delimiter: { type: 'string' },
-        columnsToArray: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              delimiter: { type: 'string' },
-            },
-            required: ['column'],
-          },
-        },
-        data: { type: 'array', items: {} },
+export const getDataSelectionSchema = (columnList?: string[]) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      chartConfigId: { type: 'string' },
+      label: {
+        type: 'string',
       },
-    },
-    filters: {
-      items: {
-        properties: {
-          clearable: {
-            type: 'boolean',
-          },
-          excludeValues: {
-            items: {
+      allowedColumnIds: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            value: { type: 'string', ...getColumnEnum(columnList) },
+            label: {
               type: 'string',
             },
-            type: 'array',
           },
-          column: {
+          required: ['value', 'label'],
+        },
+        minItems: 1,
+      },
+      ui: { type: 'string', enum: ['select', 'radio'] },
+    },
+    required: ['chartConfigId', 'allowedColumnIds'],
+  },
+});
+
+export const getDataFiltersSchema = (columnList?: string[]) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      column: { type: 'string', ...getColumnEnum(columnList) },
+      includeValues: {
+        type: 'array',
+        items: {
+          oneOf: [
+            { type: 'string' },
+            { type: 'number' },
+            { type: 'boolean' },
+            { type: 'null' },
+          ],
+        },
+      },
+      excludeValues: {
+        type: 'array',
+        items: {
+          oneOf: [
+            { type: 'string' },
+            { type: 'number' },
+            { type: 'boolean' },
+            { type: 'null' },
+          ],
+        },
+      },
+    },
+    required: ['column'],
+  },
+});
+
+export const getDataTransformSchema = (columnList?: string[]) => ({
+  type: 'object',
+  properties: {
+    keyColumn: { type: 'string', ...getColumnEnum(columnList) },
+    aggregationColumnsSetting: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          column: { type: 'string', ...getColumnEnum(columnList) },
+          aggregationMethod: {
             type: 'string',
-          },
-          defaultValue: {
-            anyOf: [
-              {
-                items: {
-                  type: 'string',
-                },
-                type: 'array',
-              },
-              {
-                type: 'string',
-              },
-            ],
-          },
-          label: {
-            type: 'string',
-          },
-          singleSelect: {
-            type: 'boolean',
+            enum: ['sum', 'average', 'min', 'max'],
           },
         },
         required: ['column'],
-        type: 'object',
       },
-      type: 'array',
     },
+  },
+  required: ['keyColumn'],
+});
+
+export const getGraphDataConfigurationSchema = (columnList?: string[]) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      columnId: {
+        oneOf: [
+          { type: 'string', ...getColumnEnum(columnList) },
+          {
+            type: 'array',
+            items: { type: 'string', ...getColumnEnum(columnList) },
+          },
+        ],
+      },
+      chartConfigId: { type: 'string' },
+    },
+    required: ['columnId', 'chartConfigId'],
+  },
+});
+
+export const getSingleGraphJSONSchema = (
+  columnList?: string[],
+  graphType?: GraphType,
+) =>
+  graphType === 'geoHubMap' ||
+  graphType === 'geoHubCompareMap' ||
+  graphType === 'geoHubMapWithLayerSelection'
+    ? {
+        type: 'object',
+        properties: {
+          graphSettings: SettingsSchema,
+          graphType: {
+            type: 'string',
+            enum: GraphList.filter(el => el.geoHubMapPresentation).map(
+              el => el.graphID,
+            ),
+          },
+          debugMode: { type: 'boolean' },
+          mode: { type: 'string', enum: ['dark', 'light'] },
+        },
+        required: ['graphType'],
+      }
+    : {
+        type: 'object',
+        properties: {
+          graphSettings: graphType
+            ? getSettingsSchema(graphType)
+            : SettingsSchema,
+          dataSettings: getDataSettingsSchema(columnList),
+          filters: getFiltersSchema(columnList),
+          graphType: {
+            type: 'string',
+            enum: GraphList.map(el => el.graphID),
+          },
+          dataTransform: getDataTransformSchema(columnList),
+          dataFilters: getDataFiltersSchema(columnList),
+          graphDataConfiguration: getGraphDataConfigurationSchema(columnList),
+          readableHeader: getReadableHeaderSchema(columnList),
+          dataSelectionOptions: getDataSelectionSchema(columnList),
+          debugMode: { type: 'boolean' },
+          mode: { type: 'string', enum: ['dark', 'light'] },
+        },
+        required: ['dataSettings', 'graphType'],
+      };
+
+export const getGriddedGraphJSONSchema = (
+  columnList?: string[],
+  graphType?: GraphType,
+) => ({
+  type: 'object',
+  properties: {
+    graphSettings: graphType ? getSettingsSchema(graphType) : SettingsSchema,
+    dataSettings: getDataSettingsSchema(columnList),
+    filters: getFiltersSchema(columnList),
     graphType: {
       type: 'string',
       enum: GraphList.filter(el => el.availableInGriddedGraph !== false).map(
         el => el.graphID,
       ),
     },
-    dataTransform: {
-      type: 'object',
-      properties: {
-        keyColumn: { type: 'string' },
-        aggregationColumnsSetting: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              aggregationMethod: {
-                type: 'string',
-                enum: ['sum', 'average', 'min', 'max'],
-              },
-            },
-            required: ['column'],
-          },
-        },
-      },
-      required: ['keyColumn'],
-    },
-    dataFilters: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          column: { type: 'string' },
-          excludeValues: {
-            type: 'array',
-            items: {
-              oneOf: [
-                { type: 'string' },
-                { type: 'number' },
-                { type: 'boolean' },
-                { type: 'null' },
-              ],
-            },
-          },
-          includeValues: {
-            type: 'array',
-            items: {
-              oneOf: [
-                { type: 'string' },
-                { type: 'number' },
-                { type: 'boolean' },
-                { type: 'null' },
-              ],
-            },
-          },
-        },
-        required: ['column'],
-      },
-    },
-    graphDataConfiguration: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          columnId: {
-            oneOf: [
-              { type: 'string' },
-              { type: 'array', items: { type: 'string' } },
-            ],
-          },
-          chartConfigId: { type: 'string' },
-        },
-        required: ['columnId', 'chartConfigId'],
-      },
-    },
+    dataTransform: getDataTransformSchema(columnList),
+    dataFilters: getDataFiltersSchema(columnList),
+    graphDataConfiguration: getGraphDataConfigurationSchema(columnList),
     noOfColumns: { type: 'number' },
     columnGridBy: { type: 'string' },
     relativeHeightForGraph: { type: 'number' },
     showCommonColorScale: { type: 'boolean' },
     minGraphHeight: { type: 'number' },
     minGraphWidth: { type: 'number' },
-    readableHeader: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-        },
-        required: ['value', 'label'],
-      },
-    },
-    dataSelectionOptions: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          chartConfigId: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-          allowedColumnIds: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                value: { type: 'string' },
-                label: {
-                  type: 'string',
-                },
-              },
-              required: ['value', 'label'],
-            },
-            minItems: 1,
-          },
-          ui: { type: 'string', enum: ['select', 'radio'] },
-        },
-        required: ['chartConfigId', 'allowedColumnIds'],
-      },
-    },
+    readableHeader: getReadableHeaderSchema(columnList),
+    dataSelectionOptions: getDataSelectionSchema(columnList),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
   },
   required: ['columnGridBy', 'dataSettings', 'graphType'],
-};
+});
 
-export const dashboardJSONSchema = {
+export const getDashboardJSONSchema = (columnList?: string[]) => ({
   properties: {
     dashboardId: {
       type: 'string',
@@ -5670,6 +5835,12 @@ export const dashboardJSONSchema = {
         padding: {
           type: 'string',
         },
+        rtl: {
+          type: 'boolean',
+        },
+        title: {
+          type: 'string',
+        },
         rows: {
           items: {
             properties: {
@@ -5679,123 +5850,15 @@ export const dashboardJSONSchema = {
                     columnWidth: {
                       type: 'number',
                     },
-                    dataFilters: {
-                      items: {
-                        properties: {
-                          column: {
-                            type: 'string',
-                          },
-                          excludeValues: {
-                            type: 'array',
-                            items: {
-                              oneOf: [
-                                { type: 'string' },
-                                { type: 'number' },
-                                { type: 'boolean' },
-                                { type: 'null' },
-                              ],
-                            },
-                          },
-                          includeValues: {
-                            type: 'array',
-                            items: {
-                              oneOf: [
-                                { type: 'string' },
-                                { type: 'number' },
-                                { type: 'boolean' },
-                                { type: 'null' },
-                              ],
-                            },
-                          },
-                        },
-                        type: 'object',
-                        required: ['column'],
-                      },
-                      type: 'array',
-                    },
-                    dataTransform: {
-                      properties: {
-                        aggregationColumnsSetting: {
-                          items: {
-                            properties: {
-                              aggregationMethod: {
-                                enum: ['average', 'max', 'min', 'sum'],
-                                type: 'string',
-                              },
-                              column: {
-                                type: 'string',
-                              },
-                            },
-                            type: 'object',
-                            required: ['column'],
-                          },
-                          type: 'array',
-                        },
-                        keyColumn: {
-                          type: 'string',
-                        },
-                      },
-                      required: ['keyColumn'],
-                      type: 'object',
-                    },
-                    graphDataConfiguration: {
-                      items: {
-                        properties: {
-                          chartConfigId: {
-                            type: 'string',
-                          },
-                          columnId: {
-                            anyOf: [
-                              {
-                                items: {
-                                  type: 'string',
-                                },
-                                type: 'array',
-                              },
-                              {
-                                type: 'string',
-                              },
-                            ],
-                          },
-                        },
-                        required: ['chartConfigId', 'columnId'],
-                        type: 'object',
-                      },
-                      type: 'array',
-                    },
+                    dataFilters: getDataFiltersSchema(),
+                    dataTransform: getDataTransformSchema(),
+                    graphDataConfiguration: getGraphDataConfigurationSchema(),
                     graphType: {
                       enum: GraphList.map(el => el.graphID),
                       type: 'string',
                     },
                     settings: SettingsSchema,
-                    dataSelectionOptions: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          chartConfigId: { type: 'string' },
-                          label: {
-                            type: 'string',
-                          },
-                          allowedColumnIds: {
-                            type: 'array',
-                            items: {
-                              type: 'object',
-                              properties: {
-                                value: { type: 'string' },
-                                label: {
-                                  type: 'string',
-                                },
-                              },
-                              required: ['value', 'label'],
-                            },
-                            minItems: 1,
-                          },
-                          ui: { type: 'string', enum: ['select', 'radio'] },
-                        },
-                        required: ['chartConfigId', 'allowedColumnIds'],
-                      },
-                    },
+                    dataSelectionOptions: getDataSelectionSchema(),
                   },
                   type: 'object',
                   required: ['graphType'],
@@ -5811,108 +5874,22 @@ export const dashboardJSONSchema = {
           },
           type: 'array',
         },
-        rtl: {
-          type: 'boolean',
-        },
-        title: {
-          type: 'string',
-        },
       },
       type: 'object',
       required: ['rows'],
     },
-    dataSettings: {
-      properties: {
-        columnsToArray: {
-          items: {
-            properties: {
-              column: {
-                type: 'string',
-              },
-              delimiter: {
-                type: 'string',
-              },
-            },
-            type: 'object',
-            required: ['column'],
-          },
-          type: 'array',
-        },
-        data: {},
-        dataURL: {
-          type: 'string',
-        },
-        delimiter: {
-          type: 'string',
-        },
-        fileType: {
-          enum: ['csv', 'json'],
-          type: 'string',
-        },
-      },
-      type: 'object',
-    },
-    filters: {
-      items: {
-        properties: {
-          clearable: {
-            type: 'boolean',
-          },
-          excludeValues: {
-            items: {
-              type: 'string',
-            },
-            type: 'array',
-          },
-          column: {
-            type: 'string',
-          },
-          defaultValue: {
-            anyOf: [
-              {
-                items: {
-                  type: 'string',
-                },
-                type: 'array',
-              },
-              {
-                type: 'string',
-              },
-            ],
-          },
-          label: {
-            type: 'string',
-          },
-          singleSelect: {
-            type: 'boolean',
-          },
-        },
-        required: ['column'],
-        type: 'object',
-      },
-      type: 'array',
-    },
-    readableHeader: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-        },
-        required: ['value', 'label'],
-      },
-    },
+    dataSettings: getDataSettingsSchema(columnList),
+    filters: getFiltersSchema(columnList),
+    readableHeader: getReadableHeaderSchema(columnList),
+    dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],
-};
+});
 
-export const dashboardWideToLongFormatJSONSchema = {
+export const getDashboardWideToLongFormatJSONSchema = () => ({
   properties: {
     dashboardId: {
       type: 'string',
@@ -5932,6 +5909,12 @@ export const dashboardWideToLongFormatJSONSchema = {
         padding: {
           type: 'string',
         },
+        rtl: {
+          type: 'boolean',
+        },
+        title: {
+          type: 'string',
+        },
         rows: {
           items: {
             properties: {
@@ -5941,65 +5924,8 @@ export const dashboardWideToLongFormatJSONSchema = {
                     columnWidth: {
                       type: 'number',
                     },
-                    dataFilters: {
-                      items: {
-                        properties: {
-                          column: {
-                            type: 'string',
-                          },
-                          excludeValues: {
-                            type: 'array',
-                            items: {
-                              oneOf: [
-                                { type: 'string' },
-                                { type: 'number' },
-                                { type: 'boolean' },
-                                { type: 'null' },
-                              ],
-                            },
-                          },
-                          includeValues: {
-                            type: 'array',
-                            items: {
-                              oneOf: [
-                                { type: 'string' },
-                                { type: 'number' },
-                                { type: 'boolean' },
-                                { type: 'null' },
-                              ],
-                            },
-                          },
-                        },
-                        type: 'object',
-                        required: ['column'],
-                      },
-                      type: 'array',
-                    },
-                    graphDataConfiguration: {
-                      items: {
-                        properties: {
-                          chartConfigId: {
-                            type: 'string',
-                          },
-                          columnId: {
-                            anyOf: [
-                              {
-                                items: {
-                                  type: 'string',
-                                },
-                                type: 'array',
-                              },
-                              {
-                                type: 'string',
-                              },
-                            ],
-                          },
-                        },
-                        required: ['chartConfigId', 'columnId'],
-                        type: 'object',
-                      },
-                      type: 'array',
-                    },
+                    dataFilters: getDataFiltersSchema(),
+                    graphDataConfiguration: getGraphDataConfigurationSchema(),
                     graphType: {
                       enum: GraphList.filter(
                         el => el.availableInWideToLongFormat,
@@ -6022,84 +5948,25 @@ export const dashboardWideToLongFormatJSONSchema = {
           },
           type: 'array',
         },
-        rtl: {
-          type: 'boolean',
-        },
-        title: {
-          type: 'string',
-        },
       },
       type: 'object',
       required: ['rows'],
     },
     dataSettings: {
       properties: {
-        data: {},
-        dataURL: {
-          type: 'string',
-        },
-        delimiter: {
-          type: 'string',
-        },
-        fileType: {
-          enum: ['csv', 'json'],
-          type: 'string',
-        },
+        ...getDataSettingsSchema(),
         keyColumn: {
           type: 'string',
-        },
-        dataFilters: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              includeValues: {
-                type: 'array',
-                items: {
-                  oneOf: [
-                    { type: 'string' },
-                    { type: 'number' },
-                    { type: 'boolean' },
-                    { type: 'null' },
-                  ],
-                },
-              },
-              excludeValues: {
-                type: 'array',
-                items: {
-                  oneOf: [
-                    { type: 'string' },
-                    { type: 'number' },
-                    { type: 'boolean' },
-                    { type: 'null' },
-                  ],
-                },
-              },
-            },
-            required: ['column'],
-          },
         },
       },
       required: ['keyColumn'],
       type: 'object',
     },
-    readableHeader: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          value: { type: 'string' },
-          label: {
-            type: 'string',
-          },
-        },
-        required: ['value', 'label'],
-      },
-    },
+    dataFilters: getDataFiltersSchema(),
+    readableHeader: getReadableHeaderSchema(),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],
-};
+});

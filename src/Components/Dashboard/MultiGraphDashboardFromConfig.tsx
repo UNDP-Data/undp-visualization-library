@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   DashboardLayoutDataType,
+  DataFilterDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
 } from '../../Types';
@@ -20,6 +21,7 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
+  dataFilters?: DataFilterDataType[];
 }
 
 interface Props {
@@ -66,6 +68,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       debugMode={configSettings.debugMode}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
+      dataFilters={configSettings.dataFilters}
     />
   );
 }

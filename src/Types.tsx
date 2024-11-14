@@ -457,7 +457,6 @@ export interface DataSettingsWideToLongDataType {
   apiHeaders?: any;
   apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
   apiRequestBody?: any;
-  dataFilters?: DataFilterDataType[];
 }
 
 export interface AggregationSettingsDataType {
