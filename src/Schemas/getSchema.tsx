@@ -992,7 +992,7 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     },
     dataSettings: {
       properties: {
-        ...getDataSettingsSchema(),
+        ...getDataSettingsSchema().properties,
         keyColumn: {
           type: 'string',
         },

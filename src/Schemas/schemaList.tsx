@@ -7,7 +7,7 @@ export const treeMapDataSchema = {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
       size: {
-        oneOf: [{ type: 'null' }, { type: 'number' }],
+        oneOf: [{ type: 'number' }, { type: 'null' }],
       },
       color: { type: 'string' },
       data: { type: 'object' },
@@ -25,7 +25,7 @@ export const circlePackingDataSchema = {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
       size: {
-        oneOf: [{ type: 'null' }, { type: 'number' }],
+        oneOf: [{ type: 'number' }, { type: 'null' }],
       },
       color: { type: 'string' },
       data: { type: 'object' },
@@ -103,7 +103,7 @@ export const barGraphDataSchema = {
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
-      size: { type: ['number', 'null'] },
+      size: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       color: { type: 'string' },
       data: { type: 'object' },
     },
@@ -121,7 +121,7 @@ export const groupedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null'] },
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       data: { type: 'object' },
     },
@@ -139,7 +139,7 @@ export const stackedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null'] },
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       data: { type: 'object' },
     },
@@ -155,7 +155,7 @@ export const animatedBarGraphDataSchema = {
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
-      size: { type: ['number', 'null'] },
+      size: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
@@ -176,7 +176,7 @@ export const animatedGroupedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null'] },
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
@@ -197,7 +197,7 @@ export const animatedStackedBarGraphDataSchema = {
       },
       size: {
         type: 'array',
-        items: { type: ['number', 'null'] },
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
@@ -309,8 +309,8 @@ export const biVariateChoroplethMapDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: ['number', 'null'] },
-      y: { type: ['number', 'null'] },
+      x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+      y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       countryCode: { type: 'string' },
       data: { type: 'object' },
     },
@@ -341,8 +341,8 @@ export const animatedBiVariateChoroplethMapDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: ['number', 'null'] },
-      y: { type: ['number', 'null'] },
+      x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+      y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       countryCode: { type: 'string' },
       data: { type: 'object' },
       date: {
@@ -378,7 +378,7 @@ export const multiLineChartDataSchema = {
       },
       y: {
         type: 'array',
-        items: { type: ['number', 'null'] },
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       data: { type: 'object' },
     },
@@ -409,8 +409,8 @@ export const scatterPlotDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: ['number', 'null'] },
-      y: { type: ['number', 'null'] },
+      x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+      y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       radius: { type: 'number' },
       color: { type: 'string' },
       label: {
@@ -426,8 +426,8 @@ export const animatedScatterPlotDataSchema = {
   items: {
     type: 'object',
     properties: {
-      x: { type: ['number', 'null'] },
-      y: { type: ['number', 'null'] },
+      x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+      y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       radius: { type: 'number' },
       color: { type: 'string' },
       date: {
@@ -3480,17 +3480,14 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
     layerSelection: {
       type: 'array',
       items: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
-          },
-          required: ['name', 'layerID'],
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
         },
-        minItems: 1,
+        required: ['name', 'layerID'],
       },
+      minItems: 1,
     },
     excludeLayers: {
       type: 'array',
@@ -4455,17 +4452,14 @@ export const SettingsSchema = {
     layerSelection: {
       type: 'array',
       items: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
-          },
-          required: ['name', 'layerID'],
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          layerID: { type: 'array', items: { type: 'string' }, minItems: 1 },
         },
-        minItems: 1,
+        required: ['name', 'layerID'],
       },
+      minItems: 1,
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
@@ -4475,7 +4469,7 @@ export const SettingsSchema = {
       type: 'string',
     },
     animateLine: {
-      type: ['number', 'boolean'],
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
     },
     annotations: {
       type: 'array',
@@ -4542,7 +4536,7 @@ export const SettingsSchema = {
       type: 'array',
     },
     backgroundColor: {
-      type: ['string', 'boolean'],
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
     barColor: {
       type: 'string',
@@ -4696,7 +4690,7 @@ export const SettingsSchema = {
     },
     countOnly: {
       items: {
-        type: ['string', 'number'],
+        oneOf: [{ type: 'string' }, { type: 'number' }],
       },
       type: 'array',
     },
@@ -4799,7 +4793,7 @@ export const SettingsSchema = {
     },
     highlightedDataPoints: {
       items: {
-        type: ['string', 'number'],
+        oneOf: [{ type: 'string' }, { type: 'number' }],
       },
       type: 'array',
     },
@@ -5187,9 +5181,7 @@ export const SettingsSchema = {
       minItems: 4,
       type: 'array',
     },
-    year: {
-      type: ['string', 'number'],
-    },
+    year: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     zoomLevel: {
       type: 'number',
     },
