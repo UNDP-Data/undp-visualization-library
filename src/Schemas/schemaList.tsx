@@ -368,6 +368,23 @@ export const lineChartDataSchema = {
   },
 };
 
+export const lineChartWithConfidenceIntervalDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      date: {
+        oneOf: [{ type: 'number' }, { type: 'string' }],
+      },
+      y: { type: 'number' },
+      yMin: { type: 'number' },
+      yMax: { type: 'number' },
+      data: { type: 'object' },
+    },
+    required: ['date', 'y', 'yMin', 'yMax'],
+  },
+};
+
 export const multiLineChartDataSchema = {
   type: 'array',
   items: {
@@ -2306,6 +2323,174 @@ export const lineChartSettingsSchema = {
   },
 };
 
+export const lineChartWithConfidenceIntervalSettingsSchema = {
+  type: 'object',
+  properties: {
+    ariaLabel: { type: 'string' },
+    graphID: { type: 'string' },
+    regressionLine: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    lineColor: { type: 'string' },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
+    noOfXTicks: { type: 'number' },
+    dateFormat: { type: 'string' },
+    showValues: { type: 'boolean' },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    refValues: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          xCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          yCoordinate: {
+            oneOf: [{ type: 'string' }, { type: 'number' }],
+          },
+          xOffset: {
+            type: 'number',
+          },
+          yOffset: {
+            type: 'number',
+          },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: {
+            oneOf: [{ type: 'boolean' }, { type: 'number' }],
+          },
+          connectorRadius: {
+            type: 'number',
+          },
+          maxWidth: {
+            type: 'number',
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
+    },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'string' }, { type: 'number' }],
+            },
+            minItems: 4,
+          },
+          color: {
+            type: 'string',
+          },
+          strokeWidth: {
+            type: 'number',
+          },
+          dashedStroke: {
+            type: 'boolean',
+          },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+    },
+    highlightAreaSettings: {
+      type: 'array',
+      items: {
+        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    highlightAreaColor: { type: 'string' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    animateLine: {
+      oneOf: [{ type: 'number' }, { type: 'boolean' }],
+    },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
+    showIntervalDots: { type: 'boolean' },
+    showIntervalValues: { type: 'boolean' },
+    intervalLineStrokeWidth: { type: 'number' },
+    intervalLineColors: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 2,
+      maxItems: 2,
+    },
+    intervalAreaColor: { type: 'string' },
+  },
+};
+
 export const differenceLineChartSettingsSchema = {
   type: 'object',
   properties: {
@@ -2476,10 +2661,9 @@ export const differenceLineChartSettingsSchema = {
     },
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
-    idSuffix: { type: 'string' },
     colorLegendTitle: { type: 'string' },
   },
-  required: ['labels', 'idSuffix'],
+  required: ['labels'],
 };
 
 export const multiLineChartSettingsSchema = {

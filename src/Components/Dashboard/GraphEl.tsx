@@ -60,6 +60,7 @@ import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 import { UNDPColorModule } from '../ColorPalette';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
+import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
 
 interface Props {
   graph: GraphType;
@@ -167,6 +168,7 @@ function GraphEl(props: Props) {
     differenceLineChart: DifferenceLineChart,
     geoHubMapWithLayerSelection: GeoHubMapWithLayerSelection,
     sankeyChart: SankeyChart,
+    lineChartWithConfidenceInterval: LineChartWithConfidenceInterval,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -825,6 +827,56 @@ function GraphEl(props: Props) {
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
         };
+      case 'lineChartWithConfidenceInterval':
+        return {
+          mode: settings?.mode,
+          data: graphData,
+          graphID: settings?.graphID,
+          lineColor: settings?.lineColor,
+          graphTitle: settings?.graphTitle,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          width: settings?.width,
+          height: settings?.height,
+          suffix: settings?.suffix,
+          prefix: settings?.prefix,
+          sources: settings?.sources,
+          noOfXTicks: settings?.noOfXTicks,
+          dateFormat: settings?.dateFormat,
+          showValues: settings?.showValues,
+          backgroundColor: settings?.backgroundColor,
+          padding: settings?.padding,
+          leftMargin: settings?.leftMargin,
+          rightMargin: settings?.rightMargin,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
+          relativeHeight: settings?.relativeHeight,
+          tooltip: settings?.tooltip,
+          refValues: settings?.refValues,
+          highlightAreaSettings: settings?.highlightAreaSettings as
+            | [number | string | null, number | string | null]
+            | undefined,
+          maxValue: settings?.maxValue,
+          minValue: settings?.minValue,
+          graphDownload: settings?.graphDownload,
+          dataDownload: settings?.dataDownload,
+          highlightAreaColor: settings?.highlightAreaColor,
+          rtl: settings?.rtl,
+          language: settings?.language,
+          minHeight: settings?.minHeight,
+          animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
+          regressionLine: settings?.regressionLine,
+          ariaLabel: settings?.ariaLabel,
+          showIntervalDots: settings?.showIntervalDots,
+          showIntervalValues: settings?.showIntervalValues,
+          intervalLineStrokeWidth: settings?.intervalLineStrokeWidth,
+          intervalLineColors: settings?.intervalLineColors,
+          intervalAreaColor: settings?.intervalAreaColor,
+        };
       case 'dualAxisLineChart':
         return {
           mode: settings?.mode,
@@ -971,7 +1023,6 @@ function GraphEl(props: Props) {
           strokeWidth: settings?.strokeWidth,
           showDots: settings?.showDots,
           colorLegendTitle: settings?.colorLegendTitle,
-          idSuffix: settings?.idSuffix,
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,

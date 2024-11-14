@@ -45,7 +45,8 @@ export type GraphTypeForGriddedGraph =
   | 'animatedHorizontalDumbbellChart'
   | 'animatedVerticalDumbbellChart'
   | 'animatedButterflyChart'
-  | 'sankeyChart';
+  | 'sankeyChart'
+  | 'lineChartWithConfidenceInterval';
 
 export type GeoHubGraphType =
   | 'geoHubCompareMap'
@@ -176,6 +177,14 @@ export interface BivariateMapWithDateDataType {
 export interface LineChartDataType {
   date: number | string;
   y: number;
+  data?: object;
+}
+
+export interface LineChartWithConfidenceIntervalDataType {
+  date: number | string;
+  y: number;
+  yMin: number;
+  yMax: number;
   data?: object;
 }
 
@@ -644,7 +653,6 @@ export interface GraphSettingsDataType {
   showOnlyActiveDate?: boolean;
   showDots?: boolean;
   diffAreaColors?: [string, string];
-  idSuffix?: string;
   mode?: 'dark' | 'light';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -668,4 +676,9 @@ export interface GraphSettingsDataType {
   targetColors?: string[] | string;
   sourceColorDomain?: string[];
   targetColorDomain?: string[];
+  showIntervalDots?: boolean;
+  showIntervalValues?: boolean;
+  intervalLineStrokeWidth?: number;
+  intervalLineColors?: [string, string];
+  intervalAreaColor?: string;
 }

@@ -77,6 +77,8 @@ import {
   unitChartSettingsSchema,
   sankeyChartSettingsSchema,
   SettingsSchema,
+  lineChartWithConfidenceIntervalDataSchema,
+  lineChartWithConfidenceIntervalSettingsSchema,
 } from './schemaList';
 
 export function getDataSchema(graph: GraphType) {
@@ -188,6 +190,8 @@ export function getDataSchema(graph: GraphType) {
       return unitChartDataSchema;
     case 'sankeyChart':
       return sankeyChartDataSchema;
+    case 'lineChartWithConfidenceInterval':
+      return lineChartWithConfidenceIntervalDataSchema;
     default:
       console.error('Unknown chart type:', graph);
       return null;
@@ -296,6 +300,8 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return unitChartSettingsSchema;
     case 'sankeyChart':
       return sankeyChartSettingsSchema;
+    case 'lineChartWithConfidenceInterval':
+      return lineChartWithConfidenceIntervalSettingsSchema;
     case 'allGraphs':
       return SettingsSchema;
     default:
@@ -400,6 +406,8 @@ export function getGraphConfigChartConfigIdEnum(
       return ['label', 'value'];
     case 'sparkLine':
       return ['date', 'y'];
+    case 'lineChartWithConfidenceInterval':
+      return ['date', 'y', 'yMin', 'yMax'];
     case 'dashboardWideToLong':
       return ['label', 'size', 'color', 'value'];
     case 'dashboard':
@@ -426,6 +434,8 @@ export function getGraphConfigChartConfigIdEnum(
         'countryCode',
         'source',
         'target',
+        'yMin',
+        'yMax',
       ];
     default:
       return [
@@ -451,6 +461,8 @@ export function getGraphConfigChartConfigIdEnum(
         'countryCode',
         'source',
         'target',
+        'yMin',
+        'yMax',
       ];
   }
 }

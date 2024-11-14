@@ -203,6 +203,13 @@ export const GraphList = [
     availableInWideToLongFormat: false,
   },
   {
+    graphName: 'Line chart with interval',
+    graphID: 'lineChartWithConfidenceInterval',
+    availableInGriddedGraph: true,
+    geoHubMapPresentation: false,
+    availableInWideToLongFormat: false,
+  },
+  {
     graphName: 'Spark line',
     graphID: 'sparkLine',
     availableInGriddedGraph: true,

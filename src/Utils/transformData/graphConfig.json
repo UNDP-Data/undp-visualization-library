@@ -860,6 +860,31 @@
         ]
     },
     {
+        "chartID": "lineChartWithConfidenceInterval",
+        "configuration": [
+            {
+                "id": "date",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "y",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "yMin",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "yMax",
+                "required": true,
+                "multiple": false
+            }
+        ]
+    },
+    {
         "chartID": "histogram",
         "configuration": [
             {
