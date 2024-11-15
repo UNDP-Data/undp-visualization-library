@@ -175,7 +175,7 @@ export function UnitChart(props: Props) {
                   style={{
                     lineHeight: 0,
                     width: width ? `${width}px` : '100%',
-                    marginBottom: '0.75rem',
+                    marginBottom: '1rem',
                   }}
                   aria-label='Color legend'
                 >
