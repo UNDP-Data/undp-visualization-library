@@ -22,6 +22,7 @@ export { HorizontalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/Horiz
 export { VerticalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/VerticalBeeSwarmChart';
 // Line Charts
 export { DualAxisLineChart } from './Components/Graphs/LineCharts/DualAxisLineChart';
+export { LineChartWithConfidenceInterval } from './Components/Graphs/LineCharts/LineChartWithConfidenceInterval';
 export { SimpleLineChart } from './Components/Graphs/LineCharts/LineChart';
 export { MultiLineChart } from './Components/Graphs/LineCharts/MultiLineChart';
 export { DifferenceLineChart } from './Components/Graphs/LineCharts/DifferenceLineChart';
