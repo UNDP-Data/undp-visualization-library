@@ -335,7 +335,7 @@ export function SingleGraphDashboard(props: Props) {
                       style={{
                         width: '25% - 0.75rem',
                         flexGrow: 1,
-                        flexShrink: 0,
+                        flexShrink: d.ui !== 'radio' ? 0 : 1,
                         minWidth: '240px',
                       }}
                       key={i}

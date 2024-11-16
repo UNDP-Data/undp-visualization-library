@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
+import { generateRandomString } from '../../Utils/generateRandomString';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
 interface Props {
@@ -15,89 +18,47 @@ interface Props {
 
 function Checkbox(props: Props) {
   const { rtl, options, onChange, defaultValue, language, mode } = props;
-  const [checkedItems, setCheckedItems] = useState(
-    options.map(d => ({
-      name: d.value.replace(/[^\p{L}0-9-_]+/gu, '_'),
-      checked: defaultValue ? defaultValue.indexOf(d.value) !== -1 : false,
-    })),
-  );
-  const [optionsForGroup, setOptionsForGroup] = useState(
-    options.map(d => ({
-      ...d,
-      name: d.value.replace(/[^\p{L}0-9-_]+/gu, '_'),
-    })),
-  );
-  const idString = Math.random().toString(36).substring(2, 8);
+  const [checkedItems, setCheckedItems] = useState(new Set(defaultValue || []));
 
-  const handleCheckboxChange = (event: any) => {
-    const checkedItemTemp = [...checkedItems];
-    checkedItemTemp[
-      checkedItemTemp.findIndex(d => d.name === event.target.name)
-    ].checked = event.target.checked;
-    setCheckedItems(checkedItemTemp);
-    onChange(
-      checkedItemTemp
-        .filter(d => d.checked)
-        .map(
-          d =>
-            optionsForGroup[optionsForGroup.findIndex(el => el.name === d.name)]
-              .value,
-        ),
-    );
-  };
-
-  useEffect(() => {
-    setCheckedItems(
-      options.map(d => ({
-        name: d.value.replace(/[^\p{L}0-9-_]+/gu, '_'),
-        checked: defaultValue ? defaultValue.indexOf(d.value) !== -1 : false,
-      })),
-    );
-  }, [defaultValue, options]);
-
-  useEffect(() => {
-    setCheckedItems(
-      options.map(d => ({
-        name: d.value.replace(/[^\p{L}0-9-_]+/gu, '_'),
-        checked: defaultValue ? defaultValue.indexOf(d.value) !== -1 : false,
-      })),
-    );
-  }, [options]);
-
-  useEffect(() => {
-    setOptionsForGroup(
-      options.map(d => ({
-        ...d,
-        name: d.value.replace(/[^\p{L}0-9-_]+/gu, '_'),
-      })),
-    );
-  }, [options]);
   return (
     <div
       style={{
         direction: rtl ? 'rtl' : 'ltr',
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '1rem',
+        gap: '0.375rem 1rem',
       }}
       className={`undp-viz-checkbox${
         rtl ? ` ${language || 'ar'}` : ` ${language || 'en'}`
       }${mode === 'dark' ? ` dark-mode` : ''}`}
     >
-      {optionsForGroup.map((d, i) => (
+      {options.map((d, i) => (
         <div className='undp-form-check' key={i}>
-          <input
-            type='checkbox'
-            className='undp-viz-checkbox'
-            name={d.name}
-            id={`${idString}-${d.name}`}
-            checked={
-              checkedItems[checkedItems.findIndex(el => el.name === d.name)]
-                .checked
-            }
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor={`${idString}-${d.name}`}>{d.label}</label>
+          <label
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <input
+              type='checkbox'
+              className='undp-viz-checkbox'
+              style={{ margin: rtl ? '0 0 0 0.5rem' : '0 0.5rem 0 0' }}
+              checked={checkedItems.has(d.value)}
+              onChange={() => {
+                const updatedValues = new Set(checkedItems);
+                if (updatedValues.has(d.value)) {
+                  updatedValues.delete(d.value);
+                } else {
+                  updatedValues.add(d.value);
+                }
+                setCheckedItems(updatedValues);
+                onChange(Array.from(updatedValues));
+              }}
+            />
+            {d.label}
+          </label>
         </div>
       ))}
     </div>
