@@ -31,6 +31,7 @@ import { checkIfMultiple } from '../../Utils/checkIfMultiple';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 import Checkbox from '../Elements/Checkbox';
 import Radio from '../Elements/Radio';
+import { GraphList } from '../../Utils/getGraphList';
 
 interface Props {
   graphSettings?: any;
@@ -289,9 +290,9 @@ export function SingleGraphDashboard(props: Props) {
           }}
         >
           {data ||
-          graphType === 'geoHubMap' ||
-          graphType === 'geoHubCompareMap' ||
-          graphType === 'geoHubMapWithLayerSelection' ? (
+          GraphList.filter(el => el.geoHubMapPresentation)
+            .map(el => el.graphID)
+            .indexOf(graphType) !== -1 ? (
             <>
               {graphSettings?.graphTitle ||
               graphSettings?.graphDescription ||

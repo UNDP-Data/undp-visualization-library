@@ -84,9 +84,9 @@ import {
 
 export function getDataSchema(graph: GraphType) {
   if (
-    graph === 'geoHubCompareMap' ||
-    graph === 'geoHubMap' ||
-    graph === 'geoHubMapWithLayerSelection'
+    GraphList.filter(el => el.geoHubMapPresentation)
+      .map(el => el.graphID)
+      .indexOf(graph) !== -1
   )
     return null;
 
@@ -731,9 +731,10 @@ export const getSingleGraphJSONSchema = (
   columnList?: string[],
   graphType?: GraphType,
 ) =>
-  graphType === 'geoHubMap' ||
-  graphType === 'geoHubCompareMap' ||
-  graphType === 'geoHubMapWithLayerSelection'
+  graphType &&
+  GraphList.filter(el => el.geoHubMapPresentation)
+    .map(el => el.graphID)
+    .indexOf(graphType) !== -1
     ? {
         type: 'object',
         properties: {
@@ -749,7 +750,7 @@ export const getSingleGraphJSONSchema = (
         },
         required: ['graphType'],
       }
-    : graphType === 'dataTable'
+    : graphType === 'dataTable' || graphType === 'dataCards'
     ? {
         type: 'object',
         properties: {
@@ -758,7 +759,7 @@ export const getSingleGraphJSONSchema = (
           filters: getFiltersSchema(columnList),
           graphType: {
             type: 'string',
-            enum: GraphList.map(el => el.graphID),
+            enum: ['dataTable', 'dataCards'],
           },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
@@ -801,7 +802,7 @@ export const getGriddedGraphJSONSchema = (
   columnList?: string[],
   graphType?: GraphType,
 ) =>
-  graphType === 'dataTable'
+  graphType === 'dataTable' || graphType === 'dataCards'
     ? {
         type: 'object',
         properties: {
@@ -810,9 +811,7 @@ export const getGriddedGraphJSONSchema = (
           filters: getFiltersSchema(columnList),
           graphType: {
             type: 'string',
-            enum: GraphList.filter(
-              el => el.availableInGriddedGraph !== false,
-            ).map(el => el.graphID),
+            enum: ['dataTable', 'dataCards'],
           },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),

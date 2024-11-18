@@ -8,14 +8,15 @@ import {
   getSettingsSchema,
   getSingleGraphJSONSchema,
 } from '../Schemas/getSchema';
+import { GraphList } from './getGraphList';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
 export function validateDataSchema(data: any, graph: GraphType) {
   if (
-    graph === 'geoHubCompareMap' ||
-    graph === 'geoHubMap' ||
-    graph === 'geoHubMapWithLayerSelection'
+    GraphList.filter(el => el.geoHubMapPresentation)
+      .map(el => el.graphID)
+      .indexOf(graph) !== -1
   )
     return {
       isValid: true,
@@ -27,7 +28,7 @@ export function validateDataSchema(data: any, graph: GraphType) {
       err: `No data provided`,
     };
   }
-  if (graph === 'dataTable' || data.length === 0)
+  if (graph === 'dataTable' || graph === 'dataCards' || data.length === 0)
     return {
       isValid: true,
       err: undefined,

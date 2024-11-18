@@ -356,4 +356,11 @@ export const GraphList = [
     geoHubMapPresentation: false,
     availableInWideToLongFormat: false,
   },
+  {
+    graphName: 'Data cards list',
+    graphID: 'dataCards',
+    availableInGriddedGraph: true,
+    geoHubMapPresentation: false,
+    availableInWideToLongFormat: false,
+  },
 ];

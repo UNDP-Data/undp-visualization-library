@@ -1,5 +1,6 @@
 import { GraphConfigurationDataType, GraphType } from '../../Types';
 import { checkDataConfigValidity } from '../checkDataValidity';
+import { GraphList } from '../getGraphList';
 import ChartConfiguration from './graphConfig.json';
 
 export function transformDataForGraph(
@@ -9,13 +10,14 @@ export function transformDataForGraph(
   config?: GraphConfigurationDataType[],
 ) {
   if (
-    graph === 'geoHubCompareMap' ||
-    graph === 'geoHubMap' ||
-    graph === 'geoHubMapWithLayerSelection'
+    GraphList.filter(el => el.geoHubMapPresentation)
+      .map(el => el.graphID)
+      .indexOf(graph) !== -1
   )
     return data;
   if (!data) return 'Cannot fetch data';
-  if (graph === 'dataTable' || data.length === 0) return data;
+  if (graph === 'dataTable' || graph === 'dataCards' || data.length === 0)
+    return data;
   if (!config) {
     console.error('Your data configuration is not accurate');
     return 'No graph configuration is provided';
