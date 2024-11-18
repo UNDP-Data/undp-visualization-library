@@ -51,6 +51,7 @@ export { UnitChart } from './Components/Graphs/UnitChart';
 export { HeatMap } from './Components/Graphs/HeatMap';
 // DataTable
 export { DataTable } from './Components/Graphs/DataTable';
+export { DataCards } from './Components/Graphs/DataCards';
 // Strip chart
 export { HorizontalStripChart } from './Components/Graphs/StripChart/HorizontalStripChart';
 export { VerticalStripChart } from './Components/Graphs/StripChart/VerticalStripChart';

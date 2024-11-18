@@ -795,3 +795,46 @@ input.undp-viz-checkbox[type=checkbox]:checked {
   font-family: "Noto Sans Hebrew", sans-serif !important;
   text-align: right !important;
 }
+
+.undp-viz-data-cards-container {
+  width: 100%;
+  container-type: inline-size;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1rem;  
+}
+
+.undp-viz-data-cards-container.rtl {
+  flex-direction: row-reverse;
+}
+
+.undp-viz-data-cards{
+  width: 100%;
+}
+
+/* Apply container query */
+@container (min-width: 600px) {
+  .undp-viz-data-cards{
+    width: calc(50% - 0.5rem);
+  }
+}
+
+@container (min-width: 960px) {
+  .undp-viz-data-cards{
+    width: calc(33.33% - 0.67rem);
+  }
+}
+
+@container (min-width: 1440px) {
+  .undp-viz-data-cards{
+    width: calc(25% - 0.75rem);
+  }
+}
+
+@container (min-width: 1940px) {
+  .undp-viz-data-cards{
+    width: calc(20% - 0.8rem);
+  }
+}

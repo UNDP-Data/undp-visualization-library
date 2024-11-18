@@ -79,6 +79,7 @@ import {
   SettingsSchema,
   lineChartWithConfidenceIntervalDataSchema,
   lineChartWithConfidenceIntervalSettingsSchema,
+  dataCardListSettingsSchema,
 } from './schemaList';
 
 export function getDataSchema(graph: GraphType) {
@@ -91,6 +92,14 @@ export function getDataSchema(graph: GraphType) {
 
   switch (graph) {
     case 'dataTable':
+      return {
+        type: 'array',
+        items: {
+          type: 'object',
+          additionalProperties: true,
+        },
+      };
+    case 'dataCards':
       return {
         type: 'array',
         items: {
@@ -302,6 +311,8 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return sankeyChartSettingsSchema;
     case 'lineChartWithConfidenceInterval':
       return lineChartWithConfidenceIntervalSettingsSchema;
+    case 'dataCards':
+      return dataCardListSettingsSchema;
     case 'allGraphs':
       return SettingsSchema;
     default:

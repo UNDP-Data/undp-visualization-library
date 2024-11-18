@@ -61,6 +61,7 @@ import { UNDPColorModule } from '../ColorPalette';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
 import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
+import { DataCards } from '../Graphs/DataCards';
 
 interface Props {
   graph: GraphType;
@@ -169,6 +170,7 @@ function GraphEl(props: Props) {
     geoHubMapWithLayerSelection: GeoHubMapWithLayerSelection,
     sankeyChart: SankeyChart,
     lineChartWithConfidenceInterval: LineChartWithConfidenceInterval,
+    dataCards: DataCards,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -2503,6 +2505,26 @@ function GraphEl(props: Props) {
           targetTitle: settings?.targetTitle,
           animateLinks: settings?.animateLinks,
           sortNodes: settings?.sortNodes,
+        };
+      case 'dataCards':
+        return {
+          mode: settings?.mode,
+          graphTitle: settings?.graphTitle,
+          sources: settings?.sources,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          graphID: settings?.graphID,
+          width: settings?.width,
+          height: settings?.height,
+          columnData: (settings?.columnData || []) as DataTableColumnDataType[],
+          data: graphData,
+          rtl: settings?.rtl,
+          language: settings?.language,
+          ariaLabel: settings?.ariaLabel,
+          cardTemplate: settings?.cardTemplate,
+          cardBackgroundColor: settings?.cardBackgroundColor,
+          cardFilters: settings?.cardFilters,
+          cardSortingOptions: settings?.cardSortingOptions,
         };
       default:
         return {};

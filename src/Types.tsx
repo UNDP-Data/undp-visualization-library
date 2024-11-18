@@ -46,7 +46,8 @@ export type GraphTypeForGriddedGraph =
   | 'animatedVerticalDumbbellChart'
   | 'animatedButterflyChart'
   | 'sankeyChart'
-  | 'lineChartWithConfidenceInterval';
+  | 'lineChartWithConfidenceInterval'
+  | 'dataCards';
 
 export type GeoHubGraphType =
   | 'geoHubCompareMap'
@@ -681,4 +682,20 @@ export interface GraphSettingsDataType {
   intervalLineStrokeWidth?: number;
   intervalLineColors?: [string, string];
   intervalAreaColor?: string;
+  cardTemplate?: string;
+  cardBackgroundColor?: string;
+  cardFilters?: {
+    column: string;
+    label?: string;
+    defaultValue?: string;
+    excludeValues?: string[];
+  }[];
+  cardSortingOptions?: {
+    defaultValue?: string;
+    options: {
+      value: string;
+      label: string;
+      type: 'asc' | 'desc';
+    }[];
+  };
 }

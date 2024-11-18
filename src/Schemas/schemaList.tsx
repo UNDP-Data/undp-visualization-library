@@ -1686,6 +1686,75 @@ export const dataTableSettingsSchema = {
   required: ['columnData'],
 };
 
+export const dataCardListSettingsSchema = {
+  type: 'object',
+  properties: {
+    graphTitle: { type: 'string' },
+    ariaLabel: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    graphID: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    rtl: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: ['ar', 'he', 'en'],
+    },
+    mode: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    cardTemplate: {
+      type: 'string',
+    },
+    cardBackgroundColor: {
+      type: 'string',
+    },
+    cardFilters: {
+      type: 'object',
+      properties: {
+        column: { type: 'string' },
+        label: { type: 'string' },
+        defaultValue: { type: 'string' },
+        excludeValues: { type: 'array', items: { type: 'string' } },
+      },
+      required: ['column'],
+    },
+    cardSortingOptions: {
+      type: 'object',
+      properties: {
+        defaultValue: { type: 'string' },
+        options: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              value: { type: 'string' },
+              label: { type: 'string' },
+              type: { type: 'string', enum: ['asc', 'desc'] },
+            },
+            required: ['value', 'label', 'type'],
+          },
+          minItems: 1,
+        },
+      },
+    },
+  },
+  required: ['cardTemplate'],
+};
+
 export const donutChartSettingsSchema = {
   type: 'object',
   properties: {
