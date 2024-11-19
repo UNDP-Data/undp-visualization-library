@@ -152,7 +152,17 @@ export function Bars(props: Props) {
                         ) +
                         x(el || 0) / 2,
                       y: (y(d.id) || 0) + y.bandwidth() / 2,
-                      opacity: el && x(el) > 20 ? 1 : 0,
+                      opacity:
+                        el &&
+                        x(el) /
+                          numberFormattingFunction(
+                            el,
+                            prefix || '',
+                            suffix || '',
+                          ).length >
+                          12
+                          ? 1
+                          : 0,
                     }}
                     transition={{ duration: 0.5 }}
                   >

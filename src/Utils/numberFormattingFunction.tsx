@@ -31,7 +31,7 @@ export function numberFormattingFunction(
     (value as number) > -10000 &&
     Math.round(value as number) === value
   )
-    return value;
+    return `${prefix || ''}${value}${suffix || ''}`;
   return `${prefix || ''}${
     Math.abs(value as number) < 1000
       ? (value as number).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0*$/, '$1')

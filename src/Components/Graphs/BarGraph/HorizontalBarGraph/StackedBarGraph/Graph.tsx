@@ -221,7 +221,12 @@ export function Graph(props: Props) {
                         height={y.bandwidth()}
                       />
                     ) : null}
-                    {showValues && el && x(el) > 20 ? (
+                    {showValues &&
+                    el &&
+                    x(el) /
+                      numberFormattingFunction(el, prefix || '', suffix || '')
+                        .length >
+                      12 ? (
                       <text
                         x={
                           x(
