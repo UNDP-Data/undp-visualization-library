@@ -20,8 +20,6 @@ export async function transformDataForGraphFromFile(
   delimiter?: string,
   columnsToArray?: ColumnConfigurationDataType[],
   apiHeaders?: any,
-  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT',
-  apiRequestBody?: any,
   dataTransformation?: string,
   idColumnTitle?: string,
 ): Promise<any> {
@@ -33,10 +31,8 @@ export async function transformDataForGraphFromFile(
         : fileType === 'api'
         ? fetchAndTransformDataFromAPI(
             dataURL,
-            dataTransformation,
-            apiMethod || 'GET',
             apiHeaders,
-            apiRequestBody,
+            dataTransformation,
             false,
           )
         : fetchAndParseCSV(

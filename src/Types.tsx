@@ -438,9 +438,7 @@ export interface FileSettingsDataType {
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
   apiHeaders?: any;
-  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
   dataTransformation?: string;
-  apiRequestBody?: any;
 }
 
 export interface DataSettingsDataType {
@@ -449,8 +447,6 @@ export interface DataSettingsDataType {
   delimiter?: string;
   columnsToArray?: ColumnConfigurationDataType[];
   apiHeaders?: any;
-  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
-  apiRequestBody?: any;
   dataTransformation?: string;
   idColumnTitle?: string;
   data?: any;
@@ -465,8 +461,6 @@ export interface DataSettingsWideToLongDataType {
   idColumnTitle?: string;
   dataTransformation?: string;
   apiHeaders?: any;
-  apiMethod?: 'POST' | 'GET' | 'DELETE' | 'PUT';
-  apiRequestBody?: any;
 }
 
 export interface AggregationSettingsDataType {

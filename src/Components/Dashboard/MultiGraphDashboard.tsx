@@ -120,10 +120,8 @@ export function MultiGraphDashboard(props: Props) {
             : dataSettings.fileType === 'api'
             ? fetchAndTransformDataFromAPI(
                 dataSettings.dataURL,
-                dataSettings.dataTransformation,
-                dataSettings.apiMethod || 'GET',
                 dataSettings.apiHeaders,
-                dataSettings.apiRequestBody,
+                dataSettings.dataTransformation,
                 debugMode,
               )
             : fetchAndParseCSV(

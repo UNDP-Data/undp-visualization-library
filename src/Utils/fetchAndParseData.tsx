@@ -127,16 +127,13 @@ export async function fetchAndParseJSON(
 
 export async function fetchAndTransformDataFromAPI(
   requestURL: string,
-  dataTransformation?: string,
-  method?: 'POST' | 'GET' | 'DELETE' | 'PUT',
   headers?: any,
-  requestBody?: any,
+  dataTransformation?: string,
   debugMode?: boolean,
 ) {
   const response = await fetch(requestURL, {
-    method: method || 'GET',
+    method: 'GET',
     headers,
-    body: requestBody,
   });
   if (!response.ok) {
     throw new Error('Network response was not ok');
@@ -167,10 +164,8 @@ export async function fetchAndParseMultipleDataSources(
         : d.fileType === 'api'
         ? fetchAndTransformDataFromAPI(
             d.dataURL as string,
-            d.dataTransformation,
-            d.apiMethod || 'GET',
             d.apiHeaders,
-            d.apiRequestBody,
+            d.dataTransformation,
             false,
           )
         : fetchAndParseCSV(

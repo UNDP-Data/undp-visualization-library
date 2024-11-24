@@ -516,11 +516,6 @@ export const getDataSettingsSchema = (columnList?: string[]) => ({
                 type: 'string',
               },
               apiHeaders: {},
-              apiRequestBody: {},
-              apiMethod: {
-                enum: ['POST', 'GET', 'DELETE', 'PUT'],
-                type: 'string',
-              },
               dataTransformation: {
                 type: 'string',
               },
@@ -546,11 +541,6 @@ export const getDataSettingsSchema = (columnList?: string[]) => ({
       type: 'string',
     },
     apiHeaders: {},
-    apiRequestBody: {},
-    apiMethod: {
-      enum: ['POST', 'GET', 'DELETE', 'PUT'],
-      type: 'string',
-    },
     dataTransformation: {
       type: 'string',
     },
