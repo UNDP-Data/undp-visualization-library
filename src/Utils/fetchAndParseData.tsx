@@ -95,8 +95,8 @@ export async function fetchAndParseCSVFromTextBlob(
 
 export async function fetchAndParseJSON(
   dataURL: string,
-  dataTransformation?: string,
   columnsToArray?: ColumnConfigurationDataType[],
+  dataTransformation?: string,
   debugMode?: boolean,
 ) {
   const url = dataURL;
@@ -106,20 +106,24 @@ export async function fetchAndParseJSON(
       throw new Error(`Response status: ${response.status}`);
     }
     const json = await response.json();
+    const reFormatedJson = reFormatData(json, dataTransformation);
     if (debugMode) {
       console.log('Data from file:', json);
     }
     if (columnsToArray) {
-      const transformedData = transformColumnsToArray(json, columnsToArray);
+      const transformedData = transformColumnsToArray(
+        reFormatedJson,
+        columnsToArray,
+      );
       if (debugMode) {
         console.log(
           'Data after transformation of column to array:',
           transformedData,
         );
       }
-      return reFormatData(json, dataTransformation);
+      return transformedData;
     }
-    return reFormatData(json, dataTransformation);
+    return reFormatedJson;
   } catch (error) {
     return error;
   }
@@ -128,6 +132,7 @@ export async function fetchAndParseJSON(
 export async function fetchAndTransformDataFromAPI(
   requestURL: string,
   headers?: any,
+  columnsToArray?: ColumnConfigurationDataType[],
   dataTransformation?: string,
   debugMode?: boolean,
 ) {
@@ -138,14 +143,26 @@ export async function fetchAndTransformDataFromAPI(
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
+  const json = await response.json();
+  const reFormatedJson = reFormatData(json, dataTransformation);
   if (debugMode) {
-    console.log('Data from api:', response.json());
-    console.log(
-      'Data from api after transformation:',
-      reFormatData(response.json(), dataTransformation),
-    );
+    console.log('Data from api:', json);
+    console.log('Data from api after transformation:', reFormatedJson);
   }
-  return reFormatData(response.json(), dataTransformation);
+  if (columnsToArray) {
+    const transformedData = transformColumnsToArray(
+      reFormatedJson,
+      columnsToArray,
+    );
+    if (debugMode) {
+      console.log(
+        'Data after transformation of column to array:',
+        transformedData,
+      );
+    }
+    return transformedData;
+  }
+  return reFormatedJson;
 }
 
 export async function fetchAndParseMultipleDataSources(
@@ -157,14 +174,15 @@ export async function fetchAndParseMultipleDataSources(
       d.fileType === 'json'
         ? fetchAndParseJSON(
             d.dataURL as string,
-            d.dataTransformation,
             d.columnsToArray,
+            d.dataTransformation,
             false,
           )
         : d.fileType === 'api'
         ? fetchAndTransformDataFromAPI(
             d.dataURL as string,
             d.apiHeaders,
+            d.columnsToArray,
             d.dataTransformation,
             false,
           )

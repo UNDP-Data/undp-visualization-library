@@ -27,11 +27,12 @@ export async function transformDataForGraphFromFile(
   try {
     const fetchedData = await (typeof dataURL === 'string'
       ? fileType === 'json'
-        ? fetchAndParseJSON(dataURL, dataTransformation, columnsToArray, false)
+        ? fetchAndParseJSON(dataURL, columnsToArray, dataTransformation, false)
         : fileType === 'api'
         ? fetchAndTransformDataFromAPI(
             dataURL,
             apiHeaders,
+            columnsToArray,
             dataTransformation,
             false,
           )

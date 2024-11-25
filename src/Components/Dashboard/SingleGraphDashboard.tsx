@@ -141,14 +141,15 @@ export function SingleGraphDashboard(props: Props) {
               ? dataSettings.fileType === 'json'
                 ? fetchAndParseJSON(
                     dataSettings.dataURL,
-                    dataSettings.dataTransformation,
                     dataSettings.columnsToArray,
+                    dataSettings.dataTransformation,
                     debugMode,
                   )
                 : dataSettings.fileType === 'api'
                 ? fetchAndTransformDataFromAPI(
                     dataSettings.dataURL,
                     dataSettings.apiHeaders,
+                    dataSettings.columnsToArray,
                     dataSettings.dataTransformation,
                     debugMode,
                   )

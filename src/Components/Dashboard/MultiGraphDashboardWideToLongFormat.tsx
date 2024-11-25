@@ -75,14 +75,15 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           ? dataSettings.fileType === 'json'
             ? fetchAndParseJSON(
                 dataSettings.dataURL,
-                dataSettings.dataTransformation,
                 undefined,
+                dataSettings.dataTransformation,
                 debugMode,
               )
             : dataSettings.fileType === 'api'
             ? fetchAndTransformDataFromAPI(
                 dataSettings.dataURL,
                 dataSettings.apiHeaders,
+                undefined,
                 dataSettings.dataTransformation,
                 debugMode,
               )
