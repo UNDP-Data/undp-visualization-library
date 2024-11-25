@@ -225,7 +225,7 @@ export function DataCards(props: Props) {
           {cardSortingOptions ? (
             <div
               style={{
-                width: '25% - 0.75rem',
+                width: 'calc(25% - 0.75rem)',
                 flexGrow: 1,
                 flexShrink: 0,
                 minWidth: '240px',
@@ -309,7 +309,7 @@ export function DataCards(props: Props) {
           {filterSettings?.map((d, i) => (
             <div
               style={{
-                width: '25% - 0.75rem',
+                width: 'calc(25% - 0.75rem)',
                 flexGrow: 1,
                 flexShrink: 0,
                 minWidth: '240px',

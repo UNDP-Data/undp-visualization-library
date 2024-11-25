@@ -29,9 +29,11 @@ interface Props {
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  noOfFiltersPerRow?: number;
   dataFilters?: DataFilterDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
+  filterPosition?: 'top' | 'side';
   readableHeader?: {
     value: string;
     label: string;
@@ -54,6 +56,8 @@ export function MultiGraphDashboard(props: Props) {
     mode,
     readableHeader,
     dataFilters,
+    noOfFiltersPerRow,
+    filterPosition,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -235,251 +239,283 @@ export function MultiGraphDashboard(props: Props) {
             />
           ) : null}
           {data ? (
-            <>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               {filterSettings.length !== 0 ? (
                 <div
                   style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    flexWrap: 'wrap',
-                    alignItems: 'flex-start',
-                    width: '100%',
-                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
+                    width: filterPosition === 'side' ? '320px' : '100%',
+                    flexGrow: 1,
                   }}
                 >
-                  {filterSettings?.map((d, i) => (
-                    <div
-                      style={{
-                        width: '25% - 0.75rem',
-                        flexGrow: 1,
-                        flexShrink: 0,
-                        minWidth: '240px',
-                      }}
-                      key={i}
-                    >
-                      <p
-                        className={
-                          dashboardLayout.rtl
-                            ? `undp-viz-typography-${
-                                dashboardLayout.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      flexWrap: 'wrap',
+                      alignItems: 'flex-start',
+                      width: '100%',
+                      flexDirection: dashboardLayout.rtl
+                        ? 'row-reverse'
+                        : 'row',
+                      position: 'sticky',
+                      top: 0,
+                    }}
+                  >
+                    {filterSettings?.map((d, i) => (
+                      <div
                         style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          textAlign: dashboardLayout.rtl ? 'right' : 'left',
-                          color: UNDPColorModule[mode || 'light'].grays.black,
+                          width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
+                            ((noOfFiltersPerRow || 4) - 1) /
+                            (noOfFiltersPerRow || 4)
+                          }rem)`,
+                          flexGrow: 1,
+                          flexShrink: 0,
+                          minWidth: '240px',
                         }}
+                        key={i}
                       >
-                        {d.label}
-                      </p>
-                      {d.singleSelect ? (
-                        <Select
+                        <p
                           className={
                             dashboardLayout.rtl
-                              ? `undp-viz-select-${
+                              ? `undp-viz-typography-${
                                   dashboardLayout.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
+                                } undp-viz-typography`
+                              : 'undp-viz-typography'
                           }
-                          options={d.availableValues}
-                          isClearable={
-                            d.clearable === undefined ? true : d.clearable
-                          }
-                          isRtl={dashboardLayout.rtl}
-                          isSearchable
-                          controlShouldRenderValue
-                          filterOption={createFilter(filterConfig)}
-                          onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.value ? [el?.value] : [];
-                            setSelectedFilters(filterTemp);
+                          style={{
+                            fontSize: '0.875rem',
+                            marginBottom: '0.5rem',
+                            textAlign: dashboardLayout.rtl ? 'right' : 'left',
+                            color: UNDPColorModule[mode || 'light'].grays.black,
                           }}
-                          defaultValue={
-                            d.defaultValue
-                              ? {
-                                  value: d.defaultValue as string,
-                                  label: d.defaultValue as string,
-                                }
-                              : undefined
-                          }
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
-                        />
-                      ) : (
-                        <Select
-                          className={
-                            dashboardLayout.rtl
-                              ? `undp-viz-select-${
-                                  dashboardLayout.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
-                          options={d.availableValues}
-                          isMulti
-                          isClearable={
-                            d.clearable === undefined ? true : d.clearable
-                          }
-                          isSearchable
-                          controlShouldRenderValue
-                          filterOption={createFilter(filterConfig)}
-                          onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.map(val => val.value) || [];
-                            setSelectedFilters(filterTemp);
-                          }}
-                          defaultValue={
-                            d.defaultValue
-                              ? (d.defaultValue as string[]).map(el => ({
-                                  value: el,
-                                  label: el,
-                                }))
-                              : undefined
-                          }
-                          isRtl={dashboardLayout.rtl}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
+                        >
+                          {d.label}
+                        </p>
+                        {d.singleSelect ? (
+                          <Select
+                            className={
+                              dashboardLayout.rtl
+                                ? `undp-viz-select-${
+                                    dashboardLayout.language || 'ar'
+                                  } undp-viz-select`
+                                : 'undp-viz-select'
+                            }
+                            options={d.availableValues}
+                            isClearable={
+                              d.clearable === undefined ? true : d.clearable
+                            }
+                            isRtl={dashboardLayout.rtl}
+                            isSearchable
+                            controlShouldRenderValue
+                            filterOption={createFilter(filterConfig)}
+                            onChange={el => {
+                              const filterTemp = [...selectedFilters];
+                              filterTemp[
+                                filterTemp.findIndex(f => f.filter === d.filter)
+                              ].value = el?.value ? [el?.value] : [];
+                              setSelectedFilters(filterTemp);
+                            }}
+                            defaultValue={
+                              d.defaultValue
+                                ? {
+                                    value: d.defaultValue as string,
+                                    label: d.defaultValue as string,
+                                  }
+                                : undefined
+                            }
+                            theme={theme => {
+                              return {
+                                ...theme,
+                                borderRadius: 0,
+                                spacing: {
+                                  ...theme.spacing,
+                                  baseUnit: 4,
+                                  menuGutter: 2,
+                                  controlHeight: 48,
+                                },
+                                colors: {
+                                  ...theme.colors,
+                                  danger:
+                                    UNDPColorModule[mode || 'light'].alerts
+                                      .darkRed,
+                                  dangerLight:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  neutral10:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  primary50:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-400'],
+                                  primary25:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-200'
+                                    ],
+                                  primary:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-600'],
+                                },
+                              };
+                            }}
+                          />
+                        ) : (
+                          <Select
+                            className={
+                              dashboardLayout.rtl
+                                ? `undp-viz-select-${
+                                    dashboardLayout.language || 'ar'
+                                  } undp-viz-select`
+                                : 'undp-viz-select'
+                            }
+                            options={d.availableValues}
+                            isMulti
+                            isClearable={
+                              d.clearable === undefined ? true : d.clearable
+                            }
+                            isSearchable
+                            controlShouldRenderValue
+                            filterOption={createFilter(filterConfig)}
+                            onChange={el => {
+                              const filterTemp = [...selectedFilters];
+                              filterTemp[
+                                filterTemp.findIndex(f => f.filter === d.filter)
+                              ].value = el?.map(val => val.value) || [];
+                              setSelectedFilters(filterTemp);
+                            }}
+                            defaultValue={
+                              d.defaultValue
+                                ? (d.defaultValue as string[]).map(el => ({
+                                    value: el,
+                                    label: el,
+                                  }))
+                                : undefined
+                            }
+                            isRtl={dashboardLayout.rtl}
+                            theme={theme => {
+                              return {
+                                ...theme,
+                                borderRadius: 0,
+                                spacing: {
+                                  ...theme.spacing,
+                                  baseUnit: 4,
+                                  menuGutter: 2,
+                                  controlHeight: 48,
+                                },
+                                colors: {
+                                  ...theme.colors,
+                                  danger:
+                                    UNDPColorModule[mode || 'light'].alerts
+                                      .darkRed,
+                                  dangerLight:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  neutral10:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-400'
+                                    ],
+                                  primary50:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-400'],
+                                  primary25:
+                                    UNDPColorModule[mode || 'light'].grays[
+                                      'gray-200'
+                                    ],
+                                  primary:
+                                    UNDPColorModule[mode || 'light']
+                                      .primaryColors['blue-600'],
+                                },
+                              };
+                            }}
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ) : null}
-              {dashboardLayout.rows.map((d, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    alignItems: 'stretch',
-                    minHeight: `${d.height || 0}px`,
-                    height: 'auto',
-                    width: '100%',
-                    flexWrap: 'wrap',
-                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
-                  }}
-                >
-                  {d.columns.map((el, j) => (
-                    <div
-                      key={j}
-                      style={{
-                        display: 'flex',
-                        width: `calc(${
-                          (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
-                        }% - ${
-                          (TotalWidth(d.columns) - (el.columnWidth || 1)) /
-                          TotalWidth(d.columns)
-                        }rem)`,
-                        backgroundColor: 'transparent',
-                        minWidth: '320px',
-                        height: 'inherit',
-                        minHeight: 'inherit',
-                        flexGrow: 1,
-                      }}
-                    >
-                      <SingleGraphDashboard
-                        graphType={el.graphType}
-                        dataFilters={el.dataFilters}
-                        graphSettings={{
-                          ...el.settings,
-                          width: undefined,
-                          height: undefined,
-                          radius: undefined,
-                          size:
-                            el.graphType === 'unitChart'
-                              ? el.settings.size
-                              : undefined,
-                          rtl: dashboardLayout.rtl,
-                          language: dashboardLayout.language,
+              <div
+                style={{
+                  width:
+                    filterPosition === 'side'
+                      ? 'calc(100% - 320px - 1rem)'
+                      : '100%',
+                  minWidth: '320px',
+                  flexGrow: 1,
+                  display: 'flex',
+                  gap: '1rem',
+                  flexWrap: 'wrap',
+                  flexShrink: '0',
+                }}
+              >
+                {dashboardLayout.rows.map((d, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      alignItems: 'stretch',
+                      minHeight: `${d.height || 0}px`,
+                      height: 'auto',
+                      width: '100%',
+                      flexWrap: 'wrap',
+                      flexDirection: dashboardLayout.rtl
+                        ? 'row-reverse'
+                        : 'row',
+                    }}
+                  >
+                    {d.columns.map((el, j) => (
+                      <div
+                        key={j}
+                        style={{
+                          display: 'flex',
+                          width: `calc(${
+                            (100 * (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }% - ${
+                            (TotalWidth(d.columns) - (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }rem)`,
+                          backgroundColor: 'transparent',
+                          minWidth: '320px',
+                          height: 'inherit',
+                          minHeight: 'inherit',
+                          flexGrow: 1,
                         }}
-                        dataSettings={{
-                          data: filterData(data, dataFilters || []),
-                        }}
-                        dataTransform={el.dataTransform}
-                        dataSelectionOptions={el.dataSelectionOptions}
-                        graphDataConfiguration={el.graphDataConfiguration}
-                        debugMode={debugMode}
-                        readableHeader={readableHeader || []}
-                        mode={mode}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </>
+                      >
+                        <SingleGraphDashboard
+                          graphType={el.graphType}
+                          dataFilters={el.dataFilters}
+                          graphSettings={{
+                            ...el.settings,
+                            width: undefined,
+                            height: undefined,
+                            radius: undefined,
+                            size:
+                              el.graphType === 'unitChart'
+                                ? el.settings.size
+                                : undefined,
+                            rtl: dashboardLayout.rtl,
+                            language: dashboardLayout.language,
+                          }}
+                          dataSettings={{
+                            data: filterData(data, dataFilters || []),
+                          }}
+                          dataTransform={el.dataTransform}
+                          dataSelectionOptions={el.dataSelectionOptions}
+                          graphDataConfiguration={el.graphDataConfiguration}
+                          debugMode={debugMode}
+                          readableHeader={readableHeader || []}
+                          mode={mode}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
             <div className='undp-viz-loader' />
           )}

@@ -15,6 +15,8 @@ interface ConfigObject {
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  noOfFiltersPerRow?: number;
+  filterPosition?: 'top' | 'side';
   debugMode?: boolean;
   mode?: 'dark' | 'light';
   readableHeader?: {
@@ -69,6 +71,8 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
+      noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
+      filterPosition={configSettings.filterPosition}
     />
   );
 }

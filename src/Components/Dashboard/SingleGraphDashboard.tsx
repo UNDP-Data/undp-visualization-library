@@ -41,6 +41,7 @@ interface Props {
   }[];
   dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  noOfFiltersPerRow?: number;
   graphType: GraphType;
   dataTransform?: {
     keyColumn: string;
@@ -66,6 +67,7 @@ export function SingleGraphDashboard(props: Props) {
     dataSelectionOptions,
     mode,
     readableHeader,
+    noOfFiltersPerRow,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -333,7 +335,10 @@ export function SingleGraphDashboard(props: Props) {
                   {dataSelectionOptions?.map((d, i) => (
                     <div
                       style={{
-                        width: '25% - 0.75rem',
+                        width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
+                          ((noOfFiltersPerRow || 4) - 1) /
+                          (noOfFiltersPerRow || 4)
+                        }rem)`,
                         flexGrow: 1,
                         flexShrink: d.ui !== 'radio' ? 0 : 1,
                         minWidth: '240px',
@@ -608,7 +613,10 @@ export function SingleGraphDashboard(props: Props) {
                   {filterSettings?.map((d, i) => (
                     <div
                       style={{
-                        width: '25% - 0.75rem',
+                        width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
+                          ((noOfFiltersPerRow || 4) - 1) /
+                          (noOfFiltersPerRow || 4)
+                        }rem)`,
                         flexGrow: 1,
                         flexShrink: 0,
                         minWidth: '240px',

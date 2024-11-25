@@ -19,6 +19,7 @@ interface ConfigObject {
   graphSettings?: any;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  noOfFiltersPerRow?: number;
   graphType: Exclude<
     GraphType,
     'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
@@ -95,6 +96,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       dataSelectionOptions={configSettings.dataSelectionOptions}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
+      noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
     />
   );
 }

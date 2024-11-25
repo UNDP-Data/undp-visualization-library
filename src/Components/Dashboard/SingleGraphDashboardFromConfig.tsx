@@ -18,6 +18,7 @@ interface ConfigObject {
   dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: GraphType;
+  noOfFiltersPerRow?: number;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -81,6 +82,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       dataSelectionOptions={configSettings.dataSelectionOptions}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
+      noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
     />
   );
 }

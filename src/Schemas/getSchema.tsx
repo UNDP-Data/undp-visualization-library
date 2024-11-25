@@ -747,6 +747,7 @@ export const getSingleGraphJSONSchema = (
           graphSettings: getSettingsSchema(graphType),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
             enum: ['dataTable', 'dataCards'],
@@ -772,6 +773,7 @@ export const getSingleGraphJSONSchema = (
             type: 'string',
             enum: GraphList.map(el => el.graphID),
           },
+          noOfFiltersPerRow: { type: 'number' },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
           graphDataConfiguration: getGraphDataConfigurationSchema(
@@ -799,6 +801,7 @@ export const getGriddedGraphJSONSchema = (
           graphSettings: getSettingsSchema(graphType),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
             enum: ['dataTable', 'dataCards'],
@@ -826,6 +829,7 @@ export const getGriddedGraphJSONSchema = (
             : getSettingsSchema('allGraphs'),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
             enum: GraphList.filter(
@@ -927,6 +931,8 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     },
     dataSettings: getDataSettingsSchema(columnList),
     filters: getFiltersSchema(columnList),
+    noOfFiltersPerRow: { type: 'number' },
+    filterPosition: { type: 'string', enum: ['top', 'side'] },
     readableHeader: getReadableHeaderSchema(columnList),
     dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
