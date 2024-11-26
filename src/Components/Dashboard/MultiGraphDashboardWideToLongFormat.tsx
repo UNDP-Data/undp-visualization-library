@@ -293,7 +293,10 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           ...el.settings,
                           width: undefined,
                           height: undefined,
-                          radius: undefined,
+                          radius:
+                            el.graphType === 'donutChart'
+                              ? undefined
+                              : el.settings?.radius,
                           size:
                             el.graphType === 'unitChart'
                               ? el.settings.size

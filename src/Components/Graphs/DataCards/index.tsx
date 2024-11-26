@@ -49,7 +49,18 @@ interface Props {
       type: 'asc' | 'desc';
     }[];
   };
+  cardSearchColumns?: string[];
+  cardMinWidth?: number;
 }
+
+const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
+  if (keys.length === 0) return jsonArray;
+  return jsonArray.filter((item: any) =>
+    keys.some(key =>
+      item[key]?.toLowerCase().includes(substring.toLowerCase()),
+    ),
+  );
+};
 
 export function DataCards(props: Props) {
   const {
@@ -70,9 +81,13 @@ export function DataCards(props: Props) {
     cardBackgroundColor,
     cardFilters,
     cardSortingOptions,
+    cardSearchColumns,
+    cardMinWidth,
   } = props;
 
   const [cardData, setCardData] = useState(data);
+
+  const [searchQuery, setSearchQuery] = useState('');
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
   >([]);
@@ -212,217 +227,271 @@ export function DataCards(props: Props) {
             mode={mode || 'light'}
           />
         ) : null}
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            flexWrap: 'wrap',
-            alignItems: 'flex-start',
-            width: '100%',
-            flexDirection: rtl ? 'row-reverse' : 'row',
-          }}
-        >
-          {cardSortingOptions ? (
-            <div
-              style={{
-                width: 'calc(25% - 0.75rem)',
-                flexGrow: 1,
-                flexShrink: 0,
-                minWidth: '240px',
-              }}
-            >
-              <p
-                className={
-                  rtl
-                    ? `undp-viz-typography-${
-                        language || 'ar'
-                      } undp-viz-typography`
-                    : 'undp-viz-typography'
-                }
+        {cardSortingOptions || filterSettings ? (
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              width: '100%',
+              flexDirection: rtl ? 'row-reverse' : 'row',
+            }}
+          >
+            {cardSortingOptions ? (
+              <div
                 style={{
-                  fontSize: '0.875rem',
-                  marginBottom: '0.5rem',
-                  textAlign: rtl ? 'right' : 'left',
-                  color: UNDPColorModule[mode || 'light'].grays.black,
+                  width: 'calc(25% - 0.75rem)',
+                  flexGrow: 1,
+                  flexShrink: 0,
+                  minWidth: '240px',
                 }}
               >
-                Sort by
-              </p>
-              <Select
-                className={
-                  rtl
-                    ? `undp-viz-select-${language || 'ar'} undp-viz-select`
-                    : 'undp-viz-select'
-                }
-                options={cardSortingOptions.options}
-                isRtl={rtl}
-                isSearchable
-                filterOption={createFilter(filterConfig)}
-                onChange={el => {
-                  setSortedBy(el || undefined);
+                <p
+                  className={
+                    rtl
+                      ? `undp-viz-typography-${
+                          language || 'ar'
+                        } undp-viz-typography`
+                      : 'undp-viz-typography'
+                  }
+                  style={{
+                    fontSize: '0.875rem',
+                    marginBottom: '0.5rem',
+                    textAlign: rtl ? 'right' : 'left',
+                    color: UNDPColorModule[mode || 'light'].grays.black,
+                  }}
+                >
+                  Sort by
+                </p>
+                <Select
+                  className={
+                    rtl
+                      ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                      : 'undp-viz-select'
+                  }
+                  options={cardSortingOptions.options}
+                  isRtl={rtl}
+                  isSearchable
+                  filterOption={createFilter(filterConfig)}
+                  onChange={el => {
+                    setSortedBy(el || undefined);
+                  }}
+                  defaultValue={
+                    !cardSortingOptions.defaultValue ||
+                    cardSortingOptions.options.findIndex(
+                      el => el.label === cardSortingOptions.defaultValue,
+                    ) === -1
+                      ? cardSortingOptions.options[0]
+                      : cardSortingOptions.options[
+                          cardSortingOptions.options.findIndex(
+                            el => el.label === cardSortingOptions.defaultValue,
+                          )
+                        ]
+                  }
+                  theme={theme => {
+                    return {
+                      ...theme,
+                      borderRadius: 0,
+                      spacing: {
+                        ...theme.spacing,
+                        baseUnit: 4,
+                        menuGutter: 2,
+                        controlHeight: 48,
+                      },
+                      colors: {
+                        ...theme.colors,
+                        danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
+                        dangerLight:
+                          UNDPColorModule[mode || 'light'].grays['gray-400'],
+                        neutral10:
+                          UNDPColorModule[mode || 'light'].grays['gray-400'],
+                        primary50:
+                          UNDPColorModule[mode || 'light'].primaryColors[
+                            'blue-400'
+                          ],
+                        primary25:
+                          UNDPColorModule[mode || 'light'].grays['gray-200'],
+                        primary:
+                          UNDPColorModule[mode || 'light'].primaryColors[
+                            'blue-600'
+                          ],
+                      },
+                    };
+                  }}
+                />
+              </div>
+            ) : null}
+            {filterSettings?.map((d, i) => (
+              <div
+                style={{
+                  width: 'calc(25% - 0.75rem)',
+                  flexGrow: 1,
+                  flexShrink: 0,
+                  minWidth: '240px',
                 }}
-                defaultValue={
-                  !cardSortingOptions.defaultValue ||
-                  cardSortingOptions.options.findIndex(
-                    el => el.label === cardSortingOptions.defaultValue,
-                  ) === -1
-                    ? cardSortingOptions.options[0]
-                    : cardSortingOptions.options[
-                        cardSortingOptions.options.findIndex(
-                          el => el.label === cardSortingOptions.defaultValue,
-                        )
-                      ]
-                }
-                theme={theme => {
-                  return {
-                    ...theme,
-                    borderRadius: 0,
-                    spacing: {
-                      ...theme.spacing,
-                      baseUnit: 4,
-                      menuGutter: 2,
-                      controlHeight: 48,
-                    },
-                    colors: {
-                      ...theme.colors,
-                      danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
-                      dangerLight:
-                        UNDPColorModule[mode || 'light'].grays['gray-400'],
-                      neutral10:
-                        UNDPColorModule[mode || 'light'].grays['gray-400'],
-                      primary50:
-                        UNDPColorModule[mode || 'light'].primaryColors[
-                          'blue-400'
-                        ],
-                      primary25:
-                        UNDPColorModule[mode || 'light'].grays['gray-200'],
-                      primary:
-                        UNDPColorModule[mode || 'light'].primaryColors[
-                          'blue-600'
-                        ],
-                    },
-                  };
+                key={i}
+              >
+                <p
+                  className={
+                    rtl
+                      ? `undp-viz-typography-${
+                          language || 'ar'
+                        } undp-viz-typography`
+                      : 'undp-viz-typography'
+                  }
+                  style={{
+                    fontSize: '0.875rem',
+                    marginBottom: '0.5rem',
+                    textAlign: rtl ? 'right' : 'left',
+                    color: UNDPColorModule[mode || 'light'].grays.black,
+                  }}
+                >
+                  {d.label}
+                </p>
+                <Select
+                  className={
+                    rtl
+                      ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                      : 'undp-viz-select'
+                  }
+                  options={d.availableValues}
+                  isClearable={d.clearable === undefined ? true : d.clearable}
+                  isRtl={rtl}
+                  isSearchable
+                  controlShouldRenderValue
+                  filterOption={createFilter(filterConfig)}
+                  onChange={el => {
+                    const filterTemp = [...selectedFilters];
+                    filterTemp[
+                      filterTemp.findIndex(f => f.filter === d.filter)
+                    ].value = el?.value ? [el?.value] : [];
+                    setSelectedFilters(filterTemp);
+                  }}
+                  defaultValue={
+                    d.defaultValue
+                      ? {
+                          value: d.defaultValue as string,
+                          label: d.defaultValue as string,
+                        }
+                      : undefined
+                  }
+                  theme={theme => {
+                    return {
+                      ...theme,
+                      borderRadius: 0,
+                      spacing: {
+                        ...theme.spacing,
+                        baseUnit: 4,
+                        menuGutter: 2,
+                        controlHeight: 48,
+                      },
+                      colors: {
+                        ...theme.colors,
+                        danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
+                        dangerLight:
+                          UNDPColorModule[mode || 'light'].grays['gray-400'],
+                        neutral10:
+                          UNDPColorModule[mode || 'light'].grays['gray-400'],
+                        primary50:
+                          UNDPColorModule[mode || 'light'].primaryColors[
+                            'blue-400'
+                          ],
+                        primary25:
+                          UNDPColorModule[mode || 'light'].grays['gray-200'],
+                        primary:
+                          UNDPColorModule[mode || 'light'].primaryColors[
+                            'blue-600'
+                          ],
+                      },
+                    };
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        ) : null}
+        {cardSearchColumns && cardSearchColumns.length > 0 ? (
+          <div style={{ width: '100%', display: 'flex' }}>
+            <div
+              style={{
+                position: 'relative',
+                flexGrow: 1,
+                display: 'flex',
+              }}
+            >
+              <span
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-45%)',
+                }}
+              >
+                <img
+                  alt='search-icon'
+                  src='https://design.undp.org/icons/search.svg'
+                  width={24}
+                  height={24}
+                />
+              </span>
+              <input
+                className='undp-viz-text-box'
+                type='text'
+                placeholder='Search...'
+                value={searchQuery}
+                onChange={e => {
+                  setSearchQuery(e.target.value);
+                }}
+                style={{
+                  border: `2px solid ${
+                    UNDPColorModule[mode || 'light'].grays.black
+                  }`,
+                  borderRadius: 0,
+                  padding: '10px 10px 10px 36px',
+                  height: '22px',
+                  flexGrow: 1,
+                  backgroundColor: 'transparent',
+                  color: UNDPColorModule[mode || 'light'].grays.black,
                 }}
               />
             </div>
-          ) : null}
-          {filterSettings?.map((d, i) => (
-            <div
-              style={{
-                width: 'calc(25% - 0.75rem)',
-                flexGrow: 1,
-                flexShrink: 0,
-                minWidth: '240px',
-              }}
-              key={i}
-            >
-              <p
-                className={
-                  rtl
-                    ? `undp-viz-typography-${
-                        language || 'ar'
-                      } undp-viz-typography`
-                    : 'undp-viz-typography'
-                }
-                style={{
-                  fontSize: '0.875rem',
-                  marginBottom: '0.5rem',
-                  textAlign: rtl ? 'right' : 'left',
-                  color: UNDPColorModule[mode || 'light'].grays.black,
-                }}
-              >
-                {d.label}
-              </p>
-              <Select
-                className={
-                  rtl
-                    ? `undp-viz-select-${language || 'ar'} undp-viz-select`
-                    : 'undp-viz-select'
-                }
-                options={d.availableValues}
-                isClearable={d.clearable === undefined ? true : d.clearable}
-                isRtl={rtl}
-                isSearchable
-                controlShouldRenderValue
-                filterOption={createFilter(filterConfig)}
-                onChange={el => {
-                  const filterTemp = [...selectedFilters];
-                  filterTemp[
-                    filterTemp.findIndex(f => f.filter === d.filter)
-                  ].value = el?.value ? [el?.value] : [];
-                  setSelectedFilters(filterTemp);
-                }}
-                defaultValue={
-                  d.defaultValue
-                    ? {
-                        value: d.defaultValue as string,
-                        label: d.defaultValue as string,
-                      }
-                    : undefined
-                }
-                theme={theme => {
-                  return {
-                    ...theme,
-                    borderRadius: 0,
-                    spacing: {
-                      ...theme.spacing,
-                      baseUnit: 4,
-                      menuGutter: 2,
-                      controlHeight: 48,
-                    },
-                    colors: {
-                      ...theme.colors,
-                      danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
-                      dangerLight:
-                        UNDPColorModule[mode || 'light'].grays['gray-400'],
-                      neutral10:
-                        UNDPColorModule[mode || 'light'].grays['gray-400'],
-                      primary50:
-                        UNDPColorModule[mode || 'light'].primaryColors[
-                          'blue-400'
-                        ],
-                      primary25:
-                        UNDPColorModule[mode || 'light'].grays['gray-200'],
-                      primary:
-                        UNDPColorModule[mode || 'light'].primaryColors[
-                          'blue-600'
-                        ],
-                    },
-                  };
-                }}
-              />
-            </div>
-          ))}
-        </div>
+          </div>
+        ) : null}
         <div
           className='undp-viz-scrollbar undp-viz-data-cards-container'
           style={{
             width: width ? `${width}px` : '100%',
             height: height ? `${height}px` : 'auto',
+            gridTemplateColumns: `repeat(auto-fit, minmax(${
+              cardMinWidth || 320
+            }px, 1fr))`,
           }}
         >
-          {cardData?.map((d: any, i: number) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor:
-                  cardBackgroundColor ||
-                  UNDPColorModule[mode || 'light'].grays['gray-200'],
-                cursor: onSeriesMouseClick ? 'pointer' : 'auto',
-              }}
-              className='undp-viz-data-cards'
-              onClick={() => {
-                if (onSeriesMouseClick) onSeriesMouseClick(d);
-              }}
-            >
+          {filterByKeys(cardData, cardSearchColumns || [], searchQuery).map(
+            (d: any, i: number) => (
               <div
-                style={{ margin: 0 }}
-                dangerouslySetInnerHTML={{
-                  __html: string2HTML(cardTemplate, d),
+                key={i}
+                style={{
+                  backgroundColor:
+                    cardBackgroundColor ||
+                    UNDPColorModule[mode || 'light'].grays['gray-200'],
+                  cursor: onSeriesMouseClick ? 'pointer' : 'auto',
                 }}
-              />
-            </div>
-          ))}
+                className='undp-viz-data-cards'
+                onClick={() => {
+                  if (onSeriesMouseClick) onSeriesMouseClick(d);
+                }}
+              >
+                <div
+                  style={{ margin: 0 }}
+                  dangerouslySetInnerHTML={{
+                    __html: string2HTML(cardTemplate, d),
+                  }}
+                />
+              </div>
+            ),
+          )}
         </div>
         {sources || footNote ? (
           <GraphFooter

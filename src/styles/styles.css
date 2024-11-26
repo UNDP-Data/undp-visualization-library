@@ -800,41 +800,30 @@ input.undp-viz-checkbox[type=checkbox]:checked {
   width: 100%;
   container-type: inline-size;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  display: grid;
   gap: 1rem;  
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .undp-viz-data-cards-container.rtl {
-  flex-direction: row-reverse;
+  direction: rtl;
 }
 
 .undp-viz-data-cards{
   width: 100%;
 }
 
-/* Apply container query */
-@container (min-width: 600px) {
-  .undp-viz-data-cards{
-    width: calc(50% - 0.5rem);
-  }
+.undp-viz-text-box{
+  font-size: 1rem;
+  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
 
-@container (min-width: 960px) {
-  .undp-viz-data-cards{
-    width: calc(33.33% - 0.67rem);
-  }
+input.undp-viz-text-box:focus{
+  outline: 0;
+  box-shadow: 0 0 4px #0468b1;
 }
 
-@container (min-width: 1440px) {
-  .undp-viz-data-cards{
-    width: calc(25% - 0.75rem);
-  }
-}
-
-@container (min-width: 1940px) {
-  .undp-viz-data-cards{
-    width: calc(20% - 0.8rem);
-  }
+input.undp-viz-text-box:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 4px #0468b1;
 }

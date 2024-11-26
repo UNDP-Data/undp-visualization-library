@@ -1732,6 +1732,12 @@ export const dataCardListSettingsSchema = {
       },
       required: ['column'],
     },
+    cardSearchColumns: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
     cardSortingOptions: {
       type: 'object',
       properties: {
@@ -1751,6 +1757,7 @@ export const dataCardListSettingsSchema = {
         },
       },
     },
+    cardMinWidth: { type: 'number' },
   },
   required: ['cardTemplate'],
 };
@@ -5497,6 +5504,48 @@ export const SettingsSchema = {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
     },
+    cardSearchColumns: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    cardTemplate: {
+      type: 'string',
+    },
+    cardBackgroundColor: {
+      type: 'string',
+    },
+    cardFilters: {
+      type: 'object',
+      properties: {
+        column: { type: 'string' },
+        label: { type: 'string' },
+        defaultValue: { type: 'string' },
+        excludeValues: { type: 'array', items: { type: 'string' } },
+      },
+      required: ['column'],
+    },
+    cardSortingOptions: {
+      type: 'object',
+      properties: {
+        defaultValue: { type: 'string' },
+        options: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              value: { type: 'string' },
+              label: { type: 'string' },
+              type: { type: 'string', enum: ['asc', 'desc'] },
+            },
+            required: ['value', 'label', 'type'],
+          },
+          minItems: 1,
+        },
+      },
+    },
+    cardMinWidth: { type: 'number' },
   },
   type: 'object',
 };

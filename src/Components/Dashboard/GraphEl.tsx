@@ -2525,6 +2525,8 @@ function GraphEl(props: Props) {
           cardBackgroundColor: settings?.cardBackgroundColor,
           cardFilters: settings?.cardFilters,
           cardSortingOptions: settings?.cardSortingOptions,
+          cardSearchColumns: settings?.cardSearchColumns,
+          cardMinWidth: settings?.cardMinWidth,
         };
       default:
         return {};
