@@ -692,4 +692,6 @@ export interface GraphSettingsDataType {
       type: 'asc' | 'desc';
     }[];
   };
+  cardSearchColumns?: string[];
+  cardMinWidth?: number;
 }
