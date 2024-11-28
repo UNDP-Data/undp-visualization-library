@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { DumbbellChartDataType, SourcesDataType } from '../../../../../Types';
+import {
+  BackgroundStyleDataType,
+  DumbbellChartDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -53,6 +57,7 @@ interface Props {
   maxNumberOfBars?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -101,6 +106,7 @@ export function HorizontalDumbbellChart(props: Props) {
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -130,6 +136,7 @@ export function HorizontalDumbbellChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

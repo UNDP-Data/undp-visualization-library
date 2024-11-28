@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import Slider from 'rc-slider';
@@ -8,6 +6,7 @@ import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -64,6 +63,7 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedHorizontalStackedBarChart(props: Props) {
@@ -112,6 +112,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     maxBarThickness,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -170,6 +171,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -2,7 +2,7 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { UNDPColorModule } from '../../ColorPalette';
-import { SourcesDataType } from '../../../Types';
+import { BackgroundStyleDataType, SourcesDataType } from '../../../Types';
 
 interface Props {
   year?: number | string;
@@ -20,6 +20,8 @@ interface Props {
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  textBackground?: boolean;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function BasicStatCard(props: Props) {
@@ -39,11 +41,14 @@ export function BasicStatCard(props: Props) {
     language,
     mode,
     ariaLabel,
+    textBackground,
+    backgroundStyle,
   } = props;
 
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -106,7 +111,13 @@ export function BasicStatCard(props: Props) {
                 WebkitTextStroke: `2px ${
                   UNDPColorModule[mode || 'light'].grays.black
                 }`,
-                color: UNDPColorModule[mode || 'light'].grays['gray-200'],
+                color: textBackground
+                  ? UNDPColorModule[mode || 'light'].grays.black
+                  : !backgroundColor
+                  ? 'rgba(0,0,0,0)'
+                  : backgroundColor === true
+                  ? UNDPColorModule[mode || 'light'].grays['gray-200']
+                  : backgroundColor,
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',

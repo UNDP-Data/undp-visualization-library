@@ -7,6 +7,7 @@ import {
   ReferenceDataType,
   BarGraphDataType,
   SourcesDataType,
+  BackgroundStyleDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -60,6 +61,7 @@ interface Props {
   maxNumberOfBars?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -110,6 +112,7 @@ export function VerticalBarGraph(props: Props) {
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -134,6 +137,7 @@ export function VerticalBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

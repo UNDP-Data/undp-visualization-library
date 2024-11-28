@@ -6,6 +6,7 @@ import {
   AnnotationSettingsDataType,
   CustomHighlightAreaSettingsDataType,
   SourcesDataType,
+  BackgroundStyleDataType,
 } from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -67,6 +68,7 @@ interface Props {
   mode?: 'light' | 'dark';
   regressionLine?: boolean | string;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function ScatterPlot(props: Props) {
@@ -118,6 +120,7 @@ export function ScatterPlot(props: Props) {
     mode,
     regressionLine,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -143,6 +146,7 @@ export function ScatterPlot(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -3,6 +3,7 @@ import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
+  BackgroundStyleDataType,
   DashboardColumnDataType,
   DashboardLayoutDataType,
   DataFilterDataType,
@@ -23,6 +24,7 @@ import { GraphHeader } from '../Elements/GraphHeader';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { filterData } from '../../Utils/transformData/filterData';
+import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 
 interface Props {
   dashboardId?: string;
@@ -38,6 +40,7 @@ interface Props {
     value: string;
     label: string;
   }[];
+  graphBackgroundStyle?: BackgroundStyleDataType;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -58,6 +61,7 @@ export function MultiGraphDashboard(props: Props) {
     dataFilters,
     noOfFiltersPerRow,
     filterPosition,
+    graphBackgroundStyle,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -150,6 +154,7 @@ export function MultiGraphDashboard(props: Props) {
             singleSelect: el.singleSelect,
             clearable: el.clearable,
             defaultValue: el.defaultValue,
+            allowSelectAll: el.allowSelectAll,
             availableValues: getUniqValue(d, el.column)
               .filter(v =>
                 el.excludeValues
@@ -258,7 +263,7 @@ export function MultiGraphDashboard(props: Props) {
                         ? 'row-reverse'
                         : 'row',
                       position: 'sticky',
-                      top: 0,
+                      top: '1rem',
                     }}
                   >
                     {filterSettings?.map((d, i) => (
@@ -323,113 +328,87 @@ export function MultiGraphDashboard(props: Props) {
                                   }
                                 : undefined
                             }
-                            theme={theme => {
-                              return {
-                                ...theme,
-                                borderRadius: 0,
-                                spacing: {
-                                  ...theme.spacing,
-                                  baseUnit: 4,
-                                  menuGutter: 2,
-                                  controlHeight: 48,
-                                },
-                                colors: {
-                                  ...theme.colors,
-                                  danger:
-                                    UNDPColorModule[mode || 'light'].alerts
-                                      .darkRed,
-                                  dangerLight:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  neutral10:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  primary50:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-400'],
-                                  primary25:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-200'
-                                    ],
-                                  primary:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-600'],
-                                },
-                              };
-                            }}
+                            theme={theme => getReactSelectTheme(theme, mode)}
                           />
                         ) : (
-                          <Select
-                            className={
-                              dashboardLayout.rtl
-                                ? `undp-viz-select-${
-                                    dashboardLayout.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
-                            options={d.availableValues}
-                            isMulti
-                            isClearable={
-                              d.clearable === undefined ? true : d.clearable
-                            }
-                            isSearchable
-                            controlShouldRenderValue
-                            filterOption={createFilter(filterConfig)}
-                            onChange={el => {
-                              const filterTemp = [...selectedFilters];
-                              filterTemp[
-                                filterTemp.findIndex(f => f.filter === d.filter)
-                              ].value = el?.map(val => val.value) || [];
-                              setSelectedFilters(filterTemp);
-                            }}
-                            defaultValue={
-                              d.defaultValue
-                                ? (d.defaultValue as string[]).map(el => ({
-                                    value: el,
-                                    label: el,
-                                  }))
-                                : undefined
-                            }
-                            isRtl={dashboardLayout.rtl}
-                            theme={theme => {
-                              return {
-                                ...theme,
-                                borderRadius: 0,
-                                spacing: {
-                                  ...theme.spacing,
-                                  baseUnit: 4,
-                                  menuGutter: 2,
-                                  controlHeight: 48,
-                                },
-                                colors: {
-                                  ...theme.colors,
-                                  danger:
-                                    UNDPColorModule[mode || 'light'].alerts
-                                      .darkRed,
-                                  dangerLight:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  neutral10:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  primary50:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-400'],
-                                  primary25:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-200'
-                                    ],
-                                  primary:
+                          <>
+                            <Select
+                              className={
+                                dashboardLayout.rtl
+                                  ? `undp-viz-select-${
+                                      dashboardLayout.language || 'ar'
+                                    } undp-viz-select`
+                                  : 'undp-viz-select'
+                              }
+                              options={d.availableValues}
+                              isMulti
+                              isClearable={
+                                d.clearable === undefined ? true : d.clearable
+                              }
+                              isSearchable
+                              controlShouldRenderValue
+                              closeMenuOnSelect={false}
+                              hideSelectedOptions={false}
+                              filterOption={createFilter(filterConfig)}
+                              onChange={el => {
+                                const filterTemp = [...selectedFilters];
+                                filterTemp[
+                                  filterTemp.findIndex(
+                                    f => f.filter === d.filter,
+                                  )
+                                ].value = el?.map(val => val.value) || [];
+                                setSelectedFilters(filterTemp);
+                              }}
+                              value={(
+                                selectedFilters[
+                                  selectedFilters.findIndex(
+                                    f => f.filter === d.filter,
+                                  )
+                                ].value || []
+                              ).map(el => ({
+                                value: el,
+                                label: el,
+                              }))}
+                              defaultValue={
+                                d.defaultValue
+                                  ? (d.defaultValue as string[]).map(el => ({
+                                      value: el,
+                                      label: el,
+                                    }))
+                                  : undefined
+                              }
+                              isRtl={dashboardLayout.rtl}
+                              theme={theme => getReactSelectTheme(theme, mode)}
+                            />
+                            {d.allowSelectAll ? (
+                              <button
+                                type='button'
+                                style={{
+                                  backgroundColor: 'transparent',
+                                  border: 0,
+                                  padding: 0,
+                                  marginTop: '0.5rem',
+                                  color:
                                     UNDPColorModule[mode || 'light']
                                       .primaryColors['blue-600'],
-                                },
-                              };
-                            }}
-                          />
+                                  cursor: 'pointer',
+                                }}
+                                onClick={() => {
+                                  const filterTemp = [...selectedFilters];
+                                  filterTemp[
+                                    filterTemp.findIndex(
+                                      f => f.filter === d.filter,
+                                    )
+                                  ].value = d.availableValues.map(
+                                    el => el.value,
+                                  );
+                                  setSelectedFilters(filterTemp);
+                                }}
+                              >
+                                Select all options
+                              </button>
+                            ) : null}
+                          </>
                         )}
                       </div>
                     ))}
@@ -479,7 +458,7 @@ export function MultiGraphDashboard(props: Props) {
                             TotalWidth(d.columns)
                           }rem)`,
                           backgroundColor: 'transparent',
-                          minWidth: '320px',
+                          minWidth: '240px',
                           height: 'inherit',
                           minHeight: 'inherit',
                           flexGrow: 1,
@@ -492,6 +471,9 @@ export function MultiGraphDashboard(props: Props) {
                             ...el.settings,
                             width: undefined,
                             height: undefined,
+                            backgroundStyle:
+                              el.settings?.backgroundStyle ||
+                              graphBackgroundStyle,
                             radius:
                               el.graphType === 'donutChart'
                                 ? undefined

@@ -4,7 +4,11 @@ import { Graph } from './Graph';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { DotDensityMapDataType, SourcesDataType } from '../../../../../Types';
+import {
+  BackgroundStyleDataType,
+  DotDensityMapDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
@@ -48,6 +52,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function DotDensityMap(props: Props) {
@@ -90,6 +95,7 @@ export function DotDensityMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -124,6 +130,7 @@ export function DotDensityMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -4,6 +4,7 @@ import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   BarGraphDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -60,6 +61,7 @@ interface Props {
   maxNumberOfBars?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HorizontalBarGraph(props: Props) {
@@ -110,6 +112,7 @@ export function HorizontalBarGraph(props: Props) {
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -136,6 +139,7 @@ export function HorizontalBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

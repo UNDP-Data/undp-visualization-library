@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
+  BackgroundStyleDataType,
   HeatMapDataType,
   ScaleDataType,
   SourcesDataType,
@@ -53,6 +54,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HeatMap(props: Props) {
@@ -96,6 +98,7 @@ export function HeatMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -129,6 +132,7 @@ export function HeatMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: fillContainer === false ? 'fit-content' : '100%',

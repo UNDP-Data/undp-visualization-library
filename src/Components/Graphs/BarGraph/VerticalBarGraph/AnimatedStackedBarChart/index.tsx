@@ -6,6 +6,7 @@ import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -62,6 +63,7 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedVerticalStackedBarChart(props: Props) {
@@ -110,6 +112,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     maxBarThickness,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -167,6 +170,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

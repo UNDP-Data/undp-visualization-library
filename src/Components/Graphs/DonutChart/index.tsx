@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { DonutChartDataType, SourcesDataType } from '../../../Types';
+import {
+  BackgroundStyleDataType,
+  DonutChartDataType,
+  SourcesDataType,
+} from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -41,6 +45,7 @@ interface Props {
   minHeight?: number;
   relativeHeight?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function DonutChart(props: Props) {
@@ -76,6 +81,7 @@ export function DonutChart(props: Props) {
     minHeight,
     relativeHeight,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -117,6 +123,7 @@ export function DonutChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

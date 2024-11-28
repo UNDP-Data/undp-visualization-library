@@ -3,7 +3,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { Graph } from './Graph';
 import { UNDPColorModule } from '../../../ColorPalette';
-import { SourcesDataType } from '../../../../Types';
+import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
 
 interface Props {
   graphTitle?: string;
@@ -24,6 +24,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function GeoHubCompareMaps(props: Props) {
@@ -46,6 +47,7 @@ export function GeoHubCompareMaps(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -65,6 +67,7 @@ export function GeoHubCompareMaps(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -6,6 +6,7 @@ import {
   HistogramDataType,
   DonutChartDataType,
   SourcesDataType,
+  BackgroundStyleDataType,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
@@ -54,6 +55,7 @@ interface Props {
   maxBarThickness?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function Histogram(props: Props) {
@@ -97,6 +99,7 @@ export function Histogram(props: Props) {
     mode,
     maxBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -167,6 +170,7 @@ export function Histogram(props: Props) {
         minHeight={minHeight}
         mode={mode || 'light'}
         ariaLabel={ariaLabel}
+        backgroundStyle={backgroundStyle}
       />
     );
   if (graphType === 'treeMap')
@@ -201,6 +205,7 @@ export function Histogram(props: Props) {
         minHeight={minHeight}
         mode={mode || 'light'}
         ariaLabel={ariaLabel}
+        backgroundStyle={backgroundStyle}
       />
     );
   if (graphType === 'donutChart')
@@ -237,6 +242,7 @@ export function Histogram(props: Props) {
         language={language}
         mode={mode || 'light'}
         ariaLabel={ariaLabel}
+        backgroundStyle={backgroundStyle}
       />
     );
   if (barGraphLayout === 'horizontal')
@@ -278,6 +284,7 @@ export function Histogram(props: Props) {
         mode={mode || 'light'}
         maxBarThickness={maxBarThickness}
         ariaLabel={ariaLabel}
+        backgroundStyle={backgroundStyle}
       />
     );
   return (
@@ -318,6 +325,7 @@ export function Histogram(props: Props) {
       mode={mode || 'light'}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
+      backgroundStyle={backgroundStyle}
     />
   );
 }

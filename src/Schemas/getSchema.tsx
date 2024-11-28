@@ -571,6 +571,9 @@ export const getFiltersSchema = (columnList?: string[]) => ({
       clearable: {
         type: 'boolean',
       },
+      allowSelectAll: {
+        type: 'boolean',
+      },
       excludeValues: {
         items: {
           type: 'string',

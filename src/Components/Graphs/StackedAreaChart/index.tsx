@@ -3,6 +3,7 @@ import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
   AreaChartDataType,
+  BackgroundStyleDataType,
   CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -51,6 +52,7 @@ interface Props {
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AreaChart(props: Props) {
@@ -92,6 +94,7 @@ export function AreaChart(props: Props) {
     customHighlightAreaSettings,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -118,6 +121,7 @@ export function AreaChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

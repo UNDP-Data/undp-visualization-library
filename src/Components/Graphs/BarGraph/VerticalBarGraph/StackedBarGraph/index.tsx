@@ -6,6 +6,7 @@ import {
   ReferenceDataType,
   GroupedBarGraphDataType,
   SourcesDataType,
+  BackgroundStyleDataType,
 } from '../../../../../Types';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -56,6 +57,7 @@ interface Props {
   maxNumberOfBars?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -102,6 +104,7 @@ export function VerticalStackedBarGraph(props: Props) {
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const barColors =
@@ -130,6 +133,7 @@ export function VerticalStackedBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

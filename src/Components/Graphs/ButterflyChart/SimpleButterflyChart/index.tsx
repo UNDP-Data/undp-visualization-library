@@ -6,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
+  BackgroundStyleDataType,
   ButterflyChartDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -53,6 +54,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function ButterflyChart(props: Props) {
@@ -97,6 +99,7 @@ export function ButterflyChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -119,6 +122,7 @@ export function ButterflyChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

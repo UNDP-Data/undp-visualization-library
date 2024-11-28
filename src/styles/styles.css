@@ -579,6 +579,19 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
   width: 100%;
 }
 
+
+.undp-viz-select>div[class$="-control"]{
+  height: 52px;
+  overflow: auto;
+}
+
+.undp-viz-select>div[class$="-control"]>div:last-of-type{
+  height: 46px !important;
+  position: sticky;
+  top: 0;
+}
+
+
 .undp-viz-select div input {
   height: 18px !important;
 }
@@ -595,7 +608,6 @@ div.undp-viz-tooltip a:hover, div.undp-viz-tooltip-en a:hover, div.undp-viz-tool
 .undp-viz-select-en {
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
 }
-
 
 [class$="-indicatorSeparator"]{
   width: 0 !important;

@@ -5,6 +5,7 @@ import {
   ReferenceDataType,
   GroupedBarGraphDataType,
   SourcesDataType,
+  BackgroundStyleDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -52,6 +53,7 @@ interface Props {
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -96,6 +98,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     mode,
     maxBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const barColors =
@@ -124,6 +127,7 @@ export function VerticalGroupedBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

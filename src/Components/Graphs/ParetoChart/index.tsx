@@ -4,7 +4,11 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../Elements/ColorLegend';
-import { ParetoChartDataType, SourcesDataType } from '../../../Types';
+import {
+  BackgroundStyleDataType,
+  ParetoChartDataType,
+  SourcesDataType,
+} from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
@@ -42,6 +46,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function ParetoChart(props: Props) {
@@ -80,6 +85,7 @@ export function ParetoChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -103,6 +109,7 @@ export function ParetoChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

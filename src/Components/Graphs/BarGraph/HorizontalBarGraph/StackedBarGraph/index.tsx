@@ -4,6 +4,7 @@ import sum from 'lodash.sum';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   GroupedBarGraphDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -56,6 +57,7 @@ interface Props {
   maxNumberOfBars?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -102,6 +104,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -129,6 +132,7 @@ export function HorizontalStackedBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

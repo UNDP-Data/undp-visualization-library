@@ -34,6 +34,7 @@ import { checkIfNullOrUndefined } from '../../Utils/checkIfNullOrUndefined';
 import { checkIfMultiple } from '../../Utils/checkIfMultiple';
 import Checkbox from '../Elements/Checkbox';
 import Radio from '../Elements/Radio';
+import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 
 interface Props {
   noOfColumns?: number;
@@ -396,42 +397,7 @@ export function GriddedGraphs(props: Props) {
                               );
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={theme => {
-                              return {
-                                ...theme,
-                                borderRadius: 0,
-                                spacing: {
-                                  ...theme.spacing,
-                                  baseUnit: 4,
-                                  menuGutter: 2,
-                                  controlHeight: 48,
-                                },
-                                colors: {
-                                  ...theme.colors,
-                                  danger:
-                                    UNDPColorModule[mode || 'light'].alerts
-                                      .darkRed,
-                                  dangerLight:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  neutral10:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  primary50:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-400'],
-                                  primary25:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-200'
-                                    ],
-                                  primary:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-600'],
-                                },
-                              };
-                            }}
+                            theme={theme => getReactSelectTheme(theme, mode)}
                           />
                         ) : (
                           <Radio
@@ -517,42 +483,7 @@ export function GriddedGraphs(props: Props) {
                             setGraphConfig(updatedConfig);
                           }}
                           isRtl={graphSettings?.rtl}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
                         <Checkbox
@@ -659,42 +590,7 @@ export function GriddedGraphs(props: Props) {
                                 }
                               : undefined
                           }
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
                         <Select
@@ -729,42 +625,7 @@ export function GriddedGraphs(props: Props) {
                               : undefined
                           }
                           isRtl={graphSettings?.rtl}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       )}
                     </div>

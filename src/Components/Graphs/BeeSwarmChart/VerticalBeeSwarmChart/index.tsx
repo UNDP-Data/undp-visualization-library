@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   BeeSwarmChartDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -51,6 +52,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function VerticalBeeSwarmChart(props: Props) {
@@ -93,6 +95,7 @@ export function VerticalBeeSwarmChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -119,6 +122,7 @@ export function VerticalBeeSwarmChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

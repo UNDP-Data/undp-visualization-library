@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
+  BackgroundStyleDataType,
   GroupedBarGraphDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -52,6 +53,7 @@ interface Props {
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HorizontalGroupedBarGraph(props: Props) {
@@ -96,6 +98,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     mode,
     maxBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const barColors =
@@ -125,6 +128,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

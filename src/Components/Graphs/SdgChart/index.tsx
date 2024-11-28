@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
+  BackgroundStyleDataType,
   ScaleDataType,
   SdgChartDataType,
   SourcesDataType,
@@ -52,6 +53,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function SdgChart(props: Props) {
@@ -94,6 +96,7 @@ export function SdgChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -127,6 +130,7 @@ export function SdgChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: fillContainer === false ? 'fit-content' : '100%',

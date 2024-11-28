@@ -5,7 +5,11 @@ import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { SourcesDataType, TreeMapDataType } from '../../../Types';
+import {
+  BackgroundStyleDataType,
+  SourcesDataType,
+  TreeMapDataType,
+} from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
@@ -49,6 +53,7 @@ interface Props {
   ariaLabel?: string;
   radius?: number;
   maxRadiusValue?: number;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -90,6 +95,7 @@ export function CirclePackingGraph(props: Props) {
     ariaLabel,
     radius,
     maxRadiusValue,
+    backgroundStyle,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -113,6 +119,7 @@ export function CirclePackingGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

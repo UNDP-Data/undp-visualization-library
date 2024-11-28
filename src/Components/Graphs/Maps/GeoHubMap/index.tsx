@@ -5,7 +5,8 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
-import { SourcesDataType } from '../../../../Types';
+import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
+import { getReactSelectTheme } from '../../../../Utils/getReactSelectTheme';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
@@ -28,6 +29,7 @@ interface Props {
   includeLayers?: string[];
   excludeLayers?: string[];
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function GeoHubMap(props: Props) {
@@ -52,6 +54,7 @@ export function GeoHubMap(props: Props) {
     includeLayers,
     excludeLayers,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [selectedMapStyle, setSelectedMapStyle] = useState(
@@ -71,6 +74,7 @@ export function GeoHubMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -139,36 +143,7 @@ export function GeoHubMap(props: Props) {
               onChange={el => {
                 if (el) setSelectedMapStyle(el.value);
               }}
-              theme={theme => {
-                return {
-                  ...theme,
-                  borderRadius: 0,
-                  spacing: {
-                    ...theme.spacing,
-                    baseUnit: 4,
-                    menuGutter: 2,
-                    controlHeight: 48,
-                  },
-                  colors: {
-                    ...theme.colors,
-                    danger: UNDPColorModule[mode || 'light'].alerts.darkRed,
-                    dangerLight:
-                      UNDPColorModule[mode || 'light'].grays['gray-400'],
-                    neutral10:
-                      UNDPColorModule[mode || 'light'].grays['gray-400'],
-                    primary50:
-                      UNDPColorModule[mode || 'light'].primaryColors[
-                        'blue-400'
-                      ],
-                    primary25:
-                      UNDPColorModule[mode || 'light'].grays['gray-200'],
-                    primary:
-                      UNDPColorModule[mode || 'light'].primaryColors[
-                        'blue-600'
-                      ],
-                  },
-                };
-              }}
+              theme={theme => getReactSelectTheme(theme, mode)}
             />
           )}
           {typeof mapStyle === 'string' ? (

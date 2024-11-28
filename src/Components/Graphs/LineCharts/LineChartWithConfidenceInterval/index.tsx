@@ -6,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import {
   AnnotationSettingsDataType,
+  BackgroundStyleDataType,
   CustomHighlightAreaSettingsDataType,
   LineChartWithConfidenceIntervalDataType,
   ReferenceDataType,
@@ -60,6 +61,7 @@ interface Props {
   intervalLineColors?: [string, string];
   intervalAreaColor?: string;
   lineColor?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function LineChartWithConfidenceInterval(props: Props) {
@@ -110,6 +112,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     intervalLineStrokeWidth,
     intervalLineColors,
     intervalAreaColor,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -133,6 +136,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

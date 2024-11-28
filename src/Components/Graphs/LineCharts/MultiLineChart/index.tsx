@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
+  BackgroundStyleDataType,
   CustomHighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
@@ -60,6 +59,7 @@ interface Props {
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function MultiLineChart(props: Props) {
@@ -108,6 +108,7 @@ export function MultiLineChart(props: Props) {
     customHighlightAreaSettings,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -131,6 +132,7 @@ export function MultiLineChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

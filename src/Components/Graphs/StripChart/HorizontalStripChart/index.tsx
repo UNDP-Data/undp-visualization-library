@@ -1,6 +1,10 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
-import { SourcesDataType, StripChartDataType } from '../../../../Types';
+import {
+  BackgroundStyleDataType,
+  SourcesDataType,
+  StripChartDataType,
+} from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -49,6 +53,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function HorizontalStripChart(props: Props) {
@@ -93,6 +98,7 @@ export function HorizontalStripChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -118,6 +124,7 @@ export function HorizontalStripChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

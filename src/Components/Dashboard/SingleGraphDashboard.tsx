@@ -32,6 +32,7 @@ import { transformColumnsToArray } from '../../Utils/transformData/transformColu
 import Checkbox from '../Elements/Checkbox';
 import Radio from '../Elements/Radio';
 import { GraphList } from '../../Utils/getGraphList';
+import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 
 interface Props {
   graphSettings?: any;
@@ -255,6 +256,7 @@ export function SingleGraphDashboard(props: Props) {
   return (
     <div
       style={{
+        ...(graphSettings?.backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -407,42 +409,7 @@ export function SingleGraphDashboard(props: Props) {
                               );
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={theme => {
-                              return {
-                                ...theme,
-                                borderRadius: 0,
-                                spacing: {
-                                  ...theme.spacing,
-                                  baseUnit: 4,
-                                  menuGutter: 2,
-                                  controlHeight: 48,
-                                },
-                                colors: {
-                                  ...theme.colors,
-                                  danger:
-                                    UNDPColorModule[mode || 'light'].alerts
-                                      .darkRed,
-                                  dangerLight:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  neutral10:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ],
-                                  primary50:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-400'],
-                                  primary25:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-200'
-                                    ],
-                                  primary:
-                                    UNDPColorModule[mode || 'light']
-                                      .primaryColors['blue-600'],
-                                },
-                              };
-                            }}
+                            theme={theme => getReactSelectTheme(theme, mode)}
                           />
                         ) : (
                           <Radio
@@ -530,42 +497,7 @@ export function SingleGraphDashboard(props: Props) {
                             setGraphConfig(updatedConfig);
                           }}
                           isRtl={graphSettings?.rtl}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
                         <Checkbox
@@ -672,42 +604,7 @@ export function SingleGraphDashboard(props: Props) {
                                 }
                               : undefined
                           }
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
                         <Select
@@ -742,42 +639,7 @@ export function SingleGraphDashboard(props: Props) {
                               : undefined
                           }
                           isRtl={graphSettings?.rtl}
-                          theme={theme => {
-                            return {
-                              ...theme,
-                              borderRadius: 0,
-                              spacing: {
-                                ...theme.spacing,
-                                baseUnit: 4,
-                                menuGutter: 2,
-                                controlHeight: 48,
-                              },
-                              colors: {
-                                ...theme.colors,
-                                danger:
-                                  UNDPColorModule[mode || 'light'].alerts
-                                    .darkRed,
-                                dangerLight:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                neutral10:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-400'
-                                  ],
-                                primary50:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-400'],
-                                primary25:
-                                  UNDPColorModule[mode || 'light'].grays[
-                                    'gray-200'
-                                  ],
-                                primary:
-                                  UNDPColorModule[mode || 'light']
-                                    .primaryColors['blue-600'],
-                              },
-                            };
-                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       )}
                     </div>
@@ -808,6 +670,7 @@ export function SingleGraphDashboard(props: Props) {
                   graphSettings
                     ? {
                         ...graphSettings,
+                        backgroundStyle: undefined,
                         graphTitle: undefined,
                         graphDescription: undefined,
                         graphDownload: false,
@@ -818,6 +681,7 @@ export function SingleGraphDashboard(props: Props) {
                       }
                     : ({
                         graphTitle: undefined,
+                        backgroundStyle: undefined,
                         graphDescription: undefined,
                         graphDownload: false,
                         dataDownload: false,

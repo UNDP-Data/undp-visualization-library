@@ -8,6 +8,7 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   DotDensityMapWithDateDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -59,6 +60,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedDotDensityMap(props: Props) {
@@ -104,6 +106,7 @@ export function AnimatedDotDensityMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -167,6 +170,7 @@ export function AnimatedDotDensityMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

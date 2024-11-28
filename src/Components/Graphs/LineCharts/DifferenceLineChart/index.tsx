@@ -7,6 +7,7 @@ import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   AnnotationSettingsDataType,
+  BackgroundStyleDataType,
   CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
@@ -60,6 +61,7 @@ interface Props {
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -108,6 +110,7 @@ export function DifferenceLineChart(props: Props) {
     customHighlightAreaSettings,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -131,6 +134,7 @@ export function DifferenceLineChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

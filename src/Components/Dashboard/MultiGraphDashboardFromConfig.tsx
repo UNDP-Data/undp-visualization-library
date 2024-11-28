@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  BackgroundStyleDataType,
   DashboardLayoutDataType,
   DataFilterDataType,
   DataSettingsDataType,
@@ -24,6 +25,7 @@ interface ConfigObject {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
+  graphBackgroundStyle?: BackgroundStyleDataType;
 }
 
 interface Props {
@@ -73,6 +75,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       dataFilters={configSettings.dataFilters}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       filterPosition={configSettings.filterPosition}
+      graphBackgroundStyle={configSettings.graphBackgroundStyle}
     />
   );
 }

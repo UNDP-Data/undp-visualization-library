@@ -5,6 +5,7 @@ import { ascending, sort } from 'd3-array';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
 import {
+  BackgroundStyleDataType,
   DumbbellChartWithDateDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -63,6 +64,7 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedHorizontalDumbbellChart(props: Props) {
@@ -113,6 +115,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     maxBarThickness,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -172,6 +175,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

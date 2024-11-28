@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
+  BackgroundStyleDataType,
   CustomHighlightAreaSettingsDataType,
   LineChartDataType,
   ReferenceDataType,
@@ -54,6 +55,7 @@ interface Props {
   mode?: 'light' | 'dark';
   regressionLine?: boolean | string;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -99,6 +101,7 @@ export function SimpleLineChart(props: Props) {
     mode,
     regressionLine,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -120,6 +123,7 @@ export function SimpleLineChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

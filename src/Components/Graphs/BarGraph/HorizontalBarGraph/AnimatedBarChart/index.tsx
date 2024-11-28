@@ -8,6 +8,7 @@ import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
+  BackgroundStyleDataType,
   BarGraphWithDateDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -67,6 +68,7 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -118,6 +120,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
     maxBarThickness,
     minBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -172,6 +175,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -5,7 +5,11 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
-import { DualAxisLineChartDataType, SourcesDataType } from '../../../../Types';
+import {
+  BackgroundStyleDataType,
+  DualAxisLineChartDataType,
+  SourcesDataType,
+} from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
@@ -48,6 +52,7 @@ interface Props {
   colorLegendTitle?: string;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -91,6 +96,7 @@ export function DualAxisLineChart(props: Props) {
     colorLegendTitle,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -114,6 +120,7 @@ export function DualAxisLineChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',

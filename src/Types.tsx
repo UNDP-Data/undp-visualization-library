@@ -384,6 +384,7 @@ export type FilterUiSettingsDataType = {
   clearable?: boolean;
   defaultValue?: string[] | string;
   excludeValues?: string[];
+  allowSelectAll?: boolean;
 };
 
 export type DashboardLayoutDataType = {
@@ -483,6 +484,7 @@ export interface FilterSettingsDataType {
     value: string;
     label: string;
   }[];
+  allowSelectAll?: boolean;
 }
 
 export interface MarginDataType {
@@ -511,6 +513,12 @@ export interface CustomHighlightAreaSettingsDataType {
   color?: string;
   strokeWidth?: number;
   dashedStroke?: boolean;
+}
+
+export interface BackgroundStyleDataType {
+  borderRadius?: string;
+  boxShadow?: string;
+  border?: string;
 }
 
 export interface GraphSettingsDataType {
@@ -694,4 +702,6 @@ export interface GraphSettingsDataType {
   };
   cardSearchColumns?: string[];
   cardMinWidth?: number;
+  textBackground?: boolean;
+  backgroundStyle?: BackgroundStyleDataType;
 }

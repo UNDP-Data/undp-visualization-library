@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Graph } from './Graph';
-import { BivariateMapDataType, SourcesDataType } from '../../../../../Types';
+import {
+  BackgroundStyleDataType,
+  BivariateMapDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -47,6 +51,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function BiVariantMap(props: Props) {
@@ -89,6 +94,7 @@ export function BiVariantMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -123,6 +129,7 @@ export function BiVariantMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

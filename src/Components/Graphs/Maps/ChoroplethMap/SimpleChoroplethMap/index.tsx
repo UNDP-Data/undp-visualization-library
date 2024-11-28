@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { ChoroplethMapDataType, SourcesDataType } from '../../../../../Types';
+import {
+  BackgroundStyleDataType,
+  ChoroplethMapDataType,
+  SourcesDataType,
+} from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
@@ -47,6 +51,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function ChoroplethMap(props: Props) {
@@ -89,6 +94,7 @@ export function ChoroplethMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -123,6 +129,7 @@ export function ChoroplethMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

@@ -3,7 +3,11 @@ import sum from 'lodash.sum';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
-import { UnitChartDataType, SourcesDataType } from '../../../Types';
+import {
+  UnitChartDataType,
+  SourcesDataType,
+  BackgroundStyleDataType,
+} from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
@@ -33,6 +37,7 @@ interface Props {
   minHeight?: number;
   relativeHeight?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function UnitChart(props: Props) {
@@ -63,6 +68,7 @@ export function UnitChart(props: Props) {
     minHeight,
     relativeHeight,
     ariaLabel,
+    backgroundStyle,
   } = props;
   const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
   const totalValue = sum(data.map(d => d.value));
@@ -91,6 +97,7 @@ export function UnitChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

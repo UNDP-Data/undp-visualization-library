@@ -5,6 +5,7 @@ import { format, parse } from 'date-fns';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
 import {
+  BackgroundStyleDataType,
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -60,6 +61,7 @@ interface Props {
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedHorizontalGroupedBarGraph(props: Props) {
@@ -106,6 +108,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     mode,
     maxBarThickness,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const barColors =
@@ -165,6 +168,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

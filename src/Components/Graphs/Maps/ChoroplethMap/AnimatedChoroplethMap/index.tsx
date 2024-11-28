@@ -5,6 +5,7 @@ import { ascending, sort } from 'd3-array';
 import Slider from 'rc-slider';
 import { Graph } from './Graph';
 import {
+  BackgroundStyleDataType,
   ChoroplethMapWithDateDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -59,6 +60,7 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
+  backgroundStyle?: BackgroundStyleDataType;
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -104,6 +106,7 @@ export function AnimatedChoroplethMap(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -167,6 +170,7 @@ export function AnimatedChoroplethMap(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',

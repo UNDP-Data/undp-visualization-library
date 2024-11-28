@@ -731,6 +731,14 @@ export const sankeyChartSettingsSchema = {
       type: 'array',
       items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -831,6 +839,14 @@ export const simpleBarChartSettingsSchema = {
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
     ariaLabel: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -918,6 +934,14 @@ export const groupedBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     ariaLabel: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -1010,6 +1034,14 @@ export const stackedBarChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -1106,6 +1138,14 @@ export const animatedSimpleBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -1191,6 +1231,14 @@ export const animatedGroupedBarChartSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
   required: ['colorDomain'],
@@ -1285,6 +1333,14 @@ export const animatedStackedBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -1372,6 +1428,14 @@ export const beeSwarmChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -1453,6 +1517,14 @@ export const butterflyChartSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -1539,6 +1611,14 @@ export const animatedButterflyChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -1613,6 +1693,14 @@ export const circlePackingSettingsSchema = {
     },
     radius: { type: 'number' },
     maxRadiusValue: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -1642,6 +1730,10 @@ export const dataTableSettingsSchema = {
       type: 'string',
       enum: ['ar', 'he', 'en'],
     },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
@@ -1680,6 +1772,14 @@ export const dataTableSettingsSchema = {
           columnWidth: { type: 'number' },
         },
         required: ['columnId'],
+      },
+      backgroundStyle: {
+        type: 'object',
+        properties: {
+          borderRadius: { type: 'string' },
+          boxShadow: { type: 'string' },
+          border: { type: 'string' },
+        },
       },
     },
   },
@@ -1738,6 +1838,10 @@ export const dataCardListSettingsSchema = {
         type: 'string',
       },
     },
+    backgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    padding: { type: 'string' },
     cardSortingOptions: {
       type: 'object',
       properties: {
@@ -1758,6 +1862,14 @@ export const dataCardListSettingsSchema = {
       },
     },
     cardMinWidth: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['cardTemplate'],
 };
@@ -1838,6 +1950,14 @@ export const donutChartSettingsSchema = {
     height: { type: 'number' },
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -1911,6 +2031,14 @@ export const dumbbellChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -1987,6 +2115,14 @@ export const animatedDumbbellChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -2061,6 +2197,14 @@ export const heatMapSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
   required: ['domain'],
@@ -2157,6 +2301,14 @@ export const histogramSettingsSchema = {
       enum: ['light', 'dark'],
     },
     maxBarThickness: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['color', 'graphType'],
 };
@@ -2237,6 +2389,14 @@ export const dualAxisLineChartSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -2396,6 +2556,14 @@ export const lineChartSettingsSchema = {
     },
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -2564,6 +2732,14 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
       maxItems: 2,
     },
     intervalAreaColor: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -2738,6 +2914,14 @@ export const differenceLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['labels'],
 };
@@ -2908,6 +3092,14 @@ export const multiLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['labels'],
 };
@@ -2959,6 +3151,14 @@ export const sparkLineSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -3057,6 +3257,14 @@ export const choroplethMapSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
   required: ['domain'],
@@ -3161,6 +3369,14 @@ export const biVariateChoroplethMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -3257,6 +3473,14 @@ export const dotDensityMapSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -3358,6 +3582,14 @@ export const animatedChoroplethMapSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
   required: ['domain'],
@@ -3461,6 +3693,14 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
@@ -3562,6 +3802,14 @@ export const animatedDotDensityMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
@@ -3616,6 +3864,14 @@ export const geoHubCompareMapSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
   required: ['mapStyles'],
@@ -3689,6 +3945,14 @@ export const geoHubMapSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['mapStyle'],
 };
@@ -3753,6 +4017,14 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['mapStyle', 'layerSelection'],
 };
@@ -3807,6 +4079,14 @@ export const paretoChartSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -3976,6 +4256,14 @@ export const scatterPlotSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
     customHighlightAreaSettings: {
       type: 'array',
@@ -4171,6 +4459,14 @@ export const animatedScatterPlotSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
     customHighlightAreaSettings: {
       type: 'array',
       items: {
@@ -4273,6 +4569,14 @@ export const slopeChartSettingsSchema = {
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
     },
   },
 };
@@ -4432,6 +4736,14 @@ export const stackedAreaChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
   required: ['colorDomain'],
 };
@@ -4443,6 +4755,7 @@ export const statCardSettingsSchema = {
       oneOf: [{ type: 'number' }, { type: 'string' }],
     },
     ariaLabel: { type: 'string' },
+    textBackground: { type: 'boolean' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     suffix: { type: 'string' },
@@ -4481,6 +4794,14 @@ export const statCardSettingsSchema = {
       type: 'array',
       items: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
+      },
+    },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
       },
     },
   },
@@ -4564,6 +4885,14 @@ export const stripChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -4636,6 +4965,14 @@ export const treeMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -4688,6 +5025,14 @@ export const unitChartSettingsSchema = {
     height: { type: 'number' },
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
   },
 };
 
@@ -4697,6 +5042,7 @@ export const SettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    textBackground: { type: 'boolean' },
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -5472,6 +5818,14 @@ export const SettingsSchema = {
     },
     nodePadding: { type: 'number' },
     nodeWidth: { type: 'number' },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
     defaultLinkOpacity: { type: 'number', minimum: 0, maximum: 1 },
     animateLinks: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],

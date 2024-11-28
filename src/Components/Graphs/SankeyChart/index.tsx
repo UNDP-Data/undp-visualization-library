@@ -5,6 +5,7 @@ import sum from 'lodash.sum';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
+  BackgroundStyleDataType,
   NodesLinkDataType,
   SankeyDataType,
   SourcesDataType,
@@ -59,6 +60,7 @@ interface Props {
   targetTitle?: string;
   animateLinks?: boolean | number;
   sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
+  backgroundStyle?: BackgroundStyleDataType;
 }
 export function SankeyChart(props: Props) {
   const {
@@ -106,6 +108,7 @@ export function SankeyChart(props: Props) {
     targetTitle,
     animateLinks,
     sortNodes,
+    backgroundStyle,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -203,6 +206,7 @@ export function SankeyChart(props: Props) {
   return (
     <div
       style={{
+        ...(backgroundStyle || {}),
         display: 'flex',
         flexDirection: 'column',
         width: fillContainer === false ? 'fit-content' : '100%',
