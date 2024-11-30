@@ -704,4 +704,6 @@ export interface GraphSettingsDataType {
   cardMinWidth?: number;
   textBackground?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
+  cardBackgroundStyle?: BackgroundStyleDataType;
+  cardDetailView?: string;
 }

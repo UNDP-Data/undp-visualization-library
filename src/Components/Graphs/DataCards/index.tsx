@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
@@ -18,6 +20,7 @@ import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
 import { getUniqValue } from '../../../Utils/getUniqValue';
 import { getReactSelectTheme } from '../../../Utils/getReactSelectTheme';
+import { Modal } from '../../Elements/Modal';
 
 export type FilterDataType = {
   column: string;
@@ -56,6 +59,8 @@ interface Props {
   backgroundStyle?: BackgroundStyleDataType;
   backgroundColor?: string | boolean;
   padding?: string;
+  cardBackgroundStyle?: BackgroundStyleDataType;
+  cardDetailView?: string;
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -91,9 +96,12 @@ export function DataCards(props: Props) {
     backgroundStyle,
     backgroundColor,
     padding,
+    cardBackgroundStyle,
+    cardDetailView,
   } = props;
 
   const [cardData, setCardData] = useState(data);
+  const [selectedData, setSelectedData] = useState<any>(undefined);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterSettings, setFilterSettings] = useState<
@@ -436,14 +444,17 @@ export function DataCards(props: Props) {
                 <div
                   key={i}
                   style={{
+                    ...(cardBackgroundStyle || {}),
                     backgroundColor:
                       cardBackgroundColor ||
                       UNDPColorModule[mode || 'light'].grays['gray-200'],
-                    cursor: onSeriesMouseClick ? 'pointer' : 'auto',
+                    cursor:
+                      onSeriesMouseClick || cardDetailView ? 'pointer' : 'auto',
                   }}
                   className='undp-viz-data-cards'
                   onClick={() => {
                     if (onSeriesMouseClick) onSeriesMouseClick(d);
+                    if (cardDetailView) setSelectedData(d);
                   }}
                 >
                   <div
@@ -468,6 +479,21 @@ export function DataCards(props: Props) {
           ) : null}
         </div>
       </div>
+      <Modal
+        isOpen={selectedData !== undefined}
+        onClose={() => {
+          setSelectedData(undefined);
+        }}
+      >
+        {cardDetailView ? (
+          <div
+            style={{ margin: 0 }}
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(cardDetailView, selectedData),
+            }}
+          />
+        ) : null}
+      </Modal>
     </div>
   );
 }

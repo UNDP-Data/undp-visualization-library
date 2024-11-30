@@ -1870,6 +1870,15 @@ export const dataCardListSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    cardBackgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
+    cardDetailView: { type: 'string' },
   },
   required: ['cardTemplate'],
 };
@@ -5900,6 +5909,15 @@ export const SettingsSchema = {
       },
     },
     cardMinWidth: { type: 'number' },
+    cardBackgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
+    cardDetailView: { type: 'string' },
   },
   type: 'object',
 };

@@ -839,3 +839,73 @@ input.undp-viz-text-box:focus-visible{
   outline: 0;
   box-shadow: 0 0 4px #0468b1;
 }
+
+.undp-viz-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  background: hsla(0, 0%, 97%, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.undp-viz-modal-content {
+  background: #fff;
+  max-width: 100rem;
+  padding: 4rem 0.75rem 0.75rem;
+  position: relative;
+  width: 90%;
+  overflow-x: auto;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-color: #000 transparent;
+  scrollbar-width: thin;
+}
+
+.undp-viz-modal-content::-webkit-scrollbar {
+  border-radius: 0;
+  height: 5px;
+  width: 5px;
+}
+
+.undp-viz-modal-content::-webkit-scrollbar-track {
+  background: #000;
+  background-clip: padding-box;
+  border: 2px solid #fff;
+}
+
+.undp-viz-modal-content::-webkit-scrollbar-corner {
+  display: none;
+}
+
+.undp-viz-modal-content::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+.undp-viz-modal-close {
+  position: absolute;
+  background: url(https://design.undp.org/icons/times-circle.svg) no-repeat 0;
+  border: 0;
+  cursor: pointer;
+  font-size: 0;
+  height: 45px;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  width: 45px;
+}
+
+.undp-viz-modal-rtl .undp-viz-modal-close{
+  left: 0.75rem;
+  right: unset;
+}
+
+.undp-viz-modal-close:focus {
+  outline: none;
+}
