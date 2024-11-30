@@ -1,11 +1,25 @@
 import xss from 'xss';
 import Handlebars from 'handlebars';
+import { marked } from 'marked';
 import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
+  const renderer = new marked.Renderer();
+
+  renderer.link = ({ href, title, text }) => {
+    const target = href.startsWith('/') ? '_self' : '_blank';
+    return `<a href="${href}" target="${target}" title="${
+      title || ''
+    }">${text}</a>`;
+  };
+
   Handlebars.registerHelper('formatNumber', value => {
     if (typeof value === 'string') return value;
     return numberFormattingFunction(value);
+  });
+  marked.setOptions({ renderer });
+  Handlebars.registerHelper('markdown', text => {
+    return marked.parse(text || '');
   });
   const template = Handlebars.compile(desc);
   return template(data);

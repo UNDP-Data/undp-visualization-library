@@ -2584,6 +2584,8 @@ function GraphEl(props: Props) {
           cardMinWidth: settings?.cardMinWidth,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
+          cardBackgroundStyle: settings?.cardBackgroundStyle,
+          cardDetailView: settings?.cardDetailView,
         };
       default:
         return {};
