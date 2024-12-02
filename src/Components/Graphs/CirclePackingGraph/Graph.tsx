@@ -242,7 +242,7 @@ export function Graph(props: Props) {
                           justifyContent: 'center',
                           alignItems: 'center',
                           height: 'inherit',
-                          padding: '0 0.375rem',
+                          padding: '0 0.75rem',
                         }}
                       >
                         {showLabels ? (
@@ -253,6 +253,7 @@ export function Graph(props: Props) {
                                 : ''
                             }undp-viz-typography`}
                             style={{
+                              width: '100%',
                               fontSize: `${Math.min(
                                 Math.max(
                                   Math.round(
@@ -260,7 +261,7 @@ export function Graph(props: Props) {
                                       ? radiusScale(d.size || 0)
                                       : radius) / 4,
                                   ),
-                                  9,
+                                  12,
                                 ),
                                 Math.max(
                                   Math.round(
@@ -270,13 +271,36 @@ export function Graph(props: Props) {
                                       12) /
                                       `${d.label}`.length,
                                   ),
-                                  9,
+                                  12,
                                 ),
-                                20,
+                                14,
                               )}px`,
                               marginBottom: 0,
                               textAlign: 'center',
-                              lineHeight: '1',
+                              lineHeight: '1.25',
+                              WebkitLineClamp:
+                                2 *
+                                  (radiusScale
+                                    ? radiusScale(d.size || 0)
+                                    : radius) <
+                                60
+                                  ? 1
+                                  : 2 *
+                                      (radiusScale
+                                        ? radiusScale(d.size || 0)
+                                        : radius) <
+                                    75
+                                  ? 2
+                                  : 2 *
+                                      (radiusScale
+                                        ? radiusScale(d.size || 0)
+                                        : radius) <
+                                    100
+                                  ? 3
+                                  : undefined,
+                              display: '-webkit-box',
+                              overflow: 'hidden',
+                              WebkitBoxOrient: 'vertical',
                               color: getTextColorBasedOnBgColor(
                                 data.filter(el => el.color).length === 0
                                   ? colors[0]
@@ -301,11 +325,13 @@ export function Graph(props: Props) {
                                       ? radiusScale(d.size || 0)
                                       : radius) / 4,
                                   ),
-                                  9,
+                                  14,
                                 ),
-                                20,
+                                14,
                               )}px`,
+                              width: '100%',
                               textAlign: 'center',
+                              fontWeight: 'bold',
                               marginBottom: 0,
                               color: getTextColorBasedOnBgColor(
                                 data.filter(el => el.color).length === 0

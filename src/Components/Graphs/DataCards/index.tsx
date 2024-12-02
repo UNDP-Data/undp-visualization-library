@@ -422,7 +422,8 @@ export function DataCards(props: Props) {
                     padding: '10px 10px 10px 36px',
                     height: '22px',
                     flexGrow: 1,
-                    backgroundColor: 'transparent',
+                    backgroundColor:
+                      UNDPColorModule[mode || 'light'].grays.white,
                     color: UNDPColorModule[mode || 'light'].grays.black,
                   }}
                 />
@@ -456,14 +457,10 @@ export function DataCards(props: Props) {
                     if (onSeriesMouseClick) onSeriesMouseClick(d);
                     if (cardDetailView) setSelectedData(d);
                   }}
-                >
-                  <div
-                    style={{ margin: 0 }}
-                    dangerouslySetInnerHTML={{
-                      __html: string2HTML(cardTemplate, d),
-                    }}
-                  />
-                </div>
+                  dangerouslySetInnerHTML={{
+                    __html: string2HTML(cardTemplate, d),
+                  }}
+                />
               ),
             )}
           </div>

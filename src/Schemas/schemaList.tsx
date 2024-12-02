@@ -1823,14 +1823,17 @@ export const dataCardListSettingsSchema = {
       type: 'string',
     },
     cardFilters: {
-      type: 'object',
-      properties: {
-        column: { type: 'string' },
-        label: { type: 'string' },
-        defaultValue: { type: 'string' },
-        excludeValues: { type: 'array', items: { type: 'string' } },
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          column: { type: 'string' },
+          label: { type: 'string' },
+          defaultValue: { type: 'string' },
+          excludeValues: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['column'],
       },
-      required: ['column'],
     },
     cardSearchColumns: {
       type: 'array',
@@ -5880,14 +5883,17 @@ export const SettingsSchema = {
       type: 'string',
     },
     cardFilters: {
-      type: 'object',
-      properties: {
-        column: { type: 'string' },
-        label: { type: 'string' },
-        defaultValue: { type: 'string' },
-        excludeValues: { type: 'array', items: { type: 'string' } },
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          column: { type: 'string' },
+          label: { type: 'string' },
+          defaultValue: { type: 'string' },
+          excludeValues: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['column'],
       },
-      required: ['column'],
     },
     cardSortingOptions: {
       type: 'object',

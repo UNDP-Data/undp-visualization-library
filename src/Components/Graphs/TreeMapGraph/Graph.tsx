@@ -212,6 +212,17 @@ export function Graph(props: Props) {
                             fontSize: '14px',
                             lineHeight: '1',
                             marginBottom: 0,
+                            WebkitLineClamp:
+                              d.y1 - d.y0 > 50
+                                ? d.y1 - d.y0 > 100
+                                  ? d.y1 - d.y0 > 150
+                                    ? undefined
+                                    : 3
+                                  : 2
+                                : 1,
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
