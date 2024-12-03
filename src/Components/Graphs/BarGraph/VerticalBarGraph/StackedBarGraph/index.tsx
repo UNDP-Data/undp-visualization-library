@@ -58,6 +58,7 @@ interface Props {
   minBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -105,6 +106,7 @@ export function VerticalStackedBarGraph(props: Props) {
     minBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const barColors =
@@ -304,6 +306,11 @@ export function VerticalStackedBarGraph(props: Props) {
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

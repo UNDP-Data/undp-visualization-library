@@ -2098,7 +2098,7 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           textBackground: settings?.textBackground,
           headingFontSize: settings?.headingFontSize,
-          textAlign: settings?.textAlign,
+          centerAlign: settings?.centerAlign,
         };
       case 'geoHubCompareMap':
         return {
