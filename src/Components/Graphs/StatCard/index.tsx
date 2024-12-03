@@ -22,6 +22,8 @@ interface Props {
   ariaLabel?: string;
   textBackground?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
+  headingFontSize?: string;
+  centerAlign?: boolean;
 }
 
 export function BasicStatCard(props: Props) {
@@ -43,6 +45,8 @@ export function BasicStatCard(props: Props) {
     ariaLabel,
     textBackground,
     backgroundStyle,
+    headingFontSize,
+    centerAlign,
   } = props;
 
   return (
@@ -105,12 +109,12 @@ export function BasicStatCard(props: Props) {
           >
             <h3
               style={{
-                fontSize: '4.375rem',
+                fontSize: headingFontSize || '4.375rem',
                 lineHeight: '1',
                 textShadow: 'none',
-                WebkitTextStroke: `2px ${
-                  UNDPColorModule[mode || 'light'].grays.black
-                }`,
+                WebkitTextStroke: textBackground
+                  ? undefined
+                  : `2px ${UNDPColorModule[mode || 'light'].grays.black}`,
                 color: textBackground
                   ? UNDPColorModule[mode || 'light'].grays.black
                   : !backgroundColor
@@ -121,7 +125,7 @@ export function BasicStatCard(props: Props) {
                 letterSpacing: '0.05rem',
                 marginTop: '0',
                 marginBottom: '1rem',
-                textAlign: rtl ? 'right' : 'left',
+                textAlign: centerAlign ? 'center' : rtl ? 'right' : 'left',
                 fontFamily:
                   'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}

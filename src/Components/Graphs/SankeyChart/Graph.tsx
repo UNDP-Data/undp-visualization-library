@@ -36,6 +36,7 @@ interface Props {
   targetTitle?: string;
   animateLinks?: boolean | number;
   sortNodes: 'asc' | 'desc' | 'mostReadable' | 'none';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -68,6 +69,7 @@ export function Graph(props: Props) {
     targetTitle,
     animateLinks,
     sortNodes,
+    resetSelectionOnDoubleClick,
   } = props;
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -415,7 +417,10 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick) {
-                    if (isEqual(mouseClickData, (d as any).data)) {
+                    if (
+                      isEqual(mouseClickData, (d as any).data) &&
+                      resetSelectionOnDoubleClick
+                    ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick(undefined);
                     } else {

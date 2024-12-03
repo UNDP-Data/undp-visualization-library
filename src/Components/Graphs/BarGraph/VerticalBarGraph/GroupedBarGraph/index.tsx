@@ -54,6 +54,7 @@ interface Props {
   maxBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function VerticalGroupedBarGraph(props: Props) {
@@ -99,6 +100,7 @@ export function VerticalGroupedBarGraph(props: Props) {
     maxBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const barColors =
@@ -288,6 +290,11 @@ export function VerticalGroupedBarGraph(props: Props) {
                   labelOrder={labelOrder}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

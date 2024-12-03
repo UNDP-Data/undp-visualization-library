@@ -62,6 +62,7 @@ interface Props {
   maxBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedHorizontalGroupedBarGraph(props: Props) {
@@ -109,6 +110,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     maxBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const barColors =
@@ -368,6 +370,11 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   language={language || (rtl ? 'ar' : 'en')}
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

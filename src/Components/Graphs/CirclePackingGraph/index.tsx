@@ -54,6 +54,7 @@ interface Props {
   radius?: number;
   maxRadiusValue?: number;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -96,6 +97,7 @@ export function CirclePackingGraph(props: Props) {
     radius,
     maxRadiusValue,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -329,6 +331,11 @@ export function CirclePackingGraph(props: Props) {
                       : (radius as number)
                   }
                   maxRadiusValue={maxRadiusValue}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

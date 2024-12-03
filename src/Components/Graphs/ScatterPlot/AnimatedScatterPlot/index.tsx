@@ -76,6 +76,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -130,6 +131,7 @@ export function AnimatedScatterPlot(props: Props) {
     mode,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -431,6 +433,11 @@ export function AnimatedScatterPlot(props: Props) {
                     customHighlightAreaSettings || []
                   }
                   mode={mode || 'light'}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

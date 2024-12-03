@@ -20,6 +20,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -37,6 +38,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const pieData = pie()
     .sort(null)
@@ -173,7 +175,10 @@ export function Graph(props: Props) {
               }}
               onClick={() => {
                 if (onSeriesMouseClick) {
-                  if (isEqual(mouseClickData, d.data)) {
+                  if (
+                    isEqual(mouseClickData, d.data) &&
+                    resetSelectionOnDoubleClick
+                  ) {
                     setMouseClickData(undefined);
                     onSeriesMouseClick(undefined);
                   } else {

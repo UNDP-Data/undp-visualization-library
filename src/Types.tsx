@@ -108,16 +108,6 @@ export interface GroupedBarGraphDataType {
   data?: object;
 }
 
-export interface SdgChartDataType {
-  target: string | number;
-  value: number | undefined | string;
-  data?: object;
-}
-
-export interface SdgChartWithDateDataType extends SdgChartDataType {
-  date: string | number;
-}
-
 export interface GroupedBarGraphWithDateDataType
   extends GroupedBarGraphDataType {
   date: string | number;
@@ -361,6 +351,7 @@ export interface DataFilterDataType {
 
 export type DashboardColumnDataType = {
   graphType: GraphType;
+  attachedFilter: string;
   columnWidth?: number;
   dataTransform?: {
     keyColumn: string;
@@ -703,7 +694,10 @@ export interface GraphSettingsDataType {
   cardSearchColumns?: string[];
   cardMinWidth?: number;
   textBackground?: boolean;
+  headingFontSize?: string;
+  centerAlign?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
   cardBackgroundStyle?: BackgroundStyleDataType;
   cardDetailView?: string;
+  resetSelectionOnDoubleClick?: boolean;
 }

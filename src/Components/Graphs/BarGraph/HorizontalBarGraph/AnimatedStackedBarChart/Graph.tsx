@@ -47,6 +47,7 @@ interface Props {
   sortParameter?: number | 'total';
   maxBarThickness?: number;
   minBarThickness?: number;
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -81,6 +82,7 @@ export function Graph(props: Props) {
     sortParameter,
     maxBarThickness,
     minBarThickness,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const dataFormatted = sortBy(
@@ -225,6 +227,7 @@ export function Graph(props: Props) {
             rtl={rtl}
             language={language}
             mode={mode}
+            resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
           />
           <line
             x1={x(0)}

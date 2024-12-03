@@ -67,6 +67,7 @@ interface Props {
   minBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedVerticalBarChart(props: Props) {
@@ -119,6 +120,7 @@ export function AnimatedVerticalBarChart(props: Props) {
     minBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -423,6 +425,11 @@ export function AnimatedVerticalBarChart(props: Props) {
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

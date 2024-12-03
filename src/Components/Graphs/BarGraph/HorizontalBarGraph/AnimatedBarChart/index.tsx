@@ -69,6 +69,7 @@ interface Props {
   minBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedHorizontalBarChart(props: Props) {
@@ -121,6 +122,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
     minBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -426,6 +428,11 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

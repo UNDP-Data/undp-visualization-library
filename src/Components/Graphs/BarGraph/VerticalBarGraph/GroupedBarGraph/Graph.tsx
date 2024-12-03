@@ -40,6 +40,7 @@ interface Props {
   labelOrder?: string[];
   mode: 'light' | 'dark';
   maxBarThickness?: number;
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -71,6 +72,7 @@ export function Graph(props: Props) {
     labelOrder,
     mode,
     maxBarThickness,
+    resetSelectionOnDoubleClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -233,7 +235,10 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick) {
-                        if (isEqual(mouseClickData, { ...d, sizeIndex: j })) {
+                        if (
+                          isEqual(mouseClickData, { ...d, sizeIndex: j }) &&
+                          resetSelectionOnDoubleClick
+                        ) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick(undefined);
                         } else {

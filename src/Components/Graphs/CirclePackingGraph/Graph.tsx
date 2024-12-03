@@ -40,6 +40,7 @@ interface Props {
   mode: 'light' | 'dark';
   maxRadiusValue?: number;
   radius: number;
+  resetSelectionOnDoubleClick: boolean;
 }
 interface TreeMapDataTypeForBubbleChart extends TreeMapDataType {
   x: number;
@@ -73,6 +74,7 @@ export function Graph(props: Props) {
     mode,
     maxRadiusValue,
     radius,
+    resetSelectionOnDoubleClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -176,7 +178,10 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick) {
-                      if (mouseClickData === d.label) {
+                      if (
+                        mouseClickData === d.label &&
+                        resetSelectionOnDoubleClick
+                      ) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick(undefined);
                       } else {

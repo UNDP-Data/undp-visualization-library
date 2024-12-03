@@ -648,6 +648,7 @@ export const sankeyChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -753,6 +754,7 @@ export const simpleBarChartSettingsSchema = {
       items: { type: 'string' },
     },
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -862,6 +864,7 @@ export const groupedBarChartSettingsSchema = {
       items: { type: 'string' },
     },
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -958,6 +961,7 @@ export const stackedBarChartSettingsSchema = {
       items: { type: 'string' },
     },
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -1053,6 +1057,7 @@ export const animatedSimpleBarChartSettingsSchema = {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
     ariaLabel: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1157,6 +1162,7 @@ export const animatedGroupedBarChartSettingsSchema = {
       items: { type: 'string' },
     },
     ariaLabel: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1252,6 +1258,7 @@ export const animatedStackedBarChartSettingsSchema = {
       items: { type: 'string' },
     },
     ariaLabel: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1352,6 +1359,7 @@ export const beeSwarmChartSettingsSchema = {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
     ariaLabel: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -1443,6 +1451,7 @@ export const butterflyChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
     ariaLabel: { type: 'string' },
     leftBarTitle: { type: 'string' },
@@ -1533,6 +1542,7 @@ export const animatedButterflyChartSettingsSchema = {
   type: 'object',
   properties: {
     graphTitle: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     leftBarTitle: { type: 'string' },
@@ -1634,6 +1644,7 @@ export const circlePackingSettingsSchema = {
         },
       ],
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -1781,6 +1792,7 @@ export const dataTableSettingsSchema = {
           border: { type: 'string' },
         },
       },
+      resetSelectionOnDoubleClick: { type: 'boolean' },
     },
   },
   required: ['columnData'],
@@ -1970,6 +1982,7 @@ export const donutChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -2051,6 +2064,7 @@ export const dumbbellChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['colorDomain'],
 };
@@ -2135,6 +2149,7 @@ export const animatedDumbbellChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['colorDomain'],
 };
@@ -2218,6 +2233,7 @@ export const heatMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
 };
@@ -3278,6 +3294,7 @@ export const choroplethMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
 };
@@ -3389,6 +3406,7 @@ export const biVariateChoroplethMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -3494,6 +3512,7 @@ export const dotDensityMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -3603,6 +3622,7 @@ export const animatedChoroplethMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
 };
@@ -3717,6 +3737,7 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -3825,6 +3846,7 @@ export const animatedDotDensityMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4100,6 +4122,7 @@ export const paretoChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4302,6 +4325,7 @@ export const scatterPlotSettingsSchema = {
         required: ['coordinates'],
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4504,6 +4528,7 @@ export const animatedScatterPlotSettingsSchema = {
         required: ['coordinates'],
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4590,6 +4615,7 @@ export const slopeChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4768,6 +4794,8 @@ export const statCardSettingsSchema = {
     },
     ariaLabel: { type: 'string' },
     textBackground: { type: 'boolean' },
+    centerAlign: { type: 'boolean' },
+    headingFontSize: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     suffix: { type: 'string' },
@@ -4905,6 +4933,7 @@ export const stripChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -4985,6 +5014,7 @@ export const treeMapSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
 
@@ -5055,6 +5085,8 @@ export const SettingsSchema = {
       enum: ['light', 'dark'],
     },
     textBackground: { type: 'boolean' },
+    headingFontSize: { type: 'string' },
+    centerAlign: { type: 'boolean' },
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -5924,6 +5956,7 @@ export const SettingsSchema = {
       },
     },
     cardDetailView: { type: 'string' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   type: 'object',
 };

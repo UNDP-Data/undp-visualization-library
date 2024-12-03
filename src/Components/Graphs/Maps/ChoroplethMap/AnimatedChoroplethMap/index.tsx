@@ -61,6 +61,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -107,6 +108,7 @@ export function AnimatedChoroplethMap(props: Props) {
     mode,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -345,6 +347,11 @@ export function AnimatedChoroplethMap(props: Props) {
                 rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                 language={language || (rtl ? 'ar' : 'en')}
                 mode={mode || 'light'}
+                resetSelectionOnDoubleClick={
+                  checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                    ? true
+                    : (resetSelectionOnDoubleClick as boolean)
+                }
               />
             ) : null}
           </div>

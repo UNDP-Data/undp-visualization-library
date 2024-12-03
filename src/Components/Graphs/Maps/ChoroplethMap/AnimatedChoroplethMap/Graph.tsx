@@ -41,6 +41,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -73,6 +74,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const groupedData = Array.from(
     group(
@@ -249,7 +251,10 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick) {
-                    if (isEqual(mouseClickData, d)) {
+                    if (
+                      isEqual(mouseClickData, d) &&
+                      resetSelectionOnDoubleClick
+                    ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick(undefined);
                     } else {

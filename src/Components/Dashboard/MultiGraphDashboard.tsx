@@ -10,6 +10,7 @@ import {
   DataSettingsDataType,
   FilterSettingsDataType,
   FilterUiSettingsDataType,
+  GraphType,
   SelectedFilterDataType,
 } from '../../Types';
 import {
@@ -48,6 +49,15 @@ const TotalWidth = (columns: DashboardColumnDataType[]) => {
   const sum = columnWidth.reduce((acc, cur) => acc + cur, 0);
   return sum;
 };
+
+const GraphWithAttachedFilter: GraphType[] = [
+  'horizontalBarChart',
+  'verticalBarChart',
+  'choroplethMap',
+  'biVariateChoroplethMap',
+  'circlePacking',
+  'treeMap',
+];
 
 export function MultiGraphDashboard(props: Props) {
   const {
@@ -310,6 +320,7 @@ export function MultiGraphDashboard(props: Props) {
                               d.clearable === undefined ? true : d.clearable
                             }
                             isRtl={dashboardLayout.rtl}
+                            isMulti={false}
                             isSearchable
                             controlShouldRenderValue
                             filterOption={createFilter(filterConfig)}
@@ -328,6 +339,16 @@ export function MultiGraphDashboard(props: Props) {
                                   }
                                 : undefined
                             }
+                            value={(
+                              selectedFilters[
+                                selectedFilters.findIndex(
+                                  f => f.filter === d.filter,
+                                )
+                              ].value || []
+                            ).map(el => ({
+                              value: el,
+                              label: el,
+                            }))}
                             theme={theme => getReactSelectTheme(theme, mode)}
                           />
                         ) : (
@@ -466,11 +487,49 @@ export function MultiGraphDashboard(props: Props) {
                       >
                         <SingleGraphDashboard
                           graphType={el.graphType}
-                          dataFilters={el.dataFilters}
+                          dataFilters={el.dataFilters?.map(filter => {
+                            const { excludeValues, includeValues } = filter;
+                            const excludeVal = excludeValues?.flatMap(item => {
+                              if (typeof item === 'string') {
+                                const match = item.match(/{{(\w+)}}/);
+                                // Match placeholders like `{{variable}}`
+                                return match
+                                  ? selectedFilters[
+                                      selectedFilters.findIndex(
+                                        sf => sf.filter === match[1],
+                                      )
+                                    ].value || []
+                                  : item; // Replace or keep original item
+                              }
+                              return item;
+                            });
+                            const includeVal = includeValues?.flatMap(item => {
+                              if (typeof item === 'string') {
+                                const match = item.match(/{{(\w+)}}/);
+                                // Match placeholders like `{{variable}}`
+                                return match
+                                  ? selectedFilters[
+                                      selectedFilters.findIndex(
+                                        sf => sf.filter === match[1],
+                                      )
+                                    ].value || []
+                                  : item; // Replace or keep original item
+                              }
+                              return item;
+                            });
+                            return {
+                              ...filter,
+                              includeValues: includeVal,
+                              excludeValues: excludeVal,
+                            };
+                          })}
                           graphSettings={{
                             ...el.settings,
                             width: undefined,
                             height: undefined,
+                            resetSelectionOnDoubleClick: el.attachedFilter
+                              ? false
+                              : el.settings?.resetSelectionOnDoubleClick,
                             backgroundStyle:
                               el.settings?.backgroundStyle ||
                               graphBackgroundStyle,
@@ -488,6 +547,24 @@ export function MultiGraphDashboard(props: Props) {
                           dataSettings={{
                             data: filterData(data, dataFilters || []),
                           }}
+                          updateFilters={
+                            el.attachedFilter &&
+                            GraphWithAttachedFilter.indexOf(el.graphType) !==
+                              -1 &&
+                            selectedFilters.findIndex(
+                              f => f.filter === el.attachedFilter,
+                            ) !== -1
+                              ? dClicked => {
+                                  const filterTemp = [...selectedFilters];
+                                  filterTemp[
+                                    filterTemp.findIndex(
+                                      f => f.filter === el.attachedFilter,
+                                    )
+                                  ].value = dClicked ? [dClicked] : [];
+                                  setSelectedFilters(filterTemp);
+                                }
+                              : undefined
+                          }
                           dataTransform={el.dataTransform}
                           dataSelectionOptions={el.dataSelectionOptions}
                           graphDataConfiguration={el.graphDataConfiguration}

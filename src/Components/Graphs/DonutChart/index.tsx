@@ -46,6 +46,7 @@ interface Props {
   relativeHeight?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function DonutChart(props: Props) {
@@ -82,6 +83,7 @@ export function DonutChart(props: Props) {
     relativeHeight,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -329,6 +331,11 @@ export function DonutChart(props: Props) {
                     rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
                     language={language || (rtl ? 'ar' : 'en')}
                     mode={mode || 'light'}
+                    resetSelectionOnDoubleClick={
+                      checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                        ? true
+                        : (resetSelectionOnDoubleClick as boolean)
+                    }
                   />
                 ) : null}
               </div>

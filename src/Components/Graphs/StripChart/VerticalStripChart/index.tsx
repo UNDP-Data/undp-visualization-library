@@ -54,6 +54,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function VerticalStripChart(props: Props) {
@@ -99,6 +100,7 @@ export function VerticalStripChart(props: Props) {
     mode,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -307,6 +309,11 @@ export function VerticalStripChart(props: Props) {
                   highlightColor={highlightColor}
                   dotOpacity={dotOpacity || 0.3}
                   mode={mode || 'light'}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

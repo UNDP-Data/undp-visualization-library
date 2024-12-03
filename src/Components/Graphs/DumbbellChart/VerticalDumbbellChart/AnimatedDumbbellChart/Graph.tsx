@@ -48,6 +48,7 @@ interface Props {
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -84,6 +85,7 @@ export function Graph(props: Props) {
     mode,
     maxBarThickness,
     minBarThickness,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const dataFormatted = sortBy(
@@ -339,7 +341,10 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick) {
-                        if (isEqual(mouseClickData, { ...d, xIndex: j })) {
+                        if (
+                          isEqual(mouseClickData, { ...d, xIndex: j }) &&
+                          resetSelectionOnDoubleClick
+                        ) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick(undefined);
                         } else {

@@ -61,6 +61,7 @@ interface Props {
   animateLinks?: boolean | number;
   sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 export function SankeyChart(props: Props) {
   const {
@@ -109,6 +110,7 @@ export function SankeyChart(props: Props) {
     animateLinks,
     sortNodes,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -364,6 +366,11 @@ export function SankeyChart(props: Props) {
                   targetTitle={targetTitle}
                   animateLinks={animateLinks}
                   sortNodes={sortNodes || 'mostReadable'}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

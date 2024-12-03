@@ -38,6 +38,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -68,6 +69,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
@@ -229,7 +231,10 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick) {
-                    if (isEqual(mouseClickData, d)) {
+                    if (
+                      isEqual(mouseClickData, d) &&
+                      resetSelectionOnDoubleClick
+                    ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick(undefined);
                     } else {

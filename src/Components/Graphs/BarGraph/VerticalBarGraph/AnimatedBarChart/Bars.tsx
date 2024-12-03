@@ -40,6 +40,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Bars(props: Props) {
@@ -66,6 +67,7 @@ export function Bars(props: Props) {
     rtl,
     language,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
 
@@ -99,7 +101,7 @@ export function Bars(props: Props) {
           }}
           onClick={() => {
             if (onSeriesMouseClick) {
-              if (isEqual(mouseClickData, d)) {
+              if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                 setMouseClickData(undefined);
                 onSeriesMouseClick(undefined);
               } else {

@@ -38,6 +38,7 @@ interface Props {
   backgroundStyle?: BackgroundStyleDataType;
   backgroundColor?: string | boolean;
   padding?: string;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -65,6 +66,7 @@ export function DataTable(props: Props) {
     backgroundStyle,
     backgroundColor,
     padding,
+    resetSelectionOnDoubleClick,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
@@ -347,7 +349,10 @@ export function DataTable(props: Props) {
                         }}
                         onClick={() => {
                           if (onSeriesMouseClick) {
-                            if (isEqual(mouseClickData, d)) {
+                            if (
+                              isEqual(mouseClickData, d) &&
+                              resetSelectionOnDoubleClick !== false
+                            ) {
                               setMouseClickData(undefined);
                               onSeriesMouseClick(undefined);
                             } else {

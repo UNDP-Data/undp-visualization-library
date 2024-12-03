@@ -64,6 +64,7 @@ interface Props {
   minBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function AnimatedVerticalStackedBarChart(props: Props) {
@@ -113,6 +114,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     minBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -372,6 +374,11 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

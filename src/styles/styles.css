@@ -866,6 +866,7 @@ input.undp-viz-text-box:focus-visible{
   padding: 4rem 0.75rem 0.75rem;
   position: relative;
   width: 90%;
+  max-height: 90vh;
   overflow-x: auto;
   overflow-y: auto;
   scroll-behavior: smooth;

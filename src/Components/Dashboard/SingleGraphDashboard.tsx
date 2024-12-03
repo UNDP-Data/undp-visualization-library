@@ -53,6 +53,7 @@ interface Props {
   dataSelectionOptions?: DataSelectionDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
+  updateFilters?: (_d: string) => void;
 }
 
 export function SingleGraphDashboard(props: Props) {
@@ -69,6 +70,7 @@ export function SingleGraphDashboard(props: Props) {
     mode,
     readableHeader,
     noOfFiltersPerRow,
+    updateFilters,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -666,6 +668,7 @@ export function SingleGraphDashboard(props: Props) {
                 graphDataConfiguration={graphConfig}
                 debugMode={debugMode}
                 readableHeader={readableHeader || []}
+                updateFilters={updateFilters}
                 settings={
                   graphSettings
                     ? {

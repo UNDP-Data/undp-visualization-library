@@ -58,6 +58,7 @@ interface Props {
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
   regressionLine: boolean | string;
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -95,6 +96,7 @@ export function Graph(props: Props) {
     customHighlightAreaSettings,
     mode,
     regressionLine,
+    resetSelectionOnDoubleClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -551,7 +553,10 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick) {
-                        if (isEqual(mouseClickData, d)) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                          resetSelectionOnDoubleClick
+                        ) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick(undefined);
                         } else {

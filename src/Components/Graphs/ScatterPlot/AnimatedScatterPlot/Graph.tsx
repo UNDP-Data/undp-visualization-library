@@ -64,6 +64,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -102,6 +103,7 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const dataFormatted = sortBy(
@@ -590,7 +592,10 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick) {
-                        if (isEqual(mouseClickData, d)) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                          resetSelectionOnDoubleClick
+                        ) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick(undefined);
                         } else {

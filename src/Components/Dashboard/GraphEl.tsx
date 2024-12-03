@@ -73,6 +73,7 @@ interface Props {
     value: string;
     label: string;
   }[];
+  updateFilters?: (_d: string) => void;
 }
 
 function GraphEl(props: Props) {
@@ -83,6 +84,7 @@ function GraphEl(props: Props) {
     debugMode,
     graphDataConfiguration,
     readableHeader,
+    updateFilters,
   } = props;
   if (debugMode) {
     // eslint-disable-next-line no-console
@@ -228,6 +230,12 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.label);
+            }
+          },
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -276,10 +284,12 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
         };
       case 'horizontalStackedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -330,6 +340,7 @@ function GraphEl(props: Props) {
       case 'verticalBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -381,10 +392,16 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.label);
+            }
+          },
         };
       case 'verticalGroupedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -433,6 +450,7 @@ function GraphEl(props: Props) {
       case 'verticalStackedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -483,6 +501,7 @@ function GraphEl(props: Props) {
       case 'animatedHorizontalBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
@@ -540,6 +559,7 @@ function GraphEl(props: Props) {
       case 'animatedHorizontalGroupedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -590,6 +610,7 @@ function GraphEl(props: Props) {
       case 'animatedHorizontalStackedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -641,6 +662,7 @@ function GraphEl(props: Props) {
       case 'animatedVerticalBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -698,6 +720,7 @@ function GraphEl(props: Props) {
       case 'animatedVerticalGroupedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -748,6 +771,7 @@ function GraphEl(props: Props) {
       case 'animatedVerticalStackedBarChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1097,6 +1121,7 @@ function GraphEl(props: Props) {
       case 'choroplethMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
@@ -1140,10 +1165,16 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.countryCode);
+            }
+          },
         };
       case 'biVariateChoroplethMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           mapData: settings?.mapData,
@@ -1194,10 +1225,16 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.countryCode);
+            }
+          },
         };
       case 'dotDensityMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
@@ -1245,6 +1282,7 @@ function GraphEl(props: Props) {
       case 'donutChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           mainText: settings?.mainText,
           data: graphData,
@@ -1274,10 +1312,16 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           relativeHeight: settings?.relativeHeight,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.label);
+            }
+          },
         };
       case 'slopeChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1323,6 +1367,7 @@ function GraphEl(props: Props) {
       case 'scatterPlot':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1381,6 +1426,7 @@ function GraphEl(props: Props) {
       case 'horizontalDumbbellChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1433,6 +1479,7 @@ function GraphEl(props: Props) {
       case 'verticalDumbbellChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1485,6 +1532,7 @@ function GraphEl(props: Props) {
       case 'treeMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
@@ -1525,10 +1573,16 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.label);
+            }
+          },
         };
       case 'circlePacking':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
@@ -1571,10 +1625,16 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           radius: settings?.radius,
           maxRadiusValue: settings?.maxRadiusValue,
+          onSeriesMouseClick: (el: any) => {
+            if (updateFilters) {
+              updateFilters(el.label);
+            }
+          },
         };
       case 'heatMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1623,6 +1683,7 @@ function GraphEl(props: Props) {
       case 'horizontalStripChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1672,6 +1733,7 @@ function GraphEl(props: Props) {
       case 'verticalStripChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1721,6 +1783,7 @@ function GraphEl(props: Props) {
       case 'horizontalBeeSwarmChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
@@ -1768,6 +1831,7 @@ function GraphEl(props: Props) {
       case 'verticalBeeSwarmChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
@@ -1815,6 +1879,7 @@ function GraphEl(props: Props) {
       case 'butterflyChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1943,6 +2008,7 @@ function GraphEl(props: Props) {
       case 'paretoChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -1992,6 +2058,7 @@ function GraphEl(props: Props) {
       case 'dataTable':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           sources: settings?.sources,
@@ -2030,6 +2097,8 @@ function GraphEl(props: Props) {
           countOnly: settings?.countOnly,
           ariaLabel: settings?.ariaLabel,
           textBackground: settings?.textBackground,
+          headingFontSize: settings?.headingFontSize,
+          textAlign: settings?.textAlign,
         };
       case 'geoHubCompareMap':
         return {
@@ -2134,6 +2203,7 @@ function GraphEl(props: Props) {
       case 'animatedBiVariateChoroplethMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           mapData: settings?.mapData,
@@ -2191,6 +2261,7 @@ function GraphEl(props: Props) {
       case 'animatedChoroplethMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
@@ -2241,6 +2312,7 @@ function GraphEl(props: Props) {
       case 'animatedDotDensityMap':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
@@ -2291,6 +2363,7 @@ function GraphEl(props: Props) {
       case 'animatedButterflyChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -2349,6 +2422,7 @@ function GraphEl(props: Props) {
       case 'animatedHorizontalDumbbellChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -2403,6 +2477,7 @@ function GraphEl(props: Props) {
       case 'animatedVerticalDumbbellChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -2457,6 +2532,7 @@ function GraphEl(props: Props) {
       case 'animatedScatterPlot':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
@@ -2517,6 +2593,7 @@ function GraphEl(props: Props) {
       case 'sankeyChart':
         return {
           mode: settings?.mode,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,

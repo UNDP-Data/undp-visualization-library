@@ -58,6 +58,7 @@ interface Props {
   minBarThickness?: number;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  resetSelectionOnDoubleClick?: boolean;
 }
 
 export function HorizontalStackedBarGraph(props: Props) {
@@ -105,6 +106,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     minBarThickness,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
   const barColors =
     colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
@@ -310,6 +312,11 @@ export function HorizontalStackedBarGraph(props: Props) {
                   mode={mode || 'light'}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>

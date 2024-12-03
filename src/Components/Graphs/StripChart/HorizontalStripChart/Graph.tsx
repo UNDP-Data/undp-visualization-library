@@ -35,6 +35,7 @@ interface Props {
   highlightColor?: string;
   dotOpacity: number;
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -65,6 +66,7 @@ export function Graph(props: Props) {
     highlightColor,
     dotOpacity,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -144,7 +146,10 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick) {
-                    if (isEqual(mouseClickData, d)) {
+                    if (
+                      isEqual(mouseClickData, d) &&
+                      resetSelectionOnDoubleClick
+                    ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick(undefined);
                     } else {

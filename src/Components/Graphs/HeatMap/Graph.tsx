@@ -34,6 +34,7 @@ interface Props {
   rtl: boolean;
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -62,6 +63,7 @@ export function Graph(props: Props) {
     rtl,
     language,
     mode,
+    resetSelectionOnDoubleClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -247,7 +249,10 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick) {
-                      if (isEqual(mouseClickData, d)) {
+                      if (
+                        isEqual(mouseClickData, d) &&
+                        resetSelectionOnDoubleClick
+                      ) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick(undefined);
                       } else {

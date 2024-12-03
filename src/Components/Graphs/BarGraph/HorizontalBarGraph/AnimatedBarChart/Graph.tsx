@@ -49,6 +49,7 @@ interface Props {
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
+  resetSelectionOnDoubleClick: boolean;
 }
 
 export function Graph(props: Props) {
@@ -85,6 +86,7 @@ export function Graph(props: Props) {
     mode,
     maxBarThickness,
     minBarThickness,
+    resetSelectionOnDoubleClick,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -237,6 +239,7 @@ export function Graph(props: Props) {
             language={language}
             xMinValue={xMinValue}
             mode={mode}
+            resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
           />
           <line
             x1={x(xMinValue < 0 ? 0 : xMinValue)}

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 interface Props {
   isOpen: boolean;
@@ -11,6 +11,16 @@ interface Props {
 
 export function Modal(props: Props) {
   const { isOpen, onClose, rtl, children } = props;
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
   if (!isOpen) return null;
 
   return (

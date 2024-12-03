@@ -68,6 +68,7 @@ interface Props {
   mode?: 'light' | 'dark';
   regressionLine?: boolean | string;
   ariaLabel?: string;
+  resetSelectionOnDoubleClick?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
 }
 
@@ -121,6 +122,7 @@ export function ScatterPlot(props: Props) {
     regressionLine,
     ariaLabel,
     backgroundStyle,
+    resetSelectionOnDoubleClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -352,6 +354,11 @@ export function ScatterPlot(props: Props) {
                   }
                   mode={mode || 'light'}
                   regressionLine={regressionLine || false}
+                  resetSelectionOnDoubleClick={
+                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
+                      ? true
+                      : (resetSelectionOnDoubleClick as boolean)
+                  }
                 />
               ) : null}
             </div>
