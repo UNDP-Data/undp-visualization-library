@@ -274,7 +274,7 @@ export function Graph(props: Props) {
                           }
                           style={{
                             fill: barColors[j],
-                            fontSize: '1rem',
+                            fontSize: '0.875rem',
                             textAnchor: el
                               ? el < 0
                                 ? 'end'

@@ -31,7 +31,7 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
-  zoomScaleExtend?: [number, number];
+  zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedCountryCodes: string[];
   onSeriesMouseClick?: (_d: any) => void;

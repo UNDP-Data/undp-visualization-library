@@ -307,7 +307,7 @@ export function Graph(props: Props) {
                       <motion.text
                         style={{
                           fill: barColors[0],
-                          fontSize: '1rem',
+                          fontSize: '0.875rem',
                           textAnchor: d.rightBar
                             ? d.rightBar > 0
                               ? 'end'
@@ -503,7 +503,7 @@ export function Graph(props: Props) {
                       <motion.text
                         style={{
                           fill: barColors[1],
-                          fontSize: '1rem',
+                          fontSize: '0.875rem',
                           textAnchor: d.rightBar
                             ? d.rightBar < 0
                               ? 'end'

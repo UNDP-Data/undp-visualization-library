@@ -1311,6 +1311,8 @@ function GraphEl(props: Props) {
           height: settings?.height,
           minHeight: settings?.minHeight,
           relativeHeight: settings?.relativeHeight,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
             if (updateFilters) {
@@ -2099,6 +2101,7 @@ function GraphEl(props: Props) {
           textBackground: settings?.textBackground,
           headingFontSize: settings?.headingFontSize,
           centerAlign: settings?.centerAlign,
+          verticalAlign: settings?.verticalAlign,
         };
       case 'geoHubCompareMap':
         return {

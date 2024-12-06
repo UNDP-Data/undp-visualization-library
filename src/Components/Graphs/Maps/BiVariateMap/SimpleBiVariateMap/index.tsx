@@ -7,7 +7,6 @@ import {
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
@@ -60,7 +59,7 @@ export function BiVariantMap(props: Props) {
     data,
     mapData,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.bivariateColors.colors05x05,
     sources,
     graphDescription,
     height,
@@ -68,35 +67,35 @@ export function BiVariantMap(props: Props) {
     footNote,
     xDomain,
     yDomain,
-    xColorLegendTitle,
-    yColorLegendTitle,
-    scale,
-    centerPoint,
-    padding,
-    backgroundColor,
+    xColorLegendTitle = 'X Color key',
+    yColorLegendTitle = 'Y Color key',
     tooltip,
-    mapBorderWidth,
-    mapBorderColor,
-    mapNoDataColor,
+    scale = 190,
+    centerPoint = [10, 10],
+    padding,
+    mapBorderWidth = 0.5,
+    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    backgroundColor = false,
+    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
     relativeHeight,
     onSeriesMouseOver,
-    isWorldMap,
-    zoomScaleExtend,
+    isWorldMap = true,
+    zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes,
+    highlightedCountryCodes = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    mapProperty,
-    showAntarctica,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    mapProperty = 'ISO3',
+    graphDownload = false,
+    dataDownload = false,
+    showAntarctica = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -116,7 +115,7 @@ export function BiVariantMap(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   useEffect(() => {
     if (typeof mapData === 'string') {
       const fetchData = fetchAndParseJSON(mapData);
@@ -131,7 +130,7 @@ export function BiVariantMap(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -142,7 +141,7 @@ export function BiVariantMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -187,7 +186,7 @@ export function BiVariantMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -209,7 +208,7 @@ export function BiVariantMap(props: Props) {
                 yDomain={yDomain}
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -219,45 +218,27 @@ export function BiVariantMap(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 )}
-                scale={scale || 190}
-                centerPoint={centerPoint || [10, 10]}
-                colors={
-                  colors ||
-                  UNDPColorModule[mode || 'light'].bivariateColors.colors05x05
-                }
-                xColorLegendTitle={xColorLegendTitle || 'X Color key'}
-                yColorLegendTitle={yColorLegendTitle || 'Y Color key'}
-                mapBorderWidth={
-                  checkIfNullOrUndefined(mapBorderWidth)
-                    ? 0.5
-                    : (mapBorderWidth as number)
-                }
-                mapNoDataColor={
-                  mapNoDataColor || UNDPColorModule[mode || 'light'].graphNoData
-                }
-                mapBorderColor={
-                  mapBorderColor ||
-                  UNDPColorModule[mode || 'light'].grays['gray-500']
-                }
+                scale={scale}
+                centerPoint={centerPoint}
+                colors={colors}
+                xColorLegendTitle={xColorLegendTitle}
+                yColorLegendTitle={yColorLegendTitle}
+                mapBorderWidth={mapBorderWidth}
+                mapNoDataColor={mapNoDataColor}
+                mapBorderColor={mapBorderColor}
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
-                isWorldMap={isWorldMap === undefined ? true : isWorldMap}
+                isWorldMap={isWorldMap}
                 zoomScaleExtend={zoomScaleExtend}
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
-                mapProperty={mapProperty || 'ISO3'}
-                showAntarctica={
-                  showAntarctica === undefined ? false : showAntarctica
-                }
-                highlightedCountryCodes={highlightedCountryCodes || []}
-                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                language={language || (rtl ? 'ar' : 'en')}
-                mode={mode || 'light'}
-                resetSelectionOnDoubleClick={
-                  checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                    ? true
-                    : (resetSelectionOnDoubleClick as boolean)
-                }
+                mapProperty={mapProperty}
+                showAntarctica={showAntarctica}
+                highlightedCountryCodes={highlightedCountryCodes}
+                rtl={rtl}
+                language={language}
+                mode={mode}
+                resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
               />
             ) : null}
           </div>
@@ -268,7 +249,7 @@ export function BiVariantMap(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

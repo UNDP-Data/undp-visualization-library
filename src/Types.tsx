@@ -408,6 +408,7 @@ export type DashboardFromWideToLongFormatColumnDataType = {
 export type DashboardFromWideToLongFormatLayoutDataType = {
   title?: string;
   description?: string;
+  dropdownLabel?: string;
   padding?: string;
   backgroundColor?: string | boolean;
   rtl?: boolean;
@@ -470,7 +471,24 @@ export interface FilterSettingsDataType {
   singleSelect?: boolean;
   label: string;
   clearable?: boolean;
-  defaultValue?: string[] | string;
+  defaultValue?:
+    | {
+        value: string;
+        label: string;
+      }[]
+    | {
+        value: string;
+        label: string;
+      };
+  value?:
+    | {
+        value: string;
+        label: string;
+      }[]
+    | {
+        value: string;
+        label: string;
+      };
   availableValues: {
     value: string;
     label: string;
@@ -696,6 +714,7 @@ export interface GraphSettingsDataType {
   textBackground?: boolean;
   headingFontSize?: string;
   centerAlign?: boolean;
+  verticalAlign?: 'center' | 'top' | 'bottom';
   backgroundStyle?: BackgroundStyleDataType;
   cardBackgroundStyle?: BackgroundStyleDataType;
   cardDetailView?: string;

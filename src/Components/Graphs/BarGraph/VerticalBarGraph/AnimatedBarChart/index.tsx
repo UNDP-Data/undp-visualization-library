@@ -4,7 +4,6 @@ import Slider from 'rc-slider';
 import { format, parse } from 'date-fns';
 import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
   BackgroundStyleDataType,
   BarGraphWithDateDataType,
@@ -75,27 +74,27 @@ export function AnimatedVerticalBarChart(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
     sources,
-    prefix,
     graphDescription,
-    barPadding,
-    showValues,
-    showTicks,
-    leftMargin,
-    rightMargin,
-    truncateBy,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    truncateBy = 999,
+    showLabels = true,
+    showValues = true,
+    backgroundColor = false,
+    suffix = '',
+    prefix = '',
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -105,22 +104,22 @@ export function AnimatedVerticalBarChart(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    dateFormat,
-    showOnlyActiveDate,
-    autoPlay,
-    autoSort,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    dateFormat = 'yyyy',
+    showOnlyActiveDate = false,
+    autoPlay = false,
+    autoSort = true,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
+    showNAColor = true,
+    minHeight = 0,
     maxBarThickness,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -128,7 +127,7 @@ export function AnimatedVerticalBarChart(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
-  const [play, setPlay] = useState(autoPlay || false);
+  const [play, setPlay] = useState(autoPlay);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -143,10 +142,10 @@ export function AnimatedVerticalBarChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   const uniqDatesSorted = sort(
     uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+      parse(`${d.date}`, dateFormat, new Date()).getTime(),
     ),
     (a, b) => ascending(a, b),
   );
@@ -161,7 +160,7 @@ export function AnimatedVerticalBarChart(props: Props) {
         fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
         display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
       },
-      label: format(new Date(d), dateFormat || 'yyyy'),
+      label: format(new Date(d), dateFormat),
     };
   });
   useEffect(() => {
@@ -174,7 +173,7 @@ export function AnimatedVerticalBarChart(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -185,7 +184,7 @@ export function AnimatedVerticalBarChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -230,7 +229,7 @@ export function AnimatedVerticalBarChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -249,11 +248,7 @@ export function AnimatedVerticalBarChart(props: Props) {
                 play ? 'Click to pause animation' : 'Click to play animation'
               }
             >
-              {play ? (
-                <Pause mode={mode || 'light'} />
-              ) : (
-                <Play mode={mode || 'light'} />
-              )}
+              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -291,7 +286,7 @@ export function AnimatedVerticalBarChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -301,12 +296,8 @@ export function AnimatedVerticalBarChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -328,14 +319,9 @@ export function AnimatedVerticalBarChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -349,7 +335,7 @@ export function AnimatedVerticalBarChart(props: Props) {
                   width={width || svgWidth}
                   selectedColor={selectedColor}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -359,77 +345,33 @@ export function AnimatedVerticalBarChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  barPadding={barPadding}
+                  showValues={showValues}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   maxValue={maxValue}
                   minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  dateFormat={dateFormat || 'yyyy'}
+                  dateFormat={dateFormat}
                   indx={index}
-                  autoSort={
-                    checkIfNullOrUndefined(autoSort)
-                      ? true
-                      : (autoSort as boolean)
-                  }
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  autoSort={autoSort}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -441,7 +383,7 @@ export function AnimatedVerticalBarChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

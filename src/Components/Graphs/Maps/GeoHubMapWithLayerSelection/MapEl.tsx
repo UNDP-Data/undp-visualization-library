@@ -13,7 +13,7 @@ interface Props {
   width?: number;
   height?: number;
   relativeHeight?: number;
-  minHeight?: number;
+  minHeight: number;
   selectedLayer: string[];
   layerIdList: string[];
   excludeLayers: string[];
@@ -50,7 +50,7 @@ export function MapEl(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   useEffect(() => {
     if (mapContainer.current && svgWidth && !mapRef.current) {
       fetchAndParseJSON(mapStyle).then(d => {
@@ -144,7 +144,7 @@ export function MapEl(props: Props) {
           style={{
             width: width || svgWidth,
             height: Math.max(
-              minHeight || 0,
+              minHeight,
               height ||
                 (relativeHeight
                   ? minHeight

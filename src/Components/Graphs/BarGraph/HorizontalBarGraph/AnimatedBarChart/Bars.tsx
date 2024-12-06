@@ -186,7 +186,7 @@ export function Bars(props: Props) {
                   barColor.length > 1
                     ? UNDPColorModule[mode || 'light'].grays['gray-600']
                     : barColor[0],
-                fontSize: '1rem',
+                fontSize: '0.875rem',
                 textAnchor: d.size ? (d.size < 0 ? 'end' : 'start') : 'start',
                 fontFamily: rtl
                   ? language === 'he'

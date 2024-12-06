@@ -11,7 +11,6 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };
@@ -20,6 +19,8 @@ interface Props {
   graphTitle?: string;
   suffix?: string;
   prefix?: string;
+  topMargin?: number;
+  bottomMargin?: number;
   sources?: SourcesDataType[];
   graphDescription?: string;
   subNote?: string;
@@ -53,37 +54,39 @@ export function DonutChart(props: Props) {
   const {
     mainText,
     graphTitle,
-    colors,
-    suffix,
+    colors = UNDPColorModule.light.categoricalColors.colors,
+    suffix = '',
     sources,
-    prefix,
-    strokeWidth,
+    prefix = '',
+    strokeWidth = 50,
     graphDescription,
     subNote,
     footNote,
     radius,
     data,
-    graphLegend,
+    graphLegend = true,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     tooltip,
     onSeriesMouseOver,
     graphID,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
+    topMargin = 0,
+    bottomMargin = 0,
+    graphDownload = false,
+    dataDownload = false,
     colorDomain,
     sortData,
-    rtl,
-    language,
-    mode,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     width,
     height,
-    minHeight,
+    minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -113,7 +116,7 @@ export function DonutChart(props: Props) {
       if (!width || !radius) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   const sortedData =
     sortData === 'asc'
@@ -125,7 +128,7 @@ export function DonutChart(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -134,7 +137,7 @@ export function DonutChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -182,7 +185,7 @@ export function DonutChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -195,9 +198,10 @@ export function DonutChart(props: Props) {
               gap: '1rem',
               flexWrap: 'wrap',
               width: width ? `${width}px` : '100%',
+              padding: `${topMargin}px 0 ${bottomMargin}px 0`,
             }}
           >
-            {graphLegend !== false ? (
+            {graphLegend ? (
               <div
                 style={{
                   lineHeight: 0,
@@ -210,7 +214,7 @@ export function DonutChart(props: Props) {
                     marginBottom: 0,
                     flexWrap: 'wrap',
                     justifyContent: 'center',
-                    rowGap: '0',
+                    rowGap: '0.25rem',
                     columnGap: '1rem',
                   }}
                 >
@@ -233,40 +237,36 @@ export function DonutChart(props: Props) {
                               colorDomain || sortedData.map(el => el.label)
                             ).indexOf(d.label) !== -1
                               ? (colors ||
-                                  UNDPColorModule[mode || 'light']
-                                    .categoricalColors.colors)[
+                                  UNDPColorModule[mode].categoricalColors
+                                    .colors)[
                                   (
                                     colorDomain ||
                                     sortedData.map(el => el.label)
                                   ).indexOf(d.label) %
                                     (
                                       colors ||
-                                      UNDPColorModule[mode || 'light']
-                                        .categoricalColors.colors
+                                      UNDPColorModule[mode].categoricalColors
+                                        .colors
                                     ).length
                                 ]
-                              : UNDPColorModule[mode || 'light'].graphGray,
+                              : UNDPColorModule[mode].graphGray,
                         }}
                       />
                       <p
                         className={`${
-                          rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
+                          rtl ? `undp-viz-typography-${language} ` : ''
                         }undp-viz-typography`}
                         style={{
                           marginBottom: 0,
                           fontSize: '0.875rem',
-                          color: UNDPColorModule[mode || 'light'].grays.black,
+                          color: UNDPColorModule[mode].grays.black,
                         }}
                       >
                         {d.label}:{' '}
                         <span
                           style={{ fontWeight: 'bold', fontSize: 'inherit' }}
                         >
-                          {numberFormattingFunction(
-                            d.size,
-                            prefix || '',
-                            suffix || '',
-                          )}
+                          {numberFormattingFunction(d.size, prefix, suffix)}
                         </span>
                       </p>
                     </div>
@@ -281,7 +281,7 @@ export function DonutChart(props: Props) {
                 width: width ? `${width}px` : '100%',
                 height: height
                   ? `${Math.max(
-                      minHeight || 0,
+                      minHeight,
                       height ||
                         (relativeHeight
                           ? minHeight
@@ -317,25 +317,18 @@ export function DonutChart(props: Props) {
                         ? sortBy(data, d => d.size).reverse()
                         : data
                     }
-                    colors={
-                      colors ||
-                      UNDPColorModule[mode || 'light'].categoricalColors.colors
-                    }
+                    colors={colors}
                     radius={radius || donutRadius}
                     subNote={subNote}
-                    strokeWidth={strokeWidth || 50}
+                    strokeWidth={strokeWidth}
                     tooltip={tooltip}
                     colorDomain={colorDomain || sortedData.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
-                    rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                    language={language || (rtl ? 'ar' : 'en')}
-                    mode={mode || 'light'}
-                    resetSelectionOnDoubleClick={
-                      checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                        ? true
-                        : (resetSelectionOnDoubleClick as boolean)
-                    }
+                    rtl={rtl}
+                    language={language}
+                    mode={mode}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   />
                 ) : null}
               </div>
@@ -348,7 +341,7 @@ export function DonutChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : (
             <div />

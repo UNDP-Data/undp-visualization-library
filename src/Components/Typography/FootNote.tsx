@@ -1,3 +1,4 @@
+import { extractInnerString } from '../../Utils/extractInnerString';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
@@ -9,6 +10,16 @@ interface Props {
 
 export function FootNote(props: Props) {
   const { text, rtl, language, mode } = props;
+  if (extractInnerString(text)) {
+    return (
+      <div
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: extractInnerString(text) as string,
+        }}
+      />
+    );
+  }
   return (
     <p
       className={`${

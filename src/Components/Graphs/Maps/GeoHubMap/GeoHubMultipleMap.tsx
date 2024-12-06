@@ -13,9 +13,9 @@ interface Props {
   width?: number;
   height?: number;
   relativeHeight?: number;
-  minHeight?: number;
-  includeLayers?: string[];
-  excludeLayers?: string[];
+  minHeight: number;
+  includeLayers: string[];
+  excludeLayers: string[];
 }
 
 export function GeoHubMultipleMap(props: Props) {
@@ -47,7 +47,7 @@ export function GeoHubMultipleMap(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   useEffect(() => {
     if (mapContainer.current && svgWidth && !mapRef.current) {
       fetchAndParseJSON(mapStyle).then(d => {
@@ -58,7 +58,7 @@ export function GeoHubMultipleMap(props: Props) {
         const mapObj: any = {
           container: mapContainer.current as any,
           style:
-            !includeLayers && !excludeLayers
+            includeLayers.length === 0 && excludeLayers.length === 0
               ? d
               : {
                   ...d,
@@ -131,7 +131,7 @@ export function GeoHubMultipleMap(props: Props) {
           style={{
             width: width || svgWidth,
             height: Math.max(
-              minHeight || 0,
+              minHeight,
               height ||
                 (relativeHeight
                   ? minHeight

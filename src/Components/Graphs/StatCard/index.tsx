@@ -24,6 +24,7 @@ interface Props {
   backgroundStyle?: BackgroundStyleDataType;
   headingFontSize?: string;
   centerAlign?: boolean;
+  verticalAlign?: 'center' | 'top' | 'bottom';
 }
 
 export function BasicStatCard(props: Props) {
@@ -31,28 +32,28 @@ export function BasicStatCard(props: Props) {
     year,
     value,
     graphTitle,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     graphID,
-    rtl,
-    language,
-    mode,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     ariaLabel,
-    textBackground,
-    backgroundStyle,
-    headingFontSize,
-    centerAlign,
+    textBackground = false,
+    backgroundStyle = {},
+    headingFontSize = '4.375rem',
+    centerAlign = false,
+    verticalAlign = 'center',
   } = props;
-
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -60,7 +61,7 @@ export function BasicStatCard(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -96,7 +97,7 @@ export function BasicStatCard(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -104,23 +105,28 @@ export function BasicStatCard(props: Props) {
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent:
+                verticalAlign === 'top'
+                  ? 'flex-start'
+                  : verticalAlign === 'bottom'
+                  ? 'flex-end'
+                  : 'center',
             }}
           >
             <h3
               style={{
-                fontSize: headingFontSize || '4.375rem',
+                fontSize: headingFontSize,
                 lineHeight: '1',
                 textShadow: 'none',
                 WebkitTextStroke: textBackground
                   ? undefined
-                  : `2px ${UNDPColorModule[mode || 'light'].grays.black}`,
+                  : `2px ${UNDPColorModule[mode].grays.black}`,
                 color: textBackground
-                  ? UNDPColorModule[mode || 'light'].grays.black
+                  ? UNDPColorModule[mode].grays.black
                   : !backgroundColor
                   ? 'rgba(0,0,0,0)'
                   : backgroundColor === true
-                  ? UNDPColorModule[mode || 'light'].grays['gray-200']
+                  ? UNDPColorModule[mode].grays['gray-200']
                   : backgroundColor,
                 letterSpacing: '0.05rem',
                 marginTop: '0',
@@ -132,11 +138,7 @@ export function BasicStatCard(props: Props) {
             >
               {typeof value === 'string'
                 ? `${prefix}${value}${suffix}`
-                : numberFormattingFunction(
-                    value,
-                    prefix || '',
-                    suffix || '',
-                  )}{' '}
+                : numberFormattingFunction(value, prefix, suffix)}{' '}
               {year ? (
                 <span
                   style={{
@@ -145,10 +147,8 @@ export function BasicStatCard(props: Props) {
                     lineHeight: '1.09',
                     textShadow: 'none',
                     fontWeight: 'normal',
-                    WebkitTextStroke: `0px ${
-                      UNDPColorModule[mode || 'light'].grays.black
-                    }`,
-                    color: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                    WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
+                    color: UNDPColorModule[mode].grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
                     fontFamily: rtl
@@ -169,7 +169,7 @@ export function BasicStatCard(props: Props) {
               language={language}
               sources={sources}
               footNote={footNote}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

@@ -57,40 +57,40 @@ export function TreeMapGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
-    leftMargin,
-    rightMargin,
+    leftMargin = 0,
+    rightMargin = 0,
+    topMargin = 0,
+    bottomMargin = 0,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
+    backgroundColor = false,
+    showLabels = true,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    showColorScale,
-    showValues,
+    showColorScale = true,
+    showValues = true,
     graphID,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -111,11 +111,11 @@ export function TreeMapGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -126,7 +126,7 @@ export function TreeMapGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -171,7 +171,7 @@ export function TreeMapGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -184,8 +184,7 @@ export function TreeMapGraph(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -193,7 +192,7 @@ export function TreeMapGraph(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -203,12 +202,8 @@ export function TreeMapGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -230,14 +225,9 @@ export function TreeMapGraph(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -250,7 +240,7 @@ export function TreeMapGraph(props: Props) {
                   }
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -260,51 +250,23 @@ export function TreeMapGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 0
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 0
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 0
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 0
-                      : (bottomMargin as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  showLabels={showLabels}
+                  showValues={showValues}
+                  suffix={suffix}
+                  prefix={prefix}
                   selectedColor={selectedColor}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  highlightedDataPoints={highlightedDataPoints || []}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  highlightedDataPoints={highlightedDataPoints}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -316,7 +278,7 @@ export function TreeMapGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

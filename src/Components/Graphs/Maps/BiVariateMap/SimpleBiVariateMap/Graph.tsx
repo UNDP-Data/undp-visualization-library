@@ -29,7 +29,7 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
-  zoomScaleExtend?: [number, number];
+  zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedCountryCodes: string[];
   onSeriesMouseClick?: (_d: any) => void;
@@ -98,7 +98,7 @@ export function Graph(props: Props) {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
     const zoomBehaviour = zoom()
-      .scaleExtent(zoomScaleExtend || [0.8, 6])
+      .scaleExtent(zoomScaleExtend)
       .translateExtent(
         zoomTranslateExtend || [
           [-20, -20],

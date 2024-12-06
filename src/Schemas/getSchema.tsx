@@ -965,6 +965,9 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
         padding: {
           type: 'string',
         },
+        dropdownLabel: {
+          type: 'string',
+        },
         rtl: {
           type: 'boolean',
         },

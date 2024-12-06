@@ -136,7 +136,7 @@ export function Bars(props: Props) {
                   <motion.text
                     style={{
                       fill: getTextColorBasedOnBgColor(barColors[j]),
-                      fontSize: '1rem',
+                      fontSize: '0.875rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
                         ? language === 'he'
@@ -216,7 +216,7 @@ export function Bars(props: Props) {
               <motion.text
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontSize: '1rem',
+                  fontSize: '0.875rem',
                   textAnchor: 'middle',
                   fontFamily: rtl
                     ? language === 'he'

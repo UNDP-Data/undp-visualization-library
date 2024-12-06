@@ -303,7 +303,7 @@ export function Graph(props: Props) {
                           }
                           style={{
                             fill: barColors[j],
-                            fontSize: '1rem',
+                            fontSize: '0.875rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
                               ? language === 'he'

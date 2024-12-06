@@ -27,7 +27,7 @@ interface Props {
   bottomMargin: number;
   suffix: string;
   prefix: string;
-  showValues?: boolean;
+  showValues: boolean;
   refValues?: ReferenceDataType[];
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -290,7 +290,7 @@ export function Graph(props: Props) {
                         }
                         style={{
                           fill: getTextColorBasedOnBgColor(barColors[j]),
-                          fontSize: '1rem',
+                          fontSize: '0.875rem',
                           textAnchor: 'middle',
                           fontFamily: rtl
                             ? language === 'he'
@@ -334,7 +334,7 @@ export function Graph(props: Props) {
                   <text
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '1rem',
+                      fontSize: '0.875rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
                         ? language === 'he'
@@ -393,7 +393,7 @@ export function Graph(props: Props) {
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
-                            fontSize: '1rem',
+                            fontSize: '0.875rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
                               ? language === 'he'

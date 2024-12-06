@@ -19,7 +19,7 @@ interface Props {
   height: number;
   colors: string[];
   colorLegendTitle?: string;
-  categorical?: boolean;
+  categorical: boolean;
   data: ChoroplethMapWithDateDataType[];
   scale: number;
   centerPoint: [number, number];
@@ -30,7 +30,7 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   showColorScale: boolean;
-  zoomScaleExtend?: [number, number];
+  zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedCountryCodes: string[];
   onSeriesMouseClick?: (_d: any) => void;

@@ -3,8 +3,9 @@ import { ColumnConfigurationDataType } from '../../Types';
 export function transformColumnsToArray(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any,
-  columnConfig: ColumnConfigurationDataType[],
+  columnConfig?: ColumnConfigurationDataType[],
 ) {
+  if (!columnConfig || columnConfig.length === 0) return csvData;
   const dataFormatted = csvData.map((el: any) => {
     const temp = { ...el };
     columnConfig.forEach(d => {

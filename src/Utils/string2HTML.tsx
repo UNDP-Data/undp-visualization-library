@@ -25,7 +25,7 @@ function getDescendantProp(data: any, desc: string) {
   return template(data);
 }
 
-export function string2HTML(htmlString: string, data: any) {
+export function string2HTML(htmlString: string, data?: any) {
   // Custom XSS filter configuration
   const options = {
     whiteList: {
@@ -144,6 +144,7 @@ export function string2HTML(htmlString: string, data: any) {
     },
   };
   const sanitizedString = xss(htmlString, options);
+  if (!data) return sanitizedString;
   const replacedString = getDescendantProp(data, sanitizedString);
   return replacedString;
 }

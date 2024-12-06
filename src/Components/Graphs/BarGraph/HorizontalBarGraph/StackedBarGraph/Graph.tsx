@@ -248,7 +248,7 @@ export function Graph(props: Props) {
                         y={y.bandwidth() / 2}
                         style={{
                           fill: getTextColorBasedOnBgColor(barColors[j]),
-                          fontSize: '1rem',
+                          fontSize: '0.875rem',
                           textAnchor: 'middle',
                           fontFamily: rtl
                             ? language === 'he'
@@ -293,7 +293,7 @@ export function Graph(props: Props) {
                   <text
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '1rem',
+                      fontSize: '0.875rem',
                       textAnchor: 'start',
                       fontFamily: rtl
                         ? language === 'he'
@@ -352,7 +352,7 @@ export function Graph(props: Props) {
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
-                            fontSize: '1rem',
+                            fontSize: '0.875rem',
                             textAnchor: 'start',
                             fontFamily: rtl
                               ? language === 'he'

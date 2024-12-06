@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
@@ -12,7 +12,6 @@ import {
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
   GraphType,
-  SelectedFilterDataType,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -35,6 +34,7 @@ import { checkIfMultiple } from '../../Utils/checkIfMultiple';
 import Checkbox from '../Elements/Checkbox';
 import Radio from '../Elements/Radio';
 import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
+import { transformDefaultValue } from '../../Utils/transformDataForSelect';
 
 interface Props {
   noOfColumns?: number;
@@ -94,145 +94,108 @@ export function GriddedGraphs(props: Props) {
   const [graphConfig, setGraphConfig] = useState<
     GraphConfigurationDataType[] | undefined
   >(graphDataConfiguration);
-  const [selectedFilters, setSelectedFilters] = useState<
-    SelectedFilterDataType[]
-  >(
-    filters?.map(d => ({
-      filter: d.column,
-      value: d.defaultValue
-        ? typeof d.defaultValue === 'string'
-          ? [d.defaultValue]
-          : d.defaultValue
-        : undefined,
-    })) || [],
-  );
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
   >([]);
 
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
+  );
 
-  useEffect(() => {
-    setSelectedFilters(
-      filters?.map(d => ({
-        filter: d.column,
-        value: d.defaultValue
-          ? typeof d.defaultValue === 'string'
-            ? [d.defaultValue]
-            : d.defaultValue
-          : undefined,
-      })) || [],
+  const filteredData = useMemo(() => {
+    if (!dataFromFile || filterSettings.length === 0) return dataFromFile;
+    const result = dataFromFile.filter((item: any) =>
+      filterSettings.every(filter =>
+        filter.value && flattenDeep([filter.value]).length > 0
+          ? intersection(
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
+          : true,
+      ),
     );
-  }, [filters]);
-
+    return result;
+  }, [filterSettings, dataFromFile]);
   useEffect(() => {
-    if (dataFromFile) {
-      const filteredData = dataFromFile.filter((item: any) =>
-        selectedFilters.every(filter =>
-          filter.value && filter.value.length > 0
-            ? intersection(flattenDeep([item[filter.filter]]), filter.value)
-                .length > 0
-            : true,
-        ),
-      );
-      setData(filteredData);
-    }
-  }, [selectedFilters, dataFromFile]);
+    setData(filteredData);
+  }, [filteredData]);
 
-  useEffect(() => {
-    if (dataSettings.dataURL) {
-      const fetchData =
-        typeof dataSettings.dataURL === 'string'
-          ? dataSettings.fileType === 'json'
-            ? fetchAndParseJSON(
+  const fetchDataHandler = useCallback(async () => {
+    if (dataSettings) {
+      try {
+        const fetchData = dataSettings.dataURL
+          ? typeof dataSettings.dataURL === 'string'
+            ? dataSettings.fileType === 'json'
+              ? fetchAndParseJSON(
+                  dataSettings.dataURL,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
+              : dataSettings.fileType === 'api'
+              ? fetchAndTransformDataFromAPI(
+                  dataSettings.dataURL,
+                  dataSettings.apiHeaders,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
+              : fetchAndParseCSV(
+                  dataSettings.dataURL,
+                  dataSettings.dataTransformation,
+                  dataSettings.columnsToArray,
+                  debugMode,
+                  dataSettings.delimiter,
+                  true,
+                )
+            : fetchAndParseMultipleDataSources(
                 dataSettings.dataURL,
-                dataSettings.columnsToArray,
-                dataSettings.dataTransformation,
-                debugMode,
+                dataSettings.idColumnTitle,
               )
-            : dataSettings.fileType === 'api'
-            ? fetchAndTransformDataFromAPI(
-                dataSettings.dataURL,
-                dataSettings.apiHeaders,
-                dataSettings.columnsToArray,
-                dataSettings.dataTransformation,
-                debugMode,
-              )
-            : fetchAndParseCSV(
-                dataSettings.dataURL,
-                dataSettings.dataTransformation,
-                dataSettings.columnsToArray,
-                debugMode,
-                dataSettings.delimiter,
-                true,
-              )
-          : fetchAndParseMultipleDataSources(
-              dataSettings.dataURL,
-              dataSettings.idColumnTitle,
+          : transformColumnsToArray(
+              dataSettings.data,
+              dataSettings.columnsToArray,
             );
-      fetchData.then(d => {
+
+        const d = await fetchData;
         setDataFromFile(d);
+
         const gridValue = getUniqValue(d, columnGridBy) as (string | number)[];
         setGridOption(gridValue);
-        setFilterSettings(
-          filters?.map(el => ({
-            filter: el.column,
-            label: el.label || `Filter by ${el.column}`,
-            singleSelect: el.singleSelect,
-            clearable: el.clearable,
-            defaultValue: el.defaultValue,
-            availableValues: getUniqValue(d, el.column)
-              .filter(v =>
-                el.excludeValues
-                  ? el.excludeValues.indexOf(`${v}`) === -1
-                  : true,
-              )
-              .map(v => ({
-                value: v,
-                label: v,
-              })),
-          })) || [],
-        );
-      });
-    } else {
-      const tempData = dataSettings.columnsToArray
-        ? transformColumnsToArray(
-            dataSettings.data,
-            dataSettings.columnsToArray,
-          )
-        : dataSettings.data;
-      setDataFromFile(tempData);
-      const gridValue = getUniqValue(tempData, columnGridBy) as (
-        | string
-        | number
-      )[];
-      setGridOption(gridValue);
-      setFilterSettings(
-        filters?.map(el => ({
+        // Optimize filter settings generation
+        const newFilterSettings = (filters || []).map(el => ({
           filter: el.column,
           label: el.label || `Filter by ${el.column}`,
           singleSelect: el.singleSelect,
           clearable: el.clearable,
-          defaultValue: el.defaultValue,
-          availableValues: getUniqValue(tempData, el.column)
-            .filter(v =>
-              el.excludeValues ? el.excludeValues.indexOf(`${v}`) === -1 : true,
-            )
-            .map(v => ({
-              value: v,
-              label: v,
-            })),
-        })) || [],
-      );
+          defaultValue: transformDefaultValue(el.defaultValue),
+          availableValues: getUniqValue(d, el.column)
+            .filter(v => !el.excludeValues?.includes(`${v}`))
+            .map(v => ({ value: v, label: v })),
+        }));
+
+        setFilterSettings(newFilterSettings);
+      } catch (error) {
+        console.error('Data fetching error:', error);
+      }
     }
-  }, [dataSettings]);
+  }, [dataSettings, filters, debugMode]);
+  useEffect(() => {
+    fetchDataHandler();
+  }, [fetchDataHandler]);
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
   }, [graphDataConfiguration]);
+  const handleFilterChange = useCallback((filter: string, values: any) => {
+    setFilterSettings(prev =>
+      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
+    );
+  }, []);
   return (
     <div
       style={{
@@ -576,20 +539,9 @@ export function GriddedGraphs(props: Props) {
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.value ? [el?.value] : [];
-                            setSelectedFilters(filterTemp);
+                            handleFilterChange(d.filter, el);
                           }}
-                          defaultValue={
-                            d.defaultValue
-                              ? {
-                                  value: d.defaultValue as string,
-                                  label: d.defaultValue as string,
-                                }
-                              : undefined
-                          }
+                          defaultValue={d.defaultValue}
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
@@ -610,20 +562,9 @@ export function GriddedGraphs(props: Props) {
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.map(val => val.value) || [];
-                            setSelectedFilters(filterTemp);
+                            handleFilterChange(d.filter, el);
                           }}
-                          defaultValue={
-                            d.defaultValue
-                              ? (d.defaultValue as string[]).map(el => ({
-                                  value: el,
-                                  label: el,
-                                }))
-                              : undefined
-                          }
+                          defaultValue={d.defaultValue}
                           isRtl={graphSettings?.rtl}
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />

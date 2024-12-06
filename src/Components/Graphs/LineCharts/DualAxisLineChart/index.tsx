@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   BackgroundStyleDataType,
@@ -59,44 +58,47 @@ export function DualAxisLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
+    noOfXTicks = 10,
+    dateFormat = 'yyyy',
+    showValues = false,
     padding,
-    lineColors,
-    sameAxes,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    lineTitles,
-    topMargin,
-    bottomMargin,
+    lineColors = [
+      UNDPColorModule.light.categoricalColors.colors[0],
+      UNDPColorModule.light.categoricalColors.colors[1],
+    ],
+    sameAxes = false,
+    backgroundColor = false,
+    leftMargin = 60,
+    rightMargin = 60,
+    topMargin = 20,
+    bottomMargin = 25,
+    lineTitles = ['Line 1', 'Line 2'],
     tooltip,
-    highlightAreaSettings,
+    highlightAreaSettings = [null, null],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    highlightAreaColor,
-    animateLine,
-    rtl,
-    language,
-    showColorScale,
-    minHeight,
-    strokeWidth,
-    showDots,
+    graphDownload = false,
+    dataDownload = false,
+    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
+    animateLine = false,
+    strokeWidth = 2,
+    showDots = true,
+    rtl = false,
+    language = 'en',
+    showColorScale = true,
+    minHeight = 0,
     colorLegendTitle,
-    mode,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -115,12 +117,12 @@ export function DualAxisLineChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -131,7 +133,7 @@ export function DualAxisLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -176,7 +178,7 @@ export function DualAxisLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -189,22 +191,15 @@ export function DualAxisLineChart(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale === false ? null : (
+            {showColorScale ? null : (
               <ColorLegend
                 rtl={rtl}
                 language={language}
-                colorDomain={lineTitles || ['Line 1', 'Line 2']}
+                colorDomain={lineTitles}
                 colorLegendTitle={colorLegendTitle}
-                colors={
-                  lineColors || [
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[0],
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[1],
-                  ]
-                }
+                colors={lineColors}
                 showNAColor={false}
-                mode={mode || 'light'}
+                mode={mode}
               />
             )}
             <div
@@ -222,17 +217,10 @@ export function DualAxisLineChart(props: Props) {
                 <Graph
                   data={data}
                   sameAxes={sameAxes}
-                  lineColors={
-                    lineColors || [
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[0],
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[1],
-                    ]
-                  }
+                  lineColors={lineColors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -242,49 +230,26 @@ export function DualAxisLineChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  dateFormat={dateFormat || 'yyyy'}
+                  suffix={suffix}
+                  prefix={prefix}
+                  dateFormat={dateFormat}
                   showValues={showValues}
-                  noOfXTicks={
-                    checkIfNullOrUndefined(noOfXTicks)
-                      ? 10
-                      : (noOfXTicks as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 60
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 60
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
-                  lineTitles={lineTitles || ['Line 1', 'Line 2']}
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  noOfXTicks={noOfXTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  lineTitles={lineTitles}
+                  highlightAreaSettings={highlightAreaSettings}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaColor={
-                    highlightAreaColor ||
-                    UNDPColorModule[mode || 'light'].grays['gray-300']
-                  }
+                  highlightAreaColor={highlightAreaColor}
                   animateLine={animateLine}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  strokeWidth={strokeWidth || 2}
-                  showDots={showDots !== false}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  strokeWidth={strokeWidth}
+                  showDots={showDots}
+                  mode={mode}
                 />
               ) : null}
             </div>
@@ -296,7 +261,7 @@ export function DualAxisLineChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

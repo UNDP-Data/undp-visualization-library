@@ -35,8 +35,8 @@ interface Props {
   bottomMargin: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
-  refXValues?: ReferenceDataType[];
-  refYValues?: ReferenceDataType[];
+  refXValues: ReferenceDataType[];
+  refYValues: ReferenceDataType[];
   highlightAreaSettings: [
     number | null,
     number | null,
@@ -569,94 +569,84 @@ export function Graph(props: Props) {
                 </g>
               );
             })}
-          {refXValues ? (
-            <>
-              {refXValues.map((el, i) => (
-                <g key={i}>
-                  <line
-                    style={{
-                      stroke:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      strokeWidth: 1.5,
-                    }}
-                    strokeDasharray='4,4'
-                    x1={x(el.value as number)}
-                    x2={x(el.value as number)}
-                    y1={0}
-                    y2={graphHeight}
-                  />
-                  <text
-                    x={x(el.value as number)}
-                    fontWeight='bold'
-                    y={0}
-                    style={{
-                      fill:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      textAnchor:
-                        x(el.value as number) > graphWidth * 0.75 || rtl
-                          ? 'end'
-                          : 'start',
-                    }}
-                    fontSize={12}
-                    dy={12.5}
-                    dx={
-                      x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5
-                    }
-                  >
-                    {el.text}
-                  </text>
-                </g>
-              ))}
-            </>
-          ) : null}
-          {refYValues ? (
-            <>
-              {refYValues.map((el, i) => (
-                <g key={i}>
-                  <line
-                    style={{
-                      stroke:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      strokeWidth: 1.5,
-                    }}
-                    strokeDasharray='4,4'
-                    y1={y(el.value as number)}
-                    y2={y(el.value as number)}
-                    x1={0}
-                    x2={graphWidth}
-                  />
-                  <text
-                    x={graphWidth}
-                    fontWeight='bold'
-                    y={y(el.value as number)}
-                    style={{
-                      fill:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      textAnchor: 'end',
-                    }}
-                    fontSize={12}
-                    dy={-5}
-                  >
-                    {el.text}
-                  </text>
-                </g>
-              ))}
-            </>
-          ) : null}
+          {refXValues.map((el, i) => (
+            <g key={i}>
+              <line
+                style={{
+                  stroke:
+                    el.color ||
+                    UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  strokeWidth: 1.5,
+                }}
+                strokeDasharray='4,4'
+                x1={x(el.value as number)}
+                x2={x(el.value as number)}
+                y1={0}
+                y2={graphHeight}
+              />
+              <text
+                x={x(el.value as number)}
+                fontWeight='bold'
+                y={0}
+                style={{
+                  fill:
+                    el.color ||
+                    UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor:
+                    x(el.value as number) > graphWidth * 0.75 || rtl
+                      ? 'end'
+                      : 'start',
+                }}
+                fontSize={12}
+                dy={12.5}
+                dx={x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5}
+              >
+                {el.text}
+              </text>
+            </g>
+          ))}
+          {refYValues.map((el, i) => (
+            <g key={i}>
+              <line
+                style={{
+                  stroke:
+                    el.color ||
+                    UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  strokeWidth: 1.5,
+                }}
+                strokeDasharray='4,4'
+                y1={y(el.value as number)}
+                y2={y(el.value as number)}
+                x1={0}
+                x2={graphWidth}
+              />
+              <text
+                x={graphWidth}
+                fontWeight='bold'
+                y={y(el.value as number)}
+                style={{
+                  fill:
+                    el.color ||
+                    UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'end',
+                }}
+                fontSize={12}
+                dy={-5}
+              >
+                {el.text}
+              </text>
+            </g>
+          ))}
           <g>
             {annotations.map((d, i) => {
               const endPoints = getLineEndPoint(

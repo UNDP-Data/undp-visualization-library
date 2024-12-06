@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import Slider from 'rc-slider';
 import { format, parse } from 'date-fns';
 import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
   BackgroundStyleDataType,
   BarGraphWithDateDataType,
@@ -77,52 +74,52 @@ export function AnimatedHorizontalBarChart(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
-    barPadding,
-    showValues,
-    showTicks,
-    leftMargin,
-    rightMargin,
-    truncateBy,
+    barPadding = 0.25,
+    showValues = true,
+    showTicks = true,
+    leftMargin = 100,
+    rightMargin = 40,
+    truncateBy = 999,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
+    backgroundColor = false,
+    topMargin = 25,
+    bottomMargin = 10,
+    showLabels = true,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     refValues,
-    showColorScale,
+    showColorScale = true,
     graphID,
     maxValue,
     minValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    dateFormat,
-    showOnlyActiveDate,
-    autoPlay,
-    autoSort,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    dateFormat = 'yyyy',
+    showOnlyActiveDate = false,
+    autoPlay = false,
+    autoSort = true,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     maxBarThickness,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -130,7 +127,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
-  const [play, setPlay] = useState(autoPlay || false);
+  const [play, setPlay] = useState(autoPlay);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -145,11 +142,11 @@ export function AnimatedHorizontalBarChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   const uniqDatesSorted = sort(
     uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+      parse(`${d.date}`, dateFormat, new Date()).getTime(),
     ),
     (a, b) => ascending(a, b),
   );
@@ -164,7 +161,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
         display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
       },
-      label: format(new Date(d), dateFormat || 'yyyy'),
+      label: format(new Date(d), dateFormat),
     };
   });
   useEffect(() => {
@@ -177,7 +174,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -188,7 +185,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -221,7 +218,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         >
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              mode={mode || 'light'}
+              mode={mode}
               rtl={rtl}
               language={language}
               graphTitle={graphTitle}
@@ -252,11 +249,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 play ? 'Click to pause animation' : 'Click to play animation'
               }
             >
-              {play ? (
-                <Pause mode={mode || 'light'} />
-              ) : (
-                <Play mode={mode || 'light'} />
-              )}
+              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -285,8 +278,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -294,7 +286,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -304,12 +296,8 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -331,14 +319,9 @@ export function AnimatedHorizontalBarChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -352,7 +335,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   width={width || svgWidth}
                   selectedColor={selectedColor}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -362,77 +345,33 @@ export function AnimatedHorizontalBarChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 100
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 40
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  barPadding={barPadding}
+                  showValues={showValues}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   maxValue={maxValue}
                   minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  dateFormat={dateFormat || 'yyyy'}
+                  dateFormat={dateFormat}
                   indx={index}
-                  autoSort={
-                    checkIfNullOrUndefined(autoSort)
-                      ? true
-                      : (autoSort as boolean)
-                  }
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  autoSort={autoSort}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -444,7 +383,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

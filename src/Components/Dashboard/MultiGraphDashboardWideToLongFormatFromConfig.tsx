@@ -43,10 +43,11 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
     }
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
-  if (
-    !validateConfigSchema(configSettings, 'multiGraphDashboardWideToLongFormat')
-      .isValid
-  )
+  const validationResult = validateConfigSchema(
+    configSettings,
+    'multiGraphDashboardWideToLongFormat',
+  );
+  if (!validationResult.isValid)
     return (
       <p
         className='undp-viz-typography'

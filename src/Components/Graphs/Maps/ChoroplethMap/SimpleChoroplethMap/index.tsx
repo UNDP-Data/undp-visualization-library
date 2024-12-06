@@ -7,7 +7,6 @@ import {
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
@@ -68,37 +67,36 @@ export function ChoroplethMap(props: Props) {
     footNote,
     domain,
     colorLegendTitle,
-    categorical,
-    scale,
-    centerPoint,
+    categorical = false,
+    scale = 190,
+    centerPoint = [10, 10],
     padding,
-    backgroundColor,
-    mapBorderWidth,
-    mapNoDataColor,
-    mapBorderColor,
+    mapBorderWidth = 0.5,
+    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    backgroundColor = false,
+    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    isWorldMap,
-    showColorScale,
-    zoomScaleExtend,
+    isWorldMap = true,
+    showColorScale = true,
+    zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes,
+    highlightedCountryCodes = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    mapProperty,
-    showAntarctica,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    mapProperty = 'ISO3',
+    graphDownload = false,
+    dataDownload = false,
+    showAntarctica = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
-
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
   const [mapShape, setMapShape] = useState<any>(undefined);
@@ -116,7 +114,7 @@ export function ChoroplethMap(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   useEffect(() => {
     if (typeof mapData === 'string') {
       const fetchData = fetchAndParseJSON(mapData);
@@ -131,7 +129,7 @@ export function ChoroplethMap(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -142,7 +140,7 @@ export function ChoroplethMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -187,7 +185,7 @@ export function ChoroplethMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -208,7 +206,7 @@ export function ChoroplethMap(props: Props) {
                 domain={domain}
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -218,58 +216,41 @@ export function ChoroplethMap(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 )}
-                scale={scale || 190}
-                centerPoint={centerPoint || [10, 10]}
+                scale={scale}
+                centerPoint={centerPoint}
                 colors={
                   colors ||
                   (categorical
-                    ? UNDPColorModule[mode || 'light'].sequentialColors[
+                    ? UNDPColorModule[mode].sequentialColors[
                         `neutralColorsx0${
                           domain.length as 4 | 5 | 6 | 7 | 8 | 9
                         }`
                       ]
-                    : UNDPColorModule[mode || 'light'].sequentialColors[
+                    : UNDPColorModule[mode].sequentialColors[
                         `neutralColorsx0${
                           (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                         }`
                       ])
                 }
                 colorLegendTitle={colorLegendTitle}
-                mapBorderWidth={
-                  checkIfNullOrUndefined(mapBorderWidth)
-                    ? 0.5
-                    : (mapBorderWidth as number)
-                }
-                mapNoDataColor={
-                  mapNoDataColor || UNDPColorModule[mode || 'light'].graphNoData
-                }
+                mapBorderWidth={mapBorderWidth}
+                mapNoDataColor={mapNoDataColor}
                 categorical={categorical}
-                mapBorderColor={
-                  mapBorderColor ||
-                  UNDPColorModule[mode || 'light'].grays['gray-500']
-                }
+                mapBorderColor={mapBorderColor}
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
-                isWorldMap={isWorldMap === undefined ? true : isWorldMap}
-                showColorScale={
-                  showColorScale === undefined ? true : showColorScale
-                }
+                isWorldMap={isWorldMap}
+                showColorScale={showColorScale}
                 zoomScaleExtend={zoomScaleExtend}
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
-                mapProperty={mapProperty || 'ISO3'}
-                showAntarctica={
-                  showAntarctica === undefined ? false : showAntarctica
-                }
-                highlightedCountryCodes={highlightedCountryCodes || []}
-                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                language={language || (rtl ? 'ar' : 'en')}
-                mode={mode || 'light'}
-                resetSelectionOnDoubleClick={
-                  checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                    ? true
-                    : (resetSelectionOnDoubleClick as boolean)
-                }
+                mapProperty={mapProperty}
+                showAntarctica={showAntarctica}
+                highlightedCountryCodes={highlightedCountryCodes}
+                rtl={rtl}
+                language={language}
+                mode={mode}
+                resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
               />
             ) : null}
           </div>
@@ -280,7 +261,7 @@ export function ChoroplethMap(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

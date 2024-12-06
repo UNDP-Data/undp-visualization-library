@@ -8,7 +8,6 @@ import {
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../ColorPalette';
 
@@ -69,38 +68,38 @@ export function VerticalStripChart(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    radius,
+    radius = 5,
     padding,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    backgroundColor = false,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 10,
+    bottomMargin = 10,
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
-    showColorScale,
-    highlightedDataPoints,
+    showColorScale = true,
+    highlightedDataPoints = [],
     graphID,
     minValue,
     maxValue,
     onSeriesMouseClick,
-    showAxis,
-    graphDownload,
-    dataDownload,
-    prefix,
-    suffix,
-    stripType,
-    rtl,
-    language,
+    showAxis = true,
+    graphDownload = false,
+    dataDownload = false,
+    prefix = '',
+    suffix = '',
+    stripType = 'dot',
+    rtl = false,
+    language = 'en',
     highlightColor,
-    dotOpacity,
-    showNAColor,
-    minHeight,
-    mode,
+    dotOpacity = 0.3,
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -122,11 +121,11 @@ export function VerticalStripChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -137,7 +136,7 @@ export function VerticalStripChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -182,7 +181,7 @@ export function VerticalStripChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -204,7 +203,7 @@ export function VerticalStripChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -214,12 +213,8 @@ export function VerticalStripChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -238,7 +233,7 @@ export function VerticalStripChart(props: Props) {
                   data={data}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -261,59 +256,32 @@ export function VerticalStripChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   selectedColor={selectedColor}
-                  radius={
-                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 10
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
+                  radius={radius}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   minValue={minValue}
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  showAxis={showAxis !== false}
-                  prefix={prefix || ''}
-                  suffix={suffix || ''}
-                  stripType={stripType || 'dot'}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
+                  showAxis={showAxis}
+                  prefix={prefix}
+                  suffix={suffix}
+                  stripType={stripType}
+                  rtl={rtl}
+                  language={language}
                   highlightColor={highlightColor}
-                  dotOpacity={dotOpacity || 0.3}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  dotOpacity={dotOpacity}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -325,7 +293,7 @@ export function VerticalStripChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

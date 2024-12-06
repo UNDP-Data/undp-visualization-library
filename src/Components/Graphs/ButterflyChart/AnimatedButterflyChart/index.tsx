@@ -77,43 +77,46 @@ export function AnimatedButterflyChart(props: Props) {
     width,
     footNote,
     padding,
-    barColors,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    rightBarTitle,
-    leftBarTitle,
-    topMargin,
-    bottomMargin,
+    barColors = [
+      UNDPColorModule.light.categoricalColors.colors[0],
+      UNDPColorModule.light.categoricalColors.colors[1],
+    ],
+    backgroundColor = false,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 25,
+    bottomMargin = 30,
+    rightBarTitle = 'Right bar graph',
+    leftBarTitle = 'Left bar graph',
+    barPadding = 0.25,
+    truncateBy = 999,
+    onSeriesMouseClick,
+    centerGap = 100,
+    showValues = true,
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    barPadding,
-    truncateBy,
-    onSeriesMouseClick,
-    centerGap,
-    showValues,
+    refValues = [],
+    suffix = '',
+    prefix = '',
+    showTicks = true,
+    showColorScale = false,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
     maxValue,
     minValue,
-    refValues,
-    suffix,
-    prefix,
-    showTicks,
-    showColorScale,
-    dateFormat,
-    showOnlyActiveDate,
-    autoPlay,
-    rtl,
+    dateFormat = 'yyyy',
+    showOnlyActiveDate = false,
+    autoPlay = false,
     colorLegendTitle,
-    language,
-    minHeight,
-    mode,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -132,12 +135,12 @@ export function AnimatedButterflyChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
-  const [play, setPlay] = useState(autoPlay || false);
+  const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
     uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+      parse(`${d.date}`, dateFormat, new Date()).getTime(),
     ),
     (a, b) => ascending(a, b),
   );
@@ -152,7 +155,7 @@ export function AnimatedButterflyChart(props: Props) {
         fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
         display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
       },
-      label: format(new Date(d), dateFormat || 'yyyy'),
+      label: format(new Date(d), dateFormat),
     };
   });
   useEffect(() => {
@@ -166,7 +169,7 @@ export function AnimatedButterflyChart(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -177,7 +180,7 @@ export function AnimatedButterflyChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -222,7 +225,7 @@ export function AnimatedButterflyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -241,11 +244,7 @@ export function AnimatedButterflyChart(props: Props) {
                 play ? 'Click to pause animation' : 'Click to play animation'
               }
             >
-              {play ? (
-                <Pause mode={mode || 'light'} />
-              ) : (
-                <Play mode={mode || 'light'} />
-              )}
+              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -279,20 +278,10 @@ export function AnimatedButterflyChart(props: Props) {
                 rtl={rtl}
                 language={language}
                 colorLegendTitle={colorLegendTitle}
-                colorDomain={[
-                  leftBarTitle || 'Left bar graph',
-                  rightBarTitle || 'Right bar graph',
-                ]}
-                colors={
-                  barColors || [
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[0],
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[1],
-                  ]
-                }
+                colorDomain={[leftBarTitle, rightBarTitle]}
+                colors={barColors}
                 showNAColor={false}
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -309,22 +298,11 @@ export function AnimatedButterflyChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={
-                    barColors || [
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[0],
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[1],
-                    ]
-                  }
+                  barColors={barColors}
                   width={width || svgWidth}
-                  centerGap={
-                    checkIfNullOrUndefined(centerGap)
-                      ? 100
-                      : (centerGap as number)
-                  }
+                  centerGap={centerGap}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -334,39 +312,16 @@ export function AnimatedButterflyChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (bottomMargin as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 30
-                      : (bottomMargin as number)
-                  }
-                  axisTitles={[
-                    leftBarTitle || 'Left bar graph',
-                    rightBarTitle || 'Right bar graph',
-                  ]}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  axisTitles={[leftBarTitle, rightBarTitle]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding || 0.25}
-                  refValues={refValues || []}
+                  barPadding={barPadding}
+                  refValues={refValues}
                   maxValue={maxValue}
                   minValue={minValue}
                   showValues={
@@ -375,19 +330,15 @@ export function AnimatedButterflyChart(props: Props) {
                       : (showValues as boolean)
                   }
                   onSeriesMouseClick={onSeriesMouseClick}
-                  showTicks={showTicks !== false}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  dateFormat={dateFormat || 'yyyy'}
+                  showTicks={showTicks}
+                  suffix={suffix}
+                  prefix={prefix}
+                  dateFormat={dateFormat}
                   indx={index}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -399,7 +350,7 @@ export function AnimatedButterflyChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

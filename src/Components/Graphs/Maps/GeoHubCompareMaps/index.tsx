@@ -37,17 +37,17 @@ export function GeoHubCompareMaps(props: Props) {
     graphDescription,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     graphID,
     mapStyles,
-    center,
-    zoomLevel,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    center = [0, 0],
+    zoomLevel = 3,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -63,11 +63,11 @@ export function GeoHubCompareMaps(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -78,7 +78,7 @@ export function GeoHubCompareMaps(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -115,7 +115,7 @@ export function GeoHubCompareMaps(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -133,7 +133,7 @@ export function GeoHubCompareMaps(props: Props) {
               <Graph
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -144,9 +144,9 @@ export function GeoHubCompareMaps(props: Props) {
                       : svgHeight),
                 )}
                 mapStyles={mapStyles}
-                center={center || [0, 0]}
-                zoomLevel={zoomLevel || 3}
-                mode={mode || 'light'}
+                center={center}
+                zoomLevel={zoomLevel}
+                mode={mode}
               />
             ) : null}
           </div>
@@ -157,7 +157,7 @@ export function GeoHubCompareMaps(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

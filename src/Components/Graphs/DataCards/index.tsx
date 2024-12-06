@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
@@ -21,6 +21,7 @@ import { string2HTML } from '../../../Utils/string2HTML';
 import { getUniqValue } from '../../../Utils/getUniqValue';
 import { getReactSelectTheme } from '../../../Utils/getReactSelectTheme';
 import { Modal } from '../../Elements/Modal';
+import { transformDefaultValue } from '../../../Utils/transformDataForSelect';
 
 export type FilterDataType = {
   column: string;
@@ -83,20 +84,20 @@ export function DataCards(props: Props) {
     graphID,
     data,
     onSeriesMouseClick,
-    rtl,
-    language,
-    mode,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     ariaLabel,
     cardTemplate,
     cardBackgroundColor,
-    cardFilters,
+    cardFilters = [],
     cardSortingOptions,
-    cardSearchColumns,
-    cardMinWidth,
-    backgroundStyle,
-    backgroundColor,
+    cardSearchColumns = [],
+    cardMinWidth = 320,
+    backgroundStyle = {},
+    backgroundColor = false,
     padding,
-    cardBackgroundStyle,
+    cardBackgroundStyle = {},
     cardDetailView,
   } = props;
 
@@ -129,24 +130,14 @@ export function DataCards(props: Props) {
       : undefined,
   );
 
-  const [selectedFilters, setSelectedFilters] = useState<
-    SelectedFilterDataType[]
-  >(
-    cardFilters?.map(d => ({
-      filter: d.column,
-      value: d.defaultValue
-        ? typeof d.defaultValue === 'string'
-          ? [d.defaultValue]
-          : d.defaultValue
-        : undefined,
-    })) || [],
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
   );
-
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
 
   useEffect(() => {
     setSortedBy(
@@ -166,31 +157,34 @@ export function DataCards(props: Props) {
   }, [cardSortingOptions]);
 
   useEffect(() => {
-    setFilterSettings(
-      cardFilters?.map(el => ({
-        filter: el.column,
-        label: el.label || `Filter by ${el.column}`,
-        singleSelect: true,
-        clearable: true,
-        defaultValue: el.defaultValue,
-        availableValues: getUniqValue(data, el.column)
-          .filter(v =>
-            el.excludeValues ? el.excludeValues.indexOf(`${v}`) === -1 : true,
-          )
-          .map(v => ({
-            value: v,
-            label: v,
-          })),
-      })) || [],
-    );
+    const newFilterSettings = cardFilters.map(el => ({
+      filter: el.column,
+      label: el.label || `Filter by ${el.column}`,
+      singleSelect: true,
+      clearable: true,
+      defaultValue: transformDefaultValue(el.defaultValue),
+      availableValues: getUniqValue(data, el.column)
+        .filter(v => !el.excludeValues?.includes(`${v}`))
+        .map(v => ({ value: v, label: v })),
+    }));
+
+    setFilterSettings(newFilterSettings);
   }, [data, cardFilters]);
+
+  const handleFilterChange = useCallback((filter: string, values: any) => {
+    setFilterSettings(prev =>
+      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
+    );
+  }, []);
 
   useEffect(() => {
     const filteredData = data.filter((item: any) =>
-      selectedFilters.every(filter =>
-        filter.value && filter.value.length > 0
-          ? intersection(flattenDeep([item[filter.filter]]), filter.value)
-              .length > 0
+      filterSettings.every(filter =>
+        filter.value && flattenDeep([filter.value]).length > 0
+          ? intersection(
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
           : true,
       ),
     );
@@ -199,12 +193,12 @@ export function DataCards(props: Props) {
     } else {
       setCardData(filteredData);
     }
-  }, [selectedFilters, data, sortedBy]);
+  }, [filterSettings, data, sortedBy]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         height: 'inherit',
         flexDirection: 'column',
@@ -215,7 +209,7 @@ export function DataCards(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -252,7 +246,7 @@ export function DataCards(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           {cardSortingOptions || filterSettings ? (
@@ -278,16 +272,14 @@ export function DataCards(props: Props) {
                   <p
                     className={
                       rtl
-                        ? `undp-viz-typography-${
-                            language || 'ar'
-                          } undp-viz-typography`
+                        ? `undp-viz-typography-${language} undp-viz-typography`
                         : 'undp-viz-typography'
                     }
                     style={{
                       fontSize: '0.875rem',
                       marginBottom: '0.5rem',
                       textAlign: rtl ? 'right' : 'left',
-                      color: UNDPColorModule[mode || 'light'].grays.black,
+                      color: UNDPColorModule[mode].grays.black,
                     }}
                   >
                     Sort by
@@ -295,7 +287,7 @@ export function DataCards(props: Props) {
                   <Select
                     className={
                       rtl
-                        ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                        ? `undp-viz-select-${language} undp-viz-select`
                         : 'undp-viz-select'
                     }
                     options={cardSortingOptions.options}
@@ -335,16 +327,14 @@ export function DataCards(props: Props) {
                   <p
                     className={
                       rtl
-                        ? `undp-viz-typography-${
-                            language || 'ar'
-                          } undp-viz-typography`
+                        ? `undp-viz-typography-${language} undp-viz-typography`
                         : 'undp-viz-typography'
                     }
                     style={{
                       fontSize: '0.875rem',
                       marginBottom: '0.5rem',
                       textAlign: rtl ? 'right' : 'left',
-                      color: UNDPColorModule[mode || 'light'].grays.black,
+                      color: UNDPColorModule[mode].grays.black,
                     }}
                   >
                     {d.label}
@@ -352,7 +342,7 @@ export function DataCards(props: Props) {
                   <Select
                     className={
                       rtl
-                        ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                        ? `undp-viz-select-${language} undp-viz-select`
                         : 'undp-viz-select'
                     }
                     options={d.availableValues}
@@ -362,27 +352,16 @@ export function DataCards(props: Props) {
                     controlShouldRenderValue
                     filterOption={createFilter(filterConfig)}
                     onChange={el => {
-                      const filterTemp = [...selectedFilters];
-                      filterTemp[
-                        filterTemp.findIndex(f => f.filter === d.filter)
-                      ].value = el?.value ? [el?.value] : [];
-                      setSelectedFilters(filterTemp);
+                      handleFilterChange(d.filter, el);
                     }}
-                    defaultValue={
-                      d.defaultValue
-                        ? {
-                            value: d.defaultValue as string,
-                            label: d.defaultValue as string,
-                          }
-                        : undefined
-                    }
+                    defaultValue={d.defaultValue}
                     theme={theme => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               ))}
             </div>
           ) : null}
-          {cardSearchColumns && cardSearchColumns.length > 0 ? (
+          {cardSearchColumns.length > 0 ? (
             <div style={{ width: '100%', display: 'flex' }}>
               <div
                 style={{
@@ -415,16 +394,13 @@ export function DataCards(props: Props) {
                     setSearchQuery(e.target.value);
                   }}
                   style={{
-                    border: `2px solid ${
-                      UNDPColorModule[mode || 'light'].grays.black
-                    }`,
+                    border: `2px solid ${UNDPColorModule[mode].grays.black}`,
                     borderRadius: 0,
                     padding: '10px 10px 10px 36px',
                     height: '22px',
                     flexGrow: 1,
-                    backgroundColor:
-                      UNDPColorModule[mode || 'light'].grays.white,
-                    color: UNDPColorModule[mode || 'light'].grays.black,
+                    backgroundColor: UNDPColorModule[mode].grays.white,
+                    color: UNDPColorModule[mode].grays.black,
                   }}
                 />
               </div>
@@ -435,20 +411,18 @@ export function DataCards(props: Props) {
             style={{
               width: width ? `${width}px` : '100%',
               height: height ? `${height}px` : 'auto',
-              gridTemplateColumns: `repeat(auto-fit, minmax(${
-                cardMinWidth || 320
-              }px, 1fr))`,
+              gridTemplateColumns: `repeat(auto-fit, minmax(${cardMinWidth}px, 1fr))`,
             }}
           >
-            {filterByKeys(cardData, cardSearchColumns || [], searchQuery).map(
+            {filterByKeys(cardData, cardSearchColumns, searchQuery).map(
               (d: any, i: number) => (
                 <div
                   key={i}
                   style={{
-                    ...(cardBackgroundStyle || {}),
+                    ...cardBackgroundStyle,
                     backgroundColor:
                       cardBackgroundColor ||
-                      UNDPColorModule[mode || 'light'].grays['gray-200'],
+                      UNDPColorModule[mode].grays['gray-200'],
                     cursor:
                       onSeriesMouseClick || cardDetailView ? 'pointer' : 'auto',
                   }}
@@ -471,7 +445,7 @@ export function DataCards(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

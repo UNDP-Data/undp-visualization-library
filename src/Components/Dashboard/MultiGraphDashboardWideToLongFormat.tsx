@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import {
   DashboardFromWideToLongFormatColumnDataType,
@@ -18,6 +18,7 @@ import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
 import { filterData } from '../../Utils/transformData/filterData';
 import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
+import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 
 interface Props {
   dashboardId?: string;
@@ -49,11 +50,14 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     dataFilters,
   } = props;
 
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
+  );
   const [data, setData] = useState<any>(undefined);
   const [filterValues, setFilterValues] = useState<string[]>([]);
   const [selectedFilterValues, setSelectedFilterValues] = useState<
@@ -69,38 +73,41 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
       setData(filteredData);
     }
   }, [dataFromFile, selectedFilterValues, dataSettings.keyColumn]);
-  useEffect(() => {
-    if (dataSettings.dataURL) {
-      const fetchData =
-        typeof dataSettings.dataURL === 'string'
-          ? dataSettings.fileType === 'json'
-            ? fetchAndParseJSON(
+  const fetchDataHandler = useCallback(async () => {
+    if (dataSettings) {
+      try {
+        const fetchData = dataSettings.dataURL
+          ? typeof dataSettings.dataURL === 'string'
+            ? dataSettings.fileType === 'json'
+              ? fetchAndParseJSON(
+                  dataSettings.dataURL,
+                  undefined,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
+              : dataSettings.fileType === 'api'
+              ? fetchAndTransformDataFromAPI(
+                  dataSettings.dataURL,
+                  dataSettings.apiHeaders,
+                  undefined,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
+              : fetchAndParseCSV(
+                  dataSettings.dataURL,
+                  dataSettings.dataTransformation,
+                  undefined,
+                  debugMode,
+                  dataSettings.delimiter,
+                  true,
+                )
+            : fetchAndParseMultipleDataSources(
                 dataSettings.dataURL,
-                undefined,
-                dataSettings.dataTransformation,
-                debugMode,
+                dataSettings.idColumnTitle,
               )
-            : dataSettings.fileType === 'api'
-            ? fetchAndTransformDataFromAPI(
-                dataSettings.dataURL,
-                dataSettings.apiHeaders,
-                undefined,
-                dataSettings.dataTransformation,
-                debugMode,
-              )
-            : fetchAndParseCSV(
-                dataSettings.dataURL,
-                dataSettings.dataTransformation,
-                undefined,
-                debugMode,
-                dataSettings.delimiter,
-                true,
-              )
-          : fetchAndParseMultipleDataSources(
-              dataSettings.dataURL,
-              dataSettings.idColumnTitle,
-            );
-      fetchData.then((d: any) => {
+          : transformColumnsToArray(dataSettings.data, undefined);
+
+        const d = await fetchData;
         const filteredData = filterData(d, dataFilters || []);
         setFilterValues(
           filteredData.map((el: any) => el[dataSettings.keyColumn]),
@@ -113,22 +120,14 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           debugMode,
         );
         setDataFromFile(tempData);
-      });
-    } else {
-      const filteredData = filterData(dataSettings.data, dataFilters || []);
-      const tempData = wideToLongTransformation(
-        filteredData,
-        dataSettings.keyColumn,
-        readableHeader || [],
-        debugMode,
-      );
-      setFilterValues(
-        filteredData.map((el: any) => el[dataSettings.keyColumn]),
-      );
-      setSelectedFilterValues(filteredData[0][dataSettings.keyColumn]);
-      setDataFromFile(tempData);
+      } catch (error) {
+        console.error('Data fetching error:', error);
+      }
     }
-  }, [dataSettings, dataFilters]);
+  }, [dataSettings, dataFilters, debugMode]);
+  useEffect(() => {
+    fetchDataHandler();
+  }, [fetchDataHandler]);
   return (
     <div
       style={{
@@ -197,6 +196,25 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                     minWidth: '240px',
                   }}
                 >
+                  {dashboardLayout.dropdownLabel ? (
+                    <p
+                      className={
+                        dashboardLayout.rtl
+                          ? `undp-viz-typography-${
+                              dashboardLayout.language || 'ar'
+                            } undp-viz-typography`
+                          : 'undp-viz-typography'
+                      }
+                      style={{
+                        fontSize: '0.875rem',
+                        marginBottom: '0.5rem',
+                        textAlign: dashboardLayout.rtl ? 'right' : 'left',
+                        color: UNDPColorModule[mode || 'light'].grays.black,
+                      }}
+                    >
+                      {dashboardLayout.dropdownLabel}
+                    </p>
+                  ) : null}
                   <Select
                     className={
                       dashboardLayout.rtl

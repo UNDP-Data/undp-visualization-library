@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../Elements/ColorLegend';
 import {
   BackgroundStyleDataType,
@@ -60,34 +59,34 @@ export function ParetoChart(props: Props) {
     width,
     footNote,
     padding,
-    lineColor,
-    barColor,
-    sameAxes,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    lineTitle,
-    barTitle,
-    topMargin,
-    bottomMargin,
+    lineColor = UNDPColorModule.light.categoricalColors.colors[1],
+    barColor = UNDPColorModule.light.categoricalColors.colors[0],
+    sameAxes = false,
+    backgroundColor = false,
+    leftMargin = 80,
+    rightMargin = 80,
+    topMargin = 20,
+    bottomMargin = 25,
+    lineTitle = 'Line chart',
+    barTitle = 'Bar graph',
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    barPadding,
-    truncateBy,
-    showLabels,
+    graphDownload = false,
+    dataDownload = false,
+    barPadding = 0.25,
+    truncateBy = 999,
+    showLabels = true,
     onSeriesMouseClick,
-    rtl,
-    language,
+    rtl = false,
+    language = 'en',
     colorLegendTitle,
-    minHeight,
-    mode,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -106,12 +105,12 @@ export function ParetoChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -122,7 +121,7 @@ export function ParetoChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -167,7 +166,7 @@ export function ParetoChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -183,16 +182,14 @@ export function ParetoChart(props: Props) {
             <ColorLegend
               rtl={rtl}
               language={language}
-              colorDomain={[barTitle || 'Bar graph', lineTitle || 'Line chart']}
+              colorDomain={[barTitle, lineTitle]}
               colors={[
-                barColor ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors[0],
-                lineColor ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors[1],
+                barColor || UNDPColorModule[mode].categoricalColors.colors[0],
+                lineColor || UNDPColorModule[mode].categoricalColors.colors[1],
               ]}
               colorLegendTitle={colorLegendTitle}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{
@@ -209,17 +206,11 @@ export function ParetoChart(props: Props) {
                 <Graph
                   data={data}
                   sameAxes={sameAxes}
-                  lineColor={
-                    lineColor ||
-                    UNDPColorModule[mode || 'light'].categoricalColors.colors[1]
-                  }
-                  barColor={
-                    barColor ||
-                    UNDPColorModule[mode || 'light'].categoricalColors.colors[0]
-                  }
+                  lineColor={lineColor}
+                  barColor={barColor}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -229,48 +220,21 @@ export function ParetoChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (bottomMargin as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 80
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 80
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
-                  axisTitles={[
-                    barTitle || 'Bar graph',
-                    lineTitle || 'Line chart',
-                  ]}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  axisTitles={[barTitle, lineTitle]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding || 0.25}
-                  showLabels={showLabels !== false}
+                  barPadding={barPadding}
+                  showLabels={showLabels}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -282,7 +246,7 @@ export function ParetoChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

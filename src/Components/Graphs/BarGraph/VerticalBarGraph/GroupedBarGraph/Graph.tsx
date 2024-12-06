@@ -268,7 +268,7 @@ export function Graph(props: Props) {
                         y={y(el || 0)}
                         style={{
                           fill: barColors[j],
-                          fontSize: '1rem',
+                          fontSize: '0.875rem',
                           textAnchor: 'middle',
                           fontFamily: rtl
                             ? language === 'he'

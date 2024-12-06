@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
   ReferenceDataType,
   GroupedBarGraphDataType,
@@ -61,27 +60,27 @@ export function VerticalGroupedBarGraph(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
-    suffix,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     sources,
-    prefix,
     graphDescription,
-    barPadding,
-    showLabels,
-    showValues,
-    showTicks,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    truncateBy = 999,
+    showLabels = true,
+    showValues = true,
+    backgroundColor = false,
+    suffix = '',
+    prefix = '',
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    truncateBy,
     padding,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -90,21 +89,18 @@ export function VerticalGroupedBarGraph(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     labelOrder,
-    minHeight,
-    mode,
+    minHeight = 0,
     maxBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
-
-  const barColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -125,11 +121,11 @@ export function VerticalGroupedBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -141,7 +137,7 @@ export function VerticalGroupedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -186,7 +182,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -204,11 +200,11 @@ export function VerticalGroupedBarGraph(props: Props) {
               language={language}
               width={width}
               colorDomain={colorDomain}
-              colors={barColors}
+              colors={colors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -218,10 +214,10 @@ export function VerticalGroupedBarGraph(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={barColors}
+                  barColors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -231,53 +227,17 @@ export function VerticalGroupedBarGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  barPadding={barPadding}
+                  showLabels={showLabels}
+                  showValues={showValues}
+                  showTicks={showTicks}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
@@ -285,16 +245,12 @@ export function VerticalGroupedBarGraph(props: Props) {
                   minValue={minValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
+                  rtl={rtl}
+                  language={language}
                   labelOrder={labelOrder}
-                  mode={mode || 'light'}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -306,7 +262,7 @@ export function VerticalGroupedBarGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

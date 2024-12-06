@@ -7,7 +7,6 @@ import {
   ScaleDataType,
   SourcesDataType,
 } from '../../../Types';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
 import { LinearColorLegend } from '../../Elements/LinearColorLegend';
@@ -65,10 +64,10 @@ export function HeatMap(props: Props) {
     colors,
     sources,
     graphDescription,
-    showColumnLabels,
-    leftMargin,
-    rightMargin,
-    truncateBy,
+    showColumnLabels = true,
+    leftMargin = 100,
+    rightMargin = 10,
+    truncateBy = 999,
     height,
     width,
     scaleType,
@@ -76,31 +75,31 @@ export function HeatMap(props: Props) {
     footNote,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
+    backgroundColor = false,
+    topMargin = 30,
+    bottomMargin = 10,
     tooltip,
     onSeriesMouseOver,
-    suffix,
-    prefix,
-    showRowLabels,
+    suffix = '',
+    prefix = '',
+    showRowLabels = true,
     relativeHeight,
     showValues,
     graphID,
-    noDataColor,
-    showColorScale,
+    noDataColor = UNDPColorModule.light.graphGray,
+    showColorScale = true,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    fillContainer,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    fillContainer = true,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -122,7 +121,7 @@ export function HeatMap(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   const scale =
     scaleType ||
     (typeof domain[0] === 'string'
@@ -134,10 +133,10 @@ export function HeatMap(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
-        width: fillContainer === false ? 'fit-content' : '100%',
+        width: !fillContainer ? 'fit-content' : '100%',
         height: 'inherit',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -145,7 +144,7 @@ export function HeatMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -188,7 +187,7 @@ export function HeatMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -201,27 +200,26 @@ export function HeatMap(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false ? (
+            {showColorScale ? (
               scale === 'categorical' ? (
                 <div style={{ marginBottom: '-12px' }}>
                   <ColorLegendWithMouseOver
                     rtl={rtl}
                     language={language}
-                    width={fillContainer !== false ? undefined : width}
+                    width={fillContainer ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule[mode || 'light'].categoricalColors
-                            .colors
+                        ? UNDPColorModule[mode].categoricalColors.colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule[mode || 'light'].sequentialColors
+                            UNDPColorModule[mode].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule[mode || 'light'].sequentialColors
+                            UNDPColorModule[mode].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule[mode || 'light'].sequentialColors[
+                        : UNDPColorModule[mode].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -229,32 +227,27 @@ export function HeatMap(props: Props) {
                     }
                     colorDomain={domain.map(d => `${d}`)}
                     setSelectedColor={setSelectedColor}
-                    showNAColor={
-                      showNAColor === undefined || showNAColor === null
-                        ? true
-                        : showNAColor
-                    }
-                    mode={mode || 'light'}
+                    showNAColor={showNAColor}
+                    mode={mode}
                   />
                 </div>
               ) : scale === 'threshold' ? (
                 <div style={{ marginBottom: '-12px' }}>
                   <ThresholdColorLegendWithMouseOver
-                    width={fillContainer !== false ? undefined : width}
+                    width={fillContainer ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors ||
                       (typeof domain[0] === 'string'
-                        ? UNDPColorModule[mode || 'light'].categoricalColors
-                            .colors
+                        ? UNDPColorModule[mode].categoricalColors.colors
                         : domain.length === 2
                         ? [
-                            UNDPColorModule[mode || 'light'].sequentialColors
+                            UNDPColorModule[mode].sequentialColors
                               .neutralColorsx09[0],
-                            UNDPColorModule[mode || 'light'].sequentialColors
+                            UNDPColorModule[mode].sequentialColors
                               .neutralColorsx09[8],
                           ]
-                        : UNDPColorModule[mode || 'light'].sequentialColors[
+                        : UNDPColorModule[mode].sequentialColors[
                             `neutralColorsx0${
                               (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                             }`
@@ -262,29 +255,27 @@ export function HeatMap(props: Props) {
                     }
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
-                    naColor={
-                      noDataColor || UNDPColorModule[mode || 'light'].graphGray
-                    }
-                    rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                    language={language || (rtl ? 'ar' : 'en')}
-                    mode={mode || 'light'}
+                    naColor={noDataColor}
+                    rtl={rtl}
+                    language={language}
+                    mode={mode}
                   />
                 </div>
               ) : (
                 <div style={{ marginBottom: '-12px' }}>
                   <LinearColorLegend
-                    width={fillContainer !== false ? undefined : width}
+                    width={fillContainer ? undefined : width}
                     colorLegendTitle={colorLegendTitle}
                     colors={
                       colors || [
-                        UNDPColorModule[mode || 'light'].sequentialColors
+                        UNDPColorModule[mode].sequentialColors
                           .neutralColorsx09[0],
-                        UNDPColorModule[mode || 'light'].sequentialColors
+                        UNDPColorModule[mode].sequentialColors
                           .neutralColorsx09[8],
                       ]
                     }
                     colorDomain={domain as number[]}
-                    mode={mode || 'light'}
+                    mode={mode}
                     rtl={rtl}
                     language={language}
                   />
@@ -312,27 +303,24 @@ export function HeatMap(props: Props) {
                   colors={
                     colors ||
                     (typeof domain[0] === 'string'
-                      ? UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                      ? UNDPColorModule[mode].categoricalColors.colors
                       : domain.length === 2
                       ? [
-                          UNDPColorModule[mode || 'light'].sequentialColors
+                          UNDPColorModule[mode].sequentialColors
                             .neutralColorsx09[0],
-                          UNDPColorModule[mode || 'light'].sequentialColors
+                          UNDPColorModule[mode].sequentialColors
                             .neutralColorsx09[8],
                         ]
-                      : UNDPColorModule[mode || 'light'].sequentialColors[
+                      : UNDPColorModule[mode].sequentialColors[
                           `neutralColorsx0${
                             (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                           }`
                         ])
                   }
-                  noDataColor={
-                    noDataColor || UNDPColorModule[mode || 'light'].graphGray
-                  }
+                  noDataColor={noDataColor}
                   scaleType={scale}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -342,56 +330,24 @@ export function HeatMap(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  showColumnLabels={
-                    checkIfNullOrUndefined(showColumnLabels)
-                      ? true
-                      : (showColumnLabels as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 100
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 10
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 30
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
+                  showColumnLabels={showColumnLabels}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   selectedColor={selectedColor}
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showRowLabels={
-                    checkIfNullOrUndefined(showRowLabels)
-                      ? true
-                      : (showRowLabels as boolean)
-                  }
+                  truncateBy={truncateBy}
+                  showRowLabels={showRowLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   showValues={showValues}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  suffix={suffix}
+                  prefix={prefix}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -403,7 +359,7 @@ export function HeatMap(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

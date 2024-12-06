@@ -11,7 +11,6 @@ import {
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegend } from '../../Elements/ColorLegend';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
@@ -59,42 +58,42 @@ export function AreaChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     sources,
     graphDescription,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
+    noOfXTicks = 10,
+    dateFormat = 'yyyy',
     colorDomain,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     colorLegendTitle,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    highlightAreaSettings,
-    bottomMargin,
+    leftMargin = 30,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    highlightAreaSettings = [null, null],
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
-    refValues,
+    refValues = [],
     graphID,
     minValue,
     maxValue,
-    graphDownload,
-    dataDownload,
-    highlightAreaColor,
-    showColorScale,
-    rtl,
-    language,
-    minHeight,
-    annotations,
-    customHighlightAreaSettings,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
+    showColorScale = true,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    annotations = [],
+    customHighlightAreaSettings = [],
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -113,15 +112,12 @@ export function AreaChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
-
-  const areaColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -132,7 +128,7 @@ export function AreaChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -177,7 +173,7 @@ export function AreaChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -195,10 +191,10 @@ export function AreaChart(props: Props) {
                 rtl={rtl}
                 language={language}
                 colorDomain={colorDomain}
-                colors={areaColors}
+                colors={colors}
                 colorLegendTitle={colorLegendTitle}
                 showNAColor={false}
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -209,10 +205,10 @@ export function AreaChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  colors={areaColors}
+                  colors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -222,49 +218,24 @@ export function AreaChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  dateFormat={dateFormat || 'yyyy'}
-                  noOfXTicks={
-                    checkIfNullOrUndefined(noOfXTicks)
-                      ? 10
-                      : (noOfXTicks as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 30
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
+                  dateFormat={dateFormat}
+                  noOfXTicks={noOfXTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  highlightAreaSettings={highlightAreaSettings}
                   refValues={refValues}
                   minValue={minValue}
                   maxValue={maxValue}
-                  highlightAreaColor={
-                    highlightAreaColor ||
-                    UNDPColorModule[mode || 'light'].grays['gray-300']
-                  }
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  annotations={annotations || []}
-                  customHighlightAreaSettings={
-                    customHighlightAreaSettings || []
-                  }
-                  mode={mode || 'light'}
+                  highlightAreaColor={highlightAreaColor}
+                  rtl={rtl}
+                  language={language}
+                  annotations={annotations}
+                  customHighlightAreaSettings={customHighlightAreaSettings}
+                  mode={mode}
                 />
               ) : null}
             </div>
@@ -276,7 +247,7 @@ export function AreaChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

@@ -55,7 +55,11 @@ export function SingleGraphDashboardFromConfig(props: Props) {
     }
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
-  if (!validateConfigSchema(configSettings, 'singleGraphDashboard').isValid)
+  const validationResult = validateConfigSchema(
+    configSettings,
+    'singleGraphDashboard',
+  );
+  if (!validationResult.isValid)
     return (
       <p
         className='undp-viz-typography'
@@ -66,7 +70,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
           fontSize: '0.875rem',
         }}
       >
-        {validateConfigSchema(configSettings, 'singleGraphDashboard').err}
+        {validationResult.err}
       </p>
     );
   return (

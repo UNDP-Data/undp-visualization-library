@@ -69,7 +69,7 @@ export function AnimatedBiVariantMap(props: Props) {
     data,
     mapData,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.bivariateColors.colors05x05,
     sources,
     graphDescription,
     height,
@@ -77,38 +77,38 @@ export function AnimatedBiVariantMap(props: Props) {
     footNote,
     xDomain,
     yDomain,
-    xColorLegendTitle,
-    yColorLegendTitle,
-    scale,
-    centerPoint,
-    padding,
-    backgroundColor,
+    xColorLegendTitle = 'X Color key',
+    yColorLegendTitle = 'Y Color key',
     tooltip,
-    mapBorderWidth,
-    mapBorderColor,
-    mapNoDataColor,
+    scale = 190,
+    centerPoint = [10, 10],
+    padding,
+    mapBorderWidth = 0.5,
+    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    backgroundColor = false,
+    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
     relativeHeight,
     onSeriesMouseOver,
-    isWorldMap,
-    zoomScaleExtend,
+    isWorldMap = true,
+    zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes,
+    highlightedCountryCodes = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    mapProperty,
-    showAntarctica,
-    dateFormat,
-    showOnlyActiveDate,
-    autoPlay,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    mapProperty = 'ISO3',
+    graphDownload = false,
+    dataDownload = false,
+    showAntarctica = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
+    dateFormat = 'yyyy',
+    showOnlyActiveDate = false,
+    autoPlay = false,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -128,12 +128,12 @@ export function AnimatedBiVariantMap(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
-  const [play, setPlay] = useState(autoPlay || false);
+  const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
     uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+      parse(`${d.date}`, dateFormat, new Date()).getTime(),
     ),
     (a, b) => ascending(a, b),
   );
@@ -148,7 +148,7 @@ export function AnimatedBiVariantMap(props: Props) {
         fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
         display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
       },
-      label: format(new Date(d), dateFormat || 'yyyy'),
+      label: format(new Date(d), dateFormat),
     };
   });
   useEffect(() => {
@@ -172,7 +172,7 @@ export function AnimatedBiVariantMap(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -183,7 +183,7 @@ export function AnimatedBiVariantMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -228,7 +228,7 @@ export function AnimatedBiVariantMap(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -247,11 +247,7 @@ export function AnimatedBiVariantMap(props: Props) {
                 play ? 'Click to pause animation' : 'Click to play animation'
               }
             >
-              {play ? (
-                <Pause mode={mode || 'light'} />
-              ) : (
-                <Play mode={mode || 'light'} />
-              )}
+              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -289,7 +285,7 @@ export function AnimatedBiVariantMap(props: Props) {
                 yDomain={yDomain}
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -299,47 +295,35 @@ export function AnimatedBiVariantMap(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 )}
-                scale={scale || 190}
-                centerPoint={centerPoint || [10, 10]}
-                colors={
-                  colors ||
-                  UNDPColorModule[mode || 'light'].bivariateColors.colors05x05
-                }
-                xColorLegendTitle={xColorLegendTitle || 'X Color key'}
-                yColorLegendTitle={yColorLegendTitle || 'Y Color key'}
+                scale={scale}
+                centerPoint={centerPoint}
+                colors={colors}
+                xColorLegendTitle={xColorLegendTitle}
+                yColorLegendTitle={yColorLegendTitle}
                 mapBorderWidth={
                   checkIfNullOrUndefined(mapBorderWidth)
                     ? 0.5
                     : (mapBorderWidth as number)
                 }
-                mapNoDataColor={
-                  mapNoDataColor || UNDPColorModule[mode || 'light'].graphNoData
-                }
-                mapBorderColor={
-                  mapBorderColor ||
-                  UNDPColorModule[mode || 'light'].grays['gray-500']
-                }
+                mapNoDataColor={mapNoDataColor}
+                mapBorderColor={mapBorderColor}
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
-                isWorldMap={isWorldMap === undefined ? true : isWorldMap}
+                isWorldMap={isWorldMap}
                 zoomScaleExtend={zoomScaleExtend}
                 zoomTranslateExtend={zoomTranslateExtend}
                 onSeriesMouseClick={onSeriesMouseClick}
-                mapProperty={mapProperty || 'ISO3'}
+                mapProperty={mapProperty}
                 showAntarctica={
                   showAntarctica === undefined ? false : showAntarctica
                 }
-                highlightedCountryCodes={highlightedCountryCodes || []}
-                dateFormat={dateFormat || 'yyyy'}
+                highlightedCountryCodes={highlightedCountryCodes}
+                dateFormat={dateFormat}
                 indx={index}
-                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                language={language || (rtl ? 'ar' : 'en')}
-                mode={mode || 'light'}
-                resetSelectionOnDoubleClick={
-                  checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                    ? true
-                    : (resetSelectionOnDoubleClick as boolean)
-                }
+                rtl={rtl}
+                language={language}
+                mode={mode}
+                resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
               />
             ) : null}
           </div>
@@ -350,7 +334,7 @@ export function AnimatedBiVariantMap(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

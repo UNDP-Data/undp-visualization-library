@@ -65,50 +65,50 @@ export function VerticalDumbbellChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     sources,
     graphDescription,
-    barPadding,
-    showTicks,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
-    truncateBy,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    truncateBy = 999,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    radius,
+    backgroundColor = false,
+    radius = 3,
     tooltip,
-    showLabels,
+    showLabels = true,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    suffix,
-    prefix,
+    suffix = '',
+    prefix = '',
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    showValues,
+    graphDownload = false,
+    dataDownload = false,
+    showValues = true,
     sortParameter,
-    arrowConnector,
-    connectorStrokeWidth,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    arrowConnector = false,
+    connectorStrokeWidth = 2,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -130,15 +130,12 @@ export function VerticalDumbbellChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
-
-  const dotColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -149,7 +146,7 @@ export function VerticalDumbbellChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -194,7 +191,7 @@ export function VerticalDumbbellChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -212,11 +209,11 @@ export function VerticalDumbbellChart(props: Props) {
               language={language}
               width={width}
               colorDomain={colorDomain}
-              colors={dotColors}
+              colors={colors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{
@@ -254,10 +251,10 @@ export function VerticalDumbbellChart(props: Props) {
                           maxNumberOfBars ? i < maxNumberOfBars : true,
                         )
                   }
-                  dotColors={dotColors}
+                  dotColors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -267,80 +264,32 @@ export function VerticalDumbbellChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  radius={!radius ? 3 : radius}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
+                  radius={radius}
+                  barPadding={barPadding}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
+                  showValues={showValues}
                   tooltip={tooltip}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  suffix={suffix}
+                  prefix={prefix}
                   onSeriesMouseOver={onSeriesMouseOver}
                   maxPositionValue={maxPositionValue}
                   minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
-                  arrowConnector={
-                    checkIfNullOrUndefined(arrowConnector)
-                      ? false
-                      : (arrowConnector as boolean)
-                  }
-                  connectorStrokeWidth={
-                    checkIfNullOrUndefined(connectorStrokeWidth)
-                      ? 2
-                      : (connectorStrokeWidth as number)
-                  }
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  arrowConnector={arrowConnector}
+                  connectorStrokeWidth={connectorStrokeWidth}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -352,7 +301,7 @@ export function VerticalDumbbellChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

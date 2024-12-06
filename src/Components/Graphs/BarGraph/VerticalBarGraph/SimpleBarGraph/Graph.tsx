@@ -304,7 +304,7 @@ export function Graph(props: Props) {
                         barColor.length > 1
                           ? UNDPColorModule[mode || 'light'].grays['gray-600']
                           : barColor[0],
-                      fontSize: '1rem',
+                      fontSize: '0.875rem',
                       textAnchor: 'middle',
                       fontFamily: rtl
                         ? language === 'he'
@@ -364,7 +364,7 @@ export function Graph(props: Props) {
                                     'gray-600'
                                   ]
                                 : barColor[0],
-                            fontSize: '1rem',
+                            fontSize: '0.875rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
                               ? language === 'he'

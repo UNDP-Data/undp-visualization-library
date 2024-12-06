@@ -10,7 +10,6 @@ import {
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
@@ -63,45 +62,45 @@ export function SimpleLineChart(props: Props) {
     data,
     graphTitle,
     color,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
+    noOfXTicks = 10,
+    dateFormat = 'yyyy',
+    showValues = false,
     padding,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    backgroundColor = false,
+    leftMargin = 50,
+    rightMargin = 30,
+    topMargin = 20,
+    bottomMargin = 25,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    refValues,
-    highlightAreaSettings,
+    highlightAreaSettings = [null, null],
     graphID,
     minValue,
     maxValue,
-    graphDownload,
-    dataDownload,
-    highlightAreaColor,
-    animateLine,
-    rtl,
-    language,
-    minHeight,
-    strokeWidth,
-    showDots,
-    annotations,
-    customHighlightAreaSettings,
-    mode,
-    regressionLine,
+    graphDownload = false,
+    dataDownload = false,
+    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
+    animateLine = false,
+    rtl = false,
+    language = 'en',
+    refValues = [],
+    minHeight = 0,
+    strokeWidth = 2,
+    showDots = true,
+    annotations = [],
+    customHighlightAreaSettings = [],
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
+    regressionLine = false,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -119,11 +118,11 @@ export function SimpleLineChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -134,7 +133,7 @@ export function SimpleLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -179,7 +178,7 @@ export function SimpleLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -196,13 +195,10 @@ export function SimpleLineChart(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                color={
-                  color ||
-                  UNDPColorModule[mode || 'light'].primaryColors['blue-600']
-                }
+                color={color || UNDPColorModule[mode].primaryColors['blue-600']}
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -212,52 +208,31 @@ export function SimpleLineChart(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 )}
-                suffix={suffix || ''}
-                prefix={prefix || ''}
-                dateFormat={dateFormat || 'yyyy'}
+                suffix={suffix}
+                prefix={prefix}
+                dateFormat={dateFormat}
                 showValues={showValues}
-                noOfXTicks={
-                  checkIfNullOrUndefined(noOfXTicks)
-                    ? 10
-                    : (noOfXTicks as number)
-                }
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 50
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 30
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 20 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 25
-                    : (bottomMargin as number)
-                }
+                noOfXTicks={noOfXTicks}
+                leftMargin={leftMargin}
+                rightMargin={rightMargin}
+                topMargin={topMargin}
+                bottomMargin={bottomMargin}
                 tooltip={tooltip}
-                highlightAreaSettings={highlightAreaSettings || [null, null]}
+                highlightAreaSettings={highlightAreaSettings}
                 onSeriesMouseOver={onSeriesMouseOver}
                 refValues={refValues}
                 minValue={minValue}
                 maxValue={maxValue}
-                highlightAreaColor={
-                  highlightAreaColor ||
-                  UNDPColorModule[mode || 'light'].grays['gray-300']
-                }
+                highlightAreaColor={highlightAreaColor}
                 animateLine={animateLine}
-                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                language={language || (rtl ? 'ar' : 'en')}
-                strokeWidth={strokeWidth || 2}
-                showDots={showDots !== false}
-                annotations={annotations || []}
-                customHighlightAreaSettings={customHighlightAreaSettings || []}
-                mode={mode || 'light'}
-                regressionLine={regressionLine || false}
+                rtl={rtl}
+                language={language}
+                strokeWidth={strokeWidth}
+                showDots={showDots}
+                annotations={annotations}
+                customHighlightAreaSettings={customHighlightAreaSettings}
+                mode={mode}
+                regressionLine={regressionLine}
               />
             ) : null}
           </div>
@@ -268,7 +243,7 @@ export function SimpleLineChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

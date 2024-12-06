@@ -37,19 +37,23 @@ export function MultiGraphDashboardFromConfig(props: Props) {
   const [configSettings, setConfigSettings] = useState<
     ConfigObject | undefined
   >(undefined);
-
   useEffect(() => {
-    if (typeof config === 'string') {
-      const fetchData = fetchAndParseJSON(config);
-      fetchData.then(d => {
-        setConfigSettings(d);
-      });
-    } else {
-      setConfigSettings(config);
-    }
+    const fetchData = async () => {
+      if (typeof config === 'string') {
+        const data = await fetchAndParseJSON(config);
+        setConfigSettings(data);
+      } else {
+        setConfigSettings(config);
+      }
+    };
+    fetchData();
   }, [config]);
   if (!configSettings) return <div className='undp-viz-loader' />;
-  if (!validateConfigSchema(configSettings, 'multiGraphDashboard').isValid)
+  const validationResult = validateConfigSchema(
+    configSettings,
+    'multiGraphDashboard',
+  );
+  if (!validationResult.isValid)
     return (
       <p
         className='undp-viz-typography'
@@ -60,7 +64,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
           fontSize: '0.875rem',
         }}
       >
-        {validateConfigSchema(configSettings, 'multiGraphDashboard').err}
+        {validationResult.err}
       </p>
     );
   return (

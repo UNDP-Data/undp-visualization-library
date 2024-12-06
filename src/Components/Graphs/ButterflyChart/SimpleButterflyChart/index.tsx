@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   BackgroundStyleDataType,
@@ -68,40 +67,43 @@ export function ButterflyChart(props: Props) {
     width,
     footNote,
     padding,
-    barColors,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    rightBarTitle,
-    leftBarTitle,
-    topMargin,
-    bottomMargin,
+    barColors = [
+      UNDPColorModule.light.categoricalColors.colors[0],
+      UNDPColorModule.light.categoricalColors.colors[1],
+    ],
+    backgroundColor = false,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 25,
+    bottomMargin = 30,
+    rightBarTitle = 'Right bar graph',
+    leftBarTitle = 'Left bar graph',
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    barPadding,
-    truncateBy,
+    barPadding = 0.25,
+    truncateBy = 999,
     onSeriesMouseClick,
-    centerGap,
-    showValues,
+    centerGap = 100,
+    showValues = true,
     maxValue,
     minValue,
-    refValues,
-    suffix,
-    prefix,
-    showTicks,
-    showColorScale,
-    rtl,
-    language,
+    refValues = [],
+    suffix = '',
+    prefix = '',
+    showTicks = true,
+    showColorScale = false,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
     colorLegendTitle,
-    minHeight,
-    mode,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -119,12 +121,12 @@ export function ButterflyChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -135,7 +137,7 @@ export function ButterflyChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -180,7 +182,7 @@ export function ButterflyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -198,20 +200,10 @@ export function ButterflyChart(props: Props) {
                 rtl={rtl}
                 language={language}
                 colorLegendTitle={colorLegendTitle}
-                colorDomain={[
-                  leftBarTitle || 'Left bar graph',
-                  rightBarTitle || 'Right bar graph',
-                ]}
-                colors={
-                  barColors || [
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[0],
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[1],
-                  ]
-                }
+                colorDomain={[leftBarTitle, rightBarTitle]}
+                colors={barColors}
                 showNAColor={false}
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -228,22 +220,11 @@ export function ButterflyChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={
-                    barColors || [
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[0],
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[1],
-                    ]
-                  }
+                  barColors={barColors}
                   width={width || svgWidth}
-                  centerGap={
-                    checkIfNullOrUndefined(centerGap)
-                      ? 100
-                      : (centerGap as number)
-                  }
+                  centerGap={centerGap}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -253,58 +234,27 @@ export function ButterflyChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (bottomMargin as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 30
-                      : (bottomMargin as number)
-                  }
-                  axisTitles={[
-                    leftBarTitle || 'Left bar graph',
-                    rightBarTitle || 'Right bar graph',
-                  ]}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  axisTitles={[leftBarTitle, rightBarTitle]}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding || 0.25}
-                  refValues={refValues || []}
+                  barPadding={barPadding}
+                  refValues={refValues}
                   maxValue={maxValue}
                   minValue={minValue}
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
+                  showValues={showValues}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  showTicks={showTicks !== false}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  showTicks={showTicks}
+                  suffix={suffix}
+                  prefix={prefix}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -316,7 +266,7 @@ export function ButterflyChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

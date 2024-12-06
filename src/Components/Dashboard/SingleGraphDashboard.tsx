@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
@@ -12,7 +12,6 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
-  SelectedFilterDataType,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -33,6 +32,7 @@ import Checkbox from '../Elements/Checkbox';
 import Radio from '../Elements/Radio';
 import { GraphList } from '../../Utils/getGraphList';
 import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
+import { transformDefaultValue } from '../../Utils/transformDataForSelect';
 
 interface Props {
   graphSettings?: any;
@@ -78,157 +78,137 @@ export function SingleGraphDashboard(props: Props) {
     GraphConfigurationDataType[] | undefined
   >(graphDataConfiguration);
   const graphParentDiv = useRef<HTMLDivElement>(null);
-  const [selectedFilters, setSelectedFilters] = useState<
-    SelectedFilterDataType[]
-  >(
-    filters?.map(d => ({
-      filter: d.column,
-      value: d.defaultValue
-        ? typeof d.defaultValue === 'string'
-          ? [d.defaultValue]
-          : d.defaultValue
-        : undefined,
-    })) || [],
-  );
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
   >([]);
 
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
-
-  useEffect(() => {
-    setSelectedFilters(
-      filters?.map(d => ({
-        filter: d.column,
-        value: d.defaultValue
-          ? typeof d.defaultValue === 'string'
-            ? [d.defaultValue]
-            : d.defaultValue
-          : undefined,
-      })) || [],
-    );
-  }, [filters]);
-
-  useEffect(() => {
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
+  );
+  const fetchDataHandler = useCallback(async () => {
     if (
       graphType !== 'geoHubMap' &&
       graphType !== 'geoHubCompareMap' &&
-      graphType !== 'geoHubMapWithLayerSelection'
+      graphType !== 'geoHubMapWithLayerSelection' &&
+      dataSettings
     ) {
-      if (dataFromFile) {
-        const filteredData = dataFromFile.filter((item: any) =>
-          selectedFilters.every(filter =>
-            filter.value && filter.value.length > 0
-              ? intersection(flattenDeep([item[filter.filter]]), filter.value)
-                  .length > 0
-              : true,
-          ),
-        );
-        setData(filteredData);
-      }
-    }
-  }, [selectedFilters, dataFromFile, graphType]);
-
-  useEffect(() => {
-    if (
-      graphType !== 'geoHubMap' &&
-      graphType !== 'geoHubCompareMap' &&
-      graphType !== 'geoHubMapWithLayerSelection'
-    ) {
-      if (dataSettings) {
-        if (dataSettings.dataURL) {
-          const fetchData =
-            typeof dataSettings.dataURL === 'string'
-              ? dataSettings.fileType === 'json'
-                ? fetchAndParseJSON(
-                    dataSettings.dataURL,
-                    dataSettings.columnsToArray,
-                    dataSettings.dataTransformation,
-                    debugMode,
-                  )
-                : dataSettings.fileType === 'api'
-                ? fetchAndTransformDataFromAPI(
-                    dataSettings.dataURL,
-                    dataSettings.apiHeaders,
-                    dataSettings.columnsToArray,
-                    dataSettings.dataTransformation,
-                    debugMode,
-                  )
-                : fetchAndParseCSV(
-                    dataSettings.dataURL,
-                    dataSettings.dataTransformation,
-                    dataSettings.columnsToArray,
-                    debugMode,
-                    dataSettings.delimiter,
-                    true,
-                  )
-              : fetchAndParseMultipleDataSources(
+      try {
+        const fetchData = dataSettings.dataURL
+          ? typeof dataSettings.dataURL === 'string'
+            ? dataSettings.fileType === 'json'
+              ? fetchAndParseJSON(
                   dataSettings.dataURL,
-                  dataSettings.idColumnTitle,
-                );
-          fetchData.then(d => {
-            setDataFromFile(d);
-            setFilterSettings(
-              filters?.map(el => ({
-                filter: el.column,
-                label: el.label || `Filter by ${el.column}`,
-                singleSelect: el.singleSelect,
-                clearable: el.clearable,
-                defaultValue: el.defaultValue,
-                availableValues: getUniqValue(d, el.column)
-                  .filter(v =>
-                    el.excludeValues
-                      ? el.excludeValues.indexOf(`${v}`) === -1
-                      : true,
-                  )
-                  .map(v => ({
-                    value: v,
-                    label: v,
-                  })),
-              })) || [],
-            );
-          });
-        } else {
-          const tempData = dataSettings.columnsToArray
-            ? transformColumnsToArray(
-                dataSettings.data,
-                dataSettings.columnsToArray,
-              )
-            : dataSettings.data;
-          setDataFromFile(tempData);
-          setFilterSettings(
-            filters?.map(el => ({
-              filter: el.column,
-              label: el.label || `Filter by ${el.column}`,
-              singleSelect: el.singleSelect,
-              clearable: el.clearable,
-              defaultValue: el.defaultValue,
-              availableValues: getUniqValue(
-                filterData(tempData, dataFilters || []),
-                el.column,
-              )
-                .filter(v =>
-                  el.excludeValues
-                    ? el.excludeValues.indexOf(`${v}`) === -1
-                    : true,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
                 )
-                .map(v => ({
-                  value: v,
-                  label: v,
-                })),
-            })) || [],
-          );
-        }
+              : dataSettings.fileType === 'api'
+              ? fetchAndTransformDataFromAPI(
+                  dataSettings.dataURL,
+                  dataSettings.apiHeaders,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
+              : fetchAndParseCSV(
+                  dataSettings.dataURL,
+                  dataSettings.dataTransformation,
+                  dataSettings.columnsToArray,
+                  debugMode,
+                  dataSettings.delimiter,
+                  true,
+                )
+            : fetchAndParseMultipleDataSources(
+                dataSettings.dataURL,
+                dataSettings.idColumnTitle,
+              )
+          : transformColumnsToArray(
+              dataSettings.data,
+              dataSettings.columnsToArray,
+            );
+
+        const d = await fetchData;
+        setDataFromFile(d);
+
+        // Optimize filter settings generation
+        const newFilterSettings = (filters || []).map(el => ({
+          filter: el.column,
+          label: el.label || `Filter by ${el.column}`,
+          singleSelect: el.singleSelect,
+          clearable: el.clearable,
+          defaultValue: transformDefaultValue(el.defaultValue),
+          availableValues: getUniqValue(d, el.column)
+            .filter(v => !el.excludeValues?.includes(`${v}`))
+            .map(v => ({ value: v, label: v })),
+        }));
+
+        setFilterSettings(newFilterSettings);
+      } catch (error) {
+        console.error('Data fetching error:', error);
       }
     }
-  }, [dataSettings, dataFilters, graphType]);
+  }, [dataSettings, graphType, filters, debugMode]);
+  useEffect(() => {
+    fetchDataHandler();
+  }, [fetchDataHandler]);
+
+  const filteredData = useMemo(() => {
+    if (!dataFromFile || filterSettings.length === 0) return dataFromFile;
+    const result = dataFromFile.filter((item: any) =>
+      filterSettings.every(filter =>
+        filter.value && flattenDeep([filter.value]).length > 0
+          ? intersection(
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
+          : true,
+      ),
+    );
+    return result;
+  }, [filterSettings, dataFromFile]);
+  useEffect(() => {
+    if (
+      graphType !== 'geoHubMap' &&
+      graphType !== 'geoHubCompareMap' &&
+      graphType !== 'geoHubMapWithLayerSelection' &&
+      dataFromFile
+    ) {
+      setData(filteredData);
+    }
+  }, [filteredData, graphType, dataFromFile]);
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
   }, [graphDataConfiguration]);
+
+  const handleFilterChange = useCallback((filter: string, values: any) => {
+    setFilterSettings(prev =>
+      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
+    );
+  }, []);
+
+  const graphData = useMemo(() => {
+    if (!data) return undefined;
+    const d =
+      graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap'
+        ? transformDataForGraph(
+            dataTransform
+              ? transformDataForAggregation(
+                  filterData(data, dataFilters || []),
+                  dataTransform.keyColumn,
+                  dataTransform.aggregationColumnsSetting,
+                )
+              : filterData(data, dataFilters || []),
+            graphType,
+            graphConfig,
+          )
+        : undefined;
+    return d;
+  }, [graphType, graphConfig, data, dataFilters, dataTransform]);
   if (
     !dataSettings &&
     graphType !== 'geoHubMap' &&
@@ -592,20 +572,10 @@ export function SingleGraphDashboard(props: Props) {
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.value ? [el?.value] : [];
-                            setSelectedFilters(filterTemp);
+                            handleFilterChange(d.filter, el);
                           }}
-                          defaultValue={
-                            d.defaultValue
-                              ? {
-                                  value: d.defaultValue as string,
-                                  label: d.defaultValue as string,
-                                }
-                              : undefined
-                          }
+                          value={d.value}
+                          defaultValue={d.defaultValue}
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
@@ -626,20 +596,10 @@ export function SingleGraphDashboard(props: Props) {
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
-                            const filterTemp = [...selectedFilters];
-                            filterTemp[
-                              filterTemp.findIndex(f => f.filter === d.filter)
-                            ].value = el?.map(val => val.value) || [];
-                            setSelectedFilters(filterTemp);
+                            handleFilterChange(d.filter, el);
                           }}
-                          defaultValue={
-                            d.defaultValue
-                              ? (d.defaultValue as string[]).map(el => ({
-                                  value: el,
-                                  label: el,
-                                }))
-                              : undefined
-                          }
+                          value={d.value}
+                          defaultValue={d.defaultValue}
                           isRtl={graphSettings?.rtl}
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />
@@ -650,21 +610,7 @@ export function SingleGraphDashboard(props: Props) {
               ) : null}
               <GraphEl
                 graph={graphType}
-                graphData={
-                  graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap'
-                    ? transformDataForGraph(
-                        dataTransform
-                          ? transformDataForAggregation(
-                              filterData(data, dataFilters || []),
-                              dataTransform.keyColumn,
-                              dataTransform.aggregationColumnsSetting,
-                            )
-                          : filterData(data, dataFilters || []),
-                        graphType,
-                        graphConfig,
-                      )
-                    : undefined
-                }
+                graphData={graphData}
                 graphDataConfiguration={graphConfig}
                 debugMode={debugMode}
                 readableHeader={readableHeader || []}
@@ -696,7 +642,9 @@ export function SingleGraphDashboard(props: Props) {
               />
             </>
           ) : (
-            <div className='undp-viz-loader' />
+            <div>
+              <div className='undp-viz-loader' />
+            </div>
           )}
         </div>
       </div>

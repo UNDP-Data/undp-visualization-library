@@ -26,13 +26,13 @@ interface Props {
   radius: number;
   mapBorderWidth: number;
   mapNoDataColor: string;
-  showLabels?: boolean;
+  showLabels: boolean;
   mapBorderColor: string;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
   showColorScale: boolean;
-  zoomScaleExtend?: [number, number];
+  zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
@@ -289,7 +289,7 @@ export function Graph(props: Props) {
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-600'
                         ],
-                        fontSize: '1rem',
+                        fontSize: '0.875rem',
                         textAnchor: 'start',
                         fontFamily: rtl
                           ? language === 'he'

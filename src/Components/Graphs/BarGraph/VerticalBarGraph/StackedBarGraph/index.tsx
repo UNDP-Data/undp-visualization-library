@@ -65,52 +65,49 @@ export function VerticalStackedBarGraph(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     sources,
     graphDescription,
-    barPadding,
-    showLabels,
-    showTicks,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    truncateBy = 999,
+    showLabels = true,
+    showValues = true,
+    backgroundColor = false,
+    suffix = '',
+    prefix = '',
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    truncateBy,
     padding,
-    backgroundColor,
-    rightMargin,
-    topMargin,
-    bottomMargin,
-    leftMargin,
     tooltip,
     onSeriesMouseOver,
-    suffix,
     relativeHeight,
-    prefix,
-    showValues,
     refValues,
     graphID,
     maxValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     labelOrder,
     minHeight,
-    mode,
     maxBarThickness,
     sortParameter,
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
-
-  const barColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -131,11 +128,11 @@ export function VerticalStackedBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -145,7 +142,7 @@ export function VerticalStackedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -188,7 +185,7 @@ export function VerticalStackedBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -206,11 +203,11 @@ export function VerticalStackedBarGraph(props: Props) {
               language={language}
               width={width}
               colorDomain={colorDomain}
-              colors={barColors}
+              colors={colors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -238,10 +235,10 @@ export function VerticalStackedBarGraph(props: Props) {
                           maxNumberOfBars ? i < maxNumberOfBars : true,
                         )
                   }
-                  barColors={barColors}
+                  barColors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -251,66 +248,30 @@ export function VerticalStackedBarGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
+                  barPadding={barPadding}
+                  showLabels={showLabels}
+                  showTicks={showTicks}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   showValues={showValues}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  suffix={suffix}
+                  prefix={prefix}
                   refValues={refValues}
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
+                  rtl={rtl}
+                  language={language}
                   labelOrder={labelOrder}
-                  mode={mode || 'light'}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -322,7 +283,7 @@ export function VerticalStackedBarGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

@@ -2,7 +2,6 @@ import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
   BackgroundStyleDataType,
   BarGraphDataType,
@@ -70,51 +69,51 @@ export function HorizontalBarGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
-    barPadding,
-    showValues,
-    showTicks,
-    leftMargin,
-    rightMargin,
-    truncateBy,
+    barPadding = 0.25,
+    showValues = true,
+    showTicks = true,
+    leftMargin = 100,
+    rightMargin = 40,
+    truncateBy = 999,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
+    backgroundColor = false,
+    topMargin = 25,
+    bottomMargin = 10,
+    showLabels = true,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     refValues,
-    showColorScale,
+    showColorScale = true,
     graphID,
     maxValue,
     minValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
+    graphDownload = false,
+    dataDownload = false,
     sortData,
     labelOrder,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -136,12 +135,12 @@ export function HorizontalBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -152,7 +151,7 @@ export function HorizontalBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -195,7 +194,7 @@ export function HorizontalBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -208,8 +207,7 @@ export function HorizontalBarGraph(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -217,7 +215,7 @@ export function HorizontalBarGraph(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -227,12 +225,8 @@ export function HorizontalBarGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -268,14 +262,9 @@ export function HorizontalBarGraph(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -289,7 +278,7 @@ export function HorizontalBarGraph(props: Props) {
                   width={width || svgWidth}
                   selectedColor={selectedColor}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -299,71 +288,31 @@ export function HorizontalBarGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 100
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 40
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  barPadding={barPadding}
+                  showValues={showValues}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   maxValue={maxValue}
                   minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -375,7 +324,7 @@ export function HorizontalBarGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

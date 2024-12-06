@@ -96,7 +96,7 @@ export function Histogram(props: Props) {
     rtl,
     language,
     minHeight,
-    mode,
+    mode = 'light',
     maxBarThickness,
     ariaLabel,
     backgroundStyle,
@@ -141,7 +141,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
+        colors={color || UNDPColorModule[mode].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -168,7 +168,7 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
-        mode={mode || 'light'}
+        mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
       />
@@ -176,7 +176,7 @@ export function Histogram(props: Props) {
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
+        colors={color || UNDPColorModule[mode].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -203,7 +203,7 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
-        mode={mode || 'light'}
+        mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
       />
@@ -213,7 +213,7 @@ export function Histogram(props: Props) {
       <DonutChart
         colors={
           (color as string[] | undefined) ||
-          UNDPColorModule[mode || 'light'].categoricalColors.colors
+          UNDPColorModule[mode].categoricalColors.colors
         }
         graphTitle={graphTitle}
         graphDescription={graphDescription}
@@ -240,7 +240,7 @@ export function Histogram(props: Props) {
         sortData={sortData}
         rtl={rtl}
         language={language}
-        mode={mode || 'light'}
+        mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
       />
@@ -248,7 +248,7 @@ export function Histogram(props: Props) {
   if (barGraphLayout === 'horizontal')
     return (
       <HorizontalBarGraph
-        colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
+        colors={color || UNDPColorModule[mode].graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -281,7 +281,7 @@ export function Histogram(props: Props) {
         rtl={rtl}
         language={language}
         minHeight={minHeight}
-        mode={mode || 'light'}
+        mode={mode}
         maxBarThickness={maxBarThickness}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
@@ -289,7 +289,7 @@ export function Histogram(props: Props) {
     );
   return (
     <VerticalBarGraph
-      colors={color || UNDPColorModule[mode || 'light'].graphMainColor}
+      colors={color || UNDPColorModule[mode].graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}
@@ -322,7 +322,7 @@ export function Histogram(props: Props) {
       rtl={rtl}
       language={language}
       minHeight={minHeight}
-      mode={mode || 'light'}
+      mode={mode}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
       backgroundStyle={backgroundStyle}

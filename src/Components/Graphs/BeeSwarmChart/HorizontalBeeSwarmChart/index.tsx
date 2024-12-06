@@ -1,7 +1,6 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import {
   BackgroundStyleDataType,
   BeeSwarmChartDataType,
@@ -60,44 +59,44 @@ export function HorizontalBeeSwarmChart(props: Props) {
   const {
     data,
     graphTitle,
+    backgroundColor = false,
+    topMargin = 25,
+    bottomMargin = 10,
+    leftMargin = 10,
+    rightMargin = 10,
+    showLabels = true,
+    showTicks = true,
     colors,
     sources,
     graphDescription,
-    showTicks,
-    leftMargin,
-    rightMargin,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     refValues,
     showColorScale,
     graphID,
-    radius,
+    radius = 5,
     maxRadiusValue,
     maxPositionValue,
     minPositionValue,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -119,12 +118,12 @@ export function HorizontalBeeSwarmChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -135,7 +134,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -180,7 +179,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -202,7 +201,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -217,7 +216,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                     ? true
                     : showNAColor
                 }
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -239,14 +238,9 @@ export function HorizontalBeeSwarmChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -260,7 +254,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   width={width || svgWidth}
                   selectedColor={selectedColor}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -270,56 +264,26 @@ export function HorizontalBeeSwarmChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 10
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 10
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  showLabels={showLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   startFromZero={false}
-                  radius={
-                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
-                  }
+                  radius={radius}
                   maxRadiusValue={maxRadiusValue}
                   maxPositionValue={maxPositionValue}
                   minPositionValue={minPositionValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -331,7 +295,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

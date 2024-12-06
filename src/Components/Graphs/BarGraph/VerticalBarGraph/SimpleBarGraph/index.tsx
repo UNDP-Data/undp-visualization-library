@@ -2,7 +2,6 @@ import uniqBy from 'lodash.uniqby';
 import { useEffect, useRef, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import {
   ReferenceDataType,
   BarGraphDataType,
@@ -70,51 +69,51 @@ export function VerticalBarGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 20,
+    rightMargin = 20,
+    topMargin = 20,
+    bottomMargin = 25,
+    truncateBy = 999,
+    showLabels = true,
+    showValues = true,
+    backgroundColor = false,
+    suffix = '',
+    prefix = '',
     sources,
-    prefix,
     graphDescription,
-    barPadding,
-    showLabels,
-    showValues,
-    showTicks,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    truncateBy,
     padding,
-    backgroundColor,
-    topMargin,
-    rightMargin,
-    leftMargin,
-    bottomMargin,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
     refValues,
-    showColorScale,
+    showColorScale = true,
     graphID,
     maxValue,
     minValue,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    mode = 'light',
     sortData,
     labelOrder,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    showNAColor = true,
+    minHeight = 0,
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -135,11 +134,11 @@ export function VerticalBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -150,7 +149,7 @@ export function VerticalBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -195,7 +194,7 @@ export function VerticalBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -208,8 +207,7 @@ export function VerticalBarGraph(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -217,7 +215,7 @@ export function VerticalBarGraph(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -227,12 +225,8 @@ export function VerticalBarGraph(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -268,14 +262,9 @@ export function VerticalBarGraph(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -289,7 +278,7 @@ export function VerticalBarGraph(props: Props) {
                   width={width || svgWidth}
                   refValues={refValues}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -299,71 +288,31 @@ export function VerticalBarGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 20
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  barPadding={barPadding}
+                  showLabels={showLabels}
+                  showValues={showValues}
+                  showTicks={showTicks}
+                  truncateBy={truncateBy}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
                   selectedColor={selectedColor}
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   maxValue={maxValue}
                   minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -375,7 +324,7 @@ export function VerticalBarGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

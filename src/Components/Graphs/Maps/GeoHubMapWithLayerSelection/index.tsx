@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import flattenDeep from 'lodash.flattendeep';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -43,18 +43,18 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     graphDescription,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     center,
     zoomLevel,
     graphID,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     layerSelection,
-    excludeLayers,
+    excludeLayers = [],
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [selectedLayer, setSelectedLayer] = useState(layerSelection[0].layerID);
@@ -62,15 +62,19 @@ export function GeoHubMapWithLayerSelection(props: Props) {
   useEffect(() => {
     setSelectedLayer(layerSelection[0].layerID);
   }, [layerSelection]);
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
+
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
+  );
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -81,7 +85,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -116,13 +120,13 @@ export function GeoHubMapWithLayerSelection(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <Select
             className={
               rtl
-                ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                ? `undp-viz-select-${language} undp-viz-select`
                 : 'undp-viz-select'
             }
             options={layerSelection.map(d => ({
@@ -153,7 +157,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             minHeight={minHeight}
             selectedLayer={selectedLayer}
             layerIdList={flattenDeep(layerSelection.map(d => d.layerID))}
-            excludeLayers={excludeLayers || []}
+            excludeLayers={excludeLayers}
           />
           {sources || footNote ? (
             <GraphFooter
@@ -162,7 +166,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

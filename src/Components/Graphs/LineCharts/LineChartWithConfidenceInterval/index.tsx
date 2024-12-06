@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import {
   AnnotationSettingsDataType,
   BackgroundStyleDataType,
@@ -68,51 +67,54 @@ export function LineChartWithConfidenceInterval(props: Props) {
   const {
     data,
     graphTitle,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
+    noOfXTicks = 10,
+    dateFormat = 'yyyy',
+    showValues = false,
+    backgroundColor = false,
     padding,
     lineColor,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    leftMargin = 50,
+    rightMargin = 30,
+    topMargin = 20,
+    bottomMargin = 25,
     tooltip,
-    highlightAreaSettings,
+    refValues = [],
+    highlightAreaSettings = [null, null],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    highlightAreaColor,
-    animateLine,
-    rtl,
-    language,
-    minHeight,
-    strokeWidth,
-    showDots,
-    refValues,
     minValue,
     maxValue,
-    annotations,
-    customHighlightAreaSettings,
-    regressionLine,
-    mode,
+    regressionLine = false,
+    showIntervalDots = false,
+    showIntervalValues = false,
+    intervalLineStrokeWidth = 0,
+    intervalLineColors = [
+      UNDPColorModule.light.grays['gray-500'],
+      UNDPColorModule.light.grays['gray-500'],
+    ],
+    intervalAreaColor = UNDPColorModule.light.primaryColors['blue-100'],
+    graphDownload = false,
+    dataDownload = false,
+    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
+    animateLine = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    strokeWidth = 2,
+    showDots = true,
+    annotations = [],
+    customHighlightAreaSettings = [],
+    mode = 'light',
     ariaLabel,
-    showIntervalDots,
-    showIntervalValues,
-    intervalLineStrokeWidth,
-    intervalLineColors,
-    intervalAreaColor,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -131,12 +133,12 @@ export function LineChartWithConfidenceInterval(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -147,7 +149,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -192,7 +194,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -220,12 +222,11 @@ export function LineChartWithConfidenceInterval(props: Props) {
                 <Graph
                   data={data}
                   lineColor={
-                    lineColor ||
-                    UNDPColorModule[mode || 'light'].primaryColors['blue-600']
+                    lineColor || UNDPColorModule[mode].primaryColors['blue-600']
                   }
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -235,69 +236,36 @@ export function LineChartWithConfidenceInterval(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  dateFormat={dateFormat || 'yyyy'}
+                  suffix={suffix}
+                  prefix={prefix}
+                  dateFormat={dateFormat}
                   showValues={showValues}
-                  noOfXTicks={
-                    checkIfNullOrUndefined(noOfXTicks)
-                      ? 10
-                      : (noOfXTicks as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 50
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 30
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
+                  noOfXTicks={noOfXTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  highlightAreaSettings={highlightAreaSettings}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
                   minValue={minValue}
                   maxValue={maxValue}
-                  highlightAreaColor={
-                    highlightAreaColor ||
-                    UNDPColorModule[mode || 'light'].grays['gray-300']
-                  }
+                  highlightAreaColor={highlightAreaColor}
                   animateLine={animateLine}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  strokeWidth={strokeWidth || 2}
-                  showDots={showDots !== false}
-                  annotations={annotations || []}
-                  customHighlightAreaSettings={
-                    customHighlightAreaSettings || []
-                  }
-                  mode={mode || 'light'}
-                  regressionLine={regressionLine || false}
-                  showIntervalDots={showIntervalDots || false}
-                  showIntervalValues={showIntervalValues || false}
-                  intervalLineStrokeWidth={intervalLineStrokeWidth || 0}
-                  intervalLineColors={
-                    intervalLineColors || [
-                      UNDPColorModule[mode || 'light'].grays['gray-500'],
-                      UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    ]
-                  }
-                  intervalAreaColor={
-                    intervalAreaColor ||
-                    UNDPColorModule[mode || 'light'].primaryColors['blue-100']
-                  }
+                  rtl={rtl}
+                  language={language}
+                  strokeWidth={strokeWidth}
+                  showDots={showDots}
+                  annotations={annotations}
+                  customHighlightAreaSettings={customHighlightAreaSettings}
+                  mode={mode}
+                  regressionLine={regressionLine}
+                  showIntervalDots={showIntervalDots}
+                  showIntervalValues={showIntervalValues}
+                  intervalLineStrokeWidth={intervalLineStrokeWidth}
+                  intervalLineColors={intervalLineColors}
+                  intervalAreaColor={intervalAreaColor}
                 />
               ) : null}
             </div>
@@ -309,7 +277,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

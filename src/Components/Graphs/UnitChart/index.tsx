@@ -43,40 +43,37 @@ interface Props {
 export function UnitChart(props: Props) {
   const {
     data,
-    size,
+    size = 200,
     graphTitle,
     sources,
-    colors,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     graphDescription,
-    totalNoOfDots,
-    unitPadding,
-    gridSize,
+    totalNoOfDots = 100,
+    unitPadding = 3,
+    gridSize = 10,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     graphID,
-    graphDownload,
-    rtl,
-    language,
-    graphLegend,
-    showStrokeForWhiteDots,
+    graphDownload = false,
+    rtl = false,
+    language = 'en',
+    graphLegend = true,
+    showStrokeForWhiteDots = true,
     note,
-    dataDownload,
-    mode,
+    dataDownload = false,
+    mode = 'light',
     width,
     height,
-    minHeight,
+    minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
-  const maxValue = totalNoOfDots === undefined ? 100 : totalNoOfDots;
   const totalValue = sum(data.map(d => d.value));
-  const paddingValue = unitPadding === undefined ? 3 : unitPadding;
   const graphParentDiv = useRef<HTMLDivElement>(null);
-  const gridDimension =
-    gridSize !== undefined ? (size || 200) / gridSize : (size || 200) / 10;
-  const radius = (gridDimension - paddingValue * 2) / 2;
+  const gridDimension = size / gridSize;
+  const radius = (gridDimension - unitPadding * 2) / 2;
   if (radius <= 0) {
     console.error(
       'The size of single unit is less than or equal to zero. Check values for ((dimension / gridSize) - (padding * 2)) / 2 is not less than or equal to 0.',
@@ -86,18 +83,17 @@ export function UnitChart(props: Props) {
 
   const cellsData: { color: string }[] = [];
   data.forEach((item, index) => {
-    const count = Math.round((item.value / totalValue) * maxValue);
+    const count = Math.round((item.value / totalValue) * totalNoOfDots);
     for (let i = 0; i < count; i += 1) {
       cellsData.push({
-        color: (colors ||
-          UNDPColorModule[mode || 'light'].categoricalColors.colors)[index],
+        color: colors[index],
       });
     }
   });
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -109,7 +105,7 @@ export function UnitChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -151,7 +147,7 @@ export function UnitChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           {note ? (
@@ -162,7 +158,7 @@ export function UnitChart(props: Props) {
                 fontWeight: 'bold',
                 marginBottom: '0.25rem',
                 marginTop: 0,
-                color: UNDPColorModule[mode || 'light'].grays.black,
+                color: UNDPColorModule[mode].grays.black,
               }}
             >
               {note}
@@ -177,7 +173,7 @@ export function UnitChart(props: Props) {
             }}
           >
             <div>
-              {graphLegend !== false ? (
+              {graphLegend ? (
                 <div
                   style={{
                     lineHeight: 0,
@@ -191,7 +187,7 @@ export function UnitChart(props: Props) {
                       display: 'flex',
                       marginBottom: 0,
                       flexWrap: 'wrap',
-                      rowGap: '0',
+                      rowGap: '0.25rem',
                       columnGap: '1rem',
                     }}
                   >
@@ -209,22 +205,17 @@ export function UnitChart(props: Props) {
                             width: '0.75rem',
                             height: '0.75rem',
                             borderRadius: '1rem',
-                            backgroundColor: colors
-                              ? colors[i]
-                              : UNDPColorModule[mode || 'light']
-                                  .categoricalColors.colors[i],
+                            backgroundColor: colors[i],
                           }}
                         />
                         <p
                           className={`${
-                            rtl
-                              ? `undp-viz-typography-${language || 'ar'} `
-                              : ''
+                            rtl ? `undp-viz-typography-${language} ` : ''
                           }undp-viz-typography`}
                           style={{
                             marginBottom: 0,
                             fontSize: '0.875rem',
-                            color: UNDPColorModule[mode || 'light'].grays.black,
+                            color: UNDPColorModule[mode].grays.black,
                           }}
                         >
                           {d.label}:{' '}
@@ -241,9 +232,9 @@ export function UnitChart(props: Props) {
               ) : null}
               <div aria-label='Graph area'>
                 <svg
-                  width={`${width || size || 200}px`}
+                  width={`${width || size}px`}
                   height={`${Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height
                       ? relativeHeight && width
                         ? minHeight
@@ -252,14 +243,14 @@ export function UnitChart(props: Props) {
                             : minHeight
                           : width * relativeHeight
                         : height
-                      : Math.floor((maxValue - 1) / (gridSize || 10)) *
+                      : Math.floor((totalNoOfDots - 1) / gridSize) *
                           gridDimension +
                           gridDimension / 2 +
                           radius +
                           5,
                   )}px`}
-                  viewBox={`0 0 ${width || size || 200} ${Math.max(
-                    minHeight || 0,
+                  viewBox={`0 0 ${width || size} ${Math.max(
+                    minHeight,
                     height
                       ? relativeHeight && width
                         ? minHeight
@@ -268,7 +259,7 @@ export function UnitChart(props: Props) {
                             : minHeight
                           : width * relativeHeight
                         : height
-                      : Math.floor((maxValue - 1) / (gridSize || 10)) *
+                      : Math.floor((totalNoOfDots - 1) / gridSize) *
                           gridDimension +
                           gridDimension / 2 +
                           radius +
@@ -279,12 +270,9 @@ export function UnitChart(props: Props) {
                     {cellsData.map((d, i) => (
                       <circle
                         key={i}
-                        cx={
-                          (i % (gridSize || 10)) * gridDimension +
-                          gridDimension / 2
-                        }
+                        cx={(i % gridSize) * gridDimension + gridDimension / 2}
                         cy={
-                          Math.floor(i / (gridSize || 10)) * gridDimension +
+                          Math.floor(i / gridSize) * gridDimension +
                           gridDimension / 2
                         }
                         style={{
@@ -293,10 +281,8 @@ export function UnitChart(props: Props) {
                             (d.color.toLowerCase() === '#fff' ||
                               d.color.toLowerCase() === '#ffffff' ||
                               d.color.toLowerCase() === 'white') &&
-                            showStrokeForWhiteDots !== false
-                              ? UNDPColorModule[mode || 'light'].grays[
-                                  'gray-400'
-                                ]
+                            showStrokeForWhiteDots
+                              ? UNDPColorModule[mode].grays['gray-400']
                               : d.color,
                           strokeWidth: 1,
                         }}
@@ -314,7 +300,7 @@ export function UnitChart(props: Props) {
                 sources={sources}
                 footNote={footNote}
                 width={width}
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
           </div>

@@ -8,7 +8,6 @@ import {
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
 
@@ -61,27 +60,27 @@ export function HorizontalGroupedBarGraph(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
+    colors = UNDPColorModule.light.categoricalColors.colors,
     sources,
     graphDescription,
-    barPadding,
-    showTicks,
-    truncateBy,
+    barPadding = 0.25,
+    showTicks = true,
+    truncateBy = 999,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    suffix,
-    prefix,
-    showValues,
+    suffix = '',
+    prefix = '',
+    showValues = true,
     padding,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    showLabels,
-    bottomMargin,
+    backgroundColor = false,
+    leftMargin = 100,
+    rightMargin = 40,
+    topMargin = 25,
+    bottomMargin = 10,
+    showLabels = true,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -90,21 +89,18 @@ export function HorizontalGroupedBarGraph(props: Props) {
     maxValue,
     minValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
     labelOrder,
-    minHeight,
-    mode,
+    minHeight = 0,
+    mode = 'light',
     maxBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
-
-  const barColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -125,12 +121,12 @@ export function HorizontalGroupedBarGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -141,7 +137,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -186,7 +182,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -204,11 +200,11 @@ export function HorizontalGroupedBarGraph(props: Props) {
               language={language}
               width={width}
               colorDomain={colorDomain}
-              colors={barColors}
+              colors={colors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
@@ -218,10 +214,10 @@ export function HorizontalGroupedBarGraph(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  barColors={barColors}
+                  barColors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -231,53 +227,17 @@ export function HorizontalGroupedBarGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 100
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 40
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 25
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  showValues={showValues}
+                  barPadding={barPadding}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   refValues={refValues}
@@ -286,15 +246,11 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
                   labelOrder={labelOrder}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -306,7 +262,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

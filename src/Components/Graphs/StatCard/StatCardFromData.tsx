@@ -33,6 +33,7 @@ interface Props {
   textBackground?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
   centerAlign?: boolean;
+  verticalAlign?: 'center' | 'top' | 'bottom';
 }
 
 export function StatCardFromData(props: Props) {
@@ -40,30 +41,31 @@ export function StatCardFromData(props: Props) {
     year,
     data,
     graphTitle,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     graphID,
-    aggregationMethod,
-    rtl,
-    language,
+    aggregationMethod = 'count',
+    rtl = false,
+    language = 'en',
     countOnly,
-    mode,
+    mode = 'light',
     ariaLabel,
-    textBackground,
-    backgroundStyle,
-    headingFontSize,
-    centerAlign,
+    textBackground = false,
+    backgroundStyle = {},
+    headingFontSize = '4.375rem',
+    centerAlign = false,
+    verticalAlign = 'center',
   } = props;
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -71,7 +73,7 @@ export function StatCardFromData(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -107,7 +109,7 @@ export function StatCardFromData(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -115,23 +117,28 @@ export function StatCardFromData(props: Props) {
               flexGrow: 1,
               flexDirection: 'column',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent:
+                verticalAlign === 'top'
+                  ? 'flex-start'
+                  : verticalAlign === 'bottom'
+                  ? 'flex-end'
+                  : 'center',
             }}
           >
             <h3
               style={{
-                fontSize: headingFontSize || '4.375rem',
+                fontSize: headingFontSize,
                 lineHeight: '1',
                 textShadow: 'none',
                 WebkitTextStroke: textBackground
                   ? undefined
-                  : `2px ${UNDPColorModule[mode || 'light'].grays.black}`,
+                  : `2px ${UNDPColorModule[mode].grays.black}`,
                 color: textBackground
-                  ? UNDPColorModule[mode || 'light'].grays.black
+                  ? UNDPColorModule[mode].grays.black
                   : !backgroundColor
                   ? 'rgba(0,0,0,0)'
                   : backgroundColor === true
-                  ? UNDPColorModule[mode || 'light'].grays['gray-200']
+                  ? UNDPColorModule[mode].grays['gray-200']
                   : backgroundColor,
                 letterSpacing: '0.05rem',
                 marginTop: '0',
@@ -142,35 +149,34 @@ export function StatCardFromData(props: Props) {
               }}
             >
               {data.filter(d => typeof d.value === 'string').length > 0 ||
-              aggregationMethod === 'count' ||
-              !aggregationMethod
+              aggregationMethod === 'count'
                 ? countOnly && countOnly?.length !== 0
                   ? data.filter(d => countOnly.indexOf(d.value) !== -1).length
                   : data.length
                 : aggregationMethod === 'sum'
                 ? numberFormattingFunction(
                     sum(data.map(d => d.value)),
-                    prefix || '',
-                    suffix || '',
+                    prefix,
+                    suffix,
                   )
                 : aggregationMethod === 'average'
                 ? numberFormattingFunction(
                     parseFloat(
                       (sum(data.map(d => d.value)) / data.length).toFixed(2),
                     ),
-                    prefix || '',
-                    suffix || '',
+                    prefix,
+                    suffix,
                   )
                 : aggregationMethod === 'max'
                 ? numberFormattingFunction(
                     maxBy(data, d => d.value)?.value as number | undefined,
-                    prefix || '',
-                    suffix || '',
+                    prefix,
+                    suffix,
                   )
                 : numberFormattingFunction(
                     minBy(data, d => d.value)?.value as number | undefined,
-                    prefix || '',
-                    suffix || '',
+                    prefix,
+                    suffix,
                   )}{' '}
               {year ? (
                 <span
@@ -180,10 +186,8 @@ export function StatCardFromData(props: Props) {
                     lineHeight: '1.09',
                     textShadow: 'none',
                     fontWeight: 'normal',
-                    WebkitTextStroke: `0px ${
-                      UNDPColorModule[mode || 'light'].grays.black
-                    }`,
-                    color: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                    WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
+                    color: UNDPColorModule[mode].grays['gray-500'],
                     marginTop: '0',
                     marginBottom: '1rem',
                     fontFamily: rtl
@@ -204,7 +208,7 @@ export function StatCardFromData(props: Props) {
               language={language}
               sources={sources}
               footNote={footNote}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

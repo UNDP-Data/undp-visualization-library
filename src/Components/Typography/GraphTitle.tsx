@@ -1,3 +1,4 @@
+import { extractInnerString } from '../../Utils/extractInnerString';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
@@ -10,6 +11,16 @@ interface Props {
 
 export function GraphTitle(props: Props) {
   const { text, rtl, language, mode, isDashboard } = props;
+  if (extractInnerString(text)) {
+    return (
+      <div
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: extractInnerString(text) as string,
+        }}
+      />
+    );
+  }
   if (isDashboard)
     return (
       <h5

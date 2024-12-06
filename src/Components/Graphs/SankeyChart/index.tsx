@@ -10,7 +10,6 @@ import {
   SankeyDataType,
   SourcesDataType,
 } from '../../../Types';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../ColorPalette';
 import { generateRandomString } from '../../../Utils/generateRandomString';
@@ -69,48 +68,48 @@ export function SankeyChart(props: Props) {
     graphTitle,
     sources,
     graphDescription,
-    showLabels,
-    leftMargin,
-    rightMargin,
-    truncateBy,
+    showLabels = true,
+    leftMargin = 75,
+    rightMargin = 75,
+    topMargin = 30,
+    bottomMargin = 10,
+    truncateBy = 999,
     height,
     width,
     footNote,
     padding,
     backgroundColor,
-    topMargin,
-    bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    suffix,
-    prefix,
+    suffix = '',
+    prefix = '',
     relativeHeight,
-    showValues,
+    showValues = true,
     graphID,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    fillContainer,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    fillContainer = true,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
     sourceColors,
     targetColors,
     sourceColorDomain,
     targetColorDomain,
-    nodePadding,
-    nodeWidth,
-    highlightedSourceDataPoints,
-    highlightedTargetDataPoints,
-    defaultLinkOpacity,
+    nodePadding = 5,
+    nodeWidth = 5,
+    highlightedSourceDataPoints = [],
+    highlightedTargetDataPoints = [],
+    defaultLinkOpacity = 0.3,
     sourceTitle,
     targetTitle,
     animateLinks,
-    sortNodes,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    sortNodes = 'mostReadable',
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -129,7 +128,7 @@ export function SankeyChart(props: Props) {
       label: `${d.source}`,
       color:
         typeof sourceColors === 'string' || !sourceColors
-          ? sourceColors || UNDPColorModule[mode || 'light'].graphMainColor
+          ? sourceColors || UNDPColorModule[mode].graphMainColor
           : sourceColors[
               (
                 sourceColorDomain ||
@@ -157,7 +156,7 @@ export function SankeyChart(props: Props) {
       label: `${d.target}`,
       color:
         typeof targetColors === 'string' || !targetColors
-          ? targetColors || UNDPColorModule[mode || 'light'].graphMainColor
+          ? targetColors || UNDPColorModule[mode].graphMainColor
           : targetColors[
               (
                 targetColorDomain ||
@@ -203,15 +202,15 @@ export function SankeyChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
-        width: fillContainer === false ? 'fit-content' : '100%',
+        width: !fillContainer ? 'fit-content' : '100%',
         height: 'inherit',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
@@ -219,7 +218,7 @@ export function SankeyChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -264,7 +263,7 @@ export function SankeyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -294,18 +293,10 @@ export function SankeyChart(props: Props) {
                 <Graph
                   data={sankeyData}
                   width={width || svgWidth}
-                  nodePadding={
-                    checkIfNullOrUndefined(nodePadding)
-                      ? 5
-                      : (nodePadding as number)
-                  }
-                  nodeWidth={
-                    checkIfNullOrUndefined(nodeWidth)
-                      ? 5
-                      : (nodeWidth as number)
-                  }
+                  nodePadding={nodePadding}
+                  nodeWidth={nodeWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -315,62 +306,34 @@ export function SankeyChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 75
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 75
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 30
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
+                  showLabels={showLabels}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   showValues={showValues}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  suffix={suffix}
+                  prefix={prefix}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   id={generateRandomString(8)}
-                  highlightedSourceDataPoints={(
-                    highlightedSourceDataPoints || []
-                  ).map(d => `${d}`)}
-                  highlightedTargetDataPoints={(
-                    highlightedTargetDataPoints || []
-                  ).map(d => `${d}`)}
-                  defaultLinkOpacity={defaultLinkOpacity || 0.3}
+                  highlightedSourceDataPoints={highlightedSourceDataPoints.map(
+                    d => `${d}`,
+                  )}
+                  highlightedTargetDataPoints={highlightedTargetDataPoints.map(
+                    d => `${d}`,
+                  )}
+                  defaultLinkOpacity={defaultLinkOpacity}
                   sourceTitle={sourceTitle}
                   targetTitle={targetTitle}
                   animateLinks={animateLinks}
-                  sortNodes={sortNodes || 'mostReadable'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  sortNodes={sortNodes}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -382,7 +345,7 @@ export function SankeyChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   AnnotationSettingsDataType,
@@ -68,49 +67,55 @@ export function DifferenceLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
     height,
     width,
     footNote,
-    noOfXTicks,
-    dateFormat,
-    showValues,
+    noOfXTicks = 10,
+    dateFormat = 'yyyy',
+    showValues = false,
     padding,
-    lineColors,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    lineColors = [
+      UNDPColorModule.light.categoricalColors.colors[0],
+      UNDPColorModule.light.categoricalColors.colors[1],
+    ],
+    backgroundColor = false,
+    leftMargin = 50,
+    rightMargin = 50,
+    topMargin = 20,
+    bottomMargin = 25,
     tooltip,
-    highlightAreaSettings,
+    highlightAreaSettings = [null, null],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
-    graphDownload,
-    dataDownload,
-    highlightAreaColor,
-    animateLine,
-    rtl,
-    language,
-    minHeight,
+    graphDownload = false,
+    dataDownload = false,
+    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
+    animateLine = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
     labels,
-    showColorLegendAtTop,
+    showColorLegendAtTop = false,
     colorLegendTitle,
-    diffAreaColors,
-    strokeWidth,
-    showDots,
-    refValues,
+    diffAreaColors = [
+      UNDPColorModule.light.alerts.red,
+      UNDPColorModule.light.alerts.darkGreen,
+    ],
+    strokeWidth = 2,
+    showDots = true,
+    refValues = [],
     minValue,
     maxValue,
-    annotations,
-    customHighlightAreaSettings,
-    mode,
+    annotations = [],
+    customHighlightAreaSettings = [],
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -129,12 +134,12 @@ export function DifferenceLineChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         width: width ? 'fit-content' : '100%',
@@ -145,7 +150,7 @@ export function DifferenceLineChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -190,7 +195,7 @@ export function DifferenceLineChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -209,16 +214,9 @@ export function DifferenceLineChart(props: Props) {
                 language={language}
                 colorDomain={labels}
                 colorLegendTitle={colorLegendTitle}
-                colors={
-                  lineColors || [
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[0],
-                    UNDPColorModule[mode || 'light'].categoricalColors
-                      .colors[1],
-                  ]
-                }
+                colors={lineColors}
                 showNAColor={false}
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -235,18 +233,11 @@ export function DifferenceLineChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  lineColors={
-                    lineColors || [
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[0],
-                      UNDPColorModule[mode || 'light'].categoricalColors
-                        .colors[1],
-                    ]
-                  }
+                  lineColors={lineColors}
                   colorDomain={labels}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -256,65 +247,33 @@ export function DifferenceLineChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  dateFormat={dateFormat || 'yyyy'}
+                  suffix={suffix}
+                  prefix={prefix}
+                  dateFormat={dateFormat}
                   showValues={showValues}
-                  noOfXTicks={
-                    checkIfNullOrUndefined(noOfXTicks)
-                      ? 10
-                      : (noOfXTicks as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 60
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? showColorLegendAtTop
-                        ? 30
-                        : 50
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 25
-                      : (bottomMargin as number)
-                  }
-                  highlightAreaSettings={highlightAreaSettings || [null, null]}
+                  noOfXTicks={noOfXTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  highlightAreaSettings={highlightAreaSettings}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   showColorLegendAtTop={showColorLegendAtTop}
-                  highlightAreaColor={
-                    highlightAreaColor ||
-                    UNDPColorModule[mode || 'light'].grays['gray-300']
-                  }
+                  highlightAreaColor={highlightAreaColor}
                   animateLine={animateLine}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  diffAreaColors={
-                    diffAreaColors || [
-                      UNDPColorModule[mode || 'light'].alerts.red,
-                      UNDPColorModule[mode || 'light'].alerts.darkGreen,
-                    ]
-                  }
+                  rtl={rtl}
+                  language={language}
+                  diffAreaColors={diffAreaColors}
                   idSuffix={generateRandomString(8)}
-                  strokeWidth={strokeWidth || 2}
-                  showDots={showDots !== false}
+                  strokeWidth={strokeWidth}
+                  showDots={showDots}
                   refValues={refValues}
                   minValue={minValue}
                   maxValue={maxValue}
-                  annotations={annotations || []}
-                  customHighlightAreaSettings={
-                    customHighlightAreaSettings || []
-                  }
-                  mode={mode || 'light'}
+                  annotations={annotations}
+                  customHighlightAreaSettings={customHighlightAreaSettings}
+                  mode={mode}
                 />
               ) : null}
             </div>
@@ -326,7 +285,7 @@ export function DifferenceLineChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

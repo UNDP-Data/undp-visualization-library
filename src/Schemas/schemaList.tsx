@@ -1915,6 +1915,8 @@ export const donutChartSettingsSchema = {
         },
       ],
     },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
     ariaLabel: { type: 'string' },
     colors: {
       oneOf: [
@@ -4795,6 +4797,10 @@ export const statCardSettingsSchema = {
     ariaLabel: { type: 'string' },
     textBackground: { type: 'boolean' },
     centerAlign: { type: 'boolean' },
+    verticalAlign: {
+      type: 'string',
+      enum: ['center', 'top', 'bottom'],
+    },
     headingFontSize: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -5087,6 +5093,10 @@ export const SettingsSchema = {
     textBackground: { type: 'boolean' },
     headingFontSize: { type: 'string' },
     centerAlign: { type: 'boolean' },
+    verticalAlign: {
+      type: 'string',
+      enum: ['center', 'top', 'bottom'],
+    },
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },

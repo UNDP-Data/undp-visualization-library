@@ -61,40 +61,40 @@ export function SlopeChart(props: Props) {
     colors,
     sources,
     graphDescription,
-    showLabels,
+    showLabels = false,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
-    radius,
-    axisTitle,
+    radius = 5,
+    axisTitle = ['', ''],
     padding,
-    backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    backgroundColor = false,
+    leftMargin = 50,
+    rightMargin = 50,
+    topMargin = 20,
+    bottomMargin = 20,
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
-    showColorScale,
-    highlightedDataPoints,
+    showColorScale = true,
+    highlightedDataPoints = [],
     graphID,
     minValue,
     maxValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    fillContainer,
-    rtl,
-    language,
-    showNAColor,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    fillContainer = true,
+    rtl = false,
+    language = 'en',
+    showNAColor = true,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -116,22 +116,22 @@ export function SlopeChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
-        width: fillContainer === false ? 'fit-content' : '100%',
+        width: !fillContainer ? 'fit-content' : '100%',
         flexGrow: width ? 0 : 1,
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -176,7 +176,7 @@ export function SlopeChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -189,8 +189,7 @@ export function SlopeChart(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -198,7 +197,7 @@ export function SlopeChart(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -208,12 +207,8 @@ export function SlopeChart(props: Props) {
                   ).map(d => d.color) as string[])
                 }
                 setSelectedColor={setSelectedColor}
-                showNAColor={
-                  showNAColor === undefined || showNAColor === null
-                    ? true
-                    : showNAColor
-                }
-                mode={mode || 'light'}
+                showNAColor={showNAColor}
+                mode={mode}
               />
             ) : null}
             <div
@@ -237,7 +232,7 @@ export function SlopeChart(props: Props) {
                   )}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -260,59 +255,28 @@ export function SlopeChart(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   selectedColor={selectedColor}
-                  axisTitle={axisTitle || ['', '']}
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? false
-                      : (showLabels as boolean)
-                  }
-                  radius={
-                    checkIfNullOrUndefined(radius) ? 5 : (radius as number)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 50
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 20
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 50
-                      : (bottomMargin as number)
-                  }
+                  axisTitle={axisTitle}
+                  showLabels={showLabels}
+                  radius={radius}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   minValue={minValue}
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -324,7 +288,7 @@ export function SlopeChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

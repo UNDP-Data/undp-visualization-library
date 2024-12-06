@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -43,18 +43,18 @@ export function GeoHubMap(props: Props) {
     graphDescription,
     footNote,
     padding,
-    backgroundColor,
+    backgroundColor = false,
     center,
     zoomLevel,
     graphID,
-    rtl,
-    language,
-    minHeight,
-    mode,
-    includeLayers,
-    excludeLayers,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
+    includeLayers = [],
+    excludeLayers = [],
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [selectedMapStyle, setSelectedMapStyle] = useState(
@@ -66,15 +66,19 @@ export function GeoHubMap(props: Props) {
       typeof mapStyle === 'string' ? mapStyle : mapStyle[0].style,
     );
   }, [mapStyle]);
-  const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: true,
-    trim: true,
-  };
+
+  const filterConfig = useMemo(
+    () => ({
+      ignoreCase: true,
+      ignoreAccents: true,
+      trim: true,
+    }),
+    [],
+  );
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -85,7 +89,7 @@ export function GeoHubMap(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -120,14 +124,14 @@ export function GeoHubMap(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           {typeof mapStyle === 'string' ? null : (
             <Select
               className={
                 rtl
-                  ? `undp-viz-select-${language || 'ar'} undp-viz-select`
+                  ? `undp-viz-select-${language} undp-viz-select`
                   : 'undp-viz-select'
               }
               options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
@@ -178,7 +182,7 @@ export function GeoHubMap(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

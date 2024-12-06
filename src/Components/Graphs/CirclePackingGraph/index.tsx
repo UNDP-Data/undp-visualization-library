@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import { Graph } from './Graph';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import {
   BackgroundStyleDataType,
   SourcesDataType,
@@ -62,42 +61,42 @@ export function CirclePackingGraph(props: Props) {
     data,
     graphTitle,
     colors,
-    suffix,
+    suffix = '',
     sources,
-    prefix,
+    prefix = '',
     graphDescription,
-    leftMargin,
-    rightMargin,
+    leftMargin = 0,
+    rightMargin = 0,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    topMargin,
-    bottomMargin,
-    showLabels,
+    backgroundColor = false,
+    topMargin = 0,
+    bottomMargin = 0,
+    showLabels = true,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    showColorScale,
+    showColorScale = true,
     showValues,
     graphID,
-    highlightedDataPoints,
+    highlightedDataPoints = [],
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
     showNAColor,
-    minHeight,
-    mode,
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
     radius,
     maxRadiusValue,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -117,11 +116,11 @@ export function CirclePackingGraph(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -132,7 +131,7 @@ export function CirclePackingGraph(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -177,7 +176,7 @@ export function CirclePackingGraph(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -190,8 +189,7 @@ export function CirclePackingGraph(props: Props) {
               width: '100%',
             }}
           >
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
+            {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
                 rtl={rtl}
                 language={language}
@@ -199,7 +197,7 @@ export function CirclePackingGraph(props: Props) {
                 colorLegendTitle={colorLegendTitle}
                 colors={
                   (colors as string[] | undefined) ||
-                  UNDPColorModule[mode || 'light'].categoricalColors.colors
+                  UNDPColorModule[mode].categoricalColors.colors
                 }
                 colorDomain={
                   colorDomain ||
@@ -215,7 +213,7 @@ export function CirclePackingGraph(props: Props) {
                     : showNAColor
                 }
                 isCenter
-                mode={mode || 'light'}
+                mode={mode}
               />
             ) : null}
             <div
@@ -237,14 +235,9 @@ export function CirclePackingGraph(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [
-                            UNDPColorModule[mode || 'light'].primaryColors[
-                              'blue-600'
-                            ],
-                          ]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode || 'light'].categoricalColors
-                          .colors
+                        UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
                     data.filter(el => el.color).length === 0
@@ -257,7 +250,7 @@ export function CirclePackingGraph(props: Props) {
                   }
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -267,48 +260,28 @@ export function CirclePackingGraph(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 0
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 0
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 0
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 0
-                      : (bottomMargin as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  showLabels={showLabels}
                   showValues={
-                    checkIfNullOrUndefined(showValues)
+                    showValues !== false
                       ? data.filter(el => el.size).length !== 0
                       : (showValues as boolean)
                   }
                   selectedColor={selectedColor}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
+                  suffix={suffix}
+                  prefix={prefix}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
-                  highlightedDataPoints={highlightedDataPoints || []}
+                  highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   radius={
-                    checkIfNullOrUndefined(radius)
+                    !radius
                       ? (Math.min(
                           width || svgWidth,
                           height ||
@@ -328,14 +301,10 @@ export function CirclePackingGraph(props: Props) {
                           ? data.length
                           : sum(data.filter(d => d.size).map(d => d.size)) *
                             1.25)
-                      : (radius as number)
+                      : radius
                   }
                   maxRadiusValue={maxRadiusValue}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -347,7 +316,7 @@ export function CirclePackingGraph(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

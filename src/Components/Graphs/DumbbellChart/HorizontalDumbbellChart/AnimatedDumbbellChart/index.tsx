@@ -11,7 +11,6 @@ import {
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
@@ -72,52 +71,52 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors,
-    suffix,
+    colors = UNDPColorModule.light.categoricalColors.colors,
+    suffix = '',
+    prefix = '',
     sources,
-    prefix,
     graphDescription,
-    barPadding,
-    showValues,
-    showTicks,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
-    truncateBy,
+    barPadding = 0.25,
+    showTicks = true,
+    leftMargin = 100,
+    rightMargin = 40,
+    topMargin = 20,
+    bottomMargin = 10,
+    truncateBy = 999,
+    showValues = true,
     height,
     width,
     footNote,
     colorDomain,
     colorLegendTitle,
     padding,
-    backgroundColor,
-    radius,
+    backgroundColor = false,
+    radius = 3,
+    showLabels = true,
     tooltip,
-    showLabels,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
     maxPositionValue,
     minPositionValue,
     onSeriesMouseClick,
-    graphDownload,
-    dataDownload,
+    graphDownload = false,
+    dataDownload = false,
     sortParameter,
-    showOnlyActiveDate,
-    autoPlay,
-    dateFormat,
-    arrowConnector,
-    connectorStrokeWidth,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    showOnlyActiveDate = false,
+    autoPlay = false,
+    dateFormat = 'yyyy',
+    arrowConnector = false,
+    connectorStrokeWidth = 2,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     maxBarThickness,
     minBarThickness,
     ariaLabel,
-    backgroundStyle,
-    resetSelectionOnDoubleClick,
+    backgroundStyle = {},
+    resetSelectionOnDoubleClick = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -139,16 +138,13 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
-  const dotColors =
-    colors || UNDPColorModule[mode || 'light'].categoricalColors.colors;
-
-  const [play, setPlay] = useState(autoPlay || false);
+  const [play, setPlay] = useState(autoPlay);
 
   const uniqDatesSorted = sort(
     uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat || 'yyyy', new Date()).getTime(),
+      parse(`${d.date}`, dateFormat, new Date()).getTime(),
     ),
     (a, b) => ascending(a, b),
   );
@@ -163,7 +159,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
         fontWeight: i === index ? 'bold' : 'normal', // Active font weight vs. inactive
         display: i === index || !showOnlyActiveDate ? 'inline' : 'none', // Active font weight vs. inactive
       },
-      label: format(new Date(d), dateFormat || 'yyyy'),
+      label: format(new Date(d), dateFormat),
     };
   });
   useEffect(() => {
@@ -177,7 +173,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -188,7 +184,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -233,7 +229,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -252,11 +248,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                 play ? 'Click to pause animation' : 'Click to play animation'
               }
             >
-              {play ? (
-                <Pause mode={mode || 'light'} />
-              ) : (
-                <Play mode={mode || 'light'} />
-              )}
+              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
             </button>
             <Slider
               min={uniqDatesSorted[0]}
@@ -290,11 +282,11 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               language={language}
               width={width}
               colorDomain={colorDomain}
-              colors={dotColors}
+              colors={colors}
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode || 'light'}
+              mode={mode}
             />
             <div
               style={{
@@ -310,10 +302,10 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  dotColors={dotColors}
+                  dotColors={colors}
                   width={width || svgWidth}
                   height={Math.max(
-                    minHeight || 0,
+                    minHeight,
                     height ||
                       (relativeHeight
                         ? minHeight
@@ -323,83 +315,35 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                           : (width || svgWidth) * relativeHeight
                         : svgHeight),
                   )}
-                  suffix={suffix || ''}
-                  prefix={prefix || ''}
-                  radius={!radius ? 3 : radius}
-                  barPadding={
-                    checkIfNullOrUndefined(barPadding)
-                      ? 0.25
-                      : (barPadding as number)
-                  }
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  showTicks={
-                    checkIfNullOrUndefined(showTicks)
-                      ? true
-                      : (showTicks as boolean)
-                  }
-                  leftMargin={
-                    checkIfNullOrUndefined(leftMargin)
-                      ? 100
-                      : (leftMargin as number)
-                  }
-                  rightMargin={
-                    checkIfNullOrUndefined(rightMargin)
-                      ? 40
-                      : (rightMargin as number)
-                  }
-                  topMargin={
-                    checkIfNullOrUndefined(topMargin)
-                      ? 20
-                      : (topMargin as number)
-                  }
-                  bottomMargin={
-                    checkIfNullOrUndefined(bottomMargin)
-                      ? 10
-                      : (bottomMargin as number)
-                  }
-                  truncateBy={
-                    checkIfNullOrUndefined(truncateBy)
-                      ? 999
-                      : (truncateBy as number)
-                  }
-                  showLabels={
-                    checkIfNullOrUndefined(showLabels)
-                      ? true
-                      : (showLabels as boolean)
-                  }
+                  suffix={suffix}
+                  prefix={prefix}
+                  radius={radius}
+                  barPadding={barPadding}
+                  showTicks={showTicks}
+                  leftMargin={leftMargin}
+                  rightMargin={rightMargin}
+                  topMargin={topMargin}
+                  bottomMargin={bottomMargin}
+                  truncateBy={truncateBy}
+                  showLabels={showLabels}
+                  showValues={showValues}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}
                   maxPositionValue={maxPositionValue}
                   minPositionValue={minPositionValue}
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
-                  dateFormat={dateFormat || 'yyyy'}
+                  dateFormat={dateFormat}
                   indx={index}
                   sortParameter={sortParameter}
-                  arrowConnector={
-                    checkIfNullOrUndefined(arrowConnector)
-                      ? false
-                      : (arrowConnector as boolean)
-                  }
-                  connectorStrokeWidth={
-                    checkIfNullOrUndefined(connectorStrokeWidth)
-                      ? 2
-                      : (connectorStrokeWidth as number)
-                  }
-                  rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                  language={language || (rtl ? 'ar' : 'en')}
-                  mode={mode || 'light'}
+                  arrowConnector={arrowConnector}
+                  connectorStrokeWidth={connectorStrokeWidth}
+                  rtl={rtl}
+                  language={language}
+                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={
-                    checkIfNullOrUndefined(resetSelectionOnDoubleClick)
-                      ? true
-                      : (resetSelectionOnDoubleClick as boolean)
-                  }
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 />
               ) : null}
             </div>
@@ -411,7 +355,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

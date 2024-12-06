@@ -20,7 +20,7 @@ interface Props {
   leftMargin: number;
   topMargin: number;
   bottomMargin: number;
-  sameAxes?: boolean;
+  sameAxes: boolean;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   barPadding: number;

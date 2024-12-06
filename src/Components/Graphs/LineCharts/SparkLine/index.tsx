@@ -7,7 +7,6 @@ import {
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
@@ -20,7 +19,7 @@ interface Props {
   height?: number;
   sources?: SourcesDataType[];
   dateFormat?: string;
-  areaId?: string;
+  areaId?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -53,28 +52,28 @@ export function SparkLine(props: Props) {
     height,
     width,
     footNote,
-    dateFormat,
-    areaId,
+    dateFormat = 'yyyy',
+    areaId = false,
     padding,
     backgroundColor,
-    leftMargin,
-    rightMargin,
-    topMargin,
-    bottomMargin,
+    leftMargin = 5,
+    rightMargin = 5,
+    topMargin = 10,
+    bottomMargin = 20,
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
     graphID,
     minValue,
     maxValue,
-    graphDownload,
-    dataDownload,
-    rtl,
-    language,
-    minHeight,
-    mode,
+    graphDownload = false,
+    dataDownload = false,
+    rtl = false,
+    language = 'en',
+    minHeight = 0,
+    mode = 'light',
     ariaLabel,
-    backgroundStyle,
+    backgroundStyle = {},
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -93,12 +92,12 @@ export function SparkLine(props: Props) {
       if (!width) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [graphDiv?.current, width, height]);
+  }, [width, height]);
 
   return (
     <div
       style={{
-        ...(backgroundStyle || {}),
+        ...backgroundStyle,
         display: 'flex',
         flexDirection: 'column',
         height: 'inherit',
@@ -109,7 +108,7 @@ export function SparkLine(props: Props) {
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
       }}
       id={graphID}
@@ -154,7 +153,7 @@ export function SparkLine(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           <div
@@ -171,13 +170,10 @@ export function SparkLine(props: Props) {
             {(width || svgWidth) && (height || svgHeight) ? (
               <Graph
                 data={data}
-                color={
-                  color ||
-                  UNDPColorModule[mode || 'light'].primaryColors['blue-600']
-                }
+                color={color || UNDPColorModule[mode].primaryColors['blue-600']}
                 width={width || svgWidth}
                 height={Math.max(
-                  minHeight || 0,
+                  minHeight,
                   height ||
                     (relativeHeight
                       ? minHeight
@@ -187,33 +183,19 @@ export function SparkLine(props: Props) {
                         : (width || svgWidth) * relativeHeight
                       : svgHeight),
                 )}
-                dateFormat={dateFormat || 'yyyy'}
+                dateFormat={dateFormat}
                 areaId={areaId}
-                leftMargin={
-                  checkIfNullOrUndefined(leftMargin)
-                    ? 5
-                    : (leftMargin as number)
-                }
-                rightMargin={
-                  checkIfNullOrUndefined(rightMargin)
-                    ? 5
-                    : (rightMargin as number)
-                }
-                topMargin={
-                  checkIfNullOrUndefined(topMargin) ? 10 : (topMargin as number)
-                }
-                bottomMargin={
-                  checkIfNullOrUndefined(bottomMargin)
-                    ? 20
-                    : (bottomMargin as number)
-                }
+                leftMargin={leftMargin}
+                rightMargin={rightMargin}
+                topMargin={topMargin}
+                bottomMargin={bottomMargin}
                 tooltip={tooltip}
                 onSeriesMouseOver={onSeriesMouseOver}
                 minValue={minValue}
                 maxValue={maxValue}
-                rtl={checkIfNullOrUndefined(rtl) ? false : (rtl as boolean)}
-                language={language || (rtl ? 'ar' : 'en')}
-                mode={mode || 'light'}
+                rtl={rtl}
+                language={language}
+                mode={mode}
               />
             ) : null}
           </div>
@@ -224,7 +206,7 @@ export function SparkLine(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>
