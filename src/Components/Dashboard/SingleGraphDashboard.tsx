@@ -171,6 +171,7 @@ export function SingleGraphDashboard(props: Props) {
     );
     return result;
   }, [filterSettings, dataFromFile]);
+
   useEffect(() => {
     if (
       graphType !== 'geoHubMap' &&
@@ -181,6 +182,7 @@ export function SingleGraphDashboard(props: Props) {
       setData(filteredData);
     }
   }, [filteredData, graphType, dataFromFile]);
+
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
   }, [graphDataConfiguration]);

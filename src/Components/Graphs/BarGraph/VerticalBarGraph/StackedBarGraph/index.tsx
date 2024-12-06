@@ -99,7 +99,7 @@ export function VerticalStackedBarGraph(props: Props) {
     language = 'en',
     mode = 'light',
     labelOrder,
-    minHeight,
+    minHeight = 0,
     maxBarThickness,
     sortParameter,
     maxNumberOfBars,
