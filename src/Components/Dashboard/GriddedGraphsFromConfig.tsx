@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AggregationSettingsDataType,
   DataFilterDataType,
@@ -47,66 +47,27 @@ interface Props {
   config: string | ConfigObject;
 }
 
-export const GriddedGraphsFromConfig = memo((props: Props) => {
+export function GriddedGraphsFromConfig(props: Props) {
   const { config } = props;
   const [configSettings, setConfigSettings] = useState<
     ConfigObject | undefined
   >(undefined);
-
-  // Memoized data fetching effect
   useEffect(() => {
-    const loadConfig = async () => {
-      try {
-        const settings =
-          typeof config === 'string' ? await fetchAndParseJSON(config) : config;
-        setConfigSettings(settings);
-      } catch (error) {
-        console.error('Error loading configuration:', error);
-        setConfigSettings(undefined);
+    const fetchData = async () => {
+      if (typeof config === 'string') {
+        const data = await fetchAndParseJSON(config);
+        setConfigSettings(data);
+      } else {
+        setConfigSettings(config);
       }
     };
-
-    loadConfig();
+    fetchData();
   }, [config]);
 
-  const validationResult = useMemo(() => {
-    return configSettings
-      ? validateConfigSchema(configSettings, 'griddedGraph')
-      : { isValid: false, err: 'Configuration not loaded' };
-  }, [configSettings]);
+  if (!configSettings) return <div className='undp-viz-loader' />;
 
-  const griddedGraphProps = useMemo(() => {
-    if (!configSettings) return null;
-
-    return {
-      noOfColumns: configSettings.noOfColumns,
-      columnGridBy: configSettings.columnGridBy,
-      graphSettings: configSettings.graphSettings,
-      dataSettings: configSettings.dataSettings,
-      filters: configSettings.filters,
-      graphType: configSettings.graphType,
-      relativeHeightForGraph: configSettings.relativeHeightForGraph,
-      minGraphHeight: configSettings.minGraphHeight,
-      minGraphWidth: configSettings.minGraphWidth,
-      dataTransform: configSettings.dataTransform,
-      graphDataConfiguration: configSettings.graphDataConfiguration,
-      dataFilters: configSettings.dataFilters,
-      showCommonColorScale: configSettings.showCommonColorScale,
-      debugMode: configSettings.debugMode,
-      dataSelectionOptions: configSettings.dataSelectionOptions,
-      mode: configSettings.mode,
-      readableHeader: configSettings.readableHeader,
-      noOfFiltersPerRow: configSettings.noOfFiltersPerRow,
-    };
-  }, [configSettings]);
-
-  // Render loading state
-  if (!configSettings) {
-    return <div className='undp-viz-loader' />;
-  }
-
-  // Render validation error
-  if (!validationResult.isValid) {
+  const validationResult = validateConfigSchema(configSettings, 'griddedGraph');
+  if (!validationResult.isValid)
     return (
       <p
         className='undp-viz-typography'
@@ -120,11 +81,26 @@ export const GriddedGraphsFromConfig = memo((props: Props) => {
         {validationResult.err}
       </p>
     );
-  }
-
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return griddedGraphProps ? <GriddedGraphs {...griddedGraphProps} /> : null;
-});
-
-// Add display name for better debugging
-GriddedGraphsFromConfig.displayName = 'GriddedGraphsFromConfig';
+  return (
+    <GriddedGraphs
+      noOfColumns={configSettings.noOfColumns}
+      columnGridBy={configSettings.columnGridBy}
+      graphSettings={configSettings.graphSettings}
+      dataSettings={configSettings.dataSettings}
+      filters={configSettings.filters}
+      graphType={configSettings.graphType}
+      relativeHeightForGraph={configSettings.relativeHeightForGraph}
+      minGraphHeight={configSettings.minGraphHeight}
+      minGraphWidth={configSettings.minGraphWidth}
+      dataTransform={configSettings.dataTransform}
+      graphDataConfiguration={configSettings.graphDataConfiguration}
+      dataFilters={configSettings.dataFilters}
+      showCommonColorScale={configSettings.showCommonColorScale}
+      debugMode={configSettings.debugMode}
+      dataSelectionOptions={configSettings.dataSelectionOptions}
+      mode={configSettings.mode}
+      readableHeader={configSettings.readableHeader}
+      noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
+    />
+  );
+}

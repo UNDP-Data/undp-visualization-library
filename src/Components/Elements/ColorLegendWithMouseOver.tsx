@@ -44,7 +44,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
             }undp-viz-typography`}
             style={{
-              color: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              color: UNDPColorModule[mode].grays['gray-700'],
               fontSize: '0.875rem',
               textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
               marginBottom: '0.5rem',
@@ -95,7 +95,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   style={{
                     marginBottom: 0,
                     fontSize: '0.875rem',
-                    color: UNDPColorModule[mode || 'light'].grays.black,
+                    color: UNDPColorModule[mode].grays.black,
                   }}
                 >
                   {d}
@@ -106,7 +106,7 @@ export function ColorLegendWithMouseOver(props: Props) {
           {showNAColor ? (
             <div
               onMouseEnter={() => {
-                setSelectedColor(UNDPColorModule[mode || 'light'].graphGray);
+                setSelectedColor(UNDPColorModule[mode].graphGray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -124,7 +124,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   width: '0.75rem',
                   height: '0.75rem',
                   borderRadius: '1rem',
-                  backgroundColor: UNDPColorModule[mode || 'light'].graphGray,
+                  backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
               <p
@@ -134,7 +134,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 style={{
                   marginBottom: 0,
                   fontSize: '0.875rem',
-                  color: UNDPColorModule[mode || 'light'].grays.black,
+                  color: UNDPColorModule[mode].grays.black,
                 }}
               >
                 {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}

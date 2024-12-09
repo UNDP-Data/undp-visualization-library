@@ -28,6 +28,7 @@ export type FilterDataType = {
   label?: string;
   defaultValue?: string;
   excludeValues?: string[];
+  width?: string;
 };
 
 interface Props {
@@ -54,6 +55,7 @@ interface Props {
       label: string;
       type: 'asc' | 'desc';
     }[];
+    width?: string;
   };
   cardSearchColumns?: string[];
   cardMinWidth?: number;
@@ -166,6 +168,7 @@ export function DataCards(props: Props) {
       availableValues: getUniqValue(data, el.column)
         .filter(v => !el.excludeValues?.includes(`${v}`))
         .map(v => ({ value: v, label: v })),
+      width: el.width,
     }));
 
     setFilterSettings(newFilterSettings);
@@ -263,7 +266,7 @@ export function DataCards(props: Props) {
               {cardSortingOptions ? (
                 <div
                   style={{
-                    width: 'calc(25% - 0.75rem)',
+                    width: cardSortingOptions.width || 'calc(25% - 0.75rem)',
                     flexGrow: 1,
                     flexShrink: 0,
                     minWidth: '240px',
@@ -317,7 +320,7 @@ export function DataCards(props: Props) {
               {filterSettings?.map((d, i) => (
                 <div
                   style={{
-                    width: 'calc(25% - 0.75rem)',
+                    width: d.width || 'calc(25% - 0.75rem)',
                     flexGrow: 1,
                     flexShrink: 0,
                     minWidth: '240px',

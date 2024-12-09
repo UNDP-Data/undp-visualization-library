@@ -31,10 +31,8 @@ function AutoCloseMessage(props: Props) {
         position: 'fixed',
         top: '1rem',
         zIndex: '1000',
-        backgroundColor: UNDPColorModule[mode || 'light'].alerts.lightGreen,
-        border: `1px solid ${
-          UNDPColorModule[mode || 'light'].alerts.darkGreen
-        }`,
+        backgroundColor: UNDPColorModule[mode].alerts.lightGreen,
+        border: `1px solid ${UNDPColorModule[mode].alerts.darkGreen}`,
         borderRadius: '2px',
         maxWidth: '300px',
         margin: 'auto',

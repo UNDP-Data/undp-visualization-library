@@ -83,9 +83,9 @@ export function GriddedGraphs(props: Props) {
     minGraphWidth,
     debugMode,
     dataSelectionOptions,
-    mode,
+    mode = 'light',
     readableHeader,
-    noOfFiltersPerRow,
+    noOfFiltersPerRow = 4,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -177,6 +177,8 @@ export function GriddedGraphs(props: Props) {
           availableValues: getUniqValue(d, el.column)
             .filter(v => !el.excludeValues?.includes(`${v}`))
             .map(v => ({ value: v, label: v })),
+          allowSelectAll: el.allowSelectAll,
+          width: el.width,
         }));
 
         setFilterSettings(newFilterSettings);
@@ -209,7 +211,7 @@ export function GriddedGraphs(props: Props) {
         backgroundColor: !graphSettings?.backgroundColor
           ? 'transparent'
           : graphSettings?.backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : graphSettings?.backgroundColor,
       }}
       id={graphSettings?.graphId}
@@ -268,7 +270,7 @@ export function GriddedGraphs(props: Props) {
                     : null
                   : null
               }
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
           {data && gridOption.length > 0 ? (
@@ -288,10 +290,11 @@ export function GriddedGraphs(props: Props) {
                   {dataSelectionOptions?.map((d, i) => (
                     <div
                       style={{
-                        width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
-                          ((noOfFiltersPerRow || 4) - 1) /
-                          (noOfFiltersPerRow || 4)
-                        }rem)`,
+                        width:
+                          d.width ||
+                          `calc(${100 / noOfFiltersPerRow}% - ${
+                            (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                          }rem)`,
                         flexGrow: 1,
                         flexShrink: d.ui !== 'radio' ? 0 : 1,
                         minWidth: '240px',
@@ -310,7 +313,7 @@ export function GriddedGraphs(props: Props) {
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
                           textAlign: graphSettings?.rtl ? 'right' : 'left',
-                          color: UNDPColorModule[mode || 'light'].grays.black,
+                          color: UNDPColorModule[mode].grays.black,
                         }}
                       >
                         {d.label || `Visualize ${d.chartConfigId} by`}
@@ -494,10 +497,11 @@ export function GriddedGraphs(props: Props) {
                   {filterSettings?.map((d, i) => (
                     <div
                       style={{
-                        width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
-                          ((noOfFiltersPerRow || 4) - 1) /
-                          (noOfFiltersPerRow || 4)
-                        }rem)`,
+                        width:
+                          d.width ||
+                          `calc(${100 / noOfFiltersPerRow}% - ${
+                            (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                          }rem)`,
                         flexGrow: 1,
                         flexShrink: 0,
                         flexWrap: 'wrap',
@@ -516,7 +520,7 @@ export function GriddedGraphs(props: Props) {
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
                           textAlign: graphSettings?.rtl ? 'right' : 'left',
-                          color: UNDPColorModule[mode || 'light'].grays.black,
+                          color: UNDPColorModule[mode].grays.black,
                         }}
                       >
                         {d.label}
@@ -545,29 +549,52 @@ export function GriddedGraphs(props: Props) {
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />
                       ) : (
-                        <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
-                          options={d.availableValues}
-                          isMulti
-                          isClearable={
-                            d.clearable === undefined ? true : d.clearable
-                          }
-                          isSearchable
-                          controlShouldRenderValue
-                          filterOption={createFilter(filterConfig)}
-                          onChange={el => {
-                            handleFilterChange(d.filter, el);
-                          }}
-                          defaultValue={d.defaultValue}
-                          isRtl={graphSettings?.rtl}
-                          theme={theme => getReactSelectTheme(theme, mode)}
-                        />
+                        <>
+                          <Select
+                            className={
+                              graphSettings?.rtl
+                                ? `undp-viz-select-${
+                                    graphSettings?.language || 'ar'
+                                  } undp-viz-select`
+                                : 'undp-viz-select'
+                            }
+                            options={d.availableValues}
+                            isMulti
+                            isClearable={
+                              d.clearable === undefined ? true : d.clearable
+                            }
+                            isSearchable
+                            controlShouldRenderValue
+                            filterOption={createFilter(filterConfig)}
+                            onChange={el => {
+                              handleFilterChange(d.filter, el);
+                            }}
+                            defaultValue={d.defaultValue}
+                            isRtl={graphSettings?.rtl}
+                            theme={theme => getReactSelectTheme(theme, mode)}
+                          />
+                          {d.allowSelectAll ? (
+                            <button
+                              type='button'
+                              style={{
+                                backgroundColor: 'transparent',
+                                border: 0,
+                                padding: 0,
+                                marginTop: '0.5rem',
+                                color:
+                                  UNDPColorModule[mode].primaryColors[
+                                    'blue-600'
+                                  ],
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                handleFilterChange(d.filter, d.availableValues);
+                              }}
+                            >
+                              Select all options
+                            </button>
+                          ) : null}
+                        </>
                       )}
                     </div>
                   ))}
@@ -583,7 +610,7 @@ export function GriddedGraphs(props: Props) {
                   colorLegendTitle={graphSettings?.colorLegendTitle}
                   colors={
                     (graphSettings?.colors as string[] | undefined) ||
-                    UNDPColorModule[mode || 'light'].categoricalColors.colors
+                    UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={graphSettings?.colorDomain}
                   showNAColor={
@@ -592,7 +619,7 @@ export function GriddedGraphs(props: Props) {
                       ? true
                       : graphSettings?.showNAColor
                   }
-                  mode={mode || 'light'}
+                  mode={mode}
                 />
               ) : null}
               <div
@@ -680,7 +707,7 @@ export function GriddedGraphs(props: Props) {
               sources={graphSettings?.sources}
               footNote={graphSettings?.footNote}
               width={graphSettings?.width}
-              mode={mode || 'light'}
+              mode={mode}
             />
           ) : null}
         </div>

@@ -574,6 +574,9 @@ export const getFiltersSchema = (columnList?: string[]) => ({
       allowSelectAll: {
         type: 'boolean',
       },
+      width: {
+        type: 'string',
+      },
       excludeValues: {
         items: {
           type: 'string',
@@ -617,6 +620,9 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
     properties: {
       chartConfigId: { type: 'string' },
       label: {
+        type: 'string',
+      },
+      width: {
         type: 'string',
       },
       allowedColumnIds: {

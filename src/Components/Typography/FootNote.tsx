@@ -26,7 +26,7 @@ export function FootNote(props: Props) {
         rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
       }undp-viz-typography`}
       style={{
-        color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+        color: UNDPColorModule[mode].grays['gray-600'],
         fontSize: '0.875rem',
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',

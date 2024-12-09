@@ -49,7 +49,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
             rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
           }undp-viz-typography`}
           style={{
-            color: UNDPColorModule[mode || 'light'].grays['gray-700'],
+            color: UNDPColorModule[mode].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
@@ -84,7 +84,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fill={colors[i]}
                 stroke={
                   hoveredColor === colors[i]
-                    ? UNDPColorModule[mode || 'light'].grays['gray-700']
+                    ? UNDPColorModule[mode].grays['gray-700']
                     : colors[i]
                 }
               />
@@ -94,7 +94,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 textAnchor='middle'
                 fontSize={12}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  fill: UNDPColorModule[mode].grays['gray-700'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'
@@ -123,7 +123,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               fill={colors[colorDomain.length]}
               stroke={
                 hoveredColor === colors[colorDomain.length]
-                  ? UNDPColorModule[mode || 'light'].grays['gray-700']
+                  ? UNDPColorModule[mode].grays['gray-700']
                   : colors[colorDomain.length]
               }
               strokeWidth={1}
@@ -150,7 +150,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 fill={naColor || '#D4D6D8'}
                 stroke={
                   hoveredColor === naColor
-                    ? UNDPColorModule[mode || 'light'].grays['gray-700']
+                    ? UNDPColorModule[mode].grays['gray-700']
                     : naColor
                 }
                 strokeWidth={1}
@@ -161,7 +161,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 textAnchor='start'
                 fontSize={12}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  fill: UNDPColorModule[mode].grays['gray-700'],
                   fontFamily: rtl
                     ? language === 'he'
                       ? 'Noto Sans Hebrew, sans-serif'

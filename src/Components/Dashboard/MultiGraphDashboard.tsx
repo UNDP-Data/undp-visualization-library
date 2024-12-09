@@ -66,10 +66,10 @@ export function MultiGraphDashboard(props: Props) {
     dataSettings,
     filters,
     debugMode,
-    mode,
+    mode = 'light',
     readableHeader,
     dataFilters,
-    noOfFiltersPerRow,
+    noOfFiltersPerRow = 4,
     filterPosition,
     graphBackgroundStyle,
   } = props;
@@ -156,6 +156,8 @@ export function MultiGraphDashboard(props: Props) {
           availableValues: getUniqValue(d, el.column)
             .filter(v => !el.excludeValues?.includes(`${v}`))
             .map(v => ({ value: v, label: v })),
+          allowSelectAll: el.allowSelectAll,
+          width: el.width,
         }));
 
         setFilterSettings(newFilterSettings);
@@ -186,7 +188,7 @@ export function MultiGraphDashboard(props: Props) {
         backgroundColor: !dashboardLayout.backgroundColor
           ? 'transparent'
           : dashboardLayout.backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
@@ -216,7 +218,7 @@ export function MultiGraphDashboard(props: Props) {
               language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
-              mode={mode || 'light'}
+              mode={mode}
               isDashboard
             />
           ) : null}
@@ -242,10 +244,11 @@ export function MultiGraphDashboard(props: Props) {
                 {filterSettings?.map((d, i) => (
                   <div
                     style={{
-                      width: `calc(${100 / (noOfFiltersPerRow || 4)}% - ${
-                        ((noOfFiltersPerRow || 4) - 1) /
-                        (noOfFiltersPerRow || 4)
-                      }rem)`,
+                      width:
+                        d.width ||
+                        `calc(${100 / noOfFiltersPerRow}% - ${
+                          (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                        }rem)`,
                       flexGrow: 1,
                       flexShrink: 0,
                       minWidth: '240px',
@@ -264,7 +267,7 @@ export function MultiGraphDashboard(props: Props) {
                         fontSize: '0.875rem',
                         marginBottom: '0.5rem',
                         textAlign: dashboardLayout.rtl ? 'right' : 'left',
-                        color: UNDPColorModule[mode || 'light'].grays.black,
+                        color: UNDPColorModule[mode].grays.black,
                       }}
                     >
                       {d.label}
@@ -330,17 +333,11 @@ export function MultiGraphDashboard(props: Props) {
                               padding: 0,
                               marginTop: '0.5rem',
                               color:
-                                UNDPColorModule[mode || 'light'].primaryColors[
-                                  'blue-600'
-                                ],
+                                UNDPColorModule[mode].primaryColors['blue-600'],
                               cursor: 'pointer',
                             }}
                             onClick={() => {
-                              const filterTemp = [...filterSettings];
-                              filterTemp[
-                                filterTemp.findIndex(f => f.filter === d.filter)
-                              ].value = d.availableValues;
-                              setFilterSettings(filterTemp);
+                              handleFilterChange(d.filter, d.availableValues);
                             }}
                           >
                             Select all options

@@ -21,10 +21,8 @@ export function Tooltip(props: Props) {
         display: 'block',
         position: 'fixed',
         zIndex: '8',
-        backgroundColor: UNDPColorModule[mode || 'light'].grays['gray-200'],
-        border: `1px solid ${
-          UNDPColorModule[mode || 'light'].grays['gray-300']
-        }`,
+        backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+        border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
         wordWrap: 'break-word',
         top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
         left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,

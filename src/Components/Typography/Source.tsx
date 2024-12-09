@@ -16,7 +16,7 @@ export function Source(props: SourceProps) {
         rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
       }undp-viz-typography`}
       style={{
-        color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+        color: UNDPColorModule[mode].grays['gray-600'],
         fontSize: '0.875rem',
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',
@@ -29,7 +29,7 @@ export function Source(props: SourceProps) {
             <span
               key={i}
               style={{
-                color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                color: UNDPColorModule[mode].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
@@ -38,7 +38,7 @@ export function Source(props: SourceProps) {
                 <a
                   className='undp-viz-style'
                   style={{
-                    color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                    color: UNDPColorModule[mode].grays['gray-600'],
                     fontSize: '0.875rem',
                     fontFamily: 'inherit',
                   }}
@@ -67,7 +67,7 @@ export function Source(props: SourceProps) {
             <span
               key={i}
               style={{
-                color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                color: UNDPColorModule[mode].grays['gray-600'],
                 fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
@@ -76,7 +76,7 @@ export function Source(props: SourceProps) {
                 <a
                   className='undp-viz-style'
                   style={{
-                    color: UNDPColorModule[mode || 'light'].grays['gray-600'],
+                    color: UNDPColorModule[mode].grays['gray-600'],
                     fontSize: '0.875rem',
                     fontFamily: 'inherit',
                   }}

@@ -341,6 +341,7 @@ export interface DataSelectionDataType {
   }[];
   chartConfigId: string;
   ui?: 'select' | 'radio';
+  width?: string;
 }
 
 export interface DataFilterDataType {
@@ -376,6 +377,7 @@ export type FilterUiSettingsDataType = {
   defaultValue?: string[] | string;
   excludeValues?: string[];
   allowSelectAll?: boolean;
+  width?: string;
 };
 
 export type DashboardLayoutDataType = {
@@ -494,6 +496,7 @@ export interface FilterSettingsDataType {
     label: string;
   }[];
   allowSelectAll?: boolean;
+  width?: string;
 }
 
 export interface MarginDataType {
@@ -700,6 +703,7 @@ export interface GraphSettingsDataType {
     label?: string;
     defaultValue?: string;
     excludeValues?: string[];
+    width?: string;
   }[];
   cardSortingOptions?: {
     defaultValue?: string;
@@ -708,6 +712,7 @@ export interface GraphSettingsDataType {
       label: string;
       type: 'asc' | 'desc';
     }[];
+    width?: string;
   };
   cardSearchColumns?: string[];
   cardMinWidth?: number;

@@ -32,7 +32,7 @@ export function LinearColorLegend(props: Props) {
             rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
           }undp-viz-typography`}
           style={{
-            color: UNDPColorModule[mode || 'light'].grays['gray-700'],
+            color: UNDPColorModule[mode].grays['gray-700'],
             fontSize: '0.875rem',
             width: '100%',
             textAlign: 'center',
@@ -76,7 +76,7 @@ export function LinearColorLegend(props: Props) {
             style={{
               marginBottom: 0,
               fontSize: '0.875rem',
-              color: UNDPColorModule[mode || 'light'].grays.black,
+              color: UNDPColorModule[mode].grays.black,
             }}
           >
             {numberFormattingFunction(colorDomain[0], '', '')}
@@ -86,7 +86,7 @@ export function LinearColorLegend(props: Props) {
             style={{
               marginBottom: 0,
               fontSize: '0.875rem',
-              color: UNDPColorModule[mode || 'light'].grays.black,
+              color: UNDPColorModule[mode].grays.black,
             }}
           >
             {numberFormattingFunction(colorDomain[1], '', '')}

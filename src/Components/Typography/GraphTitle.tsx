@@ -32,7 +32,7 @@ export function GraphTitle(props: Props) {
           fontWeight: 'bold',
           paddingBottom: '0.75rem',
           textAlign: rtl ? 'right' : 'left',
-          color: UNDPColorModule[mode || 'light'].grays.black,
+          color: UNDPColorModule[mode].grays.black,
         }}
         aria-label='Dashboard title'
       >
@@ -47,7 +47,7 @@ export function GraphTitle(props: Props) {
       style={{
         marginBottom: 0,
         textAlign: rtl ? 'right' : 'left',
-        color: UNDPColorModule[mode || 'light'].grays.black,
+        color: UNDPColorModule[mode].grays.black,
       }}
       aria-label='Graph title'
     >

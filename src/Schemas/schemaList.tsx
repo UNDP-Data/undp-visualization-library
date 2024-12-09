@@ -1840,6 +1840,7 @@ export const dataCardListSettingsSchema = {
         type: 'object',
         properties: {
           column: { type: 'string' },
+          width: { type: 'string' },
           label: { type: 'string' },
           defaultValue: { type: 'string' },
           excludeValues: { type: 'array', items: { type: 'string' } },
@@ -1861,6 +1862,7 @@ export const dataCardListSettingsSchema = {
       type: 'object',
       properties: {
         defaultValue: { type: 'string' },
+        width: { type: 'string' },
         options: {
           type: 'array',
           items: {
@@ -5930,6 +5932,7 @@ export const SettingsSchema = {
         type: 'object',
         properties: {
           column: { type: 'string' },
+          width: { type: 'string' },
           label: { type: 'string' },
           defaultValue: { type: 'string' },
           excludeValues: { type: 'array', items: { type: 'string' } },
@@ -5941,6 +5944,7 @@ export const SettingsSchema = {
       type: 'object',
       properties: {
         defaultValue: { type: 'string' },
+        width: { type: 'string' },
         options: {
           type: 'array',
           items: {
