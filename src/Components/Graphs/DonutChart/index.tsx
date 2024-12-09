@@ -214,10 +214,13 @@ export function DonutChart(props: Props) {
                   style={{
                     display: 'flex',
                     marginBottom: 0,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
                     flexWrap: 'wrap',
                     justifyContent: 'center',
                     rowGap: '0.25rem',
                     columnGap: '1rem',
+                    maxWidth: legendMaxWidth,
                   }}
                 >
                   {sortedData.map((d, i) => (

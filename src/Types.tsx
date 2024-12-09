@@ -698,6 +698,7 @@ export interface GraphSettingsDataType {
   intervalAreaColor?: string;
   cardTemplate?: string;
   cardBackgroundColor?: string;
+  legendMaxWidth?: string;
   cardFilters?: {
     column: string;
     label?: string;
