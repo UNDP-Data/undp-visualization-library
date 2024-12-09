@@ -48,6 +48,7 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  legendMaxWidth?: string;
 }
 
 export function DonutChart(props: Props) {
@@ -87,6 +88,7 @@ export function DonutChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    legendMaxWidth,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);

@@ -1314,6 +1314,7 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           ariaLabel: settings?.ariaLabel,
+          legendMaxWidth: settings?.legendMaxWidth,
           onSeriesMouseClick: (el: any) => {
             if (updateFilters) {
               updateFilters(el.label);

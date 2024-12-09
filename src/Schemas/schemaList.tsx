@@ -1920,6 +1920,7 @@ export const donutChartSettingsSchema = {
     topMargin: { type: 'number' },
     bottomMargin: { type: 'number' },
     ariaLabel: { type: 'string' },
+    legendMaxWidth: { type: 'string' },
     colors: {
       oneOf: [
         { type: 'string' },
@@ -5971,6 +5972,7 @@ export const SettingsSchema = {
     },
     cardDetailView: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
+    legendMaxWidth: { type: 'string' },
   },
   type: 'object',
 };
