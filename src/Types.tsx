@@ -352,7 +352,7 @@ export interface DataFilterDataType {
 
 export type DashboardColumnDataType = {
   graphType: GraphType;
-  attachedFilter: string;
+  attachedFilter?: string;
   columnWidth?: number;
   dataTransform?: {
     keyColumn: string;

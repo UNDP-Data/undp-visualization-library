@@ -224,82 +224,59 @@ export function MultiGraphDashboard(props: Props) {
               isDashboard
             />
           ) : null}
-          {filterSettings.length !== 0 ? (
-            <div
-              style={{
-                width: filterPosition === 'side' ? '320px' : '100%',
-                flexGrow: 1,
-              }}
-            >
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {filterSettings.length !== 0 ? (
               <div
                 style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  flexWrap: 'wrap',
-                  alignItems: 'flex-start',
-                  width: '100%',
-                  flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
-                  position: 'sticky',
-                  top: '1rem',
+                  width: filterPosition === 'side' ? '280px' : '100%',
+                  flexGrow: 1,
+                  flexShrink: 0,
                 }}
               >
-                {filterSettings?.map((d, i) => (
-                  <div
-                    style={{
-                      width:
-                        d.width ||
-                        `calc(${100 / noOfFiltersPerRow}% - ${
-                          (noOfFiltersPerRow - 1) / noOfFiltersPerRow
-                        }rem)`,
-                      flexGrow: 1,
-                      flexShrink: 0,
-                      minWidth: '240px',
-                    }}
-                    key={i}
-                  >
-                    <p
-                      className={
-                        dashboardLayout.rtl
-                          ? `undp-viz-typography-${
-                              dashboardLayout.language || 'ar'
-                            } undp-viz-typography`
-                          : 'undp-viz-typography'
-                      }
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                    width: '100%',
+                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
+                    position: 'sticky',
+                    top: '1rem',
+                  }}
+                >
+                  {filterSettings?.map((d, i) => (
+                    <div
                       style={{
-                        fontSize: '0.875rem',
-                        marginBottom: '0.5rem',
-                        textAlign: dashboardLayout.rtl ? 'right' : 'left',
-                        color: UNDPColorModule[mode].grays.black,
+                        width:
+                          d.width ||
+                          `calc(${100 / noOfFiltersPerRow}% - ${
+                            (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                          }rem)`,
+                        flexGrow: 1,
+                        flexShrink: 0,
+                        minWidth: '240px',
                       }}
+                      key={i}
                     >
-                      {d.label}
-                    </p>
-                    {d.singleSelect ? (
-                      <Select
+                      <p
                         className={
                           dashboardLayout.rtl
-                            ? `undp-viz-select-${
+                            ? `undp-viz-typography-${
                                 dashboardLayout.language || 'ar'
-                              } undp-viz-select`
-                            : 'undp-viz-select'
+                              } undp-viz-typography`
+                            : 'undp-viz-typography'
                         }
-                        options={d.availableValues}
-                        isClearable={
-                          d.clearable === undefined ? true : d.clearable
-                        }
-                        isRtl={dashboardLayout.rtl}
-                        isMulti={false}
-                        isSearchable
-                        filterOption={createFilter(filterConfig)}
-                        onChange={el => {
-                          handleFilterChange(d.filter, el);
+                        style={{
+                          fontSize: '0.875rem',
+                          marginBottom: '0.5rem',
+                          textAlign: dashboardLayout.rtl ? 'right' : 'left',
+                          color: UNDPColorModule[mode].grays.black,
                         }}
-                        defaultValue={d.defaultValue}
-                        value={d.value}
-                        theme={theme => getReactSelectTheme(theme, mode)}
-                      />
-                    ) : (
-                      <>
+                      >
+                        {d.label}
+                      </p>
+                      {d.singleSelect ? (
                         <Select
                           className={
                             dashboardLayout.rtl
@@ -309,55 +286,81 @@ export function MultiGraphDashboard(props: Props) {
                               : 'undp-viz-select'
                           }
                           options={d.availableValues}
-                          isMulti
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
                           }
+                          isRtl={dashboardLayout.rtl}
+                          isMulti={false}
                           isSearchable
-                          controlShouldRenderValue
-                          closeMenuOnSelect={false}
-                          hideSelectedOptions={false}
                           filterOption={createFilter(filterConfig)}
                           onChange={el => {
                             handleFilterChange(d.filter, el);
                           }}
-                          value={d.value}
                           defaultValue={d.defaultValue}
-                          isRtl={dashboardLayout.rtl}
+                          value={d.value}
                           theme={theme => getReactSelectTheme(theme, mode)}
                         />
-                        {d.allowSelectAll ? (
-                          <button
-                            type='button'
-                            style={{
-                              backgroundColor: 'transparent',
-                              border: 0,
-                              padding: 0,
-                              marginTop: '0.5rem',
-                              color:
-                                UNDPColorModule[mode].primaryColors['blue-600'],
-                              cursor: 'pointer',
+                      ) : (
+                        <>
+                          <Select
+                            className={
+                              dashboardLayout.rtl
+                                ? `undp-viz-select-${
+                                    dashboardLayout.language || 'ar'
+                                  } undp-viz-select`
+                                : 'undp-viz-select'
+                            }
+                            options={d.availableValues}
+                            isMulti
+                            isClearable={
+                              d.clearable === undefined ? true : d.clearable
+                            }
+                            isSearchable
+                            controlShouldRenderValue
+                            closeMenuOnSelect={false}
+                            hideSelectedOptions={false}
+                            filterOption={createFilter(filterConfig)}
+                            onChange={el => {
+                              handleFilterChange(d.filter, el);
                             }}
-                            onClick={() => {
-                              handleFilterChange(d.filter, d.availableValues);
-                            }}
-                          >
-                            Select all options
-                          </button>
-                        ) : null}
-                      </>
-                    )}
-                  </div>
-                ))}
+                            value={d.value}
+                            defaultValue={d.defaultValue}
+                            isRtl={dashboardLayout.rtl}
+                            theme={theme => getReactSelectTheme(theme, mode)}
+                          />
+                          {d.allowSelectAll ? (
+                            <button
+                              type='button'
+                              style={{
+                                backgroundColor: 'transparent',
+                                border: 0,
+                                padding: 0,
+                                marginTop: '0.5rem',
+                                color:
+                                  UNDPColorModule[mode].primaryColors[
+                                    'blue-600'
+                                  ],
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                handleFilterChange(d.filter, d.availableValues);
+                              }}
+                            >
+                              Select all options
+                            </button>
+                          ) : null}
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : null}
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            ) : null}
             <div
               style={{
                 width:
                   filterPosition === 'side'
-                    ? 'calc(100% - 320px - 1rem)'
+                    ? 'calc(100% - 280px - 1rem)'
                     : '100%',
                 minWidth: '320px',
                 flexGrow: 1,
@@ -439,16 +442,18 @@ export function MultiGraphDashboard(props: Props) {
                             f => f.filter === el.attachedFilter,
                           ) !== -1
                             ? dClicked => {
-                                const filterTemp = [...filterSettings];
-                                const indx = filterTemp.findIndex(
+                                const indx = filterSettings.findIndex(
                                   f => f.filter === el.attachedFilter,
                                 );
-                                filterTemp[indx].value = dClicked
-                                  ? filterTemp[indx].singleSelect
+                                const value = dClicked
+                                  ? filterSettings[indx].singleSelect
                                     ? { value: dClicked, label: dClicked }
                                     : [{ value: dClicked, label: dClicked }]
                                   : undefined;
-                                setFilterSettings(filterTemp);
+                                handleFilterChange(
+                                  el.attachedFilter as string,
+                                  value,
+                                );
                               }
                             : undefined
                         }
