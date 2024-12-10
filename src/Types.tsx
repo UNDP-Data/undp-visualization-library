@@ -599,7 +599,7 @@ export interface GraphSettingsDataType {
   labels?: string[];
   showColorLegendAtTop?: boolean;
   highlightedLines?: string[];
-  areaId?: string;
+  area?: boolean;
   mapData?: any;
   xColorLegendTitle?: string;
   yColorLegendTitle?: string;

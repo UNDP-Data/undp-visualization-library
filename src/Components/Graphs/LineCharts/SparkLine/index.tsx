@@ -8,6 +8,7 @@ import {
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { generateRandomString } from '../../../../Utils/generateRandomString';
 
 interface Props {
   data: LineChartDataType[];
@@ -19,7 +20,7 @@ interface Props {
   height?: number;
   sources?: SourcesDataType[];
   dateFormat?: string;
-  areaId?: boolean;
+  area?: boolean;
   backgroundColor?: string | boolean;
   padding?: string;
   leftMargin?: number;
@@ -53,7 +54,7 @@ export function SparkLine(props: Props) {
     width,
     footNote,
     dateFormat = 'yyyy',
-    areaId = false,
+    area = false,
     padding,
     backgroundColor,
     leftMargin = 5,
@@ -184,7 +185,7 @@ export function SparkLine(props: Props) {
                       : svgHeight),
                 )}
                 dateFormat={dateFormat}
-                areaId={areaId}
+                areaId={area ? generateRandomString(8) : undefined}
                 leftMargin={leftMargin}
                 rightMargin={rightMargin}
                 topMargin={topMargin}

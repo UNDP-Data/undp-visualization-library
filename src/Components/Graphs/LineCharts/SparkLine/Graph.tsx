@@ -11,7 +11,6 @@ import { LineChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../ColorPalette';
-import { generateRandomString } from '../../../../Utils/generateRandomString';
 
 interface Props {
   data: LineChartDataType[];
@@ -19,7 +18,7 @@ interface Props {
   width: number;
   height: number;
   dateFormat: string;
-  areaId: boolean;
+  areaId?: string;
   leftMargin: number;
   rightMargin: number;
   topMargin: number;
@@ -148,13 +147,7 @@ export function Graph(props: Props) {
         viewBox={`0 0 ${width} ${height}`}
       >
         {areaId ? (
-          <linearGradient
-            id={generateRandomString(8)}
-            x1='0'
-            x2='0'
-            y1='0'
-            y2='1'
-          >
+          <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
             <stop
               style={{
                 stopColor: color,

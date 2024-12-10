@@ -3159,7 +3159,7 @@ export const sparkLineSettingsSchema = {
       },
     },
     dateFormat: { type: 'string' },
-    areaId: { type: 'string' },
+    area: { type: 'boolean' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -5178,8 +5178,8 @@ export const SettingsSchema = {
         required: ['text'],
       },
     },
-    areaId: {
-      type: 'string',
+    area: {
+      type: 'boolean',
     },
     arrowConnector: {
       type: 'boolean',

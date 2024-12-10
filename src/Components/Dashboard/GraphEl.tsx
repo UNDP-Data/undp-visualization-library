@@ -1989,7 +1989,7 @@ function GraphEl(props: Props) {
           height: settings?.height,
           sources: settings?.sources,
           dateFormat: settings?.dateFormat,
-          areaId: settings?.areaId,
+          area: settings?.area,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,
