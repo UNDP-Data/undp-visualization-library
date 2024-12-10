@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
@@ -11,7 +9,6 @@ import sortBy from 'lodash.sortby';
 import {
   BackgroundStyleDataType,
   FilterSettingsDataType,
-  SelectedFilterDataType,
   SourcesDataType,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';

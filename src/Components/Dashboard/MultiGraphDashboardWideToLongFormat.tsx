@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Select, { createFilter } from 'react-select';
 import {
+  BackgroundStyleDataType,
   DashboardFromWideToLongFormatColumnDataType,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
@@ -31,6 +32,8 @@ interface Props {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
+  graphBackgroundStyle?: BackgroundStyleDataType;
+  graphBackgroundColor?: string | boolean;
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -48,6 +51,8 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     mode,
     readableHeader,
     dataFilters,
+    graphBackgroundStyle,
+    graphBackgroundColor,
   } = props;
 
   const filterConfig = useMemo(
@@ -293,6 +298,12 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
                           mode: mode || el.settings?.mode,
+                          backgroundStyle:
+                            el.settings?.backgroundStyle ||
+                            graphBackgroundStyle,
+                          backgroundColor:
+                            el.settings?.backgroundColor ||
+                            graphBackgroundColor,
                         }}
                         dataSettings={{
                           data,

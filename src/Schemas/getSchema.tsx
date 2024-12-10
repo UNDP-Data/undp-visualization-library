@@ -919,6 +919,10 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
                     },
                     settings: getSettingsSchema('allGraphs'),
                     dataSelectionOptions: getDataSelectionSchema(),
+                    attachedFilter: {
+                      type: 'string',
+                      ...getColumnEnum(columnList),
+                    },
                   },
                   type: 'object',
                   required: ['graphType'],
@@ -946,6 +950,17 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
+    graphBackgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
+    graphBackgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],
@@ -1034,6 +1049,17 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     readableHeader: getReadableHeaderSchema(),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
+    graphBackgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
+    graphBackgroundColor: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],

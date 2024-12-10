@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  BackgroundStyleDataType,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
@@ -20,6 +21,8 @@ interface ConfigObject {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
+  graphBackgroundStyle?: BackgroundStyleDataType;
+  graphBackgroundColor?: string | boolean;
 }
 
 interface Props {
@@ -75,6 +78,8 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
+      graphBackgroundColor={configSettings.graphBackgroundColor}
+      graphBackgroundStyle={configSettings.graphBackgroundStyle}
     />
   );
 }

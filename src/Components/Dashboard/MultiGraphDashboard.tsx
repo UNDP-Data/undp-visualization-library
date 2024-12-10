@@ -42,6 +42,7 @@ interface Props {
     label: string;
   }[];
   graphBackgroundStyle?: BackgroundStyleDataType;
+  graphBackgroundColor?: string | boolean;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -72,6 +73,7 @@ export function MultiGraphDashboard(props: Props) {
     noOfFiltersPerRow = 4,
     filterPosition,
     graphBackgroundStyle,
+    graphBackgroundColor,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -410,6 +412,9 @@ export function MultiGraphDashboard(props: Props) {
                           backgroundStyle:
                             el.settings?.backgroundStyle ||
                             graphBackgroundStyle,
+                          backgroundColor:
+                            el.settings?.backgroundColor ||
+                            graphBackgroundColor,
                           radius:
                             el.graphType === 'donutChart'
                               ? undefined

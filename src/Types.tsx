@@ -463,11 +463,6 @@ export interface AggregationSettingsDataType {
   aggregationMethod?: 'sum' | 'average' | 'min' | 'max';
 }
 
-export interface SelectedFilterDataType {
-  filter: string;
-  value?: string[];
-}
-
 export interface FilterSettingsDataType {
   filter: string;
   singleSelect?: boolean;
