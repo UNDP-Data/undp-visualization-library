@@ -1744,6 +1744,14 @@ export const dataTableSettingsSchema = {
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
+    backgroundStyle: {
+      type: 'object',
+      properties: {
+        borderRadius: { type: 'string' },
+        boxShadow: { type: 'string' },
+        border: { type: 'string' },
+      },
+    },
     padding: { type: 'string' },
     mode: {
       type: 'string',
@@ -1784,16 +1792,8 @@ export const dataTableSettingsSchema = {
         },
         required: ['columnId'],
       },
-      backgroundStyle: {
-        type: 'object',
-        properties: {
-          borderRadius: { type: 'string' },
-          boxShadow: { type: 'string' },
-          border: { type: 'string' },
-        },
-      },
-      resetSelectionOnDoubleClick: { type: 'boolean' },
     },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['columnData'],
 };
