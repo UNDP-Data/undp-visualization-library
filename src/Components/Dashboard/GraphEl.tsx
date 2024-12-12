@@ -916,6 +916,7 @@ function GraphEl(props: Props) {
           intervalLineStrokeWidth: settings?.intervalLineStrokeWidth,
           intervalLineColors: settings?.intervalLineColors,
           intervalAreaColor: settings?.intervalAreaColor,
+          intervalAreaOpacity: settings?.intervalAreaOpacity,
         };
       case 'dualAxisLineChart':
         return {

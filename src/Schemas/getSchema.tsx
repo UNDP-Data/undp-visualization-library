@@ -591,12 +591,15 @@ export const getFiltersSchema = (columnList?: string[]) => ({
         anyOf: [
           {
             items: {
-              type: 'string',
+              oneOf: [{ type: 'string' }, { type: 'number' }],
             },
             type: 'array',
           },
           {
             type: 'string',
+          },
+          {
+            type: 'number',
           },
         ],
       },

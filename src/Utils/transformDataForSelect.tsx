@@ -1,8 +1,8 @@
 export function transformDefaultValue(
-  defaultValue?: string | string[],
+  defaultValue?: string | string[] | number | number[],
 ):
-  | { value: string; label: string }
-  | { value: string; label: string }[]
+  | { value: string | number; label: string | number }
+  | { value: string | number; label: string | number }[]
   | undefined {
   if (defaultValue === undefined) return undefined;
 

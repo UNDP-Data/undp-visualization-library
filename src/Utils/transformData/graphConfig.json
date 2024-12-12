@@ -874,12 +874,12 @@
             },
             {
                 "id": "yMin",
-                "required": true,
+                "required": false,
                 "multiple": false
             },
             {
                 "id": "yMax",
-                "required": true,
+                "required": false,
                 "multiple": false
             }
         ]

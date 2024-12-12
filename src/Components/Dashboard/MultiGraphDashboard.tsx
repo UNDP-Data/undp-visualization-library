@@ -155,6 +155,7 @@ export function MultiGraphDashboard(props: Props) {
           singleSelect: el.singleSelect,
           clearable: el.clearable,
           defaultValue: transformDefaultValue(el.defaultValue),
+          value: transformDefaultValue(el.defaultValue),
           availableValues: getUniqValue(d, el.column)
             .filter(v => !el.excludeValues?.includes(`${v}`))
             .map(v => ({ value: v, label: v })),

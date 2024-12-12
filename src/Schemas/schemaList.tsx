@@ -1842,7 +1842,7 @@ export const dataCardListSettingsSchema = {
           column: { type: 'string' },
           width: { type: 'string' },
           label: { type: 'string' },
-          defaultValue: { type: 'string' },
+          defaultValue: { oneOf: [{ type: 'string' }, { type: 'number' }] },
           excludeValues: { type: 'array', items: { type: 'string' } },
         },
         required: ['column'],
@@ -2765,6 +2765,7 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
       maxItems: 2,
     },
     intervalAreaColor: { type: 'string' },
+    intervalAreaOpacity: { type: 'number' },
     backgroundStyle: {
       type: 'object',
       properties: {
@@ -5935,7 +5936,7 @@ export const SettingsSchema = {
           column: { type: 'string' },
           width: { type: 'string' },
           label: { type: 'string' },
-          defaultValue: { type: 'string' },
+          defaultValue: { oneOf: [{ type: 'string' }, { type: 'number' }] },
           excludeValues: { type: 'array', items: { type: 'string' } },
         },
         required: ['column'],

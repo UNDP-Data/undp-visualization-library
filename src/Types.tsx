@@ -374,7 +374,7 @@ export type FilterUiSettingsDataType = {
   label?: string;
   singleSelect?: boolean;
   clearable?: boolean;
-  defaultValue?: string[] | string;
+  defaultValue?: string[] | string | number | number[];
   excludeValues?: string[];
   allowSelectAll?: boolean;
   width?: string;
@@ -470,25 +470,25 @@ export interface FilterSettingsDataType {
   clearable?: boolean;
   defaultValue?:
     | {
-        value: string;
-        label: string;
+        value: string | number;
+        label: string | number;
       }[]
     | {
-        value: string;
-        label: string;
+        value: string | number;
+        label: string | number;
       };
   value?:
     | {
-        value: string;
-        label: string;
+        value: string | number;
+        label: string | number;
       }[]
     | {
-        value: string;
-        label: string;
+        value: string | number;
+        label: string | number;
       };
   availableValues: {
-    value: string;
-    label: string;
+    value: string | number;
+    label: string | number;
   }[];
   allowSelectAll?: boolean;
   width?: string;
@@ -697,8 +697,8 @@ export interface GraphSettingsDataType {
   cardFilters?: {
     column: string;
     label?: string;
-    defaultValue?: string;
-    excludeValues?: string[];
+    defaultValue?: string | number;
+    excludeValues?: (string | number)[];
     width?: string;
   }[];
   cardSortingOptions?: {
@@ -720,4 +720,5 @@ export interface GraphSettingsDataType {
   cardBackgroundStyle?: BackgroundStyleDataType;
   cardDetailView?: string;
   resetSelectionOnDoubleClick?: boolean;
+  intervalAreaOpacity?: number;
 }

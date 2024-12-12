@@ -56,6 +56,32 @@ interface Props {
   updateFilters?: (_d: string) => void;
 }
 
+const addMinAndMax = (config: GraphConfigurationDataType[]) => {
+  if (
+    config.findIndex(d => d.chartConfigId === 'yMin') !== -1 &&
+    config.findIndex(d => d.chartConfigId === 'yMax') !== -1
+  )
+    return config;
+  const configTemp = [...config];
+  if (config.findIndex(d => d.chartConfigId === 'yMin') === -1) {
+    configTemp.push({
+      chartConfigId: 'yMin',
+      columnId: `${
+        config[config.findIndex(d => d.chartConfigId === 'y')].columnId
+      }Min`,
+    });
+  }
+  if (config.findIndex(d => d.chartConfigId === 'yMax') === -1) {
+    configTemp.push({
+      chartConfigId: 'yMax',
+      columnId: `${
+        config[config.findIndex(d => d.chartConfigId === 'y')].columnId
+      }Max`,
+    });
+  }
+  return configTemp;
+};
+
 export function SingleGraphDashboard(props: Props) {
   const {
     graphSettings,
@@ -142,6 +168,7 @@ export function SingleGraphDashboard(props: Props) {
           singleSelect: el.singleSelect,
           clearable: el.clearable,
           defaultValue: transformDefaultValue(el.defaultValue),
+          value: transformDefaultValue(el.defaultValue),
           availableValues: getUniqValue(d, el.column)
             .filter(v => !el.excludeValues?.includes(`${v}`))
             .map(v => ({ value: v, label: v })),
@@ -197,6 +224,10 @@ export function SingleGraphDashboard(props: Props) {
 
   const graphData = useMemo(() => {
     if (!data) return undefined;
+    const config =
+      graphType === 'lineChartWithConfidenceInterval' && graphConfig
+        ? addMinAndMax(graphConfig)
+        : graphConfig;
     const d =
       graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap'
         ? transformDataForGraph(
@@ -208,7 +239,7 @@ export function SingleGraphDashboard(props: Props) {
                 )
               : filterData(data, dataFilters || []),
             graphType,
-            graphConfig,
+            config,
           )
         : undefined;
     return d;

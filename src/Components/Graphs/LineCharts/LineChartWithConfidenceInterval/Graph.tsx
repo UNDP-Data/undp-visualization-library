@@ -55,6 +55,7 @@ interface Props {
   intervalLineStrokeWidth: number;
   intervalLineColors: [string, string];
   intervalAreaColor: string;
+  intervalAreaOpacity: number;
 }
 
 export function Graph(props: Props) {
@@ -93,6 +94,7 @@ export function Graph(props: Props) {
     intervalLineStrokeWidth,
     intervalLineColors,
     intervalAreaColor,
+    intervalAreaOpacity,
   } = props;
   const [scope, animate] = useAnimate();
   const [intervalAreaScope, intervalAreaAnimate] = useAnimate();
@@ -435,6 +437,7 @@ export function Graph(props: Props) {
                 d={areaShape(dataFormatted as any) as string}
                 style={{
                   fill: intervalAreaColor,
+                  opacity: intervalAreaOpacity,
                 }}
                 ref={intervalAreaScope}
               />

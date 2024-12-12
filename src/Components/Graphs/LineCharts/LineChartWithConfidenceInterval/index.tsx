@@ -59,6 +59,7 @@ interface Props {
   intervalLineStrokeWidth?: number;
   intervalLineColors?: [string, string];
   intervalAreaColor?: string;
+  intervalAreaOpacity?: number;
   lineColor?: string;
   backgroundStyle?: BackgroundStyleDataType;
 }
@@ -101,6 +102,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
       UNDPColorModule.light.grays['gray-500'],
     ],
     intervalAreaColor = UNDPColorModule.light.primaryColors['blue-100'],
+    intervalAreaOpacity = 0.4,
     graphDownload = false,
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
@@ -266,6 +268,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   intervalLineStrokeWidth={intervalLineStrokeWidth}
                   intervalLineColors={intervalLineColors}
                   intervalAreaColor={intervalAreaColor}
+                  intervalAreaOpacity={intervalAreaOpacity}
                 />
               ) : null}
             </div>
