@@ -229,7 +229,9 @@ export function SingleGraphDashboard(props: Props) {
         ? addMinAndMax(graphConfig)
         : graphConfig;
     const d =
-      graphType !== 'geoHubMap' && graphType !== 'geoHubCompareMap'
+      graphType !== 'geoHubMap' &&
+      graphType !== 'geoHubCompareMap' &&
+      graphType !== 'geoHubMapWithLayerSelection'
         ? transformDataForGraph(
             dataTransform
               ? transformDataForAggregation(

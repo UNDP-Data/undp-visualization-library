@@ -5974,6 +5974,7 @@ export const SettingsSchema = {
     cardDetailView: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     legendMaxWidth: { type: 'string' },
+    intervalAreaOpacity: { type: 'number' },
   },
   type: 'object',
 };
