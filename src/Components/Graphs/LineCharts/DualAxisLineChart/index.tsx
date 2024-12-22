@@ -6,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   DualAxisLineChartDataType,
   SourcesDataType,
 } from '../../../../Types';
@@ -52,6 +53,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -99,6 +101,12 @@ export function DualAxisLineChart(props: Props) {
     mode = 'light',
     ariaLabel,
     backgroundStyle = {},
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -250,6 +258,7 @@ export function DualAxisLineChart(props: Props) {
                   strokeWidth={strokeWidth}
                   showDots={showDots}
                   mode={mode}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
                 />
               ) : null}
             </div>

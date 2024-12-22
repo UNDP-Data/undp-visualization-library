@@ -6,6 +6,7 @@ import { ascending, sort } from 'd3-array';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -64,6 +65,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function AnimatedVerticalStackedBarChart(props: Props) {
@@ -114,6 +117,13 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -332,6 +342,8 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

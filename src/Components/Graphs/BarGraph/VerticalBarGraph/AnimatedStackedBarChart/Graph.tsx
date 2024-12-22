@@ -5,7 +5,10 @@ import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { group } from 'd3-array';
 import sum from 'lodash.sum';
+import { AnimatePresence, motion } from 'framer-motion';
+import isEqual from 'lodash.isequal';
 import {
+  CSSObject,
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
 } from '../../../../../Types';
@@ -13,8 +16,10 @@ import { numberFormattingFunction } from '../../../../../Utils/numberFormattingF
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../../ColorPalette';
-import { Bars } from './Bars';
 import { ensureCompleteDataForStackedBarChart } from '../../../../../Utils/ensureCompleteData';
+import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
+import { string2HTML } from '../../../../../Utils/string2HTML';
+import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];
@@ -48,6 +53,8 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -83,8 +90,11 @@ export function Graph(props: Props) {
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
 
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const dataFormatted = sortBy(
     data.map(d => ({
       ...d,
@@ -231,32 +241,221 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          <Bars
-            data={groupedData}
-            x={x}
-            y={y}
-            barColors={barColors}
-            showLabels={showLabels}
-            truncateBy={truncateBy}
-            showValues={
-              checkIfNullOrUndefined(showValues)
-                ? true
-                : (showValues as boolean)
-            }
-            suffix={suffix}
-            prefix={prefix}
-            setEventY={setEventY}
-            setEventX={setEventX}
-            setMouseOverData={setMouseOverData}
-            onSeriesMouseOver={onSeriesMouseOver}
-            onSeriesMouseClick={onSeriesMouseClick}
-            selectedColor={selectedColor}
-            indx={indx}
-            rtl={rtl}
-            language={language}
-            mode={mode}
-            resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-          />
+          <AnimatePresence>
+            {groupedData[indx].values.map(d => {
+              return (
+                <g
+                  className='undp-viz-low-opacity undp-viz-g-with-hover'
+                  key={d.label}
+                >
+                  {d.size.map((el, j) => (
+                    <motion.g
+                      key={j}
+                      opacity={
+                        selectedColor
+                          ? barColors[j] === selectedColor
+                            ? 1
+                            : 0.3
+                          : 1
+                      }
+                      onMouseEnter={(event: any) => {
+                        setMouseOverData({ ...d, sizeIndex: j });
+                        setEventY(event.clientY);
+                        setEventX(event.clientX);
+                        if (onSeriesMouseOver) {
+                          onSeriesMouseOver({ ...d, sizeIndex: j });
+                        }
+                      }}
+                      onMouseMove={(event: any) => {
+                        setMouseOverData({ ...d, sizeIndex: j });
+                        setEventY(event.clientY);
+                        setEventX(event.clientX);
+                      }}
+                      onMouseLeave={() => {
+                        setMouseOverData(undefined);
+                        setEventX(undefined);
+                        setEventY(undefined);
+                        if (onSeriesMouseOver) {
+                          onSeriesMouseOver(undefined);
+                        }
+                      }}
+                      onClick={() => {
+                        if (onSeriesMouseClick) {
+                          if (
+                            isEqual(mouseClickData, { ...d, sizeIndex: j }) &&
+                            resetSelectionOnDoubleClick
+                          ) {
+                            setMouseClickData(undefined);
+                            onSeriesMouseClick(undefined);
+                          } else {
+                            setMouseClickData({ ...d, sizeIndex: j });
+                            onSeriesMouseClick({ ...d, sizeIndex: j });
+                          }
+                        }
+                      }}
+                    >
+                      <motion.rect
+                        key={j}
+                        style={{
+                          fill: barColors[j],
+                        }}
+                        width={x.bandwidth()}
+                        animate={{
+                          height: Math.abs(
+                            y(
+                              sum(
+                                d.size.filter(
+                                  (element, k) => k <= j && element,
+                                ),
+                              ),
+                            ) -
+                              y(
+                                sum(
+                                  d.size.filter(
+                                    (element, k) => k < j && element,
+                                  ),
+                                ),
+                              ),
+                          ),
+                          y: y(
+                            sum(
+                              d.size.filter((element, k) => k <= j && element),
+                            ),
+                          ),
+                          x: x(d.id),
+                        }}
+                        transition={{ duration: 0.5 }}
+                      />
+                      {showValues ? (
+                        <motion.text
+                          style={{
+                            fill: getTextColorBasedOnBgColor(barColors[j]),
+                            fontSize: '0.875rem',
+                            textAnchor: 'middle',
+                            fontFamily: rtl
+                              ? language === 'he'
+                                ? 'Noto Sans Hebrew, sans-serif'
+                                : 'Noto Sans Arabic, sans-serif'
+                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          }}
+                          dy={5}
+                          animate={{
+                            y:
+                              y(
+                                sum(
+                                  d.size.filter(
+                                    (element, k) => k <= j && element,
+                                  ),
+                                ),
+                              ) +
+                              Math.abs(
+                                y(
+                                  sum(
+                                    d.size.filter(
+                                      (element, k) => k <= j && element,
+                                    ),
+                                  ),
+                                ) -
+                                  y(
+                                    sum(
+                                      d.size.filter(
+                                        (element, k) => k < j && element,
+                                      ),
+                                    ),
+                                  ),
+                              ) /
+                                2,
+                            x: (x(d.id) || 0) + x.bandwidth() / 2,
+                            opacity:
+                              el &&
+                              Math.abs(
+                                y(
+                                  sum(
+                                    d.size.filter(
+                                      (element, k) => k <= j && element,
+                                    ),
+                                  ),
+                                ) -
+                                  y(
+                                    sum(
+                                      d.size.filter(
+                                        (element, k) => k < j && element,
+                                      ),
+                                    ),
+                                  ),
+                              ) > 20
+                                ? 1
+                                : 0,
+                          }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {numberFormattingFunction(
+                            el,
+                            prefix || '',
+                            suffix || '',
+                          )}
+                        </motion.text>
+                      ) : null}
+                    </motion.g>
+                  ))}
+                  {showLabels ? (
+                    <motion.text
+                      style={{
+                        fill: UNDPColorModule[mode || 'light'].grays[
+                          'gray-700'
+                        ],
+                        fontSize: '0.75rem',
+                        textAnchor: 'middle',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      }}
+                      dy='15px'
+                      animate={{
+                        y: y(0),
+                        x: (x(d.id) || 0) + x.bandwidth() / 2,
+                      }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {`${d.label}`.length < truncateBy
+                        ? `${d.label}`
+                        : `${`${d.label}`.substring(0, truncateBy)}...`}
+                    </motion.text>
+                  ) : null}
+                  {showValues ? (
+                    <motion.text
+                      style={{
+                        fill: UNDPColorModule[mode || 'light'].grays[
+                          'gray-700'
+                        ],
+                        fontSize: '0.875rem',
+                        textAnchor: 'middle',
+                        fontFamily: rtl
+                          ? language === 'he'
+                            ? 'Noto Sans Hebrew, sans-serif'
+                            : 'Noto Sans Arabic, sans-serif'
+                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      }}
+                      dy={-10}
+                      animate={{
+                        y: y(sum(d.size.map(el => el || 0))),
+                        x: (x(d.id) || 0) + x.bandwidth() / 2,
+                      }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {numberFormattingFunction(
+                        sum(d.size.filter(element => element)),
+                        prefix || '',
+                        suffix || '',
+                      )}
+                    </motion.text>
+                  ) : null}
+                </g>
+              );
+            })}
+          </AnimatePresence>
           {refValues ? (
             <>
               {refValues.map((el, i) => (
@@ -309,7 +508,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

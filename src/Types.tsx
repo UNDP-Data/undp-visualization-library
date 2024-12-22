@@ -56,6 +56,10 @@ export type GeoHubGraphType =
 
 export type GraphType = GraphTypeForGriddedGraph | GeoHubGraphType;
 
+export type CSSObject = {
+  [property: string]: string | number;
+};
+
 export interface SourcesDataType {
   source: string;
   link?: string;
@@ -718,7 +722,8 @@ export interface GraphSettingsDataType {
   verticalAlign?: 'center' | 'top' | 'bottom';
   backgroundStyle?: BackgroundStyleDataType;
   cardBackgroundStyle?: BackgroundStyleDataType;
-  cardDetailView?: string;
   resetSelectionOnDoubleClick?: boolean;
   intervalAreaOpacity?: number;
+  detailsOnClick?: string;
+  tooltipBackgroundStyle?: CSSObject;
 }

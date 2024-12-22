@@ -8,12 +8,14 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DumbbellChartWithDateDataType } from '../../../../../Types';
+import { CSSObject, DumbbellChartWithDateDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { ensureCompleteDataForDumbbellChart } from '../../../../../Utils/ensureCompleteData';
+import { string2HTML } from '../../../../../Utils/string2HTML';
+import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];
@@ -49,6 +51,8 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -86,6 +90,8 @@ export function Graph(props: Props) {
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
 
   const dataFormatted = sortBy(
@@ -427,7 +433,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

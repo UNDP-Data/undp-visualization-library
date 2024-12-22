@@ -9,6 +9,7 @@ import { useAnimate, useInView } from 'framer-motion';
 import { linearRegression } from 'simple-statistics';
 import {
   AnnotationSettingsDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   LineChartWithConfidenceIntervalDataType,
   ReferenceDataType,
@@ -56,6 +57,7 @@ interface Props {
   intervalLineColors: [string, string];
   intervalAreaColor: string;
   intervalAreaOpacity: number;
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -95,6 +97,7 @@ export function Graph(props: Props) {
     intervalLineColors,
     intervalAreaColor,
     intervalAreaOpacity,
+    tooltipBackgroundStyle,
   } = props;
   const [scope, animate] = useAnimate();
   const [intervalAreaScope, intervalAreaAnimate] = useAnimate();
@@ -853,6 +856,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

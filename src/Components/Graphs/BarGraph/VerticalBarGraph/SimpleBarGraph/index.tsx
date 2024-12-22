@@ -7,6 +7,7 @@ import {
   BarGraphDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  CSSObject,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -62,6 +63,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -114,6 +117,13 @@ export function VerticalBarGraph(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -313,6 +323,8 @@ export function VerticalBarGraph(props: Props) {
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

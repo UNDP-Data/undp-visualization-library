@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   LineChartDataType,
   SourcesDataType,
 } from '../../../../Types';
@@ -41,6 +42,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function SparkLine(props: Props) {
@@ -75,6 +77,12 @@ export function SparkLine(props: Props) {
     mode = 'light',
     ariaLabel,
     backgroundStyle = {},
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -197,6 +205,7 @@ export function SparkLine(props: Props) {
                 rtl={rtl}
                 language={language}
                 mode={mode}
+                tooltipBackgroundStyle={tooltipBackgroundStyle}
               />
             ) : null}
           </div>

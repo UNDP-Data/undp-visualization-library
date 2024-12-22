@@ -62,6 +62,7 @@ export function transformDataForGraph(
                 ? undefined
                 : d[el.columnId as string];
           }
+          obj[`${el.chartConfigId}Columns`] = el.columnId;
         });
       obj.data = d;
       return obj;

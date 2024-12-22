@@ -4,10 +4,12 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
 import isEqual from 'lodash.isequal';
-import { ChoroplethMapDataType } from '../../../../../Types';
+import { ChoroplethMapDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { Modal } from '../../../../Elements/Modal';
+import { string2HTML } from '../../../../../Utils/string2HTML';
 
 interface Props {
   domain: number[] | string[];
@@ -37,6 +39,8 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -68,6 +72,8 @@ export function Graph(props: Props) {
     language,
     mode,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -523,6 +529,22 @@ export function Graph(props: Props) {
           </div>
         </div>
       )}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
+      ) : null}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
           rtl={rtl}
@@ -532,6 +554,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

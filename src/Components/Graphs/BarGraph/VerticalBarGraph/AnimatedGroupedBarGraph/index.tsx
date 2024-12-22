@@ -9,6 +9,7 @@ import {
   GroupedBarGraphWithDateDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  CSSObject,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -62,6 +63,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function AnimatedVerticalGroupedBarGraph(props: Props) {
@@ -110,6 +113,13 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -328,6 +338,8 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

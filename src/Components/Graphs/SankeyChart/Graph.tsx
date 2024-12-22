@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'framer-motion';
-import { NodeDataType, NodesLinkDataType } from '../../../Types';
+import { CSSObject, NodeDataType, NodesLinkDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
+import { string2HTML } from '../../../Utils/string2HTML';
+import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: NodesLinkDataType;
@@ -37,6 +39,8 @@ interface Props {
   animateLinks?: boolean | number;
   sortNodes: 'asc' | 'desc' | 'mostReadable' | 'none';
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -70,6 +74,8 @@ export function Graph(props: Props) {
     animateLinks,
     sortNodes,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -478,7 +484,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

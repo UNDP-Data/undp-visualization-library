@@ -4,6 +4,7 @@ import {
   AnnotationSettingsDataType,
   AreaChartDataType,
   BackgroundStyleDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -52,6 +53,7 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function AreaChart(props: Props) {
@@ -94,6 +96,12 @@ export function AreaChart(props: Props) {
     mode = 'light',
     ariaLabel,
     backgroundStyle = {},
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -235,6 +243,7 @@ export function AreaChart(props: Props) {
                   language={language}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
                   mode={mode}
                 />
               ) : null}

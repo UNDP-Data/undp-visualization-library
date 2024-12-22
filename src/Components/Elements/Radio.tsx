@@ -4,12 +4,12 @@ import { useState } from 'react';
 interface Props {
   rtl?: boolean;
   options: {
-    value: string;
+    value: string | string[];
     label: string;
   }[];
   language?: 'ar' | 'he' | 'en';
   defaultValue: string;
-  onChange: (_d: string) => void;
+  onChange: (_d: string | string[]) => void;
   mode?: 'light' | 'dark';
 }
 
@@ -41,9 +41,9 @@ function Radio(props: Props) {
               type='radio'
               className='undp-viz-radio'
               style={{ margin: rtl ? '0 0 0 0.5rem' : '0 0.5rem 0 0' }}
-              checked={selectedOption === d.value}
+              checked={selectedOption === d.label}
               onChange={() => {
-                setSelectedOption(d.value);
+                setSelectedOption(d.label);
                 onChange(d.value);
               }}
             />

@@ -1081,3 +1081,15 @@ input.undp-viz-text-box:focus-visible{
   box-shadow: 0 0 4px #0468b1;
   outline: 0;
 }
+
+.undp-slide-show-big-el {  
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0;
+  scroll-padding-left: 0;
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  display: flex;
+  gap: 1rem,
+  
+}

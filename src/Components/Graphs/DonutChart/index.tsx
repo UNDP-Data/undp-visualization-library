@@ -4,6 +4,7 @@ import sortBy from 'lodash.sortby';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   DonutChartDataType,
   SourcesDataType,
 } from '../../../Types';
@@ -49,6 +50,8 @@ interface Props {
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
   legendMaxWidth?: string;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function DonutChart(props: Props) {
@@ -89,6 +92,13 @@ export function DonutChart(props: Props) {
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
     legendMaxWidth,
+    detailsOnClick,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -334,6 +344,8 @@ export function DonutChart(props: Props) {
                     language={language}
                     mode={mode}
                     resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
                   />
                 ) : null}
               </div>

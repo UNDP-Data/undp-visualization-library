@@ -7,10 +7,13 @@ import { numberFormattingFunction } from '../../../../../Utils/numberFormattingF
 import {
   ReferenceDataType,
   GroupedBarGraphDataType,
+  CSSObject,
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { string2HTML } from '../../../../../Utils/string2HTML';
+import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: GroupedBarGraphDataType[];
@@ -41,6 +44,8 @@ interface Props {
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -73,6 +78,8 @@ export function Graph(props: Props) {
     mode,
     maxBarThickness,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const margin = {
     top: topMargin,
@@ -396,7 +403,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

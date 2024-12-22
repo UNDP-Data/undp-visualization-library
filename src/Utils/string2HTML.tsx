@@ -1,10 +1,12 @@
 import xss from 'xss';
 import Handlebars from 'handlebars';
+import helpers from 'handlebars-helpers';
 import { marked } from 'marked';
 import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
   const renderer = new marked.Renderer();
+  helpers({ handlebars: Handlebars });
 
   renderer.link = ({ href, title, text }) => {
     const target = href.startsWith('/') ? '_self' : '_blank';
@@ -21,6 +23,7 @@ function getDescendantProp(data: any, desc: string) {
   Handlebars.registerHelper('markdown', text => {
     return marked.parse(text || '');
   });
+  helpers({ handlebars: Handlebars });
   const template = Handlebars.compile(desc);
   return template(data);
 }

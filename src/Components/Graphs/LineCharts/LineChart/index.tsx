@@ -3,6 +3,7 @@ import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
   BackgroundStyleDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   LineChartDataType,
   ReferenceDataType,
@@ -55,6 +56,7 @@ interface Props {
   regressionLine?: boolean | string;
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -101,6 +103,12 @@ export function SimpleLineChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     regressionLine = false,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -233,6 +241,7 @@ export function SimpleLineChart(props: Props) {
                 customHighlightAreaSettings={customHighlightAreaSettings}
                 mode={mode}
                 regressionLine={regressionLine}
+                tooltipBackgroundStyle={tooltipBackgroundStyle}
               />
             ) : null}
           </div>

@@ -6,6 +6,7 @@ import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   NodesLinkDataType,
   SankeyDataType,
   SourcesDataType,
@@ -61,6 +62,8 @@ interface Props {
   sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 export function SankeyChart(props: Props) {
   const {
@@ -110,6 +113,13 @@ export function SankeyChart(props: Props) {
     sortNodes = 'mostReadable',
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -334,6 +344,8 @@ export function SankeyChart(props: Props) {
                   animateLinks={animateLinks}
                   sortNodes={sortNodes}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

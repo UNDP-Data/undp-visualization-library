@@ -236,6 +236,8 @@ function GraphEl(props: Props) {
             }
           },
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -285,6 +287,8 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'horizontalStackedBarChart':
         return {
@@ -336,6 +340,8 @@ function GraphEl(props: Props) {
           maxNumberOfBars: settings?.maxNumberOfBars,
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalBarChart':
         return {
@@ -397,6 +403,8 @@ function GraphEl(props: Props) {
               updateFilters(el.label);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalGroupedBarChart':
         return {
@@ -446,6 +454,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalStackedBarChart':
         return {
@@ -497,6 +507,8 @@ function GraphEl(props: Props) {
           maxNumberOfBars: settings?.maxNumberOfBars,
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedHorizontalBarChart':
         return {
@@ -555,6 +567,8 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedHorizontalGroupedBarChart':
         return {
@@ -606,6 +620,8 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedHorizontalStackedBarChart':
         return {
@@ -658,6 +674,8 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedVerticalBarChart':
         return {
@@ -716,6 +734,8 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedVerticalGroupedBarChart':
         return {
@@ -767,6 +787,8 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedVerticalStackedBarChart':
         return {
@@ -819,6 +841,8 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'lineChart':
         return {
@@ -865,6 +889,7 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'lineChartWithConfidenceInterval':
         return {
@@ -917,6 +942,7 @@ function GraphEl(props: Props) {
           intervalLineColors: settings?.intervalLineColors,
           intervalAreaColor: settings?.intervalAreaColor,
           intervalAreaOpacity: settings?.intervalAreaOpacity,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'dualAxisLineChart':
         return {
@@ -963,6 +989,7 @@ function GraphEl(props: Props) {
           showDots: settings?.showDots,
           colorLegendTitle: settings?.colorLegendTitle,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'multiLineChart':
         return {
@@ -1018,6 +1045,7 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'differenceLineChart':
         return {
@@ -1070,6 +1098,7 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'stackedAreaChart':
         return {
@@ -1118,6 +1147,7 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'choroplethMap':
         return {
@@ -1171,6 +1201,8 @@ function GraphEl(props: Props) {
               updateFilters(el.countryCode);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'biVariateChoroplethMap':
         return {
@@ -1231,6 +1263,8 @@ function GraphEl(props: Props) {
               updateFilters(el.countryCode);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'dotDensityMap':
         return {
@@ -1279,6 +1313,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'donutChart':
         return {
@@ -1321,6 +1357,8 @@ function GraphEl(props: Props) {
               updateFilters(el.label);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'slopeChart':
         return {
@@ -1367,6 +1405,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'scatterPlot':
         return {
@@ -1426,6 +1466,8 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'horizontalDumbbellChart':
         return {
@@ -1479,6 +1521,8 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalDumbbellChart':
         return {
@@ -1532,6 +1576,8 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'treeMap':
         return {
@@ -1582,6 +1628,8 @@ function GraphEl(props: Props) {
               updateFilters(el.label);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'circlePacking':
         return {
@@ -1634,6 +1682,8 @@ function GraphEl(props: Props) {
               updateFilters(el.label);
             }
           },
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'heatMap':
         return {
@@ -1683,6 +1733,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'horizontalStripChart':
         return {
@@ -1733,6 +1785,8 @@ function GraphEl(props: Props) {
           dotOpacity: settings?.dotOpacity,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalStripChart':
         return {
@@ -1783,6 +1837,8 @@ function GraphEl(props: Props) {
           dotOpacity: settings?.dotOpacity,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'horizontalBeeSwarmChart':
         return {
@@ -1831,6 +1887,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'verticalBeeSwarmChart':
         return {
@@ -1879,6 +1937,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'butterflyChart':
         return {
@@ -1935,6 +1995,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'histogram':
         return {
@@ -1976,6 +2038,8 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          detailsOnClick: settings?.detailsOnClick,
         };
       case 'sparkLine':
         return {
@@ -2008,6 +2072,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'paretoChart':
         return {
@@ -2058,6 +2123,8 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'dataTable':
         return {
@@ -2262,6 +2329,8 @@ function GraphEl(props: Props) {
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedChoroplethMap':
         return {
@@ -2313,6 +2382,8 @@ function GraphEl(props: Props) {
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedDotDensityMap':
         return {
@@ -2364,6 +2435,8 @@ function GraphEl(props: Props) {
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedButterflyChart':
         return {
@@ -2423,6 +2496,8 @@ function GraphEl(props: Props) {
           showOnlyActiveDate: settings?.showOnlyActiveDate,
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedHorizontalDumbbellChart':
         return {
@@ -2478,6 +2553,8 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedVerticalDumbbellChart':
         return {
@@ -2533,6 +2610,8 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'animatedScatterPlot':
         return {
@@ -2594,6 +2673,8 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'sankeyChart':
         return {
@@ -2641,6 +2722,8 @@ function GraphEl(props: Props) {
           targetTitle: settings?.targetTitle,
           animateLinks: settings?.animateLinks,
           sortNodes: settings?.sortNodes,
+          detailsOnClick: settings?.detailsOnClick,
+          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
         };
       case 'dataCards':
         return {
@@ -2667,7 +2750,7 @@ function GraphEl(props: Props) {
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           cardBackgroundStyle: settings?.cardBackgroundStyle,
-          cardDetailView: settings?.cardDetailView,
+          detailsOnClick: settings?.detailsOnClick,
         };
       default:
         return {};

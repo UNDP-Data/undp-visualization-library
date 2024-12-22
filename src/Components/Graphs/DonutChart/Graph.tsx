@@ -1,10 +1,12 @@
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
-import { DonutChartDataType } from '../../../Types';
+import { CSSObject, DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { string2HTML } from '../../../Utils/string2HTML';
+import { Modal } from '../../Elements/Modal';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };
@@ -21,6 +23,8 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -39,6 +43,8 @@ export function Graph(props: Props) {
     language,
     mode,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const pieData = pie()
     .sort(null)
@@ -213,7 +219,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

@@ -6,6 +6,7 @@ import {
   TreeMapDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  CSSObject,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -50,6 +51,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function TreeMapGraph(props: Props) {
@@ -91,6 +94,13 @@ export function TreeMapGraph(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -267,6 +277,8 @@ export function TreeMapGraph(props: Props) {
                   language={language}
                   mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

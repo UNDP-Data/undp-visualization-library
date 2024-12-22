@@ -6,6 +6,7 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import {
   AnnotationSettingsDataType,
   BackgroundStyleDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   LineChartWithConfidenceIntervalDataType,
   ReferenceDataType,
@@ -62,6 +63,7 @@ interface Props {
   intervalAreaOpacity?: number;
   lineColor?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function LineChartWithConfidenceInterval(props: Props) {
@@ -117,6 +119,12 @@ export function LineChartWithConfidenceInterval(props: Props) {
     mode = 'light',
     ariaLabel,
     backgroundStyle = {},
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -269,6 +277,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   intervalLineColors={intervalLineColors}
                   intervalAreaColor={intervalAreaColor}
                   intervalAreaOpacity={intervalAreaOpacity}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
                 />
               ) : null}
             </div>

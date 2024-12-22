@@ -8,6 +8,7 @@ import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
 import {
   AnnotationSettingsDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
@@ -43,6 +44,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -70,6 +72,7 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    tooltipBackgroundStyle,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -560,6 +563,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

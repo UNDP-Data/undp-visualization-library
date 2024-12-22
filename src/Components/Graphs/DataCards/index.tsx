@@ -60,7 +60,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   cardBackgroundStyle?: BackgroundStyleDataType;
-  cardDetailView?: string;
+  detailsOnClick?: string;
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -97,7 +97,7 @@ export function DataCards(props: Props) {
     backgroundColor = false,
     padding,
     cardBackgroundStyle = {},
-    cardDetailView,
+    detailsOnClick,
   } = props;
 
   const [cardData, setCardData] = useState(data);
@@ -424,12 +424,12 @@ export function DataCards(props: Props) {
                       cardBackgroundColor ||
                       UNDPColorModule[mode].grays['gray-200'],
                     cursor:
-                      onSeriesMouseClick || cardDetailView ? 'pointer' : 'auto',
+                      onSeriesMouseClick || detailsOnClick ? 'pointer' : 'auto',
                   }}
                   className='undp-viz-data-cards'
                   onClick={() => {
                     if (onSeriesMouseClick) onSeriesMouseClick(d);
-                    if (cardDetailView) setSelectedData(d);
+                    if (detailsOnClick) setSelectedData(d);
                   }}
                   dangerouslySetInnerHTML={{
                     __html: string2HTML(cardTemplate, d),
@@ -456,11 +456,11 @@ export function DataCards(props: Props) {
           setSelectedData(undefined);
         }}
       >
-        {cardDetailView ? (
+        {detailsOnClick ? (
           <div
             style={{ margin: 0 }}
             dangerouslySetInnerHTML={{
-              __html: string2HTML(cardDetailView, selectedData),
+              __html: string2HTML(detailsOnClick, selectedData),
             }}
           />
         ) : null}

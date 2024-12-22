@@ -11,6 +11,7 @@ import { useAnimate, useInView } from 'framer-motion';
 import { linearRegression } from 'simple-statistics';
 import {
   AnnotationSettingsDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   LineChartDataType,
   ReferenceDataType,
@@ -52,6 +53,7 @@ interface Props {
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
   regressionLine: boolean | string;
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -85,6 +87,7 @@ export function Graph(props: Props) {
     customHighlightAreaSettings,
     mode,
     regressionLine,
+    tooltipBackgroundStyle,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -704,6 +707,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

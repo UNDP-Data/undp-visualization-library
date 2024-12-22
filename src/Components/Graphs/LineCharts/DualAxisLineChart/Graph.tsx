@@ -8,7 +8,7 @@ import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'framer-motion';
-import { DualAxisLineChartDataType } from '../../../../Types';
+import { CSSObject, DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../ColorPalette';
@@ -40,6 +40,7 @@ interface Props {
   strokeWidth: number;
   showDots: boolean;
   mode: 'light' | 'dark';
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -69,6 +70,7 @@ export function Graph(props: Props) {
     strokeWidth,
     showDots,
     mode,
+    tooltipBackgroundStyle,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -542,6 +544,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

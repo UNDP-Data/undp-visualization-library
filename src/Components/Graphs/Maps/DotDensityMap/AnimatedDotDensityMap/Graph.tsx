@@ -9,9 +9,11 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { AnimatePresence, motion } from 'framer-motion';
-import { DotDensityMapWithDateDataType } from '../../../../../Types';
+import { CSSObject, DotDensityMapWithDateDataType } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { string2HTML } from '../../../../../Utils/string2HTML';
+import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DotDensityMapWithDateDataType[];
@@ -43,6 +45,8 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -76,6 +80,8 @@ export function Graph(props: Props) {
     language,
     mode,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const groupedData = Array.from(
     group(
@@ -421,7 +427,24 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
+      ) : null}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
       ) : null}
     </>
   );

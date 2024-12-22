@@ -10,6 +10,7 @@ import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'framer-motion';
 import {
   AnnotationSettingsDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
   ReferenceDataType,
@@ -54,6 +55,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -90,6 +92,7 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    tooltipBackgroundStyle,
   } = props;
   const [scope, animate] = useAnimate();
   const [areaScope, areaAnimate] = useAnimate();
@@ -849,6 +852,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

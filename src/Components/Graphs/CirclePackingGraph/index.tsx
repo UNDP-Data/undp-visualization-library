@@ -6,6 +6,7 @@ import maxBy from 'lodash.maxby';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   SourcesDataType,
   TreeMapDataType,
 } from '../../../Types';
@@ -54,6 +55,8 @@ interface Props {
   maxRadiusValue?: number;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -97,6 +100,13 @@ export function CirclePackingGraph(props: Props) {
     maxRadiusValue,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -305,6 +315,8 @@ export function CirclePackingGraph(props: Props) {
                   }
                   maxRadiusValue={maxRadiusValue}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

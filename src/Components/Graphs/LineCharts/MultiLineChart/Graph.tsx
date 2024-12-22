@@ -10,6 +10,7 @@ import max from 'lodash.max';
 import { useAnimate, useInView } from 'framer-motion';
 import {
   AnnotationSettingsDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
@@ -53,6 +54,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
+  tooltipBackgroundStyle: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -88,6 +90,7 @@ export function Graph(props: Props) {
     annotations,
     customHighlightAreaSettings,
     mode,
+    tooltipBackgroundStyle,
   } = props;
   const [scope, animate] = useAnimate();
   const [annotationsScope, annotationsAnimate] = useAnimate();
@@ -714,6 +717,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

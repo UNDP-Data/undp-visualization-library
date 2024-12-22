@@ -7,6 +7,7 @@ import {
   CustomHighlightAreaSettingsDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  CSSObject,
 } from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -69,6 +70,8 @@ interface Props {
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function ScatterPlot(props: Props) {
@@ -122,6 +125,13 @@ export function ScatterPlot(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -315,6 +325,8 @@ export function ScatterPlot(props: Props) {
                   mode={mode}
                   regressionLine={regressionLine}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

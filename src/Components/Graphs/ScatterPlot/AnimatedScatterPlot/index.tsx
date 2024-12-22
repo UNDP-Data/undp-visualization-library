@@ -6,6 +6,7 @@ import Slider from 'rc-slider';
 import {
   AnnotationSettingsDataType,
   BackgroundStyleDataType,
+  CSSObject,
   CustomHighlightAreaSettingsDataType,
   ReferenceDataType,
   ScatterPlotWithDateDataType,
@@ -76,6 +77,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -131,6 +134,13 @@ export function AnimatedScatterPlot(props: Props) {
     dateFormat = 'yyyy',
     showOnlyActiveDate = false,
     autoPlay = false,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -390,6 +400,8 @@ export function AnimatedScatterPlot(props: Props) {
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
             </div>

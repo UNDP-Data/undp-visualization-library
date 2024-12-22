@@ -5,9 +5,11 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import isEqual from 'lodash.isequal';
-import { DotDensityMapDataType } from '../../../../../Types';
+import { CSSObject, DotDensityMapDataType } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { string2HTML } from '../../../../../Utils/string2HTML';
+import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DotDensityMapDataType[];
@@ -37,6 +39,8 @@ interface Props {
   language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Graph(props: Props) {
@@ -68,6 +72,8 @@ export function Graph(props: Props) {
     language,
     mode,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -380,6 +386,22 @@ export function Graph(props: Props) {
           </div>
         </div>
       )}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
+      ) : null}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
           rtl={rtl}
@@ -389,6 +411,7 @@ export function Graph(props: Props) {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
     </>

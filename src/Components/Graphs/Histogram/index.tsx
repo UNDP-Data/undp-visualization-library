@@ -7,6 +7,7 @@ import {
   DonutChartDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  CSSObject,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
@@ -56,6 +57,8 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function Histogram(props: Props) {
@@ -100,6 +103,8 @@ export function Histogram(props: Props) {
     maxBarThickness,
     ariaLabel,
     backgroundStyle,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -171,6 +176,8 @@ export function Histogram(props: Props) {
         mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
+        tooltipBackgroundStyle={tooltipBackgroundStyle}
+        detailsOnClick={detailsOnClick}
       />
     );
   if (graphType === 'treeMap')
@@ -206,6 +213,8 @@ export function Histogram(props: Props) {
         mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
+        tooltipBackgroundStyle={tooltipBackgroundStyle}
+        detailsOnClick={detailsOnClick}
       />
     );
   if (graphType === 'donutChart')
@@ -243,6 +252,8 @@ export function Histogram(props: Props) {
         mode={mode}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
+        tooltipBackgroundStyle={tooltipBackgroundStyle}
+        detailsOnClick={detailsOnClick}
       />
     );
   if (barGraphLayout === 'horizontal')
@@ -285,6 +296,8 @@ export function Histogram(props: Props) {
         maxBarThickness={maxBarThickness}
         ariaLabel={ariaLabel}
         backgroundStyle={backgroundStyle}
+        tooltipBackgroundStyle={tooltipBackgroundStyle}
+        detailsOnClick={detailsOnClick}
       />
     );
   return (
@@ -326,6 +339,8 @@ export function Histogram(props: Props) {
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
       backgroundStyle={backgroundStyle}
+      tooltipBackgroundStyle={tooltipBackgroundStyle}
+      detailsOnClick={detailsOnClick}
     />
   );
 }

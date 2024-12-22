@@ -7,6 +7,7 @@ import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
   ChoroplethMapWithDateDataType,
+  CSSObject,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -61,6 +62,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function AnimatedChoroplethMap(props: Props) {
@@ -108,6 +111,13 @@ export function AnimatedChoroplethMap(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -332,6 +342,8 @@ export function AnimatedChoroplethMap(props: Props) {
                 language={language}
                 mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                tooltipBackgroundStyle={tooltipBackgroundStyle}
+                detailsOnClick={detailsOnClick}
               />
             ) : null}
           </div>

@@ -5,6 +5,7 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import {
   BackgroundStyleDataType,
+  CSSObject,
   DotDensityMapDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -53,6 +54,8 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
+  tooltipBackgroundStyle?: CSSObject;
+  detailsOnClick?: string;
 }
 
 export function DotDensityMap(props: Props) {
@@ -97,6 +100,13 @@ export function DotDensityMap(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
+    tooltipBackgroundStyle = {
+      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
+      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
+      maxWidth: '24rem',
+      padding: '0.5rem',
+    },
+    detailsOnClick,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -257,6 +267,8 @@ export function DotDensityMap(props: Props) {
                 language={language}
                 mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                tooltipBackgroundStyle={tooltipBackgroundStyle}
+                detailsOnClick={detailsOnClick}
               />
             ) : null}
           </div>

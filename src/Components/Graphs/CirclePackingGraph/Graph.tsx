@@ -12,12 +12,14 @@ import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 
 // Assuming these are imported from correct paths
-import { TreeMapDataType } from '../../../Types';
+import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { UNDPColorModule } from '../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { string2HTML } from '../../../Utils/string2HTML';
+import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: TreeMapDataType[];
@@ -44,6 +46,8 @@ interface Props {
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
+  tooltipBackgroundStyle: CSSObject;
+  detailsOnClick?: string;
 }
 
 interface TreeMapDataTypeForBubbleChart extends TreeMapDataType {
@@ -79,6 +83,8 @@ export const Graph = memo((props: Props) => {
     maxRadiusValue,
     radius,
     resetSelectionOnDoubleClick,
+    tooltipBackgroundStyle,
+    detailsOnClick,
   } = props;
 
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
@@ -394,8 +400,25 @@ export const Graph = memo((props: Props) => {
           xPos={eventX}
           yPos={eventY}
           mode={mode}
+          backgroundStyle={tooltipBackgroundStyle}
         />
       )}
+      {detailsOnClick ? (
+        <Modal
+          isOpen={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            style={{ margin: 0 }}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: string2HTML(detailsOnClick, mouseClickData),
+            }}
+          />
+        </Modal>
+      ) : null}
     </>
   );
 });
