@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
@@ -36,6 +37,7 @@ interface ConfigObject {
   minGraphHeight?: number;
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
+  advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
@@ -98,6 +100,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       showCommonColorScale={configSettings.showCommonColorScale}
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
+      advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}

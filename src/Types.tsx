@@ -348,6 +348,21 @@ export interface DataSelectionDataType {
   width?: string;
 }
 
+export interface AdvancedDataSelectionDataType {
+  label?: string;
+  options: {
+    label: string;
+    value: string[];
+  }[];
+  chartConfigId: string;
+  ui?: 'select' | 'radio';
+  width?: string;
+  defaultValue?: {
+    label: string;
+    value: string[];
+  };
+}
+
 export interface DataFilterDataType {
   column: string;
   includeValues?: (string | number | boolean | null | undefined)[];
@@ -365,6 +380,7 @@ export type DashboardColumnDataType = {
   dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
+  advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   settings?: any;
 };
 

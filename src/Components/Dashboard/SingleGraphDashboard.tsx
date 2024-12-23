@@ -3,6 +3,7 @@ import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import {
+  AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
@@ -51,6 +52,7 @@ interface Props {
   dataFilters?: DataFilterDataType[];
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
+  advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
   updateFilters?: (_d: string) => void;
@@ -93,6 +95,7 @@ export function SingleGraphDashboard(props: Props) {
     dataFilters,
     debugMode,
     dataSelectionOptions,
+    advancedDataSelectionOptions,
     mode = 'light',
     readableHeader,
     noOfFiltersPerRow = 4,
@@ -342,7 +345,8 @@ export function SingleGraphDashboard(props: Props) {
                 />
               ) : null}
               {filterSettings.length !== 0 ||
-              (dataSelectionOptions || []).length !== 0 ? (
+              (dataSelectionOptions || []).length !== 0 ||
+              (advancedDataSelectionOptions || []).length !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -353,6 +357,92 @@ export function SingleGraphDashboard(props: Props) {
                     flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                   }}
                 >
+                  {advancedDataSelectionOptions?.map((d, i) => (
+                    <div
+                      style={{
+                        width:
+                          d.width ||
+                          `calc(${100 / noOfFiltersPerRow}% - ${
+                            (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                          }rem)`,
+                        flexGrow: 1,
+                        flexShrink: d.ui !== 'radio' ? 0 : 1,
+                        minWidth: '240px',
+                      }}
+                      key={i}
+                    >
+                      <p
+                        className={
+                          graphSettings?.rtl
+                            ? `undp-viz-typography-${
+                                graphSettings?.language || 'ar'
+                              } undp-viz-typography`
+                            : 'undp-viz-typography'
+                        }
+                        style={{
+                          fontSize: '0.875rem',
+                          marginBottom: '0.5rem',
+                          textAlign: graphSettings?.rtl ? 'right' : 'left',
+                          color: UNDPColorModule[mode].grays.black,
+                        }}
+                      >
+                        {d.label || `Visualize ${d.chartConfigId} by`}
+                      </p>
+                      {d.ui !== 'radio' ? (
+                        <Select
+                          className={
+                            graphSettings?.rtl
+                              ? `undp-viz-select-${
+                                  graphSettings?.language || 'ar'
+                                } undp-viz-select`
+                              : 'undp-viz-select'
+                          }
+                          options={d.options}
+                          isClearable={false}
+                          isRtl={graphSettings?.rtl}
+                          isSearchable
+                          controlShouldRenderValue
+                          defaultValue={d.defaultValue || d.options[0]}
+                          onChange={el => {
+                            const newGraphConfig = {
+                              columnId: el?.value as string[],
+                              chartConfigId: d.chartConfigId,
+                            };
+                            const updatedConfig = graphConfig?.map(item =>
+                              item.chartConfigId ===
+                              newGraphConfig.chartConfigId
+                                ? newGraphConfig
+                                : item,
+                            );
+                            setGraphConfig(updatedConfig);
+                          }}
+                          theme={theme => getReactSelectTheme(theme, mode)}
+                        />
+                      ) : (
+                        <Radio
+                          rtl={graphSettings?.rtl}
+                          options={d.options}
+                          language={graphSettings?.language}
+                          defaultValue={
+                            d.defaultValue?.label || d.options[0].label
+                          }
+                          onChange={el => {
+                            const newGraphConfig = {
+                              columnId: el.value as string[],
+                              chartConfigId: d.chartConfigId,
+                            };
+                            const updatedConfig = graphConfig?.map(item =>
+                              item.chartConfigId ===
+                              newGraphConfig.chartConfigId
+                                ? newGraphConfig
+                                : item,
+                            );
+                            setGraphConfig(updatedConfig);
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
                   {dataSelectionOptions?.map((d, i) => (
                     <div
                       style={{
@@ -450,12 +540,12 @@ export function SingleGraphDashboard(props: Props) {
                                           )
                                         ].columnId as string),
                                     )
-                                  ].value
+                                  ].label
                                 : ''
                             }
                             onChange={el => {
                               const newGraphConfig = {
-                                columnId: el,
+                                columnId: el.value,
                                 chartConfigId: d.chartConfigId,
                               };
                               const updatedConfig = graphConfig?.map(item =>

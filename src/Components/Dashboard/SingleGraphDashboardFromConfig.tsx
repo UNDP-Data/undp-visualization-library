@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
   DataFilterDataType,
   DataSelectionDataType,
@@ -27,6 +28,7 @@ interface ConfigObject {
   graphDataConfiguration?: GraphConfigurationDataType[];
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
+  advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
@@ -84,6 +86,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       dataFilters={configSettings.dataFilters}
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
+      advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}

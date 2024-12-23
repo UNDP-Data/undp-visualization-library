@@ -648,6 +648,58 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
   },
 });
 
+export const getAdvancedDataSelectionSchema = (columnList?: string[]) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      chartConfigId: { type: 'string' },
+      label: {
+        type: 'string',
+      },
+      width: {
+        type: 'string',
+      },
+      options: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            value: {
+              type: 'array',
+              items: { type: 'string', ...getColumnEnum(columnList) },
+            },
+            label: {
+              type: 'string',
+            },
+          },
+          required: ['value', 'label'],
+        },
+        minItems: 1,
+      },
+      defaultValue: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            value: {
+              type: 'array',
+              items: { type: 'string', ...getColumnEnum(columnList) },
+            },
+            label: {
+              type: 'string',
+            },
+          },
+          required: ['value', 'label'],
+        },
+        minItems: 1,
+      },
+      ui: { type: 'string', enum: ['select', 'radio'] },
+    },
+    required: ['chartConfigId', 'options'],
+  },
+});
+
 export const getDataFiltersSchema = (columnList?: string[]) => ({
   type: 'array',
   items: {
@@ -768,6 +820,8 @@ export const getSingleGraphJSONSchema = (
           dataFilters: getDataFiltersSchema(columnList),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions:
+            getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -794,6 +848,8 @@ export const getSingleGraphJSONSchema = (
           ),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions:
+            getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -828,6 +884,8 @@ export const getGriddedGraphJSONSchema = (
           minGraphWidth: { type: 'number' },
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions:
+            getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -862,6 +920,8 @@ export const getGriddedGraphJSONSchema = (
           minGraphWidth: { type: 'number' },
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions:
+            getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -922,6 +982,8 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
                     },
                     settings: getSettingsSchema('allGraphs'),
                     dataSelectionOptions: getDataSelectionSchema(),
+                    advancedDataSelectionOptions:
+                      getAdvancedDataSelectionSchema(),
                     attachedFilter: {
                       type: 'string',
                       ...getColumnEnum(columnList),

@@ -460,6 +460,9 @@ export function MultiGraphDashboard(props: Props) {
                         }
                         dataTransform={el.dataTransform}
                         dataSelectionOptions={el.dataSelectionOptions}
+                        advancedDataSelectionOptions={
+                          el.advancedDataSelectionOptions
+                        }
                         graphDataConfiguration={el.graphDataConfiguration}
                         debugMode={debugMode}
                         readableHeader={readableHeader || []}

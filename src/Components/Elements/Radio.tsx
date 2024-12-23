@@ -9,7 +9,7 @@ interface Props {
   }[];
   language?: 'ar' | 'he' | 'en';
   defaultValue: string;
-  onChange: (_d: string | string[]) => void;
+  onChange: (_d: { value: string | string[]; label: string }) => void;
   mode?: 'light' | 'dark';
 }
 
@@ -44,7 +44,7 @@ function Radio(props: Props) {
               checked={selectedOption === d.label}
               onChange={() => {
                 setSelectedOption(d.label);
-                onChange(d.value);
+                onChange(d);
               }}
             />
             {d.label}
