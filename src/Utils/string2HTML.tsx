@@ -1,12 +1,11 @@
 import xss from 'xss';
 import Handlebars from 'handlebars';
-import helpers from 'handlebars-helpers';
+import Mexp from 'math-expression-evaluator';
 import { marked } from 'marked';
 import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
   const renderer = new marked.Renderer();
-  helpers({ handlebars: Handlebars });
 
   renderer.link = ({ href, title, text }) => {
     const target = href.startsWith('/') ? '_self' : '_blank';
@@ -19,11 +18,18 @@ function getDescendantProp(data: any, desc: string) {
     if (typeof value === 'string') return value;
     return numberFormattingFunction(value);
   });
+  Handlebars.registerHelper('mathExpression', expression => {
+    const tempTemplate = Handlebars.compile(expression);
+    const exp = tempTemplate(data);
+    const mexp = new Mexp();
+    const result = mexp.eval(exp);
+    return result;
+  });
+
   marked.setOptions({ renderer });
   Handlebars.registerHelper('markdown', text => {
     return marked.parse(text || '');
   });
-  helpers({ handlebars: Handlebars });
   const template = Handlebars.compile(desc);
   return template(data);
 }
