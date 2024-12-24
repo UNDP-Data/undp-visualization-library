@@ -6,6 +6,7 @@ import { numberFormattingFunction } from './numberFormattingFunction';
 
 function getDescendantProp(data: any, desc: string) {
   const renderer = new marked.Renderer();
+  const mexp = new Mexp();
 
   renderer.link = ({ href, title, text }) => {
     const target = href.startsWith('/') ? '_self' : '_blank';
@@ -21,9 +22,14 @@ function getDescendantProp(data: any, desc: string) {
   Handlebars.registerHelper('mathExpression', expression => {
     const tempTemplate = Handlebars.compile(expression);
     const exp = tempTemplate(data);
-    const mexp = new Mexp();
     const result = mexp.eval(exp);
     return result;
+  });
+  Handlebars.registerHelper('mathExpressionWithFormatting', expression => {
+    const tempTemplate = Handlebars.compile(expression);
+    const exp = tempTemplate(data);
+    const result = mexp.eval(exp);
+    return numberFormattingFunction(result);
   });
 
   marked.setOptions({ renderer });
