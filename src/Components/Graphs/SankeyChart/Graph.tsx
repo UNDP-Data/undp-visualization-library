@@ -422,16 +422,17 @@ export function Graph(props: Props) {
                   setEventX(event.clientX);
                 }}
                 onClick={() => {
-                  if (onSeriesMouseClick) {
+                  if (onSeriesMouseClick || detailsOnClick) {
                     if (
                       isEqual(mouseClickData, (d as any).data) &&
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      onSeriesMouseClick(undefined);
+                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                     } else {
                       setMouseClickData((d as any).data);
-                      onSeriesMouseClick((d as any).data);
+                      if (onSeriesMouseClick)
+                        onSeriesMouseClick((d as any).data);
                     }
                   }
                 }}

@@ -212,7 +212,7 @@ export function Graph(props: Props) {
                   }
                 }}
                 onClick={() => {
-                  if (onSeriesMouseClick) {
+                  if (onSeriesMouseClick || detailsOnClick) {
                     if (
                       isEqual(mouseClickData, d) &&
                       resetSelectionOnDoubleClick

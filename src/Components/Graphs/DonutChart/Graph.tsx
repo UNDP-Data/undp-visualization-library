@@ -180,16 +180,16 @@ export function Graph(props: Props) {
                 }
               }}
               onClick={() => {
-                if (onSeriesMouseClick) {
+                if (onSeriesMouseClick || detailsOnClick) {
                   if (
                     isEqual(mouseClickData, d.data) &&
                     resetSelectionOnDoubleClick
                   ) {
                     setMouseClickData(undefined);
-                    onSeriesMouseClick(undefined);
+                    if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                   } else {
                     setMouseClickData(d.data);
-                    onSeriesMouseClick(d.data);
+                    if (onSeriesMouseClick) onSeriesMouseClick(d.data);
                   }
                 }
               }}

@@ -239,16 +239,16 @@ export function Graph(props: Props) {
                   }
                 }}
                 onClick={() => {
-                  if (onSeriesMouseClick) {
+                  if (onSeriesMouseClick || detailsOnClick) {
                     if (
                       isEqual(mouseClickData, d) &&
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      onSeriesMouseClick(undefined);
+                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                     } else {
                       setMouseClickData(d);
-                      onSeriesMouseClick(d);
+                      if (onSeriesMouseClick) onSeriesMouseClick(d);
                     }
                   }
                 }}

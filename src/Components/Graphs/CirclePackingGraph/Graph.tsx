@@ -194,13 +194,13 @@ export const Graph = memo((props: Props) => {
 
   const handleClick = useCallback(
     (d: any) => {
-      if (onSeriesMouseClick) {
+      if (onSeriesMouseClick || detailsOnClick) {
         if (mouseClickData === d.label && resetSelectionOnDoubleClick) {
           setMouseClickData(undefined);
-          onSeriesMouseClick(undefined);
+          if (onSeriesMouseClick) onSeriesMouseClick(undefined);
         } else {
           setMouseClickData(d.label);
-          onSeriesMouseClick(d);
+          if (onSeriesMouseClick) onSeriesMouseClick(d);
         }
       }
     },

@@ -135,16 +135,17 @@ export function Graph(props: Props) {
                   }
                 }}
                 onClick={() => {
-                  if (onSeriesMouseClick) {
+                  if (onSeriesMouseClick || detailsOnClick) {
                     if (
                       mouseClickData === (d.data as any).id &&
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      onSeriesMouseClick(undefined);
+                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                     } else {
                       setMouseClickData((d.data as any).id);
-                      onSeriesMouseClick((d.data as any).data);
+                      if (onSeriesMouseClick)
+                        onSeriesMouseClick((d.data as any).data);
                     }
                   }
                 }}
