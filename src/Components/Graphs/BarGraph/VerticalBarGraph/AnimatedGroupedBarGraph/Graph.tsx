@@ -53,6 +53,9 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
+  yAxisTitle?: string;
+  noOfTicks: number;
+  valueColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -88,6 +91,9 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    yAxisTitle,
+    valueColor,
+    noOfTicks,
   } = props;
 
   const dataFormatted = sortBy(
@@ -162,7 +168,7 @@ export function Graph(props: Props) {
     .domain(data[0].size.map((_d, i) => `${i}`))
     .range([0, x.bandwidth()])
     .paddingInner(0.1);
-  const yTicks = y.ticks(5);
+  const yTicks = y.ticks(noOfTicks);
   return (
     <>
       <svg
@@ -174,7 +180,7 @@ export function Graph(props: Props) {
           <line
             y1={y(xMinValue < 0 ? 0 : xMinValue)}
             y2={y(xMinValue < 0 ? 0 : xMinValue)}
-            x1={0 - margin.left}
+            x1={0 - leftMargin}
             x2={graphWidth + margin.right}
             style={{
               stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
@@ -182,7 +188,7 @@ export function Graph(props: Props) {
             strokeWidth={1}
           />
           <text
-            x={0 - margin.left + 2}
+            x={0 - leftMargin + 2}
             y={y(0)}
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
@@ -205,7 +211,7 @@ export function Graph(props: Props) {
                     key={i}
                     y1={y(d)}
                     y2={y(d)}
-                    x1={0 - margin.left}
+                    x1={0 - leftMargin}
                     x2={graphWidth + margin.right}
                     stroke='#A9B1B7'
                     strokeWidth={1}
@@ -213,7 +219,7 @@ export function Graph(props: Props) {
                     opacity={d === 0 ? 0 : 1}
                   />
                   <text
-                    x={0 - margin.left + 2}
+                    x={0 - leftMargin + 2}
                     y={y(d)}
                     fill='#A9B1B7'
                     textAnchor='start'
@@ -228,11 +234,30 @@ export function Graph(props: Props) {
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                   >
-                    {numberFormattingFunction(d, '', '')}
+                    {numberFormattingFunction(d, prefix, suffix)}
                   </text>
                 </g>
               ))
             : null}
+          {yAxisTitle ? (
+            <text
+              transform={`translate(${0 - leftMargin - 15}, ${
+                graphHeight / 2
+              }) rotate(-90)`}
+              style={{
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              }}
+              textAnchor='middle'
+              fontSize={12}
+            >
+              {yAxisTitle}
+            </text>
+          ) : null}
           <AnimatePresence>
             {groupedData[indx].values.map((d, i) => {
               return (
@@ -311,7 +336,7 @@ export function Graph(props: Props) {
                             subBarScale.bandwidth() / 2
                           }
                           style={{
-                            fill: barColors[j],
+                            fill: valueColor || barColors[j],
                             fontSize: '0.875rem',
                             textAnchor: 'middle',
                             fontFamily: rtl
@@ -326,11 +351,7 @@ export function Graph(props: Props) {
                           }}
                           transition={{ duration: 0.5 }}
                         >
-                          {numberFormattingFunction(
-                            el,
-                            prefix || '',
-                            suffix || '',
-                          )}
+                          {numberFormattingFunction(el, prefix, suffix)}
                         </motion.text>
                       ) : null}
                     </motion.g>

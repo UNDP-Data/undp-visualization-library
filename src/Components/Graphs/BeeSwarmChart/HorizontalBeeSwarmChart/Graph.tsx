@@ -213,11 +213,7 @@ export function Graph(props: Props) {
                   textAnchor='middle'
                   fontSize={12}
                 >
-                  {numberFormattingFunction(
-                    xMinValue < 0 ? 0 : xMinValue,
-                    '',
-                    '',
-                  )}
+                  {numberFormattingFunction(xMinValue < 0 ? 0 : xMinValue)}
                 </text>
                 {xTicks.map((d, i) => (
                   <g key={i}>
@@ -237,7 +233,7 @@ export function Graph(props: Props) {
                       textAnchor='middle'
                       fontSize={12}
                     >
-                      {numberFormattingFunction(d, '', '')}
+                      {numberFormattingFunction(d)}
                     </text>
                     <line
                       x1={x(d)}

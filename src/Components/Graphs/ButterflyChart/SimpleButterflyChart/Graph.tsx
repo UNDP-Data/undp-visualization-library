@@ -205,7 +205,7 @@ export function Graph(props: Props) {
                         ],
                       }}
                     >
-                      {numberFormattingFunction(d, '', '')}
+                      {numberFormattingFunction(d, prefix, suffix)}
                     </text>
                   </g>
                 ))
@@ -294,11 +294,7 @@ export function Graph(props: Props) {
                       dx={d.rightBar ? (d.rightBar > 0 ? -5 : 5) : 5}
                       dy={5}
                     >
-                      {numberFormattingFunction(
-                        d.rightBar,
-                        prefix || '',
-                        suffix || '',
-                      )}
+                      {numberFormattingFunction(d.rightBar, prefix, suffix)}
                     </text>
                   ) : null}
                 </g>
@@ -393,7 +389,7 @@ export function Graph(props: Props) {
                         ],
                       }}
                     >
-                      {numberFormattingFunction(d, '', '')}
+                      {numberFormattingFunction(d, prefix, suffix)}
                     </text>
                   </g>
                 ))
@@ -482,11 +478,7 @@ export function Graph(props: Props) {
                       dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                       dy={5}
                     >
-                      {numberFormattingFunction(
-                        d.rightBar,
-                        prefix || '',
-                        suffix || '',
-                      )}
+                      {numberFormattingFunction(d.rightBar, prefix, suffix)}
                     </text>
                   ) : null}
                 </g>

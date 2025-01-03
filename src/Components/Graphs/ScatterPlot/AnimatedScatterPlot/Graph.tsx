@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format } from 'd3-format';
 import maxBy from 'lodash.maxby';
 import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
@@ -70,6 +69,13 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
+  noOfXTicks: number;
+  noOfYTicks: number;
+  labelColor?: string;
+  xSuffix: string;
+  ySuffix: string;
+  xPrefix: string;
+  yPrefix: string;
 }
 
 export function Graph(props: Props) {
@@ -111,6 +117,13 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    noOfXTicks,
+    noOfYTicks,
+    labelColor,
+    xSuffix,
+    ySuffix,
+    xPrefix,
+    yPrefix,
   } = props;
 
   const dataFormatted = sortBy(
@@ -192,8 +205,8 @@ export function Graph(props: Props) {
     .domain([yMinVal, yMaxVal])
     .range([graphHeight, 0])
     .nice();
-  const xTicks = x.ticks(5);
-  const yTicks = y.ticks(5);
+  const xTicks = x.ticks(noOfXTicks);
+  const yTicks = y.ticks(noOfYTicks);
   const voronoiDiagram = Delaunay.from(
     groupedData[indx].values.filter(
       d => d.x !== undefined && d.y !== undefined,
@@ -325,7 +338,7 @@ export function Graph(props: Props) {
                   dy={4}
                   dx={-3}
                 >
-                  {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
+                  {numberFormattingFunction(d, yPrefix, ySuffix)}
                 </text>
               </g>
             ))}
@@ -352,14 +365,20 @@ export function Graph(props: Props) {
               }}
               textAnchor='end'
               fontSize={12}
-              dy={4}
-              dx={-3}
+              dy={3}
+              dx={-4}
             >
-              {numberFormattingFunction(yMinVal < 0 ? 0 : yMinVal)}
+              {numberFormattingFunction(
+                yMinVal < 0 ? 0 : yMinVal,
+                yPrefix,
+                ySuffix,
+              )}
             </text>
             {yAxisTitle ? (
               <text
-                transform={`translate(-30, ${graphHeight / 2}) rotate(-90)`}
+                transform={`translate(${20 - leftMargin}, ${
+                  graphHeight / 2
+                }) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontFamily: rtl
@@ -404,7 +423,7 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={12}
                 >
-                  {Math.abs(d) < 1 ? d : format('~s')(d).replace('G', 'B')}
+                  {numberFormattingFunction(d, xPrefix, xSuffix)}
                 </text>
               </g>
             ))}
@@ -514,11 +533,12 @@ export function Graph(props: Props) {
                         fontSize={10}
                         style={{
                           fill:
-                            data.filter(el => el.color).length === 0
+                            labelColor ||
+                            (data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
                               ? UNDPColorModule[mode || 'light'].graphGray
-                              : colors[colorDomain.indexOf(`${d.color}`)],
+                              : colors[colorDomain.indexOf(`${d.color}`)]),
                           fontFamily: rtl
                             ? language === 'he'
                               ? 'Noto Sans Hebrew, sans-serif'
@@ -551,11 +571,12 @@ export function Graph(props: Props) {
                           fontSize={10}
                           style={{
                             fill:
-                              data.filter(el => el.color).length === 0
+                              labelColor ||
+                              (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
                                 ? UNDPColorModule[mode || 'light'].graphGray
-                                : colors[colorDomain.indexOf(`${d.color}`)],
+                                : colors[colorDomain.indexOf(`${d.color}`)]),
                             fontFamily: rtl
                               ? language === 'he'
                                 ? 'Noto Sans Hebrew, sans-serif'

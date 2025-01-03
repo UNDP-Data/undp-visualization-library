@@ -63,6 +63,10 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
+  yAxisTitle?: string;
+  noOfYTicks?: number;
+  minDate?: string | number;
+  maxDate?: string | number;
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -85,7 +89,7 @@ export function DifferenceLineChart(props: Props) {
       UNDPColorModule.light.categoricalColors.colors[1],
     ],
     backgroundColor = false,
-    leftMargin = 50,
+    leftMargin = 70,
     rightMargin = 50,
     topMargin = 20,
     bottomMargin = 25,
@@ -124,6 +128,10 @@ export function DifferenceLineChart(props: Props) {
       maxWidth: '24rem',
       padding: '0.5rem',
     },
+    yAxisTitle,
+    noOfYTicks = 5,
+    minDate,
+    maxDate,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -283,6 +291,10 @@ export function DifferenceLineChart(props: Props) {
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   mode={mode}
+                  yAxisTitle={yAxisTitle}
+                  noOfYTicks={noOfYTicks}
+                  minDate={minDate}
+                  maxDate={maxDate}
                 />
               ) : null}
             </div>

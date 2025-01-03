@@ -67,6 +67,9 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  yAxisTitle?: string;
+  noOfTicks?: number;
+  valueColor?: string;
 }
 
 export function AnimatedVerticalStackedBarChart(props: Props) {
@@ -124,6 +127,9 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    yAxisTitle,
+    noOfTicks = 5,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -344,6 +350,8 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  yAxisTitle={yAxisTitle}
+                  noOfTicks={noOfTicks}
                 />
               ) : null}
             </div>

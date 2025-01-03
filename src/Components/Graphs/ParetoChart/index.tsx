@@ -50,6 +50,11 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  noOfYTicks?: number;
+  lineSuffix?: string;
+  barSuffix?: string;
+  linePrefix?: string;
+  barPrefix?: string;
 }
 
 export function ParetoChart(props: Props) {
@@ -97,6 +102,11 @@ export function ParetoChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    noOfYTicks = 5,
+    lineSuffix = '',
+    barSuffix = '',
+    linePrefix = '',
+    barPrefix = '',
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -247,6 +257,11 @@ export function ParetoChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  noOfYTicks={noOfYTicks}
+                  lineSuffix={lineSuffix}
+                  barSuffix={barSuffix}
+                  linePrefix={linePrefix}
+                  barPrefix={barPrefix}
                 />
               ) : null}
             </div>

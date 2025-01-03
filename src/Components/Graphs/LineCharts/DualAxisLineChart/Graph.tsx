@@ -41,6 +41,11 @@ interface Props {
   showDots: boolean;
   mode: 'light' | 'dark';
   tooltipBackgroundStyle: CSSObject;
+  noOfYTicks: number;
+  lineSuffixes: [string, string];
+  linePrefixes: [string, string];
+  minDate?: string | number;
+  maxDate?: string | number;
 }
 
 export function Graph(props: Props) {
@@ -71,6 +76,11 @@ export function Graph(props: Props) {
     showDots,
     mode,
     tooltipBackgroundStyle,
+    noOfYTicks,
+    lineSuffixes,
+    linePrefixes,
+    minDate,
+    maxDate,
   } = props;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
@@ -104,8 +114,12 @@ export function Graph(props: Props) {
   ];
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minYear = dataFormatted[0].date;
-  const maxYear = dataFormatted[dataFormatted.length - 1].date;
+  const minYear = minDate
+    ? parse(`${minDate}`, dateFormat, new Date())
+    : dataFormatted[0].date;
+  const maxYear = maxDate
+    ? parse(`${maxDate}`, dateFormat, new Date())
+    : dataFormatted[dataFormatted.length - 1].date;
   const minParam1: number = minBy(dataFormatted, d => d.y1)?.y1
     ? (minBy(dataFormatted, d => d.y1)?.y1 as number) > 0
       ? 0
@@ -153,8 +167,8 @@ export function Graph(props: Props) {
     .x((d: any) => x(d.date))
     .y((d: any) => y2(d.y2))
     .curve(curveMonotoneX);
-  const y1Ticks = y1.ticks(5);
-  const y2Ticks = y2.ticks(5);
+  const y1Ticks = y1.ticks(noOfYTicks);
+  const y2Ticks = y2.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
     const mousemove = (event: any) => {
@@ -269,7 +283,11 @@ export function Graph(props: Props) {
                       : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
-                  {numberFormattingFunction(d, '', '')}
+                  {numberFormattingFunction(
+                    d,
+                    linePrefixes[0],
+                    lineSuffixes[0],
+                  )}
                 </text>
               </g>
             ))}
@@ -283,7 +301,9 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(-45, ${graphHeight / 2}) rotate(-90)`}
+              transform={`translate(${20 - leftMargin}, ${
+                graphHeight / 2
+              }) rotate(-90)`}
               fill={lineColors[0]}
               textAnchor='middle'
               style={{
@@ -326,7 +346,11 @@ export function Graph(props: Props) {
                       : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
-                  {numberFormattingFunction(d, '', '')}
+                  {numberFormattingFunction(
+                    d,
+                    linePrefixes[1],
+                    lineSuffixes[1],
+                  )}
                 </text>
               </g>
             ))}
@@ -340,7 +364,7 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(${graphWidth + 50}, ${
+              transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColors[1]}

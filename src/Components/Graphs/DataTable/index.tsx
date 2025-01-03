@@ -407,8 +407,8 @@ export function DataTable(props: Props) {
                                 >
                                   {numberFormattingFunction(
                                     d[el.columnId],
-                                    el.prefix || '',
-                                    el.suffix || '',
+                                    el.prefix,
+                                    el.suffix,
                                   )}
                                 </p>
                               ) : typeof d[el.columnId] === 'string' ? (

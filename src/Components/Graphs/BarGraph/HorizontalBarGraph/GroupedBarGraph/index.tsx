@@ -57,6 +57,9 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  xAxisTitle?: string;
+  noOfTicks?: number;
+  valueColor?: string;
 }
 
 export function HorizontalGroupedBarGraph(props: Props) {
@@ -110,6 +113,9 @@ export function HorizontalGroupedBarGraph(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    xAxisTitle,
+    noOfTicks = 5,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -263,6 +269,9 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  xAxisTitle={xAxisTitle}
+                  noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

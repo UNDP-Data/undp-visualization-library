@@ -376,11 +376,7 @@ export const Graph = memo((props: Props) => {
                             color: getTextColorBasedOnBgColor(circleColor),
                           }}
                         >
-                          {numberFormattingFunction(
-                            d.size,
-                            prefix || '',
-                            suffix || '',
-                          )}
+                          {numberFormattingFunction(d.size, prefix, suffix)}
                         </p>
                       )}
                     </div>

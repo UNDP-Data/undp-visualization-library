@@ -68,6 +68,9 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  yAxisTitle?: string;
+  noOfTicks?: number;
+  valueColor?: string;
 }
 
 export function AnimatedVerticalDumbbellChart(props: Props) {
@@ -127,6 +130,9 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    yAxisTitle,
+    noOfTicks = 5,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -356,6 +362,9 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  yAxisTitle={yAxisTitle}
+                  noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

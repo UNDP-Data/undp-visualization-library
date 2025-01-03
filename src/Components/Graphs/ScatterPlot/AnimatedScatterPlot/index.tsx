@@ -79,6 +79,13 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  noOfXTicks?: number;
+  noOfYTicks?: number;
+  labelColor?: string;
+  xSuffix?: string;
+  ySuffix?: string;
+  xPrefix?: string;
+  yPrefix?: string;
 }
 
 export function AnimatedScatterPlot(props: Props) {
@@ -141,6 +148,13 @@ export function AnimatedScatterPlot(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    noOfXTicks = 5,
+    noOfYTicks = 5,
+    labelColor,
+    xSuffix = '',
+    ySuffix = '',
+    xPrefix = '',
+    yPrefix = '',
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -402,6 +416,13 @@ export function AnimatedScatterPlot(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  noOfXTicks={noOfXTicks}
+                  noOfYTicks={noOfYTicks}
+                  labelColor={labelColor}
+                  xSuffix={xSuffix}
+                  ySuffix={ySuffix}
+                  xPrefix={xPrefix}
+                  yPrefix={yPrefix}
                 />
               ) : null}
             </div>

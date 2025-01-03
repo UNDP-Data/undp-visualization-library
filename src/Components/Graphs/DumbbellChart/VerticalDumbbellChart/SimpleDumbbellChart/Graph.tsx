@@ -44,6 +44,9 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
+  yAxisTitle?: string;
+  noOfTicks: number;
+  valueColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -80,11 +83,14 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    yAxisTitle,
+    noOfTicks,
+    valueColor,
   } = props;
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
+    left: yAxisTitle ? leftMargin + 30 : leftMargin,
     right: rightMargin,
   };
   const graphWidth = width - margin.left - margin.right;
@@ -121,7 +127,7 @@ export function Graph(props: Props) {
         : graphWidth,
     ])
     .paddingInner(barPadding);
-  const yTicks = y.ticks(5);
+  const yTicks = y.ticks(noOfTicks);
 
   return (
     <>
@@ -152,7 +158,7 @@ export function Graph(props: Props) {
           <line
             y1={y(0)}
             y2={y(0)}
-            x1={0 - margin.left}
+            x1={0 - leftMargin}
             x2={graphWidth + margin.right}
             style={{
               stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
@@ -160,7 +166,7 @@ export function Graph(props: Props) {
             strokeWidth={1}
           />
           <text
-            x={0 - margin.left + 2}
+            x={0 - leftMargin + 2}
             y={y(0)}
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
@@ -183,7 +189,7 @@ export function Graph(props: Props) {
                     key={i}
                     y1={y(d)}
                     y2={y(d)}
-                    x1={0 - margin.left}
+                    x1={0 - leftMargin}
                     x2={graphWidth + margin.right}
                     style={{
                       stroke:
@@ -194,7 +200,7 @@ export function Graph(props: Props) {
                     opacity={d === 0 ? 0 : 1}
                   />
                   <text
-                    x={0 - margin.left + 2}
+                    x={0 - leftMargin + 2}
                     y={y(d)}
                     textAnchor='start'
                     fontSize={12}
@@ -209,11 +215,30 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
-                    {numberFormattingFunction(d, '', '')}
+                    {numberFormattingFunction(d, prefix, suffix)}
                   </text>
                 </g>
               ))
             : null}
+          {yAxisTitle ? (
+            <text
+              transform={`translate(${0 - leftMargin - 15}, ${
+                graphHeight / 2
+              }) rotate(-90)`}
+              style={{
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              }}
+              textAnchor='middle'
+              fontSize={12}
+            >
+              {yAxisTitle}
+            </text>
+          ) : null}
           {data.map((d: DumbbellChartDataType, i) => (
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
@@ -329,7 +354,7 @@ export function Graph(props: Props) {
                       y={y(el || 0)}
                       x={0}
                       style={{
-                        fill: dotColors[j],
+                        fill: valueColor || dotColors[j],
                         fontSize: '0.875rem',
                         fontWeight: 'bold',
                         textAnchor: 'start',
@@ -343,7 +368,7 @@ export function Graph(props: Props) {
                       dx={radius + 3}
                       dy={4.5}
                     >
-                      {numberFormattingFunction(el, prefix || '', suffix || '')}
+                      {numberFormattingFunction(el, prefix, suffix)}
                     </text>
                   ) : null}
                 </g>

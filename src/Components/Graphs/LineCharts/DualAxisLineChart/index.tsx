@@ -54,6 +54,11 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
+  noOfYTicks?: number;
+  lineSuffixes?: [string, string];
+  linePrefixes?: [string, string];
+  minDate?: string | number;
+  maxDate?: string | number;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -77,11 +82,13 @@ export function DualAxisLineChart(props: Props) {
     ],
     sameAxes = false,
     backgroundColor = false,
-    leftMargin = 60,
-    rightMargin = 60,
+    leftMargin = 80,
+    rightMargin = 80,
     topMargin = 20,
     bottomMargin = 25,
     lineTitles = ['Line 1', 'Line 2'],
+    lineSuffixes = ['', ''],
+    linePrefixes = ['', ''],
     tooltip,
     highlightAreaSettings = [null, null],
     relativeHeight,
@@ -107,6 +114,9 @@ export function DualAxisLineChart(props: Props) {
       maxWidth: '24rem',
       padding: '0.5rem',
     },
+    noOfYTicks = 5,
+    maxDate,
+    minDate,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -259,6 +269,11 @@ export function DualAxisLineChart(props: Props) {
                   showDots={showDots}
                   mode={mode}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  noOfYTicks={noOfYTicks}
+                  lineSuffixes={lineSuffixes}
+                  linePrefixes={linePrefixes}
+                  minDate={minDate}
+                  maxDate={maxDate}
                 />
               ) : null}
             </div>

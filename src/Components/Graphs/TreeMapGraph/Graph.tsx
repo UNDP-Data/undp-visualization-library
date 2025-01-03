@@ -278,8 +278,8 @@ export function Graph(props: Props) {
                         >
                           {numberFormattingFunction(
                             (d.data as any).value,
-                            prefix || '',
-                            suffix || '',
+                            prefix,
+                            suffix,
                           )}
                         </p>
                       ) : null}

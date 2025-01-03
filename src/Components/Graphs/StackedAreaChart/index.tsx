@@ -54,6 +54,10 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
+  yAxisTitle?: string;
+  noOfYTicks?: number;
+  prefix?: string;
+  suffix?: string;
 }
 
 export function AreaChart(props: Props) {
@@ -72,7 +76,7 @@ export function AreaChart(props: Props) {
     padding,
     backgroundColor = false,
     colorLegendTitle,
-    leftMargin = 30,
+    leftMargin = 50,
     rightMargin = 20,
     topMargin = 20,
     bottomMargin = 25,
@@ -102,6 +106,10 @@ export function AreaChart(props: Props) {
       maxWidth: '24rem',
       padding: '0.5rem',
     },
+    yAxisTitle,
+    noOfYTicks = 5,
+    prefix = '',
+    suffix = '',
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -245,6 +253,10 @@ export function AreaChart(props: Props) {
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   mode={mode}
+                  yAxisTitle={yAxisTitle}
+                  noOfYTicks={noOfYTicks}
+                  prefix={prefix}
+                  suffix={suffix}
                 />
               ) : null}
             </div>

@@ -35,6 +35,11 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
+  noOfYTicks: number;
+  lineSuffix: string;
+  barSuffix: string;
+  linePrefix: string;
+  barPrefix: string;
 }
 
 export function Graph(props: Props) {
@@ -62,6 +67,11 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    noOfYTicks,
+    lineSuffix,
+    barSuffix,
+    linePrefix,
+    barPrefix,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -121,8 +131,8 @@ export function Graph(props: Props) {
     .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
     .y((d: any) => y2(d.line))
     .curve(curveMonotoneX);
-  const y1Ticks = y1.ticks(5);
-  const y2Ticks = y2.ticks(5);
+  const y1Ticks = y1.ticks(noOfYTicks);
+  const y2Ticks = y2.ticks(noOfYTicks);
   return (
     <>
       <svg
@@ -157,7 +167,7 @@ export function Graph(props: Props) {
                       : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
-                  {numberFormattingFunction(d, '', '')}
+                  {numberFormattingFunction(d, barPrefix, barSuffix)}
                 </text>
               </g>
             ))}
@@ -171,7 +181,9 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(-60, ${graphHeight / 2}) rotate(-90)`}
+              transform={`translate(${20 - leftMargin}, ${
+                graphHeight / 2
+              }) rotate(-90)`}
               fill={barColor}
               textAnchor='middle'
               fontSize={12}
@@ -215,7 +227,7 @@ export function Graph(props: Props) {
                       : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
-                  {numberFormattingFunction(d, '', '')}
+                  {numberFormattingFunction(d, linePrefix, lineSuffix)}
                 </text>
               </g>
             ))}
@@ -229,7 +241,7 @@ export function Graph(props: Props) {
             />
             <text
               className='undp-viz-label-text'
-              transform={`translate(${graphWidth + 65}, ${
+              transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColor}

@@ -56,6 +56,9 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
+  xAxisTitle?: string;
+  noOfTicks: number;
+  valueColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -95,13 +98,16 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    xAxisTitle,
+    valueColor,
+    noOfTicks,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const margin = {
-    top: topMargin,
+    top: xAxisTitle ? topMargin + 25 : topMargin,
     bottom: bottomMargin,
     left: leftMargin,
     right: rightMargin,
@@ -176,7 +182,7 @@ export function Graph(props: Props) {
         : graphHeight,
     ])
     .paddingInner(barPadding);
-  const xTicks = x.ticks(5);
+  const xTicks = x.ticks(noOfTicks);
 
   return (
     <>
@@ -192,7 +198,7 @@ export function Graph(props: Props) {
                   <line
                     x1={x(d)}
                     x2={x(d)}
-                    y1={0 - margin.top}
+                    y1={0 - topMargin}
                     y2={graphHeight + margin.bottom + margin.top}
                     style={{
                       stroke:
@@ -204,7 +210,7 @@ export function Graph(props: Props) {
                   />
                   <text
                     x={x(d)}
-                    y={0 - margin.top}
+                    y={0 - topMargin}
                     textAnchor='start'
                     fontSize={12}
                     dy={10}
@@ -219,11 +225,29 @@ export function Graph(props: Props) {
                       fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                     }}
                   >
-                    {numberFormattingFunction(d, '', '')}
+                    {numberFormattingFunction(d, prefix, suffix)}
                   </text>
                 </g>
               ))
             : null}
+          {xAxisTitle ? (
+            <text
+              transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
+              style={{
+                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                fontFamily: rtl
+                  ? language === 'he'
+                    ? 'Noto Sans Hebrew, sans-serif'
+                    : 'Noto Sans Arabic, sans-serif'
+                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              }}
+              textAnchor='middle'
+              dy={15}
+              fontSize={12}
+            >
+              {xAxisTitle}
+            </text>
+          ) : null}
           <AnimatePresence>
             {groupedData[indx].values.map(d => (
               <motion.g
@@ -342,9 +366,10 @@ export function Graph(props: Props) {
                     y={0}
                     style={{
                       fill:
-                        barColor.length > 1
+                        valueColor ||
+                        (barColor.length > 1
                           ? UNDPColorModule[mode || 'light'].grays['gray-600']
-                          : barColor[0],
+                          : barColor[0]),
                       fontSize: '0.875rem',
                       textAnchor: d.size
                         ? d.size < 0
@@ -365,11 +390,7 @@ export function Graph(props: Props) {
                     dy={5}
                     transition={{ duration: 0.5 }}
                   >
-                    {numberFormattingFunction(
-                      d.size,
-                      prefix || '',
-                      suffix || '',
-                    )}
+                    {numberFormattingFunction(d.size, prefix, suffix)}
                   </motion.text>
                 ) : null}
               </motion.g>

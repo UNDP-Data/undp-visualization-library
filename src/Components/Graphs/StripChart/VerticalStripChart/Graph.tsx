@@ -277,7 +277,7 @@ export function Graph(props: Props) {
                 textAnchor='start'
                 fontSize={12}
               >
-                {numberFormattingFunction(y.invert(0), '', '')}
+                {numberFormattingFunction(y.invert(0))}
               </text>
               <text
                 y={graphHeight}
@@ -293,7 +293,7 @@ export function Graph(props: Props) {
                 textAnchor='start'
                 fontSize={12}
               >
-                {numberFormattingFunction(y.invert(graphHeight), '', '')}
+                {numberFormattingFunction(y.invert(graphHeight))}
               </text>
             </>
           ) : null}

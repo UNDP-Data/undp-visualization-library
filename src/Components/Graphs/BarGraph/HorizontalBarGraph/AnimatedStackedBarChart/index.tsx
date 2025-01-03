@@ -67,6 +67,9 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  xAxisTitle?: string;
+  noOfTicks?: number;
+  valueColor?: string;
 }
 
 export function AnimatedHorizontalStackedBarChart(props: Props) {
@@ -124,6 +127,9 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    xAxisTitle,
+    noOfTicks = 5,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -345,6 +351,9 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  xAxisTitle={xAxisTitle}
+                  noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

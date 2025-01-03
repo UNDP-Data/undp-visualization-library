@@ -13,6 +13,7 @@ import {
   SourcesDataType,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { ColorLegend } from '../../../Elements/ColorLegend';
 
 interface Props {
   data: LineChartWithConfidenceIntervalDataType[];
@@ -64,6 +65,13 @@ interface Props {
   lineColor?: string;
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
+  yAxisTitle?: string;
+  noOfYTicks?: number;
+  minDate?: string | number;
+  maxDate?: string | number;
+  colorLegendTitle?: string;
+  colorLegendColors?: string[];
+  colorLegendDomains?: string[];
 }
 
 export function LineChartWithConfidenceInterval(props: Props) {
@@ -83,7 +91,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     backgroundColor = false,
     padding,
     lineColor,
-    leftMargin = 50,
+    leftMargin = 70,
     rightMargin = 30,
     topMargin = 20,
     bottomMargin = 25,
@@ -125,6 +133,13 @@ export function LineChartWithConfidenceInterval(props: Props) {
       maxWidth: '24rem',
       padding: '0.5rem',
     },
+    yAxisTitle,
+    noOfYTicks = 5,
+    minDate,
+    maxDate,
+    colorLegendTitle,
+    colorLegendColors,
+    colorLegendDomains,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -217,6 +232,18 @@ export function LineChartWithConfidenceInterval(props: Props) {
               width: '100%',
             }}
           >
+            {colorLegendColors && colorLegendDomains ? (
+              <ColorLegend
+                rtl={rtl}
+                language={language}
+                width={width}
+                colorLegendTitle={colorLegendTitle}
+                colors={colorLegendColors}
+                colorDomain={colorLegendDomains}
+                showNAColor={false}
+                mode={mode}
+              />
+            ) : null}
             <div
               style={{
                 flexGrow: 1,
@@ -278,6 +305,10 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   intervalAreaColor={intervalAreaColor}
                   intervalAreaOpacity={intervalAreaOpacity}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  yAxisTitle={yAxisTitle}
+                  noOfYTicks={noOfYTicks}
+                  minDate={minDate}
+                  maxDate={maxDate}
                 />
               ) : null}
             </div>

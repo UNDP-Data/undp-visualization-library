@@ -62,6 +62,9 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  xAxisTitle?: string;
+  noOfTicks?: number;
+  valueColor?: string;
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -119,6 +122,9 @@ export function HorizontalDumbbellChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    xAxisTitle,
+    noOfTicks = 5,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -306,6 +312,9 @@ export function HorizontalDumbbellChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  xAxisTitle={xAxisTitle}
+                  noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

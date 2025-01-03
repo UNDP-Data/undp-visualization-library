@@ -57,6 +57,10 @@ interface Props {
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
+  yAxisTitle?: string;
+  noOfYTicks?: number;
+  minDate?: string | number;
+  maxDate?: string | number;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -76,7 +80,7 @@ export function SimpleLineChart(props: Props) {
     showValues = false,
     padding,
     backgroundColor = false,
-    leftMargin = 50,
+    leftMargin = 70,
     rightMargin = 30,
     topMargin = 20,
     bottomMargin = 25,
@@ -87,6 +91,8 @@ export function SimpleLineChart(props: Props) {
     graphID,
     minValue,
     maxValue,
+    maxDate,
+    minDate,
     graphDownload = false,
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
@@ -109,6 +115,8 @@ export function SimpleLineChart(props: Props) {
       maxWidth: '24rem',
       padding: '0.5rem',
     },
+    yAxisTitle,
+    noOfYTicks = 5,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -242,6 +250,10 @@ export function SimpleLineChart(props: Props) {
                 mode={mode}
                 regressionLine={regressionLine}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
+                yAxisTitle={yAxisTitle}
+                noOfYTicks={noOfYTicks}
+                maxDate={maxDate}
+                minDate={minDate}
               />
             ) : null}
           </div>

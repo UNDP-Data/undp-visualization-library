@@ -72,6 +72,13 @@ interface Props {
   backgroundStyle?: BackgroundStyleDataType;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  noOfXTicks?: number;
+  noOfYTicks?: number;
+  labelColor?: string;
+  xSuffix?: string;
+  ySuffix?: string;
+  xPrefix?: string;
+  yPrefix?: string;
 }
 
 export function ScatterPlot(props: Props) {
@@ -110,6 +117,10 @@ export function ScatterPlot(props: Props) {
     minXValue,
     maxYValue,
     minYValue,
+    xSuffix = '',
+    ySuffix = '',
+    xPrefix = '',
+    yPrefix = '',
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
@@ -132,6 +143,9 @@ export function ScatterPlot(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
+    noOfXTicks = 5,
+    noOfYTicks = 5,
+    labelColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -327,6 +341,13 @@ export function ScatterPlot(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
+                  noOfXTicks={noOfXTicks}
+                  noOfYTicks={noOfYTicks}
+                  labelColor={labelColor}
+                  xSuffix={xSuffix}
+                  ySuffix={ySuffix}
+                  xPrefix={xPrefix}
+                  yPrefix={yPrefix}
                 />
               ) : null}
             </div>

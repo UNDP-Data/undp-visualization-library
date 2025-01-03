@@ -58,6 +58,10 @@ interface Props {
   intervalAreaColor: string;
   intervalAreaOpacity: number;
   tooltipBackgroundStyle: CSSObject;
+  yAxisTitle?: string;
+  noOfYTicks: number;
+  minDate?: string | number;
+  maxDate?: string | number;
 }
 
 export function Graph(props: Props) {
@@ -98,6 +102,10 @@ export function Graph(props: Props) {
     intervalAreaColor,
     intervalAreaOpacity,
     tooltipBackgroundStyle,
+    yAxisTitle,
+    noOfYTicks,
+    minDate,
+    maxDate,
   } = props;
   const [scope, animate] = useAnimate();
   const [intervalAreaScope, intervalAreaAnimate] = useAnimate();
@@ -135,8 +143,12 @@ export function Graph(props: Props) {
   ];
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minYear = dataFormatted[0].date;
-  const maxYear = dataFormatted[dataFormatted.length - 1].date;
+  const minYear = minDate
+    ? parse(`${minDate}`, dateFormat, new Date())
+    : dataFormatted[0].date;
+  const maxYear = maxDate
+    ? parse(`${maxDate}`, dateFormat, new Date())
+    : dataFormatted[dataFormatted.length - 1].date;
   const minParam: number = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin)))
@@ -183,7 +195,7 @@ export function Graph(props: Props) {
     .y1((d: any) => y(d.yMax))
     .curve(curveMonotoneX);
 
-  const yTicks = y.ticks(5);
+  const yTicks = y.ticks(noOfYTicks);
 
   const xTicks = x.ticks(noOfXTicks);
 
@@ -377,7 +389,7 @@ export function Graph(props: Props) {
                     fontSize={12}
                     dy={3}
                   >
-                    {numberFormattingFunction(d, '', '')}
+                    {numberFormattingFunction(d, prefix, suffix)}
                   </text>
                 </g>
               ) : null,
@@ -407,8 +419,31 @@ export function Graph(props: Props) {
               fontSize={12}
               dy={3}
             >
-              {numberFormattingFunction(minParam < 0 ? 0 : minParam, '', '')}
+              {numberFormattingFunction(
+                minParam < 0 ? 0 : minParam,
+                prefix,
+                suffix,
+              )}
             </text>
+            {yAxisTitle ? (
+              <text
+                transform={`translate(${20 - leftMargin}, ${
+                  graphHeight / 2
+                }) rotate(-90)`}
+                style={{
+                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  fontFamily: rtl
+                    ? language === 'he'
+                      ? 'Noto Sans Hebrew, sans-serif'
+                      : 'Noto Sans Arabic, sans-serif'
+                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                }}
+                textAnchor='middle'
+                fontSize={12}
+              >
+                {yAxisTitle}
+              </text>
+            ) : null}
           </g>
           <g>
             {xTicks.map((d, i) => (

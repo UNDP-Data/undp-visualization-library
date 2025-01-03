@@ -45,6 +45,9 @@ interface Props {
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
   tooltipBackgroundStyle: CSSObject;
+  noOfYTicks: number;
+  prefix: string;
+  suffix: string;
 }
 
 export function Graph(props: Props) {
@@ -73,6 +76,9 @@ export function Graph(props: Props) {
     customHighlightAreaSettings,
     mode,
     tooltipBackgroundStyle,
+    noOfYTicks,
+    prefix,
+    suffix,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -127,7 +133,7 @@ export function Graph(props: Props) {
     .y0((d: any) => y(d.y0))
     .y1((d: any) => y(d.y1))
     .curve(curveMonotoneX);
-  const yTicks = y.ticks(5);
+  const yTicks = y.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
     const mousemove = (event: any) => {
@@ -255,7 +261,7 @@ export function Graph(props: Props) {
                     strokeDasharray='4,8'
                   />
                   <text
-                    x={-5}
+                    x={0}
                     y={y(d)}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
@@ -268,8 +274,9 @@ export function Graph(props: Props) {
                     textAnchor='end'
                     fontSize={12}
                     dy={3}
+                    dx={-4}
                   >
-                    {numberFormattingFunction(d, '', '')}
+                    {numberFormattingFunction(d, prefix, suffix)}
                   </text>
                 </g>
               ) : null,
@@ -286,7 +293,9 @@ export function Graph(props: Props) {
             />
             {yAxisTitle ? (
               <text
-                transform={`translate(-40, ${graphHeight / 2}) rotate(-90)`}
+                transform={`translate(${20 - leftMargin}, ${
+                  graphHeight / 2
+                }) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                   fontFamily: rtl

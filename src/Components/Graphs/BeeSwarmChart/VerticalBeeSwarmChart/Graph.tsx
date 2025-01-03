@@ -214,11 +214,7 @@ export function Graph(props: Props) {
                   fontSize={12}
                   dy={-3}
                 >
-                  {numberFormattingFunction(
-                    yMinValue < 0 ? 0 : yMinValue,
-                    '',
-                    '',
-                  )}
+                  {numberFormattingFunction(yMinValue < 0 ? 0 : yMinValue)}
                 </text>
                 {yTicks.map((d, i) => (
                   <g key={i}>
@@ -254,7 +250,7 @@ export function Graph(props: Props) {
                         ],
                       }}
                     >
-                      {numberFormattingFunction(d, '', '')}
+                      {numberFormattingFunction(d)}
                     </text>
                   </g>
                 ))}
