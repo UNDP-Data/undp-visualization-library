@@ -125,7 +125,7 @@ export function Graph(props: Props) {
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
+    left: yAxisTitle ? leftMargin + 30 : leftMargin,
     right: rightMargin,
   };
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);

@@ -333,6 +333,7 @@ export function VerticalBarGraph(props: Props) {
                   detailsOnClick={detailsOnClick}
                   yAxisTitle={yAxisTitle}
                   noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

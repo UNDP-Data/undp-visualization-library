@@ -271,6 +271,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   detailsOnClick={detailsOnClick}
                   yAxisTitle={yAxisTitle}
                   noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

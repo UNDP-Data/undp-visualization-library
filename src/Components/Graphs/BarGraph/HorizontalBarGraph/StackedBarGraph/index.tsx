@@ -299,6 +299,7 @@ export function HorizontalStackedBarGraph(props: Props) {
                   detailsOnClick={detailsOnClick}
                   xAxisTitle={xAxisTitle}
                   noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>

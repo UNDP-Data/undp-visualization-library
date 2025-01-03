@@ -293,8 +293,6 @@ export function VerticalStackedBarGraph(props: Props) {
                   yAxisTitle={yAxisTitle}
                   noOfTicks={noOfTicks}
                   valueColor={valueColor}
-                  prefix={prefix}
-                  suffix={suffix}
                 />
               ) : null}
             </div>

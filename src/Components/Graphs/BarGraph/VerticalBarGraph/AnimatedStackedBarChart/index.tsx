@@ -352,6 +352,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   detailsOnClick={detailsOnClick}
                   yAxisTitle={yAxisTitle}
                   noOfTicks={noOfTicks}
+                  valueColor={valueColor}
                 />
               ) : null}
             </div>
