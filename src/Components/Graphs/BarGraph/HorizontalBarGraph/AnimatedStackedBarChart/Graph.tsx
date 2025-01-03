@@ -55,7 +55,7 @@ interface Props {
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
-  xAxisTitle?: string;
+  barAxisTitle?: string;
   noOfTicks: number;
   valueColor?: string;
 }
@@ -95,7 +95,7 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
-    xAxisTitle,
+    barAxisTitle,
     valueColor,
     noOfTicks,
   } = props;
@@ -147,7 +147,7 @@ export function Graph(props: Props) {
   );
 
   const margin = {
-    top: xAxisTitle ? topMargin + 25 : topMargin,
+    top: barAxisTitle ? topMargin + 25 : topMargin,
     bottom: bottomMargin,
     left: leftMargin,
     right: rightMargin,
@@ -222,7 +222,7 @@ export function Graph(props: Props) {
                 </g>
               ))
             : null}
-          {xAxisTitle ? (
+          {barAxisTitle ? (
             <text
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
@@ -237,7 +237,7 @@ export function Graph(props: Props) {
               dy={15}
               fontSize={12}
             >
-              {xAxisTitle}
+              {barAxisTitle}
             </text>
           ) : null}
           <AnimatePresence>

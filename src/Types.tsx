@@ -742,4 +742,23 @@ export interface GraphSettingsDataType {
   intervalAreaOpacity?: number;
   detailsOnClick?: string;
   tooltipBackgroundStyle?: CSSObject;
+  valueColor?: string;
+  labelColor?: string;
+  noOfYTicks?: number;
+  noOfTicks?: number;
+  minDate: string | number;
+  maxDate: string | number;
+  colorLegendColors: string[];
+  colorLegendDomains: string[];
+  barAxisTitle?: string;
+  barSuffix?: string;
+  barPrefix?: string;
+  lineSuffix?: string;
+  linePrefix?: string;
+  xSuffix?: string;
+  xPrefix?: string;
+  ySuffix?: string;
+  yPrefix?: string;
+  lineSuffixes?: [string, string];
+  linePrefixes?: [string, string];
 }

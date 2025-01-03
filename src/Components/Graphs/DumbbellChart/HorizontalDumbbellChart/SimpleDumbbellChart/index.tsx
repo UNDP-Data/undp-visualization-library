@@ -62,7 +62,7 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
-  xAxisTitle?: string;
+  barAxisTitle?: string;
   noOfTicks?: number;
   valueColor?: string;
 }
@@ -122,7 +122,7 @@ export function HorizontalDumbbellChart(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
-    xAxisTitle,
+    barAxisTitle,
     noOfTicks = 5,
     valueColor,
   } = props;
@@ -312,7 +312,7 @@ export function HorizontalDumbbellChart(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
-                  xAxisTitle={xAxisTitle}
+                  barAxisTitle={barAxisTitle}
                   noOfTicks={noOfTicks}
                   valueColor={valueColor}
                 />

@@ -238,6 +238,9 @@ function GraphEl(props: Props) {
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'horizontalGroupedBarChart':
         return {
@@ -289,6 +292,9 @@ function GraphEl(props: Props) {
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'horizontalStackedBarChart':
         return {
@@ -342,6 +348,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'verticalBarChart':
         return {
@@ -405,6 +414,9 @@ function GraphEl(props: Props) {
           },
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'verticalGroupedBarChart':
         return {
@@ -456,6 +468,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'verticalStackedBarChart':
         return {
@@ -509,6 +524,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedHorizontalBarChart':
         return {
@@ -569,6 +587,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedHorizontalGroupedBarChart':
         return {
@@ -622,6 +643,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedHorizontalStackedBarChart':
         return {
@@ -676,6 +700,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedVerticalBarChart':
         return {
@@ -736,6 +763,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedVerticalGroupedBarChart':
         return {
@@ -789,6 +819,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedVerticalStackedBarChart':
         return {
@@ -843,6 +876,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'lineChart':
         return {
@@ -890,6 +926,10 @@ function GraphEl(props: Props) {
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
         };
       case 'lineChartWithConfidenceInterval':
         return {
@@ -943,6 +983,13 @@ function GraphEl(props: Props) {
           intervalAreaColor: settings?.intervalAreaColor,
           intervalAreaOpacity: settings?.intervalAreaOpacity,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
+          colorLegendTitle: settings?.colorLegendTitle,
+          colorLegendColors: settings?.colorLegendColors,
+          colorLegendDomains: settings?.colorLegendDomains,
         };
       case 'dualAxisLineChart':
         return {
@@ -990,6 +1037,11 @@ function GraphEl(props: Props) {
           colorLegendTitle: settings?.colorLegendTitle,
           ariaLabel: settings?.ariaLabel,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
+          lineSuffixes: settings?.lineSuffixes,
+          linePrefixes: settings?.linePrefixes,
         };
       case 'multiLineChart':
         return {
@@ -1046,6 +1098,10 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
         };
       case 'differenceLineChart':
         return {
@@ -1099,6 +1155,10 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
         };
       case 'stackedAreaChart':
         return {
@@ -1148,6 +1208,10 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          suffix: settings?.suffix,
+          prefix: settings?.prefix,
         };
       case 'choroplethMap':
         return {
@@ -1468,6 +1532,13 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          noOfXTicks: settings?.noOfXTicks,
+          noOfYTicks: settings?.noOfYTicks,
+          labelColor: settings?.labelColor,
+          xSuffix: settings?.xSuffix,
+          ySuffix: settings?.ySuffix,
+          xPrefix: settings?.xPrefix,
+          yPrefix: settings?.yPrefix,
         };
       case 'horizontalDumbbellChart':
         return {
@@ -1523,6 +1594,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'verticalDumbbellChart':
         return {
@@ -1578,6 +1652,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'treeMap':
         return {
@@ -2125,6 +2202,11 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          noOfYTicks: settings?.noOfYTicks,
+          lineSuffix: settings?.lineSuffix,
+          barSuffix: settings?.barSuffix,
+          linePrefix: settings?.lineSuffix,
+          barPrefix: settings?.barPrefix,
         };
       case 'dataTable':
         return {
@@ -2555,6 +2637,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedVerticalDumbbellChart':
         return {
@@ -2612,6 +2697,9 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          barAxisTitle: settings?.barAxisTitle,
+          noOfTicks: settings?.noOfTicks,
+          valueColor: settings?.valueColor,
         };
       case 'animatedScatterPlot':
         return {
@@ -2675,6 +2763,13 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
           tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          noOfXTicks: settings?.noOfXTicks,
+          noOfYTicks: settings?.noOfYTicks,
+          labelColor: settings?.labelColor,
+          xSuffix: settings?.xSuffix,
+          ySuffix: settings?.ySuffix,
+          xPrefix: settings?.xPrefix,
+          yPrefix: settings?.yPrefix,
         };
       case 'sankeyChart':
         return {

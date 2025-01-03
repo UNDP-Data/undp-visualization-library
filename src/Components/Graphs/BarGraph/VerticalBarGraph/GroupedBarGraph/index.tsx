@@ -57,7 +57,7 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
-  yAxisTitle?: string;
+  barAxisTitle?: string;
   noOfTicks?: number;
   valueColor?: string;
 }
@@ -113,7 +113,7 @@ export function VerticalGroupedBarGraph(props: Props) {
       padding: '0.5rem',
     },
     detailsOnClick,
-    yAxisTitle,
+    barAxisTitle,
     noOfTicks = 5,
     valueColor,
   } = props;
@@ -269,7 +269,7 @@ export function VerticalGroupedBarGraph(props: Props) {
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}
-                  yAxisTitle={yAxisTitle}
+                  barAxisTitle={barAxisTitle}
                   noOfTicks={noOfTicks}
                   valueColor={valueColor}
                 />

@@ -853,6 +853,9 @@ export const simpleBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
 };
 
@@ -951,6 +954,9 @@ export const groupedBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1054,6 +1060,9 @@ export const stackedBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1161,6 +1170,9 @@ export const animatedSimpleBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
 };
 
@@ -1258,6 +1270,9 @@ export const animatedGroupedBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -1362,6 +1377,9 @@ export const animatedStackedBarChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -2096,6 +2114,9 @@ export const dumbbellChartSettingsSchema = {
       },
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
 };
@@ -2182,6 +2203,9 @@ export const animatedDumbbellChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    valueColor: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    noOfTicks: { type: 'number' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['colorDomain'],
@@ -2464,6 +2488,26 @@ export const dualAxisLineChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
+    lineSuffixes: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    linePrefixes: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
   },
 };
 
@@ -2631,6 +2675,10 @@ export const lineChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
   },
 };
 
@@ -2808,6 +2856,19 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
         boxShadow: { type: 'string' },
         border: { type: 'string' },
       },
+    },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
+    colorLegendTitle: { type: 'string' },
+    colorLegendColors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    colorLegendDomains: {
+      type: 'array',
+      items: { type: 'string' },
     },
   },
 };
@@ -2992,6 +3053,10 @@ export const differenceLineChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
   },
   required: ['labels'],
 };
@@ -3171,6 +3236,10 @@ export const multiLineChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
   },
   required: ['labels'],
 };
@@ -4180,6 +4249,11 @@ export const paretoChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    noOfYTicks: { type: 'number' },
+    lineSuffix: { type: 'string' },
+    barSuffix: { type: 'string' },
+    linePrefix: { type: 'string' },
+    barPrefix: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -4385,6 +4459,13 @@ export const scatterPlotSettingsSchema = {
         required: ['coordinates'],
       },
     },
+    noOfXTicks: { type: 'number' },
+    noOfYTicks: { type: 'number' },
+    labelColor: { type: 'string' },
+    xSuffix: { type: 'string' },
+    ySuffix: { type: 'string' },
+    xPrefix: { type: 'string' },
+    yPrefix: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -4590,6 +4671,13 @@ export const animatedScatterPlotSettingsSchema = {
         required: ['coordinates'],
       },
     },
+    noOfXTicks: { type: 'number' },
+    noOfYTicks: { type: 'number' },
+    labelColor: { type: 'string' },
+    xSuffix: { type: 'string' },
+    ySuffix: { type: 'string' },
+    xPrefix: { type: 'string' },
+    yPrefix: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -4847,6 +4935,10 @@ export const stackedAreaChartSettingsSchema = {
         border: { type: 'string' },
       },
     },
+    yAxisTitle: { type: 'string' },
+    noOfYTicks: { type: 'number' },
+    prefix: { type: 'string' },
+    suffix: { type: 'string' },
   },
   required: ['colorDomain'],
 };
@@ -6039,6 +6131,49 @@ export const SettingsSchema = {
     resetSelectionOnDoubleClick: { type: 'boolean' },
     legendMaxWidth: { type: 'string' },
     intervalAreaOpacity: { type: 'number' },
+    valueColor: { type: 'string' },
+    labelColor: { type: 'string' },
+    noOfYTicks: { type: 'number' },
+    noOfTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    colorLegendColors: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    colorLegendDomains: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    lineSuffixes: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    linePrefixes: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      minItems: 2,
+      maxItems: 2,
+    },
+    barSuffix: { type: 'string' },
+    barPrefix: { type: 'string' },
+    lineSuffix: { type: 'string' },
+    barAxisTitle: { type: 'string' },
+    linePrefix: { type: 'string' },
+    xSuffix: { type: 'string' },
+    xPrefix: { type: 'string' },
+    ySuffix: { type: 'string' },
+    yPrefix: { type: 'string' },
   },
   type: 'object',
 };
