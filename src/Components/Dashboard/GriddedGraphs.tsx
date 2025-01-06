@@ -12,6 +12,7 @@ import {
   FilterSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
+  GraphSettingsDataType,
   GraphType,
 } from '../../Types';
 import {
@@ -100,6 +101,9 @@ export function GriddedGraphs(props: Props) {
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
   >([]);
+  const [advancedGraphSettings, setAdvancedGraphSettings] = useState<
+    GraphSettingsDataType | object
+  >({});
 
   const filterConfig = useMemo(
     () => ({
@@ -349,6 +353,7 @@ export function GriddedGraphs(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
+                            setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
                           theme={theme => getReactSelectTheme(theme, mode)}
@@ -372,6 +377,7 @@ export function GriddedGraphs(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
+                            setAdvancedGraphSettings(el.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
                         />
@@ -452,6 +458,7 @@ export function GriddedGraphs(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
+                              setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
                             theme={theme => getReactSelectTheme(theme, mode)}
@@ -489,6 +496,7 @@ export function GriddedGraphs(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
+                              setAdvancedGraphSettings(el.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
                           />
@@ -765,6 +773,7 @@ export function GriddedGraphs(props: Props) {
                       debugMode={debugMode}
                       settings={{
                         ...graphSettings,
+                        ...advancedGraphSettings,
                         width: undefined,
                         height: undefined,
                         relativeHeight: relativeHeightForGraph || 0.67,

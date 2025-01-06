@@ -106,6 +106,9 @@ export function SingleGraphDashboard(props: Props) {
   const [graphConfig, setGraphConfig] = useState<
     GraphConfigurationDataType[] | undefined
   >(graphDataConfiguration);
+  const [advancedGraphSettings, setAdvancedGraphSettings] = useState<
+    GraphSettingsDataType | object
+  >({});
   const graphParentDiv = useRef<HTMLDivElement>(null);
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
@@ -414,6 +417,7 @@ export function SingleGraphDashboard(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
+                            setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
                           theme={theme => getReactSelectTheme(theme, mode)}
@@ -437,6 +441,7 @@ export function SingleGraphDashboard(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
+                            setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
                         />
@@ -517,6 +522,7 @@ export function SingleGraphDashboard(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
+                              setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
                             theme={theme => getReactSelectTheme(theme, mode)}
@@ -554,6 +560,7 @@ export function SingleGraphDashboard(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
+                              setAdvancedGraphSettings(el.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
                           />
@@ -771,6 +778,7 @@ export function SingleGraphDashboard(props: Props) {
                   graphSettings
                     ? {
                         ...graphSettings,
+                        ...advancedGraphSettings,
                         backgroundStyle: undefined,
                         graphTitle: undefined,
                         graphDescription: undefined,
@@ -781,6 +789,7 @@ export function SingleGraphDashboard(props: Props) {
                         mode,
                       }
                     : ({
+                        ...advancedGraphSettings,
                         graphTitle: undefined,
                         backgroundStyle: undefined,
                         graphDescription: undefined,

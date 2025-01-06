@@ -381,7 +381,7 @@ export const lineChartWithConfidenceIntervalDataSchema = {
       yMax: { type: 'number' },
       data: { type: 'object' },
     },
-    required: ['date', 'y', 'yMin', 'yMax'],
+    required: ['date'],
   },
 };
 

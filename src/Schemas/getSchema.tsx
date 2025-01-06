@@ -637,6 +637,7 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
             label: {
               type: 'string',
             },
+            graphSettings: SettingsSchema,
           },
           required: ['value', 'label'],
         },
@@ -672,6 +673,7 @@ export const getAdvancedDataSelectionSchema = (columnList?: string[]) => ({
             label: {
               type: 'string',
             },
+            graphSettings: SettingsSchema,
           },
           required: ['value', 'label'],
         },
@@ -689,6 +691,7 @@ export const getAdvancedDataSelectionSchema = (columnList?: string[]) => ({
             label: {
               type: 'string',
             },
+            graphSettings: SettingsSchema,
           },
           required: ['value', 'label'],
         },

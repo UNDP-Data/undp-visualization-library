@@ -1,15 +1,18 @@
 import { useState } from 'react';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
+interface Option {
+  value: string | string[];
+  label: string;
+  [key: string]: any;
+}
 interface Props {
   rtl?: boolean;
-  options: {
-    value: string | string[];
-    label: string;
-  }[];
+  options: Option[];
   language?: 'ar' | 'he' | 'en';
   defaultValue: string;
-  onChange: (_d: { value: string | string[]; label: string }) => void;
+  onChange: (_d: Option) => void;
   mode?: 'light' | 'dark';
 }
 

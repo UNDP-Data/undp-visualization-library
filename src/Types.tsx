@@ -177,9 +177,9 @@ export interface LineChartDataType {
 
 export interface LineChartWithConfidenceIntervalDataType {
   date: number | string;
-  y: number;
-  yMin: number;
-  yMax: number;
+  y?: number;
+  yMin?: number;
+  yMax?: number;
   data?: object;
 }
 
@@ -342,6 +342,7 @@ export interface DataSelectionDataType {
   allowedColumnIds: {
     value: string;
     label: string;
+    graphSettings: GraphSettingsDataType;
   }[];
   chartConfigId: string;
   ui?: 'select' | 'radio';
@@ -353,6 +354,7 @@ export interface AdvancedDataSelectionDataType {
   options: {
     label: string;
     value: string[];
+    graphSettings?: GraphSettingsDataType;
   }[];
   chartConfigId: string;
   ui?: 'select' | 'radio';
@@ -360,6 +362,7 @@ export interface AdvancedDataSelectionDataType {
   defaultValue?: {
     label: string;
     value: string[];
+    graphSettings?: GraphSettingsDataType;
   };
 }
 

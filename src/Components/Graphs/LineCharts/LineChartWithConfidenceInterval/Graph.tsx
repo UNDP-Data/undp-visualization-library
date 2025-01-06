@@ -123,14 +123,26 @@ export function Graph(props: Props) {
     right: rightMargin,
   };
   const MouseoverRectRef = useRef(null);
-  const dataFormatted = sortBy(
-    data.map(d => ({
-      date: parse(`${d.date}`, dateFormat, new Date()),
-      y: d.y,
-      yMin: d.yMin,
-      yMax: d.yMax,
-      data: d.data,
-    })),
+  const dataFormatted: {
+    date: Date;
+    y: number;
+    yMin: number;
+    yMax: number;
+    data?: object;
+  }[] = sortBy(
+    data
+      .filter(d => d.y !== undefined)
+      .map(d => ({
+        date: parse(`${d.date}`, dateFormat, new Date()),
+        y: d.y as number,
+        yMin: checkIfNullOrUndefined(d.yMin)
+          ? (d.y as number)
+          : (d.yMin as number),
+        yMax: checkIfNullOrUndefined(d.yMax)
+          ? (d.y as number)
+          : (d.yMax as number),
+        data: d.data,
+      })),
     'date',
   );
   const highlightAreaSettingsFormatted = [
