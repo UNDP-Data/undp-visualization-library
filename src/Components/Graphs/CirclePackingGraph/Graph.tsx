@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { memo, useCallback, useMemo, useEffect, useState } from 'react';
 
 import {
@@ -12,6 +13,7 @@ import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 
 // Assuming these are imported from correct paths
+import { extent } from 'd3-array';
 import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -89,6 +91,9 @@ export const Graph = memo((props: Props) => {
 
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  const [viewPortDimensions, setViewPortDimensions] = useState<
+    [number, number, number, number] | undefined
+  >(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const [finalData, setFinalData] = useState<
@@ -159,6 +164,36 @@ export const Graph = memo((props: Props) => {
         })
         .on('end', () => {
           setFinalData(dataTemp as TreeMapDataTypeForBubbleChart[]);
+          const xMinExtent =
+            extent(
+              dataTemp as TreeMapDataTypeForBubbleChart[],
+              d =>
+                d.x - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+            )[0] || 0;
+          const yMinExtent =
+            extent(
+              dataTemp as TreeMapDataTypeForBubbleChart[],
+              d =>
+                d.y - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+            )[0] || 0;
+          const xMaxExtent =
+            extent(
+              dataTemp as TreeMapDataTypeForBubbleChart[],
+              d =>
+                d.x + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+            )[1] || 0;
+          const yMaxExtent =
+            extent(
+              dataTemp as TreeMapDataTypeForBubbleChart[],
+              d =>
+                d.y + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+            )[1] || 0;
+          setViewPortDimensions([
+            xMinExtent,
+            yMinExtent,
+            xMinExtent < 0 ? xMaxExtent - xMinExtent : xMaxExtent,
+            yMinExtent < 0 ? yMaxExtent - yMinExtent : yMaxExtent,
+          ]);
         });
     };
 
@@ -264,159 +299,165 @@ export const Graph = memo((props: Props) => {
       </div>
     );
   }
-
-  return (
-    <>
-      <svg
-        width={`${width}px`}
-        height={`${height}px`}
-        viewBox={`0 0 ${width} ${height}`}
-      >
-        <g transform={`translate(${margin.left},${margin.top})`}>
-          {finalData.map((d, i) => {
-            const circleColor = getCircleColor(d);
-            const opacity = getOpacity(d);
-            const bubbleRadius = radiusScale
-              ? radiusScale(d.size || 0)
-              : radius;
-            const showLabel = bubbleRadius > 20 && (showLabels || showValues);
-
-            return (
-              <g
-                className='undp-viz-g-with-hover'
-                key={i}
-                opacity={opacity}
-                transform={`translate(${d.x},${d.y})`}
-                onMouseEnter={event => handleMouseEnter(event, d)}
-                onMouseMove={event => handleMouseMove(event, d)}
-                onClick={() => handleClick(d)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <circle
-                  cx={0}
-                  cy={0}
-                  r={bubbleRadius}
-                  style={{ fill: circleColor }}
-                />
-                {showLabel && (
-                  <foreignObject
-                    y={0 - bubbleRadius}
-                    x={0 - bubbleRadius}
-                    width={2 * bubbleRadius}
-                    height={2 * bubbleRadius}
-                  >
-                    <div
-                      style={{
-                        color: getTextColorBasedOnBgColor(circleColor),
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        textAlign: 'center',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        padding: '0 0.75rem',
-                      }}
-                    >
-                      {showLabels && (
-                        <p
-                          className={`${
-                            rtl
-                              ? `undp-viz-typography-${language || 'ar'} `
-                              : ''
-                          }undp-viz-typography`}
-                          style={{
-                            fontSize: `${Math.min(
-                              Math.max(Math.round(bubbleRadius / 4), 12),
-                              Math.max(
-                                Math.round(
-                                  (bubbleRadius * 12) / `${d.label}`.length,
-                                ),
-                                12,
-                              ),
-                              14,
-                            )}px`,
-                            marginBottom: 0,
-                            textAlign: 'center',
-                            lineHeight: '1.25',
-                            WebkitLineClamp:
-                              bubbleRadius * 2 < 60
-                                ? 1
-                                : bubbleRadius * 2 < 75
-                                ? 2
-                                : bubbleRadius * 2 < 100
-                                ? 3
-                                : undefined,
-                            display: '-webkit-box',
-                            overflow: 'hidden',
-                            WebkitBoxOrient: 'vertical',
-                            color: getTextColorBasedOnBgColor(circleColor),
-                            hyphens: 'auto',
-                          }}
-                        >
-                          {d.label}
-                        </p>
-                      )}
-                      {showValues && (
-                        <p
-                          className='undp-viz-typography'
-                          style={{
-                            fontSize: `${Math.min(
-                              Math.max(Math.round(bubbleRadius / 4), 14),
-                              14,
-                            )}px`,
-                            width: '100%',
-                            textAlign: 'center',
-                            fontWeight: 'bold',
-                            marginBottom: 0,
-                            color: getTextColorBasedOnBgColor(circleColor),
-                          }}
-                        >
-                          {numberFormattingFunction(d.size, prefix, suffix)}
-                        </p>
-                      )}
-                    </div>
-                  </foreignObject>
-                )}
-              </g>
-            );
-          })}
-        </g>
-      </svg>
-      {mouseOverData && tooltip && eventX && eventY && (
-        <Tooltip
-          rtl={rtl}
-          language={language}
-          data={mouseOverData}
-          body={tooltip}
-          xPos={eventX}
-          yPos={eventY}
-          mode={mode}
-          backgroundStyle={tooltipBackgroundStyle}
-        />
-      )}
-      {detailsOnClick ? (
-        <Modal
-          isOpen={mouseClickData !== undefined}
-          onClose={() => {
-            setMouseClickData(undefined);
-          }}
+  if (viewPortDimensions) {
+    return (
+      <>
+        <svg
+          width={`${width}px`}
+          height={`${height}px`}
+          viewBox={`${viewPortDimensions[0] > 0 ? 0 : viewPortDimensions[0]} ${
+            viewPortDimensions[1] > 0 ? 0 : viewPortDimensions[1]
+          } ${width < viewPortDimensions[2] ? viewPortDimensions[2] : width} ${
+            height < viewPortDimensions[3] ? viewPortDimensions[3] : height
+          }`}
         >
-          <div
-            style={{ margin: 0 }}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+          <g transform={`translate(${margin.left},${margin.top})`}>
+            {finalData.map((d, i) => {
+              const circleColor = getCircleColor(d);
+              const opacity = getOpacity(d);
+              const bubbleRadius = radiusScale
+                ? radiusScale(d.size || 0)
+                : radius;
+              const showLabel = bubbleRadius > 20 && (showLabels || showValues);
+
+              return (
+                <g
+                  className='undp-viz-g-with-hover'
+                  key={i}
+                  opacity={opacity}
+                  transform={`translate(${d.x},${d.y})`}
+                  onMouseEnter={event => handleMouseEnter(event, d)}
+                  onMouseMove={event => handleMouseMove(event, d)}
+                  onClick={() => handleClick(d)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <circle
+                    cx={0}
+                    cy={0}
+                    r={bubbleRadius}
+                    style={{ fill: circleColor }}
+                  />
+                  {showLabel && (
+                    <foreignObject
+                      y={0 - bubbleRadius}
+                      x={0 - bubbleRadius}
+                      width={2 * bubbleRadius}
+                      height={2 * bubbleRadius}
+                    >
+                      <div
+                        style={{
+                          color: getTextColorBasedOnBgColor(circleColor),
+                          fontFamily: rtl
+                            ? language === 'he'
+                              ? 'Noto Sans Hebrew, sans-serif'
+                              : 'Noto Sans Arabic, sans-serif'
+                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          textAlign: 'center',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          height: '100%',
+                          padding: '0 0.75rem',
+                        }}
+                      >
+                        {showLabels && (
+                          <p
+                            className={`${
+                              rtl
+                                ? `undp-viz-typography-${language || 'ar'} `
+                                : ''
+                            }undp-viz-typography`}
+                            style={{
+                              fontSize: `${Math.min(
+                                Math.max(Math.round(bubbleRadius / 4), 12),
+                                Math.max(
+                                  Math.round(
+                                    (bubbleRadius * 12) / `${d.label}`.length,
+                                  ),
+                                  12,
+                                ),
+                                14,
+                              )}px`,
+                              marginBottom: 0,
+                              textAlign: 'center',
+                              lineHeight: '1.25',
+                              WebkitLineClamp:
+                                bubbleRadius * 2 < 60
+                                  ? 1
+                                  : bubbleRadius * 2 < 75
+                                  ? 2
+                                  : bubbleRadius * 2 < 100
+                                  ? 3
+                                  : undefined,
+                              display: '-webkit-box',
+                              overflow: 'hidden',
+                              WebkitBoxOrient: 'vertical',
+                              color: getTextColorBasedOnBgColor(circleColor),
+                              hyphens: 'auto',
+                            }}
+                          >
+                            {d.label}
+                          </p>
+                        )}
+                        {showValues && (
+                          <p
+                            className='undp-viz-typography'
+                            style={{
+                              fontSize: `${Math.min(
+                                Math.max(Math.round(bubbleRadius / 4), 14),
+                                14,
+                              )}px`,
+                              width: '100%',
+                              textAlign: 'center',
+                              fontWeight: 'bold',
+                              marginBottom: 0,
+                              color: getTextColorBasedOnBgColor(circleColor),
+                            }}
+                          >
+                            {numberFormattingFunction(d.size, prefix, suffix)}
+                          </p>
+                        )}
+                      </div>
+                    </foreignObject>
+                  )}
+                </g>
+              );
+            })}
+          </g>
+        </svg>
+        {mouseOverData && tooltip && eventX && eventY && (
+          <Tooltip
+            rtl={rtl}
+            language={language}
+            data={mouseOverData}
+            body={tooltip}
+            xPos={eventX}
+            yPos={eventY}
+            mode={mode}
+            backgroundStyle={tooltipBackgroundStyle}
           />
-        </Modal>
-      ) : null}
-    </>
-  );
+        )}
+        {detailsOnClick ? (
+          <Modal
+            isOpen={mouseClickData !== undefined}
+            onClose={() => {
+              setMouseClickData(undefined);
+            }}
+          >
+            <div
+              style={{ margin: 0 }}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: string2HTML(detailsOnClick, mouseClickData),
+              }}
+            />
+          </Modal>
+        ) : null}
+      </>
+    );
+  }
+  return null;
 });
 
 Graph.displayName = 'BubbleChart';

@@ -274,7 +274,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           TotalWidth(d.columns)
                         }rem)`,
                         backgroundColor: 'transparent',
-                        minWidth: '320px',
+                        minWidth: '280px',
                         height: 'inherit',
                         minHeight: 'inherit',
                         flexGrow: 1,

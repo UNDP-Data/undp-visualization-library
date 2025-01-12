@@ -363,7 +363,7 @@ export function MultiGraphDashboard(props: Props) {
                   filterPosition === 'side'
                     ? 'calc(100% - 280px - 1rem)'
                     : '100%',
-                minWidth: '320px',
+                minWidth: '280px',
                 flexGrow: 1,
                 display: 'flex',
                 gap: '1rem',

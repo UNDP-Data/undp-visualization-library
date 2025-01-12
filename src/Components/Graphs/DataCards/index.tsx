@@ -154,7 +154,6 @@ export function DataCards(props: Props) {
         : undefined,
     );
   }, [cardSortingOptions]);
-
   useEffect(() => {
     const newFilterSettings = cardFilters.map(el => ({
       filter: el.column,
@@ -167,7 +166,6 @@ export function DataCards(props: Props) {
         .map(v => ({ value: v, label: v })),
       width: el.width,
     }));
-
     setFilterSettings(newFilterSettings);
   }, [data, cardFilters]);
 

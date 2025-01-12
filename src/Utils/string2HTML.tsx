@@ -185,8 +185,7 @@ export function string2HTML(htmlString: string, data?: any) {
       },
     },
   };
-  const sanitizedString = xss(htmlString, options);
-  if (!data) return sanitizedString;
-  const replacedString = getDescendantProp(data, sanitizedString);
+  if (!data) return xss(htmlString, options);
+  const replacedString = xss(getDescendantProp(data, htmlString), options);
   return replacedString;
 }
