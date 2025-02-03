@@ -226,7 +226,7 @@ export function Graph(props: Props) {
                       x2={graphWidth + margin.right}
                       style={{
                         stroke:
-                          UNDPColorModule[mode || 'light'].grays['gray-500'],
+                          UNDPColorModule[mode || 'light'].grays['gray-550'],
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'

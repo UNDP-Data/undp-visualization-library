@@ -187,7 +187,7 @@ export function StatCardFromData(props: Props) {
                     textShadow: 'none',
                     fontWeight: 'normal',
                     WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
-                    color: UNDPColorModule[mode].grays['gray-500'],
+                    color: UNDPColorModule[mode].grays['gray-550'],
                     marginTop: '0',
                     marginBottom: '1rem',
                     fontFamily: rtl

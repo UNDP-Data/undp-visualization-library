@@ -213,7 +213,10 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={0 - leftMargin}
                     x2={graphWidth + margin.right}
-                    stroke='#A9B1B7'
+                    style={{
+                      stroke:
+                        UNDPColorModule[mode || 'light'].grays['gray-500'],
+                    }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
                     opacity={d === 0 ? 0 : 1}
@@ -221,12 +224,12 @@ export function Graph(props: Props) {
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
-                    fill='#A9B1B7'
                     textAnchor='start'
                     fontSize={12}
                     dy={-3}
                     opacity={d === 0 ? 0 : 1}
                     style={{
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'

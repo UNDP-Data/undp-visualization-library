@@ -185,7 +185,7 @@ export function Graph(props: Props) {
                           ? 'Noto Sans Hebrew, sans-serif'
                           : 'Noto Sans Arabic, sans-serif'
                         : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                     }}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}

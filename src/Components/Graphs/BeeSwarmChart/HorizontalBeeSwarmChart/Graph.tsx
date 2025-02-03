@@ -203,7 +203,7 @@ export function Graph(props: Props) {
                   x={x(xMinValue < 0 ? 0 : xMinValue)}
                   y={-12.5}
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                    fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                     fontFamily: rtl
                       ? language === 'he'
                         ? 'Noto Sans Hebrew, sans-serif'

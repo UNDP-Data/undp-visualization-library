@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "browser": "./dist/index.umd.js",
@@ -88,7 +88,7 @@
     "math-expression-evaluator": "^2.0.6",
     "papaparse": "^5.4.1",
     "pmtiles": "^3.0.6",
-    "rc-slider": "^11.1.5",
+    "rc-slider": "^11.1.8",
     "react-csv": "^2.2.2",
     "react-draggable": "^4.4.6",
     "react-select": "^5.8.0",

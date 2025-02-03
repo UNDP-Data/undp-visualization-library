@@ -2838,7 +2838,7 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           cardTemplate: settings?.cardTemplate,
           cardBackgroundColor: settings?.cardBackgroundColor,
-          cardFilters: settings?.cardFilters,
+          cardFilters: settings?.cardFilters || [],
           cardSortingOptions: settings?.cardSortingOptions,
           cardSearchColumns: settings?.cardSearchColumns,
           cardMinWidth: settings?.cardMinWidth,

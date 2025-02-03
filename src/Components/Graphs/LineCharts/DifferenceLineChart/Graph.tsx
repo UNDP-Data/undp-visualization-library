@@ -476,7 +476,7 @@ export function Graph(props: Props) {
               x1={-15}
               x2={graphWidth + 15}
               style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                stroke: UNDPColorModule[mode || 'light'].grays['gray-550'],
               }}
               strokeWidth={1}
             />

@@ -344,7 +344,7 @@ export function Graph(props: Props) {
                     x={-25}
                     y={y(d)}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                       fontFamily: rtl
                         ? language === 'he'
                           ? 'Noto Sans Hebrew, sans-serif'
