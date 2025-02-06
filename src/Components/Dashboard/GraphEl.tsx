@@ -2846,6 +2846,8 @@ function GraphEl(props: Props) {
           padding: settings?.padding,
           cardBackgroundStyle: settings?.cardBackgroundStyle,
           detailsOnClick: settings?.detailsOnClick,
+          allowDataDownloadOnDetail: settings?.allowDataDownloadOnDetail,
+          noOfItemsInAPage: settings?.noOfItemsInAPage,
         };
       default:
         return {};

@@ -243,6 +243,65 @@ export function ChevronLeftRight() {
   );
 }
 
+export function ChevronLeft(props: Props) {
+  const { mode } = props;
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke={UNDPColorModule[mode || 'light'].grays.white}
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='m15 18-6-6 6-6' />
+    </svg>
+  );
+}
+
+export function ChevronRight(props: Props) {
+  const { mode } = props;
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke={UNDPColorModule[mode || 'light'].grays.white}
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='m9 18 6-6-6-6' />
+    </svg>
+  );
+}
+
+export function MoreHorizontal(props: Props) {
+  const { mode } = props;
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <circle cx='12' cy='12' r='1' />
+      <circle cx='19' cy='12' r='1' />
+      <circle cx='5' cy='12' r='1' />
+    </svg>
+  );
+}
+
 export function Play(props: Props) {
   const { mode } = props;
   return (

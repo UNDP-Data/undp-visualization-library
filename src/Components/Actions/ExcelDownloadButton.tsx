@@ -23,31 +23,31 @@ interface Props {
 export function ExcelDownloadButton(props: Props) {
   const {
     buttonContent,
-    buttonType,
+    buttonType = 'quaternary',
     buttonArrow,
     csvData,
-    fileName,
+    fileName = 'data',
     headers,
     xlsxHeader,
     wscols,
     buttonSmall,
-    mode,
+    mode = 'light',
   } = props;
   return (
     <button
       type='button'
-      className={`undp-viz-download-button undp-viz-button button-${
-        buttonType || 'quaternary'
-      }${mode === 'dark' ? ' dark' : ''}${buttonArrow ? ' button-arrow' : ''}`}
+      className={`undp-viz-download-button undp-viz-button button-${buttonType}${
+        mode === 'dark' ? ' dark' : ''
+      }${buttonArrow ? ' button-arrow' : ''}`}
       style={{
         padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
       }}
       onClick={() =>
-        excelDownload(csvData, fileName || 'data', headers, xlsxHeader, wscols)
+        excelDownload(csvData, fileName, headers, xlsxHeader, wscols)
       }
       aria-label='Click to download the data as xlsx'
     >
-      {buttonContent || <FileDown mode={mode || 'light'} />}
+      {buttonContent || <FileDown mode={mode} />}
     </button>
   );
 }

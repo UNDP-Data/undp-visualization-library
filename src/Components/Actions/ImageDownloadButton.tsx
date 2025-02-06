@@ -14,19 +14,19 @@ interface Props {
 export function ImageDownloadButton(props: Props) {
   const {
     nodeID,
-    filename,
+    filename = 'image',
     buttonContent,
-    buttonType,
+    buttonType = 'quaternary',
     buttonArrow,
     buttonSmall,
-    mode,
+    mode = 'light',
   } = props;
   return (
     <button
       type='button'
-      className={`undp-viz-download-button undp-viz-button button-${
-        buttonType || 'quaternary'
-      }${mode === 'dark' ? ' dark' : ''}${buttonArrow ? ' button-arrow' : ''}`}
+      className={`undp-viz-download-button undp-viz-button button-${buttonType}${
+        mode === 'dark' ? ' dark' : ''
+      }${buttonArrow ? ' button-arrow' : ''}`}
       style={{
         padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
       }}
@@ -35,18 +35,18 @@ export function ImageDownloadButton(props: Props) {
           if (document.getElementById(nodeID)) {
             imageDownload(
               document.getElementById(nodeID) as HTMLElement,
-              filename || 'image',
+              filename,
             );
           } else {
             console.error('Cannot find the html element');
           }
         } else {
-          imageDownload(nodeID as HTMLElement, filename || 'image');
+          imageDownload(nodeID as HTMLElement, filename);
         }
       }}
       aria-label='Click to download the graph as image'
     >
-      {buttonContent || <ImageDown mode={mode || 'light'} />}
+      {buttonContent || <ImageDown mode={mode} />}
     </button>
   );
 }

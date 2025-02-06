@@ -19,6 +19,9 @@ import { getUniqValue } from '../../../Utils/getUniqValue';
 import { getReactSelectTheme } from '../../../Utils/getReactSelectTheme';
 import { Modal } from '../../Elements/Modal';
 import { transformDefaultValue } from '../../../Utils/transformDataForSelect';
+import { CsvDownloadButton } from '../../Actions/CsvDownloadButton';
+import { FileDown } from '../../Icons/Icons';
+import { Pagination } from '../../Elements/Pagination';
 
 export type FilterDataType = {
   column: string;
@@ -26,6 +29,23 @@ export type FilterDataType = {
   defaultValue?: string;
   excludeValues?: string[];
   width?: string;
+};
+
+const csvData = (data: any) => {
+  if (!data) return {};
+  const dataForCsv = Object.entries(data).map(([key, value]) => {
+    if (Array.isArray(value)) {
+      return {
+        ' ': key,
+        value: `"${value.join('; ')}"`,
+      };
+    }
+    return {
+      ' ': key,
+      value: `"${value}"`,
+    };
+  });
+  return dataForCsv;
 };
 
 interface Props {
@@ -61,6 +81,8 @@ interface Props {
   padding?: string;
   cardBackgroundStyle?: BackgroundStyleDataType;
   detailsOnClick?: string;
+  allowDataDownloadOnDetail?: string | boolean;
+  noOfItemsInAPage?: number;
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -98,9 +120,13 @@ export function DataCards(props: Props) {
     padding,
     cardBackgroundStyle = {},
     detailsOnClick,
+    allowDataDownloadOnDetail = false,
+    noOfItemsInAPage,
   } = props;
 
   const [cardData, setCardData] = useState(data);
+
+  const [page, setPage] = useState(1);
   const [selectedData, setSelectedData] = useState<any>(undefined);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -192,6 +218,10 @@ export function DataCards(props: Props) {
       setCardData(filteredData);
     }
   }, [filterSettings, data, sortedBy]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [cardData, cardSearchColumns, searchQuery]);
 
   return (
     <div
@@ -412,8 +442,14 @@ export function DataCards(props: Props) {
               gridTemplateColumns: `repeat(auto-fit, minmax(${cardMinWidth}px, 1fr))`,
             }}
           >
-            {filterByKeys(cardData, cardSearchColumns, searchQuery).map(
-              (d: any, i: number) => (
+            {filterByKeys(cardData, cardSearchColumns, searchQuery)
+              .filter((_d: any, i: number) =>
+                noOfItemsInAPage
+                  ? i < page * noOfItemsInAPage &&
+                    i >= (page - 1) * noOfItemsInAPage
+                  : true,
+              )
+              .map((d: any, i: number) => (
                 <div
                   key={i}
                   style={{
@@ -433,9 +469,19 @@ export function DataCards(props: Props) {
                     __html: string2HTML(cardTemplate, d),
                   }}
                 />
-              ),
-            )}
+              ))}
           </div>
+          {noOfItemsInAPage ? (
+            <Pagination
+              total={
+                filterByKeys(cardData, cardSearchColumns, searchQuery).length
+              }
+              pageNo={page}
+              pageSize={noOfItemsInAPage}
+              onChange={setPage}
+            />
+          ) : null}
+
           {sources || footNote ? (
             <GraphFooter
               rtl={rtl}
@@ -455,12 +501,46 @@ export function DataCards(props: Props) {
         }}
       >
         {detailsOnClick ? (
-          <div
-            style={{ margin: 0 }}
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, selectedData),
-            }}
-          />
+          <>
+            <div
+              style={{ margin: 0 }}
+              dangerouslySetInnerHTML={{
+                __html: string2HTML(detailsOnClick, selectedData),
+              }}
+            />
+            {allowDataDownloadOnDetail ? (
+              <div style={{ display: 'flex' }}>
+                <CsvDownloadButton
+                  csvData={csvData(selectedData)}
+                  headers={[
+                    {
+                      label: ' ',
+                      key: ' ',
+                    },
+                    {
+                      label: 'value',
+                      key: 'value',
+                    },
+                  ]}
+                  mode={mode}
+                  buttonContent={
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                      }}
+                    >
+                      {typeof allowDataDownloadOnDetail === 'string'
+                        ? allowDataDownloadOnDetail
+                        : null}
+                      <FileDown mode={mode} />
+                    </div>
+                  }
+                />
+              </div>
+            ) : null}
+          </>
         ) : null}
       </Modal>
     </div>

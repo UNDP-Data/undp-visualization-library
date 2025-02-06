@@ -22,33 +22,31 @@ interface Props {
 export function CsvDownloadButton(props: Props) {
   const {
     buttonContent,
-    buttonType,
-    buttonArrow,
+    buttonType = 'quaternary',
+    buttonArrow = false,
     csvData,
-    fileName,
+    fileName = 'data',
     headers,
-    separator,
-    buttonSmall,
-    mode,
+    separator = ',',
+    buttonSmall = false,
+    mode = 'light',
   } = props;
   return (
     <CSVLink
       headers={headers}
       enclosingCharacter=''
-      separator={separator || ','}
+      separator={separator}
       data={csvData}
-      filename={`${fileName || 'data'}.csv`}
+      filename={`${fileName}.csv`}
       asyncOnClick
       target='_blank'
       style={{ backgroundImage: 'none', textDecoration: 'none' }}
       aria-label='Click to download the data as csv'
     >
       <div
-        className={`undp-viz-download-button undp-viz-button button-${
-          buttonType || 'quaternary'
-        }${mode === 'dark' ? ' dark' : ''}${
-          buttonArrow ? ' button-arrow' : ''
-        }`}
+        className={`undp-viz-download-button undp-viz-button button-${buttonType}${
+          mode === 'dark' ? ' dark' : ''
+        }${buttonArrow ? ' button-arrow' : ''}`}
         style={{
           textDecoration: 'none',
           padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',

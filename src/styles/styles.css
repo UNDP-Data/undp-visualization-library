@@ -863,7 +863,7 @@ input.undp-viz-text-box:focus-visible{
 .undp-viz-modal-content {
   background: #fff;
   max-width: 100rem;
-  padding: 4rem 0.75rem 0.75rem;
+  padding: 4rem 0.75rem 0.75rem 2rem;
   position: relative;
   width: 90%;
   max-height: 90vh;
@@ -1092,4 +1092,52 @@ input.undp-viz-text-box:focus-visible{
   display: flex;
   gap: 1rem,
   
+}
+
+.undp-pagination-link {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.undp-pagination-link:hover{
+  background-color: #EDEFF0;
+}
+
+.undp-pagination-link.selected {
+  background-color: #006EB5;
+  color: #FFF;
+}
+
+.undp-pagination-link:hover{
+  background-color: #1F5A95;
+  color: #FFF;
+}
+
+.undp-pagination-link.dark-mode {
+  color: #FFF;
+}
+
+.undp-pagination-link.dark-mode:hover{
+  background-color: #57606D;
+}
+
+.undp-pagination-link.selected.dark-mode {
+  color: #232E3D;
+  background-color: #EAEBEC;
+}
+
+.undp-pagination-link.selected.dark-mode:hover{
+  background-color: #FFF;
+}
+.undp-pagination-li{
+  margin-right: 0.5rem;
+}
+
+.undp-pagination-li:last-of-type{
+  margin-right: 0;
 }

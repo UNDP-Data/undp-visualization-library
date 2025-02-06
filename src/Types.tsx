@@ -764,4 +764,6 @@ export interface GraphSettingsDataType {
   yPrefix?: string;
   lineSuffixes?: [string, string];
   linePrefixes?: [string, string];
+  allowDataDownloadOnDetail?: string | boolean;
+  noOfItemsInAPage?: number;
 }

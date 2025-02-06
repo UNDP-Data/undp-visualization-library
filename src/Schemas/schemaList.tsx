@@ -1936,6 +1936,10 @@ export const dataCardListSettingsSchema = {
       },
     },
     detailsOnClick: { type: 'string' },
+    allowDataDownloadOnDetail: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    noOfItemsInAPage: { type: 'number', minimum: 0 },
   },
   required: ['cardTemplate'],
 };
@@ -6174,6 +6178,10 @@ export const SettingsSchema = {
     xPrefix: { type: 'string' },
     ySuffix: { type: 'string' },
     yPrefix: { type: 'string' },
+    allowDataDownloadOnDetail: {
+      oneOf: [{ type: 'string' }, { type: 'boolean' }],
+    },
+    noOfItemsInAPage: { type: 'number', minimum: 0 },
   },
   type: 'object',
 };
