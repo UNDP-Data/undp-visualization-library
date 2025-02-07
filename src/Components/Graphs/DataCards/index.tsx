@@ -277,7 +277,7 @@ export function DataCards(props: Props) {
               mode={mode}
             />
           ) : null}
-          {cardSortingOptions || filterSettings ? (
+          {cardSortingOptions || filterSettings.length > 0 ? (
             <div
               style={{
                 display: 'flex',

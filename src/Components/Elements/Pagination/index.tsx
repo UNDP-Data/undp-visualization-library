@@ -8,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from './pagination';
+import { UNDPColorModule } from '../../ColorPalette';
 
 interface PaginationProps {
   defaultPage?: number;
@@ -82,12 +83,17 @@ function Pagination(props: PaginationProps) {
             }}
             mode={mode}
             style={{
-              opacity: currentPage <= 1 ? 0.25 : 1,
+              opacity: currentPage <= 1 ? 0.25 : 0.6,
               cursor: currentPage <= 1 ? 'not-allowed' : 'pointer',
               pointerEvents: currentPage <= 1 ? 'none' : 'auto',
-              padding: '0.5rem',
+              padding: '0',
               borderRadius: '999px',
-              backgroundColor: mode === 'light' ? '#232E3D' : '#FFF',
+              backgroundColor: UNDPColorModule[mode].grays['gray-400'],
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           />
         </PaginationItem>
@@ -124,12 +130,17 @@ function Pagination(props: PaginationProps) {
             }}
             mode={mode}
             style={{
-              opacity: currentPage >= totalPages ? 0.25 : 1,
+              opacity: currentPage >= totalPages ? 0.25 : 0.6,
               cursor: currentPage >= totalPages ? 'not-allowed' : 'pointer',
               pointerEvents: currentPage >= totalPages ? 'none' : 'auto',
-              padding: '0.5rem',
               borderRadius: '999px',
-              backgroundColor: mode === 'light' ? '#232E3D' : '#FFF',
+              backgroundColor: UNDPColorModule[mode].grays['gray-400'],
+              width: '48px',
+              height: '48px',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           />
         </PaginationItem>

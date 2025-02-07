@@ -818,6 +818,7 @@ input.undp-viz-checkbox[type=checkbox]:checked {
   display: grid;
   gap: 1rem;  
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  overflow-x: hidden !important;
 }
 
 .undp-viz-data-cards-container.rtl {
@@ -1140,4 +1141,8 @@ input.undp-viz-text-box:focus-visible{
 
 .undp-pagination-li:last-of-type{
   margin-right: 0;
+}
+
+.undp-pagination-arrow:hover {
+  opacity: 1 !important;
 }

@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from '../../Icons/Icons';
-import { UNDPColorModule } from '../../ColorPalette';
 
 function PaginationUnit({ ...props }: React.ComponentProps<'nav'>) {
   return (
@@ -56,6 +55,7 @@ function PaginationLink({
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <button
+      className='undp-pagination-arrow'
       {...props}
       type='button'
       style={{
@@ -79,19 +79,7 @@ interface PaginationIconProps
 
 function PaginationPrevious({ mode = 'light', ...props }: PaginationIconProps) {
   return (
-    <PaginationLink
-      {...props}
-      aria-label='Go to previous page'
-      style={{
-        width: '48px',
-        height: '48px',
-        padding: 0,
-        backgroundColor: UNDPColorModule[mode].grays.black,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <PaginationLink {...props} aria-label='Go to previous page'>
       <ChevronLeft mode={mode} />
     </PaginationLink>
   );
@@ -100,19 +88,7 @@ PaginationPrevious.displayName = 'PaginationPrevious';
 
 function PaginationNext({ mode = 'light', ...props }: PaginationIconProps) {
   return (
-    <PaginationLink
-      {...props}
-      aria-label='Go to next page'
-      style={{
-        width: '48px',
-        height: '48px',
-        padding: 0,
-        backgroundColor: UNDPColorModule[mode].grays.black,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <PaginationLink {...props} aria-label='Go to next page'>
       <ChevronRight mode={mode} />
     </PaginationLink>
   );

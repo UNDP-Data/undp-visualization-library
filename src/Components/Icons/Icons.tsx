@@ -252,7 +252,7 @@ export function ChevronLeft(props: Props) {
       height='24'
       viewBox='0 0 24 24'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.white}
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -271,7 +271,7 @@ export function ChevronRight(props: Props) {
       height='24'
       viewBox='0 0 24 24'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.white}
+      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
