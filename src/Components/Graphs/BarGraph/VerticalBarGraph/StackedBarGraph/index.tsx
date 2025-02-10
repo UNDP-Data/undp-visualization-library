@@ -236,7 +236,9 @@ export function VerticalStackedBarGraph(props: Props) {
                     sortParameter !== undefined
                       ? sortParameter === 'total'
                         ? sortBy(data, d =>
-                            sum(d.size.filter(el => el !== undefined)),
+                            sum(
+                              d.size.filter(el => !checkIfNullOrUndefined(el)),
+                            ),
                           ).filter((_d, i) =>
                             maxNumberOfBars ? i < maxNumberOfBars : true,
                           )

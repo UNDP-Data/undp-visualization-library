@@ -1,5 +1,6 @@
 import { GraphConfigurationDataType, GraphType } from '../../Types';
 import { checkDataConfigValidity } from '../checkDataValidity';
+import { checkIfNullOrUndefined } from '../checkIfNullOrUndefined';
 import { GraphList } from '../getGraphList';
 import ChartConfiguration from './graphConfig.json';
 
@@ -50,17 +51,16 @@ export function transformDataForGraph(
                 chartConfig[
                   chartConfig.findIndex(k => k.id === el.chartConfigId)
                 ].id
-              ].push(d[l] === null ? undefined : d[l]);
+              ].push(checkIfNullOrUndefined(d[l]) ? null : d[l]);
             });
           } else {
             obj[
               chartConfig[
                 chartConfig.findIndex(k => k.id === el.chartConfigId)
               ].id
-            ] =
-              d[el.columnId as string] === null
-                ? undefined
-                : d[el.columnId as string];
+            ] = checkIfNullOrUndefined(d[el.columnId as string])
+              ? null
+              : d[el.columnId as string];
           }
           obj[`${el.chartConfigId}Columns`] = el.columnId;
         });

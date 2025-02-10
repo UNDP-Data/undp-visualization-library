@@ -109,30 +109,38 @@ export function Graph(props: Props) {
   const graphHeight = height - margin.top - margin.bottom;
 
   const dataOrdered =
-    data.filter(d => d.radius !== undefined).length === 0
+    data.filter(d => !checkIfNullOrUndefined(d.radius)).length === 0
       ? data
       : orderBy(
-          data.filter(d => d.radius !== undefined),
+          data.filter(d => !checkIfNullOrUndefined(d.radius)),
           'radius',
           'desc',
         );
   const xMaxValue = !checkIfNullOrUndefined(maxPositionValue)
     ? (maxPositionValue as number)
     : Math.max(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       ) < 0 && !startFromZero
     ? 0
     : Math.max(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       );
   const xMinValue = !checkIfNullOrUndefined(minPositionValue)
     ? (minPositionValue as number)
     : Math.min(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       ) >= 0 && !startFromZero
     ? 0
     : Math.min(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       );
 
   const radiusScale =

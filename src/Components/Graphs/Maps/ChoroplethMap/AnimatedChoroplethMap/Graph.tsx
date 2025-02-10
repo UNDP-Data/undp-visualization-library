@@ -13,6 +13,7 @@ import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { Modal } from '../../../../Elements/Modal';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   domain: number[] | string[];
@@ -218,8 +219,9 @@ export function Graph(props: Props) {
             const index = mapData.features.findIndex(
               (el: any) => d.countryCode === el.properties[mapProperty],
             );
-            const color =
-              d.x !== undefined ? colorScale(d.x as any) : mapNoDataColor;
+            const color = !checkIfNullOrUndefined(d.x)
+              ? colorScale(d.x as any)
+              : mapNoDataColor;
             return (
               <g
                 key={i}

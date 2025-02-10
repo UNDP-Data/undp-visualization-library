@@ -17,6 +17,7 @@ import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
 import 'rc-slider/assets/index.css';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   graphTitle?: string;
@@ -295,9 +296,7 @@ export function AnimatedDotDensityMap(props: Props) {
                     ? []
                     : colorDomain ||
                       (uniqBy(
-                        data.filter(
-                          el => el.color !== undefined || el.color !== null,
-                        ),
+                        data.filter(el => !checkIfNullOrUndefined(el.color)),
                         'color',
                       ).map(d => `${d.color}`) as string[])
                 }

@@ -10,6 +10,7 @@ import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
 import { Modal } from '../../Elements/Modal';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: ParetoChartDataType[];
@@ -127,7 +128,7 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape = line()
-    .defined((d: any) => d.line !== undefined && d.line !== null)
+    .defined((d: any) => !checkIfNullOrUndefined(d.line))
     .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
     .y((d: any) => y2(d.line))
     .curve(curveMonotoneX);
@@ -357,7 +358,7 @@ export function Graph(props: Props) {
           />
           {dataWithId.map((d, i) => (
             <g key={i}>
-              {d.line !== undefined ? (
+              {!checkIfNullOrUndefined(d.line) ? (
                 <g
                   onMouseEnter={(event: any) => {
                     setMouseOverData(d);
@@ -397,7 +398,7 @@ export function Graph(props: Props) {
                 >
                   <circle
                     cx={(x(d.id) as number) + x.bandwidth() / 2}
-                    cy={y2(d.line)}
+                    cy={y2(d.line as number)}
                     r={
                       graphWidth / dataWithId.length < 5
                         ? 0

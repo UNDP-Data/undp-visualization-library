@@ -131,7 +131,7 @@ export function Graph(props: Props) {
     data?: object;
   }[] = sortBy(
     data
-      .filter(d => d.y !== undefined)
+      .filter(d => !checkIfNullOrUndefined(d.y))
       .map(d => ({
         date: parse(`${d.date}`, dateFormat, new Date()),
         y: d.y as number,
@@ -537,7 +537,7 @@ export function Graph(props: Props) {
           <g ref={labelScope}>
             {dataFormatted.map((d, i) => (
               <g key={i}>
-                {d.y !== undefined ? (
+                {!checkIfNullOrUndefined(d.y) ? (
                   <g>
                     {showDots ? (
                       <circle
@@ -604,11 +604,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y, prefix, suffix)}
                       </text>
                     ) : null}
                     {showIntervalValues ? (
@@ -629,11 +625,7 @@ export function Graph(props: Props) {
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
-                          {numberFormattingFunction(
-                            d.yMin,
-                            prefix || '',
-                            suffix || '',
-                          )}
+                          {numberFormattingFunction(d.yMin, prefix, suffix)}
                         </text>
                         <text
                           x={x(d.date)}
@@ -651,11 +643,7 @@ export function Graph(props: Props) {
                               : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
-                          {numberFormattingFunction(
-                            d.yMax,
-                            prefix || '',
-                            suffix || '',
-                          )}
+                          {numberFormattingFunction(d.yMax, prefix, suffix)}
                         </text>
                       </g>
                     ) : null}

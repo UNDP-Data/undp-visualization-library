@@ -209,7 +209,7 @@ export function Graph(props: Props) {
   const yTicks = y.ticks(noOfYTicks);
   const voronoiDiagram = Delaunay.from(
     groupedData[indx].values.filter(
-      d => d.x !== undefined && d.y !== undefined,
+      d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
     ),
     d => x(d.x as number),
     d => y(d.y as number),

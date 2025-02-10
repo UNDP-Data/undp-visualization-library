@@ -96,20 +96,28 @@ export function Graph(props: Props) {
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       ) < 0
     ? 0
     : Math.max(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       );
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       ) >= 0
     ? 0
     : Math.min(
-        ...data.filter(d => d.position !== undefined).map(d => d.position),
+        ...data
+          .filter(d => !checkIfNullOrUndefined(d.position))
+          .map(d => d.position),
       );
   const x = scaleLinear()
     .domain([xMinValue, xMaxValue])

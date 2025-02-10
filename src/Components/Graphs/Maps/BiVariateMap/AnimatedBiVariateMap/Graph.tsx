@@ -14,6 +14,7 @@ import { X } from '../../../../Icons/Icons';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { Modal } from '../../../../Elements/Modal';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: BivariateMapWithDateDataType[];
@@ -222,8 +223,12 @@ export function Graph(props: Props) {
             const index = mapData.features.findIndex(
               (el: any) => d.countryCode === el.properties[mapProperty],
             );
-            const xColorCoord = d.x !== undefined ? xScale(d.x) : undefined;
-            const yColorCoord = d.y !== undefined ? yScale(d.y) : undefined;
+            const xColorCoord = !checkIfNullOrUndefined(d.x)
+              ? xScale(d.x as number)
+              : undefined;
+            const yColorCoord = !checkIfNullOrUndefined(d.y)
+              ? yScale(d.y as number)
+              : undefined;
             const color =
               xColorCoord !== undefined && yColorCoord !== undefined
                 ? colors[yColorCoord][xColorCoord]

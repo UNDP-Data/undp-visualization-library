@@ -454,12 +454,12 @@ export function Graph(props: Props) {
           <g ref={labelScope}>
             {dataFormatted.map((d, i) => (
               <g key={i}>
-                {d.y !== undefined ? (
+                {!checkIfNullOrUndefined(d.y) ? (
                   <g>
                     {showDots ? (
                       <circle
                         cx={x(d.date)}
-                        cy={y(d.y)}
+                        cy={y(d.y as number)}
                         r={
                           graphWidth / dataFormatted.length < 5
                             ? 0
@@ -491,11 +491,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y, prefix, suffix)}
                       </text>
                     ) : null}
                   </g>

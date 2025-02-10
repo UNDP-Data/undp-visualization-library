@@ -103,17 +103,29 @@ export function Graph(props: Props) {
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data.map(d => max(d.size.filter(l => l !== undefined)) || 0),
+        ...data.map(
+          d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+        ),
       ) < 0
     ? 0
-    : Math.max(...data.map(d => max(d.size.filter(l => l !== undefined)) || 0));
+    : Math.max(
+        ...data.map(
+          d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+        ),
+      );
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-        ...data.map(d => min(d.size.filter(l => l !== undefined)) || 0),
+        ...data.map(
+          d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+        ),
       ) >= 0
     ? 0
-    : Math.min(...data.map(d => min(d.size.filter(l => l !== undefined)) || 0));
+    : Math.min(
+        ...data.map(
+          d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+        ),
+      );
 
   const dataWithId = data.map((d, i) => ({
     ...d,

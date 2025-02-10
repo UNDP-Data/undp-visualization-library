@@ -12,6 +12,7 @@ import {
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   graphTitle?: string;
@@ -220,9 +221,7 @@ export function DotDensityMap(props: Props) {
                     ? []
                     : colorDomain ||
                       (uniqBy(
-                        data.filter(
-                          el => el.color !== undefined || el.color !== null,
-                        ),
+                        data.filter(el => !checkIfNullOrUndefined(el.color)),
                         'color',
                       ).map(d => `${d.color}`) as string[])
                 }

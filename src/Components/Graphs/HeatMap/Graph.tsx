@@ -237,10 +237,9 @@ export function Graph(props: Props) {
           {data
             .filter(d => !checkIfNullOrUndefined(d.value))
             .map((d, i) => {
-              const color =
-                d.value !== undefined
-                  ? colorScale(d.value as any)
-                  : noDataColor;
+              const color = !checkIfNullOrUndefined(d.value)
+                ? colorScale(d.value as any)
+                : noDataColor;
               return (
                 <g
                   key={i}

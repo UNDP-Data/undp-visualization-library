@@ -98,26 +98,26 @@ export function Graph(props: Props) {
     ? (maxValue as number)
     : Math.max(
         ...data
-          .filter(d => d.leftBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.leftBar))
           .map(d => d.leftBar as number),
       ) < 0
     ? 0
     : Math.max(
         ...data
-          .filter(d => d.leftBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.leftBar))
           .map(d => d.leftBar as number),
       );
   const xMinValueLeftBar = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
         ...data
-          .filter(d => d.leftBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.leftBar))
           .map(d => d.leftBar as number),
       ) >= 0
     ? 0
     : Math.min(
         ...data
-          .filter(d => d.leftBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.leftBar))
           .map(d => d.leftBar as number),
       );
 
@@ -125,26 +125,26 @@ export function Graph(props: Props) {
     ? (maxValue as number)
     : Math.max(
         ...data
-          .filter(d => d.rightBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.rightBar))
           .map(d => d.rightBar as number),
       ) < 0
     ? 0
     : Math.max(
         ...data
-          .filter(d => d.rightBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.rightBar))
           .map(d => d.rightBar as number),
       );
   const xMinValueRightBar = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
         ...data
-          .filter(d => d.rightBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.rightBar))
           .map(d => d.rightBar as number),
       ) >= 0
     ? 0
     : Math.min(
         ...data
-          .filter(d => d.rightBar !== undefined)
+          .filter(d => !checkIfNullOrUndefined(d.rightBar))
           .map(d => d.rightBar as number),
       );
   const minParam =

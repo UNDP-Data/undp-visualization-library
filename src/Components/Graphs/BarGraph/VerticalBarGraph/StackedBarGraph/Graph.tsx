@@ -102,7 +102,11 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(...data.map(d => sum(d.size.filter(l => l !== undefined)) || 0));
+    : Math.max(
+        ...data.map(
+          d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+        ),
+      );
 
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
   const dataWithId = data.map((d, i) => ({

@@ -145,10 +145,10 @@ export function Graph(props: Props) {
           .nice()
       : undefined;
   const dataOrdered =
-    dataWithId.filter(d => d.radius !== undefined).length === 0
+    dataWithId.filter(d => !checkIfNullOrUndefined(d.radius)).length === 0
       ? dataWithId
       : orderBy(
-          dataWithId.filter(d => d.radius !== undefined),
+          dataWithId.filter(d => !checkIfNullOrUndefined(d.radius)),
           'radius',
           'desc',
         );

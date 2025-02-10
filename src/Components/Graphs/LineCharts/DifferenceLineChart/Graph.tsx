@@ -585,7 +585,7 @@ export function Graph(props: Props) {
             ) : null}
             {dataFormatted.map((d, i) => (
               <g key={i}>
-                {d.y1 !== undefined ? (
+                {!checkIfNullOrUndefined(d.y1) ? (
                   <g>
                     {showDots ? (
                       <circle
@@ -620,11 +620,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y1,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
                     ) : null}
                   </g>
@@ -664,11 +660,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y2,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>
                     ) : null}
                   </g>

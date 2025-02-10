@@ -127,7 +127,7 @@ export function Graph(props: Props) {
         date: el.date,
         y: el.y[i],
       }))
-      .filter(el => el.y !== undefined);
+      .filter(el => !checkIfNullOrUndefined(el.y));
   });
   const highlightAreaSettingsFormatted = [
     highlightAreaSettings[0] === null
@@ -459,12 +459,12 @@ export function Graph(props: Props) {
                 <g>
                   {d.map((el, j) => (
                     <g key={j}>
-                      {el.y !== undefined ? (
+                      {!checkIfNullOrUndefined(el.y) ? (
                         <g>
                           {showDots ? (
                             <circle
                               cx={x(el.date)}
-                              cy={y(el.y)}
+                              cy={y(el.y as number)}
                               r={
                                 graphWidth / dataFormatted.length < 5
                                   ? 0
@@ -480,7 +480,7 @@ export function Graph(props: Props) {
                           {showValues ? (
                             <text
                               x={x(el.date)}
-                              y={y(el.y)}
+                              y={y(el.y as number)}
                               dy={-8}
                               fontSize={12}
                               textAnchor='middle'
@@ -494,11 +494,7 @@ export function Graph(props: Props) {
                                   : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                               }}
                             >
-                              {numberFormattingFunction(
-                                el.y,
-                                prefix || '',
-                                suffix || '',
-                              )}
+                              {numberFormattingFunction(el.y, prefix, suffix)}
                             </text>
                           ) : null}
                         </g>

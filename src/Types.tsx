@@ -79,15 +79,15 @@ export interface UnitChartDataType {
 
 export interface TreeMapDataType {
   label: string | number;
-  size?: number;
+  size?: number | null;
   color?: string;
   data?: object;
 }
 
 export interface ButterflyChartDataType {
   label: string | number;
-  leftBar?: number;
-  rightBar?: number;
+  leftBar?: number | null;
+  rightBar?: number | null;
   data?: object;
 }
 
@@ -97,8 +97,8 @@ export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
 
 export interface BarGraphDataType {
   label: string | number;
-  size?: number;
-  color?: string;
+  size?: number | null;
+  color?: string | null;
   data?: object;
 }
 
@@ -108,7 +108,7 @@ export interface BarGraphWithDateDataType extends BarGraphDataType {
 
 export interface GroupedBarGraphDataType {
   label: string | number;
-  size: (number | undefined)[];
+  size: (number | undefined | null)[];
   data?: object;
 }
 
@@ -118,13 +118,13 @@ export interface GroupedBarGraphWithDateDataType
 }
 
 export interface DumbbellChartDataType {
-  x: (number | undefined)[];
+  x: (number | undefined | null)[];
   label: string;
   data?: object;
 }
 
 export interface DumbbellChartWithDateDataType {
-  x: (number | undefined)[];
+  x: (number | undefined | null)[];
   date: string | number;
   label: string;
   data?: object;
@@ -142,28 +142,28 @@ export interface HistogramDataType {
 }
 
 export interface ChoroplethMapDataType {
-  x?: number | string;
+  x?: number | string | null;
   countryCode: string;
   data?: object;
 }
 
 export interface ChoroplethMapWithDateDataType {
-  x?: number | string;
+  x?: number | string | null;
   countryCode: string;
   date: string | number;
   data?: object;
 }
 
 export interface BivariateMapDataType {
-  x?: number;
-  y?: number;
+  x?: number | null;
+  y?: number | null;
   countryCode: string;
   data?: object;
 }
 
 export interface BivariateMapWithDateDataType {
-  x?: number;
-  y?: number;
+  x?: number | null;
+  y?: number | null;
   countryCode: string;
   date: string | number;
   data?: object;
@@ -177,15 +177,15 @@ export interface LineChartDataType {
 
 export interface LineChartWithConfidenceIntervalDataType {
   date: number | string;
-  y?: number;
-  yMin?: number;
-  yMax?: number;
+  y?: number | null;
+  yMin?: number | null;
+  yMax?: number | null;
   data?: object;
 }
 
 export interface MultiLineChartDataType {
   date: number | string;
-  y: (number | undefined)[];
+  y: (number | undefined | null)[];
   data?: object;
 }
 
@@ -196,21 +196,21 @@ export interface AreaChartDataType {
 }
 
 export interface ScatterPlotDataType {
-  x?: number;
-  y?: number;
-  radius?: number;
-  color?: string;
-  label?: string | number;
+  x?: number | null;
+  y?: number | null;
+  radius?: number | null;
+  color?: string | null;
+  label?: string | number | null;
   data?: object;
 }
 
 export interface ScatterPlotWithDateDataType {
   date: string | number;
   label: string | number;
-  x?: number;
-  y?: number;
-  radius?: number;
-  color?: string;
+  x?: number | null;
+  y?: number | null;
+  radius?: number | null;
+  color?: string | null;
   data?: object;
 }
 

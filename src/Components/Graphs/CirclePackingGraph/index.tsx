@@ -14,6 +14,7 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../ColorPalette';
+import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: TreeMapDataType[];
@@ -304,10 +305,12 @@ export function CirclePackingGraph(props: Props) {
                                 : (width || svgWidth) * relativeHeight
                               : svgHeight),
                         ) *
-                          (data.filter(d => d.size !== undefined).length === 0
+                          (data.filter(d => !checkIfNullOrUndefined(d.size))
+                            .length === 0
                             ? 1
                             : (maxBy(data, 'size') as any).size)) /
-                        (data.filter(d => d.size !== undefined).length === 0
+                        (data.filter(d => !checkIfNullOrUndefined(d.size))
+                          .length === 0
                           ? data.length
                           : sum(data.filter(d => d.size).map(d => d.size)) *
                             1.25)

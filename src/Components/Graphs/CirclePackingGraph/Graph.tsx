@@ -117,10 +117,10 @@ export const Graph = memo((props: Props) => {
   // Memoize data ordering and radius scale
   const dataOrdered = useMemo(
     () =>
-      data.filter(d => d.size !== undefined).length === 0
+      data.filter(d => !checkIfNullOrUndefined(d.size)).length === 0
         ? data
         : orderBy(
-            data.filter(d => d.size !== undefined),
+            data.filter(d => !checkIfNullOrUndefined(d.size)),
             'radius',
             'asc',
           ),

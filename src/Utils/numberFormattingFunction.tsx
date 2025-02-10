@@ -21,7 +21,7 @@ function formatNumberToReadableString(num: number) {
 }
 
 export function numberFormattingFunction(
-  value: number | undefined,
+  value: number | undefined | null,
   prefix?: string,
   suffix?: string,
 ) {

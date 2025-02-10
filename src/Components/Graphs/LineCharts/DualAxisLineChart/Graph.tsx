@@ -157,13 +157,13 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape1 = line()
-    .defined((d: any) => d.y1 !== undefined && d.y1 !== null)
+    .defined((d: any) => !checkIfNullOrUndefined(d.y1))
     .x((d: any) => x(d.date))
     .y((d: any) => y1(d.y1))
     .curve(curveMonotoneX);
 
   const lineShape2 = line()
-    .defined((d: any) => d.y2 !== undefined && d.y2 !== null)
+    .defined((d: any) => !checkIfNullOrUndefined(d.y2))
     .x((d: any) => x(d.date))
     .y((d: any) => y2(d.y2))
     .curve(curveMonotoneX);
@@ -447,12 +447,12 @@ export function Graph(props: Props) {
           <g ref={labelScope}>
             {dataFormatted.map((d, i) => (
               <g key={i}>
-                {d.y1 !== undefined ? (
+                {!checkIfNullOrUndefined(d.y1) ? (
                   <g>
                     {showDots ? (
                       <circle
                         cx={x(d.date)}
-                        cy={y1(d.y1)}
+                        cy={y1(d.y1 as number)}
                         r={
                           graphWidth / dataFormatted.length < 5
                             ? 0
@@ -468,11 +468,11 @@ export function Graph(props: Props) {
                     {showValues ? (
                       <text
                         x={x(d.date)}
-                        y={y1(d.y1)}
+                        y={y1(d.y1 as number)}
                         dy={
                           checkIfNullOrUndefined(d.y2)
                             ? -8
-                            : (d.y2 as number) < d.y1
+                            : (d.y2 as number) < (d.y1 as number)
                             ? -8
                             : 15
                         }
@@ -488,21 +488,17 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y1,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
                     ) : null}
                   </g>
                 ) : null}
-                {d.y2 !== undefined ? (
+                {!checkIfNullOrUndefined(d.y2) ? (
                   <g>
                     {showDots ? (
                       <circle
                         cx={x(d.date)}
-                        cy={y2(d.y2)}
+                        cy={y2(d.y2 as number)}
                         r={
                           graphWidth / dataFormatted.length < 5
                             ? 0
@@ -518,11 +514,11 @@ export function Graph(props: Props) {
                     {showValues ? (
                       <text
                         x={x(d.date)}
-                        y={y2(d.y2)}
+                        y={y2(d.y2 as number)}
                         dy={
                           checkIfNullOrUndefined(d.y1)
                             ? -8
-                            : (d.y1 as number) < d.y2
+                            : (d.y1 as number) < (d.y2 as number)
                             ? -8
                             : 15
                         }
@@ -538,11 +534,7 @@ export function Graph(props: Props) {
                             : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                       >
-                        {numberFormattingFunction(
-                          d.y2,
-                          prefix || '',
-                          suffix || '',
-                        )}
+                        {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>
                     ) : null}
                   </g>
