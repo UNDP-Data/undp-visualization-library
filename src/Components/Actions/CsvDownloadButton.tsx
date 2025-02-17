@@ -28,6 +28,9 @@ const transformDataForCsv = (data: any) => {
       if (Array.isArray(value)) {
         newObj[key] = `${value.join(',')}`;
       }
+      if (typeof value === 'string') {
+        newObj[key] = `${value.replaceAll('"', "'")}`;
+      }
     });
 
     return newObj;
@@ -39,7 +42,7 @@ export function CsvDownloadButton(props: Props) {
     buttonType = 'quaternary',
     buttonArrow = false,
     csvData,
-    fileName = 'data13',
+    fileName = 'data',
     headers,
     separator = ',',
     buttonSmall = false,
