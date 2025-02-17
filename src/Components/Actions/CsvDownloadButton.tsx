@@ -19,13 +19,27 @@ interface Props {
   mode: 'dark' | 'light';
 }
 
+const transformDataForCsv = (data: any) => {
+  if (!data) return {};
+  return data.map((obj: any) => {
+    const newObj = { ...obj };
+
+    Object.entries(newObj).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        newObj[key] = `${value.join(',')}`;
+      }
+    });
+
+    return newObj;
+  });
+};
 export function CsvDownloadButton(props: Props) {
   const {
     buttonContent,
     buttonType = 'quaternary',
     buttonArrow = false,
     csvData,
-    fileName = 'data',
+    fileName = 'data13',
     headers,
     separator = ',',
     buttonSmall = false,
@@ -34,9 +48,9 @@ export function CsvDownloadButton(props: Props) {
   return (
     <CSVLink
       headers={headers}
-      enclosingCharacter=''
+      enclosingCharacter='"'
       separator={separator}
-      data={csvData}
+      data={transformDataForCsv(csvData)}
       filename={`${fileName}.csv`}
       asyncOnClick
       target='_blank'
