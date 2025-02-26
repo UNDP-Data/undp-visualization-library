@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
+import { P } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -139,21 +140,17 @@ export function DonutChart(props: Props) {
 
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
         minHeight: 'inherit',
-        width: width ? 'fit-content' : '100%',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
           ? UNDPColorModule[mode].grays['gray-200']
           : backgroundColor,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
       }}
       id={graphID}
       ref={graphParentDiv}
@@ -167,22 +164,12 @@ export function DonutChart(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            width: '100%',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col gap-2 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -201,52 +188,25 @@ export function DonutChart(props: Props) {
             />
           ) : null}
           <div
+            className='flex grow flex-col justify-center items-stretch gap-4 flex-wrap'
             style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'stretch',
-              gap: '1rem',
-              flexWrap: 'wrap',
               width: width ? `${width}px` : '100%',
               padding: `${topMargin}px 0 ${bottomMargin}px 0`,
             }}
           >
             {graphLegend ? (
-              <div
-                style={{
-                  lineHeight: 0,
-                }}
-                aria-label='Color legend'
-              >
+              <div className='leading-0' aria-label='Color legend'>
                 <div
+                  className='flex mb-0 ml-auto mr-auto justify-center gap-y-4 gap-x-1 flex-wrap'
                   style={{
-                    display: 'flex',
-                    marginBottom: 0,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                    rowGap: '0.25rem',
-                    columnGap: '1rem',
                     maxWidth: legendMaxWidth,
                   }}
                 >
                   {sortedData.map((d, i) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        gap: '0.5rem',
-                        alignItems: 'center',
-                      }}
-                      key={i}
-                    >
+                    <div className='flex gap-2 items-center' key={i}>
                       <div
+                        className='w-3 h-3 rounded-full'
                         style={{
-                          width: '0.75rem',
-                          height: '0.75rem',
-                          borderRadius: '1rem',
                           backgroundColor:
                             (
                               colorDomain || sortedData.map(el => el.label)
@@ -267,32 +227,34 @@ export function DonutChart(props: Props) {
                               : UNDPColorModule[mode].graphGray,
                         }}
                       />
-                      <p
+                      <P
                         className={`${
-                          rtl ? `undp-viz-typography-${language} ` : ''
-                        }undp-viz-typography`}
+                          rtl
+                            ? `font-sans-${language || 'ar'} text-right`
+                            : 'font-sans text-left'
+                        } mb-0 md:mb-0 text-sm md:text-sm`}
                         style={{
-                          marginBottom: 0,
-                          fontSize: '0.875rem',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
                         {d.label}:{' '}
                         <span
-                          style={{ fontWeight: 'bold', fontSize: 'inherit' }}
+                          className='font-bold'
+                          style={{ fontSize: 'inherit' }}
                         >
                           {numberFormattingFunction(d.size, prefix, suffix)}
                         </span>
-                      </p>
+                      </P>
                     </div>
                   ))}
                 </div>
               </div>
             ) : null}
             <div
+              className={`flex ${
+                width ? 'grow-0' : 'grow'
+              } items-center justify-center leading-0`}
               style={{
-                display: 'flex',
-                flexGrow: width ? 0 : 1,
                 width: width ? `${width}px` : '100%',
                 height: height
                   ? `${Math.max(
@@ -307,21 +269,11 @@ export function DonutChart(props: Props) {
                           : svgHeight),
                     )}px`
                   : 'auto',
-                lineHeight: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
               ref={graphDiv}
               aria-label='Graph area'
             >
-              <div
-                style={{
-                  width: '100%',
-                  lineHeight: 0,
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
+              <div className='w-full flex justify-center leading-0'>
                 {radius || donutRadius ? (
                   <Graph
                     mainText={mainText}

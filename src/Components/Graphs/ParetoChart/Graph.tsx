@@ -158,15 +158,10 @@ export function Graph(props: Props) {
                   y={y1(d)}
                   fill={barColor}
                   textAnchor='end'
-                  fontSize={12}
                   dy={3}
-                  style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                 >
                   {numberFormattingFunction(d, barPrefix, barSuffix)}
                 </text>
@@ -181,20 +176,14 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={barColor}
               textAnchor='middle'
-              fontSize={12}
-              style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {axisTitles[0].length > 100
                 ? `${axisTitles[0].substring(0, 100)}...`
@@ -217,16 +206,11 @@ export function Graph(props: Props) {
                   y={y2(d)}
                   fill={lineColor}
                   textAnchor='start'
-                  fontSize={12}
                   dy={3}
                   dx={-2}
-                  style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                 >
                   {numberFormattingFunction(d, linePrefix, lineSuffix)}
                 </text>
@@ -241,20 +225,14 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColor}
               textAnchor='middle'
-              fontSize={12}
-              style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {axisTitles[1].length > 100
                 ? `${axisTitles[1].substring(0, 100)}...`
@@ -330,15 +308,12 @@ export function Graph(props: Props) {
                     y={y1(0)}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy='15px'
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-xs`}
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -436,7 +411,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

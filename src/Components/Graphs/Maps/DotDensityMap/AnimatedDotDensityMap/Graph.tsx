@@ -291,17 +291,14 @@ export function Graph(props: Props) {
                             )[0] + radiusScale(d.radius || 0)
                       }
                       y={(projection([d.long, d.lat]) as [number, number])[1]}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-sm`}
                       style={{
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-600'
                         ],
-                        fontSize: '0.875rem',
                         textAnchor: 'start',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dx={4}
                       dy={5}
@@ -321,41 +318,27 @@ export function Graph(props: Props) {
       </svg>
       {data.filter(el => el.color).length === 0 ||
       showColorScale === false ? null : (
-        <div
-          style={{ position: 'sticky', bottom: '0px' }}
-          className='undp-viz-bivariate-legend-container'
-        >
+        <div className='undp-viz-bivariate-legend-container sticky bottom-0'>
           <div
+            className={`flex items-end mb-3 p-4 ${
+              rtl ? 'self-end' : 'self-start'
+            }`}
             style={{
               backgroundColor:
                 mode === 'dark'
                   ? 'rgba(255,255,255,0.05)'
                   : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              padding: '1rem',
-              display: 'flex',
-              alignItems: 'flex-end',
-              alignSelf: rtl ? 'flex-end' : 'flex-start',
             }}
           >
-            <div
-              style={{
-                position: 'relative',
-                zIndex: '5',
-                padding: 0,
-              }}
-            >
+            <div className='relative z-10 p-0'>
               <div>
                 {colorLegendTitle ? (
                   <div
+                    className='leading-normal text-sm overflow-hidden mb-2'
                     style={{
-                      lineHeight: 'normal',
-                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      marginBottom: '0.5rem',
                     }}
                   >
                     {colorLegendTitle}
@@ -372,7 +355,7 @@ export function Graph(props: Props) {
                         onMouseLeave={() => {
                           setSelectedColor(undefined);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        className='cursor-pointer'
                       >
                         <rect
                           x={(i * 320) / colorDomain.length + 1}
@@ -395,13 +378,10 @@ export function Graph(props: Props) {
                           }
                           y={25}
                           textAnchor='middle'
-                          fontSize={12}
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-xs md:text-xs`}
                           style={{
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
@@ -438,7 +418,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

@@ -119,38 +119,14 @@ export function Graph(props: Props) {
                   width={barWidth}
                   height={margin.top}
                 >
-                  <div
-                    className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
-                    style={{
-                      textAnchor: 'middle',
-                      whiteSpace: 'normal',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 'inherit',
-                      padding: '4px',
-                    }}
-                  >
+                  <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
                     <p
                       className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-base text-center leading-tight m-0`}
                       style={{
-                        fontSize: '16px',
-                        textAlign: 'center',
-                        lineHeight: '1.15',
-                        marginBottom: 0,
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -172,40 +148,14 @@ export function Graph(props: Props) {
                   width={margin.left}
                   height={barHeight}
                 >
-                  <div
-                    style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      textAnchor: 'middle',
-                      whiteSpace: 'normal',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      justifyContent: 'center',
-                      alignItems: 'flex-end',
-                      height: 'inherit',
-                      padding: '4px 8px 4px 4px',
-                    }}
-                  >
+                  <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
                     <p
                       className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-base text-right leading-tight m-0`}
                       style={{
-                        fontSize: '16px',
-                        textAlign: 'right',
-                        lineHeight: '1.15',
-                        marginBottom: 0,
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -301,32 +251,18 @@ export function Graph(props: Props) {
                       height={barHeight}
                     >
                       <div
+                        className='flex flex-col justify-center items-center h-inherit p-0.2'
                         style={{
                           fill: UNDPColorModule[mode || 'light'].grays[
                             'gray-600'
                           ],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAnchor: 'middle',
-                          whiteSpace: 'normal',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          height: 'inherit',
-                          padding: '2px',
                         }}
                       >
                         <p
-                          className='undp-viz-typography'
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-xs text-center m-0 leading-tight`}
                           style={{
-                            fontSize: `12px`,
-                            textAlign: 'center',
-                            lineHeight: '1.15',
-                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(color),
                           }}
                         >
@@ -374,7 +310,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

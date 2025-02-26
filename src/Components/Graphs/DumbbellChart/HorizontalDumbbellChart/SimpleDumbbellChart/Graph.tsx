@@ -169,22 +169,18 @@ export function Graph(props: Props) {
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
-                    opacity={d === 0 ? 0 : 1}
+                    className={`opacity-${d === 0 ? 0 : 100}`}
                   />
                   <text
                     x={x(d)}
                     y={0 - topMargin}
                     textAnchor='start'
-                    fontSize={12}
                     dy={10}
                     dx={3}
-                    opacity={d === 0 ? 0 : 1}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-xs opacity-${d === 0 ? 0 : 100}`}
                     style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                     }}
                   >
@@ -198,15 +194,12 @@ export function Graph(props: Props) {
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
               dy={15}
-              fontSize={12}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {barAxisTitle}
             </text>
@@ -223,14 +216,11 @@ export function Graph(props: Props) {
                 <text
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontSize: '0.75rem',
                     textAnchor: 'end',
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                   x={0}
                   y={0}
                   dx={-10}
@@ -342,18 +332,14 @@ export function Graph(props: Props) {
                           y={0}
                           style={{
                             fill: valueColor || dotColors[j],
-                            fontSize: '0.875rem',
-                            fontWeight: 'bold',
                             textAnchor: 'middle',
                             opacity: checkIfNullOrUndefined(el) ? 0 : 1,
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                           dx={0}
                           dy={0 - radius - 3}
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-sm font-bold`}
                         >
                           {numberFormattingFunction(el, prefix, suffix)}
                         </text>
@@ -386,7 +372,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

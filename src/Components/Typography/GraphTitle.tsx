@@ -1,3 +1,4 @@
+import { H5, P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
 import { UNDPColorModule } from '../ColorPalette';
 
@@ -23,35 +24,31 @@ export function GraphTitle(props: Props) {
   }
   if (isDashboard)
     return (
-      <h5
+      <H5
         className={`${
-          rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-        }undp-viz-typography`}
+          rtl
+            ? `font-sans-${language || 'ar'} text-right`
+            : 'font-sans text-left'
+        } mb-4 md:mb-4 font-bold pb-3 md:pb-3`}
         style={{
-          marginBottom: '1rem',
-          fontWeight: 'bold',
-          paddingBottom: '0.75rem',
-          textAlign: rtl ? 'right' : 'left',
           color: UNDPColorModule[mode].grays.black,
         }}
         aria-label='Dashboard title'
       >
         {text}
-      </h5>
+      </H5>
     );
   return (
-    <p
+    <P
       className={`${
-        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-      }undp-viz-typography`}
+        rtl ? `font-sans-${language || 'ar'} text-right` : 'font-sans text-left'
+      } mb-0 md:mb-0`}
       style={{
-        marginBottom: 0,
-        textAlign: rtl ? 'right' : 'left',
         color: UNDPColorModule[mode].grays.black,
       }}
       aria-label='Graph title'
     >
       {text}
-    </p>
+    </P>
   );
 }

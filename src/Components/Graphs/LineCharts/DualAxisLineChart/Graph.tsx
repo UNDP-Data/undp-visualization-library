@@ -273,15 +273,10 @@ export function Graph(props: Props) {
                   y={y1(d)}
                   fill={lineColors[0]}
                   textAnchor='end'
-                  fontSize={12}
                   dy={3}
-                  style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                 >
                   {numberFormattingFunction(
                     d,
@@ -300,19 +295,14 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColors[0]}
               textAnchor='middle'
-              style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {lineTitles[0].length > 100
                 ? `${lineTitles[0].substring(0, 100)}...`
@@ -335,16 +325,11 @@ export function Graph(props: Props) {
                   y={y2(d)}
                   fill={lineColors[1]}
                   textAnchor='start'
-                  fontSize={12}
                   dy={3}
                   dx={-2}
-                  style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                 >
                   {numberFormattingFunction(
                     d,
@@ -363,20 +348,14 @@ export function Graph(props: Props) {
               strokeWidth={1}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColors[1]}
               textAnchor='middle'
-              fontSize={12}
-              style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {lineTitles[1].length > 100
                 ? `${lineTitles[1].substring(0, 100)}...`
@@ -397,19 +376,15 @@ export function Graph(props: Props) {
             {xTicks.map((d, i) => (
               <g key={i}>
                 <text
-                  className='undp-viz-x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
-                  fontSize={12}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
                   dy={15}
                 >
                   {format(d, dateFormat)}
@@ -476,17 +451,13 @@ export function Graph(props: Props) {
                             ? -8
                             : 15
                         }
-                        fontSize={12}
                         textAnchor='middle'
                         style={{
-                          fontWeight: 'bold',
                           fill: lineColors[0],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
+                        className={`${
+                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                        } text-xs font-bold`}
                       >
                         {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
@@ -525,14 +496,11 @@ export function Graph(props: Props) {
                         fontSize={12}
                         textAnchor='middle'
                         style={{
-                          fontWeight: 'bold',
                           fill: lineColors[1],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
+                        className={`${
+                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                        } text-xs font-bold`}
                       >
                         {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>

@@ -310,7 +310,7 @@ export function Graph(props: Props) {
           ))}
           <g>
             {yTicks.map((d, i) => (
-              <g key={i} opacity={d === 0 ? 0 : 1}>
+              <g key={i} className={`opacity-${d === 0 ? 0 : 100}`}>
                 <line
                   x1={0}
                   x2={graphWidth}
@@ -327,14 +327,11 @@ export function Graph(props: Props) {
                   y={y(d)}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='end'
-                  fontSize={12}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                   dy={4}
                   dx={-3}
                 >
@@ -357,14 +354,11 @@ export function Graph(props: Props) {
               y={y(yMinVal < 0 ? 0 : yMinVal)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
-              fontSize={12}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
               dy={3}
               dx={-4}
             >
@@ -381,14 +375,11 @@ export function Graph(props: Props) {
                 }) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='middle'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs`}
               >
                 {yAxisTitle}
               </text>
@@ -396,7 +387,7 @@ export function Graph(props: Props) {
           </g>
           <g>
             {xTicks.map((d, i) => (
-              <g key={i} opacity={d === 0 ? 0 : 1}>
+              <g key={i} className={`opacity-${d === 0 ? 0 : 100}`}>
                 <line
                   y1={0}
                   y2={graphHeight}
@@ -413,14 +404,11 @@ export function Graph(props: Props) {
                   y={graphHeight}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                   textAnchor='middle'
-                  fontSize={12}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                   dy={12}
                 >
                   {numberFormattingFunction(d, xPrefix, xSuffix)}
@@ -442,14 +430,11 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
-              fontSize={12}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
               dy={15}
             >
               {numberFormattingFunction(xMinVal < 0 ? 0 : xMinVal)}
@@ -459,14 +444,11 @@ export function Graph(props: Props) {
                 transform={`translate(${graphWidth / 2}, ${graphHeight})`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='middle'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs`}
                 dy={30}
               >
                 {xAxisTitle}
@@ -539,11 +521,6 @@ export function Graph(props: Props) {
                               : !d.color
                               ? UNDPColorModule[mode || 'light'].graphGray
                               : colors[colorDomain.indexOf(`${d.color}`)]),
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         dy={4}
                         dx={3}
@@ -559,6 +536,9 @@ export function Graph(props: Props) {
                               : 1,
                         }}
                         transition={{ duration: 0.5 }}
+                        className={`${
+                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                        } text-[10px]`}
                       >
                         {d.label}
                       </motion.text>
@@ -568,7 +548,9 @@ export function Graph(props: Props) {
                         d.label as string | number,
                       ) !== -1 ? (
                         <text
-                          fontSize={10}
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-[10px]`}
                           style={{
                             fill:
                               labelColor ||
@@ -577,11 +559,6 @@ export function Graph(props: Props) {
                                 : !d.color
                                 ? UNDPColorModule[mode || 'light'].graphGray
                                 : colors[colorDomain.indexOf(`${d.color}`)]),
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                           y={0}
                           x={!radiusScale ? radius : radiusScale(d.radius || 0)}
@@ -660,17 +637,14 @@ export function Graph(props: Props) {
                   fill:
                     el.color ||
                     UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   textAnchor:
                     x(el.value as number) > graphWidth * 0.75 || rtl
                       ? 'end'
                       : 'start',
                 }}
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs bold`}
                 dy={12.5}
                 dx={x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5}
               >
@@ -695,20 +669,16 @@ export function Graph(props: Props) {
               />
               <text
                 x={graphWidth}
-                fontWeight='bold'
                 y={y(el.value as number)}
                 style={{
                   fill:
                     el.color ||
                     UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   textAnchor: 'end',
                 }}
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs bold`}
                 dy={-5}
               >
                 {el.text}
@@ -814,26 +784,17 @@ export function Graph(props: Props) {
                   >
                     <p
                       className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
+                        rtl
+                          ? `font-sans-${language || 'ar'} text-right pl-0 pr-1`
+                          : 'font-sans text-left pl-1 pr-0'
+                      } text-sm font-${
+                        d.fontWeight || 'normal'
+                      } leading-tight m-0 whitespace-normal`}
                       style={{
                         color:
                           d.color ||
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        fontWeight: d.fontWeight || 'regular',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        whiteSpace: 'normal',
-                        fontSize: '14px',
-                        textAlign: d.align || (rtl ? 'right' : 'left'),
                         maxWidth: d.maxWidth || 'auto',
-                        lineHeight: 1.2,
-                        margin: 0,
-                        paddingLeft: rtl ? 0 : '4px',
-                        paddingRight: !rtl ? 0 : '4px',
                       }}
                     >
                       {d.text}
@@ -865,7 +826,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

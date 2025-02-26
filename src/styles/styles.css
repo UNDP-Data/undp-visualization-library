@@ -812,11 +812,7 @@ input.undp-viz-checkbox[type=checkbox]:checked {
 }
 
 .undp-viz-data-cards-container {
-  width: 100%;
   container-type: inline-size;
-  margin: 0 auto;
-  display: grid;
-  gap: 1rem;  
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   overflow-x: hidden !important;
 }
@@ -824,13 +820,6 @@ input.undp-viz-checkbox[type=checkbox]:checked {
 .undp-viz-data-cards-container.rtl {
   direction: rtl;
 }
-
-.undp-viz-data-cards{
-  width: 100%;    
-  display: flex;
-  flex-direction: column;
-}
-
 .undp-viz-text-box{
   font-size: 1rem;
   font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;

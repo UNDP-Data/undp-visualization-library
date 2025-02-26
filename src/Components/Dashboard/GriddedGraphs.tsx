@@ -246,16 +246,7 @@ export function GriddedGraphs(props: Props) {
           display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphSettings?.graphTitle ||
           graphSettings?.graphDescription ||
           graphSettings?.graphDownload ||
@@ -342,7 +333,7 @@ export function GriddedGraphs(props: Props) {
                           isSearchable
                           controlShouldRenderValue
                           defaultValue={d.defaultValue || d.options[0]}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             const newGraphConfig = {
                               columnId: el?.value as string[],
                               chartConfigId: d.chartConfigId,
@@ -356,7 +347,9 @@ export function GriddedGraphs(props: Props) {
                             setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <Radio
@@ -447,7 +440,7 @@ export function GriddedGraphs(props: Props) {
                                 : undefined
                             }
                             controlShouldRenderValue
-                            onChange={el => {
+                            onChange={(el: any) => {
                               const newGraphConfig = {
                                 columnId: el?.value as string,
                                 chartConfigId: d.chartConfigId,
@@ -461,7 +454,9 @@ export function GriddedGraphs(props: Props) {
                               setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={theme => getReactSelectTheme(theme, mode)}
+                            theme={(theme: any) =>
+                              getReactSelectTheme(theme, mode)
+                            }
                           />
                         ) : (
                           <Radio
@@ -534,9 +529,11 @@ export function GriddedGraphs(props: Props) {
                               : undefined
                           }
                           filterOption={createFilter(filterConfig)}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             const newGraphConfig = {
-                              columnId: el.map(item => item.value) as string[],
+                              columnId: el.map(
+                                (item: any) => item.value,
+                              ) as string[],
                               chartConfigId: d.chartConfigId,
                             };
                             const updatedConfig = graphConfig?.map(item =>
@@ -548,7 +545,9 @@ export function GriddedGraphs(props: Props) {
                             setGraphConfig(updatedConfig);
                           }}
                           isRtl={graphSettings?.rtl}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <Checkbox
@@ -641,11 +640,13 @@ export function GriddedGraphs(props: Props) {
                           isSearchable
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             handleFilterChange(d.filter, el);
                           }}
                           defaultValue={d.defaultValue}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <>
@@ -665,12 +666,14 @@ export function GriddedGraphs(props: Props) {
                             isSearchable
                             controlShouldRenderValue
                             filterOption={createFilter(filterConfig)}
-                            onChange={el => {
+                            onChange={(el: any) => {
                               handleFilterChange(d.filter, el);
                             }}
                             defaultValue={d.defaultValue}
                             isRtl={graphSettings?.rtl}
-                            theme={theme => getReactSelectTheme(theme, mode)}
+                            theme={(theme: any) =>
+                              getReactSelectTheme(theme, mode)
+                            }
                           />
                           {d.allowSelectAll ? (
                             <button

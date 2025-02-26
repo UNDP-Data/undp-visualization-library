@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
 import { UNDPColorModule } from '../ColorPalette';
 
@@ -33,33 +34,20 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
+      className='flex flex-wrap gap-0 justify-center leading-0'
       style={{
-        lineHeight: 0,
-        maxWidth: width || 'none',
-        display: 'flex',
-        gap: 0,
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
-        <p
+        <P
           className={`${
-            rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-          }undp-viz-typography`}
-          style={{
-            color: UNDPColorModule[mode].grays['gray-700'],
-            fontSize: '0.875rem',
-            width: '100%',
-            textAlign: 'center',
-            marginBottom: '0.5rem',
-            marginTop: 0,
-            lineHeight: 1.4,
-          }}
+            rtl ? `font-sans-${language || 'ar'} ` : ''
+          }font-sans text-sm md:text-sm mb-2 md:mb-2 w-full text-center mt-0`}
         >
           {colorLegendTitle}
-        </p>
+        </P>
       ) : null}
       <svg width='100%' viewBox='0 0 360 30' style={{ maxWidth: '360px' }}>
         <g>
@@ -74,7 +62,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 setHoveredColor(undefined);
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
+              className='cursor-pointer'
             >
               <rect
                 x={(i * mainColorWidth) / colors.length + 1}
@@ -92,14 +80,11 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
                 textAnchor='middle'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-sm`}
                 style={{
                   fill: UNDPColorModule[mode].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 {numberFormattingFunction(d as number, '', '')}
@@ -127,7 +112,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                   : colors[colorDomain.length]
               }
               strokeWidth={1}
-              style={{ cursor: 'pointer' }}
+              className='cursor-pointer'
             />
           </g>
           {naColor ? (
@@ -140,7 +125,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 setHoveredColor(undefined);
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
+              className='cursor-pointer'
             >
               <rect
                 x={335}
@@ -159,14 +144,11 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 x={337.5}
                 y={25}
                 textAnchor='start'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-sm`}
                 style={{
                   fill: UNDPColorModule[mode].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
               >
                 NA

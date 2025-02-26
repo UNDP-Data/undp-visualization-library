@@ -169,16 +169,13 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className='undp-viz-x-axis-text'
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='end'
               dy={15}
@@ -186,17 +183,14 @@ export function Graph(props: Props) {
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
             </text>
             <text
-              className='undp-viz-x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
               textAnchor='start'
               dy={15}
             >

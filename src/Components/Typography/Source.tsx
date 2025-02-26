@@ -1,3 +1,4 @@
+import { A } from '@undp-data/undp-design-system-react';
 import { SourcesDataType } from '../../Types';
 import { UNDPColorModule } from '../ColorPalette';
 
@@ -13,13 +14,10 @@ export function Source(props: SourceProps) {
   return (
     <p
       className={`${
-        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-      }undp-viz-typography`}
+        rtl ? `font-sans-${language || 'ar'} text-right` : 'font-sans text-left'
+      } text-sm md:text-sm mb-0 m-0 md:mb-0 md:m-0`}
       style={{
         color: UNDPColorModule[mode].grays['gray-600'],
-        fontSize: '0.875rem',
-        marginBottom: 0,
-        textAlign: rtl ? 'right' : 'left',
       }}
       aria-label='Data sources'
     >
@@ -28,18 +26,17 @@ export function Source(props: SourceProps) {
           {sources.map((d, i) => (
             <span
               key={i}
+              className='text-sm md:text-sm'
               style={{
                 color: UNDPColorModule[mode].grays['gray-600'],
-                fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
             >
               {d.link ? (
-                <a
-                  className='undp-viz-style'
+                <A
+                  className='text-sm md:text-sm'
                   style={{
                     color: UNDPColorModule[mode].grays['gray-600'],
-                    fontSize: '0.875rem',
                     fontFamily: 'inherit',
                   }}
                   href={d.link}
@@ -47,7 +44,7 @@ export function Source(props: SourceProps) {
                   rel='noreferrer'
                 >
                   {d.source}
-                </a>
+                </A>
               ) : (
                 d.source
               )}
@@ -66,18 +63,17 @@ export function Source(props: SourceProps) {
           {sources.map((d, i) => (
             <span
               key={i}
+              className='text-sm md:text-sm'
               style={{
                 color: UNDPColorModule[mode].grays['gray-600'],
-                fontSize: '0.875rem',
                 fontFamily: 'inherit',
               }}
             >
               {d.link ? (
-                <a
-                  className='undp-viz-style'
+                <A
+                  className='text-sm md:text-sm'
                   style={{
                     color: UNDPColorModule[mode].grays['gray-600'],
-                    fontSize: '0.875rem',
                     fontFamily: 'inherit',
                   }}
                   href={d.link}
@@ -85,7 +81,7 @@ export function Source(props: SourceProps) {
                   rel='noreferrer'
                 >
                   {d.source}
-                </a>
+                </A>
               ) : (
                 d.source
               )}

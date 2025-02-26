@@ -1,5 +1,6 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
+import { P } from '@undp-data/undp-design-system-react';
 import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -190,6 +191,7 @@ export function Graph(props: Props) {
                     height={d.y1 - d.y0}
                   >
                     <div
+                      className='flex flex-col gap-0.5 p-2 w-full'
                       style={{
                         color: getTextColorBasedOnBgColor(
                           data.filter(el => el.color).length === 0
@@ -200,30 +202,16 @@ export function Graph(props: Props) {
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
                         ),
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        textAnchor: 'middle',
-                        whiteSpace: 'normal',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '2px',
-                        padding: '0.5rem',
                       }}
                     >
                       {showLabels ? (
-                        <p
+                        <P
                           className={`${
                             rtl
-                              ? `undp-viz-typography-${language || 'ar'} `
-                              : ''
-                          }undp-viz-typography`}
+                              ? `font-sans-${language || 'ar'} text-right`
+                              : 'font-sans text-left'
+                          } text-sm md:text-sm mb-0 md:mb-0 leading-none md:leading-none w-full`}
                           style={{
-                            fontSize: '14px',
-                            lineHeight: '1',
-                            marginBottom: 0,
                             WebkitLineClamp:
                               d.y1 - d.y0 > 50
                                 ? d.y1 - d.y0 > 100
@@ -249,14 +237,16 @@ export function Graph(props: Props) {
                           }}
                         >
                           {(d.data as any).id}
-                        </p>
+                        </P>
                       ) : null}
                       {showValues ? (
-                        <p
-                          className='undp-viz-typography'
+                        <P
+                          className={`${
+                            rtl
+                              ? `font-sans-${language || 'ar'} text-right`
+                              : 'font-sans text-left'
+                          } text-sm md:text-sm mb-0 md:mb-0 font-bold leading-none md:leading-none w-full`}
                           style={{
-                            fontSize: '0.875rem',
-                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
@@ -268,12 +258,6 @@ export function Graph(props: Props) {
                                     )
                                   ],
                             ),
-                            fontWeight: 'bold',
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {numberFormattingFunction(
@@ -281,7 +265,7 @@ export function Graph(props: Props) {
                             prefix,
                             suffix,
                           )}
-                        </p>
+                        </P>
                       ) : null}
                     </div>
                   </foreignObject>
@@ -311,7 +295,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

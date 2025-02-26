@@ -221,22 +221,18 @@ export function Graph(props: Props) {
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'
-                      opacity={d === 0 ? 0 : 1}
+                      className={`opacity-${d === 0 ? 0 : 100}`}
                     />
                     <text
                       x={xLeftBar(d)}
                       y={0 - margin.top}
                       textAnchor='end'
-                      fontSize={12}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-xs opacity-${d === 0 ? 0 : 100}`}
                       dy={10}
                       dx={-3}
-                      opacity={d === 0 ? 0 : 1}
                       style={{
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
@@ -314,17 +310,11 @@ export function Graph(props: Props) {
                       <motion.text
                         style={{
                           fill: barColors[0],
-                          fontSize: '0.875rem',
                           textAnchor: d.rightBar
                             ? d.rightBar > 0
                               ? 'end'
                               : 'start'
                             : 'start',
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
                         dx={d.leftBar ? (d.leftBar > 0 ? -5 : 5) : 5}
                         dy={5}
@@ -337,6 +327,9 @@ export function Graph(props: Props) {
                           y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
+                        className={`${
+                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                        } text-sm`}
                       >
                         {numberFormattingFunction(d.leftBar, prefix, suffix)}
                       </motion.text>
@@ -374,20 +367,16 @@ export function Graph(props: Props) {
                     />
                     <text
                       y={0 - margin.top}
-                      fontWeight='bold'
                       x={xLeftBar(el.value as number) as number}
                       style={{
                         fill:
                           el.color ||
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'end',
                       }}
-                      fontSize={12}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-xs font-bold`}
                       dy={12.5}
                       dx={-5}
                     >
@@ -413,26 +402,22 @@ export function Graph(props: Props) {
                       }}
                       strokeWidth={1}
                       strokeDasharray='4,8'
-                      opacity={d === 0 ? 0 : 1}
+                      className={`opacity-${d === 0 ? 0 : 100}`}
                     />
                     <text
                       x={xRightBar(d)}
                       y={0 - margin.top}
                       textAnchor='start'
-                      fontSize={12}
                       dy={10}
                       dx={3}
-                      opacity={d === 0 ? 0 : 1}
                       style={{
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
                       }}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-xs opacity-${d === 0 ? 0 : 100}`}
                     >
                       {numberFormattingFunction(d, prefix, suffix)}
                     </text>
@@ -506,18 +491,15 @@ export function Graph(props: Props) {
                       <motion.text
                         style={{
                           fill: barColors[1],
-                          fontSize: '0.875rem',
                           textAnchor: d.rightBar
                             ? d.rightBar < 0
                               ? 'end'
                               : 'start'
                             : 'start',
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
+                        className={`${
+                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                        } text-sm`}
                         dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                         dy={5}
                         animate={{
@@ -566,20 +548,16 @@ export function Graph(props: Props) {
                     />
                     <text
                       y={0 - margin.top}
-                      fontWeight='bold'
                       x={xRightBar(el.value as number) as number}
                       style={{
                         fill:
                           el.color ||
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'start',
                       }}
-                      fontSize={12}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-xs font-bold`}
                       dy={12.5}
                       dx={5}
                     >
@@ -596,14 +574,11 @@ export function Graph(props: Props) {
                 <text
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontSize: '0.75rem',
                     textAnchor: 'middle',
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
+                  className={`${
+                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  } text-xs`}
                   key={i}
                   x={0}
                   y={(y(`${d.label}`) as number) + y.bandwidth() / 2}
@@ -621,14 +596,11 @@ export function Graph(props: Props) {
             <text
               style={{
                 fill: barColors[0],
-                fontSize: '1rem',
                 textAnchor: 'end',
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-base`}
               x={graphWidth / 2 - centerGap / 2}
               y={0}
               dx={-5}
@@ -639,14 +611,11 @@ export function Graph(props: Props) {
             <text
               style={{
                 fill: barColors[1],
-                fontSize: '1rem',
                 textAnchor: 'start',
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-base`}
               x={graphWidth / 2 + centerGap / 2}
               y={0}
               dx={5}
@@ -677,7 +646,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

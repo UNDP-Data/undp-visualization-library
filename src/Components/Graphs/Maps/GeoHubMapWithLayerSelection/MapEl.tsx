@@ -129,13 +129,7 @@ export function MapEl(props: Props) {
   }, [selectedLayer]);
   return (
     <div
-      style={{
-        flexGrow: 1,
-        flexDirection: 'column',
-        display: 'flex',
-        justifyContent: 'center',
-        lineHeight: 0,
-      }}
+      className='flex flex-col grow justify-center leading-0'
       ref={graphDiv}
       aria-label='Map area'
     >
@@ -158,8 +152,7 @@ export function MapEl(props: Props) {
         >
           <div
             ref={mapContainer}
-            className='map maplibre-show-control'
-            style={{ width: '100%', height: '100%' }}
+            className='map maplibre-show-control w-full h-full'
           />
         </div>
       ) : null}

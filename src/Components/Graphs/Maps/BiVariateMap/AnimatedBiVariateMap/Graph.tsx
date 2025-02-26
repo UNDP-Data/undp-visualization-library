@@ -430,37 +430,22 @@ export function Graph(props: Props) {
       </svg>
       {showLegend ? (
         <div
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            position: 'relative',
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
+          className={`undp-viz-bivariate-legend-container relative ${
+            rtl ? 'self-end' : 'self-start'
+          }`}
         >
           <div
+            className='self-start flex mb-3'
             style={{
-              alignItems: 'flex-start',
               backgroundColor:
                 mode === 'dark'
                   ? 'rgba(255,255,255,0.05)'
                   : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              display: 'flex',
             }}
           >
-            <div style={{ alignItems: 'flex-end', display: 'flex' }}>
-              <div
-                style={{
-                  padding: '0.75rem 3.5rem 0.75rem 0.75rem',
-                  position: 'relative',
-                  zIndex: '5',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    pointerEvents: 'auto',
-                  }}
-                >
+            <div className='items-end flex'>
+              <div className='relative py-3 pb-3 pt-14 z-10'>
+                <div className='flex pointer-events-auto'>
                   <div>
                     <svg width='135px' viewBox='0 0 135 135'>
                       <g>
@@ -482,7 +467,7 @@ export function Graph(props: Props) {
                                       ]
                                     : '#fff'
                                 }
-                                style={{ cursor: 'pointer' }}
+                                className='cursor-pointer'
                                 onMouseOver={() => {
                                   setSelectedColor(el);
                                 }}
@@ -499,14 +484,13 @@ export function Graph(props: Props) {
                               key={j}
                               y={10}
                               x={(j + 1) * 25}
-                              fontSize={10}
                               textAnchor='middle'
+                              className={`${
+                                rtl
+                                  ? `font-sans-${language || 'ar'}`
+                                  : 'font-sans'
+                              } text-[10px]`}
                               style={{
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                 fill: UNDPColorModule[mode || 'light'].grays[
                                   'gray-700'
                                 ],
@@ -531,14 +515,13 @@ export function Graph(props: Props) {
                               x={0}
                               transform='rotate(-90)'
                               y={0}
-                              fontSize={10}
                               textAnchor='middle'
+                              className={`${
+                                rtl
+                                  ? `font-sans-${language || 'ar'}`
+                                  : 'font-sans'
+                              } text-[10px]`}
                               style={{
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                 fill: UNDPColorModule[mode || 'light'].grays[
                                   'gray-700'
                                 ],
@@ -553,17 +536,11 @@ export function Graph(props: Props) {
                       </g>
                     </svg>
                     <div
+                      className={`text-xs non-italic text-center mt-2 ${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      }`}
                       style={{
                         lineHeight: 'normal',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        marginTop: '0.5rem',
-                        textAlign: 'center',
-                        fontStyle: 'normal',
-                        fontSize: '0.75rem',
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
@@ -577,20 +554,14 @@ export function Graph(props: Props) {
                     </div>
                   </div>
                   <div
+                    className={`text-xs non-italic text-center mt-2 absolute ${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    }`}
                     style={{
                       lineHeight: 'normal',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      textAlign: 'center',
-                      fontStyle: 'normal',
-                      fontSize: '0.75rem',
                       width: '8.125rem',
                       color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       display: '-webkit-box',
-                      position: 'absolute',
                       top: '80px',
                       translate: '75% -50%',
                       rotate: '90deg',
@@ -606,13 +577,7 @@ export function Graph(props: Props) {
             </div>
             <button
               type='button'
-              style={{
-                margin: '8px 8px 0 0',
-                cursor: 'pointer',
-                border: 0,
-                height: '24px',
-                padding: 0,
-              }}
+              className='cursor-pointer mt-2 mr-2 ml-0 mb-0 border-0 h-6 p-0'
               onClick={() => {
                 setShowLegend(false);
               }}
@@ -624,38 +589,24 @@ export function Graph(props: Props) {
       ) : (
         <button
           type='button'
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            border: 0,
-            backgroundColor: 'transparent',
-            paddingLeft: 0,
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
+          className={`undp-viz-bivariate-legend-container border-0 bg-transparent p-0 ${
+            rtl ? 'self-end' : 'self-start'
+          }`}
           onClick={() => {
             setShowLegend(true);
           }}
         >
           <div
+            className={`flex items-start text-sm font-bold cursor-pointer uppercase p-2 mb-3 ${
+              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+            }`}
             style={{
-              alignItems: 'flex-start',
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              fontSize: '0.825rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              textTransform: 'uppercase',
-              padding: '0.5rem',
               border: `1px solid ${
                 UNDPColorModule[mode || 'light'].grays['gray-400']
               }`,
               color: UNDPColorModule[mode || 'light'].grays['gray-600'],
               backgroundColor:
                 UNDPColorModule[mode || 'light'].grays['gray-300'],
-              marginBottom: '0.75rem',
-              display: 'flex',
             }}
           >
             Show Legend
@@ -682,7 +633,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

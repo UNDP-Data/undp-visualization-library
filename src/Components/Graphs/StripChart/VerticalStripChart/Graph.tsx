@@ -252,15 +252,11 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(d.color)],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       textAnchor='start'
-                      fontSize={14}
-                      fontWeight='bold'
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-sm font-bold`}
                     >
                       {numberFormattingFunction(d.position, prefix, suffix)}
                     </text>
@@ -276,14 +272,11 @@ export function Graph(props: Props) {
                 x={graphWidth / 2 + radius + 5}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='start'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs`}
               >
                 {numberFormattingFunction(y.invert(0))}
               </text>
@@ -292,14 +285,11 @@ export function Graph(props: Props) {
                 x={graphWidth / 2 + radius + 5}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                 }}
                 textAnchor='start'
-                fontSize={12}
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-xs`}
               >
                 {numberFormattingFunction(y.invert(graphHeight))}
               </text>
@@ -327,7 +317,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

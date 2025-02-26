@@ -1,3 +1,4 @@
+import { P } from '@undp-data/undp-design-system-react';
 import {
   DataTableColumnDataType,
   GraphConfigurationDataType,
@@ -97,27 +98,21 @@ function GraphEl(props: Props) {
   if (typeof graphData === 'string')
     return (
       <div
+        className={`flex my-0 mx-auto grow flex-col justify-center ${
+          settings?.width ? 'w-fit' : 'w-full'
+        }`}
         style={{
-          flexGrow: 1,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
           height: 'inherit',
-          width: settings?.width ? 'fit-content' : '100%',
         }}
       >
-        <p
-          className='undp-viz-typography'
+        <P
+          className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
           style={{
-            textAlign: 'center',
-            padding: '0.5rem',
             color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-            fontSize: '0.875rem',
           }}
         >
           {graphData}
-        </p>
+        </P>
       </div>
     );
   const graphComponents: Record<GraphType, React.ElementType | null> = {
@@ -2857,15 +2852,11 @@ function GraphEl(props: Props) {
   const graphProps = getGraphProps(graph);
   return (
     <div
+      className={`grow my-0 mx-auto flex flex-col h-inherit ${
+        settings?.width ? 'w-fit' : 'w-full'
+      } ${graph !== 'unitChart' ? 'justify-center' : 'justify-start'}`}
       style={{
-        flexGrow: 1,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: graph !== 'unitChart' ? 'center' : 'flex-start',
-        height: 'inherit',
         minHeight: 'inherit',
-        width: settings?.width ? 'fit-content' : '100%',
       }}
     >
       {validateSettingsSchema(getGraphProps(graph) || {}, graph).isValid &&
@@ -2874,13 +2865,10 @@ function GraphEl(props: Props) {
         // eslint-disable-next-line react/jsx-props-no-spreading
         <GraphComponent {...graphProps} />
       ) : (
-        <p
-          className='undp-viz-typography'
+        <P
+          className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
           style={{
-            textAlign: 'center',
-            padding: '0.5rem',
             color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-            fontSize: '0.875rem',
           }}
         >
           {GraphComponent
@@ -2890,7 +2878,7 @@ function GraphEl(props: Props) {
                   validateSettingsSchema(settings || {}, graph).err
                 }`
             : `Invalid chart type: ${graph}`}
-        </p>
+        </P>
       )}
     </div>
   );

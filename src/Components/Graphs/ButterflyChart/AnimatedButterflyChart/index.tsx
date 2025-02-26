@@ -178,15 +178,11 @@ export function AnimatedButterflyChart(props: Props) {
 
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'grow-0 w-fit' : 'grow w-full'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        height: 'inherit',
-        marginLeft: 'auto',
-        marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -205,22 +201,12 @@ export function AnimatedButterflyChart(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -238,7 +224,7 @@ export function AnimatedButterflyChart(props: Props) {
               mode={mode}
             />
           ) : null}
-          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+          <div className='flex gap-6 items-center'>
             <button
               type='button'
               onClick={() => {
@@ -273,16 +259,7 @@ export function AnimatedButterflyChart(props: Props) {
               aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
+          <div className='grow flex flex-col justify-center gap-3 w-full'>
             {showColorScale ? (
               <ColorLegend
                 rtl={rtl}
@@ -295,13 +272,7 @@ export function AnimatedButterflyChart(props: Props) {
               />
             ) : null}
             <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}
+              className='flex flex-col grow justify-center leading-0'
               ref={graphDiv}
               aria-label='Graph area'
             >

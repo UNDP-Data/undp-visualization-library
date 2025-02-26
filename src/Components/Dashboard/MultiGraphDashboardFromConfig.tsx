@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { P } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DashboardLayoutDataType,
@@ -56,17 +57,14 @@ export function MultiGraphDashboardFromConfig(props: Props) {
   );
   if (!validationResult.isValid)
     return (
-      <p
-        className='undp-viz-typography'
+      <P
+        className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
         style={{
-          textAlign: 'center',
-          padding: '0.5rem',
           color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
-          fontSize: '0.875rem',
         }}
       >
         {validationResult.err}
-      </p>
+      </P>
     );
   return (
     <MultiGraphDashboard

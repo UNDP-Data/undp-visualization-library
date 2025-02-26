@@ -140,16 +140,11 @@ export function VerticalGroupedBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        height: 'inherit',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        padding: backgroundColor ? padding || '1rem' : padding || 0,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -168,22 +163,12 @@ export function VerticalGroupedBarGraph(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -201,16 +186,7 @@ export function VerticalGroupedBarGraph(props: Props) {
               mode={mode}
             />
           ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
+          <div className='grow flex flex-col justify-center gap-3 w-full'>
             <ColorLegendWithMouseOver
               rtl={rtl}
               language={language}
@@ -223,7 +199,7 @@ export function VerticalGroupedBarGraph(props: Props) {
               mode={mode}
             />
             <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
+              className='w-full grow leading-0'
               ref={graphDiv}
               aria-label='Graph area'
             >

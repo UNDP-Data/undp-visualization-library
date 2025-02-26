@@ -223,14 +223,11 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
             }}
             textAnchor='start'
-            fontSize={12}
+            className={`${
+              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+            } text-xs`}
             dy={-3}
           >
             0
@@ -250,23 +247,19 @@ export function Graph(props: Props) {
                     }}
                     strokeWidth={1}
                     strokeDasharray='4,8'
-                    opacity={d === 0 ? 0 : 1}
+                    className={`opacity-${d === 0 ? 0 : 100}`}
                   />
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
                     textAnchor='start'
-                    fontSize={12}
                     dy={-3}
-                    opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                     }}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-xs opacity-${d === 0 ? 0 : 100}`}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
                   </text>
@@ -280,14 +273,11 @@ export function Graph(props: Props) {
               }) rotate(-90)`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
-              fontSize={12}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
             >
               {barAxisTitle}
             </text>
@@ -375,13 +365,7 @@ export function Graph(props: Props) {
                   <motion.text
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy={d.size ? (d.size >= 0 ? '15px' : '-5px') : '15px'}
                     animate={{
@@ -389,6 +373,9 @@ export function Graph(props: Props) {
                       y: y(0),
                     }}
                     transition={{ duration: 0.5 }}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-xs`}
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -403,13 +390,7 @@ export function Graph(props: Props) {
                         (barColor.length > 1
                           ? UNDPColorModule[mode || 'light'].grays['gray-600']
                           : barColor[0]),
-                      fontSize: '0.875rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     animate={{
                       x: (x(`${d.id}`) as number) + x.bandwidth() / 2,
@@ -417,6 +398,9 @@ export function Graph(props: Props) {
                     }}
                     dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
                     transition={{ duration: 0.5 }}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-sm`}
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}
                   </motion.text>
@@ -443,20 +427,16 @@ export function Graph(props: Props) {
                   />
                   <text
                     x={graphWidth + margin.right}
-                    fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
                       fill:
                         el.color ||
                         UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
-                    fontSize={12}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-xs font-bold`}
                     dy={-5}
                   >
                     {el.text}
@@ -487,7 +467,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

@@ -29,17 +29,16 @@ export function GraphHeader(props: Props) {
   } = props;
   return (
     <div
+      className={`flex gap-2 justify-between ${
+        graphDescription && graphTitle ? 'items-start' : 'items-center'
+      }`}
       style={{
-        maxWidth: width || 'none',
-        justifyContent: 'space-between',
-        alignItems: graphDescription && graphTitle ? 'flex-start' : 'center',
-        display: 'flex',
-        gap: '0.5rem',
+        maxWidth: width ? `${width}px` : 'none',
         flexDirection: rtl ? 'row-reverse' : 'row',
       }}
       aria-label='Graph header'
     >
-      <div style={{ flexDirection: 'column', display: 'flex', gap: '0.125em' }}>
+      <div className='flex-col flex gap-1'>
         {graphTitle ? (
           <GraphTitle
             text={graphTitle}
@@ -59,7 +58,7 @@ export function GraphHeader(props: Props) {
         ) : null}
       </div>
       {graphDownload || dataDownload ? (
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div className='flex gap-3'>
           {graphDownload ? (
             <ImageDownloadButton
               nodeID={graphDownload}

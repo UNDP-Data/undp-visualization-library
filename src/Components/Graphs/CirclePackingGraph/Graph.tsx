@@ -282,18 +282,7 @@ export const Graph = memo((props: Props) => {
   if (!finalData) {
     return (
       <div style={{ width: `${width}px`, height: `${height}px` }}>
-        <div
-          style={{
-            display: 'flex',
-            margin: 'auto',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '10rem',
-            fontSize: '1rem',
-            lineHeight: 1.4,
-            padding: 0,
-          }}
-        >
+        <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
           <div className='undp-viz-loader' />
         </div>
       </div>
@@ -344,30 +333,14 @@ export const Graph = memo((props: Props) => {
                       width={2 * bubbleRadius}
                       height={2 * bubbleRadius}
                     >
-                      <div
-                        style={{
-                          color: getTextColorBasedOnBgColor(circleColor),
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAlign: 'center',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          height: '100%',
-                          padding: '0 0.75rem',
-                        }}
-                      >
+                      <div className='flex flex-col justify-center items-center h-full py-0 px-3'>
                         {showLabels && (
                           <p
                             className={`${
                               rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                                ? `font-sans-${language || 'ar'}`
+                                : 'font-sans'
+                            } text-center leading-tight overflow-hidden m-0`}
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
@@ -379,9 +352,6 @@ export const Graph = memo((props: Props) => {
                                 ),
                                 14,
                               )}px`,
-                              marginBottom: 0,
-                              textAlign: 'center',
-                              lineHeight: '1.25',
                               WebkitLineClamp:
                                 bubbleRadius * 2 < 60
                                   ? 1
@@ -391,7 +361,6 @@ export const Graph = memo((props: Props) => {
                                   ? 3
                                   : undefined,
                               display: '-webkit-box',
-                              overflow: 'hidden',
                               WebkitBoxOrient: 'vertical',
                               color: getTextColorBasedOnBgColor(circleColor),
                               hyphens: 'auto',
@@ -402,16 +371,16 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className='undp-viz-typography'
+                            className={`${
+                              rtl
+                                ? `font-sans-${language || 'ar'}`
+                                : 'font-sans'
+                            } text-center font-bold leading-tight w-full m-0`}
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),
                                 14,
                               )}px`,
-                              width: '100%',
-                              textAlign: 'center',
-                              fontWeight: 'bold',
-                              marginBottom: 0,
                               color: getTextColorBasedOnBgColor(circleColor),
                             }}
                           >
@@ -446,7 +415,7 @@ export const Graph = memo((props: Props) => {
             }}
           >
             <div
-              style={{ margin: 0 }}
+              className='m-0'
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
                 __html: string2HTML(detailsOnClick, mouseClickData),

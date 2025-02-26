@@ -127,18 +127,7 @@ export function Histogram(props: Props) {
       <div
         style={{ width: `${width}px`, height: `${height}px`, margin: 'auto' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            margin: 'auto',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '10rem',
-            fontSize: '1rem',
-            lineHeight: 1.4,
-            padding: 0,
-          }}
-        >
+        <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
           <div className='undp-viz-loader' />
         </div>
       </div>

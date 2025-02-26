@@ -107,7 +107,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
-        style={{ marginLeft: 'auto', marginRight: 'auto' }}
+        className='mx-auto'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
@@ -126,14 +126,11 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
               textAnchor='middle'
-              fontSize={12}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
               dy={15}
             >
               {axisTitle[0]}
@@ -155,14 +152,11 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
+              className={`${
+                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+              } text-xs`}
               textAnchor='middle'
-              fontSize={12}
               dy={15}
             >
               {axisTitle[1]}
@@ -248,7 +242,6 @@ export function Graph(props: Props) {
                 />
                 {showLabels ? (
                   <text
-                    fontSize={10}
                     style={{
                       fill:
                         data.filter(el => el.color).length === 0
@@ -256,13 +249,11 @@ export function Graph(props: Props) {
                           : !d.color
                           ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'end',
                     }}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-[10px]`}
                     y={y(d.y1)}
                     x={5}
                     dy={4}
@@ -273,7 +264,6 @@ export function Graph(props: Props) {
                 ) : highlightedDataPoints.length !== 0 ? (
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
-                      fontSize={10}
                       style={{
                         fill:
                           data.filter(el => el.color).length === 0
@@ -281,13 +271,11 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'end',
                       }}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-[10px]`}
                       y={y(d.y1)}
                       x={5}
                       dy={4}
@@ -319,7 +307,6 @@ export function Graph(props: Props) {
                 />
                 {showLabels ? (
                   <text
-                    fontSize={10}
                     style={{
                       fill:
                         data.filter(el => el.color).length === 0
@@ -327,13 +314,11 @@ export function Graph(props: Props) {
                           : !d.color
                           ? UNDPColorModule[mode || 'light'].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAnchor: 'start',
                     }}
+                    className={`${
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-[10px]`}
                     y={y(d.y2)}
                     x={graphWidth - 5}
                     dy={4}
@@ -344,7 +329,6 @@ export function Graph(props: Props) {
                 ) : highlightedDataPoints.length !== 0 ? (
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
-                      fontSize={10}
                       style={{
                         fill:
                           data.filter(el => el.color).length === 0
@@ -352,13 +336,11 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         textAnchor: 'start',
                       }}
+                      className={`${
+                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                      } text-[10px]`}
                       y={y(d.y2)}
                       x={graphWidth - 5}
                       dy={4}
@@ -409,7 +391,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

@@ -216,15 +216,11 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
+        !fillContainer ? 'w-fit' : 'w-full'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: !fillContainer ? 'fit-content' : '100%',
-        height: 'inherit',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -243,22 +239,12 @@ export function SankeyChart(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            width: '100%',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col gap-4 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -276,26 +262,9 @@ export function SankeyChart(props: Props) {
               mode={mode}
             />
           ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
+          <div className='grow flex flex-col justify-center gap-3 w-full'>
             <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '0.75rem',
-                width: '100%',
-                lineHeight: 0,
-              }}
+              className='flex flex-col grow justify-center gap-3 w-full leading-0'
               ref={graphDiv}
               aria-label='Graph area'
             >

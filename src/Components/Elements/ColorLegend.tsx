@@ -1,3 +1,4 @@
+import { P } from '@undp-data/undp-design-system-react';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
@@ -27,97 +28,81 @@ export function ColorLegend(props: Props) {
 
   return (
     <div
+      className={`flex ${
+        isCenter ? 'justify-center' : rtl ? 'justify-end' : 'justify-start'
+      } leading-0`}
       style={{
-        lineHeight: 0,
-        maxWidth: width || 'none',
-        display: 'flex',
-        justifyContent: isCenter ? 'center' : rtl ? 'flex-end' : 'flex-start',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Color legend'
     >
       <div>
         {colorLegendTitle && colorLegendTitle !== '' ? (
-          <p
+          <P
             className={`${
-              rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-            }undp-viz-typography`}
+              rtl ? `font-sans-${language || 'ar'} ` : ''
+            }font-sans text-sm md:text-sm mb-2 md:mb-2 ${
+              isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'
+            }`}
             style={{
               color: UNDPColorModule[mode].grays['gray-700'],
-              fontSize: '0.875rem',
-              textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
-              marginBottom: '0.5rem',
             }}
           >
             {colorLegendTitle}
-          </p>
+          </P>
         ) : null}
         <div
+          className={`flex flex-wrap mb-0 ${
+            rtl ? 'flex-row-reverse' : 'flex-row'
+          }`}
           style={{
-            display: 'flex',
-            marginBottom: 0,
-            flexWrap: 'wrap',
             gap: '0.875rem',
-            flexDirection: rtl ? 'row-reverse' : 'row',
           }}
         >
           {colorDomain.map((d, i) => (
             <div
               key={i}
-              style={{
-                display: 'flex',
-                gap: '0.25rem',
-                alignItems: 'center',
-                flexDirection: rtl ? 'row-reverse' : 'row',
-              }}
+              className={`flex items-center gap-1 ${
+                rtl ? 'flex-row-reverse' : 'flex-row'
+              }`}
             >
               <div
+                className='w-3 h-3 rounded-full'
                 style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
-                  borderRadius: '1rem',
                   backgroundColor: colors[i % colors.length],
                 }}
               />
               {d === '' ? null : (
-                <p
+                <P
                   className={`${
-                    rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                  }undp-viz-typography`}
+                    rtl ? `font-sans-${language || 'ar'} ` : ''
+                  }font-sans text-sm md:text-sm mb-0 md:mb-0`}
                   style={{
-                    marginBottom: 0,
-                    fontSize: '0.875rem',
                     color: UNDPColorModule[mode].grays.black,
                   }}
                 >
                   {d}
-                </p>
+                </P>
               )}
             </div>
           ))}
           {showNAColor ? (
             <div
-              style={{
-                display: 'flex',
-                gap: '0.25rem',
-                alignItems: 'center',
-                flexDirection: rtl ? 'row-reverse' : 'row',
-              }}
+              className={`flex items-center gap-1 ${
+                rtl ? 'flex-row-reverse' : 'flex-row'
+              }`}
             >
               <div
+                className='w-3 h-3 rounded-full'
                 style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
-                  borderRadius: '1rem',
                   backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
               <p
                 className={`${
-                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                }undp-viz-typography`}
+                  rtl ? `font-sans-${language || 'ar'} ` : ''
+                }font-sans text-sm md:text-sm mb-0 md:mb-0`}
                 style={{
-                  marginBottom: 0,
-                  fontSize: '0.875rem',
                   color: UNDPColorModule[mode].grays.black,
                 }}
               >

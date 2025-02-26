@@ -408,46 +408,30 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            position: 'relative',
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
+          className={`undp-viz-bivariate-legend-container relative ${
+            rtl ? 'self-end' : 'self-start'
+          }`}
         >
           <div
+            className='flex p-4 items-end mb-3'
             style={{
               backgroundColor:
                 mode === 'dark'
                   ? 'rgba(255,255,255,0.05)'
                   : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              padding: '1rem',
-              display: 'flex',
-              alignItems: 'flex-end',
             }}
           >
-            <div
-              style={{
-                position: 'relative',
-                zIndex: '5',
-                padding: 0,
-              }}
-            >
+            <div className='relative z-5 p-0'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <p
                     className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } leading-normal text-xs mx-0 mt-0 mb-2 p-0 overflow-hidden`}
                     style={{
-                      lineHeight: 'normal',
-                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      margin: '0 0 0.5rem 0',
-                      padding: 0,
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
@@ -465,7 +449,7 @@ export function Graph(props: Props) {
                         onMouseLeave={() => {
                           setSelectedColor(undefined);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        className='cursor-pointer'
                       >
                         <rect
                           x={
@@ -497,13 +481,10 @@ export function Graph(props: Props) {
                           }
                           y={25}
                           textAnchor='middle'
-                          fontSize={12}
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-xs`}
                           style={{
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
@@ -537,7 +518,7 @@ export function Graph(props: Props) {
                               : colors[domain.length]
                           }
                           strokeWidth={1}
-                          style={{ cursor: 'pointer' }}
+                          className='cursor-pointer'
                         />
                       </g>
                     )}
@@ -568,7 +549,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
+import { P } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DataTableColumnDataType,
@@ -119,15 +120,11 @@ export function DataTable(props: Props) {
   }, [columnSortBy, sortDirection, data, filterOption]);
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        height: 'inherit',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -145,22 +142,12 @@ export function DataTable(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            width: '100%',
-            justifyContent: 'space-between',
-            flexGrow: 1,
-          }}
-        >
+        <div className='flex flex-col gap-3 w-full justify-between grow'>
           {graphTitle || graphDescription ? (
             <GraphHeader
               rtl={rtl}
@@ -171,14 +158,7 @@ export function DataTable(props: Props) {
               mode={mode}
             />
           ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
+          <div className='grow flex flex-col justify-center'>
             <div
               className='undp-viz-scrollbar'
               style={{
@@ -187,20 +167,21 @@ export function DataTable(props: Props) {
               }}
             >
               {data ? (
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <table
+                  className='w-full'
+                  style={{ borderCollapse: 'collapse' }}
+                >
                   <thead
+                    className='text-left'
                     style={{
-                      fontWeight: '600',
-                      textAlign: 'left',
                       backgroundColor: UNDPColorModule[mode].grays['gray-300'],
                     }}
                   >
                     <tr>
                       {columnData?.map((d, i) => (
                         <th
-                          className='undp-viz-typography'
+                          className='text-sm'
                           style={{
-                            fontSize: '0.875rem',
                             width: `calc(${
                               (100 * (d.columnWidth || 1)) /
                               TotalWidth(
@@ -211,31 +192,16 @@ export function DataTable(props: Props) {
                           }}
                           key={i}
                         >
-                          <div
-                            style={{
-                              display: 'flex',
-                              gap: '0.5rem',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              padding: '1rem',
-                            }}
-                          >
-                            <p
-                              style={{
-                                textAlign: d.align || 'left',
-                                flexGrow: 1,
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                color: UNDPColorModule[mode].grays.black,
-                                margin: 0,
-                                fontSize: '0.875rem',
-                              }}
+                          <div className='flex gap-2 justify-between items-center p-4'>
+                            <P
+                              className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 grow ${
+                                rtl
+                                  ? `font-sans-${language || 'ar'}`
+                                  : 'font-sans'
+                              } text-${d.align || 'left'} font-bold`}
                             >
                               {d.columnTitle || d.columnId}
-                            </p>
+                            </P>
                             {d.sortable ? (
                               <button
                                 type='button'
@@ -325,9 +291,11 @@ export function DataTable(props: Props) {
                     {sortedData?.map((d: any, i: number) => (
                       <tr
                         key={i}
+                        className={`cursor-${
+                          onSeriesMouseClick ? 'pointer' : 'auto'
+                        }`}
                         style={{
                           borderBottom: `1px solid ${UNDPColorModule[mode].grays['gray-400']}`,
-                          cursor: onSeriesMouseClick ? 'pointer' : 'auto',
                           backgroundColor: isEqual(mouseClickData, d)
                             ? UNDPColorModule[mode].grays['gray-200']
                             : 'transparent',
@@ -349,11 +317,9 @@ export function DataTable(props: Props) {
                       >
                         {columnData.map((el, j) => (
                           <td
-                            className='undp-viz-typography'
                             key={j}
+                            className={`text-sm text-${d.align || 'left'}`}
                             style={{
-                              textAlign: d.align || 'left',
-                              fontSize: '0.875rem',
                               width: `calc(${
                                 (100 * (d.columnWidth || 1)) /
                                 TotalWidth(
@@ -364,28 +330,29 @@ export function DataTable(props: Props) {
                             }}
                           >
                             <div
+                              className={`flex p-4 ${
+                                el.align === 'right'
+                                  ? 'justify-end'
+                                  : el.align === 'center'
+                                  ? 'justify-center'
+                                  : 'justify-start'
+                              }`}
                               style={{
-                                display: 'flex',
-                                justifyContent:
-                                  el.align === 'right'
-                                    ? 'end'
-                                    : el.align === 'center'
-                                    ? 'center'
-                                    : 'flex-start',
-                                padding: '1rem',
                                 color: UNDPColorModule[mode].grays.black,
                               }}
                             >
                               {typeof d[el.columnId] === 'number' ? (
-                                <p
+                                <P
+                                  className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                    el.chip
+                                      ? 'grow-0 rounded-sm p-2 md:p-2'
+                                      : 'grow rounded-none p-0 md:p-0'
+                                  } ${
+                                    rtl
+                                      ? `font-sans-${language || 'ar'}`
+                                      : 'font-sans'
+                                  } text-${d.align || 'left'}`}
                                   style={{
-                                    textAlign: el.align || 'left',
-                                    flexGrow: el.chip ? 0 : 1,
-                                    fontFamily: rtl
-                                      ? language === 'he'
-                                        ? 'Noto Sans Hebrew, sans-serif'
-                                        : 'Noto Sans Arabic, sans-serif'
-                                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                     backgroundColor: el.chip
                                       ? el.chipColors
                                         ? el.chipColors[
@@ -397,12 +364,7 @@ export function DataTable(props: Props) {
                                             'gray-300'
                                           ]
                                       : 'transparent',
-                                    padding: el.chip ? '0.5rem' : 0,
-                                    width: 'fit-content',
-                                    borderRadius: el.chip ? '2px' : 0,
                                     color: UNDPColorModule[mode].grays.black,
-                                    margin: 0,
-                                    fontSize: '0.875rem',
                                   }}
                                 >
                                   {numberFormattingFunction(
@@ -410,30 +372,30 @@ export function DataTable(props: Props) {
                                     el.prefix,
                                     el.suffix,
                                   )}
-                                </p>
+                                </P>
                               ) : typeof d[el.columnId] === 'string' ? (
                                 el.separator ? (
                                   <div
+                                    className='flex flex-wrap gap-2'
                                     style={{
-                                      display: 'flex',
-                                      flexWrap: 'wrap',
-                                      gap: '0.5rem',
                                       color: UNDPColorModule[mode].grays.black,
                                     }}
                                   >
                                     {d[el.columnId]
                                       .split(el.separator)
                                       .map((element: string, indx: number) => (
-                                        <p
+                                        <P
                                           key={indx}
+                                          className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                            el.chip
+                                              ? 'grow-0 rounded-sm p-2 md:p-2'
+                                              : 'grow rounded-none p-0 md:p-0'
+                                          } ${
+                                            rtl
+                                              ? `font-sans-${language || 'ar'}`
+                                              : 'font-sans'
+                                          } text-${d.align || 'left'}`}
                                           style={{
-                                            textAlign: el.align || 'left',
-                                            flexGrow: el.chip ? 0 : 1,
-                                            fontFamily: rtl
-                                              ? language === 'he'
-                                                ? 'Noto Sans Hebrew, sans-serif'
-                                                : 'Noto Sans Arabic, sans-serif'
-                                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                             backgroundColor: el.chip
                                               ? el.chipColors
                                                 ? el.chipColors[
@@ -447,29 +409,26 @@ export function DataTable(props: Props) {
                                                     'gray-300'
                                                   ]
                                               : 'transparent',
-                                            padding: el.chip ? '0.5rem' : 0,
-                                            width: 'fit-content',
-                                            borderRadius: el.chip ? '2px' : 0,
                                             color:
                                               UNDPColorModule[mode].grays.black,
-                                            margin: 0,
-                                            fontSize: '0.875rem',
                                           }}
                                         >{`${el.prefix || ''}${element}${
                                           el.suffix || ''
-                                        }`}</p>
+                                        }`}</P>
                                       ))}
                                   </div>
                                 ) : (
-                                  <p
+                                  <P
+                                    className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                      el.chip
+                                        ? 'grow-0 rounded-sm p-2 md:p-2'
+                                        : 'grow rounded-none p-0 md:p-0'
+                                    } ${
+                                      rtl
+                                        ? `font-sans-${language || 'ar'}`
+                                        : 'font-sans'
+                                    } text-${el.align || 'left'}`}
                                     style={{
-                                      textAlign: el.align || 'left',
-                                      flexGrow: el.chip ? 0 : 1,
-                                      fontFamily: rtl
-                                        ? language === 'he'
-                                          ? 'Noto Sans Hebrew, sans-serif'
-                                          : 'Noto Sans Arabic, sans-serif'
-                                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                                       backgroundColor: el.chip
                                         ? el.chipColors
                                           ? el.chipColors[
@@ -481,16 +440,11 @@ export function DataTable(props: Props) {
                                               'gray-300'
                                             ]
                                         : 'transparent',
-                                      padding: el.chip ? '0.5rem' : 0,
-                                      width: 'fit-content',
-                                      borderRadius: el.chip ? '2px' : 0,
                                       color: UNDPColorModule[mode].grays.black,
-                                      margin: 0,
-                                      fontSize: '0.875rem',
                                     }}
                                   >{`${el.prefix || ''}${d[el.columnId]}${
                                     el.suffix || ''
-                                  }`}</p>
+                                  }`}</P>
                                 )
                               ) : (
                                 <div>{d[el.columnId]}</div>
@@ -518,26 +472,15 @@ export function DataTable(props: Props) {
         </div>
         {popupVisible && (
           <div style={popupStyle}>
-            <div style={{ maxWidth: '15rem' }}>
-              <p
+            <div className='max-w-60'>
+              <P
                 className={`${
-                  rtl ? `undp-viz-typography-${language} ` : ''
-                }undp-viz-typography`}
-                style={{
-                  fontSize: '0.875rem',
-                  marginBottom: '0.25rem',
-                  fontWeight: 'bold',
-                }}
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } text-sm md:text-sm mb-1 md:mb-1 font-bold`}
               >
                 Filter data by
-              </p>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.5rem',
-                }}
-              >
+              </P>
+              <div className='flex flex-col gap-2'>
                 {columnData[
                   columnData.findIndex(d => d.columnId === popupVisible)
                 ].filterOptions?.map((el, i) => (

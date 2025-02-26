@@ -52,12 +52,9 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
+      className='flex flex-col w-full h-inherit'
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: '100%',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -75,22 +72,12 @@ export function BasicStatCard(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '3rem',
-            justifyContent: 'space-between',
-            flexGrow: 1,
-          }}
-        >
+        <div className='flex flex-col w-full gap-12 justify-between grow'>
           {graphTitle || graphDescription ? (
             <GraphHeader
               rtl={rtl}
@@ -101,19 +88,18 @@ export function BasicStatCard(props: Props) {
             />
           ) : null}
           <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent:
-                verticalAlign === 'top'
-                  ? 'flex-start'
-                  : verticalAlign === 'bottom'
-                  ? 'flex-end'
-                  : 'center',
-            }}
+            className={`flex flex-col justify-between grow ${
+              verticalAlign === 'top'
+                ? 'justify-start'
+                : verticalAlign === 'bottom'
+                ? 'justify-end'
+                : 'justify-center'
+            }`}
           >
             <h3
+              className={`mb-4 mt-0 font-heading ${
+                centerAlign ? 'text-center' : rtl ? 'text-right' : 'text-left'
+              }`}
               style={{
                 fontSize: headingFontSize,
                 lineHeight: '1',
@@ -129,11 +115,6 @@ export function BasicStatCard(props: Props) {
                   ? UNDPColorModule[mode].grays['gray-200']
                   : backgroundColor,
                 letterSpacing: '0.05rem',
-                marginTop: '0',
-                marginBottom: '1rem',
-                textAlign: centerAlign ? 'center' : rtl ? 'right' : 'left',
-                fontFamily:
-                  'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               }}
             >
               {typeof value === 'string'
@@ -141,21 +122,17 @@ export function BasicStatCard(props: Props) {
                 : numberFormattingFunction(value, prefix, suffix)}{' '}
               {year ? (
                 <span
+                  className={`text-lg md:text-lg font-normal mt-0 mb-4 ${
+                    rtl
+                      ? `font-sans-${language || 'ar'} text-right`
+                      : 'text-left font-sans'
+                  }`}
                   style={{
                     marginLeft: '-8px',
-                    fontSize: '1.25rem',
                     lineHeight: '1.09',
                     textShadow: 'none',
-                    fontWeight: 'normal',
                     WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
                     color: UNDPColorModule[mode].grays['gray-550'],
-                    marginTop: '0',
-                    marginBottom: '1rem',
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                   }}
                 >
                   ({year})

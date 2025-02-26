@@ -1,6 +1,7 @@
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
+import { H2, P } from '@undp-data/undp-design-system-react';
 import { CSSObject, DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
@@ -70,33 +71,19 @@ export function Graph(props: Props) {
               height={2 * (radius - strokeWidth)}
             >
               <div
+                className={`${
+                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                } flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-4`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays.black,
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  textAnchor: 'middle',
-                  whiteSpace: 'normal',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 'inherit',
-                  padding: '0 1rem',
                 }}
               >
                 {mainText ? (
-                  <h2
+                  <H2
                     className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } leading-none text-center mb-0 md:mb-0`}
                     style={{
-                      lineHeight: '1',
-                      textAlign: 'center',
-                      marginBottom: 0,
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
@@ -110,38 +97,30 @@ export function Graph(props: Props) {
                           mainText.suffix,
                         )
                       : 'NA'}
-                  </h2>
+                  </H2>
                 ) : null}
                 {subNote ? (
-                  <p
+                  <P
                     className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-base md:text-base leading-none text-center font-bold m-0 mb-0 md:mb-0 md:m-0`}
                     style={{
-                      lineHeight: '1',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      marginBottom: 0,
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
                     {subNote}
-                  </p>
+                  </P>
                 ) : typeof mainText === 'string' || !mainText ? null : (
-                  <p
+                  <P
                     className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                    } text-base md:text-base leading-none text-center font-bold m-0 md:m-0 mb-0 md:mb-0`}
                     style={{
-                      lineHeight: '1',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      marginBottom: 0,
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
                   >
                     {mainText.label}
-                  </p>
+                  </P>
                 )}
               </div>
             </foreignObject>
@@ -230,7 +209,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

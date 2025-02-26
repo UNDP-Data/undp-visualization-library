@@ -116,13 +116,7 @@ export function GeoHubMultipleMap(props: Props) {
   }, [mapStyle]);
   return (
     <div
-      style={{
-        flexGrow: 1,
-        flexDirection: 'column',
-        display: 'flex',
-        justifyContent: 'center',
-        lineHeight: 0,
-      }}
+      className='flex flex-col grow justify-center leading-0'
       ref={graphDiv}
       aria-label='Map area'
     >

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
+import { H2, P } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
@@ -92,16 +93,12 @@ export function UnitChart(props: Props) {
   });
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
         minHeight: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -118,21 +115,12 @@ export function UnitChart(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            width: '100%',
-            flexGrow: 1,
-          }}
-        >
+        <div className='flex flex-col gap-3 w-full grow'>
           {graphTitle || graphDescription || graphDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -151,80 +139,48 @@ export function UnitChart(props: Props) {
             />
           ) : null}
           {note ? (
-            <h2
-              className='undp-viz-typography'
+            <H2
+              className='mt-0 mb-1 md:mb-1 font-bold'
               style={{
                 width: width ? `${width}px` : '100%',
-                fontWeight: 'bold',
-                marginBottom: '0.25rem',
-                marginTop: 0,
                 color: UNDPColorModule[mode].grays.black,
               }}
             >
               {note}
-            </h2>
+            </H2>
           ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
+          <div className='flex grow flex-col justify-between'>
             <div>
               {graphLegend ? (
                 <div
+                  className='mb-4 leading-0'
                   style={{
-                    lineHeight: 0,
                     width: width ? `${width}px` : '100%',
-                    marginBottom: '1rem',
                   }}
                   aria-label='Color legend'
                 >
-                  <div
-                    style={{
-                      display: 'flex',
-                      marginBottom: 0,
-                      flexWrap: 'wrap',
-                      rowGap: '0.25rem',
-                      columnGap: '1rem',
-                    }}
-                  >
+                  <div className='flex mb-0 flex-wrap gap-x-1 gap-y-4'>
                     {data.map((d, i) => (
-                      <div
-                        style={{
-                          display: 'flex',
-                          gap: '0.5rem',
-                          alignItems: 'center',
-                        }}
-                        key={i}
-                      >
+                      <div className='flex gap-2 items-center' key={i}>
                         <div
+                          className='w-3 h-3 rounded-full'
                           style={{
-                            width: '0.75rem',
-                            height: '0.75rem',
-                            borderRadius: '1rem',
                             backgroundColor: colors[i],
                           }}
                         />
-                        <p
+                        <P
                           className={`${
-                            rtl ? `undp-viz-typography-${language} ` : ''
-                          }undp-viz-typography`}
+                            rtl ? `font-sans-${language || 'ar'} ` : ''
+                          }font-sans text-sm md:text-sm mb-0 md:mb-0`}
                           style={{
-                            marginBottom: 0,
-                            fontSize: '0.875rem',
                             color: UNDPColorModule[mode].grays.black,
                           }}
                         >
                           {d.label}:{' '}
-                          <span
-                            style={{ fontWeight: 'bold', fontSize: 'inherit' }}
-                          >
+                          <span className='font-bold text-sm md:text-sm'>
                             {numberFormattingFunction(d.value)}
                           </span>
-                        </p>
+                        </P>
                       </div>
                     ))}
                   </div>

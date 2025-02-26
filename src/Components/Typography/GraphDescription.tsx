@@ -1,3 +1,4 @@
+import { P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
 import { UNDPColorModule } from '../ColorPalette';
 
@@ -21,19 +22,16 @@ export function GraphDescription(props: Props) {
     );
   }
   return (
-    <p
+    <P
       className={`${
-        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-      }undp-viz-typography`}
+        rtl ? `font-sans-${language || 'ar'} text-right` : 'font-sans text-left'
+      } text-sm md:text-sm mb-0 md:mb-0 m-0 md:m-0`}
       style={{
         color: UNDPColorModule[mode].grays['gray-600'],
-        marginBottom: 0,
-        fontSize: '0.875rem',
-        textAlign: rtl ? 'right' : 'left',
       }}
       aria-label='Graph description'
     >
       {text}
-    </p>
+    </P>
   );
 }

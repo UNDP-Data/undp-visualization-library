@@ -139,15 +139,11 @@ export function BiVariantMap(props: Props) {
 
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -166,22 +162,12 @@ export function BiVariantMap(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
               rtl={rtl}
@@ -200,13 +186,7 @@ export function BiVariantMap(props: Props) {
             />
           ) : null}
           <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}
+            className='flex flex-col grow justify-center leading-0'
             ref={graphDiv}
             aria-label='Map area'
           >

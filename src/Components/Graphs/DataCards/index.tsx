@@ -6,6 +6,7 @@ import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import sortBy from 'lodash.sortby';
+import { P } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   FilterSettingsDataType,
@@ -225,15 +226,11 @@ export function DataCards(props: Props) {
 
   return (
     <div
+      className={`ml-auto mr-auto flex flex-col ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit`}
       style={{
         ...backgroundStyle,
-        display: 'flex',
-        height: 'inherit',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
         backgroundColor: !backgroundColor
           ? 'transparent'
           : backgroundColor === true
@@ -251,22 +248,12 @@ export function DataCards(props: Props) {
       }
     >
       <div
+        className='flex grow'
         style={{
           padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            width: '100%',
-            justifyContent: 'space-between',
-            flexGrow: 1,
-          }}
-        >
+        <div className='flex flex-col grow gap-3 w-full justify-between'>
           {graphTitle || graphDescription ? (
             <GraphHeader
               rtl={rtl}
@@ -279,39 +266,29 @@ export function DataCards(props: Props) {
           ) : null}
           {cardSortingOptions || filterSettings.length > 0 ? (
             <div
-              style={{
-                display: 'flex',
-                gap: '1rem',
-                flexWrap: 'wrap',
-                alignItems: 'flex-start',
-                width: '100%',
-                flexDirection: rtl ? 'row-reverse' : 'row',
-              }}
+              className={`flex gap-4 flex-wrap items-start w-full ${
+                rtl ? 'flex-row-reverse' : 'flex-row'
+              }`}
             >
               {cardSortingOptions ? (
                 <div
+                  className='grow shrink-0 min-w-[240px]'
                   style={{
                     width: cardSortingOptions.width || 'calc(25% - 0.75rem)',
-                    flexGrow: 1,
-                    flexShrink: 0,
-                    minWidth: '240px',
                   }}
                 >
-                  <p
-                    className={
+                  <P
+                    className={`text-sm md:text-sm mb-2 md:mb-2 ${
                       rtl
-                        ? `undp-viz-typography-${language} undp-viz-typography`
-                        : 'undp-viz-typography'
-                    }
+                        ? `font-sans-${language || 'ar'} text-right`
+                        : 'font-sans text-left'
+                    }`}
                     style={{
-                      fontSize: '0.875rem',
-                      marginBottom: '0.5rem',
-                      textAlign: rtl ? 'right' : 'left',
                       color: UNDPColorModule[mode].grays.black,
                     }}
                   >
                     Sort by
-                  </p>
+                  </P>
                   <Select
                     className={
                       rtl
@@ -322,7 +299,7 @@ export function DataCards(props: Props) {
                     isRtl={rtl}
                     isSearchable
                     filterOption={createFilter(filterConfig)}
-                    onChange={el => {
+                    onChange={(el: any) => {
                       setSortedBy(el || undefined);
                     }}
                     defaultValue={
@@ -338,35 +315,30 @@ export function DataCards(props: Props) {
                             )
                           ]
                     }
-                    theme={theme => getReactSelectTheme(theme, mode)}
+                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               ) : null}
               {filterSettings?.map((d, i) => (
                 <div
+                  className='grow shrink-0 min-w-[240px]'
                   style={{
                     width: d.width || 'calc(25% - 0.75rem)',
-                    flexGrow: 1,
-                    flexShrink: 0,
-                    minWidth: '240px',
                   }}
                   key={i}
                 >
-                  <p
-                    className={
+                  <P
+                    className={`text-sm md:text-sm mb-2 md:mb-2 ${
                       rtl
-                        ? `undp-viz-typography-${language} undp-viz-typography`
-                        : 'undp-viz-typography'
-                    }
+                        ? `font-sans-${language || 'ar'} text-right`
+                        : 'font-sans text-left'
+                    }`}
                     style={{
-                      fontSize: '0.875rem',
-                      marginBottom: '0.5rem',
-                      textAlign: rtl ? 'right' : 'left',
                       color: UNDPColorModule[mode].grays.black,
                     }}
                   >
                     {d.label}
-                  </p>
+                  </P>
                   <Select
                     className={
                       rtl
@@ -379,28 +351,22 @@ export function DataCards(props: Props) {
                     isSearchable
                     controlShouldRenderValue
                     filterOption={createFilter(filterConfig)}
-                    onChange={el => {
+                    onChange={(el: any) => {
                       handleFilterChange(d.filter, el);
                     }}
                     defaultValue={d.defaultValue}
-                    theme={theme => getReactSelectTheme(theme, mode)}
+                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               ))}
             </div>
           ) : null}
           {cardSearchColumns.length > 0 ? (
-            <div style={{ width: '100%', display: 'flex' }}>
-              <div
-                style={{
-                  position: 'relative',
-                  flexGrow: 1,
-                  display: 'flex',
-                }}
-              >
+            <div className='w-full flex'>
+              <div className='flex grow relative'>
                 <span
+                  className='absolute'
                   style={{
-                    position: 'absolute',
                     left: '10px',
                     top: '50%',
                     transform: 'translateY(-45%)',
@@ -435,7 +401,7 @@ export function DataCards(props: Props) {
             </div>
           ) : null}
           <div
-            className='undp-viz-scrollbar undp-viz-data-cards-container'
+            className='undp-viz-scrollbar w-full my-0 mx-auto grid gap-4 undp-viz-data-cards-container'
             style={{
               width: width ? `${width}px` : '100%',
               height: height ? `${height}px` : 'auto',
@@ -457,10 +423,12 @@ export function DataCards(props: Props) {
                     backgroundColor:
                       cardBackgroundColor ||
                       UNDPColorModule[mode].grays['gray-200'],
-                    cursor:
-                      onSeriesMouseClick || detailsOnClick ? 'pointer' : 'auto',
                   }}
-                  className='undp-viz-data-cards'
+                  className={`w-full flex flex-col ${
+                    onSeriesMouseClick || detailsOnClick
+                      ? 'cursor-pointer'
+                      : 'cursor-auto'
+                  }`}
                   onClick={() => {
                     if (onSeriesMouseClick) onSeriesMouseClick(d);
                     if (detailsOnClick) setSelectedData(d);
@@ -503,13 +471,13 @@ export function DataCards(props: Props) {
         {detailsOnClick ? (
           <>
             <div
-              style={{ margin: 0 }}
+              className='m-0'
               dangerouslySetInnerHTML={{
                 __html: string2HTML(detailsOnClick, selectedData),
               }}
             />
             {allowDataDownloadOnDetail ? (
-              <div style={{ display: 'flex' }}>
+              <div className='flex'>
                 <CsvDownloadButton
                   csvData={csvData(selectedData)}
                   headers={[
@@ -524,13 +492,7 @@ export function DataCards(props: Props) {
                   ]}
                   mode={mode}
                   buttonContent={
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem',
-                      }}
-                    >
+                    <div className='flex items-center gap-4'>
                       {typeof allowDataDownloadOnDetail === 'string'
                         ? allowDataDownloadOnDetail
                         : null}

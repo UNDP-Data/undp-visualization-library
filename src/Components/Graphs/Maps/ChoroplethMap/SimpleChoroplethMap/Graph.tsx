@@ -4,6 +4,7 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
 import isEqual from 'lodash.isequal';
+import { P } from '@undp-data/undp-design-system-react';
 import { ChoroplethMapDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
@@ -391,51 +392,37 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            position: 'relative',
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
+          className={`undp-viz-bivariate-legend-container relative ${
+            rtl ? 'self-end' : 'self-start'
+          }`}
         >
           <div
+            className='mb-3 p-4 flex items-end'
             style={{
               backgroundColor:
                 mode === 'dark'
                   ? 'rgba(255,255,255,0.05)'
                   : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              padding: '1rem',
-              display: 'flex',
-              alignItems: 'flex-end',
             }}
           >
-            <div
-              style={{
-                position: 'relative',
-                zIndex: '5',
-                padding: 0,
-              }}
-            >
+            <div className='p-0 z-10 relative'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
-                  <p
+                  <P
                     className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                      rtl
+                        ? `font-sans-${language || 'ar'} text-right`
+                        : 'font-sans text-left'
+                    } text-xs md:text-xs mb-2 md:mb-2 p-0 mt-0 mx-0 leading-normal overflow-hidden`}
                     style={{
-                      lineHeight: 'normal',
-                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      margin: '0 0 0.5rem 0',
-                      padding: 0,
                       color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     }}
                   >
                     {colorLegendTitle}
-                  </p>
+                  </P>
                 ) : null}
                 <svg width='100%' viewBox='0 0 320 30'>
                   <g>
@@ -448,7 +435,7 @@ export function Graph(props: Props) {
                         onMouseLeave={() => {
                           setSelectedColor(undefined);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        className='cursor-pointer'
                       >
                         <rect
                           x={
@@ -480,13 +467,10 @@ export function Graph(props: Props) {
                           }
                           y={25}
                           textAnchor='middle'
-                          fontSize={12}
+                          className={`${
+                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                          } text-xs md:text-xs`}
                           style={{
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
@@ -520,7 +504,7 @@ export function Graph(props: Props) {
                               : colors[domain.length]
                           }
                           strokeWidth={1}
-                          style={{ cursor: 'pointer' }}
+                          className='cursor-pointer'
                         />
                       </g>
                     )}
@@ -539,7 +523,7 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

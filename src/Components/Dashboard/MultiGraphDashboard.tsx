@@ -206,14 +206,7 @@ export function MultiGraphDashboard(props: Props) {
         }}
       >
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
-          }}
+      className='flex flex-col w-full gap-4 grow justify-between'
         >
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
