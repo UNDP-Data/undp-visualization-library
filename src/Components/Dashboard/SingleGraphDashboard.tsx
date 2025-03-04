@@ -307,9 +307,7 @@ export function SingleGraphDashboard(props: Props) {
           display: 'flex',
         }}
       >
-        <div
-      className='flex flex-col w-full gap-4 grow justify-between'
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {data ||
           GraphList.filter(el => el.geoHubMapPresentation)
             .map(el => el.graphID)
@@ -337,7 +335,6 @@ export function SingleGraphDashboard(props: Props) {
                         : null
                       : null
                   }
-                  mode={mode}
                 />
               ) : null}
               {filterSettings.length !== 0 ||
@@ -399,7 +396,7 @@ export function SingleGraphDashboard(props: Props) {
                           isSearchable
                           controlShouldRenderValue
                           defaultValue={d.defaultValue || d.options[0]}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             const newGraphConfig = {
                               columnId: el?.value as string[],
                               chartConfigId: d.chartConfigId,
@@ -413,7 +410,9 @@ export function SingleGraphDashboard(props: Props) {
                             setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <Radio
@@ -504,7 +503,7 @@ export function SingleGraphDashboard(props: Props) {
                                   ]
                                 : undefined
                             }
-                            onChange={el => {
+                            onChange={(el: any) => {
                               const newGraphConfig = {
                                 columnId: el?.value as string,
                                 chartConfigId: d.chartConfigId,
@@ -518,7 +517,9 @@ export function SingleGraphDashboard(props: Props) {
                               setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={theme => getReactSelectTheme(theme, mode)}
+                            theme={(theme: any) =>
+                              getReactSelectTheme(theme, mode)
+                            }
                           />
                         ) : (
                           <Radio
@@ -591,10 +592,10 @@ export function SingleGraphDashboard(props: Props) {
                               : undefined
                           }
                           filterOption={createFilter(filterConfig)}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             const newGraphConfig = {
                               columnId: (el || []).map(
-                                item => item.value,
+                                (item: any) => item.value,
                               ) as string[],
                               chartConfigId: d.chartConfigId,
                             };
@@ -607,7 +608,9 @@ export function SingleGraphDashboard(props: Props) {
                             setGraphConfig(updatedConfig);
                           }}
                           isRtl={graphSettings?.rtl}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <Checkbox
@@ -700,12 +703,14 @@ export function SingleGraphDashboard(props: Props) {
                           isSearchable
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             handleFilterChange(d.filter, el);
                           }}
                           value={d.value}
                           defaultValue={d.defaultValue}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <>
@@ -725,13 +730,15 @@ export function SingleGraphDashboard(props: Props) {
                             isSearchable
                             controlShouldRenderValue
                             filterOption={createFilter(filterConfig)}
-                            onChange={el => {
+                            onChange={(el: any) => {
                               handleFilterChange(d.filter, el);
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
                             isRtl={graphSettings?.rtl}
-                            theme={theme => getReactSelectTheme(theme, mode)}
+                            theme={(theme: any) =>
+                              getReactSelectTheme(theme, mode)
+                            }
                           />
                           {d.allowSelectAll ? (
                             <button

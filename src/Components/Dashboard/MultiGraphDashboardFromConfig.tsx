@@ -58,7 +58,9 @@ export function MultiGraphDashboardFromConfig(props: Props) {
   if (!validationResult.isValid)
     return (
       <P
-        className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
+        size='sm'
+        marginBottom='none'
+        className='p-2 text-center'
         style={{
           color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
         }}

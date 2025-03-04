@@ -36,17 +36,15 @@ export function ColorLegend(props: Props) {
       }}
       aria-label='Color legend'
     >
-      <div>
+      <div className={mode || 'light'}>
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P
+            size='sm'
+            marginBottom='xs'
+            fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
             className={`${
-              rtl ? `font-sans-${language || 'ar'} ` : ''
-            }font-sans text-sm md:text-sm mb-2 md:mb-2 ${
               isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'
             }`}
-            style={{
-              color: UNDPColorModule[mode].grays['gray-700'],
-            }}
           >
             {colorLegendTitle}
           </P>
@@ -74,12 +72,11 @@ export function ColorLegend(props: Props) {
               />
               {d === '' ? null : (
                 <P
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'} ` : ''
-                  }font-sans text-sm md:text-sm mb-0 md:mb-0`}
-                  style={{
-                    color: UNDPColorModule[mode].grays.black,
-                  }}
+                  size='sm'
+                  marginBottom='none'
+                  fontType={
+                    language === 'en' || !rtl ? 'body' : language || 'ar'
+                  }
                 >
                   {d}
                 </P>
@@ -98,16 +95,13 @@ export function ColorLegend(props: Props) {
                   backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
-              <p
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'} ` : ''
-                }font-sans text-sm md:text-sm mb-0 md:mb-0`}
-                style={{
-                  color: UNDPColorModule[mode].grays.black,
-                }}
+              <P
+                size='sm'
+                marginBottom='none'
+                fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
               >
                 {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
-              </p>
+              </P>
             </div>
           ) : null}
         </div>

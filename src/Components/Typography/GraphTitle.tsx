@@ -1,17 +1,15 @@
 import { H5, P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   text: string;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
   isDashboard?: boolean;
 }
 
 export function GraphTitle(props: Props) {
-  const { text, rtl, language, mode, isDashboard } = props;
+  const { text, rtl, language, isDashboard } = props;
   if (extractInnerString(text)) {
     return (
       <div
@@ -25,14 +23,11 @@ export function GraphTitle(props: Props) {
   if (isDashboard)
     return (
       <H5
-        className={`${
-          rtl
-            ? `font-sans-${language || 'ar'} text-right`
-            : 'font-sans text-left'
-        } mb-4 md:mb-4 font-bold pb-3 md:pb-3`}
-        style={{
-          color: UNDPColorModule[mode].grays.black,
-        }}
+        marginBottom='lg'
+        fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
+        className={`font-bold pb-3 md:pb-3 text-primary-gray-600 dark:text-primary-gray-400 ${
+          rtl ? 'text-right' : 'text-left'
+        }`}
         aria-label='Dashboard title'
       >
         {text}
@@ -40,12 +35,11 @@ export function GraphTitle(props: Props) {
     );
   return (
     <P
-      className={`${
-        rtl ? `font-sans-${language || 'ar'} text-right` : 'font-sans text-left'
-      } mb-0 md:mb-0`}
-      style={{
-        color: UNDPColorModule[mode].grays.black,
-      }}
+      marginBottom='none'
+      fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
+      className={`text-primary-gray-600 dark:text-primary-gray-400 ${
+        rtl ? 'text-right' : 'text-left'
+      }`}
       aria-label='Graph title'
     >
       {text}

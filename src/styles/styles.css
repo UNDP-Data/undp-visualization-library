@@ -413,39 +413,6 @@ a.undp-viz-style:focus-visible {
   }
 }
 
-.undp-viz-x-axis-text {  
-  font-size: 12px;
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-}
-
-.undp-viz-label-text {  
-  font-size: 12px;
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-}
-
-@media (max-width: 980px) {
-  .undp-viz-x-axis-text {  
-    font-size: 10px;
-  }
-}
-@media (max-width: 600px) {
-  .undp-viz-x-axis-text {  
-    font-size: 9px;
-  }
-}
-
-@media (max-width: 420px) {
-  .undp-viz-x-axis-text {  
-    font-size: 8px;
-  }
-}
-
-@media (max-width: 360px) {
-  .undp-viz-x-axis-text {  
-    display: none;
-  }
-}
-
 .undp-viz-low-opacity {
   opacity: 0.8;
 }
@@ -504,58 +471,6 @@ a.undp-viz-style:focus-visible {
 }
 
 div.undp-viz-tooltip{
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.5;
-}
-
-div.undp-viz-tooltip-en{
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.5;
-}
-
-div.undp-viz-tooltip-ar{
-  font-family: "Noto Sans Arabic", sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.5;
-  text-align: right !important;
-}
-
-div.undp-viz-tooltip-he{
-  font-family: "Noto Sans Hebrew", sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.5;
-  text-align: right !important;
-}
-
-div.undp-viz-tooltip-dark{
-  color: #fff !important;
-}
-
-div.undp-viz-tooltip p,div.undp-viz-tooltip h1,div.undp-viz-tooltip h2,div.undp-viz-tooltip h3,div.undp-viz-tooltip h4,div.undp-viz-tooltip h5,div.undp-viz-tooltip h6{
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-}
-
-div.undp-viz-tooltip-en p,div.undp-viz-tooltip-en h1,div.undp-viz-tooltip-en h2,div.undp-viz-tooltip-en h3,div.undp-viz-tooltip-en h4,div.undp-viz-tooltip-en h5,div.undp-viz-tooltip-en h6{
-  font-family: 'ProximaNova', 'proxima-nova', 'Helvetica Neue', 'Roboto', sans-serif !important;
-}
-
-div.undp-viz-tooltip-ar p,div.undp-viz-tooltip-ar h1,div.undp-viz-tooltip-ar h2,div.undp-viz-tooltip-ar h3,div.undp-viz-tooltip-ar h4,div.undp-viz-tooltip-ar h5,div.undp-viz-tooltip-ar h6{
-  font-family: "Noto Sans Arabic", sans-serif !important;
-  text-align: right !important;
-}
-
-div.undp-viz-tooltip-he p,div.undp-viz-tooltip-h3 h1,div.undp-viz-tooltip-h3 h2,div.undp-viz-tooltip-h3 h3,div.undp-viz-tooltip-h3 h4,div.undp-viz-tooltip-h3 h5,div.undp-viz-tooltip-h3 h6{
-  font-family: "Noto Sans Hebrew", sans-serif !important;
-  text-align: right !important;
-}
-
-div.undp-viz-tooltip p, div.undp-viz-tooltip-en p, div.undp-viz-tooltip-ar p, div.undp-viz-tooltip-he p{
-  font-size: 14px !important;
-}
-
-div.undp-viz-tooltip a, div.undp-viz-tooltip-en a, div.undp-viz-tooltip-ar a, div.undp-viz-tooltip-he a{
   background-image: linear-gradient(#D12800, #D12800), linear-gradient(#D12800, #D12800);
   background-position: 100% 100%, -30px 100%;
   background-repeat: no-repeat;

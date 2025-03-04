@@ -1,20 +1,17 @@
 import { P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   colors: string[];
   colorDomain: number[];
   colorLegendTitle?: string;
   width?: number;
-  mode: 'dark' | 'light';
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
 }
 
 export function LinearColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, width, mode, rtl, language } =
-    props;
+  const { colorLegendTitle, colorDomain, colors, width, rtl, language } = props;
   return (
     <div
       className='flex gap-0 flex-wrap justify-center leading-0'
@@ -25,12 +22,10 @@ export function LinearColorLegend(props: Props) {
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <P
-          className={`${
-            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-          } text-sm md:text-sm w-full mb-2 md:mb-2 text-center`}
-          style={{
-            color: UNDPColorModule[mode].grays['gray-700'],
-          }}
+          size='sm'
+          marginBottom='xs'
+          fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
+          className='w-full text-center'
         >
           {colorLegendTitle}
         </P>
@@ -44,20 +39,10 @@ export function LinearColorLegend(props: Props) {
           }}
         />
         <div className='flex justify-between w-full min-w-[360px]'>
-          <P
-            className='mb-0 md:mb-0 text-sm md:text-sm'
-            style={{
-              color: UNDPColorModule[mode].grays.black,
-            }}
-          >
+          <P className='mb-0 md:mb-0 text-sm md:text-sm'>
             {numberFormattingFunction(colorDomain[0], '', '')}
           </P>
-          <P
-            className='mb-0 md:mb-0 text-sm md:text-sm'
-            style={{
-              color: UNDPColorModule[mode].grays.black,
-            }}
-          >
+          <P className='mb-0 md:mb-0 text-sm md:text-sm'>
             {numberFormattingFunction(colorDomain[1], '', '')}
           </P>
         </div>

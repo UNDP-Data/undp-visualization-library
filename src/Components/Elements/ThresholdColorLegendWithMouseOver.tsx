@@ -42,9 +42,10 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
         <P
-          className={`${
-            rtl ? `font-sans-${language || 'ar'} ` : ''
-          }font-sans text-sm md:text-sm mb-2 md:mb-2 w-full text-center mt-0`}
+          size='sm'
+          marginBottom='xs'
+          fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
+          className='w-full text-center'
         >
           {colorLegendTitle}
         </P>
@@ -81,7 +82,9 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={25}
                 textAnchor='middle'
                 className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
+                  language === 'en' || !rtl
+                    ? 'font-sans'
+                    : `font-sans-${language || 'ar'}`
                 } text-sm`}
                 style={{
                   fill: UNDPColorModule[mode].grays['gray-700'],

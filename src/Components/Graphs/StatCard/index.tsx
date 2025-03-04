@@ -1,3 +1,4 @@
+import { H3 } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -52,7 +53,7 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      className='flex flex-col w-full h-inherit'
+      className={`flex flex-col w-full h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -84,7 +85,6 @@ export function BasicStatCard(props: Props) {
               language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
-              mode={mode}
             />
           ) : null}
           <div
@@ -96,13 +96,14 @@ export function BasicStatCard(props: Props) {
                 : 'justify-center'
             }`}
           >
-            <h3
-              className={`mb-4 mt-0 font-heading ${
+            <H3
+              marginBottom='lg'
+              fontType='heading'
+              className={`leading-none font-heading ${
                 centerAlign ? 'text-center' : rtl ? 'text-right' : 'text-left'
               }`}
               style={{
                 fontSize: headingFontSize,
-                lineHeight: '1',
                 textShadow: 'none',
                 WebkitTextStroke: textBackground
                   ? undefined
@@ -138,7 +139,7 @@ export function BasicStatCard(props: Props) {
                   ({year})
                 </span>
               ) : null}
-            </h3>
+            </H3>
           </div>
           {sources || footNote ? (
             <GraphFooter
@@ -146,7 +147,6 @@ export function BasicStatCard(props: Props) {
               language={language}
               sources={sources}
               footNote={footNote}
-              mode={mode}
             />
           ) : null}
         </div>

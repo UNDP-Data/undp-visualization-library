@@ -95,7 +95,7 @@ export function UnitChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',
@@ -135,7 +135,6 @@ export function UnitChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode}
             />
           ) : null}
           {note ? (
@@ -256,7 +255,6 @@ export function UnitChart(props: Props) {
                 sources={sources}
                 footNote={footNote}
                 width={width}
-                mode={mode}
               />
             ) : null}
           </div>

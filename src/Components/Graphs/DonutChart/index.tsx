@@ -142,7 +142,7 @@ export function DonutChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',
@@ -184,7 +184,6 @@ export function DonutChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode}
             />
           ) : null}
           <div
@@ -310,7 +309,6 @@ export function DonutChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode}
             />
           ) : (
             <div />

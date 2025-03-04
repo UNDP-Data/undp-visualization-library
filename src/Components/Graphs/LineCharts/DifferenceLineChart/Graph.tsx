@@ -482,7 +482,7 @@ export function Graph(props: Props) {
                   textAnchor='middle'
                   className={`${
                     rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
                   dy={15}
                 >
                   {format(d, dateFormat)}

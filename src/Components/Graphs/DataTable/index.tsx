@@ -122,7 +122,7 @@ export function DataTable(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -155,7 +155,6 @@ export function DataTable(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode}
             />
           ) : null}
           <div className='grow flex flex-col justify-center'>
@@ -228,12 +227,12 @@ export function DataTable(props: Props) {
                               >
                                 {columnSortBy === d.columnId ? (
                                   sortDirection === 'asc' ? (
-                                    <SortingIconAscending mode={mode} />
+                                    <SortingIconAscending />
                                   ) : (
-                                    <SortingIconDescending mode={mode} />
+                                    <SortingIconDescending />
                                   )
                                 ) : (
-                                  <SortingIcon mode={mode} />
+                                  <SortingIcon />
                                 )}
                               </button>
                             ) : null}
@@ -276,9 +275,9 @@ export function DataTable(props: Props) {
                                     el => el.id === d.columnId,
                                   )
                                 ].option.length === d.filterOptions?.length ? (
-                                  <FilterIcon mode={mode} />
+                                  <FilterIcon />
                                 ) : (
-                                  <FilterIconApplied mode={mode} />
+                                  <FilterIconApplied />
                                 )}
                               </button>
                             ) : null}
@@ -466,7 +465,6 @@ export function DataTable(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode}
             />
           ) : null}
         </div>

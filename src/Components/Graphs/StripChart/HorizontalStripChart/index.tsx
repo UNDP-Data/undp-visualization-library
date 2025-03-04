@@ -136,7 +136,7 @@ export function HorizontalStripChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -177,7 +177,6 @@ export function HorizontalStripChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode}
             />
           ) : null}
           <div className='grow flex flex-col justify-center gap-3 w-full'>
@@ -280,7 +279,6 @@ export function HorizontalStripChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode}
             />
           ) : null}
         </div>

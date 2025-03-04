@@ -137,7 +137,7 @@ export function ButterflyChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -178,7 +178,6 @@ export function ButterflyChart(props: Props) {
                   ? data.map(d => d.data).filter(d => d !== undefined)
                   : null
               }
-              mode={mode}
             />
           ) : null}
           <div className='grow flex flex-col justify-center gap-3 w-full'>
@@ -249,7 +248,6 @@ export function ButterflyChart(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode}
             />
           ) : null}
         </div>

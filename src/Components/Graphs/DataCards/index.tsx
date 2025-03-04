@@ -228,7 +228,7 @@ export function DataCards(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit`}
+      } h-inherit ${mode || 'light'}`}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -261,7 +261,6 @@ export function DataCards(props: Props) {
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
-              mode={mode}
             />
           ) : null}
           {cardSortingOptions || filterSettings.length > 0 ? (
@@ -457,7 +456,6 @@ export function DataCards(props: Props) {
               sources={sources}
               footNote={footNote}
               width={width}
-              mode={mode}
             />
           ) : null}
         </div>
@@ -490,13 +488,12 @@ export function DataCards(props: Props) {
                       key: 'value',
                     },
                   ]}
-                  mode={mode}
                   buttonContent={
                     <div className='flex items-center gap-4'>
                       {typeof allowDataDownloadOnDetail === 'string'
                         ? allowDataDownloadOnDetail
                         : null}
-                      <FileDown mode={mode} />
+                      <FileDown />
                     </div>
                   }
                 />

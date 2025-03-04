@@ -269,7 +269,6 @@ export function GriddedGraphs(props: Props) {
                     : null
                   : null
               }
-              mode={mode}
             />
           ) : null}
           {data && gridOption.length > 0 ? (
@@ -810,7 +809,6 @@ export function GriddedGraphs(props: Props) {
               sources={graphSettings?.sources}
               footNote={graphSettings?.footNote}
               width={graphSettings?.width}
-              mode={mode}
             />
           ) : null}
         </div>

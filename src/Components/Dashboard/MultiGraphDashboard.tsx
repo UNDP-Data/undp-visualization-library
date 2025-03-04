@@ -205,16 +205,13 @@ export function MultiGraphDashboard(props: Props) {
           display: 'flex',
         }}
       >
-        <div
-      className='flex flex-col w-full gap-4 grow justify-between'
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
               rtl={dashboardLayout.rtl}
               language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
-              mode={mode}
               isDashboard
             />
           ) : null}
@@ -287,12 +284,14 @@ export function MultiGraphDashboard(props: Props) {
                           isMulti={false}
                           isSearchable
                           filterOption={createFilter(filterConfig)}
-                          onChange={el => {
+                          onChange={(el: any) => {
                             handleFilterChange(d.filter, el);
                           }}
                           defaultValue={d.defaultValue}
                           value={d.value}
-                          theme={theme => getReactSelectTheme(theme, mode)}
+                          theme={(theme: any) =>
+                            getReactSelectTheme(theme, mode)
+                          }
                         />
                       ) : (
                         <>
@@ -314,13 +313,15 @@ export function MultiGraphDashboard(props: Props) {
                             closeMenuOnSelect={false}
                             hideSelectedOptions={false}
                             filterOption={createFilter(filterConfig)}
-                            onChange={el => {
+                            onChange={(el: any) => {
                               handleFilterChange(d.filter, el);
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
                             isRtl={dashboardLayout.rtl}
-                            theme={theme => getReactSelectTheme(theme, mode)}
+                            theme={(theme: any) =>
+                              getReactSelectTheme(theme, mode)
+                            }
                           />
                           {d.allowSelectAll ? (
                             <button

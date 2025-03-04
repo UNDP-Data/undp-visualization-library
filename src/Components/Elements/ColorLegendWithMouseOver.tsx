@@ -41,25 +41,21 @@ export function ColorLegendWithMouseOver(props: Props) {
       <div>
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P
+            size='sm'
+            marginBottom='xs'
             className={`${
-              rtl ? `font-sans-${language || 'ar'} ` : ''
-            }font-sans text-sm md:text-sm mb-2 md:mb-2 ${
-              isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'
-            }`}
-            style={{
-              color: UNDPColorModule[mode].grays['gray-700'],
-            }}
+              language === 'en' || !rtl
+                ? 'font-sans'
+                : `font-sans-${language || 'ar'}`
+            } ${isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'}`}
           >
             {colorLegendTitle}
           </P>
         ) : null}
         <div
-          className={`flex flex-wrap mb-0 ${
+          className={`flex flex-wrap gap-3.5 mb-0 ${
             rtl ? 'flex-row-reverse' : 'flex-row'
           }`}
-          style={{
-            gap: '0.875rem',
-          }}
         >
           {colorDomain.map((d, i) => (
             <div
@@ -82,12 +78,13 @@ export function ColorLegendWithMouseOver(props: Props) {
               />
               {d === '' ? null : (
                 <P
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'} ` : ''
-                  }font-sans text-sm md:text-sm mb-0 md:mb-0`}
-                  style={{
-                    color: UNDPColorModule[mode].grays.black,
-                  }}
+                  size='sm'
+                  marginBottom='none'
+                  className={
+                    language === 'en' || !rtl
+                      ? 'font-sans'
+                      : `font-sans-${language || 'ar'}`
+                  }
                 >
                   {d}
                 </P>
@@ -113,12 +110,13 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               <P
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'} ` : ''
-                }font-sans text-sm md:text-sm mb-0 md:mb-0`}
-                style={{
-                  color: UNDPColorModule[mode].grays.black,
-                }}
+                size='sm'
+                marginBottom='xs'
+                className={
+                  language === 'en' || !rtl
+                    ? 'font-sans'
+                    : `font-sans-${language || 'ar'}`
+                }
               >
                 {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
               </P>

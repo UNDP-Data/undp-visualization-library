@@ -11,7 +11,6 @@ interface Props {
   dataDownload?: any;
   rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
   isDashboard?: boolean;
 }
 
@@ -24,7 +23,6 @@ export function GraphHeader(props: Props) {
     dataDownload,
     rtl,
     language,
-    mode,
     isDashboard,
   } = props;
   return (
@@ -44,7 +42,6 @@ export function GraphHeader(props: Props) {
             text={graphTitle}
             rtl={rtl}
             language={language}
-            mode={mode}
             isDashboard={isDashboard}
           />
         ) : null}
@@ -53,18 +50,13 @@ export function GraphHeader(props: Props) {
             text={graphDescription}
             rtl={rtl}
             language={language}
-            mode={mode}
           />
         ) : null}
       </div>
       {graphDownload || dataDownload ? (
         <div className='flex gap-3'>
           {graphDownload ? (
-            <ImageDownloadButton
-              nodeID={graphDownload}
-              buttonSmall
-              mode={mode}
-            />
+            <ImageDownloadButton nodeID={graphDownload} buttonSmall />
           ) : null}
           {dataDownload ? (
             <CsvDownloadButton
@@ -74,7 +66,6 @@ export function GraphHeader(props: Props) {
                 label: d,
                 key: d,
               }))}
-              mode={mode}
             />
           ) : null}
         </div>

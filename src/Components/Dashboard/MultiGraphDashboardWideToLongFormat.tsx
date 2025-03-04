@@ -161,16 +161,13 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           display: 'flex',
         }}
       >
-        <div
-      className='flex flex-col w-full gap-4 grow justify-between'
-        >
+        <div className='flex flex-col w-full gap-4 grow justify-between'>
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
               rtl={dashboardLayout.rtl}
               language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
-              mode={mode || 'light'}
               isDashboard
             />
           ) : null}
@@ -230,14 +227,14 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                     isSearchable
                     controlShouldRenderValue
                     filterOption={createFilter(filterConfig)}
-                    onChange={el => {
+                    onChange={(el: any) => {
                       setSelectedFilterValues(el?.value);
                     }}
                     defaultValue={{
                       value: selectedFilterValues as string,
                       label: selectedFilterValues as string,
                     }}
-                    theme={theme => getReactSelectTheme(theme, mode)}
+                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               </div>

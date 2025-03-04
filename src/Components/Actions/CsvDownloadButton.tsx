@@ -1,4 +1,5 @@
 import { CSVLink } from 'react-csv';
+import { Button } from '@undp-data/undp-design-system-react';
 import { FileDown } from '../Icons/Icons';
 
 interface HeaderProps {
@@ -8,15 +9,19 @@ interface HeaderProps {
 
 interface Props {
   buttonContent?: string | JSX.Element;
-  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
-  buttonArrow?: boolean;
+  buttonType?:
+    | 'primary'
+    | 'primary-without-icon'
+    | 'secondary'
+    | 'secondary-without-icon'
+    | 'tertiary';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any;
   fileName?: string;
   headers: HeaderProps[];
   separator?: ',' | ';';
   buttonSmall?: boolean;
-  mode: 'dark' | 'light';
+  className?: string;
 }
 
 const transformDataForCsv = (data: any) => {
@@ -39,14 +44,13 @@ const transformDataForCsv = (data: any) => {
 export function CsvDownloadButton(props: Props) {
   const {
     buttonContent,
-    buttonType = 'quaternary',
-    buttonArrow = false,
+    buttonType = 'tertiary',
     csvData,
     fileName = 'data',
     headers,
     separator = ',',
     buttonSmall = false,
-    mode = 'light',
+    className,
   } = props;
   return (
     <CSVLink
@@ -60,17 +64,14 @@ export function CsvDownloadButton(props: Props) {
       style={{ backgroundImage: 'none', textDecoration: 'none' }}
       aria-label='Click to download the data as csv'
     >
-      <div
-        className={`undp-viz-download-button undp-viz-button button-${buttonType}${
-          mode === 'dark' ? ' dark' : ''
-        }${buttonArrow ? ' button-arrow' : ''}`}
-        style={{
-          textDecoration: 'none',
-          padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
-        }}
+      <Button
+        variant={buttonType}
+        className={`no-underline ${
+          buttonSmall ? 'p-2' : 'py-4 px-6'
+        } ${className} `}
       >
-        {buttonContent || <FileDown mode={mode} />}
-      </div>
+        {buttonContent || <FileDown />}
+      </Button>
     </CSVLink>
   );
 }

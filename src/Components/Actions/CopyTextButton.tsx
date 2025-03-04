@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import { Button, Toaster, useToast } from '@undp-data/undp-design-system-react';
 import { Copy } from '../Icons/Icons';
-import AutoCloseMessage from '../Elements/AutoCloseMessage';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   text: string;
   successMessage?: string;
   buttonText?: string;
   buttonSmall?: boolean;
-  mode?: 'dark' | 'light';
+  className?: string;
 }
 
 export function CopyTextButton(props: Props) {
@@ -17,56 +15,28 @@ export function CopyTextButton(props: Props) {
     successMessage = 'Text copied',
     buttonText,
     buttonSmall = false,
-    mode = 'light',
+    className = '',
   } = props;
-  const [showMessage, setShowMessage] = useState(false);
-
-  const handleShowMessage = () => {
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 2000);
-  };
-
+  const { toast } = useToast();
   return (
     <>
-      <button
-        type='button'
-        className={`undp-viz-button button-quaternary${
-          mode === 'dark' ? ' dark' : ''
-        }`}
-        style={{
-          display: 'flex',
-          padding: buttonSmall ? '0.5rem' : '1rem',
-          gap: '0.5rem',
-          alignItems: 'center',
-        }}
+      <Button
+        variant='tertiary'
+        className={`${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
         onClick={() => {
           navigator.clipboard.writeText(text);
-          handleShowMessage();
+          toast({
+            variant: 'success',
+            description: successMessage,
+            duration: 1000,
+          });
         }}
         aria-label='Click to copy the text'
       >
-        <Copy mode={mode} />
-        {buttonText ? (
-          <p
-            className='undp-viz-typography'
-            style={{
-              color: UNDPColorModule[mode].grays['gray-700'],
-              textTransform: 'uppercase',
-              marginBottom: 0,
-              fontSize: '0.875rem',
-            }}
-          >
-            {buttonText}
-          </p>
-        ) : null}
-      </button>
-      {showMessage && (
-        <AutoCloseMessage
-          message={successMessage}
-          duration={2000}
-          mode={mode}
-        />
-      )}
+        <Copy />
+        {buttonText || null}
+      </Button>
+      <Toaster />
     </>
   );
 }

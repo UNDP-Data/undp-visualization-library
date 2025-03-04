@@ -106,7 +106,9 @@ function GraphEl(props: Props) {
         }}
       >
         <P
-          className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
+          size='sm'
+          marginBottom='none'
+          className='p-2 text-center'
           style={{
             color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
           }}
@@ -2866,7 +2868,9 @@ function GraphEl(props: Props) {
         <GraphComponent {...graphProps} />
       ) : (
         <P
-          className='text-sm p-2 text-center m-0 mb-0 md:text-sm md:m-0 md:mb-0'
+          size='sm'
+          marginBottom='none'
+          className='p-2 text-center'
           style={{
             color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
           }}
