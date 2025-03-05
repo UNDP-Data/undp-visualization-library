@@ -27,8 +27,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   tooltipBackgroundStyle: CSSObject;
 }
@@ -49,8 +47,6 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     minValue,
     maxValue,
-    rtl,
-    language,
     mode,
     tooltipBackgroundStyle,
   } = props;
@@ -147,6 +143,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         {areaId ? (
           <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
@@ -169,15 +166,13 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
+              className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'end',
               }}
-              textAnchor='end'
               dy={15}
             >
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
@@ -187,11 +182,9 @@ export function Graph(props: Props) {
               x={x(dataFormatted[0].date)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'start',
               }}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
-              textAnchor='start'
+              className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}
@@ -234,8 +227,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

@@ -48,8 +48,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   indx: number;
   autoSort: boolean;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -90,8 +88,6 @@ export function Graph(props: Props) {
     dateFormat,
     indx,
     autoSort,
-    rtl,
-    language,
     mode,
     maxBarThickness,
     minBarThickness,
@@ -206,6 +202,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
@@ -223,11 +220,9 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              textAnchor: 'start',
             }}
-            textAnchor='start'
-            className={`${
-              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-            } text-xs`}
+            className='text-xs'
             dy={-3}
           >
             0
@@ -252,14 +247,12 @@ export function Graph(props: Props) {
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
-                    textAnchor='start'
                     dy={-3}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs opacity-${d === 0 ? 0 : 100}`}
+                    className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
                   </text>
@@ -273,11 +266,9 @@ export function Graph(props: Props) {
               }) rotate(-90)`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
             >
               {barAxisTitle}
             </text>
@@ -373,9 +364,7 @@ export function Graph(props: Props) {
                       y: y(0),
                     }}
                     transition={{ duration: 0.5 }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -398,9 +387,7 @@ export function Graph(props: Props) {
                     }}
                     dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
                     transition={{ duration: 0.5 }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-sm`}
+                    className='text-sm'
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}
                   </motion.text>
@@ -434,9 +421,7 @@ export function Graph(props: Props) {
                         UNDPColorModule[mode || 'light'].grays['gray-700'],
                       textAnchor: 'end',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs font-bold`}
+                    className='text-xs font-bold'
                     dy={-5}
                   >
                     {el.text}
@@ -449,8 +434,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

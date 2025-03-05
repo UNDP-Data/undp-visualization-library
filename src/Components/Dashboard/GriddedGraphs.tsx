@@ -236,6 +236,8 @@ export function GriddedGraphs(props: Props) {
             : ''
         }`
       }
+      dir={graphSettings?.rtl ? 'rtl' : undefined}
+      className={`${mode} ${graphSettings?.language || 'en'}`}
     >
       <div
         style={{
@@ -252,8 +254,6 @@ export function GriddedGraphs(props: Props) {
           graphSettings?.graphDownload ||
           graphSettings?.dataDownload ? (
             <GraphHeader
-              rtl={graphSettings?.rtl}
-              language={graphSettings?.language}
               graphTitle={graphSettings?.graphTitle}
               graphDescription={graphSettings?.graphDescription}
               width={graphSettings?.width}
@@ -705,8 +705,6 @@ export function GriddedGraphs(props: Props) {
               graphSettings?.colorDomain &&
               graphSettings?.showColorScale !== false ? (
                 <ColorLegend
-                  rtl={graphSettings?.rtl}
-                  language={graphSettings?.language}
                   width={graphSettings?.width}
                   colorLegendTitle={graphSettings?.colorLegendTitle}
                   colors={
@@ -804,8 +802,6 @@ export function GriddedGraphs(props: Props) {
           )}
           {graphSettings?.source || graphSettings?.footNote ? (
             <GraphFooter
-              rtl={graphSettings?.rtl}
-              language={graphSettings?.language}
               sources={graphSettings?.sources}
               footNote={graphSettings?.footNote}
               width={graphSettings?.width}

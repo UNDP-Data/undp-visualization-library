@@ -32,8 +32,6 @@ interface Props {
   prefix: string;
   suffix: string;
   stripType: 'strip' | 'dot';
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   highlightColor?: string;
   dotOpacity: number;
   mode: 'light' | 'dark';
@@ -65,8 +63,6 @@ export function Graph(props: Props) {
     prefix,
     suffix,
     stripType,
-    rtl,
-    language,
     highlightColor,
     dotOpacity,
     mode,
@@ -129,6 +125,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {sortedData.map((d, i) => {
@@ -252,11 +249,9 @@ export function Graph(props: Props) {
                             : !d.color
                             ? UNDPColorModule[mode || 'light'].graphGray
                             : colors[colorDomain.indexOf(d.color)],
+                        textAnchor: 'middle',
                       }}
-                      textAnchor='middle'
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-sm font-bold`}
+                      className='text-sm font-bold'
                     >
                       {numberFormattingFunction(d.position, prefix, suffix)}
                     </text>
@@ -272,11 +267,9 @@ export function Graph(props: Props) {
                 y={graphHeight / 2 + radius + 14}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                  textAnchor: 'end',
                 }}
-                textAnchor='start'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs`}
+                className='text-xs'
               >
                 {numberFormattingFunction(x.invert(0))}
               </text>
@@ -285,11 +278,9 @@ export function Graph(props: Props) {
                 y={graphHeight / 2 + radius + 14}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                  textAnchor: 'end',
                 }}
-                textAnchor='end'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs`}
+                className='text-xs'
               >
                 {numberFormattingFunction(x.invert(graphWidth))}
               </text>
@@ -299,8 +290,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

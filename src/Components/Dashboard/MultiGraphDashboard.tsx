@@ -195,6 +195,8 @@ export function MultiGraphDashboard(props: Props) {
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
+      dir={dashboardLayout?.rtl ? 'rtl' : undefined}
+      className={`${mode} ${dashboardLayout?.language || 'en'}`}
     >
       <div
         style={{
@@ -208,8 +210,6 @@ export function MultiGraphDashboard(props: Props) {
         <div className='flex flex-col w-full gap-4 grow justify-between'>
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
-              rtl={dashboardLayout.rtl}
-              language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
               isDashboard

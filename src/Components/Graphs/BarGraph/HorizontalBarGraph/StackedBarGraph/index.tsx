@@ -149,7 +149,8 @@ export function HorizontalStackedBarGraph(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -178,8 +179,6 @@ export function HorizontalStackedBarGraph(props: Props) {
         <div className='flex flex-col gap-4 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -194,8 +193,6 @@ export function HorizontalStackedBarGraph(props: Props) {
           ) : null}
           <div className='grow flex flex-col justify-center gap-3 w-full'>
             <ColorLegendWithMouseOver
-              rtl={rtl}
-              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={colors}
@@ -267,7 +264,6 @@ export function HorizontalStackedBarGraph(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
                   rtl={rtl}
-                  language={language}
                   labelOrder={labelOrder}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
@@ -283,13 +279,7 @@ export function HorizontalStackedBarGraph(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

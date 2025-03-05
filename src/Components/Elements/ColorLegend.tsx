@@ -7,8 +7,6 @@ interface Props {
   colorLegendTitle?: string;
   showNAColor: boolean;
   width?: number;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   isCenter?: boolean;
   mode: 'dark' | 'light';
 }
@@ -20,17 +18,13 @@ export function ColorLegend(props: Props) {
     colors,
     showNAColor,
     width,
-    rtl,
-    language,
     isCenter,
     mode,
   } = props;
 
   return (
     <div
-      className={`flex ${
-        isCenter ? 'justify-center' : rtl ? 'justify-end' : 'justify-start'
-      } leading-0`}
+      className={`flex ${isCenter ? 'justify-center' : ''} leading-0`}
       style={{
         maxWidth: width ? `${width}px` : 'none',
       }}
@@ -41,29 +35,19 @@ export function ColorLegend(props: Props) {
           <P
             size='sm'
             marginBottom='xs'
-            fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-            className={`${
-              isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'
-            }`}
+            className={isCenter ? 'text-center' : ''}
           >
             {colorLegendTitle}
           </P>
         ) : null}
         <div
-          className={`flex flex-wrap mb-0 ${
-            rtl ? 'flex-row-reverse' : 'flex-row'
-          }`}
+          className='flex flex-wrap mb-0'
           style={{
             gap: '0.875rem',
           }}
         >
           {colorDomain.map((d, i) => (
-            <div
-              key={i}
-              className={`flex items-center gap-1 ${
-                rtl ? 'flex-row-reverse' : 'flex-row'
-              }`}
-            >
+            <div key={i} className='flex items-center gap-1'>
               <div
                 className='w-3 h-3 rounded-full'
                 style={{
@@ -71,36 +55,22 @@ export function ColorLegend(props: Props) {
                 }}
               />
               {d === '' ? null : (
-                <P
-                  size='sm'
-                  marginBottom='none'
-                  fontType={
-                    language === 'en' || !rtl ? 'body' : language || 'ar'
-                  }
-                >
+                <P size='sm' marginBottom='none'>
                   {d}
                 </P>
               )}
             </div>
           ))}
           {showNAColor ? (
-            <div
-              className={`flex items-center gap-1 ${
-                rtl ? 'flex-row-reverse' : 'flex-row'
-              }`}
-            >
+            <div className='flex items-center gap-1'>
               <div
                 className='w-3 h-3 rounded-full'
                 style={{
                   backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
-              <P
-                size='sm'
-                marginBottom='none'
-                fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-              >
-                {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
+              <P size='sm' marginBottom='none'>
+                NA
               </P>
             </div>
           ) : null}

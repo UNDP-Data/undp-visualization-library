@@ -33,8 +33,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -64,8 +62,6 @@ export function Graph(props: Props) {
     showRowLabels,
     selectedColor,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -108,6 +104,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
@@ -121,9 +118,7 @@ export function Graph(props: Props) {
                 >
                   <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
                     <p
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-base text-center leading-tight m-0`}
+                      className='text-base text-center leading-tight m-0'
                       style={{
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
@@ -150,9 +145,7 @@ export function Graph(props: Props) {
                 >
                   <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
                     <p
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-base text-right leading-tight m-0`}
+                      className='text-base text-right leading-tight m-0'
                       style={{
                         color:
                           UNDPColorModule[mode || 'light'].grays['gray-600'],
@@ -259,9 +252,7 @@ export function Graph(props: Props) {
                         }}
                       >
                         <p
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-xs text-center m-0 leading-tight`}
+                          className='text-xs text-center m-0 leading-tight'
                           style={{
                             color: getTextColorBasedOnBgColor(color),
                           }}
@@ -292,8 +283,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

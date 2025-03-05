@@ -182,7 +182,8 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -211,8 +212,6 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
         <div className='flex flex-col gap-4 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -225,7 +224,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
               }
             />
           ) : null}
-          <div className='flex gap-6 items-center'>
+          <div className='flex gap-6 items-center' dir='ltr'>
             <button
               type='button'
               onClick={() => {
@@ -257,8 +256,6 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
           </div>
           <div className='grow flex flex-col justify-center gap-3 w-full'>
             <ColorLegendWithMouseOver
-              rtl={rtl}
-              language={language}
               width={width}
               colorDomain={colorDomain}
               colors={colors}
@@ -309,7 +306,6 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   dateFormat={dateFormat}
                   indx={index}
                   rtl={rtl}
-                  language={language}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
@@ -323,13 +319,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

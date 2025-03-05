@@ -53,7 +53,10 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      className={`flex flex-col w-full h-inherit ${mode || 'light'}`}
+      className={`flex flex-col w-full h-inherit ${mode || 'light'} ${
+        language || 'en'
+      }`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -81,8 +84,6 @@ export function BasicStatCard(props: Props) {
         <div className='flex flex-col w-full gap-12 justify-between grow'>
           {graphTitle || graphDescription ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
             />
@@ -98,8 +99,7 @@ export function BasicStatCard(props: Props) {
           >
             <H3
               marginBottom='lg'
-              fontType='heading'
-              className={`leading-none font-heading ${
+              className={`leading-none md:leading-none font-heading ${
                 centerAlign ? 'text-center' : rtl ? 'text-right' : 'text-left'
               }`}
               style={{
@@ -123,11 +123,7 @@ export function BasicStatCard(props: Props) {
                 : numberFormattingFunction(value, prefix, suffix)}{' '}
               {year ? (
                 <span
-                  className={`text-lg md:text-lg font-normal mt-0 mb-4 ${
-                    rtl
-                      ? `font-sans-${language || 'ar'} text-right`
-                      : 'text-left font-sans'
-                  }`}
+                  className='text-lg md:text-lg font-normal mt-0 mb-4'
                   style={{
                     marginLeft: '-8px',
                     lineHeight: '1.09',
@@ -142,12 +138,7 @@ export function BasicStatCard(props: Props) {
             </H3>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-            />
+            <GraphFooter sources={sources} footNote={footNote} />
           ) : null}
         </div>
       </div>

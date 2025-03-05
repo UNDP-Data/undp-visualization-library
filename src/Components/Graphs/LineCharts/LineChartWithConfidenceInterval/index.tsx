@@ -164,7 +164,8 @@ export function LineChartWithConfidenceInterval(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -193,8 +194,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
         <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -210,8 +209,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
           <div className='grow flex flex-col justify-center gap-3 w-full'>
             {colorLegendColors && colorLegendDomains ? (
               <ColorLegend
-                rtl={rtl}
-                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={colorLegendColors}
@@ -261,7 +258,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   highlightAreaColor={highlightAreaColor}
                   animateLine={animateLine}
                   rtl={rtl}
-                  language={language}
                   strokeWidth={strokeWidth}
                   showDots={showDots}
                   annotations={annotations}
@@ -284,13 +280,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

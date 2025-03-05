@@ -20,8 +20,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -40,8 +38,6 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     onSeriesMouseClick,
     colorDomain,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -61,6 +57,7 @@ export function Graph(props: Props) {
         width={`${radius * 2}px`}
         height={`${radius * 2}px`}
         viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+        direction='ltr'
       >
         <g transform={`translate(${radius} ${radius})`}>
           {mainText || subNote ? (
@@ -71,18 +68,15 @@ export function Graph(props: Props) {
               height={2 * (radius - strokeWidth)}
             >
               <div
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-4`}
+                className='flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-4'
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays.black,
                 }}
               >
                 {mainText ? (
                   <H2
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } leading-none text-center mb-0 md:mb-0`}
+                    marginBottom='none'
+                    className='leading-none text-center'
                     style={{
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
@@ -101,9 +95,9 @@ export function Graph(props: Props) {
                 ) : null}
                 {subNote ? (
                   <P
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-base md:text-base leading-none text-center font-bold m-0 mb-0 md:mb-0 md:m-0`}
+                    marginBottom='none'
+                    leading='none'
+                    className='text-base md:text-base text-center font-bold'
                     style={{
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
@@ -112,9 +106,9 @@ export function Graph(props: Props) {
                   </P>
                 ) : typeof mainText === 'string' || !mainText ? null : (
                   <P
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-base md:text-base leading-none text-center font-bold m-0 md:m-0 mb-0 md:mb-0`}
+                    marginBottom='none'
+                    leading='none'
+                    className='text-base md:text-base text-center font-bold'
                     style={{
                       color: UNDPColorModule[mode || 'light'].grays.black,
                     }}
@@ -191,8 +185,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

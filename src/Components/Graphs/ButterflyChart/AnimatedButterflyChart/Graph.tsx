@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import isEqual from 'lodash.isequal';
@@ -46,8 +44,6 @@ interface Props {
   prefix: string;
   indx: number;
   dateFormat: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -80,8 +76,6 @@ export function Graph(props: Props) {
     prefix,
     dateFormat,
     indx,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -204,6 +198,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g transform={`translate(${0},${0})`}>
@@ -226,16 +221,14 @@ export function Graph(props: Props) {
                     <text
                       x={xLeftBar(d)}
                       y={0 - margin.top}
-                      textAnchor='end'
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs opacity-${d === 0 ? 0 : 100}`}
+                      className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                       dy={10}
                       dx={-3}
                       style={{
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
+                        textAnchor: 'end',
                       }}
                     >
                       {numberFormattingFunction(d, prefix, suffix)}
@@ -244,7 +237,7 @@ export function Graph(props: Props) {
                 ))
               : null}
             <AnimatePresence>
-              {groupedData[indx].values.map((d, i) => {
+              {groupedData[indx].values.map((d, _i) => {
                 return (
                   <motion.g
                     className='undp-viz-g-with-hover'
@@ -327,9 +320,7 @@ export function Graph(props: Props) {
                           y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-sm`}
+                        className='text-sm'
                       >
                         {numberFormattingFunction(d.leftBar, prefix, suffix)}
                       </motion.text>
@@ -374,9 +365,7 @@ export function Graph(props: Props) {
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
                         textAnchor: 'end',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs font-bold`}
+                      className='text-xs font-bold'
                       dy={12.5}
                       dx={-5}
                     >
@@ -407,17 +396,15 @@ export function Graph(props: Props) {
                     <text
                       x={xRightBar(d)}
                       y={0 - margin.top}
-                      textAnchor='start'
                       dy={10}
                       dx={3}
                       style={{
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
+                        textAnchor: 'start',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs opacity-${d === 0 ? 0 : 100}`}
+                      className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                     >
                       {numberFormattingFunction(d, prefix, suffix)}
                     </text>
@@ -497,9 +484,7 @@ export function Graph(props: Props) {
                               : 'start'
                             : 'start',
                         }}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-sm`}
+                        className='text-sm'
                         dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                         dy={5}
                         animate={{
@@ -555,9 +540,7 @@ export function Graph(props: Props) {
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
                         textAnchor: 'start',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs font-bold`}
+                      className='text-xs font-bold'
                       dy={12.5}
                       dx={5}
                     >
@@ -576,9 +559,7 @@ export function Graph(props: Props) {
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     textAnchor: 'middle',
                   }}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   key={i}
                   x={0}
                   y={(y(`${d.label}`) as number) + y.bandwidth() / 2}
@@ -598,9 +579,7 @@ export function Graph(props: Props) {
                 fill: barColors[0],
                 textAnchor: 'end',
               }}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-base`}
+              className='text-base'
               x={graphWidth / 2 - centerGap / 2}
               y={0}
               dx={-5}
@@ -613,9 +592,7 @@ export function Graph(props: Props) {
                 fill: barColors[1],
                 textAnchor: 'start',
               }}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-base`}
+              className='text-base'
               x={graphWidth / 2 + centerGap / 2}
               y={0}
               dx={5}
@@ -628,8 +605,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

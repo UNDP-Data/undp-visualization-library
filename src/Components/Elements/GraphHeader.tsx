@@ -9,8 +9,6 @@ interface Props {
   width?: number;
   graphDownload?: HTMLDivElement | null;
   dataDownload?: any;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   isDashboard?: boolean;
 }
 
@@ -21,8 +19,6 @@ export function GraphHeader(props: Props) {
     width,
     graphDownload,
     dataDownload,
-    rtl,
-    language,
     isDashboard,
   } = props;
   return (
@@ -32,26 +28,14 @@ export function GraphHeader(props: Props) {
       }`}
       style={{
         maxWidth: width ? `${width}px` : 'none',
-        flexDirection: rtl ? 'row-reverse' : 'row',
       }}
       aria-label='Graph header'
     >
       <div className='flex-col flex gap-1'>
         {graphTitle ? (
-          <GraphTitle
-            text={graphTitle}
-            rtl={rtl}
-            language={language}
-            isDashboard={isDashboard}
-          />
+          <GraphTitle text={graphTitle} isDashboard={isDashboard} />
         ) : null}
-        {graphDescription ? (
-          <GraphDescription
-            text={graphDescription}
-            rtl={rtl}
-            language={language}
-          />
-        ) : null}
+        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
       </div>
       {graphDownload || dataDownload ? (
         <div className='flex gap-3'>

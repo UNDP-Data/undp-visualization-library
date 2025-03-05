@@ -3,13 +3,11 @@ import { extractInnerString } from '../../Utils/extractInnerString';
 
 interface Props {
   text: string;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   isDashboard?: boolean;
 }
 
 export function GraphTitle(props: Props) {
-  const { text, rtl, language, isDashboard } = props;
+  const { text, isDashboard } = props;
   if (extractInnerString(text)) {
     return (
       <div
@@ -24,10 +22,7 @@ export function GraphTitle(props: Props) {
     return (
       <H5
         marginBottom='lg'
-        fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-        className={`font-bold pb-3 md:pb-3 text-primary-gray-600 dark:text-primary-gray-400 ${
-          rtl ? 'text-right' : 'text-left'
-        }`}
+        className='font-bold pb-3 md:pb-3 text-primary-gray-600 dark:text-primary-gray-400'
         aria-label='Dashboard title'
       >
         {text}
@@ -36,10 +31,7 @@ export function GraphTitle(props: Props) {
   return (
     <P
       marginBottom='none'
-      fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-      className={`text-primary-gray-600 dark:text-primary-gray-400 ${
-        rtl ? 'text-right' : 'text-left'
-      }`}
+      className='text-primary-gray-600 dark:text-primary-gray-400'
       aria-label='Graph title'
     >
       {text}

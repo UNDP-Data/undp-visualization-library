@@ -6,12 +6,10 @@ interface Props {
   footNote?: string;
   sources?: SourcesDataType[];
   width?: number;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
 }
 
 export function GraphFooter(props: Props) {
-  const { sources, footNote, width, rtl, language } = props;
+  const { sources, footNote, width } = props;
   if (
     (sources === undefined || (sources || []).length === 0) &&
     footNote === undefined
@@ -25,12 +23,8 @@ export function GraphFooter(props: Props) {
       }}
       aria-label='Graph footer'
     >
-      {sources ? (
-        <Source sources={sources} rtl={rtl} language={language} />
-      ) : null}
-      {footNote ? (
-        <FootNote text={footNote} rtl={rtl} language={language} />
-      ) : null}
+      {sources ? <Source sources={sources} /> : null}
+      {footNote ? <FootNote text={footNote} /> : null}
     </div>
   );
 }

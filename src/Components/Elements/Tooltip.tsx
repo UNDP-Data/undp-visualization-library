@@ -8,8 +8,6 @@ interface Props {
   xPos: number;
   yPos: number;
   data: any;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   mode: 'dark' | 'light';
   backgroundStyle?: CSSObject;
 }
@@ -20,8 +18,6 @@ export function Tooltip(props: Props) {
     xPos,
     yPos,
     data,
-    rtl,
-    language,
     mode,
     backgroundStyle = {
       backgroundColor: UNDPColorModule[mode].grays['gray-200'],
@@ -45,11 +41,7 @@ export function Tooltip(props: Props) {
       }}
     >
       <div
-        className={`${
-          rtl
-            ? `font-sans-${language || 'ar'} text-right`
-            : 'font-sans text-left'
-        } text-sm leading-normal ${
+        className={`text-sm leading-normal ${
           mode === 'dark' ? 'text-primary-white' : 'text-primary-gray-700'
         } m-0 undp-viz-tooltip`}
         dangerouslySetInnerHTML={{ __html: htmlString }}

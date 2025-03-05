@@ -28,8 +28,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -56,8 +54,6 @@ export function Graph(props: Props) {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -104,6 +100,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {treeMapVizData.children?.map((d, i) => {
@@ -206,11 +203,10 @@ export function Graph(props: Props) {
                     >
                       {showLabels ? (
                         <P
-                          className={`${
-                            rtl
-                              ? `font-sans-${language || 'ar'} text-right`
-                              : 'font-sans text-left'
-                          } text-sm md:text-sm mb-0 md:mb-0 leading-none md:leading-none w-full`}
+                          marginBottom='none'
+                          size='sm'
+                          leading='none'
+                          className='w-full'
                           style={{
                             WebkitLineClamp:
                               d.y1 - d.y0 > 50
@@ -241,11 +237,10 @@ export function Graph(props: Props) {
                       ) : null}
                       {showValues ? (
                         <P
-                          className={`${
-                            rtl
-                              ? `font-sans-${language || 'ar'} text-right`
-                              : 'font-sans text-left'
-                          } text-sm md:text-sm mb-0 md:mb-0 font-bold leading-none md:leading-none w-full`}
+                          marginBottom='none'
+                          size='sm'
+                          leading='none'
+                          className='font-bold w-full'
                           style={{
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
@@ -277,8 +272,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

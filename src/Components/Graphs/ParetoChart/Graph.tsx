@@ -30,8 +30,6 @@ interface Props {
   truncateBy: number;
   showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -62,8 +60,6 @@ export function Graph(props: Props) {
     truncateBy,
     showLabels,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -140,6 +136,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
@@ -157,11 +154,11 @@ export function Graph(props: Props) {
                   x={-25}
                   y={y1(d)}
                   fill={barColor}
-                  textAnchor='end'
                   dy={3}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
+                  style={{
+                    textAnchor: 'end',
+                  }}
                 >
                   {numberFormattingFunction(d, barPrefix, barSuffix)}
                 </text>
@@ -180,10 +177,10 @@ export function Graph(props: Props) {
                 graphHeight / 2
               }) rotate(-90)`}
               fill={barColor}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              style={{
+                textAnchor: 'middle',
+              }}
+              className='text-xs'
             >
               {axisTitles[0].length > 100
                 ? `${axisTitles[0].substring(0, 100)}...`
@@ -205,12 +202,12 @@ export function Graph(props: Props) {
                   x={graphWidth + 25}
                   y={y2(d)}
                   fill={lineColor}
-                  textAnchor='start'
                   dy={3}
                   dx={-2}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
+                  style={{
+                    textAnchor: 'start',
+                  }}
                 >
                   {numberFormattingFunction(d, linePrefix, lineSuffix)}
                 </text>
@@ -229,10 +226,10 @@ export function Graph(props: Props) {
                 graphHeight / 2
               }) rotate(-90)`}
               fill={lineColor}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              style={{
+                textAnchor: 'middle',
+              }}
+              className='text-xs'
             >
               {axisTitles[1].length > 100
                 ? `${axisTitles[1].substring(0, 100)}...`
@@ -311,9 +308,7 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                     }}
                     dy='15px'
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -393,8 +388,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

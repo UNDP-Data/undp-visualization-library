@@ -132,7 +132,8 @@ export function CirclePackingGraph(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -161,8 +162,6 @@ export function CirclePackingGraph(props: Props) {
         <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -178,8 +177,6 @@ export function CirclePackingGraph(props: Props) {
           <div className='grow flex flex-col justify-center gap-3 w-full'>
             {showColorScale && data.filter(el => el.color).length !== 0 ? (
               <ColorLegendWithMouseOver
-                rtl={rtl}
-                language={language}
                 width={width}
                 colorLegendTitle={colorLegendTitle}
                 colors={
@@ -257,8 +254,6 @@ export function CirclePackingGraph(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
-                  language={language}
                   mode={mode}
                   radius={
                     !radius
@@ -294,13 +289,7 @@ export function CirclePackingGraph(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

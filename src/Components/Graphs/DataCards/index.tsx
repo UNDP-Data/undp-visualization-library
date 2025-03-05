@@ -228,7 +228,8 @@ export function DataCards(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -256,8 +257,6 @@ export function DataCards(props: Props) {
         <div className='flex flex-col grow gap-3 w-full justify-between'>
           {graphTitle || graphDescription ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -277,11 +276,7 @@ export function DataCards(props: Props) {
                   }}
                 >
                   <P
-                    className={`text-sm md:text-sm mb-2 md:mb-2 ${
-                      rtl
-                        ? `font-sans-${language || 'ar'} text-right`
-                        : 'font-sans text-left'
-                    }`}
+                    className='text-sm md:text-sm mb-2 md:mb-2'
                     style={{
                       color: UNDPColorModule[mode].grays.black,
                     }}
@@ -327,11 +322,7 @@ export function DataCards(props: Props) {
                   key={i}
                 >
                   <P
-                    className={`text-sm md:text-sm mb-2 md:mb-2 ${
-                      rtl
-                        ? `font-sans-${language || 'ar'} text-right`
-                        : 'font-sans text-left'
-                    }`}
+                    className='text-sm md:text-sm mb-2 md:mb-2'
                     style={{
                       color: UNDPColorModule[mode].grays.black,
                     }}
@@ -450,13 +441,7 @@ export function DataCards(props: Props) {
           ) : null}
 
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

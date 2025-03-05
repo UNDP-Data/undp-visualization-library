@@ -41,8 +41,6 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -76,8 +74,6 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -137,6 +133,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         ref={mapSvg}
+        direction='ltr'
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
@@ -407,11 +404,7 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {showColorScale === false ? null : (
-        <div
-          className={`undp-viz-bivariate-legend-container relative ${
-            rtl ? 'self-end' : 'self-start'
-          }`}
-        >
+        <div className='undp-viz-bivariate-legend-container relative'>
           <div
             className='flex p-4 items-end mb-3'
             style={{
@@ -425,9 +418,7 @@ export function Graph(props: Props) {
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <p
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } leading-normal text-xs mx-0 mt-0 mb-2 p-0 overflow-hidden`}
+                    className='leading-normal text-xs mx-0 mt-0 mb-2 p-0 overflow-hidden'
                     style={{
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
@@ -438,7 +429,7 @@ export function Graph(props: Props) {
                     {colorLegendTitle}
                   </p>
                 ) : null}
-                <svg width='100%' viewBox='0 0 320 30'>
+                <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
                   <g>
                     {domain.map((d, i) => (
                       <g
@@ -480,14 +471,12 @@ export function Graph(props: Props) {
                               : ((i + 1) * 320) / colors.length
                           }
                           y={25}
-                          textAnchor='middle'
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-xs`}
+                          className='text-xs'
                           style={{
                             fill: UNDPColorModule[mode || 'light'].grays[
                               'gray-700'
                             ],
+                            textAnchor: 'middle',
                           }}
                         >
                           {categorical
@@ -531,8 +520,6 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

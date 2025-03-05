@@ -53,8 +53,6 @@ interface Props {
   minPositionValue?: number;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -85,8 +83,6 @@ export function Graph(props: Props) {
     minPositionValue,
     highlightedDataPoints,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -193,6 +189,7 @@ export function Graph(props: Props) {
           width={`${width}px`}
           height={`${height}px`}
           viewBox={`0 0 ${width} ${height}`}
+          direction='ltr'
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
             {showTicks ? (
@@ -210,13 +207,11 @@ export function Graph(props: Props) {
                 <text
                   x={0 - margin.left + 2}
                   y={y(yMinValue < 0 ? 0 : yMinValue)}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                    textAnchor: 'start',
                   }}
-                  textAnchor='start'
                   dy={-3}
                 >
                   {numberFormattingFunction(yMinValue < 0 ? 0 : yMinValue)}
@@ -240,15 +235,13 @@ export function Graph(props: Props) {
                     <text
                       x={0 - margin.left + 2}
                       y={y(d)}
-                      textAnchor='start'
                       dy={-3}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs opacity-${d === 0 ? 0 : 100}`}
+                      className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                       style={{
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
+                        textAnchor: 'start',
                       }}
                     >
                       {numberFormattingFunction(d)}
@@ -340,9 +333,7 @@ export function Graph(props: Props) {
                     <div className='flex flex-col justify-center items-center h-inherit py-0 px-1.5'>
                       {showLabels ? (
                         <p
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-center leading-none m-0`}
+                          className='text-center leading-none m-0'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(
@@ -409,9 +400,7 @@ export function Graph(props: Props) {
                           UNDPColorModule[mode || 'light'].grays['gray-700'],
                         textAnchor: 'end',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs font-bold`}
+                      className='text-xs font-bold'
                       dy={-5}
                     >
                       {el.text}
@@ -431,8 +420,6 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

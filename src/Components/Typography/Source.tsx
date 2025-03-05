@@ -3,86 +3,35 @@ import { SourcesDataType } from '../../Types';
 
 interface SourceProps {
   sources: SourcesDataType[];
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
 }
 
 export function Source(props: SourceProps) {
-  const { sources, rtl, language } = props;
+  const { sources } = props;
   return (
-    <P
-      size='sm'
-      marginBottom='none'
-      fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-      className={`text-primary-gray-600 dark:text-primary-gray-400 ${
-        rtl ? 'text-right' : 'text-left'
-      }`}
-      aria-label='Data sources'
-    >
-      {rtl ? (
-        <>
-          {sources.map((d, i) => (
-            <span
-              key={i}
-              className='text-sm md:text-sm text-primary-gray-600 dark:text-primary-gray-400'
-              style={{
-                fontFamily: 'inherit',
-              }}
+    <P size='sm' marginBottom='none' aria-label='Data sources'>
+      Source:{' '}
+      {sources.map((d, i) => (
+        <span
+          key={i}
+          className='text-primary-gray-600 dark:text-primary-gray-400'
+          style={{
+            fontFamily: 'inherit',
+          }}
+        >
+          {d.link ? (
+            <A
+              className='text-primary-gray-600 dark:text-primary-gray-400'
+              href={d.link}
+              target='_blank'
+              rel='noreferrer'
             >
-              {d.link ? (
-                <A
-                  className='text-sm md:text-sm text-primary-gray-600 dark:text-primary-gray-400'
-                  style={{
-                    fontFamily: 'inherit',
-                  }}
-                  href={d.link}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  {d.source}
-                </A>
-              ) : (
-                d.source
-              )}
-            </span>
-          ))}{' '}
-          :
-          {language === 'he'
-            ? 'מָקוֹר'
-            : language === 'en'
-            ? 'Source'
-            : 'المصدر'}
-        </>
-      ) : (
-        <>
-          Source:{' '}
-          {sources.map((d, i) => (
-            <span
-              key={i}
-              className='text-sm md:text-sm text-primary-gray-600 dark:text-primary-gray-400'
-              style={{
-                fontFamily: 'inherit',
-              }}
-            >
-              {d.link ? (
-                <A
-                  className='text-sm md:text-sm text-primary-gray-600 dark:text-primary-gray-400'
-                  style={{
-                    fontFamily: 'inherit',
-                  }}
-                  href={d.link}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  {d.source}
-                </A>
-              ) : (
-                d.source
-              )}
-            </span>
-          ))}
-        </>
-      )}
+              {d.source}
+            </A>
+          ) : (
+            d.source
+          )}
+        </span>
+      ))}
     </P>
   );
 }

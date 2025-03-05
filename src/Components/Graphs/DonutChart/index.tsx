@@ -142,7 +142,8 @@ export function DonutChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',
@@ -172,8 +173,6 @@ export function DonutChart(props: Props) {
         <div className='flex flex-col gap-2 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -227,11 +226,8 @@ export function DonutChart(props: Props) {
                         }}
                       />
                       <P
-                        className={`${
-                          rtl
-                            ? `font-sans-${language || 'ar'} text-right`
-                            : 'font-sans text-left'
-                        } mb-0 md:mb-0 text-sm md:text-sm`}
+                        marginBottom='none'
+                        size='sm'
                         style={{
                           color: UNDPColorModule[mode].grays.black,
                         }}
@@ -291,8 +287,6 @@ export function DonutChart(props: Props) {
                     colorDomain={colorDomain || sortedData.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
-                    rtl={rtl}
-                    language={language}
                     mode={mode}
                     resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                     tooltipBackgroundStyle={tooltipBackgroundStyle}
@@ -303,13 +297,7 @@ export function DonutChart(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : (
             <div />
           )}

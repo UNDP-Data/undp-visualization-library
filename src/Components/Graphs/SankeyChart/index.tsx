@@ -218,7 +218,8 @@ export function SankeyChart(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -247,8 +248,6 @@ export function SankeyChart(props: Props) {
         <div className='flex flex-col gap-4 w-full grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -296,8 +295,6 @@ export function SankeyChart(props: Props) {
                   suffix={suffix}
                   prefix={prefix}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
-                  language={language}
                   mode={mode}
                   id={generateRandomString(8)}
                   highlightedSourceDataPoints={highlightedSourceDataPoints.map(
@@ -319,13 +316,7 @@ export function SankeyChart(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

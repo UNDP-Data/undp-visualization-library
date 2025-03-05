@@ -39,7 +39,6 @@ interface Props {
   selectedColor?: string;
   rtl: boolean;
   labelOrder?: string[];
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -75,7 +74,6 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     selectedColor,
     rtl,
-    language,
     labelOrder,
     mode,
     maxBarThickness,
@@ -135,6 +133,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {showTicks
@@ -156,14 +155,12 @@ export function Graph(props: Props) {
                   <text
                     x={x(d)}
                     y={0 - topMargin}
-                    textAnchor='start'
                     dy={10}
                     dx={3}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs opacity-${d === 0 ? 0 : 100}`}
+                    className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
@@ -176,12 +173,10 @@ export function Graph(props: Props) {
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
               dy={15}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
             >
               {barAxisTitle}
             </text>
@@ -282,9 +277,7 @@ export function Graph(props: Props) {
                           textAnchor: 'middle',
                         }}
                         dy={5}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-sm`}
+                        className='text-sm'
                       >
                         {numberFormattingFunction(el, prefix, suffix)}
                       </text>
@@ -301,9 +294,7 @@ export function Graph(props: Props) {
                     y={y.bandwidth() / 2}
                     dx={-10}
                     dy={5}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -322,9 +313,7 @@ export function Graph(props: Props) {
                     y={y.bandwidth() / 2}
                     dx={5}
                     dy={5}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-sm`}
+                    className='text-sm'
                   >
                     {numberFormattingFunction(
                       sum(d.size.filter(element => element)),
@@ -354,9 +343,7 @@ export function Graph(props: Props) {
                           y={(y(d) as number) + y.bandwidth() / 2}
                           dx={-10}
                           dy={5}
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-xs`}
+                          className='text-xs'
                         >
                           {`${d}`.length < truncateBy
                             ? `${d}`
@@ -375,9 +362,7 @@ export function Graph(props: Props) {
                           y={y.bandwidth() / 2}
                           dx={5}
                           dy={5}
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-sm`}
+                          className='text-sm'
                         >
                           {numberFormattingFunction(0, prefix, suffix)}
                         </text>
@@ -426,9 +411,7 @@ export function Graph(props: Props) {
                           ? 'end'
                           : 'start',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                     dy={12.5}
                     dx={
                       x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5
@@ -444,8 +427,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

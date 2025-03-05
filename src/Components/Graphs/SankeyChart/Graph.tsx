@@ -29,8 +29,6 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   id: string;
   highlightedSourceDataPoints: string[];
@@ -61,8 +59,6 @@ export function Graph(props: Props) {
     prefix,
     showValues,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     nodePadding,
     nodeWidth,
@@ -138,14 +134,13 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
+        direction='ltr'
       >
         {sourceTitle ? (
           <text
             x={margin.left}
             y={margin.top - 10}
-            className={`${
-              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-            } text-base md:text-base font-bold`}
+            className='text-base md:text-base font-bold'
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               textAnchor: 'start',
@@ -158,9 +153,7 @@ export function Graph(props: Props) {
           <text
             x={width - margin.right}
             y={margin.top - 10}
-            className={`${
-              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-            } text-base md:text-base font-bold`}
+            className='text-base md:text-base font-bold'
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               textAnchor: 'end',
@@ -209,13 +202,10 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-sm md:text-sm text-right ${
-                              showValues ? 'mb-2 md:mb-2' : 'mb-0 md:mb-0'
-                            } leading-none md:leading-none`}
+                            marginBottom={showValues ? 'xs' : 'none'}
+                            size='sm'
+                            leading='none'
+                            className='text-right'
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,
@@ -231,11 +221,10 @@ export function Graph(props: Props) {
                         ) : null}
                         {showValues ? (
                           <P
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-sm md:text-sm text-right mb-0 md:mb-0 font-bold leading-none md:leading-none`}
+                            marginBottom='none'
+                            size='sm'
+                            leading='none'
+                            className='text-right font-bold'
                             style={{
                               hyphens: 'auto',
                               color: (d as any).color,
@@ -289,13 +278,10 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-sm md:text-sm text-left ${
-                              showValues ? 'mb-2 md:mb-2' : 'mb-0 md:mb-0'
-                            } leading-none md:leading-none`}
+                            marginBottom={showValues ? 'xs' : 'none'}
+                            size='sm'
+                            leading='none'
+                            className='text-left'
                             style={{
                               hyphens: 'auto',
                               color: (d as any).color,
@@ -311,11 +297,7 @@ export function Graph(props: Props) {
                         ) : null}
                         {showValues ? (
                           <p
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-sm text-left md:text-sm mb-0 font-bold md:mb-0 leading-none md:leading-none`}
+                            className='text-sm text-left md:text-sm mb-0 font-bold md:mb-0 leading-none md:leading-none'
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,
@@ -433,8 +415,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

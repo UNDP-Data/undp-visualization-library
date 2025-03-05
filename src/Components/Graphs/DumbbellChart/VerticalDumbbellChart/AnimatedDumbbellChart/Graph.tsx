@@ -45,8 +45,6 @@ interface Props {
   sortParameter?: number | 'diff';
   arrowConnector: boolean;
   connectorStrokeWidth: number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -87,8 +85,6 @@ export function Graph(props: Props) {
     sortParameter,
     arrowConnector,
     connectorStrokeWidth,
-    rtl,
-    language,
     mode,
     maxBarThickness,
     minBarThickness,
@@ -193,6 +189,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         {arrowConnector ? (
           <defs>
@@ -228,11 +225,9 @@ export function Graph(props: Props) {
             y={y(0)}
             style={{
               fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+              textAnchor: 'start',
             }}
-            textAnchor='start'
-            className={`${
-              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-            } text-xs`}
+            className='text-xs'
             dy={-3}
           >
             0
@@ -257,14 +252,12 @@ export function Graph(props: Props) {
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
-                    textAnchor='start'
                     dy={-3}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs opacity-${d === 0 ? 0 : 100}`}
+                    className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
                   </text>
@@ -278,11 +271,9 @@ export function Graph(props: Props) {
               }) rotate(-90)`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
             >
               {barAxisTitle}
             </text>
@@ -305,9 +296,7 @@ export function Graph(props: Props) {
                       x: (x(`${i}`) as number) + x.bandwidth() / 2,
                     }}
                     transition={{ duration: 0.5 }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? d.label
@@ -407,9 +396,7 @@ export function Graph(props: Props) {
                           fill: valueColor || dotColors[j],
                           textAnchor: 'start',
                         }}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-sm font-bold`}
+                        className='text-sm font-bold'
                         dx={radius + 3}
                         dy={4.5}
                         animate={{
@@ -431,8 +418,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

@@ -122,7 +122,8 @@ export function DataTable(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -150,8 +151,6 @@ export function DataTable(props: Props) {
         <div className='flex flex-col gap-3 w-full justify-between grow'>
           {graphTitle || graphDescription ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -193,11 +192,10 @@ export function DataTable(props: Props) {
                         >
                           <div className='flex gap-2 justify-between items-center p-4'>
                             <P
-                              className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 grow ${
-                                rtl
-                                  ? `font-sans-${language || 'ar'}`
-                                  : 'font-sans'
-                              } text-${d.align || 'left'} font-bold`}
+                              marginBottom='none'
+                              className={`text-sm md:text-sm w-fit grow text-${
+                                d.align || 'left'
+                              } font-bold`}
                             >
                               {d.columnTitle || d.columnId}
                             </P>
@@ -342,14 +340,11 @@ export function DataTable(props: Props) {
                             >
                               {typeof d[el.columnId] === 'number' ? (
                                 <P
-                                  className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                  marginBottom='none'
+                                  className={`text-sm md:text-sm w-fit ${
                                     el.chip
                                       ? 'grow-0 rounded-sm p-2 md:p-2'
                                       : 'grow rounded-none p-0 md:p-0'
-                                  } ${
-                                    rtl
-                                      ? `font-sans-${language || 'ar'}`
-                                      : 'font-sans'
                                   } text-${d.align || 'left'}`}
                                   style={{
                                     backgroundColor: el.chip
@@ -385,14 +380,11 @@ export function DataTable(props: Props) {
                                       .map((element: string, indx: number) => (
                                         <P
                                           key={indx}
-                                          className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                          marginBottom='none'
+                                          className={`text-sm md:text-sm w-fit ${
                                             el.chip
                                               ? 'grow-0 rounded-sm p-2 md:p-2'
                                               : 'grow rounded-none p-0 md:p-0'
-                                          } ${
-                                            rtl
-                                              ? `font-sans-${language || 'ar'}`
-                                              : 'font-sans'
                                           } text-${d.align || 'left'}`}
                                           style={{
                                             backgroundColor: el.chip
@@ -418,14 +410,11 @@ export function DataTable(props: Props) {
                                   </div>
                                 ) : (
                                   <P
-                                    className={`text-sm md:text-sm w-fit m-0 mb-0 md:mb-0 md:m-0 ${
+                                    marginBottom='none'
+                                    className={`text-sm md:text-sm w-fit ${
                                       el.chip
                                         ? 'grow-0 rounded-sm p-2 md:p-2'
                                         : 'grow rounded-none p-0 md:p-0'
-                                    } ${
-                                      rtl
-                                        ? `font-sans-${language || 'ar'}`
-                                        : 'font-sans'
                                     } text-${el.align || 'left'}`}
                                     style={{
                                       backgroundColor: el.chip
@@ -459,23 +448,13 @@ export function DataTable(props: Props) {
             </div>
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
         {popupVisible && (
           <div style={popupStyle}>
             <div className='max-w-60'>
-              <P
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-sm md:text-sm mb-1 md:mb-1 font-bold`}
-              >
+              <P className='text-sm md:text-sm mb-1 md:mb-1 font-bold'>
                 Filter data by
               </P>
               <div className='flex flex-col gap-2'>

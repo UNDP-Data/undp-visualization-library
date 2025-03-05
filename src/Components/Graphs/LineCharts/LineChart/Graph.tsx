@@ -46,7 +46,6 @@ interface Props {
   minValue?: number;
   animateLine: boolean | number;
   rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   strokeWidth: number;
   showDots: boolean;
   annotations: AnnotationSettingsDataType[];
@@ -84,7 +83,6 @@ export function Graph(props: Props) {
     maxValue,
     animateLine,
     rtl,
-    language,
     strokeWidth,
     showDots,
     annotations,
@@ -244,6 +242,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {highlightAreaSettingsFormatted[0] === null &&
@@ -337,11 +336,9 @@ export function Graph(props: Props) {
                     y={y(d)}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
+                      textAnchor: 'end',
                     }}
-                    textAnchor='end'
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs`}
+                    className='text-xs'
                     dy={3}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
@@ -366,11 +363,9 @@ export function Graph(props: Props) {
                 }) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  textAnchor: 'middle',
                 }}
-                textAnchor='middle'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs`}
+                className='text-xs'
               >
                 {yAxisTitle}
               </text>
@@ -380,11 +375,9 @@ export function Graph(props: Props) {
               y={y(minParam < 0 ? 0 : minParam)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'end',
               }}
-              textAnchor='end'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
               dy={3}
             >
               {numberFormattingFunction(
@@ -402,11 +395,9 @@ export function Graph(props: Props) {
                   x={x(d)}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                    textAnchor: 'middle',
                   }}
-                  textAnchor='middle'
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs`}
+                  className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
                   dy={15}
                 >
                   {format(d, dateFormat)}
@@ -464,15 +455,13 @@ export function Graph(props: Props) {
                         x={x(d.date)}
                         y={y(d.y)}
                         dy={-8}
-                        textAnchor='middle'
                         style={{
                           fill: UNDPColorModule[mode || 'light'].grays[
                             'gray-700'
                           ],
+                          textAnchor: 'middle',
                         }}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-xs font-bold`}
+                        className='text-xs font-bold'
                       >
                         {numberFormattingFunction(d.y, prefix, suffix)}
                       </text>
@@ -506,9 +495,7 @@ export function Graph(props: Props) {
                     UNDPColorModule[mode || 'light'].grays['gray-700'],
                   textAnchor: 'end',
                 }}
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs font-bold`}
+                className='text-xs font-bold'
                 dy={-5}
               >
                 {el.text}
@@ -641,11 +628,7 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className={`${
-                        rtl
-                          ? `font-sans-${language || 'ar'} text-right pl-0 pr-1`
-                          : 'font-sans text-left pl-1 pr-0'
-                      } text-sm font-${
+                      className={`text-sm font-${
                         d.fontWeight || 'normal'
                       } leading-tight m-0 whitespace-normal`}
                       style={{
@@ -701,8 +684,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

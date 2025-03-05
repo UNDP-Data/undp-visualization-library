@@ -10,8 +10,6 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'dark' | 'light';
 }
 
@@ -23,8 +21,6 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
-    rtl,
-    language,
     mode,
   } = props;
 
@@ -41,16 +37,16 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
-        <P
-          size='sm'
-          marginBottom='xs'
-          fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-          className='w-full text-center'
-        >
+        <P size='sm' marginBottom='xs' className='w-full text-center'>
           {colorLegendTitle}
         </P>
       ) : null}
-      <svg width='100%' viewBox='0 0 360 30' style={{ maxWidth: '360px' }}>
+      <svg
+        width='100%'
+        viewBox='0 0 360 30'
+        style={{ maxWidth: '360px' }}
+        direction='ltr'
+      >
         <g>
           {colorDomain.map((d, i) => (
             <g
@@ -80,14 +76,10 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               <text
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
-                textAnchor='middle'
-                className={`${
-                  language === 'en' || !rtl
-                    ? 'font-sans'
-                    : `font-sans-${language || 'ar'}`
-                } text-sm`}
+                className='text-sm'
                 style={{
                   fill: UNDPColorModule[mode].grays['gray-700'],
+                  textAnchor: 'middle',
                 }}
               >
                 {numberFormattingFunction(d as number, '', '')}
@@ -146,12 +138,10 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               <text
                 x={337.5}
                 y={25}
-                textAnchor='start'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-sm`}
+                className='text-sm'
                 style={{
                   fill: UNDPColorModule[mode].grays['gray-700'],
+                  textAnchor: 'start',
                 }}
               >
                 NA

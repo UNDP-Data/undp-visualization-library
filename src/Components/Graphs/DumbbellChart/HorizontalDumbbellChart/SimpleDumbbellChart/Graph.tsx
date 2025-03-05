@@ -36,8 +36,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   arrowConnector: boolean;
   connectorStrokeWidth: number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -75,8 +73,6 @@ export function Graph(props: Props) {
     selectedColor,
     arrowConnector,
     connectorStrokeWidth,
-    rtl,
-    language,
     mode,
     maxBarThickness,
     minBarThickness,
@@ -135,6 +131,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         {arrowConnector ? (
           <defs>
@@ -174,14 +171,12 @@ export function Graph(props: Props) {
                   <text
                     x={x(d)}
                     y={0 - topMargin}
-                    textAnchor='start'
                     dy={10}
                     dx={3}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-xs opacity-${d === 0 ? 0 : 100}`}
+                    className={`text-xs opacity-${d === 0 ? 0 : 100}`}
                     style={{
                       fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
@@ -194,12 +189,10 @@ export function Graph(props: Props) {
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
               dy={15}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
             >
               {barAxisTitle}
             </text>
@@ -218,9 +211,7 @@ export function Graph(props: Props) {
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     textAnchor: 'end',
                   }}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   x={0}
                   y={0}
                   dx={-10}
@@ -337,9 +328,7 @@ export function Graph(props: Props) {
                           }}
                           dx={0}
                           dy={0 - radius - 3}
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-sm font-bold`}
+                          className='text-sm font-bold'
                         >
                           {numberFormattingFunction(el, prefix, suffix)}
                         </text>
@@ -354,8 +343,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

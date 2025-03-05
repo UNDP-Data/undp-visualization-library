@@ -3,12 +3,10 @@ import { extractInnerString } from '../../Utils/extractInnerString';
 
 interface Props {
   text: string;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
 }
 
 export function FootNote(props: Props) {
-  const { text, rtl, language } = props;
+  const { text } = props;
   if (extractInnerString(text)) {
     return (
       <div
@@ -23,10 +21,7 @@ export function FootNote(props: Props) {
     <P
       size='sm'
       marginBottom='none'
-      fontType={language === 'en' || !rtl ? 'body' : language || 'ar'}
-      className={`text-primary-gray-600 dark:text-primary-gray-400 ${
-        rtl ? 'text-right' : 'text-left'
-      }`}
+      className='text-primary-gray-600 dark:text-primary-gray-400'
       aria-label='Graph footnote'
     >
       {text}

@@ -54,7 +54,6 @@ interface Props {
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -86,7 +85,6 @@ export function Graph(props: Props) {
     highlightedDataPoints,
     onSeriesMouseClick,
     rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -193,6 +191,7 @@ export function Graph(props: Props) {
           width={`${width}px`}
           height={`${height}px`}
           viewBox={`0 0 ${width} ${height}`}
+          direction='ltr'
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
             {showTicks ? (
@@ -210,13 +209,11 @@ export function Graph(props: Props) {
                 <text
                   x={x(xMinValue < 0 ? 0 : xMinValue)}
                   y={-12.5}
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                    textAnchor: 'middle',
                   }}
-                  textAnchor='middle'
                 >
                   {numberFormattingFunction(xMinValue < 0 ? 0 : xMinValue)}
                 </text>
@@ -225,15 +222,13 @@ export function Graph(props: Props) {
                     <text
                       x={x(d)}
                       y={-12.5}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs`}
+                      className='text-xs'
                       style={{
                         fill: UNDPColorModule[mode || 'light'].grays[
                           'gray-500'
                         ],
+                        textAnchor: 'middle',
                       }}
-                      textAnchor='middle'
                     >
                       {numberFormattingFunction(d)}
                     </text>
@@ -348,9 +343,7 @@ export function Graph(props: Props) {
                     >
                       {showLabels ? (
                         <p
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } mb-0 md:mb-0 m-0 text-center leading-none`}
+                          className='mb-0 md:mb-0 m-0 text-center leading-none'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(
@@ -420,9 +413,7 @@ export function Graph(props: Props) {
                             ? 'end'
                             : 'start',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-xs font-bold`}
+                      className='text-xs font-bold'
                       dy={12.5}
                       dx={
                         x(el.value as number) > graphWidth * 0.75 || rtl
@@ -447,8 +438,6 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

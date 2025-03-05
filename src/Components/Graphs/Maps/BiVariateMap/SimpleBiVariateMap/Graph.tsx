@@ -38,8 +38,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -71,8 +69,6 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -125,6 +121,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         ref={mapSvg}
+        direction='ltr'
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
@@ -413,11 +410,7 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {showLegend ? (
-        <div
-          className={`undp-viz-bivariate-legend-container relative ${
-            rtl ? 'self-end' : 'self-start'
-          }`}
-        >
+        <div className='undp-viz-bivariate-legend-container relative'>
           <div
             className='items-start mb-3 flex'
             style={{
@@ -431,7 +424,7 @@ export function Graph(props: Props) {
               <div className='py-3 pr-14 pl-3 relative z-10'>
                 <div className='flex pointer-events-auto'>
                   <div>
-                    <svg width='135px' viewBox='0 0 135 135'>
+                    <svg width='135px' viewBox='0 0 135 135' direction='ltr'>
                       <g>
                         {colors.map((d, i) => (
                           <g key={i} transform={`translate(0,${100 - i * 25})`}>
@@ -468,17 +461,12 @@ export function Graph(props: Props) {
                               key={j}
                               y={10}
                               x={(j + 1) * 25}
-                              fontSize={10}
-                              textAnchor='middle'
-                              className={`${
-                                rtl
-                                  ? `font-sans-${language || 'ar'}`
-                                  : 'font-sans'
-                              }`}
+                              className='text-[10px]'
                               style={{
                                 fill: UNDPColorModule[mode || 'light'].grays[
                                   'gray-700'
                                 ],
+                                textAnchor: 'middle',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -500,17 +488,12 @@ export function Graph(props: Props) {
                               x={0}
                               transform='rotate(-90)'
                               y={0}
-                              fontSize={10}
-                              textAnchor='middle'
-                              className={`${
-                                rtl
-                                  ? `font-sans-${language || 'ar'}`
-                                  : 'font-sans'
-                              }`}
+                              className='text-[10px]'
                               style={{
                                 fill: UNDPColorModule[mode || 'light'].grays[
                                   'gray-700'
                                 ],
+                                textAnchor: 'middle',
                               }}
                             >
                               {typeof el === 'string' || el < 1
@@ -522,9 +505,7 @@ export function Graph(props: Props) {
                       </g>
                     </svg>
                     <div
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } leading-normal mt-2 text-center non-italic text-sm overflow-hidden`}
+                      className='$leading-normal mt-2 text-center non-italic text-sm overflow-hidden'
                       style={{
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
@@ -539,9 +520,7 @@ export function Graph(props: Props) {
                     </div>
                   </div>
                   <div
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } leading-normal text-center non-italic text-sm overflow-hidden absolute`}
+                    className='leading-normal text-center non-italic text-sm overflow-hidden absolute'
                     style={{
                       width: '8.125rem',
                       color: UNDPColorModule[mode || 'light'].grays['gray-700'],
@@ -573,17 +552,13 @@ export function Graph(props: Props) {
       ) : (
         <button
           type='button'
-          className={`undp-viz-bivariate-legend-container border-0 bg-transparent pl-0 ${
-            rtl ? 'self-end' : 'self-start'
-          }`}
+          className='undp-viz-bivariate-legend-container border-0 bg-transparent pl-0'
           onClick={() => {
             setShowLegend(true);
           }}
         >
           <div
-            className={`${
-              rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-            }self-start leading-normal font-bold uppercase cursor-pointer p-2 text-sm mb-3 flex`}
+            className='self-start leading-normal font-bold uppercase cursor-pointer p-2 text-sm mb-3 flex'
             style={{
               border: `1px solid ${
                 UNDPColorModule[mode || 'light'].grays['gray-400']
@@ -599,8 +574,6 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

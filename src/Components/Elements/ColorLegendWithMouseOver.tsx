@@ -8,8 +8,6 @@ interface Props {
   showNAColor: boolean;
   setSelectedColor: (_d?: string) => void;
   width?: number;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   isCenter?: boolean;
   mode: 'dark' | 'light';
 }
@@ -22,17 +20,13 @@ export function ColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     showNAColor,
     width,
-    rtl,
-    language,
     isCenter,
     mode,
   } = props;
 
   return (
     <div
-      className={`flex ${
-        isCenter ? 'justify-center' : rtl ? 'justify-end' : 'justify-start'
-      } leading-0`}
+      className={`flex ${isCenter ? 'justify-center' : ''} leading-0`}
       style={{
         maxWidth: width ? `${width}px` : 'none',
       }}
@@ -43,25 +37,15 @@ export function ColorLegendWithMouseOver(props: Props) {
           <P
             size='sm'
             marginBottom='xs'
-            className={`${
-              language === 'en' || !rtl
-                ? 'font-sans'
-                : `font-sans-${language || 'ar'}`
-            } ${isCenter ? 'text-center' : rtl ? 'text-right' : 'text-left'}`}
+            className={isCenter ? 'text-center' : ''}
           >
             {colorLegendTitle}
           </P>
         ) : null}
-        <div
-          className={`flex flex-wrap gap-3.5 mb-0 ${
-            rtl ? 'flex-row-reverse' : 'flex-row'
-          }`}
-        >
+        <div className='flex flex-wrap gap-3.5 mb-0'>
           {colorDomain.map((d, i) => (
             <div
-              className={`flex items-center gap-1 ${
-                rtl ? 'flex-row-reverse' : 'flex-row'
-              } cursor-pointer`}
+              className='flex items-center gap-1 cursor-pointer'
               key={i}
               onMouseEnter={() => {
                 setSelectedColor(colors[i % colors.length]);
@@ -77,15 +61,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                 }}
               />
               {d === '' ? null : (
-                <P
-                  size='sm'
-                  marginBottom='none'
-                  className={
-                    language === 'en' || !rtl
-                      ? 'font-sans'
-                      : `font-sans-${language || 'ar'}`
-                  }
-                >
+                <P size='sm' marginBottom='none'>
                   {d}
                 </P>
               )}
@@ -99,9 +75,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               onMouseLeave={() => {
                 setSelectedColor(undefined);
               }}
-              className={`flex items-center gap-1 ${
-                rtl ? 'flex-row-reverse' : 'flex-row'
-              } cursor-pointer`}
+              className='flex items-center gap-1 cursor-pointer'
             >
               <div
                 className='w-3 h-3 rounded-full'
@@ -109,16 +83,8 @@ export function ColorLegendWithMouseOver(props: Props) {
                   backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
-              <P
-                size='sm'
-                marginBottom='xs'
-                className={
-                  language === 'en' || !rtl
-                    ? 'font-sans'
-                    : `font-sans-${language || 'ar'}`
-                }
-              >
-                {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
+              <P size='sm' marginBottom='xs'>
+                NA
               </P>
             </div>
           ) : null}

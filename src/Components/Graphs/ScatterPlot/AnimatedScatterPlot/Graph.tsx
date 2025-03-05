@@ -62,7 +62,6 @@ interface Props {
   dateFormat: string;
   indx: number;
   rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
@@ -110,7 +109,6 @@ export function Graph(props: Props) {
     dateFormat,
     indx,
     rtl,
-    language,
     annotations,
     customHighlightAreaSettings,
     mode,
@@ -225,6 +223,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {highlightAreaSettings.filter(d => d === null).length === 4 ? null : (
@@ -327,11 +326,9 @@ export function Graph(props: Props) {
                   y={y(d)}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                    textAnchor: 'end',
                   }}
-                  textAnchor='end'
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   dy={4}
                   dx={-3}
                 >
@@ -354,11 +351,9 @@ export function Graph(props: Props) {
               y={y(yMinVal < 0 ? 0 : yMinVal)}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'end',
               }}
-              textAnchor='end'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
               dy={3}
               dx={-4}
             >
@@ -375,11 +370,9 @@ export function Graph(props: Props) {
                 }) rotate(-90)`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  textAnchor: 'middle',
                 }}
-                textAnchor='middle'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs`}
+                className='text-xs'
               >
                 {yAxisTitle}
               </text>
@@ -404,11 +397,9 @@ export function Graph(props: Props) {
                   y={graphHeight}
                   style={{
                     fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                    textAnchor: 'middle',
                   }}
-                  textAnchor='middle'
-                  className={`${
-                    rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                  } text-xs`}
+                  className='text-xs'
                   dy={12}
                 >
                   {numberFormattingFunction(d, xPrefix, xSuffix)}
@@ -430,11 +421,9 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
               dy={15}
             >
               {numberFormattingFunction(xMinVal < 0 ? 0 : xMinVal)}
@@ -444,11 +433,9 @@ export function Graph(props: Props) {
                 transform={`translate(${graphWidth / 2}, ${graphHeight})`}
                 style={{
                   fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                  textAnchor: 'middle',
                 }}
-                textAnchor='middle'
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs`}
+                className='text-xs'
                 dy={30}
               >
                 {xAxisTitle}
@@ -512,7 +499,7 @@ export function Graph(props: Props) {
                     />
                     {showLabels && !checkIfNullOrUndefined(d.label) ? (
                       <motion.text
-                        fontSize={10}
+                        className='text-[10px]'
                         style={{
                           fill:
                             labelColor ||
@@ -536,9 +523,6 @@ export function Graph(props: Props) {
                               : 1,
                         }}
                         transition={{ duration: 0.5 }}
-                        className={`${
-                          rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                        } text-[10px]`}
                       >
                         {d.label}
                       </motion.text>
@@ -548,9 +532,7 @@ export function Graph(props: Props) {
                         d.label as string | number,
                       ) !== -1 ? (
                         <text
-                          className={`${
-                            rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                          } text-[10px]`}
+                          className='text-[10px]'
                           style={{
                             fill:
                               labelColor ||
@@ -642,9 +624,7 @@ export function Graph(props: Props) {
                       ? 'end'
                       : 'start',
                 }}
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs bold`}
+                className='text-xs bold'
                 dy={12.5}
                 dx={x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5}
               >
@@ -676,9 +656,7 @@ export function Graph(props: Props) {
                     UNDPColorModule[mode || 'light'].grays['gray-700'],
                   textAnchor: 'end',
                 }}
-                className={`${
-                  rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                } text-xs bold`}
+                className='text-xs bold'
                 dy={-5}
               >
                 {el.text}
@@ -783,11 +761,7 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className={`${
-                        rtl
-                          ? `font-sans-${language || 'ar'} text-right pl-0 pr-1`
-                          : 'font-sans text-left pl-1 pr-0'
-                      } text-sm font-${
+                      className={`text-sm font-${
                         d.fontWeight || 'normal'
                       } leading-tight m-0 whitespace-normal`}
                       style={{
@@ -808,8 +782,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

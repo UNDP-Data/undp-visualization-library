@@ -30,8 +30,6 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
@@ -59,8 +57,6 @@ export function Graph(props: Props) {
     minValue,
     maxValue,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -108,6 +104,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
         className='mx-auto'
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
@@ -126,11 +123,9 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
+              className='text-xs'
               dy={15}
             >
               {axisTitle[0]}
@@ -152,11 +147,9 @@ export function Graph(props: Props) {
               y={graphHeight}
               style={{
                 fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                textAnchor: 'middle',
               }}
-              className={`${
-                rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-              } text-xs`}
-              textAnchor='middle'
+              className='text-xs'
               dy={15}
             >
               {axisTitle[1]}
@@ -251,9 +244,7 @@ export function Graph(props: Props) {
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-[10px]`}
+                    className='text-[10px]'
                     y={y(d.y1)}
                     x={5}
                     dy={4}
@@ -273,9 +264,7 @@ export function Graph(props: Props) {
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-[10px]`}
+                      className='text-[10px]'
                       y={y(d.y1)}
                       x={5}
                       dy={4}
@@ -316,9 +305,7 @@ export function Graph(props: Props) {
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
                     }}
-                    className={`${
-                      rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                    } text-[10px]`}
+                    className='text-[10px]'
                     y={y(d.y2)}
                     x={graphWidth - 5}
                     dy={4}
@@ -338,9 +325,7 @@ export function Graph(props: Props) {
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
                       }}
-                      className={`${
-                        rtl ? `font-sans-${language || 'ar'}` : 'font-sans'
-                      } text-[10px]`}
+                      className='text-[10px]'
                       y={y(d.y2)}
                       x={graphWidth - 5}
                       dy={4}
@@ -373,8 +358,6 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}

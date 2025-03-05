@@ -297,6 +297,8 @@ export function SingleGraphDashboard(props: Props) {
       }}
       id={graphSettings?.graphId}
       ref={graphParentDiv}
+      dir={graphSettings?.rtl ? 'rtl' : undefined}
+      className={`${mode} ${graphSettings?.language || 'en'}`}
     >
       <div
         style={{
@@ -318,8 +320,6 @@ export function SingleGraphDashboard(props: Props) {
               graphSettings?.graphDownload ||
               graphSettings?.dataDownload ? (
                 <GraphHeader
-                  rtl={graphSettings?.rtl}
-                  language={graphSettings?.language}
                   graphTitle={graphSettings?.graphTitle}
                   graphDescription={graphSettings?.graphDescription}
                   width={graphSettings?.width}

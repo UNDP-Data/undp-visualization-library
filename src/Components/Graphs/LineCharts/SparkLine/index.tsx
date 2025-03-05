@@ -107,7 +107,8 @@ export function SparkLine(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'}`}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={rtl ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -136,8 +137,6 @@ export function SparkLine(props: Props) {
         <div className='flex flex-col w-full gap-4 grow justify-between'>
           {graphTitle || graphDescription || graphDownload || dataDownload ? (
             <GraphHeader
-              rtl={rtl}
-              language={language}
               graphTitle={graphTitle}
               graphDescription={graphDescription}
               width={width}
@@ -181,21 +180,13 @@ export function SparkLine(props: Props) {
                 onSeriesMouseOver={onSeriesMouseOver}
                 minValue={minValue}
                 maxValue={maxValue}
-                rtl={rtl}
-                language={language}
                 mode={mode}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
               />
             ) : null}
           </div>
           {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-            />
+            <GraphFooter sources={sources} footNote={footNote} width={width} />
           ) : null}
         </div>
       </div>

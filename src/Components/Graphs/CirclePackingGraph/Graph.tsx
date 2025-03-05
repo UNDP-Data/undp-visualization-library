@@ -42,8 +42,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxRadiusValue?: number;
   radius: number;
@@ -79,8 +77,6 @@ export const Graph = memo((props: Props) => {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     maxRadiusValue,
     radius,
@@ -299,6 +295,7 @@ export const Graph = memo((props: Props) => {
           } ${width < viewPortDimensions[2] ? viewPortDimensions[2] : width} ${
             height < viewPortDimensions[3] ? viewPortDimensions[3] : height
           }`}
+          direction='ltr'
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
             {finalData.map((d, i) => {
@@ -336,11 +333,7 @@ export const Graph = memo((props: Props) => {
                       <div className='flex flex-col justify-center items-center h-full py-0 px-3'>
                         {showLabels && (
                           <p
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-center leading-tight overflow-hidden m-0`}
+                            className='text-center leading-tight overflow-hidden m-0'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
@@ -371,11 +364,7 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className={`${
-                              rtl
-                                ? `font-sans-${language || 'ar'}`
-                                : 'font-sans'
-                            } text-center font-bold leading-tight w-full m-0`}
+                            className='text-center font-bold leading-tight w-full m-0'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),
@@ -397,8 +386,6 @@ export const Graph = memo((props: Props) => {
         </svg>
         {mouseOverData && tooltip && eventX && eventY && (
           <Tooltip
-            rtl={rtl}
-            language={language}
             data={mouseOverData}
             body={tooltip}
             xPos={eventX}
