@@ -48,7 +48,6 @@ interface Props {
   minValue?: number;
   showColorScale?: boolean;
   refValues?: ReferenceDataType[];
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
@@ -99,7 +98,6 @@ export function ButterflyChart(props: Props) {
     showColorScale = false,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     colorLegendTitle,
     minHeight = 0,
@@ -138,7 +136,7 @@ export function ButterflyChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

@@ -27,7 +27,6 @@ interface Props {
   graphID?: string;
   countOnly?: (string | number)[];
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -51,7 +50,6 @@ export function StatCardFromData(props: Props) {
     backgroundColor = false,
     graphID,
     aggregationMethod = 'count',
-    rtl = false,
     language = 'en',
     countOnly,
     mode = 'light',
@@ -68,7 +66,7 @@ export function StatCardFromData(props: Props) {
       className={`flex flex-col w-full h-inherit ${mode || 'light'} ${
         language || 'en'
       }`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -112,7 +110,11 @@ export function StatCardFromData(props: Props) {
             <H3
               marginBottom='lg'
               className={`leading-none md:leading-none font-heading ${
-                centerAlign ? 'text-center' : rtl ? 'text-right' : 'text-left'
+                centerAlign
+                  ? 'text-center'
+                  : language === 'ar' || language === 'he'
+                  ? 'text-right'
+                  : 'text-left'
               }`}
               style={{
                 fontSize: headingFontSize,

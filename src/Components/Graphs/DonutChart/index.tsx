@@ -40,7 +40,6 @@ interface Props {
   dataDownload?: boolean;
   colorDomain?: string[];
   sortData?: 'asc' | 'desc';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   width?: number;
@@ -82,7 +81,6 @@ export function DonutChart(props: Props) {
     dataDownload = false,
     colorDomain,
     sortData,
-    rtl = false,
     language = 'en',
     mode = 'light',
     width,
@@ -143,7 +141,7 @@ export function DonutChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',

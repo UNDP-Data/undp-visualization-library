@@ -45,7 +45,6 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   strokeWidth?: number;
@@ -97,7 +96,6 @@ export function SimpleLineChart(props: Props) {
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
-    rtl = false,
     language = 'en',
     refValues = [],
     minHeight = 0,
@@ -140,7 +138,7 @@ export function SimpleLineChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -219,7 +217,7 @@ export function SimpleLineChart(props: Props) {
                 maxValue={maxValue}
                 highlightAreaColor={highlightAreaColor}
                 animateLine={animateLine}
-                rtl={rtl}
+                rtl={language === 'he' || language === 'ar'}
                 strokeWidth={strokeWidth}
                 showDots={showDots}
                 annotations={annotations}

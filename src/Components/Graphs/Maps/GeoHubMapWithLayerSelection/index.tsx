@@ -22,7 +22,6 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -47,7 +46,6 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     center,
     zoomLevel,
     graphID,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -75,7 +73,8 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     <div
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`} dir={rtl ? 'rtl' : undefined}
+      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -107,17 +106,12 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             />
           ) : null}
           <Select
-            className={
-              rtl
-                ? `undp-viz-select-${language} undp-viz-select`
-                : 'undp-viz-select'
-            }
             options={layerSelection.map(d => ({
               label: d.name,
               value: d.layerID,
             }))}
             isClearable={false}
-            isRtl={rtl}
+            isRtl={language === 'he' || language === 'ar'}
             isSearchable
             filterOption={createFilter(filterConfig)}
             defaultValue={{

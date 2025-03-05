@@ -55,7 +55,6 @@ interface Props {
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
   autoSort?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -110,7 +109,6 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     showOnlyActiveDate = false,
     autoPlay = false,
     autoSort = true,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -188,7 +186,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -311,7 +309,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   indx={index}
                   sortParameter={sortParameter}
                   autoSort={autoSort}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}

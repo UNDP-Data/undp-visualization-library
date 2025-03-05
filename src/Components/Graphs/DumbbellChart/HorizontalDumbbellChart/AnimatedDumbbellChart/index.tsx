@@ -57,7 +57,6 @@ interface Props {
   autoPlay?: boolean;
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -114,7 +113,6 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
     dateFormat = 'yyyy',
     arrowConnector = false,
     connectorStrokeWidth = 2,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -191,7 +189,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

@@ -49,7 +49,6 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
@@ -103,7 +102,6 @@ export function MultiLineChart(props: Props) {
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
-    rtl = false,
     language = 'en',
     colorLegendTitle,
     minHeight = 0,
@@ -149,7 +147,7 @@ export function MultiLineChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -243,7 +241,7 @@ export function MultiLineChart(props: Props) {
                   highlightedLines={highlightedLines}
                   highlightAreaColor={highlightAreaColor}
                   animateLine={animateLine}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   strokeWidth={strokeWidth}
                   showDots={showDots}
                   annotations={annotations}

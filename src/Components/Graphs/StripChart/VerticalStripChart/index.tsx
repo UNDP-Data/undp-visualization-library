@@ -45,7 +45,6 @@ interface Props {
   prefix?: string;
   suffix?: string;
   stripType?: 'strip' | 'dot';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   highlightColor?: string;
   dotOpacity?: number;
@@ -93,7 +92,6 @@ export function VerticalStripChart(props: Props) {
     prefix = '',
     suffix = '',
     stripType = 'dot',
-    rtl = false,
     language = 'en',
     highlightColor,
     dotOpacity = 0.3,
@@ -137,7 +135,7 @@ export function VerticalStripChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

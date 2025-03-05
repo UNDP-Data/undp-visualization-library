@@ -195,7 +195,11 @@ export function MultiGraphDashboard(props: Props) {
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
-      dir={dashboardLayout?.rtl ? 'rtl' : undefined}
+      dir={
+        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
+          ? 'rtl'
+          : undefined
+      }
       className={`${mode} ${dashboardLayout?.language || 'en'}`}
     >
       <div
@@ -231,7 +235,6 @@ export function MultiGraphDashboard(props: Props) {
                     flexWrap: 'wrap',
                     alignItems: 'flex-start',
                     width: '100%',
-                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
                     position: 'sticky',
                     top: '1rem',
                   }}
@@ -251,17 +254,9 @@ export function MultiGraphDashboard(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          dashboardLayout.rtl
-                            ? `undp-viz-typography-${
-                                dashboardLayout.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: dashboardLayout.rtl ? 'right' : 'left',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
@@ -269,18 +264,10 @@ export function MultiGraphDashboard(props: Props) {
                       </p>
                       {d.singleSelect ? (
                         <Select
-                          className={
-                            dashboardLayout.rtl
-                              ? `undp-viz-select-${
-                                  dashboardLayout.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.availableValues}
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
                           }
-                          isRtl={dashboardLayout.rtl}
                           isMulti={false}
                           isSearchable
                           filterOption={createFilter(filterConfig)}
@@ -296,13 +283,6 @@ export function MultiGraphDashboard(props: Props) {
                       ) : (
                         <>
                           <Select
-                            className={
-                              dashboardLayout.rtl
-                                ? `undp-viz-select-${
-                                    dashboardLayout.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
                             options={d.availableValues}
                             isMulti
                             isClearable={
@@ -318,7 +298,6 @@ export function MultiGraphDashboard(props: Props) {
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
-                            isRtl={dashboardLayout.rtl}
                             theme={(theme: any) =>
                               getReactSelectTheme(theme, mode)
                             }
@@ -376,7 +355,6 @@ export function MultiGraphDashboard(props: Props) {
                     height: 'auto',
                     width: '100%',
                     flexWrap: 'wrap',
-                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
                   }}
                 >
                   {d.columns.map((el, j) => (
@@ -421,7 +399,6 @@ export function MultiGraphDashboard(props: Props) {
                             el.graphType === 'unitChart'
                               ? el.settings.size
                               : undefined,
-                          rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
                         }}
                         dataSettings={{

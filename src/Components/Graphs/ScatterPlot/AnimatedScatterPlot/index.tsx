@@ -67,7 +67,6 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -128,7 +127,6 @@ export function AnimatedScatterPlot(props: Props) {
     graphDownload = false,
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -212,7 +210,7 @@ export function AnimatedScatterPlot(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -369,7 +367,7 @@ export function AnimatedScatterPlot(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   dateFormat={dateFormat}
                   indx={index}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   mode={mode}

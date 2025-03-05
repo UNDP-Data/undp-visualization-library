@@ -43,7 +43,6 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
-  rtl?: boolean;
   showColorScale?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
@@ -100,7 +99,6 @@ export function DualAxisLineChart(props: Props) {
     animateLine = false,
     strokeWidth = 2,
     showDots = true,
-    rtl = false,
     language = 'en',
     showColorScale = true,
     minHeight = 0,
@@ -142,7 +140,7 @@ export function DualAxisLineChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

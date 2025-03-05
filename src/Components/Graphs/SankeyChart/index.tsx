@@ -46,7 +46,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -93,7 +92,6 @@ export function SankeyChart(props: Props) {
     graphDownload = false,
     dataDownload = false,
     fillContainer = true,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -219,7 +217,7 @@ export function SankeyChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

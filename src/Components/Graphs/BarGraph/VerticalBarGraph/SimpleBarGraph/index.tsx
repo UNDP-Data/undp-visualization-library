@@ -52,7 +52,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -107,7 +106,6 @@ export function VerticalBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     mode = 'light',
     sortData,
@@ -156,7 +154,7 @@ export function VerticalBarGraph(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

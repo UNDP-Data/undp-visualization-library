@@ -58,7 +58,6 @@ interface Props {
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
   autoSort?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -116,7 +115,6 @@ export function AnimatedVerticalBarChart(props: Props) {
     autoSort = true,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     mode = 'light',
     showNAColor = true,
@@ -191,7 +189,7 @@ export function AnimatedVerticalBarChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

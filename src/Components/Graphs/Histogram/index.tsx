@@ -50,7 +50,6 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   maxBarThickness?: number;
@@ -96,7 +95,6 @@ export function Histogram(props: Props) {
     barGraphLayout,
     donutStrokeWidth,
     sortData,
-    rtl,
     language,
     minHeight,
     mode = 'light',
@@ -159,7 +157,6 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -196,7 +193,6 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -236,7 +232,6 @@ export function Histogram(props: Props) {
         strokeWidth={donutStrokeWidth}
         graphLegend
         sortData={sortData}
-        rtl={rtl}
         language={language}
         mode={mode}
         ariaLabel={ariaLabel}
@@ -278,7 +273,6 @@ export function Histogram(props: Props) {
         maxValue={maxValue}
         showTicks={showTicks}
         sortData={sortData}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -321,7 +315,6 @@ export function Histogram(props: Props) {
       maxValue={maxValue}
       showTicks={showTicks}
       sortData={sortData}
-      rtl={rtl}
       language={language}
       minHeight={minHeight}
       mode={mode}

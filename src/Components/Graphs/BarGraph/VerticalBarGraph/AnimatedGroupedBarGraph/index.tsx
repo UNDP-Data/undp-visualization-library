@@ -55,7 +55,6 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -108,7 +107,6 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     autoPlay = false,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     mode = 'light',
     minHeight = 0,
@@ -184,7 +182,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

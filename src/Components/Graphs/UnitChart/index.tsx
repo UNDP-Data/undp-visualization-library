@@ -27,7 +27,6 @@ interface Props {
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   graphLegend?: boolean;
   showStrokeForWhiteDots?: boolean;
@@ -57,7 +56,6 @@ export function UnitChart(props: Props) {
     backgroundColor = false,
     graphID,
     graphDownload = false,
-    rtl = false,
     language = 'en',
     graphLegend = true,
     showStrokeForWhiteDots = true,
@@ -96,7 +94,7 @@ export function UnitChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',

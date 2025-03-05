@@ -260,13 +260,6 @@ export function SingleGraphDashboard(props: Props) {
   )
     return (
       <p
-        className={
-          graphSettings?.rtl
-            ? `undp-viz-typography-${
-                graphSettings?.language || 'ar'
-              } undp-viz-typography`
-            : 'undp-viz-typography'
-        }
         style={{
           textAlign: 'center',
           padding: '0.5rem',
@@ -297,7 +290,11 @@ export function SingleGraphDashboard(props: Props) {
       }}
       id={graphSettings?.graphId}
       ref={graphParentDiv}
-      dir={graphSettings?.rtl ? 'rtl' : undefined}
+      dir={
+        graphSettings?.language === 'ar' || graphSettings?.language === 'he'
+          ? 'rtl'
+          : undefined
+      }
       className={`${mode} ${graphSettings?.language || 'en'}`}
     >
       <div
@@ -347,7 +344,6 @@ export function SingleGraphDashboard(props: Props) {
                     flexWrap: 'wrap',
                     alignItems: 'flex-start',
                     width: '100%',
-                    flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                   }}
                 >
                   {advancedDataSelectionOptions?.map((d, i) => (
@@ -365,17 +361,9 @@ export function SingleGraphDashboard(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
@@ -383,16 +371,8 @@ export function SingleGraphDashboard(props: Props) {
                       </p>
                       {d.ui !== 'radio' ? (
                         <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.options}
                           isClearable={false}
-                          isRtl={graphSettings?.rtl}
                           isSearchable
                           controlShouldRenderValue
                           defaultValue={d.defaultValue || d.options[0]}
@@ -416,7 +396,6 @@ export function SingleGraphDashboard(props: Props) {
                         />
                       ) : (
                         <Radio
-                          rtl={graphSettings?.rtl}
                           options={d.options}
                           language={graphSettings?.language}
                           defaultValue={
@@ -455,17 +434,9 @@ export function SingleGraphDashboard(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
@@ -474,16 +445,8 @@ export function SingleGraphDashboard(props: Props) {
                       {!checkIfMultiple(d.chartConfigId, graphConfig || []) ? (
                         d.ui !== 'radio' ? (
                           <Select
-                            className={
-                              graphSettings?.rtl
-                                ? `undp-viz-select-${
-                                    graphSettings?.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
                             options={d.allowedColumnIds}
                             isClearable={false}
-                            isRtl={graphSettings?.rtl}
                             isSearchable
                             controlShouldRenderValue
                             defaultValue={
@@ -523,7 +486,6 @@ export function SingleGraphDashboard(props: Props) {
                           />
                         ) : (
                           <Radio
-                            rtl={graphSettings?.rtl}
                             options={d.allowedColumnIds}
                             language={graphSettings?.language}
                             defaultValue={
@@ -561,13 +523,6 @@ export function SingleGraphDashboard(props: Props) {
                         )
                       ) : d.ui !== 'radio' ? (
                         <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.allowedColumnIds}
                           isMulti
                           isSearchable
@@ -607,14 +562,12 @@ export function SingleGraphDashboard(props: Props) {
                             );
                             setGraphConfig(updatedConfig);
                           }}
-                          isRtl={graphSettings?.rtl}
                           theme={(theme: any) =>
                             getReactSelectTheme(theme, mode)
                           }
                         />
                       ) : (
                         <Checkbox
-                          rtl={graphSettings?.rtl}
                           options={d.allowedColumnIds}
                           language={graphSettings?.language}
                           defaultValue={
@@ -670,17 +623,9 @@ export function SingleGraphDashboard(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
@@ -688,18 +633,10 @@ export function SingleGraphDashboard(props: Props) {
                       </p>
                       {d.singleSelect ? (
                         <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.availableValues}
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
                           }
-                          isRtl={graphSettings?.rtl}
                           isSearchable
                           controlShouldRenderValue
                           filterOption={createFilter(filterConfig)}
@@ -715,13 +652,6 @@ export function SingleGraphDashboard(props: Props) {
                       ) : (
                         <>
                           <Select
-                            className={
-                              graphSettings?.rtl
-                                ? `undp-viz-select-${
-                                    graphSettings?.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
                             options={d.availableValues}
                             isMulti
                             isClearable={
@@ -735,7 +665,6 @@ export function SingleGraphDashboard(props: Props) {
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
-                            isRtl={graphSettings?.rtl}
                             theme={(theme: any) =>
                               getReactSelectTheme(theme, mode)
                             }

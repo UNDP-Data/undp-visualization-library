@@ -49,7 +49,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -101,7 +100,6 @@ export function VerticalStackedBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     mode = 'light',
     labelOrder,
@@ -150,7 +148,7 @@ export function VerticalStackedBarGraph(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

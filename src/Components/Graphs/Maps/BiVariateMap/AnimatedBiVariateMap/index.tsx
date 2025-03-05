@@ -56,7 +56,6 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -102,7 +101,6 @@ export function AnimatedBiVariantMap(props: Props) {
     graphDownload = false,
     dataDownload = false,
     showAntarctica = false,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -184,7 +182,7 @@ export function AnimatedBiVariantMap(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

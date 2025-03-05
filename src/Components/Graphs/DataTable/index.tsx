@@ -32,7 +32,6 @@ interface Props {
   columnData: DataTableColumnDataType[];
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -60,7 +59,6 @@ export function DataTable(props: Props) {
     data,
     columnData,
     onSeriesMouseClick,
-    rtl = false,
     language = 'en',
     mode = 'light',
     ariaLabel,
@@ -123,7 +121,7 @@ export function DataTable(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

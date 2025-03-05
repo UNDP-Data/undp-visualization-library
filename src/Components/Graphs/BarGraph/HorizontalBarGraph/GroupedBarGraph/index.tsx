@@ -47,7 +47,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   labelOrder?: string[];
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
@@ -97,7 +96,6 @@ export function HorizontalGroupedBarGraph(props: Props) {
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     labelOrder,
     minHeight = 0,
@@ -144,7 +142,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -235,7 +233,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
                   labelOrder={labelOrder}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

@@ -53,7 +53,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   mode?: 'light' | 'dark';
@@ -109,7 +108,6 @@ export function HorizontalBarGraph(props: Props) {
     dataDownload = false,
     sortData,
     labelOrder,
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -158,7 +156,7 @@ export function HorizontalBarGraph(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -289,7 +287,7 @@ export function HorizontalBarGraph(props: Props) {
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}

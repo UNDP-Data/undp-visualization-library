@@ -60,7 +60,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -125,7 +124,6 @@ export function ScatterPlot(props: Props) {
     graphDownload = false,
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -173,7 +171,7 @@ export function ScatterPlot(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -298,7 +296,7 @@ export function ScatterPlot(props: Props) {
                   maxYValue={maxYValue}
                   minYValue={minYValue}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   mode={mode}

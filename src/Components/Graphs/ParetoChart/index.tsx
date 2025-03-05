@@ -40,7 +40,6 @@ interface Props {
   truncateBy?: number;
   showLabels?: boolean;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
@@ -87,7 +86,6 @@ export function ParetoChart(props: Props) {
     truncateBy = 999,
     showLabels = true,
     onSeriesMouseClick,
-    rtl = false,
     language = 'en',
     colorLegendTitle,
     minHeight = 0,
@@ -132,7 +130,7 @@ export function ParetoChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? ' w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

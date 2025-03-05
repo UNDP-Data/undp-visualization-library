@@ -48,7 +48,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     dashboardLayout,
     dataSettings,
     debugMode,
-    mode,
+    mode = 'light',
     readableHeader,
     dataFilters,
     graphBackgroundStyle,
@@ -151,6 +151,12 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
+      dir={
+        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
+          ? 'rtl'
+          : undefined
+      }
+      className={`${mode} ${dashboardLayout?.language || 'en'}`}
     >
       <div
         style={{
@@ -164,8 +170,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         <div className='flex flex-col w-full gap-4 grow justify-between'>
           {dashboardLayout.title || dashboardLayout.description ? (
             <GraphHeader
-              rtl={dashboardLayout.rtl}
-              language={dashboardLayout.language}
               graphTitle={dashboardLayout.title}
               graphDescription={dashboardLayout.description}
               isDashboard
@@ -180,7 +184,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                   flexWrap: 'wrap',
                   alignItems: 'flex-start',
                   width: '100%',
-                  flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
                 }}
               >
                 <div
@@ -193,17 +196,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                 >
                   {dashboardLayout.dropdownLabel ? (
                     <p
-                      className={
-                        dashboardLayout.rtl
-                          ? `undp-viz-typography-${
-                              dashboardLayout.language || 'ar'
-                            } undp-viz-typography`
-                          : 'undp-viz-typography'
-                      }
                       style={{
                         fontSize: '0.875rem',
                         marginBottom: '0.5rem',
-                        textAlign: dashboardLayout.rtl ? 'right' : 'left',
                         color: UNDPColorModule[mode || 'light'].grays.black,
                       }}
                     >
@@ -211,19 +206,11 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                     </p>
                   ) : null}
                   <Select
-                    className={
-                      dashboardLayout.rtl
-                        ? `undp-viz-select-${
-                            dashboardLayout.language || 'ar'
-                          } undp-viz-select`
-                        : 'undp-viz-select'
-                    }
                     options={filterValues.map(d => ({
                       value: d,
                       label: d,
                     }))}
                     isClearable={false}
-                    isRtl={dashboardLayout.rtl}
                     isSearchable
                     controlShouldRenderValue
                     filterOption={createFilter(filterConfig)}
@@ -249,7 +236,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                     height: 'auto',
                     width: '100%',
                     flexWrap: 'wrap',
-                    flexDirection: dashboardLayout.rtl ? 'row-reverse' : 'row',
                   }}
                 >
                   {d.columns.map((el, j) => (
@@ -285,7 +271,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                             el.graphType === 'unitChart'
                               ? el.settings.size
                               : undefined,
-                          rtl: dashboardLayout.rtl,
                           language: dashboardLayout.language,
                           mode: mode || el.settings?.mode,
                           backgroundStyle:

@@ -58,7 +58,6 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
@@ -107,7 +106,6 @@ export function AnimatedButterflyChart(props: Props) {
     showColorScale = false,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     maxValue,
     minValue,
@@ -181,7 +179,7 @@ export function AnimatedButterflyChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

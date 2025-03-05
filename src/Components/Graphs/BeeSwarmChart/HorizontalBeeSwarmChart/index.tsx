@@ -46,7 +46,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -92,7 +91,6 @@ export function HorizontalBeeSwarmChart(props: Props) {
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -135,7 +133,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -256,7 +254,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   minPositionValue={minPositionValue}
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

@@ -236,8 +236,12 @@ export function GriddedGraphs(props: Props) {
             : ''
         }`
       }
-      dir={graphSettings?.rtl ? 'rtl' : undefined}
-      className={`${mode} ${graphSettings?.language || 'en'}`}
+      dir={
+        graphSettings.language === 'he' || graphSettings.language === 'ar'
+          ? 'rtl'
+          : undefined
+      }
+      className={`${mode} ${graphSettings.language || 'en'}`}
     >
       <div
         style={{
@@ -283,7 +287,6 @@ export function GriddedGraphs(props: Props) {
                     flexWrap: 'wrap',
                     alignItems: 'flex-start',
                     width: '100%',
-                    flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
                   }}
                 >
                   {advancedDataSelectionOptions?.map((d, i) => (
@@ -301,17 +304,9 @@ export function GriddedGraphs(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
                           color: UNDPColorModule[mode].grays.black,
                         }}
                       >
@@ -319,16 +314,8 @@ export function GriddedGraphs(props: Props) {
                       </p>
                       {d.ui !== 'radio' ? (
                         <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.options}
                           isClearable={false}
-                          isRtl={graphSettings?.rtl}
                           isSearchable
                           controlShouldRenderValue
                           defaultValue={d.defaultValue || d.options[0]}
@@ -352,7 +339,6 @@ export function GriddedGraphs(props: Props) {
                         />
                       ) : (
                         <Radio
-                          rtl={graphSettings?.rtl}
                           options={d.options}
                           language={graphSettings?.language}
                           defaultValue={
@@ -391,18 +377,9 @@ export function GriddedGraphs(props: Props) {
                       key={i}
                     >
                       <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
                         style={{
                           fontSize: '0.875rem',
                           marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
-                          color: UNDPColorModule[mode].grays.black,
                         }}
                       >
                         {d.label || `Visualize ${d.chartConfigId} by`}
@@ -419,7 +396,6 @@ export function GriddedGraphs(props: Props) {
                             }
                             options={d.allowedColumnIds}
                             isClearable={false}
-                            isRtl={graphSettings?.rtl}
                             isSearchable
                             defaultValue={
                               graphDataConfiguration
@@ -459,7 +435,6 @@ export function GriddedGraphs(props: Props) {
                           />
                         ) : (
                           <Radio
-                            rtl={graphSettings?.rtl}
                             options={d.allowedColumnIds}
                             language={graphSettings?.language}
                             defaultValue={
@@ -497,13 +472,6 @@ export function GriddedGraphs(props: Props) {
                         )
                       ) : d.ui !== 'radio' ? (
                         <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
                           options={d.allowedColumnIds}
                           isMulti
                           isSearchable

@@ -45,7 +45,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -90,7 +89,6 @@ export function SlopeChart(props: Props) {
     graphDownload = false,
     dataDownload = false,
     fillContainer = true,
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -132,7 +130,7 @@ export function SlopeChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor

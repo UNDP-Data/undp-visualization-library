@@ -58,7 +58,6 @@ interface Props {
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
   autoSort?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -116,7 +115,6 @@ export function AnimatedHorizontalBarChart(props: Props) {
     showOnlyActiveDate = false,
     autoPlay = false,
     autoSort = true,
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -192,7 +190,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -343,7 +341,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   dateFormat={dateFormat}
                   indx={index}
                   autoSort={autoSort}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}

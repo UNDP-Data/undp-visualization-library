@@ -45,7 +45,6 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   showColorScale?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
@@ -92,7 +91,6 @@ export function AreaChart(props: Props) {
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     showColorScale = true,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     annotations = [],
@@ -135,7 +133,7 @@ export function AreaChart(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -220,7 +218,7 @@ export function AreaChart(props: Props) {
                   minValue={minValue}
                   maxValue={maxValue}
                   highlightAreaColor={highlightAreaColor}
-                  rtl={rtl}
+                  rtl={language === 'he' || language === 'ar'}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

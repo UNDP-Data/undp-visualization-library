@@ -17,7 +17,6 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -41,7 +40,6 @@ export function BasicStatCard(props: Props) {
     padding,
     backgroundColor = false,
     graphID,
-    rtl = false,
     language = 'en',
     mode = 'light',
     ariaLabel,
@@ -56,7 +54,7 @@ export function BasicStatCard(props: Props) {
       className={`flex flex-col w-full h-inherit ${mode || 'light'} ${
         language || 'en'
       }`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -100,7 +98,11 @@ export function BasicStatCard(props: Props) {
             <H3
               marginBottom='lg'
               className={`leading-none md:leading-none font-heading ${
-                centerAlign ? 'text-center' : rtl ? 'text-right' : 'text-left'
+                centerAlign
+                  ? 'text-center'
+                  : language === 'he' || language === 'ar'
+                  ? 'text-right'
+                  : 'text-left'
               }`}
               style={{
                 fontSize: headingFontSize,

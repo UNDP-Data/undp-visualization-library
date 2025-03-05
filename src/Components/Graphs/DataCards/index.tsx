@@ -59,7 +59,6 @@ interface Props {
   height?: number;
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -106,7 +105,6 @@ export function DataCards(props: Props) {
     graphID,
     data,
     onSeriesMouseClick,
-    rtl = false,
     language = 'en',
     mode = 'light',
     ariaLabel,
@@ -229,7 +227,7 @@ export function DataCards(props: Props) {
       className={`ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
-      dir={rtl ? 'rtl' : undefined}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         backgroundColor: !backgroundColor
@@ -263,11 +261,7 @@ export function DataCards(props: Props) {
             />
           ) : null}
           {cardSortingOptions || filterSettings.length > 0 ? (
-            <div
-              className={`flex gap-4 flex-wrap items-start w-full ${
-                rtl ? 'flex-row-reverse' : 'flex-row'
-              }`}
-            >
+            <div className='flex gap-4 flex-wrap items-start w-full'>
               {cardSortingOptions ? (
                 <div
                   className='grow shrink-0 min-w-[240px]'
@@ -284,13 +278,8 @@ export function DataCards(props: Props) {
                     Sort by
                   </P>
                   <Select
-                    className={
-                      rtl
-                        ? `undp-viz-select-${language} undp-viz-select`
-                        : 'undp-viz-select'
-                    }
                     options={cardSortingOptions.options}
-                    isRtl={rtl}
+                    isRtl={language === 'he' || language === 'ar'}
                     isSearchable
                     filterOption={createFilter(filterConfig)}
                     onChange={(el: any) => {
@@ -330,14 +319,9 @@ export function DataCards(props: Props) {
                     {d.label}
                   </P>
                   <Select
-                    className={
-                      rtl
-                        ? `undp-viz-select-${language} undp-viz-select`
-                        : 'undp-viz-select'
-                    }
                     options={d.availableValues}
                     isClearable={d.clearable === undefined ? true : d.clearable}
-                    isRtl={rtl}
+                    isRtl={language === 'he' || language === 'ar'}
                     isSearchable
                     controlShouldRenderValue
                     filterOption={createFilter(filterConfig)}
