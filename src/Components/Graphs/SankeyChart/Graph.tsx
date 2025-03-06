@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'framer-motion';
-import { P } from '@undp-data/undp-design-system-react';
+import { Modal, P } from '@undp-data/undp-design-system-react';
 import { CSSObject, NodeDataType, NodesLinkDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: NodesLinkDataType;
@@ -29,7 +27,6 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
   id: string;
   highlightedSourceDataPoints: string[];
   highlightedTargetDataPoints: string[];
@@ -59,7 +56,6 @@ export function Graph(props: Props) {
     prefix,
     showValues,
     onSeriesMouseClick,
-    mode,
     nodePadding,
     nodeWidth,
     id,
@@ -140,9 +136,8 @@ export function Graph(props: Props) {
           <text
             x={margin.left}
             y={margin.top - 10}
-            className='text-base md:text-base font-bold'
+            className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               textAnchor: 'start',
             }}
           >
@@ -153,9 +148,8 @@ export function Graph(props: Props) {
           <text
             x={width - margin.right}
             y={margin.top - 10}
-            className='text-base md:text-base font-bold'
+            className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
               textAnchor: 'end',
             }}
           >
@@ -419,13 +413,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

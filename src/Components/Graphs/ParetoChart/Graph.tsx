@@ -4,12 +4,11 @@ import { scaleBand, scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, ParetoChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -30,7 +29,6 @@ interface Props {
   truncateBy: number;
   showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle: CSSObject;
   detailsOnClick?: string;
@@ -60,7 +58,6 @@ export function Graph(props: Props) {
     truncateBy,
     showLabels,
     onSeriesMouseClick,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -147,17 +144,19 @@ export function Graph(props: Props) {
                   y2={y1(d)}
                   x1={-15}
                   x2={-20}
-                  stroke={barColor}
-                  strokeWidth={1}
+                  style={{
+                    stroke: barColor,
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={-25}
                   y={y1(d)}
-                  fill={barColor}
                   dy={3}
                   className='text-xs'
                   style={{
                     textAnchor: 'end',
+                    fill: barColor,
                   }}
                 >
                   {numberFormattingFunction(d, barPrefix, barSuffix)}
@@ -169,16 +168,18 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              stroke={barColor}
-              strokeWidth={1}
+              style={{
+                stroke: barColor,
+                strokeWidth: 1,
+              }}
             />
             <text
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={barColor}
               style={{
                 textAnchor: 'middle',
+                fill: barColor,
               }}
               className='text-xs'
             >
@@ -195,18 +196,20 @@ export function Graph(props: Props) {
                   y2={y2(d)}
                   x1={graphWidth + 15}
                   x2={graphWidth + 20}
-                  stroke={lineColor}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColor,
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  fill={lineColor}
                   dy={3}
                   dx={-2}
                   className='text-xs'
                   style={{
                     textAnchor: 'start',
+                    fill: lineColor,
                   }}
                 >
                   {numberFormattingFunction(d, linePrefix, lineSuffix)}
@@ -218,16 +221,18 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              stroke={lineColor}
-              strokeWidth={1}
+              style={{
+                stroke: lineColor,
+                strokeWidth: 1,
+              }}
             />
             <text
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColor}
               style={{
                 textAnchor: 'middle',
+                fill: lineColor,
               }}
               className='text-xs'
             >
@@ -242,10 +247,7 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
           </g>
           {dataWithId.map((d, i) => {
@@ -304,11 +306,10 @@ export function Graph(props: Props) {
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y1(0)}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       textAnchor: 'middle',
                     }}
                     dy='15px'
-                    className='text-xs'
+                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -320,11 +321,11 @@ export function Graph(props: Props) {
           })}
           <path
             d={lineShape(dataWithId as any) as string}
-            fill='none'
             style={{
               stroke: lineColor,
+              fill: 'none',
+              strokeWidth: 2,
             }}
-            strokeWidth={2}
           />
           {dataWithId.map((d, i) => (
             <g key={i}>
@@ -392,13 +393,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

@@ -3,13 +3,12 @@ import max from 'lodash.max';
 import min from 'lodash.min';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, DumbbellChartDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -36,7 +35,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   arrowConnector: boolean;
   connectorStrokeWidth: number;
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
@@ -73,7 +71,6 @@ export function Graph(props: Props) {
     selectedColor,
     arrowConnector,
     connectorStrokeWidth,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -146,7 +143,7 @@ export function Graph(props: Props) {
             >
               <path
                 d='M 0 0 L 10 5 L 0 10 z'
-                fill={UNDPColorModule[mode || 'light'].grays['gray-600']}
+                className='fill-primary-gray-600 dark:fill-primary-gray-300'
               />
             </marker>
           </defs>
@@ -160,22 +157,19 @@ export function Graph(props: Props) {
                     x2={x(d)}
                     y1={0 - topMargin}
                     y2={graphHeight + margin.bottom}
-                    style={{
-                      stroke:
-                        UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    }}
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
-                    className={`opacity-${d === 0 ? 0 : 100}`}
+                    className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   />
                   <text
                     x={x(d)}
                     y={0 - topMargin}
                     dy={10}
                     dx={3}
-                    className={`text-xs opacity-${d === 0 ? 0 : 100}`}
+                    className={`text-xs fill-primary-gray-550 dark:fill-primary-gray-500 opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                       textAnchor: 'start',
                     }}
                   >
@@ -188,11 +182,10 @@ export function Graph(props: Props) {
             <text
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 textAnchor: 'middle',
               }}
               dy={15}
-              className='text-xs'
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             >
               {barAxisTitle}
             </text>
@@ -208,10 +201,9 @@ export function Graph(props: Props) {
               {showLabels ? (
                 <text
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     textAnchor: 'end',
                   }}
-                  className='text-xs'
+                  className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                   x={0}
                   y={0}
                   dx={-10}
@@ -227,11 +219,7 @@ export function Graph(props: Props) {
                 x2={graphWidth}
                 y1={0}
                 y2={0}
-                style={{
-                  stroke: UNDPColorModule[mode || 'light'].grays['gray-400'],
-                }}
-                strokeWidth={1}
-                strokeDasharray='4,8'
+                className='undp-tick-line stroke-primary-gray-400 dark:stroke-primary-gray-600 '
               />
               <line
                 x1={x(min(d.x) as number) + radius}
@@ -239,9 +227,9 @@ export function Graph(props: Props) {
                 y1={0}
                 y2={0}
                 style={{
-                  stroke: UNDPColorModule[mode || 'light'].grays['gray-600'],
                   strokeWidth: connectorStrokeWidth,
                 }}
+                className='stroke-primary-gray-600 dark:stroke-primary-gray-300'
                 opacity={selectedColor ? 0.3 : 1}
                 markerEnd={
                   arrowConnector && d.x.indexOf(min(d.x) as number) === 0
@@ -347,13 +335,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, StripChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { string2HTML } from '../../../../Utils/string2HTML';
-import { Modal } from '../../../Elements/Modal';
 
 interface Props {
   data: StripChartDataType[];
@@ -195,12 +195,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule[mode].graphGray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
@@ -219,12 +219,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule[mode].graphGray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
@@ -242,12 +242,12 @@ export function Graph(props: Props) {
                               : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule[mode || 'light'].graphGray
+                              ? UNDPColorModule[mode].graphGray
                               : colors[colorDomain.indexOf(d.color)]
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[colorDomain.indexOf(d.color)],
                         textAnchor: 'start',
                       }}
@@ -266,10 +266,9 @@ export function Graph(props: Props) {
                 y={0}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                   textAnchor: 'start',
                 }}
-                className='text-xs'
+                className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
               >
                 {numberFormattingFunction(y.invert(0))}
               </text>
@@ -277,10 +276,9 @@ export function Graph(props: Props) {
                 y={graphHeight}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
                   textAnchor: 'start',
                 }}
-                className='text-xs'
+                className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
               >
                 {numberFormattingFunction(y.invert(graphHeight))}
               </text>
@@ -294,13 +292,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

@@ -5,11 +5,11 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, DotDensityMapDataType } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DotDensityMapDataType[];
@@ -147,9 +147,9 @@ export function Graph(props: Props) {
                           d={masterPath}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -170,9 +170,9 @@ export function Graph(props: Props) {
                           d={path}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -184,7 +184,7 @@ export function Graph(props: Props) {
               data.filter(el => el.color).length === 0
                 ? colors[0]
                 : !d.color
-                ? UNDPColorModule[mode || 'light'].graphGray
+                ? UNDPColorModule[mode].graphGray
                 : colors[colorDomain.indexOf(`${d.color}`)];
             return (
               <g
@@ -248,24 +248,23 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
+                    fillOpacity: 0.8,
                   }}
-                  fillOpacity={0.8}
                 />
                 {showLabels && d.label ? (
                   <text
                     x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                     y={0}
-                    className='text-sm'
+                    className='fill-primary-gray-600 dark:fill-primary-gray-300 text-sm'
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-600'],
                       textAnchor: 'start',
                     }}
                     dx={4}
@@ -323,14 +322,13 @@ export function Graph(props: Props) {
                           y={1}
                           width={320 / colorDomain.length - 2}
                           height={8}
-                          fill={colors[i]}
-                          stroke={
-                            selectedColor === colors[i]
-                              ? UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ]
-                              : colors[i]
-                          }
+                          style={{
+                            fill: colors[i],
+                            stroke:
+                              selectedColor === colors[i]
+                                ? UNDPColorModule[mode].grays['gray-700']
+                                : colors[i],
+                          }}
                         />
                         <text
                           x={
@@ -338,11 +336,8 @@ export function Graph(props: Props) {
                             160 / colorDomain.length
                           }
                           y={25}
-                          className='text-xs'
+                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                           style={{
-                            fill: UNDPColorModule[mode || 'light'].grays[
-                              'gray-700'
-                            ],
                             textAnchor: 'middle',
                           }}
                         >
@@ -359,7 +354,7 @@ export function Graph(props: Props) {
       )}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
@@ -379,7 +374,6 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

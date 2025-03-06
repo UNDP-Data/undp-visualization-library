@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { format, parse } from 'date-fns';
 import uniqBy from 'lodash.uniqby';
 import { ascending, sort } from 'd3-array';
-import Slider from 'rc-slider';
+import { SliderUI } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -15,7 +15,6 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
-import 'rc-slider/assets/index.css';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];
@@ -243,7 +242,7 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
             >
               {play ? <Pause /> : <Play />}
             </button>
-            <Slider
+            <SliderUI
               min={uniqDatesSorted[0]}
               max={uniqDatesSorted[uniqDatesSorted.length - 1]}
               marks={markObj}
@@ -256,7 +255,6 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
               onChange={nextValue => {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
-              className='undp-viz-slider'
               aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>
@@ -314,7 +312,6 @@ export function AnimatedHorizontalDumbbellChart(props: Props) {
                   sortParameter={sortParameter}
                   arrowConnector={arrowConnector}
                   connectorStrokeWidth={connectorStrokeWidth}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

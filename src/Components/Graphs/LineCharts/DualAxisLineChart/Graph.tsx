@@ -11,7 +11,6 @@ import { useAnimate, useInView } from 'framer-motion';
 import { CSSObject, DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -37,7 +36,6 @@ interface Props {
   animateLine: boolean | number;
   strokeWidth: number;
   showDots: boolean;
-  mode: 'light' | 'dark';
   tooltipBackgroundStyle: CSSObject;
   noOfYTicks: number;
   lineSuffixes: [string, string];
@@ -70,7 +68,6 @@ export function Graph(props: Props) {
     animateLine,
     strokeWidth,
     showDots,
-    mode,
     tooltipBackgroundStyle,
     noOfYTicks,
     lineSuffixes,
@@ -262,17 +259,19 @@ export function Graph(props: Props) {
                   y2={y1(d)}
                   x1={-15}
                   x2={-20}
-                  stroke={lineColors[0]}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColors[0],
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={-25}
                   y={y1(d)}
-                  fill={lineColors[0]}
                   dy={3}
                   className='text-xs'
                   style={{
                     textAnchor: 'end',
+                    fill: lineColors[0],
                   }}
                 >
                   {numberFormattingFunction(
@@ -288,17 +287,19 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              stroke={lineColors[0]}
-              strokeWidth={1}
+              style={{
+                stroke: lineColors[0],
+                strokeWidth: 1,
+              }}
             />
             <text
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColors[0]}
               className='text-xs'
               style={{
                 textAnchor: 'middle',
+                fill: lineColors[0],
               }}
             >
               {lineTitles[0].length > 100
@@ -314,18 +315,20 @@ export function Graph(props: Props) {
                   y2={y2(d)}
                   x1={graphWidth + 15}
                   x2={graphWidth + 20}
-                  stroke={lineColors[1]}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColors[1],
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  fill={lineColors[1]}
                   dy={3}
                   dx={-2}
                   className='text-xs'
                   style={{
                     textAnchor: 'start',
+                    fill: lineColors[1],
                   }}
                 >
                   {numberFormattingFunction(
@@ -341,17 +344,19 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              stroke={lineColors[1]}
-              strokeWidth={1}
+              style={{
+                stroke: lineColors[1],
+                strokeWidth: 1,
+              }}
             />
             <text
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColors[1]}
               className='text-xs'
               style={{
                 textAnchor: 'middle',
+                fill: lineColors[1],
               }}
             >
               {lineTitles[1].length > 100
@@ -365,10 +370,7 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
             {xTicks.map((d, i) => (
               <g key={i}>
@@ -376,10 +378,9 @@ export function Graph(props: Props) {
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     textAnchor: 'middle',
                   }}
-                  className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
+                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
                   dy={15}
                 >
                   {format(d, dateFormat)}
@@ -390,15 +391,19 @@ export function Graph(props: Props) {
           <g ref={scope}>
             <path
               d={lineShape1(dataFormatted as any) as string}
-              fill='none'
-              stroke={lineColors[0]}
-              strokeWidth={strokeWidth}
+              style={{
+                stroke: lineColors[0],
+                strokeWidth,
+                fill: 'none',
+              }}
             />
             <path
               d={lineShape2(dataFormatted as any) as string}
-              fill='none'
-              stroke={lineColors[1]}
-              strokeWidth={strokeWidth}
+              style={{
+                stroke: lineColors[1],
+                strokeWidth,
+                fill: 'none',
+              }}
             />
             {mouseOverData ? (
               <line
@@ -406,11 +411,7 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                style={{
-                  stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                }}
-                strokeDasharray='4 8'
-                strokeWidth={1}
+                className='undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100 '
               />
             ) : null}
           </g>
@@ -502,8 +503,10 @@ export function Graph(props: Props) {
           </g>
           <rect
             ref={MouseoverRectRef}
-            fill='none'
-            pointerEvents='all'
+            style={{
+              fill: 'none',
+              pointerEvents: 'all',
+            }}
             width={graphWidth}
             height={graphHeight}
           />
@@ -515,7 +518,6 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

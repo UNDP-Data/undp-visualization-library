@@ -1,7 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
+import {
+  CheckboxGroup,
+  CheckboxGroupItem,
+  createFilter,
+  DropdownSelect,
+  Label,
+  P,
+  RadioGroup,
+  RadioGroupItem,
+  Spinner,
+} from '@undp-data/undp-design-system-react';
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -29,10 +39,7 @@ import { filterData } from '../../Utils/transformData/filterData';
 import GraphEl from './GraphEl';
 import { checkIfMultiple } from '../../Utils/checkIfMultiple';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import Checkbox from '../Elements/Checkbox';
-import Radio from '../Elements/Radio';
 import { GraphList } from '../../Utils/getGraphList';
-import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 import { transformDefaultValue } from '../../Utils/transformDataForSelect';
 
 interface Props {
@@ -259,17 +266,13 @@ export function SingleGraphDashboard(props: Props) {
     graphType !== 'geoHubMapWithLayerSelection'
   )
     return (
-      <p
-        style={{
-          textAlign: 'center',
-          padding: '0.5rem',
-          color: UNDPColorModule[mode].alerts.darkRed,
-          fontSize: '0.875rem',
-        }}
+      <P
+        size='xs'
+        className='text-center text-accent-dark-red dark:text-accent-red p-2'
       >
         Please make sure either `dataSettings` props are present as they are
         required for data.
-      </p>
+      </P>
     );
   return (
     <div
@@ -360,17 +363,11 @@ export function SingleGraphDashboard(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
+                      <Label className='mb-2'>
                         {d.label || `Visualize ${d.chartConfigId} by`}
-                      </p>
+                      </Label>
                       {d.ui !== 'radio' ? (
-                        <Select
+                        <DropdownSelect
                           options={d.options}
                           isClearable={false}
                           isSearchable
@@ -390,20 +387,19 @@ export function SingleGraphDashboard(props: Props) {
                             setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
-                        <Radio
-                          options={d.options}
-                          language={graphSettings?.language}
+                        <RadioGroup
                           defaultValue={
                             d.defaultValue?.label || d.options[0].label
                           }
-                          onChange={el => {
+                          onValueChange={el => {
+                            const selectedOption =
+                              d.options[
+                                d.options.findIndex(opt => opt.label === el)
+                              ];
                             const newGraphConfig = {
-                              columnId: el.value as string[],
+                              columnId: selectedOption.value as string[],
                               chartConfigId: d.chartConfigId,
                             };
                             const updatedConfig = graphConfig?.map(item =>
@@ -412,10 +408,20 @@ export function SingleGraphDashboard(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
-                            setAdvancedGraphSettings(el?.graphSettings || {});
+                            setAdvancedGraphSettings(
+                              selectedOption.graphSettings || {},
+                            );
                             setGraphConfig(updatedConfig);
                           }}
-                        />
+                        >
+                          {d.options.map((el, j) => (
+                            <RadioGroupItem
+                              label={el.label}
+                              value={el.label}
+                              key={j}
+                            />
+                          ))}
+                        </RadioGroup>
                       )}
                     </div>
                   ))}
@@ -433,18 +439,12 @@ export function SingleGraphDashboard(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
+                      <Label className='mb-2'>
                         {d.label || `Visualize ${d.chartConfigId} by`}
-                      </p>
+                      </Label>
                       {!checkIfMultiple(d.chartConfigId, graphConfig || []) ? (
                         d.ui !== 'radio' ? (
-                          <Select
+                          <DropdownSelect
                             options={d.allowedColumnIds}
                             isClearable={false}
                             isSearchable
@@ -480,14 +480,9 @@ export function SingleGraphDashboard(props: Props) {
                               setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={(theme: any) =>
-                              getReactSelectTheme(theme, mode)
-                            }
                           />
                         ) : (
-                          <Radio
-                            options={d.allowedColumnIds}
-                            language={graphSettings?.language}
+                          <RadioGroup
                             defaultValue={
                               graphDataConfiguration
                                 ? d.allowedColumnIds[
@@ -505,9 +500,15 @@ export function SingleGraphDashboard(props: Props) {
                                   ].label
                                 : ''
                             }
-                            onChange={el => {
+                            onValueChange={el => {
+                              const selectedOption =
+                                d.allowedColumnIds[
+                                  d.allowedColumnIds.findIndex(
+                                    opt => opt.label === el,
+                                  )
+                                ];
                               const newGraphConfig = {
-                                columnId: el.value,
+                                columnId: selectedOption.value,
                                 chartConfigId: d.chartConfigId,
                               };
                               const updatedConfig = graphConfig?.map(item =>
@@ -516,13 +517,23 @@ export function SingleGraphDashboard(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
-                              setAdvancedGraphSettings(el.graphSettings || {});
+                              setAdvancedGraphSettings(
+                                selectedOption.graphSettings || {},
+                              );
                               setGraphConfig(updatedConfig);
                             }}
-                          />
+                          >
+                            {d.allowedColumnIds.map((el, j) => (
+                              <RadioGroupItem
+                                label={el.label}
+                                value={el.label}
+                                key={j}
+                              />
+                            ))}
+                          </RadioGroup>
                         )
                       ) : d.ui !== 'radio' ? (
-                        <Select
+                        <DropdownSelect
                           options={d.allowedColumnIds}
                           isMulti
                           isSearchable
@@ -562,14 +573,9 @@ export function SingleGraphDashboard(props: Props) {
                             );
                             setGraphConfig(updatedConfig);
                           }}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
-                        <Checkbox
-                          options={d.allowedColumnIds}
-                          language={graphSettings?.language}
+                        <CheckboxGroup
                           defaultValue={
                             graphDataConfiguration
                               ? (
@@ -591,7 +597,7 @@ export function SingleGraphDashboard(props: Props) {
                                   .map(el => el.value)
                               : []
                           }
-                          onChange={el => {
+                          onValueChange={el => {
                             const newGraphConfig = {
                               columnId: el || [],
                               chartConfigId: d.chartConfigId,
@@ -604,7 +610,15 @@ export function SingleGraphDashboard(props: Props) {
                             );
                             setGraphConfig(updatedConfig);
                           }}
-                        />
+                        >
+                          {d.allowedColumnIds.map((el, j) => (
+                            <CheckboxGroupItem
+                              label={el.label}
+                              value={el.label}
+                              key={j}
+                            />
+                          ))}
+                        </CheckboxGroup>
                       )}
                     </div>
                   ))}
@@ -622,17 +636,9 @@ export function SingleGraphDashboard(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
-                        {d.label}
-                      </p>
+                      <Label>{d.label}</Label>
                       {d.singleSelect ? (
-                        <Select
+                        <DropdownSelect
                           options={d.availableValues}
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
@@ -645,13 +651,10 @@ export function SingleGraphDashboard(props: Props) {
                           }}
                           value={d.value}
                           defaultValue={d.defaultValue}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
                         <>
-                          <Select
+                          <DropdownSelect
                             options={d.availableValues}
                             isMulti
                             isClearable={
@@ -665,9 +668,6 @@ export function SingleGraphDashboard(props: Props) {
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
-                            theme={(theme: any) =>
-                              getReactSelectTheme(theme, mode)
-                            }
                           />
                           {d.allowSelectAll ? (
                             <button
@@ -732,8 +732,8 @@ export function SingleGraphDashboard(props: Props) {
               />
             </>
           ) : (
-            <div>
-              <div className='undp-viz-loader' />
+            <div className='w-full flex justify-center p-4'>
+              <Spinner />
             </div>
           )}
         </div>

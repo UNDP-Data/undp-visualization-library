@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { P } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DashboardFromWideToLongFormatLayoutDataType,
@@ -46,7 +46,12 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       setConfigSettings(config);
     }
   }, [config]);
-  if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!configSettings)
+    return (
+      <div className='w-full flex justify-center p-4'>
+        <Spinner />
+      </div>
+    );
   const validationResult = validateConfigSchema(
     configSettings,
     'multiGraphDashboardWideToLongFormat',

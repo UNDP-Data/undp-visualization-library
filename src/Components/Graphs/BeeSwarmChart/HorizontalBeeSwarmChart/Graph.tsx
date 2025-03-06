@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
 import isEqual from 'lodash.isequal';
+import { Modal, Spinner } from '@undp-data/undp-design-system-react';
 import {
   BeeSwarmChartDataType,
   CSSObject,
@@ -21,7 +22,6 @@ import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined
 import { getTextColorBasedOnBgColor } from '../../../../Utils/getTextColorBasedOnBgColor';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { string2HTML } from '../../../../Utils/string2HTML';
-import { Modal } from '../../../Elements/Modal';
 
 interface BeeSwarmChartDataTypeForBubbleChart extends BeeSwarmChartDataType {
   x: number;
@@ -201,17 +201,13 @@ export function Graph(props: Props) {
                   x2={x(xMinValue < 0 ? 0 : xMinValue)}
                   y1={-2.5}
                   y2={graphHeight + margin.bottom}
-                  style={{
-                    stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  }}
-                  strokeWidth={1}
+                  className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
                 />
                 <text
                   x={x(xMinValue < 0 ? 0 : xMinValue)}
                   y={-12.5}
-                  className='text-xs'
+                  className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
                     textAnchor: 'middle',
                   }}
                 >
@@ -222,11 +218,8 @@ export function Graph(props: Props) {
                     <text
                       x={x(d)}
                       y={-12.5}
-                      className='text-xs'
+                      className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
                       style={{
-                        fill: UNDPColorModule[mode || 'light'].grays[
-                          'gray-500'
-                        ],
                         textAnchor: 'middle',
                       }}
                     >
@@ -237,13 +230,9 @@ export function Graph(props: Props) {
                       x2={x(d)}
                       y1={-2.5}
                       y2={graphHeight + margin.bottom}
-                      style={{
-                        stroke:
-                          UNDPColorModule[mode || 'light'].grays['gray-500'],
-                      }}
-                      strokeWidth={1}
-                      strokeDasharray='4,8'
-                      className={`opacity-${d === 0 ? 0 : 100}`}
+                      className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                        d === 0 ? 0 : 100
+                      }`}
                     />
                   </g>
                 ))}
@@ -313,7 +302,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? circleColors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : circleColors[colorDomain.indexOf(d.color)],
                   }}
                 />
@@ -336,7 +325,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? circleColors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : circleColors[colorDomain.indexOf(d.color)],
                         ),
                       }}
@@ -370,7 +359,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? circleColors[0]
                                 : !d.color
-                                ? UNDPColorModule[mode || 'light'].graphGray
+                                ? UNDPColorModule[mode].graphGray
                                 : circleColors[colorDomain.indexOf(d.color)],
                             ),
                             hyphens: 'auto',
@@ -389,13 +378,11 @@ export function Graph(props: Props) {
                 {refValues.map((el, i) => (
                   <g key={i}>
                     <line
+                      className='undp-ref-line'
                       style={{
                         stroke:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        strokeWidth: 1.5,
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                       }}
-                      strokeDasharray='4,4'
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom}
                       x1={x(el.value as number)}
@@ -406,8 +393,7 @@ export function Graph(props: Props) {
                       x={x(el.value as number) as number}
                       style={{
                         fill:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                         textAnchor:
                           x(el.value as number) > graphWidth * 0.75 || rtl
                             ? 'end'
@@ -432,7 +418,7 @@ export function Graph(props: Props) {
       ) : (
         <div style={{ width: `${width}px`, height: `${height}px` }}>
           <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
-            <div className='undp-viz-loader' />
+            <Spinner />
           </div>
         </div>
       )}
@@ -442,13 +428,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

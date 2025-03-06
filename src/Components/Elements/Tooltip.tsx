@@ -1,14 +1,12 @@
 /* eslint-disable react/no-danger */
 import { CSSObject } from '../../Types';
 import { string2HTML } from '../../Utils/string2HTML';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   body: string;
   xPos: number;
   yPos: number;
   data: any;
-  mode: 'dark' | 'light';
   backgroundStyle?: CSSObject;
 }
 
@@ -18,10 +16,7 @@ export function Tooltip(props: Props) {
     xPos,
     yPos,
     data,
-    mode,
     backgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
       maxWidth: '24rem',
       padding: '0.5rem',
     },
@@ -29,7 +24,7 @@ export function Tooltip(props: Props) {
   const htmlString = string2HTML(body, data);
   return (
     <div
-      className='block fixed z-[1000]'
+      className='block fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark: border-primary-gray-500'
       style={{
         ...backgroundStyle,
         wordWrap: 'break-word',
@@ -41,9 +36,7 @@ export function Tooltip(props: Props) {
       }}
     >
       <div
-        className={`text-sm leading-normal ${
-          mode === 'dark' ? 'text-primary-white' : 'text-primary-gray-700'
-        } m-0 undp-viz-tooltip`}
+        className='text-sm leading-normal text-primary-white dark:text-primary-gray-700 m-0'
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />
     </div>

@@ -293,7 +293,6 @@ export function SankeyChart(props: Props) {
                   suffix={suffix}
                   prefix={prefix}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  mode={mode}
                   id={generateRandomString(8)}
                   highlightedSourceDataPoints={highlightedSourceDataPoints.map(
                     d => `${d}`,

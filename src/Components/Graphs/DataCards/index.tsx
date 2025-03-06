@@ -2,11 +2,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import sortBy from 'lodash.sortby';
-import { P } from '@undp-data/undp-design-system-react';
+import {
+  createFilter,
+  DropdownSelect,
+  Modal,
+  P,
+  Pagination,
+  Search,
+} from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   FilterSettingsDataType,
@@ -17,12 +23,9 @@ import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
 import { getUniqValue } from '../../../Utils/getUniqValue';
-import { getReactSelectTheme } from '../../../Utils/getReactSelectTheme';
-import { Modal } from '../../Elements/Modal';
 import { transformDefaultValue } from '../../../Utils/transformDataForSelect';
 import { CsvDownloadButton } from '../../Actions/CsvDownloadButton';
 import { FileDown } from '../../Icons/Icons';
-import { Pagination } from '../../Elements/Pagination';
 
 export type FilterDataType = {
   column: string;
@@ -269,15 +272,10 @@ export function DataCards(props: Props) {
                     width: cardSortingOptions.width || 'calc(25% - 0.75rem)',
                   }}
                 >
-                  <P
-                    className='text-sm md:text-sm mb-2 md:mb-2'
-                    style={{
-                      color: UNDPColorModule[mode].grays.black,
-                    }}
-                  >
+                  <P className='text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm mb-2 md:mb-2'>
                     Sort by
                   </P>
-                  <Select
+                  <DropdownSelect
                     options={cardSortingOptions.options}
                     isRtl={language === 'he' || language === 'ar'}
                     isSearchable
@@ -298,7 +296,6 @@ export function DataCards(props: Props) {
                             )
                           ]
                     }
-                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               ) : null}
@@ -310,15 +307,10 @@ export function DataCards(props: Props) {
                   }}
                   key={i}
                 >
-                  <P
-                    className='text-sm md:text-sm mb-2 md:mb-2'
-                    style={{
-                      color: UNDPColorModule[mode].grays.black,
-                    }}
-                  >
+                  <P className='text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm mb-2 md:mb-2'>
                     {d.label}
                   </P>
-                  <Select
+                  <DropdownSelect
                     options={d.availableValues}
                     isClearable={d.clearable === undefined ? true : d.clearable}
                     isRtl={language === 'he' || language === 'ar'}
@@ -329,7 +321,6 @@ export function DataCards(props: Props) {
                       handleFilterChange(d.filter, el);
                     }}
                     defaultValue={d.defaultValue}
-                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               ))}
@@ -353,22 +344,11 @@ export function DataCards(props: Props) {
                     height={24}
                   />
                 </span>
-                <input
-                  className='undp-viz-text-box'
-                  type='text'
+                <Search
                   placeholder='Search...'
                   value={searchQuery}
                   onChange={e => {
                     setSearchQuery(e.target.value);
-                  }}
-                  style={{
-                    border: `2px solid ${UNDPColorModule[mode].grays.black}`,
-                    borderRadius: 0,
-                    padding: '10px 10px 10px 36px',
-                    height: '22px',
-                    flexGrow: 1,
-                    backgroundColor: UNDPColorModule[mode].grays.white,
-                    color: UNDPColorModule[mode].grays.black,
                   }}
                 />
               </div>
@@ -418,7 +398,7 @@ export function DataCards(props: Props) {
               total={
                 filterByKeys(cardData, cardSearchColumns, searchQuery).length
               }
-              pageNo={page}
+              defaultPage={0}
               pageSize={noOfItemsInAPage}
               onChange={setPage}
             />
@@ -430,7 +410,7 @@ export function DataCards(props: Props) {
         </div>
       </div>
       <Modal
-        isOpen={selectedData !== undefined}
+        open={selectedData !== undefined}
         onClose={() => {
           setSelectedData(undefined);
         }}

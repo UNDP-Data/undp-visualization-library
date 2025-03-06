@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
+
+import {
+  DropdownSelect,
+  createFilter,
+} from '@undp-data/undp-design-system-react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
-import { getReactSelectTheme } from '../../../../Utils/getReactSelectTheme';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
@@ -110,7 +113,7 @@ export function GeoHubMap(props: Props) {
             />
           ) : null}
           {typeof mapStyle === 'string' ? null : (
-            <Select
+            <DropdownSelect
               options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
               isClearable={false}
               isRtl={language === 'he' || language === 'ar'}
@@ -124,7 +127,6 @@ export function GeoHubMap(props: Props) {
               onChange={(el: any) => {
                 if (el) setSelectedMapStyle(el.value);
               }}
-              theme={(theme: any) => getReactSelectTheme(theme, mode)}
             />
           )}
           {typeof mapStyle === 'string' ? (

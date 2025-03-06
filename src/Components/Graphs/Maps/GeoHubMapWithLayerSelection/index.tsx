@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
 import flattenDeep from 'lodash.flattendeep';
+import {
+  createFilter,
+  DropdownSelect,
+} from '@undp-data/undp-design-system-react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { MapEl } from './MapEl';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
-import { getReactSelectTheme } from '../../../../Utils/getReactSelectTheme';
 
 interface Props {
   mapStyle: string;
@@ -105,7 +107,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
               width={width}
             />
           ) : null}
-          <Select
+          <DropdownSelect
             options={layerSelection.map(d => ({
               label: d.name,
               value: d.layerID,
@@ -122,7 +124,6 @@ export function GeoHubMapWithLayerSelection(props: Props) {
             onChange={(el: any) => {
               if (el) setSelectedLayer(el.value);
             }}
-            theme={(theme: any) => getReactSelectTheme(theme, mode)}
           />
           <MapEl
             mapStyle={mapStyle}

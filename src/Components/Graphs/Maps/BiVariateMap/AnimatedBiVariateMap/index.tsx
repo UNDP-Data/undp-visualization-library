@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ascending, sort } from 'd3-array';
 import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
-import Slider from 'rc-slider';
+import { SliderUI } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -16,7 +16,6 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import WorldMapData from '../../WorldMapData/data.json';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
-import 'rc-slider/assets/index.css';
 import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
 
 interface Props {
@@ -236,7 +235,7 @@ export function AnimatedBiVariantMap(props: Props) {
             >
               {play ? <Pause /> : <Play />}
             </button>
-            <Slider
+            <SliderUI
               min={uniqDatesSorted[0]}
               max={uniqDatesSorted[uniqDatesSorted.length - 1]}
               marks={markObj}
@@ -249,7 +248,6 @@ export function AnimatedBiVariantMap(props: Props) {
               onChange={nextValue => {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
-              className='undp-viz-slider'
               aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>

@@ -66,19 +66,19 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={1}
                 width={mainColorWidth / colors.length - 2}
                 height={8}
-                fill={colors[i]}
-                stroke={
-                  hoveredColor === colors[i]
-                    ? UNDPColorModule[mode].grays['gray-700']
-                    : colors[i]
-                }
+                style={{
+                  fill: colors[i],
+                  stroke:
+                    hoveredColor === colors[i]
+                      ? UNDPColorModule[mode].grays['gray-700']
+                      : colors[i],
+                }}
               />
               <text
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
-                className='text-sm'
+                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
                 style={{
-                  fill: UNDPColorModule[mode].grays['gray-700'],
                   textAnchor: 'middle',
                 }}
               >
@@ -100,13 +100,14 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               y={1}
               width={mainColorWidth / colors.length - 2}
               height={8}
-              fill={colors[colorDomain.length]}
-              stroke={
-                hoveredColor === colors[colorDomain.length]
-                  ? UNDPColorModule[mode].grays['gray-700']
-                  : colors[colorDomain.length]
-              }
-              strokeWidth={1}
+              style={{
+                fill: colors[colorDomain.length],
+                stroke:
+                  hoveredColor === colors[colorDomain.length]
+                    ? UNDPColorModule[mode].grays['gray-700']
+                    : colors[colorDomain.length],
+                strokeWidth: 1,
+              }}
               className='cursor-pointer'
             />
           </g>
@@ -127,20 +128,20 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={1}
                 width={24}
                 height={8}
-                fill={naColor || '#D4D6D8'}
-                stroke={
-                  hoveredColor === naColor
-                    ? UNDPColorModule[mode].grays['gray-700']
-                    : naColor
-                }
-                strokeWidth={1}
+                style={{
+                  fill: naColor || '#D4D6D8',
+                  stroke:
+                    hoveredColor === naColor
+                      ? UNDPColorModule[mode].grays['gray-700']
+                      : naColor,
+                  strokeWidth: 1,
+                }}
               />
               <text
                 x={337.5}
                 y={25}
-                className='text-sm'
+                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
                 style={{
-                  fill: UNDPColorModule[mode].grays['gray-700'],
                   textAnchor: 'start',
                 }}
               >

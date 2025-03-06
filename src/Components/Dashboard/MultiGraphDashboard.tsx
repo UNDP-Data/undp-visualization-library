@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
+import {
+  createFilter,
+  DropdownSelect,
+  Label,
+} from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DashboardColumnDataType,
@@ -24,7 +28,6 @@ import { GraphHeader } from '../Elements/GraphHeader';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { filterData } from '../../Utils/transformData/filterData';
-import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 import { transformDefaultValue } from '../../Utils/transformDataForSelect';
 
 interface Props {
@@ -253,17 +256,9 @@ export function MultiGraphDashboard(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
-                        {d.label}
-                      </p>
+                      <Label className='mb-2'>{d.label}</Label>
                       {d.singleSelect ? (
-                        <Select
+                        <DropdownSelect
                           options={d.availableValues}
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
@@ -276,13 +271,10 @@ export function MultiGraphDashboard(props: Props) {
                           }}
                           defaultValue={d.defaultValue}
                           value={d.value}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
                         <>
-                          <Select
+                          <DropdownSelect
                             options={d.availableValues}
                             isMulti
                             isClearable={
@@ -298,9 +290,6 @@ export function MultiGraphDashboard(props: Props) {
                             }}
                             value={d.value}
                             defaultValue={d.defaultValue}
-                            theme={(theme: any) =>
-                              getReactSelectTheme(theme, mode)
-                            }
                           />
                           {d.allowSelectAll ? (
                             <button

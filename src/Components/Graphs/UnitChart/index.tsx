@@ -136,10 +136,10 @@ export function UnitChart(props: Props) {
           ) : null}
           {note ? (
             <H2
-              className='mt-0 mb-1 md:mb-1 font-bold'
+              marginBottom='xs'
+              className='text-primary-gray-700 dark:text-primary-gray-100 font-bold'
               style={{
                 width: width ? `${width}px` : '100%',
-                color: UNDPColorModule[mode].grays.black,
               }}
             >
               {note}
@@ -167,12 +167,10 @@ export function UnitChart(props: Props) {
                         <P
                           marginBottom='none'
                           size='sm'
-                          style={{
-                            color: UNDPColorModule[mode].grays.black,
-                          }}
+                          className='text-primary-gray-700 dark:text-primary-gray-100'
                         >
                           {d.label}:{' '}
-                          <span className='font-bold text-sm md:text-sm'>
+                          <span className='font-bold'>
                             {numberFormattingFunction(d.value)}
                           </span>
                         </P>

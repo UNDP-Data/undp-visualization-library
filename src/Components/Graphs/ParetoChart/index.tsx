@@ -216,7 +216,6 @@ export function ParetoChart(props: Props) {
                   barPadding={barPadding}
                   showLabels={showLabels}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

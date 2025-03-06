@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
+import {
+  createFilter,
+  DropdownSelect,
+  Label,
+  Spinner,
+} from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DashboardFromWideToLongFormatColumnDataType,
@@ -18,7 +23,6 @@ import { GraphHeader } from '../Elements/GraphHeader';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
 import { filterData } from '../../Utils/transformData/filterData';
-import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
 
 interface Props {
@@ -147,7 +151,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         backgroundColor: !dashboardLayout.backgroundColor
           ? 'transparent'
           : dashboardLayout.backgroundColor === true
-          ? UNDPColorModule[mode || 'light'].grays['gray-200']
+          ? UNDPColorModule[mode].grays['gray-200']
           : dashboardLayout.backgroundColor,
       }}
       id={dashboardId}
@@ -195,17 +199,11 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                   }}
                 >
                   {dashboardLayout.dropdownLabel ? (
-                    <p
-                      style={{
-                        fontSize: '0.875rem',
-                        marginBottom: '0.5rem',
-                        color: UNDPColorModule[mode || 'light'].grays.black,
-                      }}
-                    >
+                    <Label className='mb-2'>
                       {dashboardLayout.dropdownLabel}
-                    </p>
+                    </Label>
                   ) : null}
-                  <Select
+                  <DropdownSelect
                     options={filterValues.map(d => ({
                       value: d,
                       label: d,
@@ -221,7 +219,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                       value: selectedFilterValues as string,
                       label: selectedFilterValues as string,
                     }}
-                    theme={(theme: any) => getReactSelectTheme(theme, mode)}
                   />
                 </div>
               </div>
@@ -311,7 +308,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
               ))}
             </>
           ) : (
-            <div className='undp-viz-loader' />
+            <div className='w-full flex justify-center p-4'>
+              <Spinner />
+            </div>
           )}
         </div>
       </div>

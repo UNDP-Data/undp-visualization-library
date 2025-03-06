@@ -1,13 +1,12 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
-import { P } from '@undp-data/undp-design-system-react';
+import { P, Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: TreeMapDataType[];
@@ -172,7 +171,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !(d.data as any).data.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[
                             colorDomain.indexOf((d.data as any).data.color)
                           ],
@@ -194,7 +193,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !(d.data as any).data.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
@@ -223,7 +222,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule[mode || 'light'].graphGray
+                                ? UNDPColorModule[mode].graphGray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -246,7 +245,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule[mode || 'light'].graphGray
+                                ? UNDPColorModule[mode].graphGray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -276,13 +275,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

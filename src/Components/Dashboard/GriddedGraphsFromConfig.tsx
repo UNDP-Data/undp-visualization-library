@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { P } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -67,7 +67,12 @@ export function GriddedGraphsFromConfig(props: Props) {
     fetchData();
   }, [config]);
 
-  if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!configSettings)
+    return (
+      <div className='w-full flex justify-center p-4'>
+        <Spinner />
+      </div>
+    );
 
   const validationResult = validateConfigSchema(configSettings, 'griddedGraph');
   if (!validationResult.isValid)

@@ -1,8 +1,8 @@
 import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
-import Slider from 'rc-slider';
 import { format, parse } from 'date-fns';
 import { ascending, sort } from 'd3-array';
+import { SliderUI } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -15,7 +15,6 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
-import 'rc-slider/assets/index.css';
 import { Pause, Play } from '../../../../Icons/Icons';
 
 interface Props {
@@ -244,7 +243,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
             >
               {play ? <Pause /> : <Play />}
             </button>
-            <Slider
+            <SliderUI
               min={uniqDatesSorted[0]}
               max={uniqDatesSorted[uniqDatesSorted.length - 1]}
               marks={markObj}
@@ -257,7 +256,6 @@ export function AnimatedHorizontalBarChart(props: Props) {
               onChange={nextValue => {
                 setIndex(uniqDatesSorted.indexOf(nextValue as number));
               }}
-              className='undp-viz-slider'
               aria-label='Time slider. Use arrow keys to adjust selected time period.'
             />
           </div>

@@ -1,8 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Select, { createFilter } from 'react-select';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
 import min from 'lodash.min';
+import {
+  CheckboxGroup,
+  CheckboxGroupItem,
+  createFilter,
+  DropdownSelect,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Spinner,
+} from '@undp-data/undp-design-system-react';
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -33,9 +42,6 @@ import { filterData } from '../../Utils/transformData/filterData';
 import { ColorLegend } from '../Elements/ColorLegend';
 import { checkIfNullOrUndefined } from '../../Utils/checkIfNullOrUndefined';
 import { checkIfMultiple } from '../../Utils/checkIfMultiple';
-import Checkbox from '../Elements/Checkbox';
-import Radio from '../Elements/Radio';
-import { getReactSelectTheme } from '../../Utils/getReactSelectTheme';
 import { transformDefaultValue } from '../../Utils/transformDataForSelect';
 
 interface Props {
@@ -303,17 +309,11 @@ export function GriddedGraphs(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
+                      <Label className='mb-2'>
                         {d.label || `Visualize ${d.chartConfigId} by`}
-                      </p>
+                      </Label>
                       {d.ui !== 'radio' ? (
-                        <Select
+                        <DropdownSelect
                           options={d.options}
                           isClearable={false}
                           isSearchable
@@ -333,20 +333,19 @@ export function GriddedGraphs(props: Props) {
                             setAdvancedGraphSettings(el?.graphSettings || {});
                             setGraphConfig(updatedConfig);
                           }}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
-                        <Radio
-                          options={d.options}
-                          language={graphSettings?.language}
+                        <RadioGroup
                           defaultValue={
                             d.defaultValue?.label || d.options[0].label
                           }
-                          onChange={el => {
+                          onValueChange={el => {
+                            const selectedOption =
+                              d.options[
+                                d.options.findIndex(opt => opt.label === el)
+                              ];
                             const newGraphConfig = {
-                              columnId: el.value as string[],
+                              columnId: selectedOption.value as string[],
                               chartConfigId: d.chartConfigId,
                             };
                             const updatedConfig = graphConfig?.map(item =>
@@ -355,10 +354,20 @@ export function GriddedGraphs(props: Props) {
                                 ? newGraphConfig
                                 : item,
                             );
-                            setAdvancedGraphSettings(el.graphSettings || {});
+                            setAdvancedGraphSettings(
+                              selectedOption.graphSettings || {},
+                            );
                             setGraphConfig(updatedConfig);
                           }}
-                        />
+                        >
+                          {d.options.map((el, j) => (
+                            <RadioGroupItem
+                              label={el.label}
+                              value={el.label}
+                              key={j}
+                            />
+                          ))}
+                        </RadioGroup>
                       )}
                     </div>
                   ))}
@@ -376,24 +385,12 @@ export function GriddedGraphs(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                        }}
-                      >
+                      <Label className='mb-2'>
                         {d.label || `Visualize ${d.chartConfigId} by`}
-                      </p>
+                      </Label>
                       {!checkIfMultiple(d.chartConfigId, graphConfig || []) ? (
                         d.ui !== 'radio' ? (
-                          <Select
-                            className={
-                              graphSettings?.rtl
-                                ? `undp-viz-select-${
-                                    graphSettings?.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
+                          <DropdownSelect
                             options={d.allowedColumnIds}
                             isClearable={false}
                             isSearchable
@@ -429,14 +426,9 @@ export function GriddedGraphs(props: Props) {
                               setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(updatedConfig);
                             }}
-                            theme={(theme: any) =>
-                              getReactSelectTheme(theme, mode)
-                            }
                           />
                         ) : (
-                          <Radio
-                            options={d.allowedColumnIds}
-                            language={graphSettings?.language}
+                          <RadioGroup
                             defaultValue={
                               graphDataConfiguration
                                 ? d.allowedColumnIds[
@@ -454,9 +446,15 @@ export function GriddedGraphs(props: Props) {
                                   ].label
                                 : ''
                             }
-                            onChange={el => {
+                            onValueChange={el => {
+                              const selectedOption =
+                                d.allowedColumnIds[
+                                  d.allowedColumnIds.findIndex(
+                                    opt => opt.label === el,
+                                  )
+                                ];
                               const newGraphConfig = {
-                                columnId: el.value,
+                                columnId: selectedOption.value,
                                 chartConfigId: d.chartConfigId,
                               };
                               const updatedConfig = graphConfig?.map(item =>
@@ -465,13 +463,23 @@ export function GriddedGraphs(props: Props) {
                                   ? newGraphConfig
                                   : item,
                               );
-                              setAdvancedGraphSettings(el.graphSettings || {});
+                              setAdvancedGraphSettings(
+                                selectedOption.graphSettings || {},
+                              );
                               setGraphConfig(updatedConfig);
                             }}
-                          />
+                          >
+                            {d.allowedColumnIds.map((el, j) => (
+                              <RadioGroupItem
+                                label={el.label}
+                                value={el.label}
+                                key={j}
+                              />
+                            ))}
+                          </RadioGroup>
                         )
                       ) : d.ui !== 'radio' ? (
-                        <Select
+                        <DropdownSelect
                           options={d.allowedColumnIds}
                           isMulti
                           isSearchable
@@ -512,15 +520,9 @@ export function GriddedGraphs(props: Props) {
                             setGraphConfig(updatedConfig);
                           }}
                           isRtl={graphSettings?.rtl}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
-                        <Checkbox
-                          rtl={graphSettings?.rtl}
-                          options={d.allowedColumnIds}
-                          language={graphSettings?.language}
+                        <CheckboxGroup
                           defaultValue={
                             graphDataConfiguration
                               ? (
@@ -542,7 +544,7 @@ export function GriddedGraphs(props: Props) {
                                   .map(el => el.value)
                               : []
                           }
-                          onChange={el => {
+                          onValueChange={el => {
                             const newGraphConfig = {
                               columnId: el || [],
                               chartConfigId: d.chartConfigId,
@@ -555,7 +557,15 @@ export function GriddedGraphs(props: Props) {
                             );
                             setGraphConfig(updatedConfig);
                           }}
-                        />
+                        >
+                          {d.allowedColumnIds.map((el, j) => (
+                            <CheckboxGroupItem
+                              label={el.label}
+                              value={el.label}
+                              key={j}
+                            />
+                          ))}
+                        </CheckboxGroup>
                       )}
                     </div>
                   ))}
@@ -573,32 +583,9 @@ export function GriddedGraphs(props: Props) {
                       }}
                       key={i}
                     >
-                      <p
-                        className={
-                          graphSettings?.rtl
-                            ? `undp-viz-typography-${
-                                graphSettings?.language || 'ar'
-                              } undp-viz-typography`
-                            : 'undp-viz-typography'
-                        }
-                        style={{
-                          fontSize: '0.875rem',
-                          marginBottom: '0.5rem',
-                          textAlign: graphSettings?.rtl ? 'right' : 'left',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
-                        {d.label}
-                      </p>
+                      <Label className='mb-2'>{d.label}</Label>
                       {d.singleSelect ? (
-                        <Select
-                          className={
-                            graphSettings?.rtl
-                              ? `undp-viz-select-${
-                                  graphSettings?.language || 'ar'
-                                } undp-viz-select`
-                              : 'undp-viz-select'
-                          }
+                        <DropdownSelect
                           options={d.availableValues}
                           isClearable={
                             d.clearable === undefined ? true : d.clearable
@@ -611,20 +598,10 @@ export function GriddedGraphs(props: Props) {
                             handleFilterChange(d.filter, el);
                           }}
                           defaultValue={d.defaultValue}
-                          theme={(theme: any) =>
-                            getReactSelectTheme(theme, mode)
-                          }
                         />
                       ) : (
                         <>
-                          <Select
-                            className={
-                              graphSettings?.rtl
-                                ? `undp-viz-select-${
-                                    graphSettings?.language || 'ar'
-                                  } undp-viz-select`
-                                : 'undp-viz-select'
-                            }
+                          <DropdownSelect
                             options={d.availableValues}
                             isMulti
                             isClearable={
@@ -638,9 +615,6 @@ export function GriddedGraphs(props: Props) {
                             }}
                             defaultValue={d.defaultValue}
                             isRtl={graphSettings?.rtl}
-                            theme={(theme: any) =>
-                              getReactSelectTheme(theme, mode)
-                            }
                           />
                           {d.allowSelectAll ? (
                             <button
@@ -766,7 +740,9 @@ export function GriddedGraphs(props: Props) {
               </div>
             </>
           ) : (
-            <div className='undp-viz-loader' />
+            <div className='w-full flex justify-center p-4'>
+              <Spinner />
+            </div>
           )}
           {graphSettings?.source || graphSettings?.footNote ? (
             <GraphFooter

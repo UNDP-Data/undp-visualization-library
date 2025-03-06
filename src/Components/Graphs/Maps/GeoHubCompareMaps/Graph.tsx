@@ -166,7 +166,7 @@ export function Graph(props: Props) {
                 className='flex rounded-full absolute items-center justify-center text-primary-white'
                 style={{
                   backgroundColor:
-                    UNDPColorModule[mode || 'light'].primaryColors['blue-600'],
+                    UNDPColorModule[mode].primaryColors['blue-600'],
                   boxShadow: 'inset 0 0 0 1px #fff',
                   width: '42px',
                   height: '42px',

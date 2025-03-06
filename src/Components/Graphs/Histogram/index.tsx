@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { bin } from 'd3-array';
+import { Spinner } from '@undp-data/undp-design-system-react';
 import {
   TreeMapDataType,
   ReferenceDataType,
@@ -126,7 +127,7 @@ export function Histogram(props: Props) {
         style={{ width: `${width}px`, height: `${height}px`, margin: 'auto' }}
       >
         <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
-          <div className='undp-viz-loader' />
+          <Spinner />
         </div>
       </div>
     );

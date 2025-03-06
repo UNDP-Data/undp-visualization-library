@@ -6,6 +6,7 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Modal } from '@undp-data/undp-design-system-react';
 import {
   ButterflyChartWithDateDataType,
   CSSObject,
@@ -17,7 +18,6 @@ import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined
 import { UNDPColorModule } from '../../../ColorPalette';
 import { ensureCompleteDataForButterFlyChart } from '../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../Utils/string2HTML';
-import { Modal } from '../../../Elements/Modal';
 
 interface Props {
   data: ButterflyChartWithDateDataType[];
@@ -210,24 +210,19 @@ export function Graph(props: Props) {
                       x2={xLeftBar(d)}
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom + topMargin}
-                      style={{
-                        stroke:
-                          UNDPColorModule[mode || 'light'].grays['gray-500'],
-                      }}
-                      strokeWidth={1}
-                      strokeDasharray='4,8'
-                      className={`opacity-${d === 0 ? 0 : 100}`}
+                      className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                        d === 0 ? 0 : 100
+                      }`}
                     />
                     <text
                       x={xLeftBar(d)}
                       y={0 - margin.top}
-                      className={`text-xs opacity-${d === 0 ? 0 : 100}`}
+                      className={`fill-primary-gray-550 dark:fill-primary-gray-500 text-xs opacity-${
+                        d === 0 ? 0 : 100
+                      }`}
                       dy={10}
                       dx={-3}
                       style={{
-                        fill: UNDPColorModule[mode || 'light'].grays[
-                          'gray-500'
-                        ],
                         textAnchor: 'end',
                       }}
                     >
@@ -334,23 +329,18 @@ export function Graph(props: Props) {
               x2={xLeftBar(xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
             />
             {refValues ? (
               <>
                 {refValues.map((el, i) => (
                   <g key={i}>
                     <line
+                      className='undp-ref-line'
                       style={{
                         stroke:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        strokeWidth: 1.5,
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                       }}
-                      strokeDasharray='4,4'
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom}
                       x1={xLeftBar(el.value as number)}
@@ -361,8 +351,7 @@ export function Graph(props: Props) {
                       x={xLeftBar(el.value as number) as number}
                       style={{
                         fill:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                         textAnchor: 'end',
                       }}
                       className='text-xs font-bold'
@@ -385,13 +374,9 @@ export function Graph(props: Props) {
                       x2={xRightBar(d)}
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom + topMargin}
-                      style={{
-                        stroke:
-                          UNDPColorModule[mode || 'light'].grays['gray-500'],
-                      }}
-                      strokeWidth={1}
-                      strokeDasharray='4,8'
-                      className={`opacity-${d === 0 ? 0 : 100}`}
+                      className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                        d === 0 ? 0 : 100
+                      }`}
                     />
                     <text
                       x={xRightBar(d)}
@@ -399,12 +384,11 @@ export function Graph(props: Props) {
                       dy={10}
                       dx={3}
                       style={{
-                        fill: UNDPColorModule[mode || 'light'].grays[
-                          'gray-500'
-                        ],
                         textAnchor: 'start',
                       }}
-                      className={`text-xs opacity-${d === 0 ? 0 : 100}`}
+                      className={`fill-primary-gray-550 dark:fill-primary-gray-500 text-xs opacity-${
+                        d === 0 ? 0 : 100
+                      }`}
                     >
                       {numberFormattingFunction(d, prefix, suffix)}
                     </text>
@@ -509,23 +493,18 @@ export function Graph(props: Props) {
               x2={xRightBar(xMinValueRightBar < 0 ? 0 : xMinValueRightBar)}
               y1={-2.5}
               y2={graphHeight + 2.5}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
             />
             {refValues ? (
               <>
                 {refValues.map((el, i) => (
                   <g key={i}>
                     <line
+                      className='undp-ref-line'
                       style={{
                         stroke:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        strokeWidth: 1.5,
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                       }}
-                      strokeDasharray='4,4'
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom}
                       x1={xRightBar(el.value as number)}
@@ -536,8 +515,7 @@ export function Graph(props: Props) {
                       x={xRightBar(el.value as number) as number}
                       style={{
                         fill:
-                          el.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
+                          el.color || UNDPColorModule[mode].grays['gray-700'],
                         textAnchor: 'start',
                       }}
                       className='text-xs font-bold'
@@ -556,10 +534,9 @@ export function Graph(props: Props) {
               return (
                 <text
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     textAnchor: 'middle',
                   }}
-                  className='text-xs'
+                  className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                   key={i}
                   x={0}
                   y={(y(`${d.label}`) as number) + y.bandwidth() / 2}
@@ -609,13 +586,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

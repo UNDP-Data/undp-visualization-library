@@ -10,7 +10,6 @@ import sortBy from 'lodash.sortby';
 import { CSSObject, LineChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: LineChartDataType[];
@@ -27,7 +26,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
-  mode: 'light' | 'dark';
   tooltipBackgroundStyle: CSSObject;
 }
 
@@ -47,7 +45,6 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     minValue,
     maxValue,
-    mode,
     tooltipBackgroundStyle,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
@@ -166,11 +163,10 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
+              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 textAnchor: 'end',
               }}
               dy={15}
@@ -181,10 +177,9 @@ export function Graph(props: Props) {
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 textAnchor: 'start',
               }}
-              className='xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
+              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}
@@ -192,17 +187,19 @@ export function Graph(props: Props) {
           </g>
           <g>
             <path
-              clipPath='url(#clip)'
               d={mainGraphArea(dataFormatted as any) as string}
-              fill={`url(#${areaId})`}
+              style={{
+                fill: `url(#${areaId})`,
+                clipPath: 'url(#clip)',
+              }}
             />
             <path
               d={lineShape(dataFormatted as any) as string}
-              fill='none'
               style={{
                 stroke: color,
+                fill: 'none',
+                strokeWidth: 2,
               }}
-              strokeWidth={2}
             />
             {mouseOverData ? (
               <circle
@@ -218,8 +215,10 @@ export function Graph(props: Props) {
           </g>
           <rect
             ref={MouseoverRectRef}
-            fill='none'
-            pointerEvents='all'
+            style={{
+              fill: 'none',
+              pointerEvents: 'all',
+            }}
             width={graphWidth}
             height={graphHeight}
           />
@@ -231,7 +230,6 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

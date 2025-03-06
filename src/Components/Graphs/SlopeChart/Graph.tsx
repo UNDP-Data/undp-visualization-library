@@ -3,12 +3,12 @@ import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, SlopeChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: SlopeChartDataType[];
@@ -113,19 +113,15 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={radius + 5}
               x2={radius + 5}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
             <text
               x={radius + 5}
               y={graphHeight}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 textAnchor: 'middle',
               }}
-              className='text-xs'
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
               dy={15}
             >
               {axisTitle[0]}
@@ -137,19 +133,15 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth - (radius + 5)}
               x2={graphWidth - (radius + 5)}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
             <text
               x={graphWidth - (radius + 5)}
               y={graphHeight}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
                 textAnchor: 'middle',
               }}
-              className='text-xs'
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
               dy={15}
             >
               {axisTitle[1]}
@@ -222,16 +214,16 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
+                    fillOpacity: 0.6,
                   }}
-                  fillOpacity={0.6}
                 />
                 {showLabels ? (
                   <text
@@ -240,7 +232,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule[mode].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
                     }}
@@ -260,7 +252,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
                       }}
@@ -283,16 +275,16 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
+                    fillOpacity: 0.6,
                   }}
-                  fillOpacity={0.6}
                 />
                 {showLabels ? (
                   <text
@@ -301,7 +293,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule[mode].graphGray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
                     }}
@@ -321,7 +313,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule[mode].graphGray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
                       }}
@@ -346,7 +338,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule[mode].graphGray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
                   }}
@@ -362,13 +354,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

@@ -7,13 +7,13 @@ import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import { parse } from 'date-fns';
 import { group } from 'd3-array';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { BivariateMapWithDateDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { X } from '../../../../Icons/Icons';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -184,9 +184,9 @@ export function Graph(props: Props) {
                           d={masterPath}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -207,9 +207,9 @@ export function Graph(props: Props) {
                           d={path}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -307,13 +307,11 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ]
+                                  ? UNDPColorModule[mode].grays['gray-400']
                                   : '#fff',
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -337,13 +335,11 @@ export function Graph(props: Props) {
                             style={{
                               stroke:
                                 color === mapNoDataColor
-                                  ? UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ]
+                                  ? UNDPColorModule[mode].grays['gray-400']
                                   : '#fff',
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -382,9 +378,7 @@ export function Graph(props: Props) {
                                 d={masterPath}
                                 style={{
                                   stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
+                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -409,9 +403,7 @@ export function Graph(props: Props) {
                                 d={path}
                                 style={{
                                   stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
+                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -449,17 +441,16 @@ export function Graph(props: Props) {
                                 key={j}
                                 y={1}
                                 x={j * 25 + 1}
-                                fill={el}
                                 width={23}
                                 height={23}
-                                strokeWidth={selectedColor === el ? 2 : 0.25}
-                                stroke={
-                                  selectedColor === el
-                                    ? UNDPColorModule[mode || 'light'].grays[
-                                        'gray-700'
-                                      ]
-                                    : '#fff'
-                                }
+                                style={{
+                                  fill: el,
+                                  strokeWidth: selectedColor === el ? 2 : 0.25,
+                                  stroke:
+                                    selectedColor === el
+                                      ? UNDPColorModule[mode].grays['gray-700']
+                                      : '#fff',
+                                }}
                                 className='cursor-pointer'
                                 onMouseOver={() => {
                                   setSelectedColor(el);
@@ -477,11 +468,8 @@ export function Graph(props: Props) {
                               key={j}
                               y={10}
                               x={(j + 1) * 25}
-                              className='text-[10px]'
+                              className='text-[10px] fill-primary-gray-700 dark:fill-primary-gray-300'
                               style={{
-                                fill: UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ],
                                 textAnchor: 'middle',
                               }}
                             >
@@ -504,11 +492,8 @@ export function Graph(props: Props) {
                               x={0}
                               transform='rotate(-90)'
                               y={0}
-                              className='text-[10px]'
+                              className='text-[10px] fill-primary-gray-700 dark:fill-primary-gray-300'
                               style={{
-                                fill: UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ],
                                 textAnchor: 'middle',
                               }}
                             >
@@ -527,8 +512,7 @@ export function Graph(props: Props) {
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
+                        color: UNDPColorModule[mode].grays['gray-700'],
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                       }}
@@ -541,7 +525,7 @@ export function Graph(props: Props) {
                     style={{
                       lineHeight: 'normal',
                       width: '8.125rem',
-                      color: UNDPColorModule[mode || 'light'].grays['gray-700'],
+                      color: UNDPColorModule[mode].grays['gray-700'],
                       display: '-webkit-box',
                       top: '80px',
                       translate: '75% -50%',
@@ -578,12 +562,9 @@ export function Graph(props: Props) {
           <div
             className='flex items-start text-sm font-bold cursor-pointer uppercase p-2 mb-3'
             style={{
-              border: `1px solid ${
-                UNDPColorModule[mode || 'light'].grays['gray-400']
-              }`,
-              color: UNDPColorModule[mode || 'light'].grays['gray-600'],
-              backgroundColor:
-                UNDPColorModule[mode || 'light'].grays['gray-300'],
+              border: `1px solid ${UNDPColorModule[mode].grays['gray-400']}`,
+              color: UNDPColorModule[mode].grays['gray-600'],
+              backgroundColor: UNDPColorModule[mode].grays['gray-300'],
             }}
           >
             Show Legend
@@ -596,13 +577,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

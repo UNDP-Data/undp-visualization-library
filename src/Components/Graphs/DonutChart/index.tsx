@@ -226,9 +226,7 @@ export function DonutChart(props: Props) {
                       <P
                         marginBottom='none'
                         size='sm'
-                        style={{
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
+                        className='text-primary-gray-700 dark:text-primary-gray-100'
                       >
                         {d.label}:{' '}
                         <span

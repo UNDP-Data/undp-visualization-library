@@ -176,7 +176,7 @@ export function DataTable(props: Props) {
                     <tr>
                       {columnData?.map((d, i) => (
                         <th
-                          className='text-sm'
+                          className='text-primary-gray-700 dark:text-primary-gray-100 text-sm'
                           style={{
                             width: `calc(${
                               (100 * (d.columnWidth || 1)) /
@@ -184,7 +184,6 @@ export function DataTable(props: Props) {
                                 columnData.map(cd => cd.columnWidth || 1),
                               )
                             }%`,
-                            color: UNDPColorModule[mode].grays.black,
                           }}
                           key={i}
                         >
@@ -250,17 +249,11 @@ export function DataTable(props: Props) {
                                     const rect =
                                       event.currentTarget.getBoundingClientRect();
                                     setPopupStyle({
-                                      position: 'absolute',
                                       top: rect.bottom + window.scrollY,
                                       left:
                                         rect.left + window.scrollX - 160 < 0
                                           ? rect.left + window.scrollX
                                           : rect.left + window.scrollX - 160,
-                                      padding: '0.75rem',
-                                      background: `${UNDPColorModule[mode].grays.white}`,
-                                      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-                                      zIndex: '1000',
-                                      borderRadius: '2px',
                                       width: '10rem',
                                     });
                                   }
@@ -313,7 +306,9 @@ export function DataTable(props: Props) {
                         {columnData.map((el, j) => (
                           <td
                             key={j}
-                            className={`text-sm text-${d.align || 'left'}`}
+                            className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm text-${
+                              d.align || 'left'
+                            }`}
                             style={{
                               width: `calc(${
                                 (100 * (d.columnWidth || 1)) /
@@ -321,25 +316,21 @@ export function DataTable(props: Props) {
                                   columnData.map(cd => cd.columnWidth || 1),
                                 )
                               }%`,
-                              color: UNDPColorModule[mode].grays.black,
                             }}
                           >
                             <div
-                              className={`flex p-4 ${
+                              className={`text-primary-gray-700 dark:text-primary-gray-100 flex p-4 ${
                                 el.align === 'right'
                                   ? 'justify-end'
                                   : el.align === 'center'
                                   ? 'justify-center'
                                   : 'justify-start'
                               }`}
-                              style={{
-                                color: UNDPColorModule[mode].grays.black,
-                              }}
                             >
                               {typeof d[el.columnId] === 'number' ? (
                                 <P
                                   marginBottom='none'
-                                  className={`text-sm md:text-sm w-fit ${
+                                  className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
                                     el.chip
                                       ? 'grow-0 rounded-sm p-2 md:p-2'
                                       : 'grow rounded-none p-0 md:p-0'
@@ -356,7 +347,6 @@ export function DataTable(props: Props) {
                                             'gray-300'
                                           ]
                                       : 'transparent',
-                                    color: UNDPColorModule[mode].grays.black,
                                   }}
                                 >
                                   {numberFormattingFunction(
@@ -367,19 +357,14 @@ export function DataTable(props: Props) {
                                 </P>
                               ) : typeof d[el.columnId] === 'string' ? (
                                 el.separator ? (
-                                  <div
-                                    className='flex flex-wrap gap-2'
-                                    style={{
-                                      color: UNDPColorModule[mode].grays.black,
-                                    }}
-                                  >
+                                  <div className='text-primary-gray-700 dark:text-primary-gray-100 flex flex-wrap gap-2'>
                                     {d[el.columnId]
                                       .split(el.separator)
                                       .map((element: string, indx: number) => (
                                         <P
                                           key={indx}
                                           marginBottom='none'
-                                          className={`text-sm md:text-sm w-fit ${
+                                          className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
                                             el.chip
                                               ? 'grow-0 rounded-sm p-2 md:p-2'
                                               : 'grow rounded-none p-0 md:p-0'
@@ -398,8 +383,6 @@ export function DataTable(props: Props) {
                                                     'gray-300'
                                                   ]
                                               : 'transparent',
-                                            color:
-                                              UNDPColorModule[mode].grays.black,
                                           }}
                                         >{`${el.prefix || ''}${element}${
                                           el.suffix || ''
@@ -409,7 +392,7 @@ export function DataTable(props: Props) {
                                 ) : (
                                   <P
                                     marginBottom='none'
-                                    className={`text-sm md:text-sm w-fit ${
+                                    className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
                                       el.chip
                                         ? 'grow-0 rounded-sm p-2 md:p-2'
                                         : 'grow rounded-none p-0 md:p-0'
@@ -426,7 +409,6 @@ export function DataTable(props: Props) {
                                               'gray-300'
                                             ]
                                         : 'transparent',
-                                      color: UNDPColorModule[mode].grays.black,
                                     }}
                                   >{`${el.prefix || ''}${d[el.columnId]}${
                                     el.suffix || ''
@@ -450,9 +432,12 @@ export function DataTable(props: Props) {
           ) : null}
         </div>
         {popupVisible && (
-          <div style={popupStyle}>
+          <div
+            style={popupStyle}
+            className='absolute p-3 border z-[1000] rounded-sm bg-primary-white dark:bg-primary-gray-700 border-primary-gray-300 dark:border-primary-gray-550'
+          >
             <div className='max-w-60'>
-              <P className='text-sm md:text-sm mb-1 md:mb-1 font-bold'>
+              <P size='sm' marginBottom='xs' className='font-bold'>
                 Filter data by
               </P>
               <div className='flex flex-col gap-2'>

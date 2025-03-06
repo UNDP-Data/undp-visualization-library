@@ -2,6 +2,7 @@ import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, HeatMapDataType, ScaleDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
@@ -9,7 +10,6 @@ import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBg
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: HeatMapDataType[];
@@ -120,8 +120,7 @@ export function Graph(props: Props) {
                     <p
                       className='text-base text-center leading-tight m-0'
                       style={{
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-600'],
+                        color: UNDPColorModule[mode].grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -147,8 +146,7 @@ export function Graph(props: Props) {
                     <p
                       className='text-base text-right leading-tight m-0'
                       style={{
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-600'],
+                        color: UNDPColorModule[mode].grays['gray-600'],
                       }}
                     >
                       {`${d}`.length < truncateBy
@@ -170,9 +168,10 @@ export function Graph(props: Props) {
                   y={0}
                   width={barWidth}
                   height={barHeight}
-                  fill={noDataColor}
-                  strokeWidth={1}
-                  stroke={UNDPColorModule[mode || 'light'].grays.white}
+                  style={{
+                    fill: noDataColor,
+                  }}
+                  className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                 />
               ))}
             </g>
@@ -231,9 +230,10 @@ export function Graph(props: Props) {
                     y={0}
                     width={barWidth}
                     height={barHeight}
-                    fill={color}
-                    strokeWidth={1}
-                    stroke={UNDPColorModule[mode || 'light'].grays.white}
+                    style={{
+                      fill: color,
+                    }}
+                    className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
                     <foreignObject
@@ -243,14 +243,7 @@ export function Graph(props: Props) {
                       width={barWidth}
                       height={barHeight}
                     >
-                      <div
-                        className='flex flex-col justify-center items-center h-inherit p-0.2'
-                        style={{
-                          fill: UNDPColorModule[mode || 'light'].grays[
-                            'gray-600'
-                          ],
-                        }}
-                      >
+                      <div className='flex flex-col justify-center items-center h-inherit p-0.2'>
                         <p
                           className='text-xs text-center m-0 leading-tight'
                           style={{
@@ -273,10 +266,12 @@ export function Graph(props: Props) {
               y={y(mouseOverData.row)}
               width={barWidth}
               height={barHeight}
-              fill='none'
-              fillOpacity={0}
-              strokeWidth={1.5}
-              stroke={UNDPColorModule[mode || 'light'].grays['gray-700']}
+              style={{
+                fill: 'none',
+                fillOpacity: 0,
+                strokeWidth: 1.5,
+              }}
+              className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
             />
           ) : null}
         </g>
@@ -287,13 +282,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

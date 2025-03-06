@@ -1,13 +1,12 @@
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
-import { H2, P } from '@undp-data/undp-design-system-react';
+import { H2, Modal, P } from '@undp-data/undp-design-system-react';
 import { CSSObject, DonutChartDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };
@@ -67,19 +66,11 @@ export function Graph(props: Props) {
               width={2 * (radius - strokeWidth)}
               height={2 * (radius - strokeWidth)}
             >
-              <div
-                className='flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-4'
-                style={{
-                  fill: UNDPColorModule[mode || 'light'].grays.black,
-                }}
-              >
+              <div className='flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-4'>
                 {mainText ? (
                   <H2
                     marginBottom='none'
-                    className='leading-none text-center'
-                    style={{
-                      color: UNDPColorModule[mode || 'light'].grays.black,
-                    }}
+                    className='text-primary-gray-700 dark:text-primary-gray-100 leading-none text-center'
                   >
                     {typeof mainText === 'string'
                       ? mainText
@@ -97,10 +88,7 @@ export function Graph(props: Props) {
                   <P
                     marginBottom='none'
                     leading='none'
-                    className='text-base md:text-base text-center font-bold'
-                    style={{
-                      color: UNDPColorModule[mode || 'light'].grays.black,
-                    }}
+                    className='text-primary-gray-700 dark:text-primary-gray-100 text-base md:text-base text-center font-bold'
                   >
                     {subNote}
                   </P>
@@ -108,10 +96,7 @@ export function Graph(props: Props) {
                   <P
                     marginBottom='none'
                     leading='none'
-                    className='text-base md:text-base text-center font-bold'
-                    style={{
-                      color: UNDPColorModule[mode || 'light'].grays.black,
-                    }}
+                    className='text-primary-gray-700 dark:text-primary-gray-100 text-base md:text-base text-center font-bold'
                   >
                     {mainText.label}
                   </P>
@@ -137,7 +122,7 @@ export function Graph(props: Props) {
                         colorDomain.indexOf((d.data as any).label) %
                           colors.length
                       ]
-                    : UNDPColorModule[mode || 'light'].graphGray,
+                    : UNDPColorModule[mode].graphGray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1
@@ -189,13 +174,12 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}

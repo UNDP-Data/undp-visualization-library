@@ -178,7 +178,6 @@ export function SparkLine(props: Props) {
                 onSeriesMouseOver={onSeriesMouseOver}
                 minValue={minValue}
                 maxValue={maxValue}
-                mode={mode}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
               />
             ) : null}

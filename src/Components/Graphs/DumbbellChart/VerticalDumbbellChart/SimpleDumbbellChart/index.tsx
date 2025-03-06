@@ -265,7 +265,6 @@ export function VerticalDumbbellChart(props: Props) {
                   selectedColor={selectedColor}
                   arrowConnector={arrowConnector}
                   connectorStrokeWidth={connectorStrokeWidth}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

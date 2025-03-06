@@ -230,7 +230,6 @@ export function DualAxisLineChart(props: Props) {
                   animateLine={animateLine}
                   strokeWidth={strokeWidth}
                   showDots={showDots}
-                  mode={mode}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   noOfYTicks={noOfYTicks}
                   lineSuffixes={lineSuffixes}
