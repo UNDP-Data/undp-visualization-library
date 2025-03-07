@@ -35,7 +35,7 @@ interface Props {
   animateLinks?: boolean | number;
   sortNodes: 'asc' | 'desc' | 'mostReadable' | 'none';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

@@ -55,7 +55,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

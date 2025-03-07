@@ -105,12 +105,7 @@ export function ButterflyChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
@@ -133,17 +128,21 @@ export function ButterflyChart(props: Props) {
 
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
         width ? 'grow-0 w-fit' : 'grow w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       ref={graphParentDiv}

@@ -51,17 +51,19 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      className={`flex flex-col w-full h-inherit ${mode || 'light'} ${
-        language || 'en'
-      }`}
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }flex flex-col w-full h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       aria-label={

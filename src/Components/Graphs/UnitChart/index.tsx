@@ -91,18 +91,22 @@ export function UnitChart(props: Props) {
   });
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
         minHeight: 'inherit',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       ref={graphParentDiv}

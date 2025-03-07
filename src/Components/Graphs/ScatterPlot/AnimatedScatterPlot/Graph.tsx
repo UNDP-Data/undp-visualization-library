@@ -66,7 +66,7 @@ interface Props {
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfXTicks: number;
   noOfYTicks: number;

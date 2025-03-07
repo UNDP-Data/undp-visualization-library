@@ -43,7 +43,7 @@ interface Props {
   dateFormat: string;
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

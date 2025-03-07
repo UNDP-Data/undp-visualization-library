@@ -18,13 +18,12 @@ export function Tooltip(props: Props) {
     data,
     backgroundStyle = {
       maxWidth: '24rem',
-      padding: '0.5rem',
     },
   } = props;
   const htmlString = string2HTML(body, data);
   return (
     <div
-      className='block fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark: border-primary-gray-500'
+      className='block p-2 fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark:border-primary-gray-500'
       style={{
         ...backgroundStyle,
         wordWrap: 'break-word',

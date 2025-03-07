@@ -43,7 +43,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks: number;
   prefix: string;
   suffix: string;

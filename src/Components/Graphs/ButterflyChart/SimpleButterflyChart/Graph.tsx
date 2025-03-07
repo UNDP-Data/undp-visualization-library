@@ -38,7 +38,7 @@ interface Props {
   prefix: string;
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

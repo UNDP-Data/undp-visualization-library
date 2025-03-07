@@ -29,7 +29,7 @@ interface Props {
   highlightedDataPoints: (string | number)[];
   mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

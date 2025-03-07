@@ -36,7 +36,7 @@ interface Props {
   animateLine: boolean | number;
   strokeWidth: number;
   showDots: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks: number;
   lineSuffixes: [string, string];
   linePrefixes: [string, string];

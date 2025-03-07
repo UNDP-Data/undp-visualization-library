@@ -30,7 +30,6 @@ import {
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
-import { UNDPColorModule } from '../ColorPalette';
 import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
@@ -276,20 +275,21 @@ export function SingleGraphDashboard(props: Props) {
     );
   return (
     <div
+      className={`${
+        !graphSettings?.backgroundColor
+          ? 'bg-transparent '
+          : graphSettings?.backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
+        graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
+      } h-inherit ${mode || 'light'} ${graphSettings?.language || 'en'}`}
       style={{
         ...(graphSettings?.backgroundStyle || {}),
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: graphSettings?.width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: graphSettings?.width ? 0 : 1,
-        backgroundColor: !graphSettings?.backgroundColor
-          ? 'transparent'
-          : graphSettings?.backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : graphSettings?.backgroundColor,
+        ...(graphSettings?.backgroundColor &&
+        graphSettings?.backgroundColor !== true
+          ? { backgroundColor: graphSettings?.backgroundColor }
+          : {}),
       }}
       id={graphSettings?.graphId}
       ref={graphParentDiv}
@@ -298,7 +298,6 @@ export function SingleGraphDashboard(props: Props) {
           ? 'rtl'
           : undefined
       }
-      className={`${mode} ${graphSettings?.language || 'en'}`}
     >
       <div
         style={{
@@ -672,17 +671,7 @@ export function SingleGraphDashboard(props: Props) {
                           {d.allowSelectAll ? (
                             <button
                               type='button'
-                              style={{
-                                backgroundColor: 'transparent',
-                                border: 0,
-                                padding: 0,
-                                marginTop: '0.5rem',
-                                color:
-                                  UNDPColorModule[mode].primaryColors[
-                                    'blue-600'
-                                  ],
-                                cursor: 'pointer',
-                              }}
+                              className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
                               onClick={() => {
                                 handleFilterChange(d.filter, d.availableValues);
                               }}

@@ -111,12 +111,7 @@ export function SankeyChart(props: Props) {
     sortNodes = 'mostReadable',
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
   } = props;
 
@@ -214,17 +209,21 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       ref={graphParentDiv}

@@ -54,7 +54,7 @@ interface Props {
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks: number;
   minDate?: string | number;

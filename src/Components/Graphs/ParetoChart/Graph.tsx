@@ -30,7 +30,7 @@ interface Props {
   showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfYTicks: number;
   lineSuffix: string;

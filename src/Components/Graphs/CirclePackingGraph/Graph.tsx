@@ -46,7 +46,7 @@ interface Props {
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 

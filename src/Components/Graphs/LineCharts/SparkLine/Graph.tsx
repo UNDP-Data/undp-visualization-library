@@ -26,7 +26,7 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function Graph(props: Props) {

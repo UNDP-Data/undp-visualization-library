@@ -61,7 +61,7 @@ interface Props {
   mode: 'light' | 'dark';
   regressionLine: boolean | string;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfXTicks: number;
   noOfYTicks: number;

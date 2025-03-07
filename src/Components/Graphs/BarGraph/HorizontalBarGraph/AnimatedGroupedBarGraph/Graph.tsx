@@ -50,7 +50,7 @@ interface Props {
   mode: 'light' | 'dark';
   maxBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   barAxisTitle?: string;
   noOfTicks: number;

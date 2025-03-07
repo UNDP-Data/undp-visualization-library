@@ -113,12 +113,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
     barAxisTitle,
     noOfTicks = 5,
@@ -177,17 +172,21 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
 
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       ref={graphParentDiv}
@@ -195,7 +194,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
         ariaLabel ||
         `${
           graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a animated grouped bar chart showing data changes over time. ${
+        }This is an animated grouped bar chart showing data changes over time. ${
           graphDescription ? ` ${graphDescription}` : ''
         }`
       }

@@ -6,7 +6,6 @@ import {
 } from '@undp-data/undp-design-system-react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { MapEl } from './MapEl';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
 
@@ -73,17 +72,21 @@ export function GeoHubMapWithLayerSelection(props: Props) {
   );
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       aria-label={

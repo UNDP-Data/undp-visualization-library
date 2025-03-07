@@ -47,7 +47,7 @@ interface Props {
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   barAxisTitle?: string;
   noOfTicks: number;

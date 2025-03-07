@@ -18,7 +18,6 @@ import {
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
-import { UNDPColorModule } from '../ColorPalette';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
@@ -139,20 +138,20 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   }, [fetchDataHandler]);
   return (
     <div
+      className={`${
+        !dashboardLayout?.backgroundColor
+          ? 'bg-transparent '
+          : dashboardLayout?.backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }flex flex-col h-inherit w-full ml-auto mr-auto grow gap-4 ${
+        mode || 'light'
+      } ${dashboardLayout?.language || 'en'}`}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: 1,
-        gap: '1rem',
-        backgroundColor: !dashboardLayout.backgroundColor
-          ? 'transparent'
-          : dashboardLayout.backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : dashboardLayout.backgroundColor,
+        ...(dashboardLayout?.backgroundColor &&
+        dashboardLayout?.backgroundColor !== true
+          ? { backgroundColor: dashboardLayout?.backgroundColor }
+          : {}),
       }}
       id={dashboardId}
       dir={
@@ -160,7 +159,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           ? 'rtl'
           : undefined
       }
-      className={`${mode} ${dashboardLayout?.language || 'en'}`}
     >
       <div
         style={{
@@ -238,19 +236,15 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                   {d.columns.map((el, j) => (
                     <div
                       key={j}
+                      className='flex bg-transparent h-inherit grow min-w-60'
                       style={{
-                        display: 'flex',
                         width: `calc(${
                           (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
                         }% - ${
                           (TotalWidth(d.columns) - (el.columnWidth || 1)) /
                           TotalWidth(d.columns)
                         }rem)`,
-                        backgroundColor: 'transparent',
-                        minWidth: '280px',
-                        height: 'inherit',
                         minHeight: 'inherit',
-                        flexGrow: 1,
                       }}
                     >
                       <SingleGraphDashboard

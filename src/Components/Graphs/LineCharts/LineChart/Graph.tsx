@@ -52,7 +52,7 @@ interface Props {
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
   mode: 'light' | 'dark';
   regressionLine: boolean | string;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks: number;
   minDate?: string | number;

@@ -22,7 +22,6 @@ import {
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '../../Utils/fetchAndParseData';
-import { UNDPColorModule } from '../ColorPalette';
 import { getUniqValue } from '../../Utils/getUniqValue';
 import { GraphHeader } from '../Elements/GraphHeader';
 import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
@@ -182,20 +181,20 @@ export function MultiGraphDashboard(props: Props) {
   }, []);
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: 1,
-        gap: '1rem',
-        backgroundColor: !dashboardLayout.backgroundColor
-          ? 'transparent'
+      className={`${
+        !dashboardLayout.backgroundColor
+          ? 'bg-transparent '
           : dashboardLayout.backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : dashboardLayout.backgroundColor,
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto gap-4 flex flex-col w-full grow h-inherit ${
+        mode || 'light'
+      } ${dashboardLayout.language || 'en'}`}
+      style={{
+        ...(dashboardLayout.backgroundColor &&
+        dashboardLayout.backgroundColor !== true
+          ? { backgroundColor: dashboardLayout.backgroundColor }
+          : {}),
       }}
       id={dashboardId}
       dir={
@@ -203,7 +202,6 @@ export function MultiGraphDashboard(props: Props) {
           ? 'rtl'
           : undefined
       }
-      className={`${mode} ${dashboardLayout?.language || 'en'}`}
     >
       <div
         style={{
@@ -294,17 +292,7 @@ export function MultiGraphDashboard(props: Props) {
                           {d.allowSelectAll ? (
                             <button
                               type='button'
-                              style={{
-                                backgroundColor: 'transparent',
-                                border: 0,
-                                padding: 0,
-                                marginTop: '0.5rem',
-                                color:
-                                  UNDPColorModule[mode].primaryColors[
-                                    'blue-600'
-                                  ],
-                                cursor: 'pointer',
-                              }}
+                              className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
                               onClick={() => {
                                 handleFilterChange(d.filter, d.availableValues);
                               }}
@@ -349,19 +337,15 @@ export function MultiGraphDashboard(props: Props) {
                   {d.columns.map((el, j) => (
                     <div
                       key={j}
+                      className='flex bg-transparent h-inherit grow min-w-60'
                       style={{
-                        display: 'flex',
                         width: `calc(${
                           (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
                         }% - ${
                           (TotalWidth(d.columns) - (el.columnWidth || 1)) /
                           TotalWidth(d.columns)
                         }rem)`,
-                        backgroundColor: 'transparent',
-                        minWidth: '240px',
-                        height: 'inherit',
                         minHeight: 'inherit',
-                        flexGrow: 1,
                       }}
                     >
                       <SingleGraphDashboard

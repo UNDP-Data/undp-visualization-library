@@ -56,7 +56,7 @@ interface Props {
   intervalLineColors: [string, string];
   intervalAreaColor: string;
   intervalAreaOpacity: number;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks: number;
   minDate?: string | number;

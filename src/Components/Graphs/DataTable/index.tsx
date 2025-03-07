@@ -118,17 +118,21 @@ export function DataTable(props: Props) {
   }, [columnSortBy, sortDirection, data, filterOption]);
   return (
     <div
-      className={`ml-auto mr-auto flex flex-col ${
+      className={`${
+        !backgroundColor
+          ? 'bg-transparent '
+          : backgroundColor === true
+          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+          : ''
+      }ml-auto mr-auto flex flex-col ${
         width ? 'w-fit grow-0' : 'w-full grow'
       } h-inherit ${mode || 'light'} ${language || 'en'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
       style={{
         ...backgroundStyle,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
+        ...(backgroundColor && backgroundColor !== true
+          ? { backgroundColor }
+          : {}),
       }}
       id={graphID}
       aria-label={
@@ -199,13 +203,7 @@ export function DataTable(props: Props) {
                             {d.sortable ? (
                               <button
                                 type='button'
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  border: 0,
-                                  backgroundColor: 'transparent',
-                                  cursor: 'pointer',
-                                }}
+                                className='bg-transparent cursor-pointer p-0 m-0 border-0'
                                 onClick={() => {
                                   if (columnSortBy === d.columnId) {
                                     if (sortDirection === 'asc') {
@@ -234,13 +232,7 @@ export function DataTable(props: Props) {
                             {d.filterOptions && d.filterOptions.length ? (
                               <button
                                 type='button'
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  border: 0,
-                                  backgroundColor: 'transparent',
-                                  cursor: 'pointer',
-                                }}
+                                className='bg-transparent cursor-pointer m-0 p-0 border-0'
                                 onClick={event => {
                                   if (popupVisible === d.columnId) {
                                     setPopupVisible(undefined);
