@@ -397,7 +397,9 @@ export function Graph(props: Props) {
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <P
-                    className='text-xs md:text-xs mb-2 md:mb-2 p-0 mt-0 mx-0 leading-normal overflow-hidden'
+                    size='xs'
+                    marginBottom='xs'
+                    className='p-0 leading-normal overflow-hidden'
                     style={{
                       display: '-webkit-box',
                       WebkitLineClamp: '1',

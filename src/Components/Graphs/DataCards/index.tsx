@@ -276,7 +276,11 @@ export function DataCards(props: Props) {
                     width: cardSortingOptions.width || 'calc(25% - 0.75rem)',
                   }}
                 >
-                  <P className='text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm mb-2 md:mb-2'>
+                  <P
+                    marginBottom='xs'
+                    size='sm'
+                    className='text-primary-gray-700 dark:text-primary-gray-100'
+                  >
                     Sort by
                   </P>
                   <DropdownSelect
@@ -311,7 +315,11 @@ export function DataCards(props: Props) {
                   }}
                   key={i}
                 >
-                  <P className='text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm mb-2 md:mb-2'>
+                  <P
+                    marginBottom='xs'
+                    size='sm'
+                    className='text-primary-gray-700 dark:text-primary-gray-100'
+                  >
                     {d.label}
                   </P>
                   <DropdownSelect

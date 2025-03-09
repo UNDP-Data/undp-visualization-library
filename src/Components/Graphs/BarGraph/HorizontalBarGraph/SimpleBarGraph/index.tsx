@@ -118,7 +118,7 @@ export function HorizontalBarGraph(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
+    tooltipBackgroundStyle = {},
     detailsOnClick,
     barAxisTitle,
     noOfTicks = 5,

@@ -332,7 +332,7 @@ export function Graph(props: Props) {
                     >
                       {showLabels ? (
                         <p
-                          className='mb-0 md:mb-0 m-0 text-center leading-none'
+                          className='m-0 text-center leading-none'
                           style={{
                             fontSize: `${Math.min(
                               Math.max(

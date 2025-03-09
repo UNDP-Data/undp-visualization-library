@@ -35,7 +35,7 @@ export function Tooltip(props: Props) {
       }}
     >
       <div
-        className='text-sm leading-normal text-primary-white dark:text-primary-gray-700 m-0'
+        className='text-sm leading-normal text-primary-black dark:text-primary-white m-0'
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />
     </div>

@@ -110,8 +110,8 @@ export function StatCardFromData(props: Props) {
             }`}
           >
             <H3
-              marginBottom='lg'
-              className={`leading-none md:leading-none font-heading ${
+              marginBottom='base'
+              className={`leading-none font-heading ${
                 centerAlign
                   ? 'text-center'
                   : language === 'ar' || language === 'he'
@@ -166,7 +166,7 @@ export function StatCardFromData(props: Props) {
                   )}{' '}
               {year ? (
                 <span
-                  className='text-lg md:text-lg font-normal mt-0 mb-4'
+                  className='text-lg font-normal mt-0 mb-4'
                   style={{
                     marginLeft: '-8px',
                     lineHeight: '1.09',

@@ -21,8 +21,8 @@ export function GraphTitle(props: Props) {
   if (isDashboard)
     return (
       <H5
-        marginBottom='lg'
-        className='font-bold pb-3 md:pb-3 text-primary-gray-600 dark:text-primary-gray-400'
+        marginBottom='base'
+        className='font-bold pb-3 text-primary-gray-600 dark:text-primary-gray-400'
         aria-label='Dashboard title'
       >
         {text}

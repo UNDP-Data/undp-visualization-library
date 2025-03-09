@@ -196,7 +196,7 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            marginBottom={showValues ? 'xs' : 'none'}
+                            marginBottom={showValues ? '2xs' : 'none'}
                             size='sm'
                             leading='none'
                             className='text-right'
@@ -272,7 +272,7 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            marginBottom={showValues ? 'xs' : 'none'}
+                            marginBottom={showValues ? '2xs' : 'none'}
                             size='sm'
                             leading='none'
                             className='text-left'
@@ -291,7 +291,7 @@ export function Graph(props: Props) {
                         ) : null}
                         {showValues ? (
                           <p
-                            className='text-sm text-left md:text-sm mb-0 font-bold md:mb-0 leading-none md:leading-none'
+                            className='text-sm text-left mb-0 font-bold leading-none'
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,

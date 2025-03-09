@@ -87,16 +87,18 @@ export function Graph(props: Props) {
                 {subNote ? (
                   <P
                     marginBottom='none'
+                    size='base'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-base md:text-base text-center font-bold'
+                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {subNote}
                   </P>
                 ) : typeof mainText === 'string' || !mainText ? null : (
                   <P
+                    size='base'
                     marginBottom='none'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-base md:text-base text-center font-bold'
+                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {mainText.label}
                   </P>

@@ -140,7 +140,7 @@ export function UnitChart(props: Props) {
           ) : null}
           {note ? (
             <H2
-              marginBottom='xs'
+              marginBottom='2xs'
               className='text-primary-gray-700 dark:text-primary-gray-100 font-bold'
               style={{
                 width: width ? `${width}px` : '100%',

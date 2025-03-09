@@ -193,8 +193,9 @@ export function DataTable(props: Props) {
                         >
                           <div className='flex gap-2 justify-between items-center p-4'>
                             <P
+                              size='sm'
                               marginBottom='none'
-                              className={`text-sm md:text-sm w-fit grow text-${
+                              className={`w-fit grow text-${
                                 d.align || 'left'
                               } font-bold`}
                             >
@@ -322,10 +323,11 @@ export function DataTable(props: Props) {
                               {typeof d[el.columnId] === 'number' ? (
                                 <P
                                   marginBottom='none'
-                                  className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
+                                  size='sm'
+                                  className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
                                     el.chip
-                                      ? 'grow-0 rounded-sm p-2 md:p-2'
-                                      : 'grow rounded-none p-0 md:p-0'
+                                      ? 'grow-0 rounded-sm p-2'
+                                      : 'grow rounded-none p-0'
                                   } text-${d.align || 'left'}`}
                                   style={{
                                     backgroundColor: el.chip
@@ -356,10 +358,11 @@ export function DataTable(props: Props) {
                                         <P
                                           key={indx}
                                           marginBottom='none'
-                                          className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
+                                          size='sm'
+                                          className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
                                             el.chip
-                                              ? 'grow-0 rounded-sm p-2 md:p-2'
-                                              : 'grow rounded-none p-0 md:p-0'
+                                              ? 'grow-0 rounded-sm p-2'
+                                              : 'grow rounded-none p-0'
                                           } text-${d.align || 'left'}`}
                                           style={{
                                             backgroundColor: el.chip
@@ -384,10 +387,11 @@ export function DataTable(props: Props) {
                                 ) : (
                                   <P
                                     marginBottom='none'
-                                    className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm md:text-sm w-fit ${
+                                    size='sm'
+                                    className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
                                       el.chip
-                                        ? 'grow-0 rounded-sm p-2 md:p-2'
-                                        : 'grow rounded-none p-0 md:p-0'
+                                        ? 'grow-0 rounded-sm p-2'
+                                        : 'grow rounded-none p-0'
                                     } text-${el.align || 'left'}`}
                                     style={{
                                       backgroundColor: el.chip
@@ -429,7 +433,7 @@ export function DataTable(props: Props) {
             className='absolute p-3 border z-[1000] rounded-sm bg-primary-white dark:bg-primary-gray-700 border-primary-gray-300 dark:border-primary-gray-550'
           >
             <div className='max-w-60'>
-              <P size='sm' marginBottom='xs' className='font-bold'>
+              <P size='sm' marginBottom='2xs' className='font-bold'>
                 Filter data by
               </P>
               <div className='flex flex-col gap-2'>

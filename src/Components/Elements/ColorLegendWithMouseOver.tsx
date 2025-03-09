@@ -36,7 +36,7 @@ export function ColorLegendWithMouseOver(props: Props) {
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P
             size='sm'
-            marginBottom='xs'
+            marginBottom='2xs'
             className={isCenter ? 'text-center' : ''}
           >
             {colorLegendTitle}
@@ -83,7 +83,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   backgroundColor: UNDPColorModule[mode].graphGray,
                 }}
               />
-              <P size='sm' marginBottom='xs'>
+              <P size='sm' marginBottom='2xs'>
                 NA
               </P>
             </div>

@@ -34,7 +34,7 @@ export function ColorLegend(props: Props) {
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P
             size='sm'
-            marginBottom='xs'
+            marginBottom='2xs'
             className={isCenter ? 'text-center' : ''}
           >
             {colorLegendTitle}

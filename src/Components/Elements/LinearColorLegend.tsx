@@ -19,7 +19,7 @@ export function LinearColorLegend(props: Props) {
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
-        <P size='sm' marginBottom='xs' className='w-full text-center'>
+        <P size='sm' marginBottom='2xs' className='w-full text-center'>
           {colorLegendTitle}
         </P>
       ) : null}
