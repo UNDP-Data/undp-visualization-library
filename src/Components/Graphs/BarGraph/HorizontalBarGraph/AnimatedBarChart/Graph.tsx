@@ -49,7 +49,6 @@ interface Props {
   indx: number;
   autoSort: boolean;
   rtl: boolean;
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
@@ -90,7 +89,6 @@ export function Graph(props: Props) {
     indx,
     autoSort,
     rtl,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -301,7 +299,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : barColor[colorDomain.indexOf(d.color)],
                   }}
                   height={y.bandwidth()}
@@ -317,7 +315,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : barColor[colorDomain.indexOf(d.color)],
                   }}
                   transition={{ duration: 0.5 }}
@@ -351,18 +349,22 @@ export function Graph(props: Props) {
                   <motion.text
                     y={0}
                     style={{
-                      fill:
-                        valueColor ||
-                        (barColor.length > 1
-                          ? UNDPColorModule[mode].grays['gray-600']
-                          : barColor[0]),
+                      ...(valueColor
+                        ? { fill: valueColor }
+                        : barColor.length > 1
+                        ? {}
+                        : { fill: barColor[0] }),
                       textAnchor: d.size
                         ? d.size < 0
                           ? 'end'
                           : 'start'
                         : 'start',
                     }}
-                    className='text-sm'
+                    className={`text-sm${
+                      !valueColor && barColor.length > 1
+                        ? ' fill-primary-gray-600 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
                     animate={{
                       x: d.size ? x(d.size) : x(0),
@@ -389,9 +391,9 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className={`undp-ref-line${
+                    className={`undp-ref-line ${
                       !el.color
-                        ? ' stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
                         : ''
                     }`}
                     style={{

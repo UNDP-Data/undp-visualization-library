@@ -8,7 +8,6 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 import { Tooltip } from '../../Elements/Tooltip';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
 
 interface Props {
@@ -33,7 +32,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -62,7 +60,6 @@ export function Graph(props: Props) {
     showRowLabels,
     selectedColor,
     onSeriesMouseClick,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -117,12 +114,7 @@ export function Graph(props: Props) {
                   height={margin.top}
                 >
                   <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
-                    <p
-                      className='text-base text-center leading-tight m-0'
-                      style={{
-                        color: UNDPColorModule[mode].grays['gray-600'],
-                      }}
-                    >
+                    <p className='text-base text-center leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
                       {`${d}`.length < truncateBy
                         ? `${d}`
                         : `${`${d}`.substring(0, truncateBy)}...`}
@@ -143,12 +135,7 @@ export function Graph(props: Props) {
                   height={barHeight}
                 >
                   <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
-                    <p
-                      className='text-base text-right leading-tight m-0'
-                      style={{
-                        color: UNDPColorModule[mode].grays['gray-600'],
-                      }}
-                    >
+                    <p className='text-base text-right leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
                       {`${d}`.length < truncateBy
                         ? `${d}`
                         : `${`${d}`.substring(0, truncateBy)}...`}

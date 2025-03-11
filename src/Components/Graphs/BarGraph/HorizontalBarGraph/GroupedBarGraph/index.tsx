@@ -190,7 +190,6 @@ export function HorizontalGroupedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -233,7 +232,6 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   labelOrder={labelOrder}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

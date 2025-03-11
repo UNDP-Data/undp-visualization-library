@@ -307,7 +307,6 @@ export function AnimatedDotDensityMap(props: Props) {
                 showAntarctica={showAntarctica}
                 dateFormat={dateFormat}
                 indx={index}
-                mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
                 detailsOnClick={detailsOnClick}

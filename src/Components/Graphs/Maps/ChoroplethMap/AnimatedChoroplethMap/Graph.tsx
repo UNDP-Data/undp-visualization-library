@@ -11,7 +11,6 @@ import { Modal } from '@undp-data/undp-design-system-react';
 import { ChoroplethMapWithDateDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
@@ -41,7 +40,6 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -74,7 +72,6 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -358,9 +355,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={masterPath}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -383,9 +379,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={path}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -401,15 +396,7 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div className='undp-viz-bivariate-legend-container relative'>
-          <div
-            className='flex p-4 items-end mb-3'
-            style={{
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-            }}
-          >
+          <div className='self-start flex mb-3 undp-viz-bivariate-legend'>
             <div className='relative z-5 p-0'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
@@ -450,12 +437,16 @@ export function Graph(props: Props) {
                               : 320 / colors.length - 2
                           }
                           height={8}
+                          className={
+                            selectedColor === colors[i]
+                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }
                           style={{
                             fill: colors[i],
-                            stroke:
-                              selectedColor === colors[i]
-                                ? UNDPColorModule[mode].grays['gray-700']
-                                : colors[i],
+                            ...(selectedColor === colors[i]
+                              ? {}
+                              : { stroke: colors[i] }),
                           }}
                         />
                         <text
@@ -489,15 +480,17 @@ export function Graph(props: Props) {
                           y={1}
                           width={320 / colors.length - 2}
                           height={8}
+                          className={`cursor-pointer ${
+                            selectedColor === colors[domain.length]
+                              ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }`}
                           style={{
                             fill: colors[domain.length],
-                            stroke:
-                              selectedColor === colors[domain.length]
-                                ? UNDPColorModule[mode].grays['gray-700']
-                                : colors[domain.length],
-                            strokeWidth: 1,
+                            ...(selectedColor === colors[domain.length]
+                              ? {}
+                              : { stroke: colors[domain.length] }),
                           }}
-                          className='cursor-pointer'
                         />
                       </g>
                     )}

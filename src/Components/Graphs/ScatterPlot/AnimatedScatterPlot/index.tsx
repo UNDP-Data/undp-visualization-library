@@ -296,7 +296,6 @@ export function AnimatedScatterPlot(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -367,7 +366,6 @@ export function AnimatedScatterPlot(props: Props) {
                   rtl={language === 'he' || language === 'ar'}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

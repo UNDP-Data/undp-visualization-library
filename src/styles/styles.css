@@ -8,12 +8,33 @@
   align-items: flex-end;
 }
 
+.undp-viz-bivariate-legend {
+  background-color: rgba(255,255,255,0.75);
+}
+
+.dark .undp-viz-bivariate-legend {
+  background-color: rgba(255,255,255,0.05);
+}
+
 @media (min-width: 961px) {    
   .undp-viz-bivariate-legend-container {
     translate: 0 -100%;
     width: fit-content;
     background-color: rgba(255,255,255, 0.75);
   }
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px black;
+  text-shadow: none;
+}
+
+.dark .text-outline{
+  -webkit-text-stroke: 2px white;
+}
+
+.transparent{
+  color: transparent;
 }
 
 .undp-viz-low-opacity {

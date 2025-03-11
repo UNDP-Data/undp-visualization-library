@@ -6,7 +6,6 @@ import Draggable, { DraggableData } from 'react-draggable';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
 import { ChevronLeftRight } from '../../../Icons/Icons';
-import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   width: number;
@@ -14,7 +13,6 @@ interface Props {
   mapStyles: [string, string];
   center: [number, number];
   zoomLevel: number;
-  mode: 'light' | 'dark';
 }
 
 function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
@@ -48,7 +46,7 @@ function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
 }
 
 export function Graph(props: Props) {
-  const { height, width, mapStyles, center, zoomLevel, mode } = props;
+  const { height, width, mapStyles, center, zoomLevel } = props;
   const [sliderPosition, setSliderPosition] = useState(width / 2);
   const graphDiv = useRef<HTMLDivElement>(null);
   const leftMapRef = useRef<HTMLDivElement>(null);
@@ -163,10 +161,8 @@ export function Graph(props: Props) {
               }}
             >
               <div
-                className='flex rounded-full absolute items-center justify-center text-primary-white'
+                className='flex bg-primary-blue-600 dark:bg-primary-blue-400 rounded-full absolute items-center justify-center text-primary-white'
                 style={{
-                  backgroundColor:
-                    UNDPColorModule[mode].primaryColors['blue-600'],
                   boxShadow: 'inset 0 0 0 1px #fff',
                   width: '42px',
                   height: '42px',

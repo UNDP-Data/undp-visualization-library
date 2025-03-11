@@ -253,7 +253,7 @@ export const Graph = memo((props: Props) => {
       data.filter(el => el.color).length === 0
         ? colors[0]
         : !d.color
-        ? UNDPColorModule[mode].graphGray
+        ? UNDPColorModule.gray
         : colors[colorDomain.indexOf(d.color)],
     [data, colors, mode, colorDomain],
   );

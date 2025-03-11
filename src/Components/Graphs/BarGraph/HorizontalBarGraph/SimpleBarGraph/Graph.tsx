@@ -40,7 +40,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   labelOrder?: string[];
   rtl: boolean;
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
@@ -79,7 +78,6 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     labelOrder,
     rtl,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -266,7 +264,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? barColor[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : barColor[colorDomain.indexOf(d.color)],
                     }}
                     height={y.bandwidth()}
@@ -297,18 +295,22 @@ export function Graph(props: Props) {
                     x={d.size ? x(d.size) : x(0)}
                     y={(y(d.id) as number) + y.bandwidth() / 2}
                     style={{
-                      fill:
-                        valueColor ||
-                        (barColor.length > 1
-                          ? UNDPColorModule[mode].grays['gray-600']
-                          : barColor[0]),
+                      ...(valueColor
+                        ? { fill: valueColor }
+                        : barColor.length > 1
+                        ? {}
+                        : { fill: barColor[0] }),
                       textAnchor: d.size
                         ? d.size < 0
                           ? 'end'
                           : 'start'
                         : 'start',
                     }}
-                    className='text-sm'
+                    className={`text-sm${
+                      !valueColor && barColor.length > 1
+                        ? ' fill-primary-gray-600 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
                     dy={5}
                   >
@@ -345,13 +347,18 @@ export function Graph(props: Props) {
                           x={x(xMinValue < 0 ? 0 : xMinValue)}
                           y={(y(d) as number) + y.bandwidth() / 2}
                           style={{
-                            fill:
-                              barColor.length > 1
-                                ? UNDPColorModule[mode].grays['gray-600']
-                                : barColor[0],
+                            ...(valueColor
+                              ? { fill: valueColor }
+                              : barColor.length > 1
+                              ? {}
+                              : { fill: barColor[0] }),
                             textAnchor: 'start',
                           }}
-                          className='text-sm'
+                          className={`text-sm${
+                            !valueColor && barColor.length > 1
+                              ? ' fill-primary-gray-600 dark:fill-primary-gray-300'
+                              : ''
+                          }`}
                           dx={5}
                           dy={5}
                         >
@@ -374,10 +381,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { stroke: el.color }),
                     }}
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom}
@@ -388,13 +398,17 @@ export function Graph(props: Props) {
                     y={0 - margin.top}
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { fill: el.color }),
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
-                    className='text-xs font-bold'
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={12.5}
                     dx={
                       x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5

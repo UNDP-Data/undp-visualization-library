@@ -276,7 +276,6 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -339,7 +338,6 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   indx={index}
                   autoSort={autoSort}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

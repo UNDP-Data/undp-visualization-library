@@ -245,7 +245,6 @@ export function MultiLineChart(props: Props) {
                   showDots={showDots}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
-                  mode={mode}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   yAxisTitle={yAxisTitle}
                   noOfYTicks={noOfYTicks}

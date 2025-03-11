@@ -2,7 +2,6 @@ import { H3 } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { UNDPColorModule } from '../../ColorPalette';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../Types';
 
 interface Props {
@@ -99,26 +98,19 @@ export function BasicStatCard(props: Props) {
           >
             <H3
               marginBottom='base'
-              className={`leading-none font-heading ${
+              className={`leading-none text-outline font-heading ${
                 centerAlign
                   ? 'text-center'
                   : language === 'he' || language === 'ar'
                   ? 'text-right'
                   : 'text-left'
+              } ${
+                textBackground
+                  ? 'text-primary-black dark:text-primary-white'
+                  : 'transparent'
               }`}
               style={{
                 fontSize: headingFontSize,
-                textShadow: 'none',
-                WebkitTextStroke: textBackground
-                  ? undefined
-                  : `2px ${UNDPColorModule[mode].grays.black}`,
-                color: textBackground
-                  ? UNDPColorModule[mode].grays.black
-                  : !backgroundColor
-                  ? 'rgba(0,0,0,0)'
-                  : backgroundColor === true
-                  ? UNDPColorModule[mode].grays['gray-200']
-                  : backgroundColor,
                 letterSpacing: '0.05rem',
               }}
             >
@@ -127,13 +119,12 @@ export function BasicStatCard(props: Props) {
                 : numberFormattingFunction(value, prefix, suffix)}{' '}
               {year ? (
                 <span
-                  className='text-lg font-normal mt-0 mb-4'
+                  className='text-lg font-normal mt-0 mb-4 text-primary-gray-550 dark:text-primary-gray-400'
                   style={{
                     marginLeft: '-8px',
                     lineHeight: '1.09',
                     textShadow: 'none',
-                    WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
-                    color: UNDPColorModule[mode].grays['gray-550'],
+                    WebkitTextStrokeWidth: 0,
                   }}
                 >
                   ({year})

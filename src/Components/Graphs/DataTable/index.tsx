@@ -19,7 +19,6 @@ import {
   SortingIconAscending,
   SortingIconDescending,
 } from '../../Icons/Icons';
-import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   graphTitle?: string;
@@ -171,12 +170,7 @@ export function DataTable(props: Props) {
                   className='w-full'
                   style={{ borderCollapse: 'collapse' }}
                 >
-                  <thead
-                    className='text-left'
-                    style={{
-                      backgroundColor: UNDPColorModule[mode].grays['gray-300'],
-                    }}
-                  >
+                  <thead className='text-left bg-primary-gray-300 dark:bg-primary-gray-550'>
                     <tr>
                       {columnData?.map((d, i) => (
                         <th
@@ -274,13 +268,11 @@ export function DataTable(props: Props) {
                         key={i}
                         className={`cursor-${
                           onSeriesMouseClick ? 'pointer' : 'auto'
+                        } border-b border-b-primary-gray-400 dark:border-b-primary-gray-500 ${
+                          isEqual(mouseClickData, d)
+                            ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
+                            : 'bg-transparent'
                         }`}
-                        style={{
-                          borderBottom: `1px solid ${UNDPColorModule[mode].grays['gray-400']}`,
-                          backgroundColor: isEqual(mouseClickData, d)
-                            ? UNDPColorModule[mode].grays['gray-200']
-                            : 'transparent',
-                        }}
                         onClick={() => {
                           if (onSeriesMouseClick) {
                             if (
@@ -328,19 +320,24 @@ export function DataTable(props: Props) {
                                     el.chip
                                       ? 'grow-0 rounded-sm p-2'
                                       : 'grow rounded-none p-0'
-                                  } text-${d.align || 'left'}`}
+                                  } text-${d.align || 'left'} ${
+                                    el.chip
+                                      ? !el.chipColors
+                                        ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                        : ''
+                                      : 'bg-transparent'
+                                  }`}
                                   style={{
-                                    backgroundColor: el.chip
-                                      ? el.chipColors
-                                        ? el.chipColors[
-                                            el.chipColors.findIndex(
-                                              c => c.value === d[el.columnId],
-                                            )
-                                          ].color
-                                        : UNDPColorModule[mode].grays[
-                                            'gray-300'
-                                          ]
-                                      : 'transparent',
+                                    ...(el.chip && el.chipColors
+                                      ? {
+                                          backgroundColor:
+                                            el.chipColors[
+                                              el.chipColors.findIndex(
+                                                c => c.value === d[el.columnId],
+                                              )
+                                            ].color,
+                                        }
+                                      : {}),
                                   }}
                                 >
                                   {numberFormattingFunction(
@@ -363,21 +360,26 @@ export function DataTable(props: Props) {
                                             el.chip
                                               ? 'grow-0 rounded-sm p-2'
                                               : 'grow rounded-none p-0'
-                                          } text-${d.align || 'left'}`}
+                                          } text-${d.align || 'left'} ${
+                                            el.chip
+                                              ? !el.chipColors
+                                                ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                                : ''
+                                              : 'bg-transparent'
+                                          }`}
                                           style={{
-                                            backgroundColor: el.chip
-                                              ? el.chipColors
-                                                ? el.chipColors[
-                                                    el.chipColors.findIndex(
-                                                      c =>
-                                                        c.value ===
-                                                        d[el.columnId],
-                                                    )
-                                                  ].color
-                                                : UNDPColorModule[mode].grays[
-                                                    'gray-300'
-                                                  ]
-                                              : 'transparent',
+                                            ...(el.chip && el.chipColors
+                                              ? {
+                                                  backgroundColor:
+                                                    el.chipColors[
+                                                      el.chipColors.findIndex(
+                                                        c =>
+                                                          c.value ===
+                                                          d[el.columnId],
+                                                      )
+                                                    ].color,
+                                                }
+                                              : {}),
                                           }}
                                         >{`${el.prefix || ''}${element}${
                                           el.suffix || ''
@@ -392,19 +394,25 @@ export function DataTable(props: Props) {
                                       el.chip
                                         ? 'grow-0 rounded-sm p-2'
                                         : 'grow rounded-none p-0'
-                                    } text-${el.align || 'left'}`}
+                                    } text-${el.align || 'left'} ${
+                                      el.chip
+                                        ? !el.chipColors
+                                          ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                          : ''
+                                        : 'bg-transparent'
+                                    }`}
                                     style={{
-                                      backgroundColor: el.chip
-                                        ? el.chipColors
-                                          ? el.chipColors[
-                                              el.chipColors.findIndex(
-                                                c => c.value === d[el.columnId],
-                                              )
-                                            ].color
-                                          : UNDPColorModule[mode].grays[
-                                              'gray-300'
-                                            ]
-                                        : 'transparent',
+                                      ...(el.chip && el.chipColors
+                                        ? {
+                                            backgroundColor:
+                                              el.chipColors[
+                                                el.chipColors.findIndex(
+                                                  c =>
+                                                    c.value === d[el.columnId],
+                                                )
+                                              ].color,
+                                          }
+                                        : {}),
                                     }}
                                   >{`${el.prefix || ''}${d[el.columnId]}${
                                     el.suffix || ''

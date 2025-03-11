@@ -198,7 +198,6 @@ export function HorizontalStripChart(props: Props) {
                     ? true
                     : showNAColor
                 }
-                mode={mode}
               />
             ) : null}
             <div
@@ -256,7 +255,6 @@ export function HorizontalStripChart(props: Props) {
                   stripType={stripType}
                   highlightColor={highlightColor}
                   dotOpacity={dotOpacity}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

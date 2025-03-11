@@ -41,7 +41,6 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -74,7 +73,6 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -203,7 +201,7 @@ export function Graph(props: Props) {
                 data.filter(el => el.color).length === 0
                   ? colors[0]
                   : !d.color
-                  ? UNDPColorModule[mode].graphGray
+                  ? UNDPColorModule.gray
                   : colors[colorDomain.indexOf(`${d.color}`)];
               return (
                 <g
@@ -267,13 +265,13 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       stroke:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                     }}
                     transition={{ duration: 0.5 }}
@@ -313,15 +311,7 @@ export function Graph(props: Props) {
       {data.filter(el => el.color).length === 0 ||
       showColorScale === false ? null : (
         <div className='undp-viz-bivariate-legend-container sticky bottom-0'>
-          <div
-            className='flex items-end mb-3 p-4'
-            style={{
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-            }}
-          >
+          <div className='flex items-end mb-3 p-4 undp-viz-bivariate-legend'>
             <div className='relative z-10 p-0'>
               <div>
                 {colorLegendTitle ? (
@@ -354,12 +344,16 @@ export function Graph(props: Props) {
                           y={1}
                           width={320 / colorDomain.length - 2}
                           height={8}
+                          className={
+                            selectedColor === colors[i]
+                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }
                           style={{
                             fill: colors[i],
-                            stroke:
-                              selectedColor === colors[i]
-                                ? UNDPColorModule[mode].grays['gray-700']
-                                : colors[i],
+                            ...(selectedColor === colors[i]
+                              ? {}
+                              : { stroke: colors[i] }),
                           }}
                         />
                         <text

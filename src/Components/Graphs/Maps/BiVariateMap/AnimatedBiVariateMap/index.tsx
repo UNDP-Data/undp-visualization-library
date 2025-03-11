@@ -298,7 +298,6 @@ export function AnimatedBiVariantMap(props: Props) {
                 highlightedCountryCodes={highlightedCountryCodes}
                 dateFormat={dateFormat}
                 indx={index}
-                mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
                 detailsOnClick={detailsOnClick}

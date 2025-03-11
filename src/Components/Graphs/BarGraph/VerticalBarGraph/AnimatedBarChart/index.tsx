@@ -276,7 +276,6 @@ export function AnimatedVerticalBarChart(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -338,7 +337,6 @@ export function AnimatedVerticalBarChart(props: Props) {
                   dateFormat={dateFormat}
                   indx={index}
                   autoSort={autoSort}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

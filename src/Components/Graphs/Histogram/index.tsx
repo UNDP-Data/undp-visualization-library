@@ -134,7 +134,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -170,7 +170,7 @@ export function Histogram(props: Props) {
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -244,7 +244,7 @@ export function Histogram(props: Props) {
   if (barGraphLayout === 'horizontal')
     return (
       <HorizontalBarGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -286,7 +286,7 @@ export function Histogram(props: Props) {
     );
   return (
     <VerticalBarGraph
-      colors={color || UNDPColorModule[mode].graphMainColor}
+      colors={color || UNDPColorModule.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}

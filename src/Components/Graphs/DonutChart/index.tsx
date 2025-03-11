@@ -219,7 +219,7 @@ export function DonutChart(props: Props) {
                                         .colors
                                     ).length
                                 ]
-                              : UNDPColorModule[mode].graphGray,
+                              : UNDPColorModule.gray,
                         }}
                       />
                       <P
@@ -282,7 +282,6 @@ export function DonutChart(props: Props) {
                     colorDomain={colorDomain || sortedData.map(d => d.label)}
                     onSeriesMouseOver={onSeriesMouseOver}
                     onSeriesMouseClick={onSeriesMouseClick}
-                    mode={mode}
                     resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                     tooltipBackgroundStyle={tooltipBackgroundStyle}
                     detailsOnClick={detailsOnClick}

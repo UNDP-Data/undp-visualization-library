@@ -12,7 +12,6 @@ import { BivariateMapWithDateDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { X } from '../../../../Icons/Icons';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
@@ -42,7 +41,6 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -75,7 +73,6 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -304,11 +301,12 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={masterPath}
+                            className={`${
+                              color === mapNoDataColor
+                                ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                                : 'stroke-primary-white dark:stroke-primary-gray-650'
+                            }`}
                             style={{
-                              stroke:
-                                color === mapNoDataColor
-                                  ? UNDPColorModule[mode].grays['gray-400']
-                                  : '#fff',
                               strokeWidth: mapBorderWidth,
                               fill: color,
                             }}
@@ -332,11 +330,12 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={path}
+                            className={`${
+                              color === mapNoDataColor
+                                ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                                : 'stroke-primary-white dark:stroke-primary-gray-650'
+                            }`}
                             style={{
-                              stroke:
-                                color === mapNoDataColor
-                                  ? UNDPColorModule[mode].grays['gray-400']
-                                  : '#fff',
                               strokeWidth: mapBorderWidth,
                               fill: color,
                             }}
@@ -376,9 +375,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={masterPath}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -401,9 +399,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={path}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode].grays['gray-700'],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -419,15 +416,7 @@ export function Graph(props: Props) {
       </svg>
       {showLegend ? (
         <div className='undp-viz-bivariate-legend-container relative'>
-          <div
-            className='self-start flex mb-3'
-            style={{
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-            }}
-          >
+          <div className='self-start flex mb-3 undp-viz-bivariate-legend'>
             <div className='items-end flex'>
               <div className='relative py-3 pb-3 pt-14 z-10'>
                 <div className='flex pointer-events-auto'>
@@ -446,12 +435,12 @@ export function Graph(props: Props) {
                                 style={{
                                   fill: el,
                                   strokeWidth: selectedColor === el ? 2 : 0.25,
-                                  stroke:
-                                    selectedColor === el
-                                      ? UNDPColorModule[mode].grays['gray-700']
-                                      : '#fff',
                                 }}
-                                className='cursor-pointer'
+                                className={`cursor-pointer ${
+                                  selectedColor === el
+                                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                    : 'stroke-primary-white dark:stroke-primary-gray-700'
+                                }`}
                                 onMouseOver={() => {
                                   setSelectedColor(el);
                                 }}
@@ -506,13 +495,12 @@ export function Graph(props: Props) {
                       </g>
                     </svg>
                     <div
-                      className='text-xs non-italic text-center mt-2'
+                      className='text-xs non-italic text-center mt-2 text-primary-gray-700 dark:text-primary-gray-300'
                       style={{
                         lineHeight: 'normal',
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
-                        color: UNDPColorModule[mode].grays['gray-700'],
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                       }}
@@ -521,11 +509,10 @@ export function Graph(props: Props) {
                     </div>
                   </div>
                   <div
-                    className='text-xs non-italic text-center mt-2 absolute'
+                    className='text-xs non-italic text-center mt-2 absolute text-primary-gray-700 dark:text-primary-gray-300'
                     style={{
                       lineHeight: 'normal',
                       width: '8.125rem',
-                      color: UNDPColorModule[mode].grays['gray-700'],
                       display: '-webkit-box',
                       top: '80px',
                       translate: '75% -50%',
@@ -559,14 +546,7 @@ export function Graph(props: Props) {
             setShowLegend(true);
           }}
         >
-          <div
-            className='flex items-start text-sm font-bold cursor-pointer uppercase p-2 mb-3'
-            style={{
-              border: `1px solid ${UNDPColorModule[mode].grays['gray-400']}`,
-              color: UNDPColorModule[mode].grays['gray-600'],
-              backgroundColor: UNDPColorModule[mode].grays['gray-300'],
-            }}
-          >
+          <div className='self-start bg-primary-gray-300 dark:bg-primary-gray-600 border border-primary-gray-400 dark:border-primary-gray-500 text-primary-gray-600 dark:text-primary-gray-300 leading-normal font-bold uppercase cursor-pointer p-2 text-sm mb-3 flex'>
             Show Legend
           </div>
         </button>

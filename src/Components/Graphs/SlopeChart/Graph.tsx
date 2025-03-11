@@ -30,7 +30,6 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -57,7 +56,6 @@ export function Graph(props: Props) {
     minValue,
     maxValue,
     onSeriesMouseClick,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -214,13 +212,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
@@ -232,7 +230,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
                     }}
@@ -252,7 +250,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
                       }}
@@ -275,13 +273,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
@@ -293,7 +291,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
                     }}
@@ -313,7 +311,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
                       }}
@@ -338,7 +336,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule[mode].graphGray
+                        ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
                   }}

@@ -262,7 +262,6 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -307,7 +306,6 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
                   sortParameter={sortParameter}
                   autoSort={autoSort}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

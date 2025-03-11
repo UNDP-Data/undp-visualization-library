@@ -231,15 +231,19 @@ export function UnitChart(props: Props) {
                         }
                         style={{
                           fill: d.color,
-                          stroke:
-                            (d.color.toLowerCase() === '#fff' ||
-                              d.color.toLowerCase() === '#ffffff' ||
-                              d.color.toLowerCase() === 'white') &&
-                            showStrokeForWhiteDots
-                              ? UNDPColorModule[mode].grays['gray-400']
-                              : d.color,
+                          ...(!showStrokeForWhiteDots
+                            ? { stroke: d.color }
+                            : {}),
                           strokeWidth: 1,
                         }}
+                        className={
+                          (d.color.toLowerCase() === '#fff' ||
+                            d.color.toLowerCase() === '#ffffff' ||
+                            d.color.toLowerCase() === 'white') &&
+                          showStrokeForWhiteDots
+                            ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                            : ''
+                        }
                         r={radius}
                       />
                     ))}

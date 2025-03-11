@@ -261,7 +261,6 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -305,7 +304,6 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
                   indx={index}
                   sortParameter={sortParameter}
                   autoSort={autoSort}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

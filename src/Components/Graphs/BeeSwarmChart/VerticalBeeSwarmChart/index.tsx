@@ -192,7 +192,6 @@ export function VerticalBeeSwarmChart(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -249,7 +248,6 @@ export function VerticalBeeSwarmChart(props: Props) {
                   minPositionValue={minPositionValue}
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

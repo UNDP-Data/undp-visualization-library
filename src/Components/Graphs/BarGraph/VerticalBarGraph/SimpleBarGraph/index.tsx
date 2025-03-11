@@ -212,7 +212,6 @@ export function VerticalBarGraph(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -286,7 +285,6 @@ export function VerticalBarGraph(props: Props) {
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

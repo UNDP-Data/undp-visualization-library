@@ -229,7 +229,6 @@ export function ScatterPlot(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -298,7 +297,6 @@ export function ScatterPlot(props: Props) {
                   rtl={language === 'he' || language === 'ar'}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
-                  mode={mode}
                   regressionLine={regressionLine}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

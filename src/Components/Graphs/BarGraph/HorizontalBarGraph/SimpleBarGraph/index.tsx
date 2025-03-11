@@ -212,7 +212,6 @@ export function HorizontalBarGraph(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -287,7 +286,6 @@ export function HorizontalBarGraph(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   labelOrder={labelOrder}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

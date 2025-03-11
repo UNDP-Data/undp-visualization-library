@@ -194,7 +194,6 @@ export function CirclePackingGraph(props: Props) {
                     : showNAColor
                 }
                 isCenter
-                mode={mode}
               />
             ) : null}
             <div

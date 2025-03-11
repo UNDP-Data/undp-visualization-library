@@ -88,7 +88,7 @@ export function HeatMap(props: Props) {
     relativeHeight,
     showValues,
     graphID,
-    noDataColor = UNDPColorModule.light.graphGray,
+    noDataColor = UNDPColorModule.gray,
     showColorScale = true,
     onSeriesMouseClick,
     graphDownload = false,
@@ -208,7 +208,6 @@ export function HeatMap(props: Props) {
                     colorDomain={domain.map(d => `${d}`)}
                     setSelectedColor={setSelectedColor}
                     showNAColor={showNAColor}
-                    mode={mode}
                   />
                 </div>
               ) : scale === 'threshold' ? (
@@ -236,7 +235,6 @@ export function HeatMap(props: Props) {
                     colorDomain={domain as number[]}
                     setSelectedColor={setSelectedColor}
                     naColor={noDataColor}
-                    mode={mode}
                   />
                 </div>
               ) : (
@@ -311,7 +309,6 @@ export function HeatMap(props: Props) {
                   suffix={suffix}
                   prefix={prefix}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

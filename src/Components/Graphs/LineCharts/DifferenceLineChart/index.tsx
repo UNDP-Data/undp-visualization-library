@@ -253,7 +253,6 @@ export function DifferenceLineChart(props: Props) {
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  mode={mode}
                   yAxisTitle={yAxisTitle}
                   noOfYTicks={noOfYTicks}
                   minDate={minDate}

@@ -265,7 +265,6 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='flex grow w-full justify-center leading-0'

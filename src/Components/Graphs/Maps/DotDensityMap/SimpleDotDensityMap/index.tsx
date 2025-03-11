@@ -237,7 +237,6 @@ export function DotDensityMap(props: Props) {
                 onSeriesMouseClick={onSeriesMouseClick}
                 highlightedDataPoints={highlightedDataPoints}
                 showAntarctica={showAntarctica}
-                mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
                 detailsOnClick={detailsOnClick}

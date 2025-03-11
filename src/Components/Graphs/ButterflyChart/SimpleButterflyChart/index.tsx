@@ -225,7 +225,6 @@ export function ButterflyChart(props: Props) {
                   showTicks={showTicks}
                   suffix={suffix}
                   prefix={prefix}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

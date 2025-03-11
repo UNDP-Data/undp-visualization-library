@@ -19,7 +19,6 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -37,7 +36,6 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     onSeriesMouseClick,
     colorDomain,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -124,7 +122,7 @@ export function Graph(props: Props) {
                         colorDomain.indexOf((d.data as any).label) %
                           colors.length
                       ]
-                    : UNDPColorModule[mode].graphGray,
+                    : UNDPColorModule.gray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1

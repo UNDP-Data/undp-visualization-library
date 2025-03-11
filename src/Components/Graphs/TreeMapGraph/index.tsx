@@ -183,7 +183,6 @@ export function TreeMapGraph(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -236,7 +235,6 @@ export function TreeMapGraph(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   onSeriesMouseClick={onSeriesMouseClick}
                   highlightedDataPoints={highlightedDataPoints}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

@@ -196,7 +196,6 @@ export function HorizontalBeeSwarmChart(props: Props) {
                     ? true
                     : showNAColor
                 }
-                mode={mode}
               />
             ) : null}
             <div
@@ -254,7 +253,6 @@ export function HorizontalBeeSwarmChart(props: Props) {
                   highlightedDataPoints={highlightedDataPoints}
                   onSeriesMouseClick={onSeriesMouseClick}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

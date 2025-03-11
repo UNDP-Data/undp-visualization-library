@@ -221,7 +221,6 @@ export function SimpleLineChart(props: Props) {
                 showDots={showDots}
                 annotations={annotations}
                 customHighlightAreaSettings={customHighlightAreaSettings}
-                mode={mode}
                 regressionLine={regressionLine}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
                 yAxisTitle={yAxisTitle}

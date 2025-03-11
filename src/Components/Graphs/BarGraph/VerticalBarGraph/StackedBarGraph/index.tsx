@@ -195,7 +195,6 @@ export function VerticalStackedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -256,7 +255,6 @@ export function VerticalStackedBarGraph(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   selectedColor={selectedColor}
                   labelOrder={labelOrder}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

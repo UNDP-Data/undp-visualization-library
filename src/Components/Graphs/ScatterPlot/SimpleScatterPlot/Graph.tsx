@@ -58,7 +58,6 @@ interface Props {
   rtl: boolean;
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
-  mode: 'light' | 'dark';
   regressionLine: boolean | string;
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
@@ -104,7 +103,6 @@ export function Graph(props: Props) {
     rtl,
     annotations,
     customHighlightAreaSettings,
-    mode,
     regressionLine,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -255,14 +253,18 @@ export function Graph(props: Props) {
                     ),
                   )}
                   style={{
-                    fill:
-                      d.coordinates.length > 4
-                        ? d.color || UNDPColorModule[mode].grays['gray-300']
-                        : 'none',
                     strokeWidth: d.strokeWidth || 0,
-                    stroke: d.color || UNDPColorModule[mode].grays['gray-300'],
+                    ...(d.coordinates.length > 4
+                      ? d.color && { fill: d.color }
+                      : { fill: 'none' }),
+                    ...(d.color && { stroke: d.color }),
                     strokeDasharray: d.dashedStroke ? '4,4' : 'none',
                   }}
+                  className={
+                    !d.color
+                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550 fill-primary-gray-300 dark:fill-primary-gray-550'
+                      : ''
+                  }
                 />
               ) : (
                 <line
@@ -271,11 +273,16 @@ export function Graph(props: Props) {
                   x2={x(d.coordinates[2] as number)}
                   y2={y(d.coordinates[3] as number)}
                   style={{
+                    ...(d.color && { stroke: d.color }),
                     fill: 'none',
                     strokeWidth: d.strokeWidth || 1,
-                    stroke: d.color || UNDPColorModule[mode].grays['gray-300'],
                     strokeDasharray: d.dashedStroke ? '4,4' : 'none',
                   }}
+                  className={
+                    !d.color
+                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
+                      : ''
+                  }
                 />
               )}
             </g>
@@ -430,13 +437,13 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         stroke:
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         fillOpacity: 0.6,
                       }}
@@ -449,7 +456,7 @@ export function Graph(props: Props) {
                             (data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule[mode].graphGray
+                              ? UNDPColorModule.gray
                               : colors[colorDomain.indexOf(`${d.color}`)]),
                         }}
                         className='text-[10px]'
@@ -472,7 +479,7 @@ export function Graph(props: Props) {
                               (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
-                                ? UNDPColorModule[mode].graphGray
+                                ? UNDPColorModule.gray
                                 : colors[colorDomain.indexOf(`${d.color}`)]),
                           }}
                           className='text-[10px]'
@@ -531,9 +538,13 @@ export function Graph(props: Props) {
           {refXValues.map((el, i) => (
             <g key={i}>
               <line
-                className='undp-ref-line'
+                className={`undp-ref-line ${
+                  !el.color
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
                 style={{
-                  stroke: el.color || UNDPColorModule[mode].grays['gray-700'],
+                  ...(el.color && { stroke: el.color }),
                 }}
                 x1={x(el.value as number)}
                 x2={x(el.value as number)}
@@ -544,13 +555,17 @@ export function Graph(props: Props) {
                 x={x(el.value as number)}
                 y={0}
                 style={{
-                  fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                  ...(el.color && { fill: el.color }),
                   textAnchor:
                     x(el.value as number) > graphWidth * 0.75 || rtl
                       ? 'end'
                       : 'start',
                 }}
-                className='text-xs font-bold'
+                className={`text-xs font-bold${
+                  !el.color
+                    ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                    : ''
+                }`}
                 dy={12.5}
                 dx={x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5}
               >
@@ -561,9 +576,13 @@ export function Graph(props: Props) {
           {refYValues.map((el, i) => (
             <g key={i}>
               <line
-                className='undp-ref-line'
+                className={`undp-ref-line ${
+                  !el.color
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
                 style={{
-                  stroke: el.color || UNDPColorModule[mode].grays['gray-700'],
+                  ...(el.color && { stroke: el.color }),
                 }}
                 y1={y(el.value as number)}
                 y2={y(el.value as number)}
@@ -574,10 +593,14 @@ export function Graph(props: Props) {
                 x={graphWidth}
                 y={y(el.value as number)}
                 style={{
-                  fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                  ...(el.color && { fill: el.color }),
                   textAnchor: 'end',
                 }}
-                className='text-xs font-bold'
+                className={`text-xs font-bold${
+                  !el.color
+                    ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                    : ''
+                }`}
                 dy={-5}
               >
                 {el.text}
@@ -621,9 +644,13 @@ export function Graph(props: Props) {
                               ? 2
                               : Math.min(d.showConnector, 1),
                           fill: 'none',
-                          stroke:
-                            d.color || UNDPColorModule[mode].grays['gray-700'],
+                          ...(d.color && { stroke: d.color }),
                         }}
+                        className={
+                          !d.color
+                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            : ''
+                        }
                       />
                       <line
                         y1={endPoints.y}
@@ -644,9 +671,13 @@ export function Graph(props: Props) {
                               ? 2
                               : Math.min(d.showConnector, 1),
                           fill: 'none',
-                          stroke:
-                            d.color || UNDPColorModule[mode].grays['gray-700'],
+                          ...(d.color && { stroke: d.color }),
                         }}
+                        className={
+                          !d.color
+                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            : ''
+                        }
                       />
                     </>
                   ) : null}
@@ -682,10 +713,13 @@ export function Graph(props: Props) {
                     <p
                       className={`text-sm font-${
                         d.fontWeight || 'normal'
-                      } leading-tight m-0 whitespace-normal`}
+                      } leading-tight m-0 whitespace-normal${
+                        !d.color
+                          ? 'text-primary-gray-700 dark:text-primary-gray-300'
+                          : ''
+                      }`}
                       style={{
-                        color:
-                          d.color || UNDPColorModule[mode].grays['gray-700'],
+                        ...(d.color && { color: d.color }),
                         maxWidth: d.maxWidth || 'auto',
                       }}
                     >
@@ -711,13 +745,16 @@ export function Graph(props: Props) {
                   : regressionLineParam.b
               }
               y2={regressionLineParam.m * graphWidth + regressionLineParam.b}
-              className='undp-ref-line'
+              className={`undp-ref-line ${
+                typeof regressionLine !== 'string'
+                  ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                  : ''
+              }`}
               style={{
+                ...(typeof regressionLine === 'string' && {
+                  stroke: regressionLine,
+                }),
                 fill: 'none',
-                stroke:
-                  typeof regressionLine === 'string'
-                    ? regressionLine
-                    : UNDPColorModule[mode].grays['gray-700'],
               }}
             />
           ) : null}

@@ -12,7 +12,6 @@ import {
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 
 interface Props {
@@ -39,7 +38,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
   labelOrder?: string[];
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
@@ -74,7 +72,6 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     selectedColor,
     labelOrder,
-    mode,
     maxBarThickness,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -347,10 +344,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { stroke: el.color }),
                     }}
                     y1={y(el.value as number)}
                     y2={y(el.value as number)}
@@ -361,10 +361,14 @@ export function Graph(props: Props) {
                     x={graphWidth + margin.right}
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { fill: el.color }),
                       textAnchor: 'end',
                     }}
-                    className='text-xs font-bold'
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={-5}
                   >
                     {el.text}

@@ -258,7 +258,6 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -301,7 +300,6 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   dateFormat={dateFormat}
                   indx={index}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

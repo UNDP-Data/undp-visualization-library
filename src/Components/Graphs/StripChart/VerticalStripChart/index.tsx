@@ -194,7 +194,6 @@ export function VerticalStripChart(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -251,7 +250,6 @@ export function VerticalStripChart(props: Props) {
                   stripType={stripType}
                   highlightColor={highlightColor}
                   dotOpacity={dotOpacity}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

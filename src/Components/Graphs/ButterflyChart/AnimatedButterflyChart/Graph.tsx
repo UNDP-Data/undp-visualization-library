@@ -15,7 +15,6 @@ import {
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { ensureCompleteDataForButterFlyChart } from '../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../Utils/string2HTML';
 
@@ -44,7 +43,6 @@ interface Props {
   prefix: string;
   indx: number;
   dateFormat: string;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -76,7 +74,6 @@ export function Graph(props: Props) {
     prefix,
     dateFormat,
     indx,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -336,10 +333,13 @@ export function Graph(props: Props) {
                 {refValues.map((el, i) => (
                   <g key={i}>
                     <line
-                      className='undp-ref-line'
+                      className={`undp-ref-line ${
+                        !el.color
+                          ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                          : ''
+                      }`}
                       style={{
-                        stroke:
-                          el.color || UNDPColorModule[mode].grays['gray-700'],
+                        ...(el.color && { stroke: el.color }),
                       }}
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom}
@@ -350,11 +350,14 @@ export function Graph(props: Props) {
                       y={0 - margin.top}
                       x={xLeftBar(el.value as number) as number}
                       style={{
-                        fill:
-                          el.color || UNDPColorModule[mode].grays['gray-700'],
+                        ...(el.color && { fill: el.color }),
                         textAnchor: 'end',
                       }}
-                      className='text-xs font-bold'
+                      className={`text-xs font-bold${
+                        !el.color
+                          ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                          : ''
+                      }`}
                       dy={12.5}
                       dx={-5}
                     >
@@ -500,10 +503,13 @@ export function Graph(props: Props) {
                 {refValues.map((el, i) => (
                   <g key={i}>
                     <line
-                      className='undp-ref-line'
+                      className={`undp-ref-line ${
+                        !el.color
+                          ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                          : ''
+                      }`}
                       style={{
-                        stroke:
-                          el.color || UNDPColorModule[mode].grays['gray-700'],
+                        ...(el.color && { stroke: el.color }),
                       }}
                       y1={0 - margin.top}
                       y2={graphHeight + margin.bottom}
@@ -514,11 +520,14 @@ export function Graph(props: Props) {
                       y={0 - margin.top}
                       x={xRightBar(el.value as number) as number}
                       style={{
-                        fill:
-                          el.color || UNDPColorModule[mode].grays['gray-700'],
+                        ...(el.color && { fill: el.color }),
                         textAnchor: 'start',
                       }}
-                      className='text-xs font-bold'
+                      className={`text-xs font-bold${
+                        !el.color
+                          ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                          : ''
+                      }`}
                       dy={12.5}
                       dx={5}
                     >

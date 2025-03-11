@@ -302,7 +302,6 @@ export function AnimatedButterflyChart(props: Props) {
                   prefix={prefix}
                   dateFormat={dateFormat}
                   indx={index}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

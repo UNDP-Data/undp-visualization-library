@@ -196,7 +196,6 @@ export function HorizontalStackedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -262,7 +261,6 @@ export function HorizontalStackedBarGraph(props: Props) {
                   selectedColor={selectedColor}
                   rtl={language === 'he' || language === 'ar'}
                   labelOrder={labelOrder}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   minBarThickness={minBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

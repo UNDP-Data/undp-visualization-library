@@ -16,7 +16,6 @@ import {
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { ensureCompleteDataForStackedBarChart } from '../../../../../Utils/ensureCompleteData';
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
 import { string2HTML } from '../../../../../Utils/string2HTML';
@@ -47,7 +46,6 @@ interface Props {
   dateFormat: string;
   autoSort: boolean;
   rtl: boolean;
-  mode: 'light' | 'dark';
   sortParameter?: number | 'total';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -86,7 +84,6 @@ export function Graph(props: Props) {
     indx,
     autoSort,
     rtl,
-    mode,
     sortParameter,
     maxBarThickness,
     minBarThickness,
@@ -365,11 +362,14 @@ export function Graph(props: Props) {
                   {showValues ? (
                     <motion.text
                       style={{
-                        fill:
-                          valueColor || UNDPColorModule[mode].grays['gray-700'],
+                        ...(valueColor && { fill: valueColor }),
                         textAnchor: 'start',
                       }}
-                      className='text-sm'
+                      className={`text-sm${
+                        !valueColor
+                          ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                          : ''
+                      }`}
                       dx={5}
                       dy={5}
                       animate={{
@@ -401,10 +401,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { stroke: el.color }),
                     }}
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom}
@@ -415,13 +418,17 @@ export function Graph(props: Props) {
                     y={0 - margin.top}
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { fill: el.color }),
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
-                    className='text-xs font-bold'
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={12.5}
                     dx={
                       x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5

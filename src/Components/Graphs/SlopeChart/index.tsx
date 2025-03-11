@@ -188,7 +188,6 @@ export function SlopeChart(props: Props) {
                 }
                 setSelectedColor={setSelectedColor}
                 showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
             <div
@@ -246,7 +245,6 @@ export function SlopeChart(props: Props) {
                   minValue={minValue}
                   maxValue={maxValue}
                   onSeriesMouseClick={onSeriesMouseClick}
-                  mode={mode}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}
                   detailsOnClick={detailsOnClick}

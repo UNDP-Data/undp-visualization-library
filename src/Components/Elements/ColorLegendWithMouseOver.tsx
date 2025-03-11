@@ -9,7 +9,6 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   isCenter?: boolean;
-  mode: 'dark' | 'light';
 }
 
 export function ColorLegendWithMouseOver(props: Props) {
@@ -21,7 +20,6 @@ export function ColorLegendWithMouseOver(props: Props) {
     showNAColor,
     width,
     isCenter,
-    mode,
   } = props;
 
   return (
@@ -70,7 +68,7 @@ export function ColorLegendWithMouseOver(props: Props) {
           {showNAColor ? (
             <div
               onMouseEnter={() => {
-                setSelectedColor(UNDPColorModule[mode].graphGray);
+                setSelectedColor(UNDPColorModule.gray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -80,7 +78,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               <div
                 className='w-3 h-3 rounded-full'
                 style={{
-                  backgroundColor: UNDPColorModule[mode].graphGray,
+                  backgroundColor: UNDPColorModule.gray,
                 }}
               />
               <P size='sm' marginBottom='2xs'>

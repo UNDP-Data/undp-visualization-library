@@ -17,7 +17,6 @@ import {
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { ensureCompleteDataForStackedBarChart } from '../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 
@@ -47,7 +46,6 @@ interface Props {
   indx: number;
   dateFormat: string;
   rtl: boolean;
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
@@ -84,7 +82,6 @@ export function Graph(props: Props) {
     dateFormat,
     indx,
     rtl,
-    mode,
     maxBarThickness,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -357,10 +354,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { stroke: el.color }),
                     }}
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom}
@@ -371,13 +371,17 @@ export function Graph(props: Props) {
                     y={0 - margin.top}
                     x={x(el.value as number) as number}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { fill: el.color }),
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
-                    className='text-xs font-bold'
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={12.5}
                     dx={
                       x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5

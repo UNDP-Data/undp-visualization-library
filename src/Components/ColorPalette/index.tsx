@@ -1,8 +1,8 @@
 export const UNDPColorModule = {
+  gray: '#D4D6D8',
+  graphMainColor: '#006EB5',
   light: {
     graphBackgroundColor: '#F7F7F7',
-    graphMainColor: '#006EB5',
-    graphGray: '#D4D6D8',
     graphNoData: '#FFFFFF',
     grays: {
       white: '#FFFFFF',
@@ -358,8 +358,6 @@ export const UNDPColorModule = {
   },
   dark: {
     graphBackgroundColor: '#232E3D',
-    graphMainColor: '#006EB5',
-    graphGray: '#D4D6D8',
     graphNoData: '#FFFFFF',
     grays: {
       white: '#232E3D',

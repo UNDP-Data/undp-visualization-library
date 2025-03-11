@@ -220,7 +220,6 @@ export function BiVariantMap(props: Props) {
                 mapProperty={mapProperty}
                 showAntarctica={showAntarctica}
                 highlightedCountryCodes={highlightedCountryCodes}
-                mode={mode}
                 resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                 tooltipBackgroundStyle={tooltipBackgroundStyle}
                 detailsOnClick={detailsOnClick}

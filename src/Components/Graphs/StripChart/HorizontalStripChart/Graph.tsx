@@ -34,7 +34,6 @@ interface Props {
   stripType: 'strip' | 'dot';
   highlightColor?: string;
   dotOpacity: number;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
   tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
@@ -65,7 +64,6 @@ export function Graph(props: Props) {
     stripType,
     highlightColor,
     dotOpacity,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -195,12 +193,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
@@ -219,12 +217,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
@@ -242,12 +240,12 @@ export function Graph(props: Props) {
                               : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule[mode].graphGray
+                              ? UNDPColorModule.gray
                               : colors[colorDomain.indexOf(d.color)]
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)],
                         textAnchor: 'middle',
                       }}

@@ -12,7 +12,6 @@ import { numberFormattingFunction } from '../../../../../Utils/numberFormattingF
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 
 interface Props {
@@ -39,7 +38,6 @@ interface Props {
   selectedColor?: string;
   rtl: boolean;
   labelOrder?: string[];
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
@@ -75,7 +73,6 @@ export function Graph(props: Props) {
     selectedColor,
     rtl,
     labelOrder,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -298,16 +295,19 @@ export function Graph(props: Props) {
                 ) : null}
                 {showValues ? (
                   <text
+                    className={`text-sm ${
+                      valueColor
+                        ? 'fill-primary-gray-700 dark:fill-primary-gray-100'
+                        : ''
+                    }`}
                     style={{
-                      fill:
-                        valueColor || UNDPColorModule[mode].grays['gray-700'],
+                      ...(valueColor ? { fill: valueColor } : {}),
                       textAnchor: 'start',
                     }}
                     x={x(sum(d.size.map(el => el || 0)))}
                     y={y.bandwidth() / 2}
                     dx={5}
                     dy={5}
-                    className='text-sm'
                   >
                     {numberFormattingFunction(
                       sum(d.size.filter(element => element)),
@@ -371,10 +371,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-100'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color ? { stroke: el.color } : {}),
                     }}
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom}
@@ -384,14 +387,18 @@ export function Graph(props: Props) {
                   <text
                     y={0 - margin.top}
                     x={x(el.value as number) as number}
+                    className={`text-xs font-bold${
+                      el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-100'
+                        : ''
+                    }`}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color ? { fill: el.color } : {}),
                       textAnchor:
                         x(el.value as number) > graphWidth * 0.75 || rtl
                           ? 'end'
                           : 'start',
                     }}
-                    className='text-xs font-bold'
                     dy={12.5}
                     dx={
                       x(el.value as number) > graphWidth * 0.75 || rtl ? -5 : 5

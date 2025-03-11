@@ -131,7 +131,7 @@ export function SankeyChart(props: Props) {
       label: `${d.source}`,
       color:
         typeof sourceColors === 'string' || !sourceColors
-          ? sourceColors || UNDPColorModule[mode].graphMainColor
+          ? sourceColors || UNDPColorModule.graphMainColor
           : sourceColors[
               (
                 sourceColorDomain ||
@@ -159,7 +159,7 @@ export function SankeyChart(props: Props) {
       label: `${d.target}`,
       color:
         typeof targetColors === 'string' || !targetColors
-          ? targetColors || UNDPColorModule[mode].graphMainColor
+          ? targetColors || UNDPColorModule.graphMainColor
           : targetColors[
               (
                 targetColorDomain ||

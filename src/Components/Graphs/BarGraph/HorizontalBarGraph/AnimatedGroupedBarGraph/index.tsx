@@ -257,7 +257,6 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
               colorLegendTitle={colorLegendTitle}
               setSelectedColor={setSelectedColor}
               showNAColor={false}
-              mode={mode}
             />
             <div
               className='w-full grow leading-0'
@@ -301,7 +300,6 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
                   dateFormat={dateFormat}
                   indx={index}
                   rtl={language === 'he' || language === 'ar'}
-                  mode={mode}
                   maxBarThickness={maxBarThickness}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   tooltipBackgroundStyle={tooltipBackgroundStyle}

@@ -20,7 +20,6 @@ import {
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
 import { getUniqValue } from '../../../Utils/getUniqValue';
 import { transformDefaultValue } from '../../../Utils/transformDataForSelect';
@@ -386,14 +385,18 @@ export function DataCards(props: Props) {
                   key={i}
                   style={{
                     ...cardBackgroundStyle,
-                    backgroundColor:
-                      cardBackgroundColor ||
-                      UNDPColorModule[mode].grays['gray-200'],
+                    ...(cardBackgroundColor && {
+                      backgroundColor: cardBackgroundColor,
+                    }),
                   }}
                   className={`w-full flex flex-col ${
                     onSeriesMouseClick || detailsOnClick
                       ? 'cursor-pointer'
                       : 'cursor-auto'
+                  }${
+                    !cardBackgroundColor
+                      ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
+                      : ''
                   }`}
                   onClick={() => {
                     if (onSeriesMouseClick) onSeriesMouseClick(d);

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   colors: string[];
@@ -10,7 +9,6 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
-  mode: 'dark' | 'light';
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -21,7 +19,6 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
-    mode,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -66,12 +63,14 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={1}
                 width={mainColorWidth / colors.length - 2}
                 height={8}
+                className={`stroke-1 ${
+                  hoveredColor === colors[i]
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
                 style={{
                   fill: colors[i],
-                  stroke:
-                    hoveredColor === colors[i]
-                      ? UNDPColorModule[mode].grays['gray-700']
-                      : colors[i],
+                  ...(hoveredColor !== colors[i] ? { stroke: colors[i] } : {}),
                 }}
               />
               <text
@@ -100,15 +99,17 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               y={1}
               width={mainColorWidth / colors.length - 2}
               height={8}
+              className={`cursor-pointer stroke-1 ${
+                hoveredColor === colors[colorDomain.length]
+                  ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                  : ''
+              }`}
               style={{
                 fill: colors[colorDomain.length],
-                stroke:
-                  hoveredColor === colors[colorDomain.length]
-                    ? UNDPColorModule[mode].grays['gray-700']
-                    : colors[colorDomain.length],
-                strokeWidth: 1,
+                ...(hoveredColor !== colors[colorDomain.length]
+                  ? { stroke: colors[colorDomain.length] }
+                  : {}),
               }}
-              className='cursor-pointer'
             />
           </g>
           {naColor ? (
@@ -128,12 +129,14 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 y={1}
                 width={24}
                 height={8}
+                className={`stroke-1 ${
+                  hoveredColor === naColor
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
                 style={{
                   fill: naColor || '#D4D6D8',
-                  stroke:
-                    hoveredColor === naColor
-                      ? UNDPColorModule[mode].grays['gray-700']
-                      : naColor,
+                  ...(hoveredColor !== naColor ? { stroke: naColor } : {}),
                   strokeWidth: 1,
                 }}
               />

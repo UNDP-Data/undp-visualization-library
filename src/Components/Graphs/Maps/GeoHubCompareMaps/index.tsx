@@ -125,7 +125,6 @@ export function GeoHubCompareMaps(props: Props) {
                 mapStyles={mapStyles}
                 center={center}
                 zoomLevel={zoomLevel}
-                mode={mode}
               />
             ) : null}
           </div>

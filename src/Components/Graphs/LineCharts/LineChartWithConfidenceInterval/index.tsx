@@ -259,7 +259,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
                   showDots={showDots}
                   annotations={annotations}
                   customHighlightAreaSettings={customHighlightAreaSettings}
-                  mode={mode}
                   regressionLine={regressionLine}
                   showIntervalDots={showIntervalDots}
                   showIntervalValues={showIntervalValues}

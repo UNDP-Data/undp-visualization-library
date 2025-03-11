@@ -40,7 +40,6 @@ interface Props {
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
   labelOrder?: string[];
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
@@ -78,7 +77,6 @@ export function Graph(props: Props) {
     highlightedDataPoints,
     onSeriesMouseClick,
     labelOrder,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -284,7 +282,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? barColor[0]
                           : !d.color
-                          ? UNDPColorModule[mode].graphGray
+                          ? UNDPColorModule.gray
                           : barColor[colorDomain.indexOf(d.color)],
                     }}
                     height={Math.abs(y(d.size) - y(0))}
@@ -310,14 +308,18 @@ export function Graph(props: Props) {
                     x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
                     y={y(d.size || 0)}
                     style={{
-                      fill:
-                        valueColor ||
-                        (barColor.length > 1
-                          ? UNDPColorModule[mode].grays['gray-600']
-                          : barColor[0]),
+                      ...(valueColor
+                        ? { fill: valueColor }
+                        : barColor.length > 1
+                        ? {}
+                        : { fill: barColor[0] }),
                       textAnchor: 'middle',
                     }}
-                    className='text-sm'
+                    className={`text-sm${
+                      !valueColor && barColor.length > 1
+                        ? ' fill-primary-gray-600 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}
@@ -352,13 +354,18 @@ export function Graph(props: Props) {
                           x={(x(`${d}`) as number) + x.bandwidth() / 2}
                           y={y(0)}
                           style={{
-                            fill:
-                              barColor.length > 1
-                                ? UNDPColorModule[mode].grays['gray-600']
-                                : barColor[0],
+                            ...(valueColor
+                              ? { fill: valueColor }
+                              : barColor.length > 1
+                              ? {}
+                              : { fill: barColor[0] }),
                             textAnchor: 'middle',
                           }}
-                          className='text-sm'
+                          className={`text-sm${
+                            !valueColor && barColor.length > 1
+                              ? ' fill-primary-gray-600 dark:fill-primary-gray-300'
+                              : ''
+                          }`}
                           dy='-5px'
                         >
                           {numberFormattingFunction(0, prefix, suffix)}
@@ -373,10 +380,13 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
-                    className='undp-ref-line'
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { stroke: el.color }),
                     }}
                     y1={y(el.value as number)}
                     y2={y(el.value as number)}
@@ -387,10 +397,14 @@ export function Graph(props: Props) {
                     x={graphWidth + margin.right}
                     y={y(el.value as number)}
                     style={{
-                      fill: el.color || UNDPColorModule[mode].grays['gray-700'],
+                      ...(el.color && { fill: el.color }),
                       textAnchor: 'end',
                     }}
-                    className='text-xs font-bold'
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={-5}
                   >
                     {el.text}
