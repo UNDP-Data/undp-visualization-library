@@ -134,118 +134,128 @@ export function DotDensityMap(props: Props) {
 
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a dot density map showing the distribution of a variable across a region or world, with each dot representing a data point.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a dot density map showing the distribution of a variable across a region or world, with each dot representing a data point.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div
-            className='flex flex-col grow justify-center leading-0'
-            ref={graphDiv}
-            aria-label='Map area'
-          >
-            {(width || svgWidth) && (height || svgHeight) && mapShape ? (
-              <Graph
-                data={data}
-                mapData={mapShape}
-                colorDomain={
-                  data.filter(el => el.color).length === 0
-                    ? []
-                    : colorDomain ||
-                      (uniqBy(
-                        data.filter(el => !checkIfNullOrUndefined(el.color)),
-                        'color',
-                      ).map(d => `${d.color}`) as string[])
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
                 }
-                width={width || svgWidth}
-                height={Math.max(
-                  minHeight,
-                  height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight),
-                )}
-                scale={scale}
-                centerPoint={centerPoint}
-                colors={
-                  data.filter(el => el.color).length === 0
-                    ? colors
-                      ? [colors as string]
-                      : [UNDPColorModule[mode].primaryColors['blue-600']]
-                    : (colors as string[] | undefined) ||
-                      UNDPColorModule[mode].categoricalColors.colors
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
                 }
-                colorLegendTitle={colorLegendTitle}
-                radius={radius}
-                mapBorderWidth={mapBorderWidth}
-                mapNoDataColor={mapNoDataColor}
-                mapBorderColor={mapBorderColor}
-                tooltip={tooltip}
-                onSeriesMouseOver={onSeriesMouseOver}
-                showLabels={showLabels}
-                isWorldMap={isWorldMap}
-                showColorScale={showColorScale}
-                zoomScaleExtend={zoomScaleExtend}
-                zoomTranslateExtend={zoomTranslateExtend}
-                onSeriesMouseClick={onSeriesMouseClick}
-                highlightedDataPoints={highlightedDataPoints}
-                showAntarctica={showAntarctica}
-                resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                tooltipBackgroundStyle={tooltipBackgroundStyle}
-                detailsOnClick={detailsOnClick}
+              />
+            ) : null}
+            <div
+              className='flex flex-col grow justify-center leading-0'
+              ref={graphDiv}
+              aria-label='Map area'
+            >
+              {(width || svgWidth) && (height || svgHeight) && mapShape ? (
+                <Graph
+                  data={data}
+                  mapData={mapShape}
+                  colorDomain={
+                    data.filter(el => el.color).length === 0
+                      ? []
+                      : colorDomain ||
+                        (uniqBy(
+                          data.filter(el => !checkIfNullOrUndefined(el.color)),
+                          'color',
+                        ).map(d => `${d.color}`) as string[])
+                  }
+                  width={width || svgWidth}
+                  height={Math.max(
+                    minHeight,
+                    height ||
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
+                  scale={scale}
+                  centerPoint={centerPoint}
+                  colors={
+                    data.filter(el => el.color).length === 0
+                      ? colors
+                        ? [colors as string]
+                        : [UNDPColorModule[mode].primaryColors['blue-600']]
+                      : (colors as string[] | undefined) ||
+                        UNDPColorModule[mode].categoricalColors.colors
+                  }
+                  colorLegendTitle={colorLegendTitle}
+                  radius={radius}
+                  mapBorderWidth={mapBorderWidth}
+                  mapNoDataColor={mapNoDataColor}
+                  mapBorderColor={mapBorderColor}
+                  tooltip={tooltip}
+                  onSeriesMouseOver={onSeriesMouseOver}
+                  showLabels={showLabels}
+                  isWorldMap={isWorldMap}
+                  showColorScale={showColorScale}
+                  zoomScaleExtend={zoomScaleExtend}
+                  zoomTranslateExtend={zoomTranslateExtend}
+                  onSeriesMouseClick={onSeriesMouseClick}
+                  highlightedDataPoints={highlightedDataPoints}
+                  showAntarctica={showAntarctica}
+                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  detailsOnClick={detailsOnClick}
+                />
+              ) : null}
+            </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
               />
             ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

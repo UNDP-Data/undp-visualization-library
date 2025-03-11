@@ -181,22 +181,7 @@ export function MultiGraphDashboard(props: Props) {
   }, []);
   return (
     <div
-      className={`${
-        !dashboardLayout.backgroundColor
-          ? 'bg-transparent '
-          : dashboardLayout.backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto gap-4 flex flex-col w-full grow h-inherit ${
-        mode || 'light'
-      } ${dashboardLayout.language || 'en'}`}
-      style={{
-        ...(dashboardLayout.backgroundColor &&
-        dashboardLayout.backgroundColor !== true
-          ? { backgroundColor: dashboardLayout.backgroundColor }
-          : {}),
-      }}
-      id={dashboardId}
+      className={mode || 'light'}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'
@@ -204,218 +189,241 @@ export function MultiGraphDashboard(props: Props) {
       }
     >
       <div
+        className={`${
+          !dashboardLayout.backgroundColor
+            ? 'bg-transparent '
+            : dashboardLayout.backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto gap-4 flex flex-col w-full grow h-inherit ${
+          dashboardLayout.language || 'en'
+        }`}
         style={{
-          padding: dashboardLayout.backgroundColor
-            ? dashboardLayout.padding || '1rem'
-            : dashboardLayout.padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...(dashboardLayout.backgroundColor &&
+          dashboardLayout.backgroundColor !== true
+            ? { backgroundColor: dashboardLayout.backgroundColor }
+            : {}),
         }}
+        id={dashboardId}
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {dashboardLayout.title || dashboardLayout.description ? (
-            <GraphHeader
-              graphTitle={dashboardLayout.title}
-              graphDescription={dashboardLayout.description}
-              isDashboard
-            />
-          ) : null}
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            {filterSettings.length !== 0 ? (
-              <div
-                style={{
-                  width: filterPosition === 'side' ? '280px' : '100%',
-                  flexGrow: 1,
-                  flexShrink: 0,
-                }}
-              >
+        <div
+          style={{
+            padding: dashboardLayout.backgroundColor
+              ? dashboardLayout.padding || '1rem'
+              : dashboardLayout.padding || 0,
+            flexGrow: 1,
+            display: 'flex',
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {dashboardLayout.title || dashboardLayout.description ? (
+              <GraphHeader
+                graphTitle={dashboardLayout.title}
+                graphDescription={dashboardLayout.description}
+                isDashboard
+              />
+            ) : null}
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              {filterSettings.length !== 0 ? (
                 <div
                   style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    flexWrap: 'wrap',
-                    alignItems: 'flex-start',
-                    width: '100%',
-                    position: 'sticky',
-                    top: '1rem',
+                    width: filterPosition === 'side' ? '280px' : '100%',
+                    flexGrow: 1,
+                    flexShrink: 0,
                   }}
                 >
-                  {filterSettings?.map((d, i) => (
-                    <div
-                      style={{
-                        width:
-                          d.width ||
-                          `calc(${100 / noOfFiltersPerRow}% - ${
-                            (noOfFiltersPerRow - 1) / noOfFiltersPerRow
-                          }rem)`,
-                        flexGrow: 1,
-                        flexShrink: 0,
-                        minWidth: '240px',
-                      }}
-                      key={i}
-                    >
-                      <Label className='mb-2'>{d.label}</Label>
-                      {d.singleSelect ? (
-                        <DropdownSelect
-                          options={d.availableValues}
-                          isClearable={
-                            d.clearable === undefined ? true : d.clearable
-                          }
-                          isMulti={false}
-                          isSearchable
-                          filterOption={createFilter(filterConfig)}
-                          onChange={(el: any) => {
-                            handleFilterChange(d.filter, el);
-                          }}
-                          defaultValue={d.defaultValue}
-                          value={d.value}
-                        />
-                      ) : (
-                        <>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      flexWrap: 'wrap',
+                      alignItems: 'flex-start',
+                      width: '100%',
+                      position: 'sticky',
+                      top: '1rem',
+                    }}
+                  >
+                    {filterSettings?.map((d, i) => (
+                      <div
+                        style={{
+                          width:
+                            d.width ||
+                            `calc(${100 / noOfFiltersPerRow}% - ${
+                              (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                            }rem)`,
+                          flexGrow: 1,
+                          flexShrink: 0,
+                          minWidth: '240px',
+                        }}
+                        key={i}
+                      >
+                        <Label className='mb-2'>{d.label}</Label>
+                        {d.singleSelect ? (
                           <DropdownSelect
                             options={d.availableValues}
-                            isMulti
                             isClearable={
                               d.clearable === undefined ? true : d.clearable
                             }
+                            isMulti={false}
                             isSearchable
-                            controlShouldRenderValue
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
                             filterOption={createFilter(filterConfig)}
                             onChange={(el: any) => {
                               handleFilterChange(d.filter, el);
                             }}
-                            value={d.value}
                             defaultValue={d.defaultValue}
+                            value={d.value}
                           />
-                          {d.allowSelectAll ? (
-                            <button
-                              type='button'
-                              className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
-                              onClick={() => {
-                                handleFilterChange(d.filter, d.availableValues);
-                              }}
-                            >
-                              Select all options
-                            </button>
-                          ) : null}
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-            <div
-              style={{
-                width:
-                  filterPosition === 'side'
-                    ? 'calc(100% - 280px - 1rem)'
-                    : '100%',
-                minWidth: '280px',
-                flexGrow: 1,
-                display: 'flex',
-                gap: '1rem',
-                flexWrap: 'wrap',
-                flexShrink: '0',
-              }}
-            >
-              {dashboardLayout.rows.map((d, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    alignItems: 'stretch',
-                    minHeight: `${d.height || 0}px`,
-                    height: 'auto',
-                    width: '100%',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  {d.columns.map((el, j) => (
-                    <div
-                      key={j}
-                      className='flex bg-transparent h-inherit grow min-w-60'
-                      style={{
-                        width: `calc(${
-                          (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
-                        }% - ${
-                          (TotalWidth(d.columns) - (el.columnWidth || 1)) /
-                          TotalWidth(d.columns)
-                        }rem)`,
-                        minHeight: 'inherit',
-                      }}
-                    >
-                      <SingleGraphDashboard
-                        graphType={el.graphType}
-                        dataFilters={el.dataFilters}
-                        graphSettings={{
-                          ...el.settings,
-                          width: undefined,
-                          height: undefined,
-                          resetSelectionOnDoubleClick: el.attachedFilter
-                            ? false
-                            : el.settings?.resetSelectionOnDoubleClick,
-                          backgroundStyle:
-                            el.settings?.backgroundStyle ||
-                            graphBackgroundStyle,
-                          backgroundColor:
-                            el.settings?.backgroundColor ||
-                            graphBackgroundColor,
-                          radius:
-                            el.graphType === 'donutChart'
-                              ? undefined
-                              : el.settings?.radius,
-                          size:
-                            el.graphType === 'unitChart'
-                              ? el.settings.size
-                              : undefined,
-                          language: dashboardLayout.language,
-                        }}
-                        dataSettings={{
-                          data: data
-                            ? filterData(data, dataFilters || [])
-                            : undefined,
-                        }}
-                        updateFilters={
-                          el.attachedFilter &&
-                          GraphWithAttachedFilter.indexOf(el.graphType) !==
-                            -1 &&
-                          filterSettings.findIndex(
-                            f => f.filter === el.attachedFilter,
-                          ) !== -1
-                            ? dClicked => {
-                                const indx = filterSettings.findIndex(
-                                  f => f.filter === el.attachedFilter,
-                                );
-                                const value = dClicked
-                                  ? filterSettings[indx].singleSelect
-                                    ? { value: dClicked, label: dClicked }
-                                    : [{ value: dClicked, label: dClicked }]
-                                  : undefined;
-                                handleFilterChange(
-                                  el.attachedFilter as string,
-                                  value,
-                                );
+                        ) : (
+                          <>
+                            <DropdownSelect
+                              options={d.availableValues}
+                              isMulti
+                              isClearable={
+                                d.clearable === undefined ? true : d.clearable
                               }
-                            : undefined
-                        }
-                        dataTransform={el.dataTransform}
-                        dataSelectionOptions={el.dataSelectionOptions}
-                        advancedDataSelectionOptions={
-                          el.advancedDataSelectionOptions
-                        }
-                        graphDataConfiguration={el.graphDataConfiguration}
-                        debugMode={debugMode}
-                        readableHeader={readableHeader || []}
-                        mode={mode}
-                      />
-                    </div>
-                  ))}
+                              isSearchable
+                              controlShouldRenderValue
+                              closeMenuOnSelect={false}
+                              hideSelectedOptions={false}
+                              filterOption={createFilter(filterConfig)}
+                              onChange={(el: any) => {
+                                handleFilterChange(d.filter, el);
+                              }}
+                              value={d.value}
+                              defaultValue={d.defaultValue}
+                            />
+                            {d.allowSelectAll ? (
+                              <button
+                                type='button'
+                                className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
+                                onClick={() => {
+                                  handleFilterChange(
+                                    d.filter,
+                                    d.availableValues,
+                                  );
+                                }}
+                              >
+                                Select all options
+                              </button>
+                            ) : null}
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              ) : null}
+              <div
+                style={{
+                  width:
+                    filterPosition === 'side'
+                      ? 'calc(100% - 280px - 1rem)'
+                      : '100%',
+                  minWidth: '280px',
+                  flexGrow: 1,
+                  display: 'flex',
+                  gap: '1rem',
+                  flexWrap: 'wrap',
+                  flexShrink: '0',
+                }}
+              >
+                {dashboardLayout.rows.map((d, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      alignItems: 'stretch',
+                      minHeight: `${d.height || 0}px`,
+                      height: 'auto',
+                      width: '100%',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    {d.columns.map((el, j) => (
+                      <div
+                        key={j}
+                        className='flex bg-transparent h-inherit grow min-w-60'
+                        style={{
+                          width: `calc(${
+                            (100 * (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }% - ${
+                            (TotalWidth(d.columns) - (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }rem)`,
+                          minHeight: 'inherit',
+                        }}
+                      >
+                        <SingleGraphDashboard
+                          graphType={el.graphType}
+                          dataFilters={el.dataFilters}
+                          graphSettings={{
+                            ...el.settings,
+                            width: undefined,
+                            height: undefined,
+                            resetSelectionOnDoubleClick: el.attachedFilter
+                              ? false
+                              : el.settings?.resetSelectionOnDoubleClick,
+                            backgroundStyle:
+                              el.settings?.backgroundStyle ||
+                              graphBackgroundStyle,
+                            backgroundColor:
+                              el.settings?.backgroundColor ||
+                              graphBackgroundColor,
+                            radius:
+                              el.graphType === 'donutChart'
+                                ? undefined
+                                : el.settings?.radius,
+                            size:
+                              el.graphType === 'unitChart'
+                                ? el.settings.size
+                                : undefined,
+                            language: dashboardLayout.language,
+                          }}
+                          dataSettings={{
+                            data: data
+                              ? filterData(data, dataFilters || [])
+                              : undefined,
+                          }}
+                          updateFilters={
+                            el.attachedFilter &&
+                            GraphWithAttachedFilter.indexOf(el.graphType) !==
+                              -1 &&
+                            filterSettings.findIndex(
+                              f => f.filter === el.attachedFilter,
+                            ) !== -1
+                              ? dClicked => {
+                                  const indx = filterSettings.findIndex(
+                                    f => f.filter === el.attachedFilter,
+                                  );
+                                  const value = dClicked
+                                    ? filterSettings[indx].singleSelect
+                                      ? { value: dClicked, label: dClicked }
+                                      : [{ value: dClicked, label: dClicked }]
+                                    : undefined;
+                                  handleFilterChange(
+                                    el.attachedFilter as string,
+                                    value,
+                                  );
+                                }
+                              : undefined
+                          }
+                          dataTransform={el.dataTransform}
+                          dataSelectionOptions={el.dataSelectionOptions}
+                          advancedDataSelectionOptions={
+                            el.advancedDataSelectionOptions
+                          }
+                          graphDataConfiguration={el.graphDataConfiguration}
+                          debugMode={debugMode}
+                          readableHeader={readableHeader || []}
+                          mode={mode}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

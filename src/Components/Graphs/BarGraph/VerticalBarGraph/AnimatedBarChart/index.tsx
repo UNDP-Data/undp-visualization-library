@@ -180,178 +180,188 @@ export function AnimatedVerticalBarChart(props: Props) {
   }, [uniqDatesSorted, play]);
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is an animated bar chart showing data changes over time. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is an animated bar chart showing data changes over time. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='flex gap-6 items-center' dir='ltr'>
-            <button
-              type='button'
-              onClick={() => {
-                setPlay(!play);
-              }}
-              className='p-0 border-0 cursor-pointer bg-transparent'
-              aria-label={
-                play ? 'Click to pause animation' : 'Click to play animation'
-              }
-            >
-              {play ? <Pause /> : <Play />}
-            </button>
-            <SliderUI
-              min={uniqDatesSorted[0]}
-              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              marks={markObj}
-              step={null}
-              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              value={uniqDatesSorted[index]}
-              onChangeComplete={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              onChange={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              aria-label='Time slider. Use arrow keys to adjust selected time period.'
-            />
-          </div>
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            {showColorScale !== false &&
-            data.filter(el => el.color).length !== 0 ? (
-              <ColorLegendWithMouseOver
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
                 width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  (colors as string[] | undefined) ||
-                  UNDPColorModule[mode].categoricalColors.colors
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
                 }
-                colorDomain={
-                  colorDomain ||
-                  (uniqBy(
-                    data.filter(el => el.color),
-                    'color',
-                  ).map(d => d.color) as string[])
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
                 }
-                setSelectedColor={setSelectedColor}
-                showNAColor={showNAColor}
               />
             ) : null}
-            <div
-              className='flex grow flex-col justify-center w-full leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  barColor={
-                    data.filter(el => el.color).length === 0
-                      ? colors
-                        ? [colors as string]
-                        : [UNDPColorModule[mode].primaryColors['blue-600']]
-                      : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+            <div className='flex gap-6 items-center' dir='ltr'>
+              <button
+                type='button'
+                onClick={() => {
+                  setPlay(!play);
+                }}
+                className='p-0 border-0 cursor-pointer bg-transparent'
+                aria-label={
+                  play ? 'Click to pause animation' : 'Click to play animation'
+                }
+              >
+                {play ? <Pause /> : <Play />}
+              </button>
+              <SliderUI
+                min={uniqDatesSorted[0]}
+                max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                marks={markObj}
+                step={null}
+                defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                value={uniqDatesSorted[index]}
+                onChangeComplete={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                onChange={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                aria-label='Time slider. Use arrow keys to adjust selected time period.'
+              />
+            </div>
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale !== false &&
+              data.filter(el => el.color).length !== 0 ? (
+                <ColorLegendWithMouseOver
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={
+                    (colors as string[] | undefined) ||
+                    UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
-                    data.filter(el => el.color).length === 0
-                      ? []
-                      : colorDomain ||
-                        (uniqBy(
-                          data.filter(el => el.color),
-                          'color',
-                        ).map(d => d.color) as string[])
+                    colorDomain ||
+                    (uniqBy(
+                      data.filter(el => el.color),
+                      'color',
+                    ).map(d => d.color) as string[])
                   }
-                  width={width || svgWidth}
-                  selectedColor={selectedColor}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  suffix={suffix}
-                  prefix={prefix}
-                  barPadding={barPadding}
-                  showValues={showValues}
-                  showTicks={showTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  truncateBy={truncateBy}
-                  showLabels={showLabels}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  refValues={refValues}
-                  maxValue={maxValue}
-                  minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  dateFormat={dateFormat}
-                  indx={index}
-                  autoSort={autoSort}
-                  maxBarThickness={maxBarThickness}
-                  minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  barAxisTitle={barAxisTitle}
-                  noOfTicks={noOfTicks}
-                  valueColor={valueColor}
+                  setSelectedColor={setSelectedColor}
+                  showNAColor={showNAColor}
                 />
               ) : null}
+              <div
+                className='flex grow flex-col justify-center w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    barColor={
+                      data.filter(el => el.color).length === 0
+                        ? colors
+                          ? [colors as string]
+                          : [UNDPColorModule[mode].primaryColors['blue-600']]
+                        : (colors as string[] | undefined) ||
+                          UNDPColorModule[mode].categoricalColors.colors
+                    }
+                    colorDomain={
+                      data.filter(el => el.color).length === 0
+                        ? []
+                        : colorDomain ||
+                          (uniqBy(
+                            data.filter(el => el.color),
+                            'color',
+                          ).map(d => d.color) as string[])
+                    }
+                    width={width || svgWidth}
+                    selectedColor={selectedColor}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    suffix={suffix}
+                    prefix={prefix}
+                    barPadding={barPadding}
+                    showValues={showValues}
+                    showTicks={showTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    truncateBy={truncateBy}
+                    showLabels={showLabels}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    refValues={refValues}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    highlightedDataPoints={highlightedDataPoints}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    dateFormat={dateFormat}
+                    indx={index}
+                    autoSort={autoSort}
+                    maxBarThickness={maxBarThickness}
+                    minBarThickness={minBarThickness}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    barAxisTitle={barAxisTitle}
+                    noOfTicks={noOfTicks}
+                    valueColor={valueColor}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

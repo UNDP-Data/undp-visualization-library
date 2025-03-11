@@ -146,160 +146,170 @@ export function VerticalBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a grouped bar chart. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a grouped bar chart. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            {showColorScale && data.filter(el => el.color).length !== 0 ? (
-              <ColorLegendWithMouseOver
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
                 width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  (colors as string[] | undefined) ||
-                  UNDPColorModule[mode].categoricalColors.colors
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
                 }
-                colorDomain={
-                  colorDomain ||
-                  (uniqBy(
-                    data.filter(el => el.color),
-                    'color',
-                  ).map(d => d.color) as string[])
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
                 }
-                setSelectedColor={setSelectedColor}
-                showNAColor={showNAColor}
               />
             ) : null}
-            <div
-              className='flex grow flex-col justify-center w-full leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={
-                    sortData === 'asc'
-                      ? sortBy(data, d => d.size).filter((_d, i) =>
-                          maxNumberOfBars ? i < maxNumberOfBars : true,
-                        )
-                      : sortData === 'desc'
-                      ? sortBy(data, d => d.size)
-                          .reverse()
-                          .filter((_d, i) =>
-                            maxNumberOfBars ? i < maxNumberOfBars : true,
-                          )
-                      : data.filter((_d, i) =>
-                          maxNumberOfBars ? i < maxNumberOfBars : true,
-                        )
-                  }
-                  barColor={
-                    data.filter(el => el.color).length === 0
-                      ? colors
-                        ? [colors as string]
-                        : [UNDPColorModule[mode].primaryColors['blue-600']]
-                      : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale && data.filter(el => el.color).length !== 0 ? (
+                <ColorLegendWithMouseOver
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={
+                    (colors as string[] | undefined) ||
+                    UNDPColorModule[mode].categoricalColors.colors
                   }
                   colorDomain={
-                    data.filter(el => el.color).length === 0
-                      ? []
-                      : colorDomain ||
-                        (uniqBy(
-                          data.filter(el => el.color),
-                          'color',
-                        ).map(d => d.color) as string[])
+                    colorDomain ||
+                    (uniqBy(
+                      data.filter(el => el.color),
+                      'color',
+                    ).map(d => d.color) as string[])
                   }
-                  width={width || svgWidth}
-                  refValues={refValues}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  suffix={suffix}
-                  prefix={prefix}
-                  barPadding={barPadding}
-                  showLabels={showLabels}
-                  showValues={showValues}
-                  showTicks={showTicks}
-                  truncateBy={truncateBy}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  selectedColor={selectedColor}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  maxValue={maxValue}
-                  minValue={minValue}
-                  highlightedDataPoints={highlightedDataPoints}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  labelOrder={labelOrder}
-                  maxBarThickness={maxBarThickness}
-                  minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  barAxisTitle={barAxisTitle}
-                  noOfTicks={noOfTicks}
-                  valueColor={valueColor}
+                  setSelectedColor={setSelectedColor}
+                  showNAColor={showNAColor}
                 />
               ) : null}
+              <div
+                className='flex grow flex-col justify-center w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={
+                      sortData === 'asc'
+                        ? sortBy(data, d => d.size).filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                        : sortData === 'desc'
+                        ? sortBy(data, d => d.size)
+                            .reverse()
+                            .filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                        : data.filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                    }
+                    barColor={
+                      data.filter(el => el.color).length === 0
+                        ? colors
+                          ? [colors as string]
+                          : [UNDPColorModule[mode].primaryColors['blue-600']]
+                        : (colors as string[] | undefined) ||
+                          UNDPColorModule[mode].categoricalColors.colors
+                    }
+                    colorDomain={
+                      data.filter(el => el.color).length === 0
+                        ? []
+                        : colorDomain ||
+                          (uniqBy(
+                            data.filter(el => el.color),
+                            'color',
+                          ).map(d => d.color) as string[])
+                    }
+                    width={width || svgWidth}
+                    refValues={refValues}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    suffix={suffix}
+                    prefix={prefix}
+                    barPadding={barPadding}
+                    showLabels={showLabels}
+                    showValues={showValues}
+                    showTicks={showTicks}
+                    truncateBy={truncateBy}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    selectedColor={selectedColor}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    highlightedDataPoints={highlightedDataPoints}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    labelOrder={labelOrder}
+                    maxBarThickness={maxBarThickness}
+                    minBarThickness={minBarThickness}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    barAxisTitle={barAxisTitle}
+                    noOfTicks={noOfTicks}
+                    valueColor={valueColor}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

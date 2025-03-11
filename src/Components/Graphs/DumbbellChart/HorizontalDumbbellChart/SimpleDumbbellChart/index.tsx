@@ -143,145 +143,155 @@ export function HorizontalDumbbellChart(props: Props) {
 
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a dumbbell chart that shows comparisons between two or more data points across categories. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a dumbbell chart that shows comparisons between two or more data points across categories. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            <ColorLegendWithMouseOver
-              width={width}
-              colorDomain={colorDomain}
-              colors={colors}
-              colorLegendTitle={colorLegendTitle}
-              setSelectedColor={setSelectedColor}
-              showNAColor={false}
-            />
-            <div
-              className='flex grow w-full justify-center leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={
-                    sortParameter !== undefined
-                      ? sortParameter === 'diff'
-                        ? sortBy(data, d =>
-                            checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
-                            checkIfNullOrUndefined(d.x[0])
-                              ? -Infinity
-                              : (d.x[d.x.length - 1] as number) -
-                                (d.x[0] as number),
-                          )
-                            .reverse()
-                            .filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              <ColorLegendWithMouseOver
+                width={width}
+                colorDomain={colorDomain}
+                colors={colors}
+                colorLegendTitle={colorLegendTitle}
+                setSelectedColor={setSelectedColor}
+                showNAColor={false}
+              />
+              <div
+                className='flex grow w-full justify-center leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={
+                      sortParameter !== undefined
+                        ? sortParameter === 'diff'
+                          ? sortBy(data, d =>
+                              checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+                              checkIfNullOrUndefined(d.x[0])
+                                ? -Infinity
+                                : (d.x[d.x.length - 1] as number) -
+                                  (d.x[0] as number),
                             )
-                        : sortBy(data, d =>
-                            checkIfNullOrUndefined(d.x[sortParameter])
-                              ? -Infinity
-                              : d.x[sortParameter],
-                          )
-                            .reverse()
-                            .filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                              .reverse()
+                              .filter((_d, i) =>
+                                maxNumberOfBars ? i < maxNumberOfBars : true,
+                              )
+                          : sortBy(data, d =>
+                              checkIfNullOrUndefined(d.x[sortParameter])
+                                ? -Infinity
+                                : d.x[sortParameter],
                             )
-                      : data.filter((_d, i) =>
-                          maxNumberOfBars ? i < maxNumberOfBars : true,
-                        )
-                  }
-                  dotColors={colors}
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  suffix={suffix}
-                  prefix={prefix}
-                  radius={radius}
-                  barPadding={barPadding}
-                  showTicks={showTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  truncateBy={truncateBy}
-                  showLabels={showLabels}
-                  showValues={showValues}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  maxPositionValue={maxPositionValue}
-                  minPositionValue={minPositionValue}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  selectedColor={selectedColor}
-                  arrowConnector={arrowConnector}
-                  connectorStrokeWidth={connectorStrokeWidth}
-                  maxBarThickness={maxBarThickness}
-                  minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  barAxisTitle={barAxisTitle}
-                  noOfTicks={noOfTicks}
-                  valueColor={valueColor}
-                />
-              ) : null}
+                              .reverse()
+                              .filter((_d, i) =>
+                                maxNumberOfBars ? i < maxNumberOfBars : true,
+                              )
+                        : data.filter((_d, i) =>
+                            maxNumberOfBars ? i < maxNumberOfBars : true,
+                          )
+                    }
+                    dotColors={colors}
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    suffix={suffix}
+                    prefix={prefix}
+                    radius={radius}
+                    barPadding={barPadding}
+                    showTicks={showTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    truncateBy={truncateBy}
+                    showLabels={showLabels}
+                    showValues={showValues}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    maxPositionValue={maxPositionValue}
+                    minPositionValue={minPositionValue}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    selectedColor={selectedColor}
+                    arrowConnector={arrowConnector}
+                    connectorStrokeWidth={connectorStrokeWidth}
+                    maxBarThickness={maxBarThickness}
+                    minBarThickness={minBarThickness}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    barAxisTitle={barAxisTitle}
+                    noOfTicks={noOfTicks}
+                    valueColor={valueColor}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

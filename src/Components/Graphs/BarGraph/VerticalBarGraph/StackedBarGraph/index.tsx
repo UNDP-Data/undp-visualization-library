@@ -140,136 +140,148 @@ export function VerticalStackedBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a stacked bar chart. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a stacked bar chart. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            <ColorLegendWithMouseOver
-              width={width}
-              colorDomain={colorDomain}
-              colors={colors}
-              colorLegendTitle={colorLegendTitle}
-              setSelectedColor={setSelectedColor}
-              showNAColor={false}
-            />
-            <div
-              className='w-full grow leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={
-                    sortParameter !== undefined
-                      ? sortParameter === 'total'
-                        ? sortBy(data, d =>
-                            sum(
-                              d.size.filter(el => !checkIfNullOrUndefined(el)),
-                            ),
-                          ).filter((_d, i) =>
+        <div
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              <ColorLegendWithMouseOver
+                width={width}
+                colorDomain={colorDomain}
+                colors={colors}
+                colorLegendTitle={colorLegendTitle}
+                setSelectedColor={setSelectedColor}
+                showNAColor={false}
+              />
+              <div
+                className='w-full grow leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={
+                      sortParameter !== undefined
+                        ? sortParameter === 'total'
+                          ? sortBy(data, d =>
+                              sum(
+                                d.size.filter(
+                                  el => !checkIfNullOrUndefined(el),
+                                ),
+                              ),
+                            ).filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                          : sortBy(data, d =>
+                              checkIfNullOrUndefined(d.size[sortParameter])
+                                ? -Infinity
+                                : d.size[sortParameter],
+                            ).filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
+                        : data.filter((_d, i) =>
                             maxNumberOfBars ? i < maxNumberOfBars : true,
                           )
-                        : sortBy(data, d =>
-                            checkIfNullOrUndefined(d.size[sortParameter])
-                              ? -Infinity
-                              : d.size[sortParameter],
-                          ).filter((_d, i) =>
-                            maxNumberOfBars ? i < maxNumberOfBars : true,
-                          )
-                      : data.filter((_d, i) =>
-                          maxNumberOfBars ? i < maxNumberOfBars : true,
-                        )
-                  }
-                  barColors={colors}
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  barPadding={barPadding}
-                  showLabels={showLabels}
-                  showTicks={showTicks}
-                  truncateBy={truncateBy}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  showValues={showValues}
-                  suffix={suffix}
-                  prefix={prefix}
-                  refValues={refValues}
-                  maxValue={maxValue}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  selectedColor={selectedColor}
-                  labelOrder={labelOrder}
-                  maxBarThickness={maxBarThickness}
-                  minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  barAxisTitle={barAxisTitle}
-                  noOfTicks={noOfTicks}
-                  valueColor={valueColor}
-                />
-              ) : null}
+                    }
+                    barColors={colors}
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    barPadding={barPadding}
+                    showLabels={showLabels}
+                    showTicks={showTicks}
+                    truncateBy={truncateBy}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    showValues={showValues}
+                    suffix={suffix}
+                    prefix={prefix}
+                    refValues={refValues}
+                    maxValue={maxValue}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    selectedColor={selectedColor}
+                    labelOrder={labelOrder}
+                    maxBarThickness={maxBarThickness}
+                    minBarThickness={minBarThickness}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    barAxisTitle={barAxisTitle}
+                    noOfTicks={noOfTicks}
+                    valueColor={valueColor}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

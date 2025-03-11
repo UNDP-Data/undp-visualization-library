@@ -209,111 +209,121 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
-        !fillContainer ? 'w-fit' : 'w-full'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a sankey chart showing flow. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${width ? 'grow-0' : 'grow'} ${
+          !fillContainer ? 'w-fit' : 'w-full'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a sankey chart showing flow. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col gap-4 w-full grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            <div
-              className='flex flex-col grow justify-center gap-3 w-full leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
-                <Graph
-                  data={sankeyData}
-                  width={width || svgWidth}
-                  nodePadding={nodePadding}
-                  nodeWidth={nodeWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  showLabels={showLabels}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  truncateBy={truncateBy}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  showValues={showValues}
-                  suffix={suffix}
-                  prefix={prefix}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  id={generateRandomString(8)}
-                  highlightedSourceDataPoints={highlightedSourceDataPoints.map(
-                    d => `${d}`,
-                  )}
-                  highlightedTargetDataPoints={highlightedTargetDataPoints.map(
-                    d => `${d}`,
-                  )}
-                  defaultLinkOpacity={defaultLinkOpacity}
-                  sourceTitle={sourceTitle}
-                  targetTitle={targetTitle}
-                  animateLinks={animateLinks}
-                  sortNodes={sortNodes}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                />
-              ) : null}
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col gap-4 w-full grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              <div
+                className='flex flex-col grow justify-center gap-3 w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
+                  <Graph
+                    data={sankeyData}
+                    width={width || svgWidth}
+                    nodePadding={nodePadding}
+                    nodeWidth={nodeWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    showLabels={showLabels}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    truncateBy={truncateBy}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    showValues={showValues}
+                    suffix={suffix}
+                    prefix={prefix}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    id={generateRandomString(8)}
+                    highlightedSourceDataPoints={highlightedSourceDataPoints.map(
+                      d => `${d}`,
+                    )}
+                    highlightedTargetDataPoints={highlightedTargetDataPoints.map(
+                      d => `${d}`,
+                    )}
+                    defaultLinkOpacity={defaultLinkOpacity}
+                    sourceTitle={sourceTitle}
+                    targetTitle={targetTitle}
+                    animateLinks={animateLinks}
+                    sortNodes={sortNodes}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

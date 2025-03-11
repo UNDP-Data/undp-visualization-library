@@ -170,148 +170,158 @@ export function AnimatedButterflyChart(props: Props) {
 
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'grow-0 w-fit' : 'grow w-full'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is an animated diverging bar chart showing data changes over time. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'grow-0 w-fit' : 'grow w-full'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is an animated diverging bar chart showing data changes over time. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='flex gap-6 items-center' dir='ltr'>
-            <button
-              type='button'
-              onClick={() => {
-                setPlay(!play);
-              }}
-              className='p-0 border-0 cursor-pointer bg-transparent'
-              aria-label={
-                play ? 'Click to pause animation' : 'Click to play animation'
-              }
-            >
-              {play ? <Pause /> : <Play />}
-            </button>
-            <SliderUI
-              min={uniqDatesSorted[0]}
-              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              marks={markObj}
-              step={null}
-              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              value={uniqDatesSorted[index]}
-              onChangeComplete={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              onChange={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              aria-label='Time slider. Use arrow keys to adjust selected time period.'
-            />
-          </div>
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            {showColorScale ? (
-              <ColorLegend
-                colorLegendTitle={colorLegendTitle}
-                colorDomain={[leftBarTitle, rightBarTitle]}
-                colors={barColors}
-                showNAColor={false}
-                mode={mode}
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
               />
             ) : null}
-            <div
-              className='flex flex-col grow justify-center leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  barColors={barColors}
-                  width={width || svgWidth}
-                  centerGap={centerGap}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  truncateBy={truncateBy}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  axisTitles={[leftBarTitle, rightBarTitle]}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding}
-                  refValues={refValues}
-                  maxValue={maxValue}
-                  minValue={minValue}
-                  showValues={
-                    checkIfNullOrUndefined(showValues)
-                      ? true
-                      : (showValues as boolean)
-                  }
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  showTicks={showTicks}
-                  suffix={suffix}
-                  prefix={prefix}
-                  dateFormat={dateFormat}
-                  indx={index}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
+            <div className='flex gap-6 items-center' dir='ltr'>
+              <button
+                type='button'
+                onClick={() => {
+                  setPlay(!play);
+                }}
+                className='p-0 border-0 cursor-pointer bg-transparent'
+                aria-label={
+                  play ? 'Click to pause animation' : 'Click to play animation'
+                }
+              >
+                {play ? <Pause /> : <Play />}
+              </button>
+              <SliderUI
+                min={uniqDatesSorted[0]}
+                max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                marks={markObj}
+                step={null}
+                defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                value={uniqDatesSorted[index]}
+                onChangeComplete={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                onChange={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                aria-label='Time slider. Use arrow keys to adjust selected time period.'
+              />
+            </div>
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale ? (
+                <ColorLegend
+                  colorLegendTitle={colorLegendTitle}
+                  colorDomain={[leftBarTitle, rightBarTitle]}
+                  colors={barColors}
+                  showNAColor={false}
+                  mode={mode}
                 />
               ) : null}
+              <div
+                className='flex flex-col grow justify-center leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    barColors={barColors}
+                    width={width || svgWidth}
+                    centerGap={centerGap}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    truncateBy={truncateBy}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    axisTitles={[leftBarTitle, rightBarTitle]}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    barPadding={barPadding}
+                    refValues={refValues}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    showValues={
+                      checkIfNullOrUndefined(showValues)
+                        ? true
+                        : (showValues as boolean)
+                    }
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    showTicks={showTicks}
+                    suffix={suffix}
+                    prefix={prefix}
+                    dateFormat={dateFormat}
+                    indx={index}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>

@@ -2804,7 +2804,9 @@ function GraphEl(props: Props) {
     <div
       className={`grow my-0 mx-auto flex flex-col h-inherit ${
         settings?.width ? 'w-fit' : 'w-full'
-      } ${graph !== 'unitChart' ? 'justify-center' : 'justify-start'}`}
+      } ${graph !== 'unitChart' ? 'justify-center' : 'justify-start'} ${
+        settings?.mode || 'light'
+      }`}
       style={{
         minHeight: 'inherit',
       }}
@@ -2818,10 +2820,7 @@ function GraphEl(props: Props) {
         <P
           size='sm'
           marginBottom='none'
-          className='p-2 text-center'
-          style={{
-            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-          }}
+          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
         >
           {GraphComponent
             ? validateSettingsSchema(settings || {}, graph).isValid

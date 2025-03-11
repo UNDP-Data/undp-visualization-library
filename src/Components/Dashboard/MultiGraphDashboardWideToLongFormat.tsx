@@ -138,22 +138,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   }, [fetchDataHandler]);
   return (
     <div
-      className={`${
-        !dashboardLayout?.backgroundColor
-          ? 'bg-transparent '
-          : dashboardLayout?.backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }flex flex-col h-inherit w-full ml-auto mr-auto grow gap-4 ${
-        mode || 'light'
-      } ${dashboardLayout?.language || 'en'}`}
-      style={{
-        ...(dashboardLayout?.backgroundColor &&
-        dashboardLayout?.backgroundColor !== true
-          ? { backgroundColor: dashboardLayout?.backgroundColor }
-          : {}),
-      }}
-      id={dashboardId}
+      className={mode || 'light'}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'
@@ -161,151 +146,171 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
       }
     >
       <div
+        className={`${
+          !dashboardLayout?.backgroundColor
+            ? 'bg-transparent '
+            : dashboardLayout?.backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }flex flex-col h-inherit w-full ml-auto mr-auto grow gap-4 ${
+          dashboardLayout?.language || 'en'
+        }`}
         style={{
-          padding: dashboardLayout.backgroundColor
-            ? dashboardLayout.padding || '1rem'
-            : dashboardLayout.padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...(dashboardLayout?.backgroundColor &&
+          dashboardLayout?.backgroundColor !== true
+            ? { backgroundColor: dashboardLayout?.backgroundColor }
+            : {}),
         }}
+        id={dashboardId}
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {dashboardLayout.title || dashboardLayout.description ? (
-            <GraphHeader
-              graphTitle={dashboardLayout.title}
-              graphDescription={dashboardLayout.description}
-              isDashboard
-            />
-          ) : null}
-          {data ? (
-            <>
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  flexWrap: 'wrap',
-                  alignItems: 'flex-start',
-                  width: '100%',
-                }}
-              >
+        <div
+          style={{
+            padding: dashboardLayout.backgroundColor
+              ? dashboardLayout.padding || '1rem'
+              : dashboardLayout.padding || 0,
+            flexGrow: 1,
+            display: 'flex',
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {dashboardLayout.title || dashboardLayout.description ? (
+              <GraphHeader
+                graphTitle={dashboardLayout.title}
+                graphDescription={dashboardLayout.description}
+                isDashboard
+              />
+            ) : null}
+            {data ? (
+              <>
                 <div
-                  style={{
-                    width: '100%',
-                    flexGrow: 1,
-                    flexShrink: 0,
-                    minWidth: '240px',
-                  }}
-                >
-                  {dashboardLayout.dropdownLabel ? (
-                    <Label className='mb-2'>
-                      {dashboardLayout.dropdownLabel}
-                    </Label>
-                  ) : null}
-                  <DropdownSelect
-                    options={filterValues.map(d => ({
-                      value: d,
-                      label: d,
-                    }))}
-                    isClearable={false}
-                    isSearchable
-                    controlShouldRenderValue
-                    filterOption={createFilter(filterConfig)}
-                    onChange={(el: any) => {
-                      setSelectedFilterValues(el?.value);
-                    }}
-                    defaultValue={{
-                      value: selectedFilterValues as string,
-                      label: selectedFilterValues as string,
-                    }}
-                  />
-                </div>
-              </div>
-              {dashboardLayout.rows.map((d, i) => (
-                <div
-                  key={i}
                   style={{
                     display: 'flex',
                     gap: '1rem',
-                    alignItems: 'stretch',
-                    minHeight: `${d.height || 0}px`,
-                    height: 'auto',
-                    width: '100%',
                     flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                    width: '100%',
                   }}
                 >
-                  {d.columns.map((el, j) => (
-                    <div
-                      key={j}
-                      className='flex bg-transparent h-inherit grow min-w-60'
-                      style={{
-                        width: `calc(${
-                          (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
-                        }% - ${
-                          (TotalWidth(d.columns) - (el.columnWidth || 1)) /
-                          TotalWidth(d.columns)
-                        }rem)`,
-                        minHeight: 'inherit',
+                  <div
+                    style={{
+                      width: '100%',
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      minWidth: '240px',
+                    }}
+                  >
+                    {dashboardLayout.dropdownLabel ? (
+                      <Label className='mb-2'>
+                        {dashboardLayout.dropdownLabel}
+                      </Label>
+                    ) : null}
+                    <DropdownSelect
+                      options={filterValues.map(d => ({
+                        value: d,
+                        label: d,
+                      }))}
+                      isClearable={false}
+                      isSearchable
+                      controlShouldRenderValue
+                      filterOption={createFilter(filterConfig)}
+                      onChange={(el: any) => {
+                        setSelectedFilterValues(el?.value);
                       }}
-                    >
-                      <SingleGraphDashboard
-                        graphType={el.graphType}
-                        dataFilters={el.dataFilters}
-                        graphSettings={{
-                          ...el.settings,
-                          width: undefined,
-                          height: undefined,
-                          radius:
-                            el.graphType === 'donutChart'
-                              ? undefined
-                              : el.settings?.radius,
-                          size:
-                            el.graphType === 'unitChart'
-                              ? el.settings.size
-                              : undefined,
-                          language: dashboardLayout.language,
-                          mode: mode || el.settings?.mode,
-                          backgroundStyle:
-                            el.settings?.backgroundStyle ||
-                            graphBackgroundStyle,
-                          backgroundColor:
-                            el.settings?.backgroundColor ||
-                            graphBackgroundColor,
-                        }}
-                        dataSettings={{
-                          data,
-                        }}
-                        graphDataConfiguration={
-                          el.graphDataConfiguration
-                            ? el.graphDataConfiguration
-                            : el.graphType === 'unitChart'
-                            ? [
-                                {
-                                  columnId: 'indicator',
-                                  chartConfigId: 'label',
-                                },
-                                { columnId: 'value', chartConfigId: 'value' },
-                              ]
-                            : [
-                                {
-                                  columnId: 'indicator',
-                                  chartConfigId: 'label',
-                                },
-                                { columnId: 'value', chartConfigId: 'size' },
-                              ]
-                        }
-                        debugMode={debugMode}
-                        readableHeader={readableHeader || []}
-                      />
-                    </div>
-                  ))}
+                      defaultValue={{
+                        value: selectedFilterValues as string,
+                        label: selectedFilterValues as string,
+                      }}
+                    />
+                  </div>
                 </div>
-              ))}
-            </>
-          ) : (
-            <div className='w-full flex justify-center p-4'>
-              <Spinner />
-            </div>
-          )}
+                {dashboardLayout.rows.map((d, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      alignItems: 'stretch',
+                      minHeight: `${d.height || 0}px`,
+                      height: 'auto',
+                      width: '100%',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    {d.columns.map((el, j) => (
+                      <div
+                        key={j}
+                        className='flex bg-transparent h-inherit grow min-w-60'
+                        style={{
+                          width: `calc(${
+                            (100 * (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }% - ${
+                            (TotalWidth(d.columns) - (el.columnWidth || 1)) /
+                            TotalWidth(d.columns)
+                          }rem)`,
+                          minHeight: 'inherit',
+                        }}
+                      >
+                        <SingleGraphDashboard
+                          graphType={el.graphType}
+                          dataFilters={el.dataFilters}
+                          graphSettings={{
+                            ...el.settings,
+                            width: undefined,
+                            height: undefined,
+                            radius:
+                              el.graphType === 'donutChart'
+                                ? undefined
+                                : el.settings?.radius,
+                            size:
+                              el.graphType === 'unitChart'
+                                ? el.settings.size
+                                : undefined,
+                            language: dashboardLayout.language,
+                            mode: mode || el.settings?.mode,
+                            backgroundStyle:
+                              el.settings?.backgroundStyle ||
+                              graphBackgroundStyle,
+                            backgroundColor:
+                              el.settings?.backgroundColor ||
+                              graphBackgroundColor,
+                          }}
+                          dataSettings={{
+                            data,
+                          }}
+                          graphDataConfiguration={
+                            el.graphDataConfiguration
+                              ? el.graphDataConfiguration
+                              : el.graphType === 'unitChart'
+                              ? [
+                                  {
+                                    columnId: 'indicator',
+                                    chartConfigId: 'label',
+                                  },
+                                  { columnId: 'value', chartConfigId: 'value' },
+                                ]
+                              : [
+                                  {
+                                    columnId: 'indicator',
+                                    chartConfigId: 'label',
+                                  },
+                                  { columnId: 'value', chartConfigId: 'size' },
+                                ]
+                          }
+                          debugMode={debugMode}
+                          readableHeader={readableHeader || []}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className='w-full flex justify-center p-4'>
+                <Spinner />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -139,124 +139,134 @@ export function MultiLineChart(props: Props) {
 
   return (
     <div
-      className={`${
-        !backgroundColor
-          ? 'bg-transparent '
-          : backgroundColor === true
-          ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-          : ''
-      }ml-auto mr-auto flex flex-col ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      } h-inherit ${mode || 'light'} ${language || 'en'}`}
+      className={mode || 'light'}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
-      style={{
-        ...backgroundStyle,
-        ...(backgroundColor && backgroundColor !== true
-          ? { backgroundColor }
-          : {}),
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a multi-line chart that shows trends over time.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
     >
       <div
-        className='flex grow'
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col ${
+          width ? 'w-fit grow-0' : 'w-full grow'
+        } h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a multi-line chart that shows trends over time.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
-        <div className='flex flex-col w-full gap-4 grow justify-between'>
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-            />
-          ) : null}
-          <div className='grow flex flex-col justify-center gap-3 w-full'>
-            {showColorLegendAtTop ? (
-              <ColorLegend
-                colorDomain={labels}
-                colorLegendTitle={colorLegendTitle}
-                colors={colors}
-                showNAColor={false}
-                mode={mode}
+        <div
+          className='flex grow'
+          style={{
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
+          }}
+        >
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
               />
             ) : null}
-            <div
-              className='w-full grow leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  colors={
-                    colors || UNDPColorModule[mode].categoricalColors.colors
-                  }
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  dateFormat={dateFormat}
-                  noOfXTicks={noOfXTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  labels={labels}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  showColorLegendAtTop={showColorLegendAtTop}
-                  showValues={showValues}
-                  suffix={suffix}
-                  prefix={prefix}
-                  highlightAreaSettings={highlightAreaSettings}
-                  refValues={refValues}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  highlightedLines={highlightedLines}
-                  highlightAreaColor={highlightAreaColor}
-                  animateLine={animateLine}
-                  rtl={language === 'he' || language === 'ar'}
-                  strokeWidth={strokeWidth}
-                  showDots={showDots}
-                  annotations={annotations}
-                  customHighlightAreaSettings={customHighlightAreaSettings}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  yAxisTitle={yAxisTitle}
-                  noOfYTicks={noOfYTicks}
-                  minDate={minDate}
-                  maxDate={maxDate}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorLegendAtTop ? (
+                <ColorLegend
+                  colorDomain={labels}
+                  colorLegendTitle={colorLegendTitle}
+                  colors={colors}
+                  showNAColor={false}
+                  mode={mode}
                 />
               ) : null}
+              <div
+                className='w-full grow leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    colors={
+                      colors || UNDPColorModule[mode].categoricalColors.colors
+                    }
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    dateFormat={dateFormat}
+                    noOfXTicks={noOfXTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    labels={labels}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    showColorLegendAtTop={showColorLegendAtTop}
+                    showValues={showValues}
+                    suffix={suffix}
+                    prefix={prefix}
+                    highlightAreaSettings={highlightAreaSettings}
+                    refValues={refValues}
+                    minValue={minValue}
+                    maxValue={maxValue}
+                    highlightedLines={highlightedLines}
+                    highlightAreaColor={highlightAreaColor}
+                    animateLine={animateLine}
+                    rtl={language === 'he' || language === 'ar'}
+                    strokeWidth={strokeWidth}
+                    showDots={showDots}
+                    annotations={annotations}
+                    customHighlightAreaSettings={customHighlightAreaSettings}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    yAxisTitle={yAxisTitle}
+                    noOfYTicks={noOfYTicks}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter sources={sources} footNote={footNote} width={width} />
-          ) : null}
         </div>
       </div>
     </div>
