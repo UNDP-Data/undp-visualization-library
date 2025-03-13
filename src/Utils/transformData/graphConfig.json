@@ -923,11 +923,6 @@
                 "multiple": false
             },
             {
-                "id": "value",
-                "required": true,
-                "multiple": false
-            },
-            {
                 "id": "line",
                 "required": true,
                 "multiple": false

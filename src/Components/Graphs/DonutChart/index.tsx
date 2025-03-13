@@ -133,7 +133,9 @@ export function DonutChart(props: Props) {
 
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -143,9 +145,7 @@ export function DonutChart(props: Props) {
             : backgroundColor === true
             ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
             : ''
-        }ml-auto mr-auto flex flex-col ${
-          width ? 'w-fit grow-0' : 'w-full grow'
-        } h-inherit ${language || 'en'}`}
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...backgroundStyle,
           minHeight: 'inherit',
@@ -188,7 +188,7 @@ export function DonutChart(props: Props) {
               />
             ) : null}
             <div
-              className='flex grow flex-col justify-center items-stretch gap-4 flex-wrap'
+              className='flex grow flex-col justify-center items-stretch gap-8 flex-wrap'
               style={{
                 width: width ? `${width}px` : '100%',
                 padding: `${topMargin}px 0 ${bottomMargin}px 0`,
@@ -197,7 +197,7 @@ export function DonutChart(props: Props) {
               {graphLegend ? (
                 <div className='leading-0' aria-label='Color legend'>
                   <div
-                    className='flex mb-0 ml-auto mr-auto justify-center gap-y-4 gap-x-1 flex-wrap'
+                    className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
                     style={{
                       maxWidth: legendMaxWidth,
                     }}

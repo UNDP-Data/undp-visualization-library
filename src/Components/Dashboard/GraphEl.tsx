@@ -58,7 +58,6 @@ import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
-import { UNDPColorModule } from '../ColorPalette';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
 import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
@@ -108,10 +107,7 @@ function GraphEl(props: Props) {
         <P
           size='sm'
           marginBottom='none'
-          className='p-2 text-center'
-          style={{
-            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-          }}
+          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
         >
           {graphData}
         </P>

@@ -396,8 +396,8 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div className='undp-viz-bivariate-legend-container relative'>
-          <div className='self-start flex mb-3 undp-viz-bivariate-legend'>
-            <div className='relative z-5 p-0'>
+          <div className='undp-viz-bivariate-legend'>
+            <div className='relative z-10 p-4'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <p

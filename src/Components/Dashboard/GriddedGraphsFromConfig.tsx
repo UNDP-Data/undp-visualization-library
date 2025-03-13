@@ -13,7 +13,6 @@ import {
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { GriddedGraphs } from './GriddedGraphs';
 import { validateConfigSchema } from '../../Utils/validateSchema';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface ConfigObject {
   noOfColumns?: number;
@@ -80,10 +79,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       <P
         size='sm'
         marginBottom='none'
-        className='p-2 text-center'
-        style={{
-          color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
-        }}
+        className='p-2 text-center text-accent-dark-red dark:text-accent-red'
       >
         {validationResult.err}
       </P>

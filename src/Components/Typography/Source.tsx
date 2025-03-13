@@ -8,19 +8,24 @@ interface SourceProps {
 export function Source(props: SourceProps) {
   const { sources } = props;
   return (
-    <P size='sm' marginBottom='none' aria-label='Data sources'>
+    <P
+      size='sm'
+      marginBottom='none'
+      aria-label='Data sources'
+      className='text-primary-gray-550 dark:text-primary-gray-400'
+    >
       Source:{' '}
       {sources.map((d, i) => (
         <span
           key={i}
-          className='text-primary-gray-600 dark:text-primary-gray-400'
+          className='text-primary-gray-550 dark:text-primary-gray-400'
           style={{
             fontFamily: 'inherit',
           }}
         >
           {d.link ? (
             <A
-              className='text-primary-gray-600 dark:text-primary-gray-400'
+              className='text-primary-gray-550 dark:text-primary-gray-400'
               href={d.link}
               target='_blank'
               rel='noreferrer'

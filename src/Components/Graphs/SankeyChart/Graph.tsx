@@ -196,7 +196,7 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            marginBottom={showValues ? '2xs' : 'none'}
+                            marginBottom={showValues ? '3xs' : 'none'}
                             size='sm'
                             leading='none'
                             className='text-right'
@@ -272,7 +272,7 @@ export function Graph(props: Props) {
                       >
                         {showLabels ? (
                           <P
-                            marginBottom={showValues ? '2xs' : 'none'}
+                            marginBottom={showValues ? '3xs' : 'none'}
                             size='sm'
                             leading='none'
                             className='text-left'
@@ -290,15 +290,18 @@ export function Graph(props: Props) {
                           </P>
                         ) : null}
                         {showValues ? (
-                          <p
-                            className='text-sm text-left mb-0 font-bold leading-none'
+                          <P
+                            size='sm'
+                            leading='none'
+                            marginBottom='none'
+                            className='text-left font-bold'
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,
                             }}
                           >
                             {numberFormattingFunction(d.value, prefix, suffix)}
-                          </p>
+                          </P>
                         ) : null}
                       </div>
                     </foreignObject>

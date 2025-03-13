@@ -1,6 +1,8 @@
+
+
 .undp-viz-bivariate-legend-container {
   width: 20rem;
-  position: sticky;
+  position: relative;
   bottom: 0;
   z-index: 5;
   height: 0;
@@ -8,20 +10,22 @@
   align-items: flex-end;
 }
 
-.undp-viz-bivariate-legend {
-  background-color: rgba(255,255,255,0.75);
-}
-
-.dark .undp-viz-bivariate-legend {
-  background-color: rgba(255,255,255,0.05);
-}
-
 @media (min-width: 961px) {    
   .undp-viz-bivariate-legend-container {
     translate: 0 -100%;
     width: fit-content;
-    background-color: rgba(255,255,255, 0.75);
   }
+}
+
+.undp-viz-bivariate-legend {
+  background-color: rgba(255,255,255,0.75);
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  display: flex;
+}
+
+.dark .undp-viz-bivariate-legend {
+  background-color: rgba(255,255,255,0.05);
 }
 
 .text-outline {

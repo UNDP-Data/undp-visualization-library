@@ -173,7 +173,9 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
 
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -183,9 +185,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
             : backgroundColor === true
             ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
             : ''
-        }ml-auto mr-auto flex flex-col ${
-          width ? 'w-fit grow-0' : 'w-full grow'
-        } h-inherit ${language || 'en'}`}
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...backgroundStyle,
           ...(backgroundColor && backgroundColor !== true

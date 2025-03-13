@@ -50,7 +50,7 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex w-full`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div

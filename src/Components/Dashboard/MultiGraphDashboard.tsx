@@ -181,7 +181,7 @@ export function MultiGraphDashboard(props: Props) {
   }, []);
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex grow`}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'

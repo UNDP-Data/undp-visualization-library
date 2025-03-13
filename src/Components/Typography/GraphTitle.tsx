@@ -22,7 +22,7 @@ export function GraphTitle(props: Props) {
     return (
       <H5
         marginBottom='base'
-        className='font-bold pb-3 text-primary-gray-600 dark:text-primary-gray-400'
+        className='font-bold pb-3 text-primary-black dark:text-primary-gray-100'
         aria-label='Dashboard title'
       >
         {text}
@@ -31,7 +31,7 @@ export function GraphTitle(props: Props) {
   return (
     <P
       marginBottom='none'
-      className='text-primary-gray-600 dark:text-primary-gray-400'
+      className='text-primary-black dark:text-primary-gray-100'
       aria-label='Graph title'
     >
       {text}

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
@@ -17,6 +18,7 @@ interface Props {
   width: number;
   height: number;
   colors: string[];
+  colorDomain?: string[];
   colorLegendTitle?: string;
   categorical: boolean;
   data: ChoroplethMapDataType[];
@@ -68,6 +70,7 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    colorDomain,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -379,8 +382,8 @@ export function Graph(props: Props) {
       </svg>
       {showColorScale === false ? null : (
         <div className='undp-viz-bivariate-legend-container relative'>
-          <div className='self-start flex mb-3 undp-viz-bivariate-legend'>
-            <div className='p-0 z-10 relative'>
+          <div className='undp-viz-bivariate-legend'>
+            <div className='p-4 z-10 relative'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <P
@@ -396,63 +399,49 @@ export function Graph(props: Props) {
                     {colorLegendTitle}
                   </P>
                 ) : null}
-                <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
-                  <g>
-                    {domain.map((d, i) => (
-                      <g
-                        key={i}
-                        onMouseOver={() => {
-                          setSelectedColor(colors[i]);
-                        }}
-                        onMouseLeave={() => {
-                          setSelectedColor(undefined);
-                        }}
-                        className='cursor-pointer'
-                      >
-                        <rect
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 1
-                              : (i * 320) / colors.length + 1
-                          }
-                          y={1}
-                          width={
-                            categorical
-                              ? 320 / domain.length - 2
-                              : 320 / colors.length - 2
-                          }
-                          height={8}
-                          className={
-                            selectedColor === colors[i]
-                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                              : ''
-                          }
-                          style={{
-                            fill: colors[i],
-                            ...(selectedColor === colors[i]
-                              ? {}
-                              : { stroke: colors[i] }),
+                {!categorical ? (
+                  <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                    <g>
+                      {domain.map((d, i) => (
+                        <g
+                          key={i}
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i]);
                           }}
-                        />
-                        <text
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 160 / domain.length
-                              : ((i + 1) * 320) / colors.length
-                          }
-                          y={25}
-                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                          style={{
-                            textAnchor: 'middle',
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
                           }}
+                          className='cursor-pointer'
                         >
-                          {categorical
-                            ? d
-                            : numberFormattingFunction(d as number, '', '')}
-                        </text>
-                      </g>
-                    ))}
-                    {categorical ? null : (
+                          <rect
+                            x={(i * 320) / colors.length + 1}
+                            y={1}
+                            width={320 / colors.length - 2}
+                            height={8}
+                            className={
+                              selectedColor === colors[i]
+                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                : ''
+                            }
+                            style={{
+                              fill: colors[i],
+                              ...(selectedColor === colors[i]
+                                ? {}
+                                : { stroke: colors[i] }),
+                            }}
+                          />
+                          <text
+                            x={((i + 1) * 320) / colors.length}
+                            y={25}
+                            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                            style={{
+                              textAnchor: 'middle',
+                            }}
+                          >
+                            {numberFormattingFunction(d as number, '', '')}
+                          </text>
+                        </g>
+                      ))}
                       <g>
                         <rect
                           onMouseOver={() => {
@@ -478,9 +467,50 @@ export function Graph(props: Props) {
                           }}
                         />
                       </g>
-                    )}
-                  </g>
-                </svg>
+                    </g>
+                  </svg>
+                ) : (
+                  <div>
+                    {colorLegendTitle && colorLegendTitle !== '' ? (
+                      <P
+                        size='xs'
+                        marginBottom='xs'
+                        className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: '1',
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
+                        {colorLegendTitle}
+                      </P>
+                    ) : null}
+                    <div className='flex flex-col gap-2'>
+                      {(colorDomain || domain).map((d, i) => (
+                        <div
+                          key={i}
+                          className='flex gap-1 items-center'
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i % colors.length]);
+                          }}
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
+                          }}
+                        >
+                          <div
+                            className='w-3 h-3 rounded-full'
+                            style={{
+                              backgroundColor: colors[i % colors.length],
+                            }}
+                          />
+                          <P size='sm' marginBottom='none'>
+                            {d}
+                          </P>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

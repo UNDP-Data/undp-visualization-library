@@ -28,7 +28,9 @@ export function ImageDownloadButton(props: Props) {
   return (
     <Button
       variant={buttonType}
-      className={`${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
+      className={`${
+        buttonSmall ? 'p-2' : 'py-4 px-6'
+      } ${className} border border-primary-gray-400 dark:border-primary-gray-550`}
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {

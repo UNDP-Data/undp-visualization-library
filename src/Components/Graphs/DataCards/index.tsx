@@ -226,7 +226,9 @@ export function DataCards(props: Props) {
 
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -236,9 +238,7 @@ export function DataCards(props: Props) {
             : backgroundColor === true
             ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
             : ''
-        }ml-auto mr-auto flex flex-col ${
-          width ? 'w-fit grow-0' : 'w-full grow'
-        } h-inherit ${language || 'en'}`}
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...backgroundStyle,
           ...(backgroundColor && backgroundColor !== true
@@ -343,32 +343,13 @@ export function DataCards(props: Props) {
               </div>
             ) : null}
             {cardSearchColumns.length > 0 ? (
-              <div className='w-full flex'>
-                <div className='flex grow relative'>
-                  <span
-                    className='absolute'
-                    style={{
-                      left: '10px',
-                      top: '50%',
-                      transform: 'translateY(-45%)',
-                    }}
-                  >
-                    <img
-                      alt='search-icon'
-                      src='https://design.undp.org/icons/search.svg'
-                      width={24}
-                      height={24}
-                    />
-                  </span>
-                  <Search
-                    placeholder='Search...'
-                    value={searchQuery}
-                    onChange={e => {
-                      setSearchQuery(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
+              <Search
+                placeholder='Search...'
+                value={searchQuery}
+                onChange={e => {
+                  setSearchQuery(e.target.value);
+                }}
+              />
             ) : null}
             <div
               className='undp-viz-scrollbar w-full my-0 mx-auto grid gap-4 undp-viz-data-cards-container'

@@ -40,12 +40,7 @@ export function ColorLegend(props: Props) {
             {colorLegendTitle}
           </P>
         ) : null}
-        <div
-          className='flex flex-wrap mb-0'
-          style={{
-            gap: '0.875rem',
-          }}
-        >
+        <div className='flex flex-wrap mb-0 gap-3.5'>
           {colorDomain.map((d, i) => (
             <div key={i} className='flex items-center gap-1'>
               <div

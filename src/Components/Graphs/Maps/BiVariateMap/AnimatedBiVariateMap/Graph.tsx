@@ -416,12 +416,21 @@ export function Graph(props: Props) {
       </svg>
       {showLegend ? (
         <div className='undp-viz-bivariate-legend-container relative'>
-          <div className='self-start flex mb-3 undp-viz-bivariate-legend'>
+          <div className='undp-viz-bivariate-legend'>
+            <button
+              className='mt-2 mr-2 ml-0 mb-0 cursor-pointer border-0 h-6 p-0'
+              type='button'
+              onClick={() => {
+                setShowLegend(false);
+              }}
+            >
+              <X />
+            </button>
             <div className='items-end flex'>
-              <div className='relative py-3 pb-3 pt-14 z-10'>
+              <div className='relative z-10 my-3 mr-14 ml-3'>
                 <div className='flex pointer-events-auto'>
                   <div>
-                    <svg width='135px' viewBox='0 0 135 135' direction='ltr'>
+                    <svg width='135px' viewBox='0 0 135 135'>
                       <g>
                         {colors.map((d, i) => (
                           <g key={i} transform={`translate(0,${100 - i * 25})`}>
@@ -430,17 +439,11 @@ export function Graph(props: Props) {
                                 key={j}
                                 y={1}
                                 x={j * 25 + 1}
+                                fill={el}
                                 width={23}
                                 height={23}
-                                style={{
-                                  fill: el,
-                                  strokeWidth: selectedColor === el ? 2 : 0.25,
-                                }}
-                                className={`cursor-pointer ${
-                                  selectedColor === el
-                                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                                    : 'stroke-primary-white dark:stroke-primary-gray-700'
-                                }`}
+                                strokeWidth={selectedColor === el ? 2 : 0.25}
+                                style={{ cursor: 'pointer' }}
                                 onMouseOver={() => {
                                   setSelectedColor(el);
                                 }}
@@ -457,10 +460,8 @@ export function Graph(props: Props) {
                               key={j}
                               y={10}
                               x={(j + 1) * 25}
-                              className='text-[10px] fill-primary-gray-700 dark:fill-primary-gray-300'
-                              style={{
-                                textAnchor: 'middle',
-                              }}
+                              fontSize={10}
+                              textAnchor='middle'
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
@@ -481,10 +482,8 @@ export function Graph(props: Props) {
                               x={0}
                               transform='rotate(-90)'
                               y={0}
-                              className='text-[10px] fill-primary-gray-700 dark:fill-primary-gray-300'
-                              style={{
-                                textAnchor: 'middle',
-                              }}
+                              fontSize={10}
+                              textAnchor='middle'
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
@@ -495,9 +494,12 @@ export function Graph(props: Props) {
                       </g>
                     </svg>
                     <div
-                      className='text-xs non-italic text-center mt-2 text-primary-gray-700 dark:text-primary-gray-300'
                       style={{
                         lineHeight: 'normal',
+                        marginTop: '0.5rem',
+                        textAlign: 'center',
+                        fontStyle: 'normal',
+                        fontSize: '0.75rem',
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
@@ -509,11 +511,14 @@ export function Graph(props: Props) {
                     </div>
                   </div>
                   <div
-                    className='text-xs non-italic text-center mt-2 absolute text-primary-gray-700 dark:text-primary-gray-300'
                     style={{
                       lineHeight: 'normal',
+                      textAlign: 'center',
+                      fontStyle: 'normal',
+                      fontSize: '0.75rem',
                       width: '8.125rem',
                       display: '-webkit-box',
+                      position: 'absolute',
                       top: '80px',
                       translate: '75% -50%',
                       rotate: '90deg',
@@ -527,26 +532,17 @@ export function Graph(props: Props) {
                 </div>
               </div>
             </div>
-            <button
-              type='button'
-              className='cursor-pointer mt-2 mr-2 ml-0 mb-0 border-0 h-6 p-0'
-              onClick={() => {
-                setShowLegend(false);
-              }}
-            >
-              <X />
-            </button>
           </div>
         </div>
       ) : (
         <button
           type='button'
-          className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0'
+          className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0 self-start'
           onClick={() => {
             setShowLegend(true);
           }}
         >
-          <div className='self-start bg-primary-gray-300 dark:bg-primary-gray-600 border border-primary-gray-400 dark:border-primary-gray-500 text-primary-gray-600 dark:text-primary-gray-300 leading-normal font-bold uppercase cursor-pointer p-2 text-sm mb-3 flex'>
+          <div className='items-start text-sm font-medium cursor-pointer p-2 mb-3 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
             Show Legend
           </div>
         </button>

@@ -138,7 +138,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   }, [fetchDataHandler]);
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'

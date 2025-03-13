@@ -214,7 +214,9 @@ export function GriddedGraphs(props: Props) {
   }, []);
   return (
     <div
-      className={mode || 'light'}
+      className={`${mode || 'light'} flex  ${
+        graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
       dir={
         graphSettings?.language === 'he' || graphSettings?.language === 'ar'
           ? 'rtl'
@@ -228,9 +230,9 @@ export function GriddedGraphs(props: Props) {
             : graphSettings?.backgroundColor === true
             ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
             : ''
-        }ml-auto mr-auto flex flex-col ${
-          graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
-        } h-inherit ${graphSettings?.language || 'en'}`}
+        }ml-auto mr-auto flex flex-col grow h-inherit ${
+          graphSettings?.language || 'en'
+        }`}
         style={{
           ...(graphSettings?.backgroundColor &&
           graphSettings?.backgroundColor !== true

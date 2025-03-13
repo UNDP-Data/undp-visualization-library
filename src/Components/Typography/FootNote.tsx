@@ -21,7 +21,7 @@ export function FootNote(props: Props) {
     <P
       size='sm'
       marginBottom='none'
-      className='text-primary-gray-600 dark:text-primary-gray-400'
+      className='text-primary-gray-550 dark:text-primary-gray-400'
       aria-label='Graph footnote'
     >
       {text}

@@ -68,7 +68,7 @@ export function CsvDownloadButton(props: Props) {
         variant={buttonType}
         className={`no-underline ${
           buttonSmall ? 'p-2' : 'py-4 px-6'
-        } ${className} `}
+        } ${className} border border-primary-gray-400 dark:border-primary-gray-550`}
       >
         {buttonContent || <FileDown />}
       </Button>
