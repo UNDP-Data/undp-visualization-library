@@ -9,9 +9,6 @@ interface Props {
   width?: number;
   graphDownload?: HTMLDivElement | null;
   dataDownload?: any;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
   isDashboard?: boolean;
 }
 
@@ -22,50 +19,28 @@ export function GraphHeader(props: Props) {
     width,
     graphDownload,
     dataDownload,
-    rtl,
-    language,
-    mode,
     isDashboard,
   } = props;
   return (
     <div
+      className={`flex gap-2 justify-between ${
+        graphDescription && graphTitle ? 'items-start' : 'items-center'
+      }`}
       style={{
-        maxWidth: width || 'none',
-        justifyContent: 'space-between',
-        alignItems: graphDescription && graphTitle ? 'flex-start' : 'center',
-        display: 'flex',
-        gap: '0.5rem',
-        flexDirection: rtl ? 'row-reverse' : 'row',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Graph header'
     >
-      <div style={{ flexDirection: 'column', display: 'flex', gap: '0.125em' }}>
+      <div className='flex-col flex gap-1'>
         {graphTitle ? (
-          <GraphTitle
-            text={graphTitle}
-            rtl={rtl}
-            language={language}
-            mode={mode}
-            isDashboard={isDashboard}
-          />
+          <GraphTitle text={graphTitle} isDashboard={isDashboard} />
         ) : null}
-        {graphDescription ? (
-          <GraphDescription
-            text={graphDescription}
-            rtl={rtl}
-            language={language}
-            mode={mode}
-          />
-        ) : null}
+        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
       </div>
       {graphDownload || dataDownload ? (
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div className='flex gap-3'>
           {graphDownload ? (
-            <ImageDownloadButton
-              nodeID={graphDownload}
-              buttonSmall
-              mode={mode}
-            />
+            <ImageDownloadButton nodeID={graphDownload} buttonSmall />
           ) : null}
           {dataDownload ? (
             <CsvDownloadButton
@@ -75,7 +50,6 @@ export function GraphHeader(props: Props) {
                 label: d,
                 key: d,
               }))}
-              mode={mode}
             />
           ) : null}
         </div>

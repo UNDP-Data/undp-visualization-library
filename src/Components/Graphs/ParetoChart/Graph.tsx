@@ -4,12 +4,11 @@ import { scaleBand, scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, ParetoChartDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -30,11 +29,8 @@ interface Props {
   truncateBy: number;
   showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfYTicks: number;
   lineSuffix: string;
@@ -62,9 +58,6 @@ export function Graph(props: Props) {
     truncateBy,
     showLabels,
     onSeriesMouseClick,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -140,6 +133,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
@@ -150,22 +144,19 @@ export function Graph(props: Props) {
                   y2={y1(d)}
                   x1={-15}
                   x2={-20}
-                  stroke={barColor}
-                  strokeWidth={1}
+                  style={{
+                    stroke: barColor,
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={-25}
                   y={y1(d)}
-                  fill={barColor}
-                  textAnchor='end'
-                  fontSize={12}
                   dy={3}
+                  className='text-xs'
                   style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'end',
+                    fill: barColor,
                   }}
                 >
                   {numberFormattingFunction(d, barPrefix, barSuffix)}
@@ -177,24 +168,20 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              stroke={barColor}
-              strokeWidth={1}
+              style={{
+                stroke: barColor,
+                strokeWidth: 1,
+              }}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={barColor}
-              textAnchor='middle'
-              fontSize={12}
               style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
+                fill: barColor,
               }}
+              className='text-xs'
             >
               {axisTitles[0].length > 100
                 ? `${axisTitles[0].substring(0, 100)}...`
@@ -209,23 +196,20 @@ export function Graph(props: Props) {
                   y2={y2(d)}
                   x1={graphWidth + 15}
                   x2={graphWidth + 20}
-                  stroke={lineColor}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColor,
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  fill={lineColor}
-                  textAnchor='start'
-                  fontSize={12}
                   dy={3}
                   dx={-2}
+                  className='text-xs'
                   style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'start',
+                    fill: lineColor,
                   }}
                 >
                   {numberFormattingFunction(d, linePrefix, lineSuffix)}
@@ -237,24 +221,20 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              stroke={lineColor}
-              strokeWidth={1}
+              style={{
+                stroke: lineColor,
+                strokeWidth: 1,
+              }}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColor}
-              textAnchor='middle'
-              fontSize={12}
               style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
+                fill: lineColor,
               }}
+              className='text-xs'
             >
               {axisTitles[1].length > 100
                 ? `${axisTitles[1].substring(0, 100)}...`
@@ -267,10 +247,7 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
           </g>
           {dataWithId.map((d, i) => {
@@ -329,16 +306,10 @@ export function Graph(props: Props) {
                     x={(x(`${i}`) as number) + x.bandwidth() / 2}
                     y={y1(0)}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     dy='15px'
+                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                   >
                     {`${d.label}`.length < truncateBy
                       ? `${d.label}`
@@ -350,11 +321,11 @@ export function Graph(props: Props) {
           })}
           <path
             d={lineShape(dataWithId as any) as string}
-            fill='none'
             style={{
               stroke: lineColor,
+              fill: 'none',
+              strokeWidth: 2,
             }}
-            strokeWidth={2}
           />
           {dataWithId.map((d, i) => (
             <g key={i}>
@@ -418,25 +389,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

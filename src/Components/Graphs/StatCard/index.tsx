@@ -1,7 +1,7 @@
+import { H3 } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { UNDPColorModule } from '../../ColorPalette';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../Types';
 
 interface Props {
@@ -16,7 +16,6 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -40,7 +39,6 @@ export function BasicStatCard(props: Props) {
     padding,
     backgroundColor = false,
     graphID,
-    rtl = false,
     language = 'en',
     mode = 'light',
     ariaLabel,
@@ -52,126 +50,95 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: '100%',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a statistic card.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex w-full`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a statistic card.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '3rem',
-            justifyContent: 'space-between',
-            flexGrow: 1,
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent:
+          <div className='flex flex-col w-full gap-12 justify-between grow'>
+            {graphTitle || graphDescription ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+              />
+            ) : null}
+            <div
+              className={`flex flex-col justify-between grow ${
                 verticalAlign === 'top'
-                  ? 'flex-start'
+                  ? 'justify-start'
                   : verticalAlign === 'bottom'
-                  ? 'flex-end'
-                  : 'center',
-            }}
-          >
-            <h3
-              style={{
-                fontSize: headingFontSize,
-                lineHeight: '1',
-                textShadow: 'none',
-                WebkitTextStroke: textBackground
-                  ? undefined
-                  : `2px ${UNDPColorModule[mode].grays.black}`,
-                color: textBackground
-                  ? UNDPColorModule[mode].grays.black
-                  : !backgroundColor
-                  ? 'rgba(0,0,0,0)'
-                  : backgroundColor === true
-                  ? UNDPColorModule[mode].grays['gray-200']
-                  : backgroundColor,
-                letterSpacing: '0.05rem',
-                marginTop: '0',
-                marginBottom: '1rem',
-                textAlign: centerAlign ? 'center' : rtl ? 'right' : 'left',
-                fontFamily:
-                  'SohneBreit, ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              }}
+                  ? 'justify-end'
+                  : 'justify-center'
+              }`}
             >
-              {typeof value === 'string'
-                ? `${prefix}${value}${suffix}`
-                : numberFormattingFunction(value, prefix, suffix)}{' '}
-              {year ? (
-                <span
-                  style={{
-                    marginLeft: '-8px',
-                    fontSize: '1.25rem',
-                    lineHeight: '1.09',
-                    textShadow: 'none',
-                    fontWeight: 'normal',
-                    WebkitTextStroke: `0px ${UNDPColorModule[mode].grays.black}`,
-                    color: UNDPColorModule[mode].grays['gray-550'],
-                    marginTop: '0',
-                    marginBottom: '1rem',
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                  }}
-                >
-                  ({year})
-                </span>
-              ) : null}
-            </h3>
+              <H3
+                marginBottom='base'
+                className={`leading-none text-outline font-heading ${
+                  centerAlign
+                    ? 'text-center'
+                    : language === 'he' || language === 'ar'
+                    ? 'text-right'
+                    : 'text-left'
+                } ${
+                  textBackground
+                    ? 'text-primary-black dark:text-primary-white'
+                    : 'transparent'
+                }`}
+                style={{
+                  fontSize: headingFontSize,
+                  letterSpacing: '0.05rem',
+                }}
+              >
+                {typeof value === 'string'
+                  ? `${prefix}${value}${suffix}`
+                  : numberFormattingFunction(value, prefix, suffix)}{' '}
+                {year ? (
+                  <span
+                    className='text-lg font-normal mt-0 mb-4 text-primary-gray-550 dark:text-primary-gray-400'
+                    style={{
+                      marginLeft: '-8px',
+                      lineHeight: '1.09',
+                      textShadow: 'none',
+                      WebkitTextStrokeWidth: 0,
+                    }}
+                  >
+                    ({year})
+                  </span>
+                ) : null}
+              </H3>
+            </div>
+            {sources || footNote ? (
+              <GraphFooter sources={sources} footNote={footNote} />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

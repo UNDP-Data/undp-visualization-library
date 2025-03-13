@@ -26,7 +26,6 @@ export function checkDataConfigValidity(
   ].configuration
     .filter(el => el.required)
     .map(el => el.id);
-
   const ifRequiredIdsPresent = missingValuesInArray(ids, requiredIds);
   return {
     isValid: ifRequiredIdsPresent.length === 0,

@@ -48,7 +48,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -89,13 +88,12 @@ export function HeatMap(props: Props) {
     relativeHeight,
     showValues,
     graphID,
-    noDataColor = UNDPColorModule.light.graphGray,
+    noDataColor = UNDPColorModule.gray,
     showColorScale = true,
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
     fillContainer = true,
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -103,12 +101,7 @@ export function HeatMap(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
   } = props;
 
@@ -142,238 +135,200 @@ export function HeatMap(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: !fillContainer ? 'fit-content' : '100%',
-        height: 'inherit',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a heatmap. ${graphDescription ? ` ${graphDescription}` : ''}`
-      }
+      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+        !fillContainer ? 'w-fit' : 'w-full'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a heatmap. ${graphDescription ? ` ${graphDescription}` : ''}`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            width: '100%',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            {showColorScale ? (
-              scale === 'categorical' ? (
-                <div style={{ marginBottom: '-12px' }}>
-                  <ColorLegendWithMouseOver
-                    rtl={rtl}
-                    language={language}
-                    width={fillContainer ? undefined : width}
-                    colorLegendTitle={colorLegendTitle}
-                    colors={
-                      colors ||
-                      (typeof domain[0] === 'string'
-                        ? UNDPColorModule[mode].categoricalColors.colors
-                        : domain.length === 2
-                        ? [
-                            UNDPColorModule[mode].sequentialColors
-                              .neutralColorsx09[0],
-                            UNDPColorModule[mode].sequentialColors
-                              .neutralColorsx09[8],
-                          ]
-                        : UNDPColorModule[mode].sequentialColors[
-                            `neutralColorsx0${
-                              (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                            }`
-                          ])
-                    }
-                    colorDomain={domain.map(d => `${d}`)}
-                    setSelectedColor={setSelectedColor}
-                    showNAColor={showNAColor}
-                    mode={mode}
-                  />
-                </div>
-              ) : scale === 'threshold' ? (
-                <div style={{ marginBottom: '-12px' }}>
-                  <ThresholdColorLegendWithMouseOver
-                    width={fillContainer ? undefined : width}
-                    colorLegendTitle={colorLegendTitle}
-                    colors={
-                      colors ||
-                      (typeof domain[0] === 'string'
-                        ? UNDPColorModule[mode].categoricalColors.colors
-                        : domain.length === 2
-                        ? [
-                            UNDPColorModule[mode].sequentialColors
-                              .neutralColorsx09[0],
-                            UNDPColorModule[mode].sequentialColors
-                              .neutralColorsx09[8],
-                          ]
-                        : UNDPColorModule[mode].sequentialColors[
-                            `neutralColorsx0${
-                              (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                            }`
-                          ])
-                    }
-                    colorDomain={domain as number[]}
-                    setSelectedColor={setSelectedColor}
-                    naColor={noDataColor}
-                    rtl={rtl}
-                    language={language}
-                    mode={mode}
-                  />
-                </div>
-              ) : (
-                <div style={{ marginBottom: '-12px' }}>
-                  <LinearColorLegend
-                    width={fillContainer ? undefined : width}
-                    colorLegendTitle={colorLegendTitle}
-                    colors={
-                      colors || [
-                        UNDPColorModule[mode].sequentialColors
-                          .neutralColorsx09[0],
-                        UNDPColorModule[mode].sequentialColors
-                          .neutralColorsx09[8],
-                      ]
-                    }
-                    colorDomain={domain as number[]}
-                    mode={mode}
-                    rtl={rtl}
-                    language={language}
-                  />
-                </div>
-              )
+          <div className='flex flex-col gap-4 w-full grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
             ) : null}
-            <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '0.75rem',
-                width: '100%',
-                lineHeight: 0,
-              }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  domain={domain}
-                  width={width || svgWidth}
-                  colors={
-                    colors ||
-                    (typeof domain[0] === 'string'
-                      ? UNDPColorModule[mode].categoricalColors.colors
-                      : domain.length === 2
-                      ? [
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale ? (
+                scale === 'categorical' ? (
+                  <div style={{ marginBottom: '-12px' }}>
+                    <ColorLegendWithMouseOver
+                      width={fillContainer ? undefined : width}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={
+                        colors ||
+                        (typeof domain[0] === 'string'
+                          ? UNDPColorModule[mode].categoricalColors.colors
+                          : domain.length === 2
+                          ? [
+                              UNDPColorModule[mode].sequentialColors
+                                .neutralColorsx09[0],
+                              UNDPColorModule[mode].sequentialColors
+                                .neutralColorsx09[8],
+                            ]
+                          : UNDPColorModule[mode].sequentialColors[
+                              `neutralColorsx0${
+                                (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                              }`
+                            ])
+                      }
+                      colorDomain={domain.map(d => `${d}`)}
+                      setSelectedColor={setSelectedColor}
+                      showNAColor={showNAColor}
+                    />
+                  </div>
+                ) : scale === 'threshold' ? (
+                  <div style={{ marginBottom: '-12px' }}>
+                    <ThresholdColorLegendWithMouseOver
+                      width={fillContainer ? undefined : width}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={
+                        colors ||
+                        (typeof domain[0] === 'string'
+                          ? UNDPColorModule[mode].categoricalColors.colors
+                          : domain.length === 2
+                          ? [
+                              UNDPColorModule[mode].sequentialColors
+                                .neutralColorsx09[0],
+                              UNDPColorModule[mode].sequentialColors
+                                .neutralColorsx09[8],
+                            ]
+                          : UNDPColorModule[mode].sequentialColors[
+                              `neutralColorsx0${
+                                (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                              }`
+                            ])
+                      }
+                      colorDomain={domain as number[]}
+                      setSelectedColor={setSelectedColor}
+                      naColor={noDataColor}
+                    />
+                  </div>
+                ) : (
+                  <div style={{ marginBottom: '-12px' }}>
+                    <LinearColorLegend
+                      width={fillContainer ? undefined : width}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={
+                        colors || [
                           UNDPColorModule[mode].sequentialColors
                             .neutralColorsx09[0],
                           UNDPColorModule[mode].sequentialColors
                             .neutralColorsx09[8],
                         ]
-                      : UNDPColorModule[mode].sequentialColors[
-                          `neutralColorsx0${
-                            (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                          }`
-                        ])
-                  }
-                  noDataColor={noDataColor}
-                  scaleType={scale}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  showColumnLabels={showColumnLabels}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  selectedColor={selectedColor}
-                  truncateBy={truncateBy}
-                  showRowLabels={showRowLabels}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  showValues={showValues}
-                  suffix={suffix}
-                  prefix={prefix}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
-                  language={language}
-                  mode={mode}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                />
+                      }
+                      colorDomain={domain as number[]}
+                    />
+                  </div>
+                )
               ) : null}
+              <div
+                className='flex flex-col grow justify-center gap-3 w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    domain={domain}
+                    width={width || svgWidth}
+                    colors={
+                      colors ||
+                      (typeof domain[0] === 'string'
+                        ? UNDPColorModule[mode].categoricalColors.colors
+                        : domain.length === 2
+                        ? [
+                            UNDPColorModule[mode].sequentialColors
+                              .neutralColorsx09[0],
+                            UNDPColorModule[mode].sequentialColors
+                              .neutralColorsx09[8],
+                          ]
+                        : UNDPColorModule[mode].sequentialColors[
+                            `neutralColorsx0${
+                              (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                            }`
+                          ])
+                    }
+                    noDataColor={noDataColor}
+                    scaleType={scale}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    showColumnLabels={showColumnLabels}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    selectedColor={selectedColor}
+                    truncateBy={truncateBy}
+                    showRowLabels={showRowLabels}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    showValues={showValues}
+                    suffix={suffix}
+                    prefix={prefix}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

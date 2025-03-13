@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'framer-motion';
+import { Modal, P } from '@undp-data/undp-design-system-react';
 import { CSSObject, NodeDataType, NodesLinkDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: NodesLinkDataType;
@@ -28,9 +27,6 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   id: string;
   highlightedSourceDataPoints: string[];
   highlightedTargetDataPoints: string[];
@@ -39,7 +35,7 @@ interface Props {
   animateLinks?: boolean | number;
   sortNodes: 'asc' | 'desc' | 'mostReadable' | 'none';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -60,9 +56,6 @@ export function Graph(props: Props) {
     prefix,
     showValues,
     onSeriesMouseClick,
-    rtl,
-    language,
-    mode,
     nodePadding,
     nodeWidth,
     id,
@@ -137,21 +130,15 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
+        direction='ltr'
       >
         {sourceTitle ? (
           <text
             x={margin.left}
             y={margin.top - 10}
+            className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               textAnchor: 'start',
-              fontSize: 16,
-              fontWeight: 'bold',
             }}
           >
             {sourceTitle}
@@ -161,16 +148,9 @@ export function Graph(props: Props) {
           <text
             x={width - margin.right}
             y={margin.top - 10}
+            className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
               textAnchor: 'end',
-              fontSize: 16,
-              fontWeight: 'bold',
             }}
           >
             {targetTitle}
@@ -207,38 +187,21 @@ export function Graph(props: Props) {
                       height={(d.y1 || 0) - (d.y0 || 0) + nodePadding}
                     >
                       <div
+                        className='flex flex-col gap-0.5 justify-center py-0 px-1.5'
                         style={{
-                          color: (d as NodeDataType).color,
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAnchor: 'middle',
-                          whiteSpace: 'normal',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '2px',
-                          justifyContent: 'center',
                           height: `${
                             (d.y1 || 0) - (d.y0 || 0) + nodePadding
                           }px`,
-                          padding: '0 0.375rem',
                         }}
                       >
                         {showLabels ? (
-                          <p
-                            className={`${
-                              rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                          <P
+                            marginBottom={showValues ? '3xs' : 'none'}
+                            size='sm'
+                            leading='none'
+                            className='text-right'
                             style={{
-                              fontSize: '14px',
                               hyphens: 'auto',
-                              marginBottom: showValues ? '0.5rem' : 0,
-                              textAlign: 'right',
-                              lineHeight: '1',
                               color: (d as NodeDataType).color,
                             }}
                           >
@@ -248,27 +211,21 @@ export function Graph(props: Props) {
                                   0,
                                   truncateBy,
                                 )}...`}
-                          </p>
+                          </P>
                         ) : null}
                         {showValues ? (
-                          <p
-                            className={`${
-                              rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                          <P
+                            marginBottom='none'
+                            size='sm'
+                            leading='none'
+                            className='text-right font-bold'
                             style={{
-                              fontSize: '14px',
                               hyphens: 'auto',
-                              marginBottom: 0,
-                              textAlign: 'right',
-                              fontWeight: 'bold',
-                              lineHeight: '1',
                               color: (d as any).color,
                             }}
                           >
                             {numberFormattingFunction(d.value, prefix, suffix)}
-                          </p>
+                          </P>
                         ) : null}
                       </div>
                     </foreignObject>
@@ -306,38 +263,21 @@ export function Graph(props: Props) {
                       height={(d.y1 || 0) - (d.y0 || 0) + nodePadding}
                     >
                       <div
+                        className='flex flex-col gap-0.5 justify-center py-0 px-1.5'
                         style={{
-                          color: (d as any).color,
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAnchor: 'middle',
-                          whiteSpace: 'normal',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '2px',
-                          justifyContent: 'center',
                           height: `${
                             (d.y1 || 0) - (d.y0 || 0) + nodePadding
                           }px`,
-                          padding: '0 0.375rem',
                         }}
                       >
                         {showLabels ? (
-                          <p
-                            className={`${
-                              rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                          <P
+                            marginBottom={showValues ? '3xs' : 'none'}
+                            size='sm'
+                            leading='none'
+                            className='text-left'
                             style={{
-                              fontSize: '14px',
                               hyphens: 'auto',
-                              marginBottom: showValues ? '0.5rem' : 0,
-                              textAlign: 'left',
-                              lineHeight: '1',
                               color: (d as any).color,
                             }}
                           >
@@ -347,27 +287,21 @@ export function Graph(props: Props) {
                                   0,
                                   truncateBy,
                                 )}...`}
-                          </p>
+                          </P>
                         ) : null}
                         {showValues ? (
-                          <p
-                            className={`${
-                              rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                          <P
+                            size='sm'
+                            leading='none'
+                            marginBottom='none'
+                            className='text-left font-bold'
                             style={{
-                              fontSize: '14px',
                               hyphens: 'auto',
-                              marginBottom: 0,
-                              textAlign: 'left',
-                              fontWeight: 'bold',
-                              lineHeight: '1',
                               color: (d as NodeDataType).color,
                             }}
                           >
                             {numberFormattingFunction(d.value, prefix, suffix)}
-                          </p>
+                          </P>
                         ) : null}
                       </div>
                     </foreignObject>
@@ -478,25 +412,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

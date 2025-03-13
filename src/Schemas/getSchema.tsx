@@ -958,9 +958,6 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
         padding: {
           type: 'string',
         },
-        rtl: {
-          type: 'boolean',
-        },
         title: {
           type: 'string',
         },
@@ -1056,9 +1053,6 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
         },
         dropdownLabel: {
           type: 'string',
-        },
-        rtl: {
-          type: 'boolean',
         },
         title: {
           type: 'string',

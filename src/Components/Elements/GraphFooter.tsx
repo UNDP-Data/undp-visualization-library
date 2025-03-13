@@ -6,13 +6,10 @@ interface Props {
   footNote?: string;
   sources?: SourcesDataType[];
   width?: number;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
 }
 
 export function GraphFooter(props: Props) {
-  const { sources, footNote, width, rtl, language, mode } = props;
+  const { sources, footNote, width } = props;
   if (
     (sources === undefined || (sources || []).length === 0) &&
     footNote === undefined
@@ -20,20 +17,14 @@ export function GraphFooter(props: Props) {
     return null;
   return (
     <div
+      className='flex gap-2 flex-col'
       style={{
-        display: 'flex',
-        gap: '0.5rem',
-        flexDirection: 'column',
-        maxWidth: width || 'none',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Graph footer'
     >
-      {sources ? (
-        <Source sources={sources} rtl={rtl} language={language} mode={mode} />
-      ) : null}
-      {footNote ? (
-        <FootNote text={footNote} rtl={rtl} language={language} mode={mode} />
-      ) : null}
+      {sources ? <Source sources={sources} /> : null}
+      {footNote ? <FootNote text={footNote} /> : null}
     </div>
   );
 }

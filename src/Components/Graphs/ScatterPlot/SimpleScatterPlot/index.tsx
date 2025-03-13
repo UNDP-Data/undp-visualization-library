@@ -60,7 +60,6 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   showNAColor?: boolean;
   minHeight?: number;
@@ -125,7 +124,6 @@ export function ScatterPlot(props: Props) {
     graphDownload = false,
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
-    rtl = false,
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -136,12 +134,7 @@ export function ScatterPlot(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
     noOfXTicks = 5,
     noOfYTicks = 5,
@@ -170,198 +163,168 @@ export function ScatterPlot(props: Props) {
   }, [width, height]);
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a scatter plot that shows correlation between two variables.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a scatter plot that shows correlation between two variables.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            {showColorScale && data.filter(el => el.color).length !== 0 ? (
-              <ColorLegendWithMouseOver
-                rtl={rtl}
-                language={language}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
                 width={width}
-                colorLegendTitle={colorLegendTitle}
-                colors={
-                  (colors as string[] | undefined) ||
-                  UNDPColorModule[mode].categoricalColors.colors
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
                 }
-                colorDomain={
-                  colorDomain ||
-                  (uniqBy(
-                    data.filter(el => el.color),
-                    'color',
-                  ).map(d => d.color) as string[])
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
                 }
-                setSelectedColor={setSelectedColor}
-                showNAColor={showNAColor}
-                mode={mode}
               />
             ) : null}
-            <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                lineHeight: 0,
-                width: '100%',
-              }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  colorDomain={
-                    data.filter(el => el.color).length === 0
-                      ? []
-                      : colorDomain ||
-                        (uniqBy(
-                          data.filter(el => el.color),
-                          'color',
-                        ).map(d => d.color) as string[])
-                  }
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale && data.filter(el => el.color).length !== 0 ? (
+                <ColorLegendWithMouseOver
+                  width={width}
+                  colorLegendTitle={colorLegendTitle}
                   colors={
-                    data.filter(el => el.color).length === 0
-                      ? colors
-                        ? [colors as string]
-                        : [UNDPColorModule[mode].primaryColors['blue-600']]
-                      : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+                    (colors as string[] | undefined) ||
+                    UNDPColorModule[mode].categoricalColors.colors
                   }
-                  xAxisTitle={xAxisTitle}
-                  yAxisTitle={yAxisTitle}
-                  refXValues={refXValues}
-                  refYValues={refYValues}
-                  showLabels={showLabels}
-                  radius={radius}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaSettings={highlightAreaSettings}
-                  highlightedDataPoints={
-                    data.filter(el => el.label).length === 0
-                      ? []
-                      : highlightedDataPoints
+                  colorDomain={
+                    colorDomain ||
+                    (uniqBy(
+                      data.filter(el => el.color),
+                      'color',
+                    ).map(d => d.color) as string[])
                   }
-                  highlightAreaColor={highlightAreaColor}
-                  selectedColor={selectedColor}
-                  maxRadiusValue={maxRadiusValue}
-                  maxXValue={maxXValue}
-                  minXValue={minXValue}
-                  maxYValue={maxYValue}
-                  minYValue={minYValue}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
-                  language={language}
-                  annotations={annotations}
-                  customHighlightAreaSettings={customHighlightAreaSettings}
-                  mode={mode}
-                  regressionLine={regressionLine}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  noOfXTicks={noOfXTicks}
-                  noOfYTicks={noOfYTicks}
-                  labelColor={labelColor}
-                  xSuffix={xSuffix}
-                  ySuffix={ySuffix}
-                  xPrefix={xPrefix}
-                  yPrefix={yPrefix}
+                  setSelectedColor={setSelectedColor}
+                  showNAColor={showNAColor}
                 />
               ) : null}
+              <div
+                className='flex flex-col grow justify-center w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    colorDomain={
+                      data.filter(el => el.color).length === 0
+                        ? []
+                        : colorDomain ||
+                          (uniqBy(
+                            data.filter(el => el.color),
+                            'color',
+                          ).map(d => d.color) as string[])
+                    }
+                    colors={
+                      data.filter(el => el.color).length === 0
+                        ? colors
+                          ? [colors as string]
+                          : [UNDPColorModule[mode].primaryColors['blue-600']]
+                        : (colors as string[] | undefined) ||
+                          UNDPColorModule[mode].categoricalColors.colors
+                    }
+                    xAxisTitle={xAxisTitle}
+                    yAxisTitle={yAxisTitle}
+                    refXValues={refXValues}
+                    refYValues={refYValues}
+                    showLabels={showLabels}
+                    radius={radius}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    highlightAreaSettings={highlightAreaSettings}
+                    highlightedDataPoints={
+                      data.filter(el => el.label).length === 0
+                        ? []
+                        : highlightedDataPoints
+                    }
+                    highlightAreaColor={highlightAreaColor}
+                    selectedColor={selectedColor}
+                    maxRadiusValue={maxRadiusValue}
+                    maxXValue={maxXValue}
+                    minXValue={minXValue}
+                    maxYValue={maxYValue}
+                    minYValue={minYValue}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    rtl={language === 'he' || language === 'ar'}
+                    annotations={annotations}
+                    customHighlightAreaSettings={customHighlightAreaSettings}
+                    regressionLine={regressionLine}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    noOfXTicks={noOfXTicks}
+                    noOfYTicks={noOfYTicks}
+                    labelColor={labelColor}
+                    xSuffix={xSuffix}
+                    ySuffix={ySuffix}
+                    xPrefix={xPrefix}
+                    yPrefix={yPrefix}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

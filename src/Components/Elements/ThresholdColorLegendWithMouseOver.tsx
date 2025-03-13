@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   colors: string[];
@@ -9,9 +9,6 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'dark' | 'light';
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -22,9 +19,6 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
-    rtl,
-    language,
-    mode,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -33,35 +27,23 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
+      className='flex flex-wrap gap-0 justify-center leading-0'
       style={{
-        lineHeight: 0,
-        maxWidth: width || 'none',
-        display: 'flex',
-        gap: 0,
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
-        <p
-          className={`${
-            rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-          }undp-viz-typography`}
-          style={{
-            color: UNDPColorModule[mode].grays['gray-700'],
-            fontSize: '0.875rem',
-            width: '100%',
-            textAlign: 'center',
-            marginBottom: '0.5rem',
-            marginTop: 0,
-            lineHeight: 1.4,
-          }}
-        >
+        <P size='sm' marginBottom='2xs' className='w-full text-center'>
           {colorLegendTitle}
-        </p>
+        </P>
       ) : null}
-      <svg width='100%' viewBox='0 0 360 30' style={{ maxWidth: '360px' }}>
+      <svg
+        width='100%'
+        viewBox='0 0 360 30'
+        style={{ maxWidth: '360px' }}
+        direction='ltr'
+      >
         <g>
           {colorDomain.map((d, i) => (
             <g
@@ -74,32 +56,29 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 setHoveredColor(undefined);
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
+              className='cursor-pointer'
             >
               <rect
                 x={(i * mainColorWidth) / colors.length + 1}
                 y={1}
                 width={mainColorWidth / colors.length - 2}
                 height={8}
-                fill={colors[i]}
-                stroke={
+                className={`stroke-1 ${
                   hoveredColor === colors[i]
-                    ? UNDPColorModule[mode].grays['gray-700']
-                    : colors[i]
-                }
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
+                style={{
+                  fill: colors[i],
+                  ...(hoveredColor !== colors[i] ? { stroke: colors[i] } : {}),
+                }}
               />
               <text
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
-                textAnchor='middle'
-                fontSize={12}
+                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
                 style={{
-                  fill: UNDPColorModule[mode].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'middle',
                 }}
               >
                 {numberFormattingFunction(d as number, '', '')}
@@ -120,14 +99,17 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               y={1}
               width={mainColorWidth / colors.length - 2}
               height={8}
-              fill={colors[colorDomain.length]}
-              stroke={
+              className={`cursor-pointer stroke-1 ${
                 hoveredColor === colors[colorDomain.length]
-                  ? UNDPColorModule[mode].grays['gray-700']
-                  : colors[colorDomain.length]
-              }
-              strokeWidth={1}
-              style={{ cursor: 'pointer' }}
+                  ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                  : ''
+              }`}
+              style={{
+                fill: colors[colorDomain.length],
+                ...(hoveredColor !== colors[colorDomain.length]
+                  ? { stroke: colors[colorDomain.length] }
+                  : {}),
+              }}
             />
           </g>
           {naColor ? (
@@ -140,33 +122,30 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 setHoveredColor(undefined);
                 setSelectedColor(undefined);
               }}
-              style={{ cursor: 'pointer' }}
+              className='cursor-pointer'
             >
               <rect
                 x={335}
                 y={1}
                 width={24}
                 height={8}
-                fill={naColor || '#D4D6D8'}
-                stroke={
+                className={`stroke-1 ${
                   hoveredColor === naColor
-                    ? UNDPColorModule[mode].grays['gray-700']
-                    : naColor
-                }
-                strokeWidth={1}
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
+                style={{
+                  fill: naColor || '#D4D6D8',
+                  ...(hoveredColor !== naColor ? { stroke: naColor } : {}),
+                  strokeWidth: 1,
+                }}
               />
               <text
                 x={337.5}
                 y={25}
-                textAnchor='start'
-                fontSize={12}
+                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
                 style={{
-                  fill: UNDPColorModule[mode].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'start',
                 }}
               >
                 NA

@@ -5,13 +5,12 @@ import { select } from 'd3-selection';
 
 import { scaleThreshold } from 'd3-scale';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { BivariateMapDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { X } from '../../../../Icons/Icons';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -38,11 +37,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -71,9 +67,6 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -125,6 +118,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         ref={mapSvg}
+        direction='ltr'
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
@@ -171,9 +165,9 @@ export function Graph(props: Props) {
                           d={masterPath}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -194,9 +188,9 @@ export function Graph(props: Props) {
                           d={path}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -291,16 +285,15 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={masterPath}
+                            className={`${
+                              color === mapNoDataColor
+                                ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                                : 'stroke-primary-white dark:stroke-primary-gray-650'
+                            }`}
                             style={{
-                              stroke:
-                                color === mapNoDataColor
-                                  ? UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ]
-                                  : '#fff',
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -321,16 +314,15 @@ export function Graph(props: Props) {
                           <path
                             key={j}
                             d={path}
+                            className={`${
+                              color === mapNoDataColor
+                                ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                                : 'stroke-primary-white dark:stroke-primary-gray-650'
+                            }`}
                             style={{
-                              stroke:
-                                color === mapNoDataColor
-                                  ? UNDPColorModule[mode || 'light'].grays[
-                                      'gray-400'
-                                    ]
-                                  : '#fff',
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -367,11 +359,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={masterPath}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -394,11 +383,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={path}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -411,40 +397,22 @@ export function Graph(props: Props) {
                 })
             : null}
         </g>
-      </svg>
+      </svg>{' '}
       {showLegend ? (
-        <div
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            position: 'relative',
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
-        >
-          <div
-            style={{
-              alignItems: 'flex-start',
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              display: 'flex',
-            }}
-          >
-            <div style={{ alignItems: 'flex-end', display: 'flex' }}>
-              <div
-                style={{
-                  padding: '0.75rem 3.5rem 0.75rem 0.75rem',
-                  position: 'relative',
-                  zIndex: '5',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    pointerEvents: 'auto',
-                  }}
-                >
+        <div className='undp-viz-bivariate-legend-container relative'>
+          <div className='undp-viz-bivariate-legend'>
+            <button
+              className='mt-2 mr-2 ml-0 mb-0 cursor-pointer border-0 h-6 p-0'
+              type='button'
+              onClick={() => {
+                setShowLegend(false);
+              }}
+            >
+              <X />
+            </button>
+            <div className='items-end flex'>
+              <div className='relative z-10 my-3 mr-14 ml-3'>
+                <div className='flex pointer-events-auto'>
                   <div>
                     <svg width='135px' viewBox='0 0 135 135'>
                       <g>
@@ -459,13 +427,6 @@ export function Graph(props: Props) {
                                 width={23}
                                 height={23}
                                 strokeWidth={selectedColor === el ? 2 : 0.25}
-                                stroke={
-                                  selectedColor === el
-                                    ? UNDPColorModule[mode || 'light'].grays[
-                                        'gray-700'
-                                      ]
-                                    : '#fff'
-                                }
                                 style={{ cursor: 'pointer' }}
                                 onMouseOver={() => {
                                   setSelectedColor(el);
@@ -485,16 +446,6 @@ export function Graph(props: Props) {
                               x={(j + 1) * 25}
                               fontSize={10}
                               textAnchor='middle'
-                              style={{
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                fill: UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ],
-                              }}
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
@@ -517,16 +468,6 @@ export function Graph(props: Props) {
                               y={0}
                               fontSize={10}
                               textAnchor='middle'
-                              style={{
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                fill: UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ],
-                              }}
                             >
                               {typeof el === 'string' || el < 1
                                 ? el
@@ -539,11 +480,6 @@ export function Graph(props: Props) {
                     <div
                       style={{
                         lineHeight: 'normal',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         marginTop: '0.5rem',
                         textAlign: 'center',
                         fontStyle: 'normal',
@@ -551,8 +487,6 @@ export function Graph(props: Props) {
                         display: '-webkit-box',
                         WebkitLineClamp: '2',
                         width: '8.125rem',
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                       }}
@@ -563,16 +497,10 @@ export function Graph(props: Props) {
                   <div
                     style={{
                       lineHeight: 'normal',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       textAlign: 'center',
                       fontStyle: 'normal',
                       fontSize: '0.75rem',
                       width: '8.125rem',
-                      color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                       display: '-webkit-box',
                       position: 'absolute',
                       top: '80px',
@@ -588,85 +516,39 @@ export function Graph(props: Props) {
                 </div>
               </div>
             </div>
-            <button
-              type='button'
-              style={{
-                margin: '8px 8px 0 0',
-                cursor: 'pointer',
-                border: 0,
-                height: '24px',
-                padding: 0,
-              }}
-              onClick={() => {
-                setShowLegend(false);
-              }}
-            >
-              <X />
-            </button>
           </div>
         </div>
       ) : (
         <button
           type='button'
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            border: 0,
-            backgroundColor: 'transparent',
-            paddingLeft: 0,
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
+          className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0 self-start'
           onClick={() => {
             setShowLegend(true);
           }}
         >
-          <div
-            style={{
-              alignItems: 'flex-start',
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-              fontSize: '0.825rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              textTransform: 'uppercase',
-              padding: '0.5rem',
-              border: `1px solid ${
-                UNDPColorModule[mode || 'light'].grays['gray-400']
-              }`,
-              color: UNDPColorModule[mode || 'light'].grays['gray-600'],
-              backgroundColor:
-                UNDPColorModule[mode || 'light'].grays['gray-300'],
-              marginBottom: '0.75rem',
-              display: 'flex',
-            }}
-          >
+          <div className='items-start text-sm font-medium cursor-pointer p-2 mb-3 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
             Show Legend
           </div>
         </button>
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

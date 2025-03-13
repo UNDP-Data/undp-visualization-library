@@ -1,20 +1,12 @@
-import { UNDPColorModule } from '../ColorPalette';
-
-interface Props {
-  mode: 'light' | 'dark';
-}
-
-export function FileDown(props: Props) {
-  const { mode } = props;
+export function FileDown() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='20'
       height='20'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
-      strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
     >
@@ -26,16 +18,15 @@ export function FileDown(props: Props) {
   );
 }
 
-export function ImageDown(props: Props) {
-  const { mode } = props;
+export function ImageDown() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='20'
       height='20'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -48,16 +39,15 @@ export function ImageDown(props: Props) {
   );
 }
 
-export function Copy(props: Props) {
-  const { mode } = props;
+export function Copy() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='20'
       height='20'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -75,8 +65,8 @@ export function X() {
       width='24'
       height='24'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke='#000000'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -94,8 +84,8 @@ export function CircleCheckBig() {
       width='20'
       height='20'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke='#000000'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -106,16 +96,15 @@ export function CircleCheckBig() {
   );
 }
 
-export function SortingIcon(props: Props) {
-  const { mode } = props;
+export function SortingIcon() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='14'
       height='14'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -127,16 +116,15 @@ export function SortingIcon(props: Props) {
     </svg>
   );
 }
-export function SortingIconDescending(props: Props) {
-  const { mode } = props;
+export function SortingIconDescending() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='14'
       height='14'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -150,16 +138,15 @@ export function SortingIconDescending(props: Props) {
   );
 }
 
-export function SortingIconAscending(props: Props) {
-  const { mode } = props;
+export function SortingIconAscending() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='14'
       height='14'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -173,16 +160,15 @@ export function SortingIconAscending(props: Props) {
   );
 }
 
-export function FilterIcon(props: Props) {
-  const { mode } = props;
+export function FilterIcon() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='14'
       height='14'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='1.25'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -192,8 +178,7 @@ export function FilterIcon(props: Props) {
   );
 }
 
-export function FilterIconApplied(props: Props) {
-  const { mode } = props;
+export function FilterIconApplied() {
   return (
     <svg
       width='14'
@@ -204,8 +189,8 @@ export function FilterIconApplied(props: Props) {
     >
       <path
         d='M16.926 9L14 12.46V21L10 19V12.46L2 3H14.5'
+        className='stroke-primary-black dark:stroke-primary-white'
         fill='none'
-        stroke={UNDPColorModule[mode || 'light'].grays.black}
         strokeWidth='1.25'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -214,8 +199,7 @@ export function FilterIconApplied(props: Props) {
         cx='20'
         cy='4'
         r='3'
-        fill={UNDPColorModule[mode || 'light'].grays.black}
-        stroke={UNDPColorModule[mode || 'light'].grays.black}
+        className='stroke-primary-black dark:stroke-primary-white fill-primary-black dark:fill-primary-white'
         strokeWidth='1.25'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -231,8 +215,8 @@ export function ChevronLeftRight() {
       width='24'
       height='24'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke='currentColor'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -243,16 +227,15 @@ export function ChevronLeftRight() {
   );
 }
 
-export function ChevronLeft(props: Props) {
-  const { mode } = props;
+export function ChevronLeft() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='24'
       height='24'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -262,16 +245,15 @@ export function ChevronLeft(props: Props) {
   );
 }
 
-export function ChevronRight(props: Props) {
-  const { mode } = props;
+export function ChevronRight() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='24'
       height='24'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -281,16 +263,15 @@ export function ChevronRight(props: Props) {
   );
 }
 
-export function MoreHorizontal(props: Props) {
-  const { mode } = props;
+export function MoreHorizontal() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='24'
       height='24'
       viewBox='0 0 24 24'
+      className='stroke-primary-black dark:stroke-primary-white'
       fill='none'
-      stroke={UNDPColorModule[mode || 'light'].grays.black}
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -302,8 +283,7 @@ export function MoreHorizontal(props: Props) {
   );
 }
 
-export function Play(props: Props) {
-  const { mode } = props;
+export function Play() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -311,18 +291,22 @@ export function Play(props: Props) {
       height='48'
       viewBox='0 0 48 48'
     >
-      <circle cx={24} cy={24} r={24} fill='#EDEFF0' />
+      <circle
+        cx={24}
+        cy={24}
+        r={24}
+        className='fill-primary-gray-300 dark:fill-primary-gray-600'
+      />
       <polygon
         points='6 3 20 12 6 21 6 3'
-        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
+        className='fill-accent-dark-red dark:fill-accent-red'
         transform='translate(10,10) scale(1.25)'
       />
     </svg>
   );
 }
 
-export function Pause(props: Props) {
-  const { mode } = props;
+export function Pause() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -330,14 +314,19 @@ export function Pause(props: Props) {
       height='48'
       viewBox='0 0 48 48'
     >
-      <circle cx={24} cy={24} r={24} fill='#EDEFF0' />
+      <circle
+        cx={24}
+        cy={24}
+        r={24}
+        className='fill-primary-gray-300 dark:fill-primary-gray-600'
+      />
       <rect
         x='14'
         y='4'
         width='4'
         height='16'
         rx='1'
-        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
+        className='fill-accent-dark-red dark:fill-accent-red'
         transform='translate(10,10) scale(1.25)'
       />
       <rect
@@ -346,7 +335,7 @@ export function Pause(props: Props) {
         width='4'
         height='16'
         rx='1'
-        style={{ fill: UNDPColorModule[mode || 'light'].alerts.darkRed }}
+        className='fill-accent-dark-red dark:fill-accent-red'
         transform='translate(10,10) scale(1.25)'
       />
     </svg>

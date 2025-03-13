@@ -14,6 +14,7 @@ import maxBy from 'lodash.maxby';
 
 // Assuming these are imported from correct paths
 import { extent } from 'd3-array';
+import { Modal, Spinner } from '@undp-data/undp-design-system-react';
 import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -21,7 +22,6 @@ import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBg
 import { UNDPColorModule } from '../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: TreeMapDataType[];
@@ -42,13 +42,11 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   mode: 'light' | 'dark';
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -79,8 +77,6 @@ export const Graph = memo((props: Props) => {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    rtl,
-    language,
     mode,
     maxRadiusValue,
     radius,
@@ -257,7 +253,7 @@ export const Graph = memo((props: Props) => {
       data.filter(el => el.color).length === 0
         ? colors[0]
         : !d.color
-        ? UNDPColorModule[mode || 'light'].graphGray
+        ? UNDPColorModule.gray
         : colors[colorDomain.indexOf(d.color)],
     [data, colors, mode, colorDomain],
   );
@@ -282,19 +278,8 @@ export const Graph = memo((props: Props) => {
   if (!finalData) {
     return (
       <div style={{ width: `${width}px`, height: `${height}px` }}>
-        <div
-          style={{
-            display: 'flex',
-            margin: 'auto',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '10rem',
-            fontSize: '1rem',
-            lineHeight: 1.4,
-            padding: 0,
-          }}
-        >
-          <div className='undp-viz-loader' />
+        <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
+          <Spinner />
         </div>
       </div>
     );
@@ -310,6 +295,7 @@ export const Graph = memo((props: Props) => {
           } ${width < viewPortDimensions[2] ? viewPortDimensions[2] : width} ${
             height < viewPortDimensions[3] ? viewPortDimensions[3] : height
           }`}
+          direction='ltr'
         >
           <g transform={`translate(${margin.left},${margin.top})`}>
             {finalData.map((d, i) => {
@@ -344,30 +330,10 @@ export const Graph = memo((props: Props) => {
                       width={2 * bubbleRadius}
                       height={2 * bubbleRadius}
                     >
-                      <div
-                        style={{
-                          color: getTextColorBasedOnBgColor(circleColor),
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAlign: 'center',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          height: '100%',
-                          padding: '0 0.75rem',
-                        }}
-                      >
+                      <div className='flex flex-col justify-center items-center h-full py-0 px-3'>
                         {showLabels && (
                           <p
-                            className={`${
-                              rtl
-                                ? `undp-viz-typography-${language || 'ar'} `
-                                : ''
-                            }undp-viz-typography`}
+                            className='text-center leading-tight overflow-hidden m-0'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
@@ -379,9 +345,6 @@ export const Graph = memo((props: Props) => {
                                 ),
                                 14,
                               )}px`,
-                              marginBottom: 0,
-                              textAlign: 'center',
-                              lineHeight: '1.25',
                               WebkitLineClamp:
                                 bubbleRadius * 2 < 60
                                   ? 1
@@ -391,7 +354,6 @@ export const Graph = memo((props: Props) => {
                                   ? 3
                                   : undefined,
                               display: '-webkit-box',
-                              overflow: 'hidden',
                               WebkitBoxOrient: 'vertical',
                               color: getTextColorBasedOnBgColor(circleColor),
                               hyphens: 'auto',
@@ -402,16 +364,12 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className='undp-viz-typography'
+                            className='text-center font-bold leading-tight w-full m-0'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),
                                 14,
                               )}px`,
-                              width: '100%',
-                              textAlign: 'center',
-                              fontWeight: 'bold',
-                              marginBottom: 0,
                               color: getTextColorBasedOnBgColor(circleColor),
                             }}
                           >
@@ -428,25 +386,22 @@ export const Graph = memo((props: Props) => {
         </svg>
         {mouseOverData && tooltip && eventX && eventY && (
           <Tooltip
-            rtl={rtl}
-            language={language}
             data={mouseOverData}
             body={tooltip}
             xPos={eventX}
             yPos={eventY}
-            mode={mode}
             backgroundStyle={tooltipBackgroundStyle}
           />
         )}
         {detailsOnClick ? (
           <Modal
-            isOpen={mouseClickData !== undefined}
+            open={mouseClickData !== undefined}
             onClose={() => {
               setMouseClickData(undefined);
             }}
           >
             <div
-              style={{ margin: 0 }}
+              className='m-0'
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
                 __html: string2HTML(detailsOnClick, mouseClickData),

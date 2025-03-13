@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DashboardLayoutDataType,
@@ -9,7 +10,6 @@ import {
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { MultiGraphDashboard } from './MultiGraphDashboard';
 import { validateConfigSchema } from '../../Utils/validateSchema';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface ConfigObject {
   dashboardId?: string;
@@ -49,24 +49,25 @@ export function MultiGraphDashboardFromConfig(props: Props) {
     };
     fetchData();
   }, [config]);
-  if (!configSettings) return <div className='undp-viz-loader' />;
+  if (!configSettings)
+    return (
+      <div className='w-full flex justify-center p-4'>
+        <Spinner />
+      </div>
+    );
   const validationResult = validateConfigSchema(
     configSettings,
     'multiGraphDashboard',
   );
   if (!validationResult.isValid)
     return (
-      <p
-        className='undp-viz-typography'
-        style={{
-          textAlign: 'center',
-          padding: '0.5rem',
-          color: UNDPColorModule[configSettings.mode || 'light'].alerts.darkRed,
-          fontSize: '0.875rem',
-        }}
+      <P
+        size='sm'
+        marginBottom='none'
+        className='p-2 text-center text-accent-dark-red dark:text-accent-red'
       >
         {validationResult.err}
-      </p>
+      </P>
     );
   return (
     <MultiGraphDashboard

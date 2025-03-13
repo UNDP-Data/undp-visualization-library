@@ -1,14 +1,14 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
 import isEqual from 'lodash.isequal';
+import { Modal, P } from '@undp-data/undp-design-system-react';
 import { ChoroplethMapDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { Modal } from '../../../../Elements/Modal';
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 
@@ -18,6 +18,7 @@ interface Props {
   width: number;
   height: number;
   colors: string[];
+  colorDomain?: string[];
   colorLegendTitle?: string;
   categorical: boolean;
   data: ChoroplethMapDataType[];
@@ -36,11 +37,8 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -69,12 +67,10 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
+    colorDomain,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -120,6 +116,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         ref={mapSvg}
+        direction='ltr'
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
@@ -166,9 +163,9 @@ export function Graph(props: Props) {
                           d={masterPath}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -189,9 +186,9 @@ export function Graph(props: Props) {
                           d={path}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -280,9 +277,9 @@ export function Graph(props: Props) {
                             d={masterPath}
                             style={{
                               stroke: mapBorderColor,
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -305,9 +302,9 @@ export function Graph(props: Props) {
                             d={path}
                             style={{
                               stroke: mapBorderColor,
+                              strokeWidth: mapBorderWidth,
+                              fill: color,
                             }}
-                            strokeWidth={mapBorderWidth}
-                            fill={color}
                           />
                         );
                       },
@@ -344,11 +341,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={masterPath}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -371,11 +365,8 @@ export function Graph(props: Props) {
                               <path
                                 key={j}
                                 d={path}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 style={{
-                                  stroke:
-                                    UNDPColorModule[mode || 'light'].grays[
-                                      'gray-700'
-                                    ],
                                   fill: 'none',
                                   fillOpacity: 0,
                                   strokeWidth: '0.5',
@@ -390,115 +381,67 @@ export function Graph(props: Props) {
         </g>
       </svg>
       {showColorScale === false ? null : (
-        <div
-          className='undp-viz-bivariate-legend-container'
-          style={{
-            position: 'relative',
-            alignSelf: rtl ? 'flex-end' : 'flex-start',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              padding: '1rem',
-              display: 'flex',
-              alignItems: 'flex-end',
-            }}
-          >
-            <div
-              style={{
-                position: 'relative',
-                zIndex: '5',
-                padding: 0,
-              }}
-            >
+        <div className='undp-viz-bivariate-legend-container relative'>
+          <div className='undp-viz-bivariate-legend'>
+            <div className='p-4 z-10 relative'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
-                  <p
-                    className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
+                  <P
+                    size='xs'
+                    marginBottom='xs'
+                    className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
                     style={{
-                      lineHeight: 'normal',
-                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      margin: '0 0 0.5rem 0',
-                      padding: 0,
-                      color: UNDPColorModule[mode || 'light'].grays['gray-700'],
                     }}
                   >
                     {colorLegendTitle}
-                  </p>
+                  </P>
                 ) : null}
-                <svg width='100%' viewBox='0 0 320 30'>
-                  <g>
-                    {domain.map((d, i) => (
-                      <g
-                        key={i}
-                        onMouseOver={() => {
-                          setSelectedColor(colors[i]);
-                        }}
-                        onMouseLeave={() => {
-                          setSelectedColor(undefined);
-                        }}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <rect
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 1
-                              : (i * 320) / colors.length + 1
-                          }
-                          y={1}
-                          width={
-                            categorical
-                              ? 320 / domain.length - 2
-                              : 320 / colors.length - 2
-                          }
-                          height={8}
-                          fill={colors[i]}
-                          stroke={
-                            selectedColor === colors[i]
-                              ? UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ]
-                              : colors[i]
-                          }
-                        />
-                        <text
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 160 / domain.length
-                              : ((i + 1) * 320) / colors.length
-                          }
-                          y={25}
-                          textAnchor='middle'
-                          fontSize={12}
-                          style={{
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                            fill: UNDPColorModule[mode || 'light'].grays[
-                              'gray-700'
-                            ],
+                {!categorical ? (
+                  <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                    <g>
+                      {domain.map((d, i) => (
+                        <g
+                          key={i}
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i]);
                           }}
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
+                          }}
+                          className='cursor-pointer'
                         >
-                          {categorical
-                            ? d
-                            : numberFormattingFunction(d as number, '', '')}
-                        </text>
-                      </g>
-                    ))}
-                    {categorical ? null : (
+                          <rect
+                            x={(i * 320) / colors.length + 1}
+                            y={1}
+                            width={320 / colors.length - 2}
+                            height={8}
+                            className={
+                              selectedColor === colors[i]
+                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                : ''
+                            }
+                            style={{
+                              fill: colors[i],
+                              ...(selectedColor === colors[i]
+                                ? {}
+                                : { stroke: colors[i] }),
+                            }}
+                          />
+                          <text
+                            x={((i + 1) * 320) / colors.length}
+                            y={25}
+                            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                            style={{
+                              textAnchor: 'middle',
+                            }}
+                          >
+                            {numberFormattingFunction(d as number, '', '')}
+                          </text>
+                        </g>
+                      ))}
                       <g>
                         <rect
                           onMouseOver={() => {
@@ -511,21 +454,63 @@ export function Graph(props: Props) {
                           y={1}
                           width={320 / colors.length - 2}
                           height={8}
-                          fill={colors[domain.length]}
-                          stroke={
+                          className={`cursor-pointer ${
                             selectedColor === colors[domain.length]
-                              ? UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ]
-                              : colors[domain.length]
-                          }
-                          strokeWidth={1}
-                          style={{ cursor: 'pointer' }}
+                              ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }`}
+                          style={{
+                            fill: colors[domain.length],
+                            ...(selectedColor === colors[domain.length]
+                              ? {}
+                              : { stroke: colors[domain.length] }),
+                          }}
                         />
                       </g>
-                    )}
-                  </g>
-                </svg>
+                    </g>
+                  </svg>
+                ) : (
+                  <div>
+                    {colorLegendTitle && colorLegendTitle !== '' ? (
+                      <P
+                        size='xs'
+                        marginBottom='xs'
+                        className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: '1',
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
+                        {colorLegendTitle}
+                      </P>
+                    ) : null}
+                    <div className='flex flex-col gap-2'>
+                      {(colorDomain || domain).map((d, i) => (
+                        <div
+                          key={i}
+                          className='flex gap-1 items-center'
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i % colors.length]);
+                          }}
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
+                          }}
+                        >
+                          <div
+                            className='w-3 h-3 rounded-full'
+                            style={{
+                              backgroundColor: colors[i % colors.length],
+                            }}
+                          />
+                          <P size='sm' marginBottom='none'>
+                            {d}
+                          </P>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -533,13 +518,13 @@ export function Graph(props: Props) {
       )}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),
@@ -549,13 +534,10 @@ export function Graph(props: Props) {
       ) : null}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

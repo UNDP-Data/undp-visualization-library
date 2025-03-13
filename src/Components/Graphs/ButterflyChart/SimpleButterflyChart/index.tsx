@@ -48,7 +48,6 @@ interface Props {
   minValue?: number;
   showColorScale?: boolean;
   refValues?: ReferenceDataType[];
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   colorLegendTitle?: string;
   minHeight?: number;
@@ -99,7 +98,6 @@ export function ButterflyChart(props: Props) {
     showColorScale = false,
     graphDownload = false,
     dataDownload = false,
-    rtl = false,
     language = 'en',
     colorLegendTitle,
     minHeight = 0,
@@ -107,12 +105,7 @@ export function ButterflyChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
@@ -135,152 +128,123 @@ export function ButterflyChart(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        height: 'inherit',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a diverging bar chart. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a diverging bar chart. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            {showColorScale ? (
-              <ColorLegend
-                rtl={rtl}
-                language={language}
-                colorLegendTitle={colorLegendTitle}
-                colorDomain={[leftBarTitle, rightBarTitle]}
-                colors={barColors}
-                showNAColor={false}
-                mode={mode}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
               />
             ) : null}
-            <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                lineHeight: 0,
-              }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  barColors={barColors}
-                  width={width || svgWidth}
-                  centerGap={centerGap}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  truncateBy={truncateBy}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  axisTitles={[leftBarTitle, rightBarTitle]}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  barPadding={barPadding}
-                  refValues={refValues}
-                  maxValue={maxValue}
-                  minValue={minValue}
-                  showValues={showValues}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  showTicks={showTicks}
-                  suffix={suffix}
-                  prefix={prefix}
-                  rtl={rtl}
-                  language={language}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale ? (
+                <ColorLegend
+                  colorLegendTitle={colorLegendTitle}
+                  colorDomain={[leftBarTitle, rightBarTitle]}
+                  colors={barColors}
+                  showNAColor={false}
                   mode={mode}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
                 />
               ) : null}
+              <div
+                className='flex flex-col grow justify-center leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    barColors={barColors}
+                    width={width || svgWidth}
+                    centerGap={centerGap}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    truncateBy={truncateBy}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    axisTitles={[leftBarTitle, rightBarTitle]}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    barPadding={barPadding}
+                    refValues={refValues}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    showValues={showValues}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    showTicks={showTicks}
+                    suffix={suffix}
+                    prefix={prefix}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { bin } from 'd3-array';
+import { Spinner } from '@undp-data/undp-design-system-react';
 import {
   TreeMapDataType,
   ReferenceDataType,
@@ -50,7 +51,6 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   maxBarThickness?: number;
@@ -96,7 +96,6 @@ export function Histogram(props: Props) {
     barGraphLayout,
     donutStrokeWidth,
     sortData,
-    rtl,
     language,
     minHeight,
     mode = 'light',
@@ -127,26 +126,15 @@ export function Histogram(props: Props) {
       <div
         style={{ width: `${width}px`, height: `${height}px`, margin: 'auto' }}
       >
-        <div
-          style={{
-            display: 'flex',
-            margin: 'auto',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '10rem',
-            fontSize: '1rem',
-            lineHeight: 1.4,
-            padding: 0,
-          }}
-        >
-          <div className='undp-viz-loader' />
+        <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
+          <Spinner />
         </div>
       </div>
     );
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -170,7 +158,6 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -183,7 +170,7 @@ export function Histogram(props: Props) {
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -207,7 +194,6 @@ export function Histogram(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         data={dataFormatted}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -247,7 +233,6 @@ export function Histogram(props: Props) {
         strokeWidth={donutStrokeWidth}
         graphLegend
         sortData={sortData}
-        rtl={rtl}
         language={language}
         mode={mode}
         ariaLabel={ariaLabel}
@@ -259,7 +244,7 @@ export function Histogram(props: Props) {
   if (barGraphLayout === 'horizontal')
     return (
       <HorizontalBarGraph
-        colors={color || UNDPColorModule[mode].graphMainColor}
+        colors={color || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -289,7 +274,6 @@ export function Histogram(props: Props) {
         maxValue={maxValue}
         showTicks={showTicks}
         sortData={sortData}
-        rtl={rtl}
         language={language}
         minHeight={minHeight}
         mode={mode}
@@ -302,7 +286,7 @@ export function Histogram(props: Props) {
     );
   return (
     <VerticalBarGraph
-      colors={color || UNDPColorModule[mode].graphMainColor}
+      colors={color || UNDPColorModule.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}
@@ -332,7 +316,6 @@ export function Histogram(props: Props) {
       maxValue={maxValue}
       showTicks={showTicks}
       sortData={sortData}
-      rtl={rtl}
       language={language}
       minHeight={minHeight}
       mode={mode}

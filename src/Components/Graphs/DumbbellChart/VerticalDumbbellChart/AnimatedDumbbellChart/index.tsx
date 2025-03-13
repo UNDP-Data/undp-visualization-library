@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ascending, sort } from 'd3-array';
 import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
-import Slider from 'rc-slider';
+import { SliderUI } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -15,7 +15,6 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { Pause, Play } from '../../../../Icons/Icons';
-import 'rc-slider/assets/index.css';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];
@@ -57,7 +56,6 @@ interface Props {
   autoPlay?: boolean;
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -111,7 +109,6 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     sortParameter,
     arrowConnector = false,
     connectorStrokeWidth = 2,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -123,12 +120,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
     ariaLabel,
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
     barAxisTitle,
     noOfTicks = 5,
@@ -188,197 +180,161 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a dumbbell chart that shows comparisons between two or more data points across categories. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a dumbbell chart that shows comparisons between two or more data points across categories. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-            <button
-              type='button'
-              onClick={() => {
-                setPlay(!play);
-              }}
-              style={{
-                padding: 0,
-                border: 0,
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-              }}
-              aria-label={
-                play ? 'Click to pause animation' : 'Click to play animation'
-              }
-            >
-              {play ? <Pause mode={mode} /> : <Play mode={mode} />}
-            </button>
-            <Slider
-              min={uniqDatesSorted[0]}
-              max={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              marks={markObj}
-              step={null}
-              defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
-              value={uniqDatesSorted[index]}
-              onChangeComplete={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              onChange={nextValue => {
-                setIndex(uniqDatesSorted.indexOf(nextValue as number));
-              }}
-              className='undp-viz-slider'
-              aria-label='Time slider. Use arrow keys to adjust selected time period.'
-            />
-          </div>
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            <ColorLegendWithMouseOver
-              rtl={rtl}
-              language={language}
-              width={width}
-              colorDomain={colorDomain}
-              colors={colors}
-              colorLegendTitle={colorLegendTitle}
-              setSelectedColor={setSelectedColor}
-              showNAColor={false}
-              mode={mode}
-            />
-            <div
-              style={{
-                flexGrow: 1,
-                width: '100%',
-                lineHeight: 0,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  dotColors={colors}
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  radius={radius}
-                  barPadding={barPadding}
-                  showTicks={showTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  truncateBy={truncateBy}
-                  showLabels={showLabels}
-                  showValues={showValues}
-                  tooltip={tooltip}
-                  suffix={suffix}
-                  prefix={prefix}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  maxPositionValue={maxPositionValue}
-                  minPositionValue={minPositionValue}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  selectedColor={selectedColor}
-                  dateFormat={dateFormat}
-                  indx={index}
-                  sortParameter={sortParameter}
-                  arrowConnector={arrowConnector}
-                  connectorStrokeWidth={connectorStrokeWidth}
-                  rtl={rtl}
-                  language={language}
-                  mode={mode}
-                  maxBarThickness={maxBarThickness}
-                  minBarThickness={minBarThickness}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                  barAxisTitle={barAxisTitle}
-                  noOfTicks={noOfTicks}
-                  valueColor={valueColor}
-                />
-              ) : null}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            <div className='flex gap-6 items-center' dir='ltr'>
+              <button
+                type='button'
+                onClick={() => {
+                  setPlay(!play);
+                }}
+                className='p-0 border-0 cursor-pointer bg-transparent'
+                aria-label={
+                  play ? 'Click to pause animation' : 'Click to play animation'
+                }
+              >
+                {play ? <Pause /> : <Play />}
+              </button>
+              <SliderUI
+                min={uniqDatesSorted[0]}
+                max={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                marks={markObj}
+                step={null}
+                defaultValue={uniqDatesSorted[uniqDatesSorted.length - 1]}
+                value={uniqDatesSorted[index]}
+                onChangeComplete={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                onChange={nextValue => {
+                  setIndex(uniqDatesSorted.indexOf(nextValue as number));
+                }}
+                aria-label='Time slider. Use arrow keys to adjust selected time period.'
+              />
             </div>
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              <ColorLegendWithMouseOver
+                width={width}
+                colorDomain={colorDomain}
+                colors={colors}
+                colorLegendTitle={colorLegendTitle}
+                setSelectedColor={setSelectedColor}
+                showNAColor={false}
+              />
+              <div
+                className='flex grow w-full justify-center leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    dotColors={colors}
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    radius={radius}
+                    barPadding={barPadding}
+                    showTicks={showTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    truncateBy={truncateBy}
+                    showLabels={showLabels}
+                    showValues={showValues}
+                    tooltip={tooltip}
+                    suffix={suffix}
+                    prefix={prefix}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    maxPositionValue={maxPositionValue}
+                    minPositionValue={minPositionValue}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    selectedColor={selectedColor}
+                    dateFormat={dateFormat}
+                    indx={index}
+                    sortParameter={sortParameter}
+                    arrowConnector={arrowConnector}
+                    connectorStrokeWidth={connectorStrokeWidth}
+                    maxBarThickness={maxBarThickness}
+                    minBarThickness={minBarThickness}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                    barAxisTitle={barAxisTitle}
+                    noOfTicks={noOfTicks}
+                    valueColor={valueColor}
+                  />
+                ) : null}
+              </div>
+            </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

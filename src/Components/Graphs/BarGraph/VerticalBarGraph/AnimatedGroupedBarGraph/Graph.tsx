@@ -8,6 +8,7 @@ import { group } from 'd3-array';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   ReferenceDataType,
@@ -16,10 +17,8 @@ import {
 } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { ensureCompleteDataForStackedBarChart } from '../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];
@@ -46,12 +45,9 @@ interface Props {
   selectedColor?: string;
   indx: number;
   dateFormat: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   barAxisTitle?: string;
   noOfTicks: number;
@@ -84,9 +80,6 @@ export function Graph(props: Props) {
     selectedColor,
     dateFormat,
     indx,
-    rtl,
-    language,
-    mode,
     maxBarThickness,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
@@ -187,6 +180,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
@@ -194,24 +188,15 @@ export function Graph(props: Props) {
             y2={y(xMinValue < 0 ? 0 : xMinValue)}
             x1={0 - leftMargin}
             x2={graphWidth + margin.right}
-            style={{
-              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-            }}
-            strokeWidth={1}
+            className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
           />
           <text
             x={0 - leftMargin + 2}
             y={y(0)}
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              textAnchor: 'start',
             }}
-            textAnchor='start'
-            fontSize={12}
+            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             dy={-3}
           >
             0
@@ -225,29 +210,20 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={0 - leftMargin}
                     x2={graphWidth + margin.right}
-                    style={{
-                      stroke:
-                        UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    }}
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
-                    opacity={d === 0 ? 0 : 1}
+                    className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   />
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
-                    textAnchor='start'
-                    fontSize={12}
                     dy={-3}
-                    opacity={d === 0 ? 0 : 1}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      textAnchor: 'start',
                     }}
+                    className={`fill-primary-gray-550 dark:fill-primary-gray-500 text-xs opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
                   </text>
@@ -260,15 +236,9 @@ export function Graph(props: Props) {
                 graphHeight / 2
               }) rotate(-90)`}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              fontSize={12}
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             >
               {barAxisTitle}
             </text>
@@ -352,19 +322,14 @@ export function Graph(props: Props) {
                           }
                           style={{
                             fill: valueColor || barColors[j],
-                            fontSize: '0.875rem',
                             textAnchor: 'middle',
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                           dy={el ? (el >= 0 ? '-5px' : '15px') : '-5px'}
                           animate={{
                             y: y(el || 0),
                           }}
                           transition={{ duration: 0.5 }}
+                          className='text-sm'
                         >
                           {numberFormattingFunction(el, prefix, suffix)}
                         </motion.text>
@@ -376,18 +341,10 @@ export function Graph(props: Props) {
                       x={x.bandwidth() / 2}
                       y={y(0)}
                       style={{
-                        fill: UNDPColorModule[mode || 'light'].grays[
-                          'gray-700'
-                        ],
-                        fontSize: '0.75rem',
                         textAnchor: 'middle',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dy='15px'
+                      className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                     >
                       {`${d.label}`.length < truncateBy
                         ? `${d.label}`
@@ -403,13 +360,14 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      strokeWidth: 1.5,
+                      ...(el.color && { stroke: el.color }),
                     }}
-                    strokeDasharray='4,4'
                     y1={y(el.value as number)}
                     y2={y(el.value as number)}
                     x1={0 - margin.left}
@@ -417,20 +375,16 @@ export function Graph(props: Props) {
                   />
                   <text
                     x={graphWidth + margin.right}
-                    fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      ...(el.color && { fill: el.color }),
                       textAnchor: 'end',
                     }}
-                    fontSize={12}
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={-5}
                   >
                     {el.text}
@@ -443,25 +397,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

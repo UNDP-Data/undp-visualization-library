@@ -6,7 +6,6 @@ import Draggable, { DraggableData } from 'react-draggable';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
 import { ChevronLeftRight } from '../../../Icons/Icons';
-import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   width: number;
@@ -14,7 +13,6 @@ interface Props {
   mapStyles: [string, string];
   center: [number, number];
   zoomLevel: number;
-  mode: 'light' | 'dark';
 }
 
 function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
@@ -48,7 +46,7 @@ function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
 }
 
 export function Graph(props: Props) {
-  const { height, width, mapStyles, center, zoomLevel, mode } = props;
+  const { height, width, mapStyles, center, zoomLevel } = props;
   const [sliderPosition, setSliderPosition] = useState(width / 2);
   const graphDiv = useRef<HTMLDivElement>(null);
   const leftMapRef = useRef<HTMLDivElement>(null);
@@ -113,13 +111,7 @@ export function Graph(props: Props) {
   ]);
   return (
     <div
-      style={{
-        flexGrow: 1,
-        flexDirection: 'column',
-        display: 'flex',
-        justifyContent: 'center',
-        lineHeight: 0,
-      }}
+      className='flex flex-col grow justify-center leading-0'
       ref={graphDiv}
       aria-label='Map area'
     >
@@ -131,28 +123,23 @@ export function Graph(props: Props) {
       >
         <div
           ref={mapContainer}
-          className='map maplibre-show-control'
+          className='map maplibre-show-control relative w-full h-full'
           style={{
-            position: 'relative',
             inset: 0,
-            width: '100%',
-            height: '100%',
           }}
         >
           <div
             ref={leftMapRef}
-            className='leftMap'
+            className='absolute leftMap'
             style={{
-              position: 'absolute',
               inset: 0,
               clipPath: `polygon(0% 0%, ${sliderPosition}px 0%, ${sliderPosition}px 100%, 0% 100%)`,
             }}
           />
           <div
             ref={rightMapRef}
-            className='rightMap'
+            className='absolute rightMap'
             style={{
-              position: 'absolute',
               inset: 0,
               clipPath: `polygon(${sliderPosition}px 0%, ${sliderPosition}px 100%, 100% 100%, 100% 0%)`,
             }}
@@ -167,33 +154,22 @@ export function Graph(props: Props) {
             }}
           >
             <div
+              className='flex bg-primary-white items-center justify-center h-full'
               style={{
                 width: '2px',
-                height: '100%',
-                backgroundColor: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 cursor: 'ew-resize',
               }}
             >
               <div
+                className='flex bg-primary-blue-600 dark:bg-primary-blue-400 rounded-full absolute items-center justify-center text-primary-white'
                 style={{
-                  backgroundColor:
-                    UNDPColorModule[mode || 'light'].primaryColors['blue-600'],
                   boxShadow: 'inset 0 0 0 1px #fff',
-                  display: 'flex',
-                  borderRadius: '50%',
-                  position: 'absolute',
                   width: '42px',
                   height: '42px',
                   top: '50%',
                   left: '-21px',
                   margin: '-21px 1px 0',
-                  color: '#fff',
                   cursor: 'ew-resize',
-                  alignItems: 'center',
-                  justifyContent: 'center',
                 }}
               >
                 <ChevronLeftRight />

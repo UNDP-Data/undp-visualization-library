@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
+import { P } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
@@ -39,7 +40,6 @@ interface Props {
   dataDownload?: boolean;
   colorDomain?: string[];
   sortData?: 'asc' | 'desc';
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   width?: number;
@@ -81,7 +81,6 @@ export function DonutChart(props: Props) {
     dataDownload = false,
     colorDomain,
     sortData,
-    rtl = false,
     language = 'en',
     mode = 'light',
     width,
@@ -93,12 +92,7 @@ export function DonutChart(props: Props) {
     resetSelectionOnDoubleClick = true,
     legendMaxWidth,
     detailsOnClick,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -139,230 +133,178 @@ export function DonutChart(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        minHeight: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a donut or pie chart chart. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          minHeight: 'inherit',
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a donut or pie chart chart. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            width: '100%',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'stretch',
-              gap: '1rem',
-              flexWrap: 'wrap',
-              width: width ? `${width}px` : '100%',
-              padding: `${topMargin}px 0 ${bottomMargin}px 0`,
-            }}
-          >
-            {graphLegend ? (
-              <div
-                style={{
-                  lineHeight: 0,
-                }}
-                aria-label='Color legend'
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    marginBottom: 0,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                    rowGap: '0.25rem',
-                    columnGap: '1rem',
-                    maxWidth: legendMaxWidth,
-                  }}
-                >
-                  {sortedData.map((d, i) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        gap: '0.5rem',
-                        alignItems: 'center',
-                      }}
-                      key={i}
-                    >
-                      <div
-                        style={{
-                          width: '0.75rem',
-                          height: '0.75rem',
-                          borderRadius: '1rem',
-                          backgroundColor:
-                            (
-                              colorDomain || sortedData.map(el => el.label)
-                            ).indexOf(d.label) !== -1
-                              ? (colors ||
-                                  UNDPColorModule[mode].categoricalColors
-                                    .colors)[
-                                  (
-                                    colorDomain ||
-                                    sortedData.map(el => el.label)
-                                  ).indexOf(d.label) %
-                                    (
-                                      colors ||
-                                      UNDPColorModule[mode].categoricalColors
-                                        .colors
-                                    ).length
-                                ]
-                              : UNDPColorModule[mode].graphGray,
-                        }}
-                      />
-                      <p
-                        className={`${
-                          rtl ? `undp-viz-typography-${language} ` : ''
-                        }undp-viz-typography`}
-                        style={{
-                          marginBottom: 0,
-                          fontSize: '0.875rem',
-                          color: UNDPColorModule[mode].grays.black,
-                        }}
-                      >
-                        {d.label}:{' '}
-                        <span
-                          style={{ fontWeight: 'bold', fontSize: 'inherit' }}
-                        >
-                          {numberFormattingFunction(d.size, prefix, suffix)}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className='flex flex-col gap-2 w-full grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
             ) : null}
             <div
+              className='flex grow flex-col justify-center items-stretch gap-8 flex-wrap'
               style={{
-                display: 'flex',
-                flexGrow: width ? 0 : 1,
                 width: width ? `${width}px` : '100%',
-                height: height
-                  ? `${Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}px`
-                  : 'auto',
-                lineHeight: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
+                padding: `${topMargin}px 0 ${bottomMargin}px 0`,
               }}
-              ref={graphDiv}
-              aria-label='Graph area'
             >
+              {graphLegend ? (
+                <div className='leading-0' aria-label='Color legend'>
+                  <div
+                    className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
+                    style={{
+                      maxWidth: legendMaxWidth,
+                    }}
+                  >
+                    {sortedData.map((d, i) => (
+                      <div className='flex gap-2 items-center' key={i}>
+                        <div
+                          className='w-3 h-3 rounded-full'
+                          style={{
+                            backgroundColor:
+                              (
+                                colorDomain || sortedData.map(el => el.label)
+                              ).indexOf(d.label) !== -1
+                                ? (colors ||
+                                    UNDPColorModule[mode].categoricalColors
+                                      .colors)[
+                                    (
+                                      colorDomain ||
+                                      sortedData.map(el => el.label)
+                                    ).indexOf(d.label) %
+                                      (
+                                        colors ||
+                                        UNDPColorModule[mode].categoricalColors
+                                          .colors
+                                      ).length
+                                  ]
+                                : UNDPColorModule.gray,
+                          }}
+                        />
+                        <P
+                          marginBottom='none'
+                          size='sm'
+                          className='text-primary-gray-700 dark:text-primary-gray-100'
+                        >
+                          {d.label}:{' '}
+                          <span
+                            className='font-bold'
+                            style={{ fontSize: 'inherit' }}
+                          >
+                            {numberFormattingFunction(d.size, prefix, suffix)}
+                          </span>
+                        </P>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <div
+                className={`flex ${
+                  width ? 'grow-0' : 'grow'
+                } items-center justify-center leading-0`}
                 style={{
-                  width: '100%',
-                  lineHeight: 0,
-                  display: 'flex',
-                  justifyContent: 'center',
+                  width: width ? `${width}px` : '100%',
+                  height: height
+                    ? `${Math.max(
+                        minHeight,
+                        height ||
+                          (relativeHeight
+                            ? minHeight
+                              ? (width || svgWidth) * relativeHeight > minHeight
+                                ? (width || svgWidth) * relativeHeight
+                                : minHeight
+                              : (width || svgWidth) * relativeHeight
+                            : svgHeight),
+                      )}px`
+                    : 'auto',
                 }}
+                ref={graphDiv}
+                aria-label='Graph area'
               >
-                {radius || donutRadius ? (
-                  <Graph
-                    mainText={mainText}
-                    data={
-                      sortData === 'asc'
-                        ? sortBy(data, d => d.size)
-                        : sortData === 'desc'
-                        ? sortBy(data, d => d.size).reverse()
-                        : data
-                    }
-                    colors={colors}
-                    radius={radius || donutRadius}
-                    subNote={subNote}
-                    strokeWidth={strokeWidth}
-                    tooltip={tooltip}
-                    colorDomain={colorDomain || sortedData.map(d => d.label)}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    rtl={rtl}
-                    language={language}
-                    mode={mode}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                  />
-                ) : null}
+                <div className='w-full flex justify-center leading-0'>
+                  {radius || donutRadius ? (
+                    <Graph
+                      mainText={mainText}
+                      data={
+                        sortData === 'asc'
+                          ? sortBy(data, d => d.size)
+                          : sortData === 'desc'
+                          ? sortBy(data, d => d.size).reverse()
+                          : data
+                      }
+                      colors={colors}
+                      radius={radius || donutRadius}
+                      subNote={subNote}
+                      strokeWidth={strokeWidth}
+                      tooltip={tooltip}
+                      colorDomain={colorDomain || sortedData.map(d => d.label)}
+                      onSeriesMouseOver={onSeriesMouseOver}
+                      onSeriesMouseClick={onSeriesMouseClick}
+                      resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                      tooltipBackgroundStyle={tooltipBackgroundStyle}
+                      detailsOnClick={detailsOnClick}
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : (
+              <div />
+            )}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : (
-            <div />
-          )}
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
+import { P, Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: TreeMapDataType[];
@@ -27,11 +27,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -55,9 +52,6 @@ export function Graph(props: Props) {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -103,6 +97,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {treeMapVizData.children?.map((d, i) => {
@@ -174,7 +169,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !(d.data as any).data.color
-                        ? UNDPColorModule[mode || 'light'].graphGray
+                        ? UNDPColorModule.gray
                         : colors[
                             colorDomain.indexOf((d.data as any).data.color)
                           ],
@@ -190,40 +185,26 @@ export function Graph(props: Props) {
                     height={d.y1 - d.y0}
                   >
                     <div
+                      className='flex flex-col gap-0.5 p-2 w-full'
                       style={{
                         color: getTextColorBasedOnBgColor(
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !(d.data as any).data.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule.gray
                             : colors[
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
                         ),
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        textAnchor: 'middle',
-                        whiteSpace: 'normal',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '2px',
-                        padding: '0.5rem',
                       }}
                     >
                       {showLabels ? (
-                        <p
-                          className={`${
-                            rtl
-                              ? `undp-viz-typography-${language || 'ar'} `
-                              : ''
-                          }undp-viz-typography`}
+                        <P
+                          marginBottom='none'
+                          size='sm'
+                          leading='none'
+                          className='w-full'
                           style={{
-                            fontSize: '14px',
-                            lineHeight: '1',
-                            marginBottom: 0,
                             WebkitLineClamp:
                               d.y1 - d.y0 > 50
                                 ? d.y1 - d.y0 > 100
@@ -239,7 +220,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule[mode || 'light'].graphGray
+                                ? UNDPColorModule.gray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -249,31 +230,26 @@ export function Graph(props: Props) {
                           }}
                         >
                           {(d.data as any).id}
-                        </p>
+                        </P>
                       ) : null}
                       {showValues ? (
-                        <p
-                          className='undp-viz-typography'
+                        <P
+                          marginBottom='none'
+                          size='sm'
+                          leading='none'
+                          className='font-bold w-full'
                           style={{
-                            fontSize: '0.875rem',
-                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule[mode || 'light'].graphGray
+                                ? UNDPColorModule.gray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
                                     )
                                   ],
                             ),
-                            fontWeight: 'bold',
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                         >
                           {numberFormattingFunction(
@@ -281,7 +257,7 @@ export function Graph(props: Props) {
                             prefix,
                             suffix,
                           )}
-                        </p>
+                        </P>
                       ) : null}
                     </div>
                   </foreignObject>
@@ -293,25 +269,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

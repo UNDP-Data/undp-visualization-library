@@ -1,14 +1,19 @@
+import { Button } from '@undp-data/undp-design-system-react';
 import { imageDownload } from '../../Utils/imageDownload';
 import { ImageDown } from '../Icons/Icons';
 
 interface Props {
   buttonContent?: string | JSX.Element;
-  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
-  buttonArrow?: boolean;
+  buttonType?:
+    | 'primary'
+    | 'primary-without-icon'
+    | 'secondary'
+    | 'secondary-without-icon'
+    | 'tertiary';
   nodeID: string | HTMLElement;
   filename?: string;
   buttonSmall?: boolean;
-  mode?: 'dark' | 'light';
+  className?: string;
 }
 
 export function ImageDownloadButton(props: Props) {
@@ -16,20 +21,16 @@ export function ImageDownloadButton(props: Props) {
     nodeID,
     filename = 'image',
     buttonContent,
-    buttonType = 'quaternary',
-    buttonArrow,
+    buttonType = 'tertiary',
     buttonSmall,
-    mode = 'light',
+    className = '',
   } = props;
   return (
-    <button
-      type='button'
-      className={`undp-viz-download-button undp-viz-button button-${buttonType}${
-        mode === 'dark' ? ' dark' : ''
-      }${buttonArrow ? ' button-arrow' : ''}`}
-      style={{
-        padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
-      }}
+    <Button
+      variant={buttonType}
+      className={`${
+        buttonSmall ? 'p-2' : 'py-4 px-6'
+      } ${className} border border-primary-gray-400 dark:border-primary-gray-550`}
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {
@@ -46,7 +47,7 @@ export function ImageDownloadButton(props: Props) {
       }}
       aria-label='Click to download the graph as image'
     >
-      {buttonContent || <ImageDown mode={mode} />}
-    </button>
+      {buttonContent || <ImageDown />}
+    </Button>
   );
 }

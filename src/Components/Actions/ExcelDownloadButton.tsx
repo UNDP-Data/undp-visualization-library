@@ -1,3 +1,4 @@
+import { Button } from '@undp-data/undp-design-system-react';
 import { excelDownload } from '../../Utils/excelDownload';
 import { FileDown } from '../Icons/Icons';
 
@@ -7,8 +8,12 @@ interface WsColInterface {
 
 interface Props {
   buttonContent?: string | JSX.Element;
-  buttonType?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
-  buttonArrow?: boolean;
+  buttonType?:
+    | 'primary'
+    | 'primary-without-icon'
+    | 'secondary'
+    | 'secondary-without-icon'
+    | 'tertiary';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   csvData: any;
   fileName?: string;
@@ -17,37 +22,31 @@ interface Props {
   xlsxHeader: any;
   wscols: WsColInterface[];
   buttonSmall?: boolean;
-  mode?: 'dark' | 'light';
+  className?: string;
 }
 
 export function ExcelDownloadButton(props: Props) {
   const {
     buttonContent,
-    buttonType = 'quaternary',
-    buttonArrow,
+    buttonType = 'tertiary',
     csvData,
     fileName = 'data',
     headers,
     xlsxHeader,
     wscols,
     buttonSmall,
-    mode = 'light',
+    className = '',
   } = props;
   return (
-    <button
-      type='button'
-      className={`undp-viz-download-button undp-viz-button button-${buttonType}${
-        mode === 'dark' ? ' dark' : ''
-      }${buttonArrow ? ' button-arrow' : ''}`}
-      style={{
-        padding: buttonSmall ? '0.5rem' : '1rem 1.5rem',
-      }}
+    <Button
+      variant={buttonType}
+      className={`${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
       onClick={() =>
         excelDownload(csvData, fileName, headers, xlsxHeader, wscols)
       }
       aria-label='Click to download the data as xlsx'
     >
-      {buttonContent || <FileDown mode={mode} />}
-    </button>
+      {buttonContent || <FileDown />}
+    </Button>
   );
 }

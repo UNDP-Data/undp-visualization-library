@@ -2,6 +2,7 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import {
   CSSObject,
@@ -11,9 +12,7 @@ import {
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '../../../../../Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: GroupedBarGraphDataType[];
@@ -37,14 +36,11 @@ interface Props {
   maxValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   labelOrder?: string[];
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   barAxisTitle?: string;
   noOfTicks: number;
@@ -74,10 +70,7 @@ export function Graph(props: Props) {
     maxValue,
     onSeriesMouseClick,
     selectedColor,
-    rtl,
-    language,
     labelOrder,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -133,6 +126,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <line
@@ -140,24 +134,15 @@ export function Graph(props: Props) {
             y2={y(0)}
             x1={0 - leftMargin}
             x2={graphWidth + margin.right}
-            style={{
-              stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-            }}
-            strokeWidth={1}
+            className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
           />
           <text
             x={0 - leftMargin + 2}
             y={y(0)}
             style={{
-              fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              fontFamily: rtl
-                ? language === 'he'
-                  ? 'Noto Sans Hebrew, sans-serif'
-                  : 'Noto Sans Arabic, sans-serif'
-                : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+              textAnchor: 'start',
             }}
-            textAnchor='start'
-            fontSize={12}
+            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             dy={-3}
           >
             0
@@ -171,29 +156,20 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={0 - leftMargin}
                     x2={graphWidth + margin.right}
-                    style={{
-                      stroke:
-                        UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    }}
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
-                    opacity={d === 0 ? 0 : 1}
+                    className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   />
                   <text
                     x={0 - leftMargin + 2}
                     y={y(d)}
-                    textAnchor='start'
-                    fontSize={12}
                     dy={-3}
-                    opacity={d === 0 ? 0 : 1}
                     style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
+                    className={`fill-primary-gray-550 dark:fill-primary-gray-500 text-xs opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
                   </text>
@@ -206,15 +182,9 @@ export function Graph(props: Props) {
                 graphHeight / 2
               }) rotate(-90)`}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
-              fontSize={12}
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             >
               {barAxisTitle}
             </text>
@@ -327,14 +297,9 @@ export function Graph(props: Props) {
                         }
                         style={{
                           fill: getTextColorBasedOnBgColor(barColors[j]),
-                          fontSize: '0.875rem',
                           textAnchor: 'middle',
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
+                        className='text-sm'
                         dy={5}
                       >
                         {numberFormattingFunction(el, prefix, suffix)}
@@ -347,15 +312,9 @@ export function Graph(props: Props) {
                     x={x.bandwidth() / 2}
                     y={y(0)}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.75rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
+                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                     dy='15px'
                   >
                     {`${d.label}`.length < truncateBy
@@ -366,18 +325,12 @@ export function Graph(props: Props) {
                 {showValues ? (
                   <text
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.875rem',
                       textAnchor: 'middle',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     y={y(sum(d.size.map(el => el || 0)))}
                     x={x.bandwidth() / 2}
                     dy={-10}
+                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
                   >
                     {numberFormattingFunction(
                       sum(d.size.filter(element => element)),
@@ -400,18 +353,10 @@ export function Graph(props: Props) {
                           x={(x(`${d}`) as number) + x.bandwidth() / 2}
                           y={y(0)}
                           style={{
-                            fill: UNDPColorModule[mode || 'light'].grays[
-                              'gray-700'
-                            ],
-                            fontSize: '0.75rem',
                             textAnchor: 'middle',
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
                           dy='15px'
+                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                         >
                           {`${d}`.length < truncateBy
                             ? `${d}`
@@ -423,19 +368,14 @@ export function Graph(props: Props) {
                           x={(x(`${d}`) as number) + x.bandwidth() / 2}
                           y={y(0)}
                           style={{
-                            fill:
-                              valueColor ||
-                              UNDPColorModule[mode || 'light'].grays[
-                                'gray-700'
-                              ],
-                            fontSize: '0.875rem',
+                            ...(valueColor && { fill: valueColor }),
                             textAnchor: 'middle',
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                           }}
+                          className={`text-sm${
+                            !valueColor
+                              ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                              : ''
+                          }`}
                           dy='-5px'
                         >
                           {numberFormattingFunction(0, prefix, suffix)}
@@ -450,13 +390,14 @@ export function Graph(props: Props) {
               {refValues.map((el, i) => (
                 <g key={i}>
                   <line
+                    className={`undp-ref-line ${
+                      !el.color
+                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                        : ''
+                    }`}
                     style={{
-                      stroke:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      strokeWidth: 1.5,
+                      ...(el.color && { stroke: el.color }),
                     }}
-                    strokeDasharray='4,4'
                     y1={y(el.value as number)}
                     y2={y(el.value as number)}
                     x1={0 - margin.left}
@@ -464,20 +405,16 @@ export function Graph(props: Props) {
                   />
                   <text
                     x={graphWidth + margin.right}
-                    fontWeight='bold'
                     y={y(el.value as number)}
                     style={{
-                      fill:
-                        el.color ||
-                        UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      ...(el.color && { fill: el.color }),
                       textAnchor: 'end',
                     }}
-                    fontSize={12}
+                    className={`text-xs font-bold${
+                      !el.color
+                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                        : ''
+                    }`}
                     dy={-5}
                   >
                     {el.text}
@@ -490,25 +427,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

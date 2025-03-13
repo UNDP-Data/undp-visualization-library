@@ -11,7 +11,6 @@ import { useAnimate, useInView } from 'framer-motion';
 import { CSSObject, DualAxisLineChartDataType } from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -35,12 +34,9 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   animateLine: boolean | number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   strokeWidth: number;
   showDots: boolean;
-  mode: 'light' | 'dark';
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks: number;
   lineSuffixes: [string, string];
   linePrefixes: [string, string];
@@ -70,11 +66,8 @@ export function Graph(props: Props) {
     highlightAreaColor,
     onSeriesMouseOver,
     animateLine,
-    rtl,
-    language,
     strokeWidth,
     showDots,
-    mode,
     tooltipBackgroundStyle,
     noOfYTicks,
     lineSuffixes,
@@ -227,6 +220,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {highlightAreaSettingsFormatted[0] === null &&
@@ -265,22 +259,19 @@ export function Graph(props: Props) {
                   y2={y1(d)}
                   x1={-15}
                   x2={-20}
-                  stroke={lineColors[0]}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColors[0],
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={-25}
                   y={y1(d)}
-                  fill={lineColors[0]}
-                  textAnchor='end'
-                  fontSize={12}
                   dy={3}
+                  className='text-xs'
                   style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'end',
+                    fill: lineColors[0],
                   }}
                 >
                   {numberFormattingFunction(
@@ -296,22 +287,19 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              stroke={lineColors[0]}
-              strokeWidth={1}
+              style={{
+                stroke: lineColors[0],
+                strokeWidth: 1,
+              }}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${20 - leftMargin}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColors[0]}
-              textAnchor='middle'
+              className='text-xs'
               style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
+                fill: lineColors[0],
               }}
             >
               {lineTitles[0].length > 100
@@ -327,23 +315,20 @@ export function Graph(props: Props) {
                   y2={y2(d)}
                   x1={graphWidth + 15}
                   x2={graphWidth + 20}
-                  stroke={lineColors[1]}
-                  strokeWidth={1}
+                  style={{
+                    stroke: lineColors[1],
+                    strokeWidth: 1,
+                  }}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  fill={lineColors[1]}
-                  textAnchor='start'
-                  fontSize={12}
                   dy={3}
                   dx={-2}
+                  className='text-xs'
                   style={{
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'start',
+                    fill: lineColors[1],
                   }}
                 >
                   {numberFormattingFunction(
@@ -359,23 +344,19 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              stroke={lineColors[1]}
-              strokeWidth={1}
+              style={{
+                stroke: lineColors[1],
+                strokeWidth: 1,
+              }}
             />
             <text
-              className='undp-viz-label-text'
               transform={`translate(${graphWidth + rightMargin - 15}, ${
                 graphHeight / 2
               }) rotate(-90)`}
-              fill={lineColors[1]}
-              textAnchor='middle'
-              fontSize={12}
+              className='text-xs'
               style={{
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
+                fill: lineColors[1],
               }}
             >
               {lineTitles[1].length > 100
@@ -389,27 +370,17 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-500'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
             />
             {xTicks.map((d, i) => (
               <g key={i}>
                 <text
-                  className='undp-viz-x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'middle',
                   }}
-                  textAnchor='middle'
-                  fontSize={12}
+                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
                   dy={15}
                 >
                   {format(d, dateFormat)}
@@ -420,15 +391,19 @@ export function Graph(props: Props) {
           <g ref={scope}>
             <path
               d={lineShape1(dataFormatted as any) as string}
-              fill='none'
-              stroke={lineColors[0]}
-              strokeWidth={strokeWidth}
+              style={{
+                stroke: lineColors[0],
+                strokeWidth,
+                fill: 'none',
+              }}
             />
             <path
               d={lineShape2(dataFormatted as any) as string}
-              fill='none'
-              stroke={lineColors[1]}
-              strokeWidth={strokeWidth}
+              style={{
+                stroke: lineColors[1],
+                strokeWidth,
+                fill: 'none',
+              }}
             />
             {mouseOverData ? (
               <line
@@ -436,11 +411,7 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                style={{
-                  stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                }}
-                strokeDasharray='4 8'
-                strokeWidth={1}
+                className='undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100 '
               />
             ) : null}
           </g>
@@ -476,17 +447,11 @@ export function Graph(props: Props) {
                             ? -8
                             : 15
                         }
-                        fontSize={12}
-                        textAnchor='middle'
                         style={{
-                          fontWeight: 'bold',
                           fill: lineColors[0],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          textAnchor: 'middle',
                         }}
+                        className='text-xs font-bold'
                       >
                         {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
@@ -522,17 +487,11 @@ export function Graph(props: Props) {
                             ? -8
                             : 15
                         }
-                        fontSize={12}
-                        textAnchor='middle'
                         style={{
-                          fontWeight: 'bold',
                           fill: lineColors[1],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                          textAnchor: 'middle',
                         }}
+                        className='text-xs font-bold'
                       >
                         {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>
@@ -544,8 +503,10 @@ export function Graph(props: Props) {
           </g>
           <rect
             ref={MouseoverRectRef}
-            fill='none'
-            pointerEvents='all'
+            style={{
+              fill: 'none',
+              pointerEvents: 'all',
+            }}
             width={graphWidth}
             height={graphHeight}
           />
@@ -553,13 +514,10 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

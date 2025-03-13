@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
+import { P } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DataTableColumnDataType,
@@ -18,7 +19,6 @@ import {
   SortingIconAscending,
   SortingIconDescending,
 } from '../../Icons/Icons';
-import { UNDPColorModule } from '../../ColorPalette';
 
 interface Props {
   graphTitle?: string;
@@ -31,7 +31,6 @@ interface Props {
   columnData: DataTableColumnDataType[];
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   mode?: 'light' | 'dark';
   ariaLabel?: string;
@@ -59,7 +58,6 @@ export function DataTable(props: Props) {
     data,
     columnData,
     onSeriesMouseClick,
-    rtl = false,
     language = 'en',
     mode = 'light',
     ariaLabel,
@@ -119,464 +117,386 @@ export function DataTable(props: Props) {
   }, [columnSortBy, sortDirection, data, filterOption]);
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        height: 'inherit',
-        flexDirection: 'column',
-        width: width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is an data table. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is an data table. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            width: '100%',
-            justifyContent: 'space-between',
-            flexGrow: 1,
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <div
-              className='undp-viz-scrollbar'
-              style={{
-                width: width ? `${width}px` : '100%',
-                height: height ? `${height}px` : 'auto',
-              }}
-            >
-              {data ? (
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                  <thead
-                    style={{
-                      fontWeight: '600',
-                      textAlign: 'left',
-                      backgroundColor: UNDPColorModule[mode].grays['gray-300'],
-                    }}
+          <div className='flex flex-col gap-3 w-full justify-between grow'>
+            {graphTitle || graphDescription ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+              />
+            ) : null}
+            <div className='grow flex flex-col justify-center'>
+              <div
+                className='undp-viz-scrollbar'
+                style={{
+                  width: width ? `${width}px` : '100%',
+                  height: height ? `${height}px` : 'auto',
+                }}
+              >
+                {data ? (
+                  <table
+                    className='w-full'
+                    style={{ borderCollapse: 'collapse' }}
                   >
-                    <tr>
-                      {columnData?.map((d, i) => (
-                        <th
-                          className='undp-viz-typography'
-                          style={{
-                            fontSize: '0.875rem',
-                            width: `calc(${
-                              (100 * (d.columnWidth || 1)) /
-                              TotalWidth(
-                                columnData.map(cd => cd.columnWidth || 1),
-                              )
-                            }%`,
-                            color: UNDPColorModule[mode].grays.black,
-                          }}
-                          key={i}
-                        >
-                          <div
+                    <thead className='text-left bg-primary-gray-300 dark:bg-primary-gray-550'>
+                      <tr>
+                        {columnData?.map((d, i) => (
+                          <th
+                            className='text-primary-gray-700 dark:text-primary-gray-100 text-sm'
                             style={{
-                              display: 'flex',
-                              gap: '0.5rem',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              padding: '1rem',
-                            }}
-                          >
-                            <p
-                              style={{
-                                textAlign: d.align || 'left',
-                                flexGrow: 1,
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                color: UNDPColorModule[mode].grays.black,
-                                margin: 0,
-                                fontSize: '0.875rem',
-                              }}
-                            >
-                              {d.columnTitle || d.columnId}
-                            </p>
-                            {d.sortable ? (
-                              <button
-                                type='button'
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  border: 0,
-                                  backgroundColor: 'transparent',
-                                  cursor: 'pointer',
-                                }}
-                                onClick={() => {
-                                  if (columnSortBy === d.columnId) {
-                                    if (sortDirection === 'asc') {
-                                      setSortDirection('desc');
-                                    }
-                                    if (sortDirection === 'desc') {
-                                      setColumnSortBy(undefined);
-                                    }
-                                  } else {
-                                    setColumnSortBy(d.columnId);
-                                    setSortDirection('asc');
-                                  }
-                                }}
-                              >
-                                {columnSortBy === d.columnId ? (
-                                  sortDirection === 'asc' ? (
-                                    <SortingIconAscending mode={mode} />
-                                  ) : (
-                                    <SortingIconDescending mode={mode} />
-                                  )
-                                ) : (
-                                  <SortingIcon mode={mode} />
-                                )}
-                              </button>
-                            ) : null}
-                            {d.filterOptions && d.filterOptions.length ? (
-                              <button
-                                type='button'
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  border: 0,
-                                  backgroundColor: 'transparent',
-                                  cursor: 'pointer',
-                                }}
-                                onClick={event => {
-                                  if (popupVisible === d.columnId) {
-                                    setPopupVisible(undefined);
-                                  } else if (event.currentTarget) {
-                                    setPopupVisible(d.columnId);
-                                    const rect =
-                                      event.currentTarget.getBoundingClientRect();
-                                    setPopupStyle({
-                                      position: 'absolute',
-                                      top: rect.bottom + window.scrollY,
-                                      left:
-                                        rect.left + window.scrollX - 160 < 0
-                                          ? rect.left + window.scrollX
-                                          : rect.left + window.scrollX - 160,
-                                      padding: '0.75rem',
-                                      background: `${UNDPColorModule[mode].grays.white}`,
-                                      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-                                      zIndex: '1000',
-                                      borderRadius: '2px',
-                                      width: '10rem',
-                                    });
-                                  }
-                                }}
-                              >
-                                {filterOption[
-                                  filterOption.findIndex(
-                                    el => el.id === d.columnId,
-                                  )
-                                ].option.length === d.filterOptions?.length ? (
-                                  <FilterIcon mode={mode} />
-                                ) : (
-                                  <FilterIconApplied mode={mode} />
-                                )}
-                              </button>
-                            ) : null}
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedData?.map((d: any, i: number) => (
-                      <tr
-                        key={i}
-                        style={{
-                          borderBottom: `1px solid ${UNDPColorModule[mode].grays['gray-400']}`,
-                          cursor: onSeriesMouseClick ? 'pointer' : 'auto',
-                          backgroundColor: isEqual(mouseClickData, d)
-                            ? UNDPColorModule[mode].grays['gray-200']
-                            : 'transparent',
-                        }}
-                        onClick={() => {
-                          if (onSeriesMouseClick) {
-                            if (
-                              isEqual(mouseClickData, d) &&
-                              resetSelectionOnDoubleClick
-                            ) {
-                              setMouseClickData(undefined);
-                              onSeriesMouseClick(undefined);
-                            } else {
-                              setMouseClickData(d);
-                              onSeriesMouseClick(d);
-                            }
-                          }
-                        }}
-                      >
-                        {columnData.map((el, j) => (
-                          <td
-                            className='undp-viz-typography'
-                            key={j}
-                            style={{
-                              textAlign: d.align || 'left',
-                              fontSize: '0.875rem',
                               width: `calc(${
                                 (100 * (d.columnWidth || 1)) /
                                 TotalWidth(
                                   columnData.map(cd => cd.columnWidth || 1),
                                 )
                               }%`,
-                              color: UNDPColorModule[mode].grays.black,
                             }}
+                            key={i}
                           >
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent:
-                                  el.align === 'right'
-                                    ? 'end'
-                                    : el.align === 'center'
-                                    ? 'center'
-                                    : 'flex-start',
-                                padding: '1rem',
-                                color: UNDPColorModule[mode].grays.black,
-                              }}
-                            >
-                              {typeof d[el.columnId] === 'number' ? (
-                                <p
-                                  style={{
-                                    textAlign: el.align || 'left',
-                                    flexGrow: el.chip ? 0 : 1,
-                                    fontFamily: rtl
-                                      ? language === 'he'
-                                        ? 'Noto Sans Hebrew, sans-serif'
-                                        : 'Noto Sans Arabic, sans-serif'
-                                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                    backgroundColor: el.chip
-                                      ? el.chipColors
-                                        ? el.chipColors[
-                                            el.chipColors.findIndex(
-                                              c => c.value === d[el.columnId],
-                                            )
-                                          ].color
-                                        : UNDPColorModule[mode].grays[
-                                            'gray-300'
-                                          ]
-                                      : 'transparent',
-                                    padding: el.chip ? '0.5rem' : 0,
-                                    width: 'fit-content',
-                                    borderRadius: el.chip ? '2px' : 0,
-                                    color: UNDPColorModule[mode].grays.black,
-                                    margin: 0,
-                                    fontSize: '0.875rem',
+                            <div className='flex gap-2 justify-between items-center p-4'>
+                              <P
+                                size='sm'
+                                marginBottom='none'
+                                className={`w-fit grow text-${
+                                  d.align || 'left'
+                                } font-bold`}
+                              >
+                                {d.columnTitle || d.columnId}
+                              </P>
+                              {d.sortable ? (
+                                <button
+                                  type='button'
+                                  className='bg-transparent cursor-pointer p-0 m-0 border-0'
+                                  onClick={() => {
+                                    if (columnSortBy === d.columnId) {
+                                      if (sortDirection === 'asc') {
+                                        setSortDirection('desc');
+                                      }
+                                      if (sortDirection === 'desc') {
+                                        setColumnSortBy(undefined);
+                                      }
+                                    } else {
+                                      setColumnSortBy(d.columnId);
+                                      setSortDirection('asc');
+                                    }
                                   }}
                                 >
-                                  {numberFormattingFunction(
-                                    d[el.columnId],
-                                    el.prefix,
-                                    el.suffix,
+                                  {columnSortBy === d.columnId ? (
+                                    sortDirection === 'asc' ? (
+                                      <SortingIconAscending />
+                                    ) : (
+                                      <SortingIconDescending />
+                                    )
+                                  ) : (
+                                    <SortingIcon />
                                   )}
-                                </p>
-                              ) : typeof d[el.columnId] === 'string' ? (
-                                el.separator ? (
-                                  <div
-                                    style={{
-                                      display: 'flex',
-                                      flexWrap: 'wrap',
-                                      gap: '0.5rem',
-                                      color: UNDPColorModule[mode].grays.black,
-                                    }}
-                                  >
-                                    {d[el.columnId]
-                                      .split(el.separator)
-                                      .map((element: string, indx: number) => (
-                                        <p
-                                          key={indx}
-                                          style={{
-                                            textAlign: el.align || 'left',
-                                            flexGrow: el.chip ? 0 : 1,
-                                            fontFamily: rtl
-                                              ? language === 'he'
-                                                ? 'Noto Sans Hebrew, sans-serif'
-                                                : 'Noto Sans Arabic, sans-serif'
-                                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                            backgroundColor: el.chip
-                                              ? el.chipColors
-                                                ? el.chipColors[
-                                                    el.chipColors.findIndex(
-                                                      c =>
-                                                        c.value ===
-                                                        d[el.columnId],
-                                                    )
-                                                  ].color
-                                                : UNDPColorModule[mode].grays[
-                                                    'gray-300'
-                                                  ]
-                                              : 'transparent',
-                                            padding: el.chip ? '0.5rem' : 0,
-                                            width: 'fit-content',
-                                            borderRadius: el.chip ? '2px' : 0,
-                                            color:
-                                              UNDPColorModule[mode].grays.black,
-                                            margin: 0,
-                                            fontSize: '0.875rem',
-                                          }}
-                                        >{`${el.prefix || ''}${element}${
-                                          el.suffix || ''
-                                        }`}</p>
-                                      ))}
-                                  </div>
-                                ) : (
-                                  <p
-                                    style={{
-                                      textAlign: el.align || 'left',
-                                      flexGrow: el.chip ? 0 : 1,
-                                      fontFamily: rtl
-                                        ? language === 'he'
-                                          ? 'Noto Sans Hebrew, sans-serif'
-                                          : 'Noto Sans Arabic, sans-serif'
-                                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                                      backgroundColor: el.chip
-                                        ? el.chipColors
-                                          ? el.chipColors[
-                                              el.chipColors.findIndex(
-                                                c => c.value === d[el.columnId],
-                                              )
-                                            ].color
-                                          : UNDPColorModule[mode].grays[
-                                              'gray-300'
-                                            ]
-                                        : 'transparent',
-                                      padding: el.chip ? '0.5rem' : 0,
-                                      width: 'fit-content',
-                                      borderRadius: el.chip ? '2px' : 0,
-                                      color: UNDPColorModule[mode].grays.black,
-                                      margin: 0,
-                                      fontSize: '0.875rem',
-                                    }}
-                                  >{`${el.prefix || ''}${d[el.columnId]}${
-                                    el.suffix || ''
-                                  }`}</p>
-                                )
-                              ) : (
-                                <div>{d[el.columnId]}</div>
-                              )}
+                                </button>
+                              ) : null}
+                              {d.filterOptions && d.filterOptions.length ? (
+                                <button
+                                  type='button'
+                                  className='bg-transparent cursor-pointer m-0 p-0 border-0'
+                                  onClick={event => {
+                                    if (popupVisible === d.columnId) {
+                                      setPopupVisible(undefined);
+                                    } else if (event.currentTarget) {
+                                      setPopupVisible(d.columnId);
+                                      const rect =
+                                        event.currentTarget.getBoundingClientRect();
+                                      setPopupStyle({
+                                        top: rect.bottom + window.scrollY,
+                                        left:
+                                          rect.left + window.scrollX - 160 < 0
+                                            ? rect.left + window.scrollX
+                                            : rect.left + window.scrollX - 160,
+                                        width: '10rem',
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {filterOption[
+                                    filterOption.findIndex(
+                                      el => el.id === d.columnId,
+                                    )
+                                  ].option.length ===
+                                  d.filterOptions?.length ? (
+                                    <FilterIcon />
+                                  ) : (
+                                    <FilterIconApplied />
+                                  )}
+                                </button>
+                              ) : null}
                             </div>
-                          </td>
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : null}
-            </div>
-          </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
-        </div>
-        {popupVisible && (
-          <div style={popupStyle}>
-            <div style={{ maxWidth: '15rem' }}>
-              <p
-                className={`${
-                  rtl ? `undp-viz-typography-${language} ` : ''
-                }undp-viz-typography`}
-                style={{
-                  fontSize: '0.875rem',
-                  marginBottom: '0.25rem',
-                  fontWeight: 'bold',
-                }}
-              >
-                Filter data by
-              </p>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.5rem',
-                }}
-              >
-                {columnData[
-                  columnData.findIndex(d => d.columnId === popupVisible)
-                ].filterOptions?.map((el, i) => (
-                  <div key={i}>
-                    <label key={i} className='undp-viz-label'>
-                      <input
-                        type='checkbox'
-                        className='undp-viz-checkbox'
-                        checked={
-                          filterOption[
-                            filterOption.findIndex(d => d.id === popupVisible)
-                          ].option.indexOf(el) !== -1
-                        }
-                        onChange={() => {
-                          const indx = filterOption.findIndex(
-                            d => d.id === popupVisible,
-                          );
-                          const opt = [...filterOption[indx].option];
-                          if (opt.indexOf(el) !== -1) {
-                            opt.splice(opt.indexOf(el), 1);
-                            const filterOptionDuplicate = [...filterOption];
-                            filterOptionDuplicate[indx].option = opt;
-                            setFilterOption(filterOptionDuplicate);
-                          } else {
-                            opt.push(el);
-                            const filterOptionDuplicate = [...filterOption];
-                            filterOptionDuplicate[indx].option = opt;
-                            setFilterOption(filterOptionDuplicate);
-                          }
-                        }}
-                      />
-                      {el}
-                    </label>
-                  </div>
-                ))}
+                    </thead>
+                    <tbody>
+                      {sortedData?.map((d: any, i: number) => (
+                        <tr
+                          key={i}
+                          className={`cursor-${
+                            onSeriesMouseClick ? 'pointer' : 'auto'
+                          } border-b border-b-primary-gray-400 dark:border-b-primary-gray-500 ${
+                            isEqual(mouseClickData, d)
+                              ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
+                              : 'bg-transparent'
+                          }`}
+                          onClick={() => {
+                            if (onSeriesMouseClick) {
+                              if (
+                                isEqual(mouseClickData, d) &&
+                                resetSelectionOnDoubleClick
+                              ) {
+                                setMouseClickData(undefined);
+                                onSeriesMouseClick(undefined);
+                              } else {
+                                setMouseClickData(d);
+                                onSeriesMouseClick(d);
+                              }
+                            }
+                          }}
+                        >
+                          {columnData.map((el, j) => (
+                            <td
+                              key={j}
+                              className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm text-${
+                                d.align || 'left'
+                              }`}
+                              style={{
+                                width: `calc(${
+                                  (100 * (d.columnWidth || 1)) /
+                                  TotalWidth(
+                                    columnData.map(cd => cd.columnWidth || 1),
+                                  )
+                                }%`,
+                              }}
+                            >
+                              <div
+                                className={`text-primary-gray-700 dark:text-primary-gray-100 flex p-4 ${
+                                  el.align === 'right'
+                                    ? 'justify-end'
+                                    : el.align === 'center'
+                                    ? 'justify-center'
+                                    : 'justify-start'
+                                }`}
+                              >
+                                {typeof d[el.columnId] === 'number' ? (
+                                  <P
+                                    marginBottom='none'
+                                    size='sm'
+                                    className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
+                                      el.chip
+                                        ? 'grow-0 rounded-sm p-2'
+                                        : 'grow rounded-none p-0'
+                                    } text-${d.align || 'left'} ${
+                                      el.chip
+                                        ? !el.chipColors
+                                          ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                          : ''
+                                        : 'bg-transparent'
+                                    }`}
+                                    style={{
+                                      ...(el.chip && el.chipColors
+                                        ? {
+                                            backgroundColor:
+                                              el.chipColors[
+                                                el.chipColors.findIndex(
+                                                  c =>
+                                                    c.value === d[el.columnId],
+                                                )
+                                              ].color,
+                                          }
+                                        : {}),
+                                    }}
+                                  >
+                                    {numberFormattingFunction(
+                                      d[el.columnId],
+                                      el.prefix,
+                                      el.suffix,
+                                    )}
+                                  </P>
+                                ) : typeof d[el.columnId] === 'string' ? (
+                                  el.separator ? (
+                                    <div className='text-primary-gray-700 dark:text-primary-gray-100 flex flex-wrap gap-2'>
+                                      {d[el.columnId]
+                                        .split(el.separator)
+                                        .map(
+                                          (element: string, indx: number) => (
+                                            <P
+                                              key={indx}
+                                              marginBottom='none'
+                                              size='sm'
+                                              className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
+                                                el.chip
+                                                  ? 'grow-0 rounded-sm p-2'
+                                                  : 'grow rounded-none p-0'
+                                              } text-${d.align || 'left'} ${
+                                                el.chip
+                                                  ? !el.chipColors
+                                                    ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                                    : ''
+                                                  : 'bg-transparent'
+                                              }`}
+                                              style={{
+                                                ...(el.chip && el.chipColors
+                                                  ? {
+                                                      backgroundColor:
+                                                        el.chipColors[
+                                                          el.chipColors.findIndex(
+                                                            c =>
+                                                              c.value ===
+                                                              d[el.columnId],
+                                                          )
+                                                        ].color,
+                                                    }
+                                                  : {}),
+                                              }}
+                                            >{`${el.prefix || ''}${element}${
+                                              el.suffix || ''
+                                            }`}</P>
+                                          ),
+                                        )}
+                                    </div>
+                                  ) : (
+                                    <P
+                                      marginBottom='none'
+                                      size='sm'
+                                      className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
+                                        el.chip
+                                          ? 'grow-0 rounded-sm p-2'
+                                          : 'grow rounded-none p-0'
+                                      } text-${el.align || 'left'} ${
+                                        el.chip
+                                          ? !el.chipColors
+                                            ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                            : ''
+                                          : 'bg-transparent'
+                                      }`}
+                                      style={{
+                                        ...(el.chip && el.chipColors
+                                          ? {
+                                              backgroundColor:
+                                                el.chipColors[
+                                                  el.chipColors.findIndex(
+                                                    c =>
+                                                      c.value ===
+                                                      d[el.columnId],
+                                                  )
+                                                ].color,
+                                            }
+                                          : {}),
+                                      }}
+                                    >{`${el.prefix || ''}${d[el.columnId]}${
+                                      el.suffix || ''
+                                    }`}</P>
+                                  )
+                                ) : (
+                                  <div>{d[el.columnId]}</div>
+                                )}
+                              </div>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : null}
               </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-        )}
+          {popupVisible && (
+            <div
+              style={popupStyle}
+              className='absolute p-3 border z-[1000] rounded-sm bg-primary-white dark:bg-primary-gray-700 border-primary-gray-300 dark:border-primary-gray-550'
+            >
+              <div className='max-w-60'>
+                <P size='sm' marginBottom='2xs' className='font-bold'>
+                  Filter data by
+                </P>
+                <div className='flex flex-col gap-2'>
+                  {columnData[
+                    columnData.findIndex(d => d.columnId === popupVisible)
+                  ].filterOptions?.map((el, i) => (
+                    <div key={i}>
+                      <label key={i} className='undp-viz-label'>
+                        <input
+                          type='checkbox'
+                          className='undp-viz-checkbox'
+                          checked={
+                            filterOption[
+                              filterOption.findIndex(d => d.id === popupVisible)
+                            ].option.indexOf(el) !== -1
+                          }
+                          onChange={() => {
+                            const indx = filterOption.findIndex(
+                              d => d.id === popupVisible,
+                            );
+                            const opt = [...filterOption[indx].option];
+                            if (opt.indexOf(el) !== -1) {
+                              opt.splice(opt.indexOf(el), 1);
+                              const filterOptionDuplicate = [...filterOption];
+                              filterOptionDuplicate[indx].option = opt;
+                              setFilterOption(filterOptionDuplicate);
+                            } else {
+                              opt.push(el);
+                              const filterOptionDuplicate = [...filterOption];
+                              filterOptionDuplicate[indx].option = opt;
+                              setFilterOption(filterOptionDuplicate);
+                            }
+                          }}
+                        />
+                        {el}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

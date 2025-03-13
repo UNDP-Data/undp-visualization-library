@@ -1,3 +1,4 @@
+import { P } from '@undp-data/undp-design-system-react';
 import {
   DataTableColumnDataType,
   GraphConfigurationDataType,
@@ -57,7 +58,6 @@ import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
-import { UNDPColorModule } from '../ColorPalette';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
 import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
@@ -97,27 +97,20 @@ function GraphEl(props: Props) {
   if (typeof graphData === 'string')
     return (
       <div
+        className={`flex my-0 mx-auto grow flex-col justify-center ${
+          settings?.width ? 'w-fit' : 'w-full'
+        }`}
         style={{
-          flexGrow: 1,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
           height: 'inherit',
-          width: settings?.width ? 'fit-content' : '100%',
         }}
       >
-        <p
-          className='undp-viz-typography'
-          style={{
-            textAlign: 'center',
-            padding: '0.5rem',
-            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-            fontSize: '0.875rem',
-          }}
+        <P
+          size='sm'
+          marginBottom='none'
+          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
         >
           {graphData}
-        </p>
+        </P>
       </div>
     );
   const graphComponents: Record<GraphType, React.ElementType | null> = {
@@ -222,7 +215,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           sortData: settings?.sortData,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -284,7 +276,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
@@ -338,7 +329,6 @@ function GraphEl(props: Props) {
           maxValue: settings?.maxValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
@@ -399,7 +389,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           sortData: settings?.sortData,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -461,7 +450,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
@@ -514,7 +502,6 @@ function GraphEl(props: Props) {
           maxValue: settings?.maxValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
@@ -574,7 +561,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           sortData: settings?.sortData,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -633,7 +619,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -688,7 +673,6 @@ function GraphEl(props: Props) {
           maxValue: settings?.maxValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -750,7 +734,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           sortData: settings?.sortData,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -809,7 +792,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -864,7 +846,6 @@ function GraphEl(props: Props) {
           maxValue: settings?.maxValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -915,7 +896,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -966,7 +946,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -1028,7 +1007,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -1087,7 +1065,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -1144,7 +1121,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -1201,7 +1177,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           highlightAreaColor: settings?.highlightAreaColor,
           showColorScale: settings?.showColorScale,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
@@ -1256,7 +1231,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           mapProperty: settings?.mapProperty,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -1318,7 +1292,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -1373,7 +1346,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -1406,7 +1378,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           colorDomain: settings?.colorDomain,
           sortData: settings?.sortData,
-          rtl: settings?.rtl,
           language: settings?.language,
           width: settings?.width,
           height: settings?.height,
@@ -1465,7 +1436,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           fillContainer: settings?.fillContainer,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -1522,7 +1492,6 @@ function GraphEl(props: Props) {
           minYValue: settings?.minYValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -1582,7 +1551,6 @@ function GraphEl(props: Props) {
           minPositionValue: settings?.minPositionValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
@@ -1640,7 +1608,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
@@ -1695,7 +1662,6 @@ function GraphEl(props: Props) {
           highlightedDataPoints: settings?.highlightedDataPoints,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -1747,7 +1713,6 @@ function GraphEl(props: Props) {
           highlightedDataPoints: settings?.highlightedDataPoints,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -1805,7 +1770,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           fillContainer: settings?.fillContainer,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -1855,7 +1819,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           prefix: settings?.prefix,
           suffix: settings?.suffix,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           highlightColor: settings?.highlightColor,
@@ -1907,7 +1870,6 @@ function GraphEl(props: Props) {
           prefix: settings?.prefix,
           suffix: settings?.suffix,
           stripType: settings?.stripType,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           highlightColor: settings?.highlightColor,
@@ -1959,7 +1921,6 @@ function GraphEl(props: Props) {
           highlightedDataPoints: settings?.highlightedDataPoints,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -2009,7 +1970,6 @@ function GraphEl(props: Props) {
           highlightedDataPoints: settings?.highlightedDataPoints,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -2068,7 +2028,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           showColorScale: settings?.showColorScale,
           refValues: settings?.refValues,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -2110,7 +2069,6 @@ function GraphEl(props: Props) {
           sortData: settings?.sortData,
           barGraphLayout: settings?.barGraphLayout,
           graphType: settings?.graphType,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
@@ -2145,7 +2103,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -2196,7 +2153,6 @@ function GraphEl(props: Props) {
           barPadding: settings?.barPadding,
           truncateBy: settings?.truncateBy,
           showLabels: settings?.showLabels,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -2222,7 +2178,6 @@ function GraphEl(props: Props) {
           height: settings?.height,
           columnData: (settings?.columnData || []) as DataTableColumnDataType[],
           data: graphData,
-          rtl: settings?.rtl,
           language: settings?.language,
           ariaLabel: settings?.ariaLabel,
           backgroundColor: settings?.backgroundColor,
@@ -2244,7 +2199,6 @@ function GraphEl(props: Props) {
           padding: settings?.padding,
           graphID: settings?.graphID,
           aggregationMethod: settings?.aggregationMethod,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           countOnly: settings?.countOnly,
@@ -2271,7 +2225,6 @@ function GraphEl(props: Props) {
           mapStyles: settings?.mapStyles as [string, string],
           center: settings?.center,
           zoomLevel: settings?.zoomLevel,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -2293,7 +2246,6 @@ function GraphEl(props: Props) {
           height: settings?.height,
           relativeHeight: settings?.relativeHeight,
           graphID: settings?.graphID,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           includeLayers: settings?.includeLayers,
@@ -2317,7 +2269,6 @@ function GraphEl(props: Props) {
           height: settings?.height,
           relativeHeight: settings?.relativeHeight,
           graphID: settings?.graphID,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           layerSelection: settings?.layerSelection,
@@ -2342,7 +2293,6 @@ function GraphEl(props: Props) {
           graphID: settings?.graphID,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           graphLegend: settings?.graphLegend,
           showStrokeForWhiteDots: settings?.showStrokeForWhiteDots,
@@ -2404,7 +2354,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -2457,7 +2406,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           mapProperty: settings?.mapProperty,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -2510,7 +2458,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           showAntarctica: settings?.showAntarctica,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -2571,7 +2518,6 @@ function GraphEl(props: Props) {
           minValue: settings?.minValue,
           showColorScale: settings?.showColorScale,
           refValues: settings?.refValues,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           autoPlay: settings?.autoPlay,
@@ -2623,7 +2569,6 @@ function GraphEl(props: Props) {
           minPositionValue: settings?.minPositionValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
@@ -2683,7 +2628,6 @@ function GraphEl(props: Props) {
           dataDownload: settings?.dataDownload,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           sortParameter: settings?.sortParameter,
@@ -2751,7 +2695,6 @@ function GraphEl(props: Props) {
           minYValue: settings?.minYValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
@@ -2800,7 +2743,6 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           fillContainer: settings?.fillContainer,
-          rtl: settings?.rtl,
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
@@ -2833,7 +2775,6 @@ function GraphEl(props: Props) {
           height: settings?.height,
           columnData: (settings?.columnData || []) as DataTableColumnDataType[],
           data: graphData,
-          rtl: settings?.rtl,
           language: settings?.language,
           ariaLabel: settings?.ariaLabel,
           cardTemplate: settings?.cardTemplate,
@@ -2857,15 +2798,13 @@ function GraphEl(props: Props) {
   const graphProps = getGraphProps(graph);
   return (
     <div
+      className={`grow my-0 mx-auto flex flex-col h-inherit ${
+        settings?.width ? 'w-fit' : 'w-full'
+      } ${graph !== 'unitChart' ? 'justify-center' : 'justify-start'} ${
+        settings?.mode || 'light'
+      }`}
       style={{
-        flexGrow: 1,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: graph !== 'unitChart' ? 'center' : 'flex-start',
-        height: 'inherit',
         minHeight: 'inherit',
-        width: settings?.width ? 'fit-content' : '100%',
       }}
     >
       {validateSettingsSchema(getGraphProps(graph) || {}, graph).isValid &&
@@ -2874,14 +2813,10 @@ function GraphEl(props: Props) {
         // eslint-disable-next-line react/jsx-props-no-spreading
         <GraphComponent {...graphProps} />
       ) : (
-        <p
-          className='undp-viz-typography'
-          style={{
-            textAlign: 'center',
-            padding: '0.5rem',
-            color: UNDPColorModule[settings?.mode || 'light'].alerts.darkRed,
-            fontSize: '0.875rem',
-          }}
+        <P
+          size='sm'
+          marginBottom='none'
+          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
         >
           {GraphComponent
             ? validateSettingsSchema(settings || {}, graph).isValid
@@ -2890,7 +2825,7 @@ function GraphEl(props: Props) {
                   validateSettingsSchema(settings || {}, graph).err
                 }`
             : `Invalid chart type: ${graph}`}
-        </p>
+        </P>
       )}
     </div>
   );

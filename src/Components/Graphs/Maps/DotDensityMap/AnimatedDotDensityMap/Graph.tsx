@@ -9,11 +9,11 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, DotDensityMapWithDateDataType } from '../../../../../Types';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { UNDPColorModule } from '../../../../ColorPalette';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DotDensityMapWithDateDataType[];
@@ -41,11 +41,8 @@ interface Props {
   showAntarctica: boolean;
   indx: number;
   dateFormat: string;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -76,9 +73,6 @@ export function Graph(props: Props) {
     showAntarctica,
     dateFormat,
     indx,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -139,6 +133,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         ref={mapSvg}
+        direction='ltr'
       >
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
@@ -168,9 +163,9 @@ export function Graph(props: Props) {
                           d={masterPath}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })
@@ -191,9 +186,9 @@ export function Graph(props: Props) {
                           d={path}
                           style={{
                             stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
                           }}
-                          strokeWidth={mapBorderWidth}
-                          fill={mapNoDataColor}
                         />
                       );
                     })}
@@ -206,7 +201,7 @@ export function Graph(props: Props) {
                 data.filter(el => el.color).length === 0
                   ? colors[0]
                   : !d.color
-                  ? UNDPColorModule[mode || 'light'].graphGray
+                  ? UNDPColorModule.gray
                   : colors[colorDomain.indexOf(`${d.color}`)];
               return (
                 <g
@@ -261,20 +256,22 @@ export function Graph(props: Props) {
                   <motion.circle
                     cx={(projection([d.long, d.lat]) as [number, number])[0]}
                     cy={(projection([d.long, d.lat]) as [number, number])[1]}
-                    fillOpacity={0.8}
+                    style={{
+                      fillOpacity: 0.8,
+                    }}
                     animate={{
                       r: !radiusScale ? radius : radiusScale(d.radius || 0),
                       fill:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       stroke:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                     }}
                     transition={{ duration: 0.5 }}
@@ -291,17 +288,9 @@ export function Graph(props: Props) {
                             )[0] + radiusScale(d.radius || 0)
                       }
                       y={(projection([d.long, d.lat]) as [number, number])[1]}
+                      className='fill-primary-gray-600 dark:fill-primary-gray-300 text-sm'
                       style={{
-                        fill: UNDPColorModule[mode || 'light'].grays[
-                          'gray-600'
-                        ],
-                        fontSize: '0.875rem',
                         textAnchor: 'start',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                       }}
                       dx={4}
                       dy={5}
@@ -321,47 +310,23 @@ export function Graph(props: Props) {
       </svg>
       {data.filter(el => el.color).length === 0 ||
       showColorScale === false ? null : (
-        <div
-          style={{ position: 'sticky', bottom: '0px' }}
-          className='undp-viz-bivariate-legend-container'
-        >
-          <div
-            style={{
-              backgroundColor:
-                mode === 'dark'
-                  ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,255,255,0.75)',
-              marginBottom: '0.75rem',
-              padding: '1rem',
-              display: 'flex',
-              alignItems: 'flex-end',
-              alignSelf: rtl ? 'flex-end' : 'flex-start',
-            }}
-          >
-            <div
-              style={{
-                position: 'relative',
-                zIndex: '5',
-                padding: 0,
-              }}
-            >
+        <div className='undp-viz-bivariate-legend-container sticky bottom-0'>
+          <div className='flex items-end mb-3 p-4 undp-viz-bivariate-legend'>
+            <div className='relative z-10 p-0'>
               <div>
                 {colorLegendTitle ? (
                   <div
+                    className='leading-normal text-sm overflow-hidden mb-2'
                     style={{
-                      lineHeight: 'normal',
-                      fontSize: '0.75rem',
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
                       WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      marginBottom: '0.5rem',
                     }}
                   >
                     {colorLegendTitle}
                   </div>
                 ) : null}
-                <svg width='100%' viewBox='0 0 320 30'>
+                <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
                   <g>
                     {colorDomain.map((d, i) => (
                       <g
@@ -372,21 +337,24 @@ export function Graph(props: Props) {
                         onMouseLeave={() => {
                           setSelectedColor(undefined);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        className='cursor-pointer'
                       >
                         <rect
                           x={(i * 320) / colorDomain.length + 1}
                           y={1}
                           width={320 / colorDomain.length - 2}
                           height={8}
-                          fill={colors[i]}
-                          stroke={
+                          className={
                             selectedColor === colors[i]
-                              ? UNDPColorModule[mode || 'light'].grays[
-                                  'gray-700'
-                                ]
-                              : colors[i]
+                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
                           }
+                          style={{
+                            fill: colors[i],
+                            ...(selectedColor === colors[i]
+                              ? {}
+                              : { stroke: colors[i] }),
+                          }}
                         />
                         <text
                           x={
@@ -394,17 +362,9 @@ export function Graph(props: Props) {
                             160 / colorDomain.length
                           }
                           y={25}
-                          textAnchor='middle'
-                          fontSize={12}
+                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                           style={{
-                            fontFamily: rtl
-                              ? language === 'he'
-                                ? 'Noto Sans Hebrew, sans-serif'
-                                : 'Noto Sans Arabic, sans-serif'
-                              : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                            fill: UNDPColorModule[mode || 'light'].grays[
-                              'gray-700'
-                            ],
+                            textAnchor: 'middle',
                           }}
                         >
                           {d}
@@ -420,25 +380,22 @@ export function Graph(props: Props) {
       )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

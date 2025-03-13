@@ -2,14 +2,13 @@ import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
 import isEqual from 'lodash.isequal';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, HeatMapDataType, ScaleDataType } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
-import { Modal } from '../../Elements/Modal';
 
 interface Props {
   data: HeatMapDataType[];
@@ -33,11 +32,8 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -64,9 +60,6 @@ export function Graph(props: Props) {
     showRowLabels,
     selectedColor,
     onSeriesMouseClick,
-    rtl,
-    language,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -108,6 +101,7 @@ export function Graph(props: Props) {
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
@@ -119,40 +113,8 @@ export function Graph(props: Props) {
                   width={barWidth}
                   height={margin.top}
                 >
-                  <div
-                    className={`${
-                      rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                    }undp-viz-typography`}
-                    style={{
-                      textAnchor: 'middle',
-                      whiteSpace: 'normal',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 'inherit',
-                      padding: '4px',
-                    }}
-                  >
-                    <p
-                      className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
-                      style={{
-                        fontSize: '16px',
-                        textAlign: 'center',
-                        lineHeight: '1.15',
-                        marginBottom: 0,
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-600'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      }}
-                    >
+                  <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
+                    <p className='text-base text-center leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
                       {`${d}`.length < truncateBy
                         ? `${d}`
                         : `${`${d}`.substring(0, truncateBy)}...`}
@@ -172,42 +134,8 @@ export function Graph(props: Props) {
                   width={margin.left}
                   height={barHeight}
                 >
-                  <div
-                    style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      textAnchor: 'middle',
-                      whiteSpace: 'normal',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      justifyContent: 'center',
-                      alignItems: 'flex-end',
-                      height: 'inherit',
-                      padding: '4px 8px 4px 4px',
-                    }}
-                  >
-                    <p
-                      className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
-                      style={{
-                        fontSize: '16px',
-                        textAlign: 'right',
-                        lineHeight: '1.15',
-                        marginBottom: 0,
-                        color:
-                          UNDPColorModule[mode || 'light'].grays['gray-600'],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      }}
-                    >
+                  <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
+                    <p className='text-base text-right leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
                       {`${d}`.length < truncateBy
                         ? `${d}`
                         : `${`${d}`.substring(0, truncateBy)}...`}
@@ -227,9 +155,10 @@ export function Graph(props: Props) {
                   y={0}
                   width={barWidth}
                   height={barHeight}
-                  fill={noDataColor}
-                  strokeWidth={1}
-                  stroke={UNDPColorModule[mode || 'light'].grays.white}
+                  style={{
+                    fill: noDataColor,
+                  }}
+                  className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                 />
               ))}
             </g>
@@ -288,9 +217,10 @@ export function Graph(props: Props) {
                     y={0}
                     width={barWidth}
                     height={barHeight}
-                    fill={color}
-                    strokeWidth={1}
-                    stroke={UNDPColorModule[mode || 'light'].grays.white}
+                    style={{
+                      fill: color,
+                    }}
+                    className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
                     <foreignObject
@@ -300,33 +230,10 @@ export function Graph(props: Props) {
                       width={barWidth}
                       height={barHeight}
                     >
-                      <div
-                        style={{
-                          fill: UNDPColorModule[mode || 'light'].grays[
-                            'gray-600'
-                          ],
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                          textAnchor: 'middle',
-                          whiteSpace: 'normal',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          height: 'inherit',
-                          padding: '2px',
-                        }}
-                      >
+                      <div className='flex flex-col justify-center items-center h-inherit p-0.2'>
                         <p
-                          className='undp-viz-typography'
+                          className='text-xs text-center m-0 leading-tight'
                           style={{
-                            fontSize: `12px`,
-                            textAlign: 'center',
-                            lineHeight: '1.15',
-                            marginBottom: 0,
                             color: getTextColorBasedOnBgColor(color),
                           }}
                         >
@@ -346,35 +253,34 @@ export function Graph(props: Props) {
               y={y(mouseOverData.row)}
               width={barWidth}
               height={barHeight}
-              fill='none'
-              fillOpacity={0}
-              strokeWidth={1.5}
-              stroke={UNDPColorModule[mode || 'light'].grays['gray-700']}
+              style={{
+                fill: 'none',
+                fillOpacity: 0,
+                strokeWidth: 1.5,
+              }}
+              className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
             />
           ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

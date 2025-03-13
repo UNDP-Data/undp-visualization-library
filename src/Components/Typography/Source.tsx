@@ -1,98 +1,42 @@
+import { A, P } from '@undp-data/undp-design-system-react';
 import { SourcesDataType } from '../../Types';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface SourceProps {
   sources: SourcesDataType[];
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
 }
 
 export function Source(props: SourceProps) {
-  const { sources, rtl, language, mode } = props;
+  const { sources } = props;
   return (
-    <p
-      className={`${
-        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-      }undp-viz-typography`}
-      style={{
-        color: UNDPColorModule[mode].grays['gray-600'],
-        fontSize: '0.875rem',
-        marginBottom: 0,
-        textAlign: rtl ? 'right' : 'left',
-      }}
+    <P
+      size='sm'
+      marginBottom='none'
       aria-label='Data sources'
+      className='text-primary-gray-550 dark:text-primary-gray-400'
     >
-      {rtl ? (
-        <>
-          {sources.map((d, i) => (
-            <span
-              key={i}
-              style={{
-                color: UNDPColorModule[mode].grays['gray-600'],
-                fontSize: '0.875rem',
-                fontFamily: 'inherit',
-              }}
+      Source:{' '}
+      {sources.map((d, i) => (
+        <span
+          key={i}
+          className='text-primary-gray-550 dark:text-primary-gray-400'
+          style={{
+            fontFamily: 'inherit',
+          }}
+        >
+          {d.link ? (
+            <A
+              className='text-primary-gray-550 dark:text-primary-gray-400'
+              href={d.link}
+              target='_blank'
+              rel='noreferrer'
             >
-              {d.link ? (
-                <a
-                  className='undp-viz-style'
-                  style={{
-                    color: UNDPColorModule[mode].grays['gray-600'],
-                    fontSize: '0.875rem',
-                    fontFamily: 'inherit',
-                  }}
-                  href={d.link}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  {d.source}
-                </a>
-              ) : (
-                d.source
-              )}
-            </span>
-          ))}{' '}
-          :
-          {language === 'he'
-            ? 'מָקוֹר'
-            : language === 'en'
-            ? 'Source'
-            : 'المصدر'}
-        </>
-      ) : (
-        <>
-          Source:{' '}
-          {sources.map((d, i) => (
-            <span
-              key={i}
-              style={{
-                color: UNDPColorModule[mode].grays['gray-600'],
-                fontSize: '0.875rem',
-                fontFamily: 'inherit',
-              }}
-            >
-              {d.link ? (
-                <a
-                  className='undp-viz-style'
-                  style={{
-                    color: UNDPColorModule[mode].grays['gray-600'],
-                    fontSize: '0.875rem',
-                    fontFamily: 'inherit',
-                  }}
-                  href={d.link}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  {d.source}
-                </a>
-              ) : (
-                d.source
-              )}
-            </span>
-          ))}
-        </>
-      )}
-    </p>
+              {d.source}
+            </A>
+          ) : (
+            d.source
+          )}
+        </span>
+      ))}
+    </P>
   );
 }

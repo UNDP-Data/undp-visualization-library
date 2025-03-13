@@ -45,7 +45,6 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   showColorScale?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
@@ -92,7 +91,6 @@ export function AreaChart(props: Props) {
     dataDownload = false,
     highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     showColorScale = true,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     annotations = [],
@@ -100,12 +98,7 @@ export function AreaChart(props: Props) {
     mode = 'light',
     ariaLabel,
     backgroundStyle = {},
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
     prefix = '',
@@ -132,145 +125,123 @@ export function AreaChart(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a stacked area chart that shows trends over time.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a stacked area chart that shows trends over time.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            {showColorScale !== false ? (
-              <ColorLegend
-                rtl={rtl}
-                language={language}
-                colorDomain={colorDomain}
-                colors={colors}
-                colorLegendTitle={colorLegendTitle}
-                showNAColor={false}
-                mode={mode}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
               />
             ) : null}
-            <div
-              style={{ flexGrow: 1, width: '100%', lineHeight: 0 }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              {showColorScale !== false ? (
+                <ColorLegend
+                  colorDomain={colorDomain}
                   colors={colors}
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  dateFormat={dateFormat}
-                  noOfXTicks={noOfXTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  highlightAreaSettings={highlightAreaSettings}
-                  refValues={refValues}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  highlightAreaColor={highlightAreaColor}
-                  rtl={rtl}
-                  language={language}
-                  annotations={annotations}
-                  customHighlightAreaSettings={customHighlightAreaSettings}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  colorLegendTitle={colorLegendTitle}
+                  showNAColor={false}
                   mode={mode}
-                  yAxisTitle={yAxisTitle}
-                  noOfYTicks={noOfYTicks}
-                  prefix={prefix}
-                  suffix={suffix}
                 />
               ) : null}
+              <div
+                className='w-full grow leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    colors={colors}
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    dateFormat={dateFormat}
+                    noOfXTicks={noOfXTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    highlightAreaSettings={highlightAreaSettings}
+                    refValues={refValues}
+                    minValue={minValue}
+                    maxValue={maxValue}
+                    highlightAreaColor={highlightAreaColor}
+                    rtl={language === 'he' || language === 'ar'}
+                    annotations={annotations}
+                    customHighlightAreaSettings={customHighlightAreaSettings}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    yAxisTitle={yAxisTitle}
+                    noOfYTicks={noOfYTicks}
+                    prefix={prefix}
+                    suffix={suffix}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

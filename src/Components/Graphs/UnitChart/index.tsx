@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
+import { H2, P } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
@@ -26,7 +27,6 @@ interface Props {
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   graphLegend?: boolean;
   showStrokeForWhiteDots?: boolean;
@@ -56,7 +56,6 @@ export function UnitChart(props: Props) {
     backgroundColor = false,
     graphID,
     graphDownload = false,
-    rtl = false,
     language = 'en',
     graphLegend = true,
     showStrokeForWhiteDots = true,
@@ -92,217 +91,181 @@ export function UnitChart(props: Props) {
   });
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        minHeight: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        flexGrow: width ? 0 : 1,
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          minHeight: 'inherit',
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            width: '100%',
-            flexGrow: 1,
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          {note ? (
-            <h2
-              className='undp-viz-typography'
-              style={{
-                width: width ? `${width}px` : '100%',
-                fontWeight: 'bold',
-                marginBottom: '0.25rem',
-                marginTop: 0,
-                color: UNDPColorModule[mode].grays.black,
-              }}
-            >
-              {note}
-            </h2>
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              {graphLegend ? (
-                <div
-                  style={{
-                    lineHeight: 0,
-                    width: width ? `${width}px` : '100%',
-                    marginBottom: '1rem',
-                  }}
-                  aria-label='Color legend'
-                >
+          <div className='flex flex-col gap-3 w-full grow'>
+            {graphTitle || graphDescription || graphDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            {note ? (
+              <H2
+                marginBottom='2xs'
+                className='text-primary-gray-700 dark:text-primary-gray-100 font-bold'
+                style={{
+                  width: width ? `${width}px` : '100%',
+                }}
+              >
+                {note}
+              </H2>
+            ) : null}
+            <div className='flex grow flex-col justify-between'>
+              <div>
+                {graphLegend ? (
                   <div
+                    className='mb-4 leading-0'
                     style={{
-                      display: 'flex',
-                      marginBottom: 0,
-                      flexWrap: 'wrap',
-                      rowGap: '0.25rem',
-                      columnGap: '1rem',
+                      width: width ? `${width}px` : '100%',
                     }}
+                    aria-label='Color legend'
                   >
-                    {data.map((d, i) => (
-                      <div
-                        style={{
-                          display: 'flex',
-                          gap: '0.5rem',
-                          alignItems: 'center',
-                        }}
-                        key={i}
-                      >
-                        <div
-                          style={{
-                            width: '0.75rem',
-                            height: '0.75rem',
-                            borderRadius: '1rem',
-                            backgroundColor: colors[i],
-                          }}
-                        />
-                        <p
-                          className={`${
-                            rtl ? `undp-viz-typography-${language} ` : ''
-                          }undp-viz-typography`}
-                          style={{
-                            marginBottom: 0,
-                            fontSize: '0.875rem',
-                            color: UNDPColorModule[mode].grays.black,
-                          }}
-                        >
-                          {d.label}:{' '}
-                          <span
-                            style={{ fontWeight: 'bold', fontSize: 'inherit' }}
+                    <div className='flex mb-0 flex-wrap gap-x-1 gap-y-4'>
+                      {data.map((d, i) => (
+                        <div className='flex gap-2 items-center' key={i}>
+                          <div
+                            className='w-3 h-3 rounded-full'
+                            style={{
+                              backgroundColor: colors[i],
+                            }}
+                          />
+                          <P
+                            marginBottom='none'
+                            size='sm'
+                            className='text-primary-gray-700 dark:text-primary-gray-100'
                           >
-                            {numberFormattingFunction(d.value)}
-                          </span>
-                        </p>
-                      </div>
-                    ))}
+                            {d.label}:{' '}
+                            <span className='font-bold'>
+                              {numberFormattingFunction(d.value)}
+                            </span>
+                          </P>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ) : null}
-              <div aria-label='Graph area'>
-                <svg
-                  width={`${width || size}px`}
-                  height={`${Math.max(
-                    minHeight,
-                    height
-                      ? relativeHeight && width
-                        ? minHeight
-                          ? width * relativeHeight > minHeight
-                            ? width * relativeHeight
-                            : minHeight
-                          : width * relativeHeight
-                        : height
-                      : Math.floor((totalNoOfDots - 1) / gridSize) *
-                          gridDimension +
-                          gridDimension / 2 +
-                          radius +
-                          5,
-                  )}px`}
-                  viewBox={`0 0 ${width || size} ${Math.max(
-                    minHeight,
-                    height
-                      ? relativeHeight && width
-                        ? minHeight
-                          ? width * relativeHeight > minHeight
-                            ? width * relativeHeight
-                            : minHeight
-                          : width * relativeHeight
-                        : height
-                      : Math.floor((totalNoOfDots - 1) / gridSize) *
-                          gridDimension +
-                          gridDimension / 2 +
-                          radius +
-                          5,
-                  )}`}
-                >
-                  <g>
-                    {cellsData.map((d, i) => (
-                      <circle
-                        key={i}
-                        cx={(i % gridSize) * gridDimension + gridDimension / 2}
-                        cy={
-                          Math.floor(i / gridSize) * gridDimension +
-                          gridDimension / 2
-                        }
-                        style={{
-                          fill: d.color,
-                          stroke:
+                ) : null}
+                <div aria-label='Graph area'>
+                  <svg
+                    width={`${width || size}px`}
+                    height={`${Math.max(
+                      minHeight,
+                      height
+                        ? relativeHeight && width
+                          ? minHeight
+                            ? width * relativeHeight > minHeight
+                              ? width * relativeHeight
+                              : minHeight
+                            : width * relativeHeight
+                          : height
+                        : Math.floor((totalNoOfDots - 1) / gridSize) *
+                            gridDimension +
+                            gridDimension / 2 +
+                            radius +
+                            5,
+                    )}px`}
+                    direction='ltr'
+                    viewBox={`0 0 ${width || size} ${Math.max(
+                      minHeight,
+                      height
+                        ? relativeHeight && width
+                          ? minHeight
+                            ? width * relativeHeight > minHeight
+                              ? width * relativeHeight
+                              : minHeight
+                            : width * relativeHeight
+                          : height
+                        : Math.floor((totalNoOfDots - 1) / gridSize) *
+                            gridDimension +
+                            gridDimension / 2 +
+                            radius +
+                            5,
+                    )}`}
+                  >
+                    <g>
+                      {cellsData.map((d, i) => (
+                        <circle
+                          key={i}
+                          cx={
+                            (i % gridSize) * gridDimension + gridDimension / 2
+                          }
+                          cy={
+                            Math.floor(i / gridSize) * gridDimension +
+                            gridDimension / 2
+                          }
+                          style={{
+                            fill: d.color,
+                            ...(!showStrokeForWhiteDots
+                              ? { stroke: d.color }
+                              : {}),
+                            strokeWidth: 1,
+                          }}
+                          className={
                             (d.color.toLowerCase() === '#fff' ||
                               d.color.toLowerCase() === '#ffffff' ||
                               d.color.toLowerCase() === 'white') &&
                             showStrokeForWhiteDots
-                              ? UNDPColorModule[mode].grays['gray-400']
-                              : d.color,
-                          strokeWidth: 1,
-                        }}
-                        r={radius}
-                      />
-                    ))}
-                  </g>
-                </svg>
+                              ? 'stroke-primary-gray-400 dark:stroke-primary-gray-500'
+                              : ''
+                          }
+                          r={radius}
+                        />
+                      ))}
+                    </g>
+                  </svg>
+                </div>
               </div>
+              {sources || footNote ? (
+                <GraphFooter
+                  sources={sources}
+                  footNote={footNote}
+                  width={width}
+                />
+              ) : null}
             </div>
-            {sources || footNote ? (
-              <GraphFooter
-                rtl={rtl}
-                language={language}
-                sources={sources}
-                footNote={footNote}
-                width={width}
-                mode={mode}
-              />
-            ) : null}
           </div>
         </div>
       </div>

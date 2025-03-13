@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from 'react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { Graph } from './Graph';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
   mapStyles: [string, string];
   center?: [number, number];
   zoomLevel?: number;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -42,7 +40,6 @@ export function GeoHubCompareMaps(props: Props) {
     mapStyles,
     center = [0, 0],
     zoomLevel = 3,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -66,100 +63,82 @@ export function GeoHubCompareMaps(props: Props) {
   }, [width, height]);
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a comparison between two maps.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a comparison between two maps.${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              lineHeight: 0,
-            }}
-            ref={graphDiv}
-            aria-label='map area'
-          >
-            {(width || svgWidth) && (height || svgHeight) ? (
-              <Graph
-                width={width || svgWidth}
-                height={Math.max(
-                  minHeight,
-                  height ||
-                    (relativeHeight
-                      ? minHeight
-                        ? (width || svgWidth) * relativeHeight > minHeight
-                          ? (width || svgWidth) * relativeHeight
-                          : minHeight
-                        : (width || svgWidth) * relativeHeight
-                      : svgHeight),
-                )}
-                mapStyles={mapStyles}
-                center={center}
-                zoomLevel={zoomLevel}
-                mode={mode}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+              />
+            ) : null}
+            <div
+              className='flex flex-col grow justify-center leading-0'
+              ref={graphDiv}
+              aria-label='map area'
+            >
+              {(width || svgWidth) && (height || svgHeight) ? (
+                <Graph
+                  width={width || svgWidth}
+                  height={Math.max(
+                    minHeight,
+                    height ||
+                      (relativeHeight
+                        ? minHeight
+                          ? (width || svgWidth) * relativeHeight > minHeight
+                            ? (width || svgWidth) * relativeHeight
+                            : minHeight
+                          : (width || svgWidth) * relativeHeight
+                        : svgHeight),
+                  )}
+                  mapStyles={mapStyles}
+                  center={center}
+                  zoomLevel={zoomLevel}
+                />
+              ) : null}
+            </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
               />
             ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

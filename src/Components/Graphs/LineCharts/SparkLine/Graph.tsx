@@ -10,7 +10,6 @@ import sortBy from 'lodash.sortby';
 import { CSSObject, LineChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
 
 interface Props {
   data: LineChartDataType[];
@@ -27,10 +26,7 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
 }
 
 export function Graph(props: Props) {
@@ -49,9 +45,6 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     minValue,
     maxValue,
-    rtl,
-    language,
-    mode,
     tooltipBackgroundStyle,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
@@ -147,6 +140,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         {areaId ? (
           <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
@@ -169,35 +163,23 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className='undp-viz-x-axis-text'
+              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'end',
               }}
-              textAnchor='end'
               dy={15}
             >
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
             </text>
             <text
-              className='undp-viz-x-axis-text'
               y={graphHeight}
               x={x(dataFormatted[0].date)}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'start',
               }}
-              textAnchor='start'
+              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}
@@ -205,17 +187,19 @@ export function Graph(props: Props) {
           </g>
           <g>
             <path
-              clipPath='url(#clip)'
               d={mainGraphArea(dataFormatted as any) as string}
-              fill={`url(#${areaId})`}
+              style={{
+                fill: `url(#${areaId})`,
+                clipPath: 'url(#clip)',
+              }}
             />
             <path
               d={lineShape(dataFormatted as any) as string}
-              fill='none'
               style={{
                 stroke: color,
+                fill: 'none',
+                strokeWidth: 2,
               }}
-              strokeWidth={2}
             />
             {mouseOverData ? (
               <circle
@@ -231,8 +215,10 @@ export function Graph(props: Props) {
           </g>
           <rect
             ref={MouseoverRectRef}
-            fill='none'
-            pointerEvents='all'
+            style={{
+              fill: 'none',
+              pointerEvents: 'all',
+            }}
             width={graphWidth}
             height={graphHeight}
           />
@@ -240,13 +226,10 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

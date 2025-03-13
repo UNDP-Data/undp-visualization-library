@@ -1,3 +1,4 @@
+import { P } from '@undp-data/undp-design-system-react';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
@@ -6,8 +7,6 @@ interface Props {
   colorLegendTitle?: string;
   showNAColor: boolean;
   width?: number;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
   isCenter?: boolean;
   mode: 'dark' | 'light';
 }
@@ -19,110 +18,55 @@ export function ColorLegend(props: Props) {
     colors,
     showNAColor,
     width,
-    rtl,
-    language,
     isCenter,
     mode,
   } = props;
 
   return (
     <div
+      className={`flex ${isCenter ? 'justify-center' : ''} leading-0`}
       style={{
-        lineHeight: 0,
-        maxWidth: width || 'none',
-        display: 'flex',
-        justifyContent: isCenter ? 'center' : rtl ? 'flex-end' : 'flex-start',
+        maxWidth: width ? `${width}px` : 'none',
       }}
       aria-label='Color legend'
     >
-      <div>
+      <div className={mode || 'light'}>
         {colorLegendTitle && colorLegendTitle !== '' ? (
-          <p
-            className={`${
-              rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-            }undp-viz-typography`}
-            style={{
-              color: UNDPColorModule[mode].grays['gray-700'],
-              fontSize: '0.875rem',
-              textAlign: isCenter ? 'center' : rtl ? 'right' : 'left',
-              marginBottom: '0.5rem',
-            }}
+          <P
+            size='sm'
+            marginBottom='2xs'
+            className={isCenter ? 'text-center' : ''}
           >
             {colorLegendTitle}
-          </p>
+          </P>
         ) : null}
-        <div
-          style={{
-            display: 'flex',
-            marginBottom: 0,
-            flexWrap: 'wrap',
-            gap: '0.875rem',
-            flexDirection: rtl ? 'row-reverse' : 'row',
-          }}
-        >
+        <div className='flex flex-wrap mb-0 gap-3.5'>
           {colorDomain.map((d, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                gap: '0.25rem',
-                alignItems: 'center',
-                flexDirection: rtl ? 'row-reverse' : 'row',
-              }}
-            >
+            <div key={i} className='flex items-center gap-1'>
               <div
+                className='w-3 h-3 rounded-full'
                 style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
-                  borderRadius: '1rem',
                   backgroundColor: colors[i % colors.length],
                 }}
               />
               {d === '' ? null : (
-                <p
-                  className={`${
-                    rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                  }undp-viz-typography`}
-                  style={{
-                    marginBottom: 0,
-                    fontSize: '0.875rem',
-                    color: UNDPColorModule[mode].grays.black,
-                  }}
-                >
+                <P size='sm' marginBottom='none'>
                   {d}
-                </p>
+                </P>
               )}
             </div>
           ))}
           {showNAColor ? (
-            <div
-              style={{
-                display: 'flex',
-                gap: '0.25rem',
-                alignItems: 'center',
-                flexDirection: rtl ? 'row-reverse' : 'row',
-              }}
-            >
+            <div className='flex items-center gap-1'>
               <div
+                className='w-3 h-3 rounded-full'
                 style={{
-                  width: '0.75rem',
-                  height: '0.75rem',
-                  borderRadius: '1rem',
-                  backgroundColor: UNDPColorModule[mode].graphGray,
+                  backgroundColor: UNDPColorModule.gray,
                 }}
               />
-              <p
-                className={`${
-                  rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                }undp-viz-typography`}
-                style={{
-                  marginBottom: 0,
-                  fontSize: '0.875rem',
-                  color: UNDPColorModule[mode].grays.black,
-                }}
-              >
-                {rtl ? (language === 'he' ? 'לא זמין' : 'غير متوفر') : 'NA'}
-              </p>
+              <P size='sm' marginBottom='none'>
+                NA
+              </P>
             </div>
           ) : null}
         </div>

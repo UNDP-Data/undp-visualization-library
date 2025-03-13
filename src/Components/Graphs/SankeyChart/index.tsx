@@ -46,7 +46,6 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -93,7 +92,6 @@ export function SankeyChart(props: Props) {
     graphDownload = false,
     dataDownload = false,
     fillContainer = true,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -113,12 +111,7 @@ export function SankeyChart(props: Props) {
     sortNodes = 'mostReadable',
     backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
-      maxWidth: '24rem',
-      padding: '0.5rem',
-    },
+    tooltipBackgroundStyle,
     detailsOnClick,
   } = props;
 
@@ -138,7 +131,7 @@ export function SankeyChart(props: Props) {
       label: `${d.source}`,
       color:
         typeof sourceColors === 'string' || !sourceColors
-          ? sourceColors || UNDPColorModule[mode].graphMainColor
+          ? sourceColors || UNDPColorModule.graphMainColor
           : sourceColors[
               (
                 sourceColorDomain ||
@@ -166,7 +159,7 @@ export function SankeyChart(props: Props) {
       label: `${d.target}`,
       color:
         typeof targetColors === 'string' || !targetColors
-          ? targetColors || UNDPColorModule[mode].graphMainColor
+          ? targetColors || UNDPColorModule.graphMainColor
           : targetColors[
               (
                 targetColorDomain ||
@@ -216,150 +209,121 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        width: !fillContainer ? 'fit-content' : '100%',
-        height: 'inherit',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      ref={graphParentDiv}
-      aria-label={
-        ariaLabel ||
-        `${
-          graphTitle ? `The graph shows ${graphTitle}. ` : ''
-        }This is a sankey chart showing flow. ${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+        !fillContainer ? 'w-fit' : 'w-full'
+      } `}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        ref={graphParentDiv}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a sankey chart showing flow. ${
+            graphDescription ? ` ${graphDescription}` : ''
+          }`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            width: '100%',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription || graphDownload || dataDownload ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              graphDownload={graphDownload ? graphParentDiv.current : undefined}
-              dataDownload={
-                dataDownload &&
-                data.map(d => d.data).filter(d => d !== undefined).length > 0
-                  ? data.map(d => d.data).filter(d => d !== undefined)
-                  : null
-              }
-              mode={mode}
-            />
-          ) : null}
-          <div
-            style={{
-              flexGrow: 1,
-              flexDirection: 'column',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0.75rem',
-              width: '100%',
-            }}
-          >
-            <div
-              style={{
-                flexGrow: 1,
-                flexDirection: 'column',
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '0.75rem',
-                width: '100%',
-                lineHeight: 0,
-              }}
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
-                <Graph
-                  data={sankeyData}
-                  width={width || svgWidth}
-                  nodePadding={nodePadding}
-                  nodeWidth={nodeWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  showLabels={showLabels}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  truncateBy={truncateBy}
-                  tooltip={tooltip}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  showValues={showValues}
-                  suffix={suffix}
-                  prefix={prefix}
-                  onSeriesMouseClick={onSeriesMouseClick}
-                  rtl={rtl}
-                  language={language}
-                  mode={mode}
-                  id={generateRandomString(8)}
-                  highlightedSourceDataPoints={highlightedSourceDataPoints.map(
-                    d => `${d}`,
-                  )}
-                  highlightedTargetDataPoints={highlightedTargetDataPoints.map(
-                    d => `${d}`,
-                  )}
-                  defaultLinkOpacity={defaultLinkOpacity}
-                  sourceTitle={sourceTitle}
-                  targetTitle={targetTitle}
-                  animateLinks={animateLinks}
-                  sortNodes={sortNodes}
-                  resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  detailsOnClick={detailsOnClick}
-                />
-              ) : null}
+          <div className='flex flex-col gap-4 w-full grow justify-between'>
+            {graphTitle || graphDescription || graphDownload || dataDownload ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+                graphDownload={
+                  graphDownload ? graphParentDiv.current : undefined
+                }
+                dataDownload={
+                  dataDownload &&
+                  data.map(d => d.data).filter(d => d !== undefined).length > 0
+                    ? data.map(d => d.data).filter(d => d !== undefined)
+                    : null
+                }
+              />
+            ) : null}
+            <div className='grow flex flex-col justify-center gap-3 w-full'>
+              <div
+                className='flex flex-col grow justify-center gap-3 w-full leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
+                  <Graph
+                    data={sankeyData}
+                    width={width || svgWidth}
+                    nodePadding={nodePadding}
+                    nodeWidth={nodeWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    showLabels={showLabels}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    truncateBy={truncateBy}
+                    tooltip={tooltip}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    showValues={showValues}
+                    suffix={suffix}
+                    prefix={prefix}
+                    onSeriesMouseClick={onSeriesMouseClick}
+                    id={generateRandomString(8)}
+                    highlightedSourceDataPoints={highlightedSourceDataPoints.map(
+                      d => `${d}`,
+                    )}
+                    highlightedTargetDataPoints={highlightedTargetDataPoints.map(
+                      d => `${d}`,
+                    )}
+                    defaultLinkOpacity={defaultLinkOpacity}
+                    sourceTitle={sourceTitle}
+                    targetTitle={targetTitle}
+                    animateLinks={animateLinks}
+                    sortNodes={sortNodes}
+                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    detailsOnClick={detailsOnClick}
+                  />
+                ) : null}
+              </div>
             </div>
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
           </div>
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
         </div>
       </div>
     </div>

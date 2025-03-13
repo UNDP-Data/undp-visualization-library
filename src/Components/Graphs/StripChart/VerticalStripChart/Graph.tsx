@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, StripChartDataType } from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { string2HTML } from '../../../../Utils/string2HTML';
-import { Modal } from '../../../Elements/Modal';
 
 interface Props {
   data: StripChartDataType[];
@@ -32,13 +32,10 @@ interface Props {
   prefix: string;
   suffix: string;
   stripType: 'strip' | 'dot';
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   highlightColor?: string;
   dotOpacity: number;
-  mode: 'light' | 'dark';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
 }
 
@@ -65,11 +62,8 @@ export function Graph(props: Props) {
     prefix,
     suffix,
     stripType,
-    rtl,
-    language,
     highlightColor,
     dotOpacity,
-    mode,
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
@@ -129,6 +123,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {sortedData.map((d, i) => {
@@ -198,12 +193,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
@@ -222,12 +217,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule[mode || 'light'].graphGray
+                          ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
@@ -245,22 +240,16 @@ export function Graph(props: Props) {
                               : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule[mode || 'light'].graphGray
+                              ? UNDPColorModule.gray
                               : colors[colorDomain.indexOf(d.color)]
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule[mode || 'light'].graphGray
+                            ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(d.color)],
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                        textAnchor: 'start',
                       }}
-                      textAnchor='start'
-                      fontSize={14}
-                      fontWeight='bold'
+                      className='text-sm font-bold'
                     >
                       {numberFormattingFunction(d.position, prefix, suffix)}
                     </text>
@@ -275,15 +264,9 @@ export function Graph(props: Props) {
                 y={0}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'start',
                 }}
-                textAnchor='start'
-                fontSize={12}
+                className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
               >
                 {numberFormattingFunction(y.invert(0))}
               </text>
@@ -291,15 +274,9 @@ export function Graph(props: Props) {
                 y={graphHeight}
                 x={graphWidth / 2 + radius + 5}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-500'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'start',
                 }}
-                textAnchor='start'
-                fontSize={12}
+                className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
               >
                 {numberFormattingFunction(y.invert(graphHeight))}
               </text>
@@ -309,25 +286,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),

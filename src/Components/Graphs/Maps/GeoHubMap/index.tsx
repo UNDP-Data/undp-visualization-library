@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import Select, { createFilter } from 'react-select';
+
+import {
+  DropdownSelect,
+  createFilter,
+} from '@undp-data/undp-design-system-react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
 import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
-import { getReactSelectTheme } from '../../../../Utils/getReactSelectTheme';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
@@ -22,7 +24,6 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
-  rtl?: boolean;
   language?: 'ar' | 'he' | 'en';
   minHeight?: number;
   mode?: 'light' | 'dark';
@@ -47,7 +48,6 @@ export function GeoHubMap(props: Props) {
     center,
     zoomLevel,
     graphID,
-    rtl = false,
     language = 'en',
     minHeight = 0,
     mode = 'light',
@@ -77,114 +77,97 @@ export function GeoHubMap(props: Props) {
   );
   return (
     <div
-      style={{
-        ...backgroundStyle,
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'inherit',
-        width: width ? 'fit-content' : '100%',
-        flexGrow: width ? 0 : 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        backgroundColor: !backgroundColor
-          ? 'transparent'
-          : backgroundColor === true
-          ? UNDPColorModule[mode].grays['gray-200']
-          : backgroundColor,
-      }}
-      id={graphID}
-      aria-label={
-        ariaLabel ||
-        `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a map.${
-          graphDescription ? ` ${graphDescription}` : ''
-        }`
-      }
+      className={`${mode || 'light'} flex  ${
+        width ? 'w-fit grow-0' : 'w-full grow'
+      }`}
+      dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
+        className={`${
+          !backgroundColor
+            ? 'bg-transparent '
+            : backgroundColor === true
+            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+            : ''
+        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          padding: backgroundColor ? padding || '1rem' : padding || 0,
-          flexGrow: 1,
-          display: 'flex',
+          ...backgroundStyle,
+          ...(backgroundColor && backgroundColor !== true
+            ? { backgroundColor }
+            : {}),
         }}
+        id={graphID}
+        aria-label={
+          ariaLabel ||
+          `${
+            graphTitle ? `The graph shows ${graphTitle}. ` : ''
+          }This is a map.${graphDescription ? ` ${graphDescription}` : ''}`
+        }
       >
         <div
+          className='flex grow'
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '1rem',
-            flexGrow: 1,
-            justifyContent: 'space-between',
+            padding: backgroundColor ? padding || '1rem' : padding || 0,
           }}
         >
-          {graphTitle || graphDescription ? (
-            <GraphHeader
-              rtl={rtl}
-              language={language}
-              graphTitle={graphTitle}
-              graphDescription={graphDescription}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
-          {typeof mapStyle === 'string' ? null : (
-            <Select
-              className={
-                rtl
-                  ? `undp-viz-select-${language} undp-viz-select`
-                  : 'undp-viz-select'
-              }
-              options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
-              isClearable={false}
-              isRtl={rtl}
-              isSearchable
-              filterOption={createFilter(filterConfig)}
-              defaultValue={{
-                label: mapStyle[0].name,
-                value: mapStyle[0].style,
-              }}
-              controlShouldRenderValue
-              onChange={el => {
-                if (el) setSelectedMapStyle(el.value);
-              }}
-              theme={theme => getReactSelectTheme(theme, mode)}
-            />
-          )}
-          {typeof mapStyle === 'string' ? (
-            <GeoHubSingleMap
-              mapStyle={mapStyle}
-              center={center}
-              zoomLevel={zoomLevel}
-              width={width}
-              height={height}
-              relativeHeight={relativeHeight}
-              minHeight={minHeight}
-              includeLayers={includeLayers}
-              excludeLayers={excludeLayers}
-            />
-          ) : (
-            <GeoHubMultipleMap
-              mapStyle={selectedMapStyle}
-              center={center}
-              zoomLevel={zoomLevel}
-              width={width}
-              height={height}
-              relativeHeight={relativeHeight}
-              minHeight={minHeight}
-              includeLayers={includeLayers}
-              excludeLayers={excludeLayers}
-            />
-          )}
-          {sources || footNote ? (
-            <GraphFooter
-              rtl={rtl}
-              language={language}
-              sources={sources}
-              footNote={footNote}
-              width={width}
-              mode={mode}
-            />
-          ) : null}
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
+            {graphTitle || graphDescription ? (
+              <GraphHeader
+                graphTitle={graphTitle}
+                graphDescription={graphDescription}
+                width={width}
+              />
+            ) : null}
+            {typeof mapStyle === 'string' ? null : (
+              <DropdownSelect
+                options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
+                isClearable={false}
+                isRtl={language === 'he' || language === 'ar'}
+                isSearchable
+                filterOption={createFilter(filterConfig)}
+                defaultValue={{
+                  label: mapStyle[0].name,
+                  value: mapStyle[0].style,
+                }}
+                controlShouldRenderValue
+                onChange={(el: any) => {
+                  if (el) setSelectedMapStyle(el.value);
+                }}
+              />
+            )}
+            {typeof mapStyle === 'string' ? (
+              <GeoHubSingleMap
+                mapStyle={mapStyle}
+                center={center}
+                zoomLevel={zoomLevel}
+                width={width}
+                height={height}
+                relativeHeight={relativeHeight}
+                minHeight={minHeight}
+                includeLayers={includeLayers}
+                excludeLayers={excludeLayers}
+              />
+            ) : (
+              <GeoHubMultipleMap
+                mapStyle={selectedMapStyle}
+                center={center}
+                zoomLevel={zoomLevel}
+                width={width}
+                height={height}
+                relativeHeight={relativeHeight}
+                minHeight={minHeight}
+                includeLayers={includeLayers}
+                excludeLayers={excludeLayers}
+              />
+            )}
+            {sources || footNote ? (
+              <GraphFooter
+                sources={sources}
+                footNote={footNote}
+                width={width}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

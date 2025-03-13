@@ -18,7 +18,6 @@ import {
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
 import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
 
@@ -48,13 +47,11 @@ interface Props {
   highlightAreaColor: string;
   animateLine: boolean | number;
   rtl: boolean;
-  language: 'en' | 'he' | 'ar';
   strokeWidth: number;
   showDots: boolean;
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
-  mode: 'light' | 'dark';
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks: number;
   minDate?: string | number;
@@ -88,12 +85,10 @@ export function Graph(props: Props) {
     highlightAreaColor,
     animateLine,
     rtl,
-    language,
     strokeWidth,
     showDots,
     annotations,
     customHighlightAreaSettings,
-    mode,
     tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks,
@@ -252,6 +247,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {highlightAreaSettingsFormatted[0] === null &&
@@ -294,17 +290,18 @@ export function Graph(props: Props) {
                     ),
                   )}
                   style={{
-                    fill:
-                      d.coordinates.length > 4
-                        ? d.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-300']
-                        : 'none',
                     strokeWidth: d.strokeWidth || 0,
-                    stroke:
-                      d.color ||
-                      UNDPColorModule[mode || 'light'].grays['gray-300'],
+                    ...(d.coordinates.length > 4
+                      ? d.color && { fill: d.color }
+                      : { fill: 'none' }),
+                    ...(d.color && { stroke: d.color }),
                     strokeDasharray: d.dashedStroke ? '4,4' : 'none',
                   }}
+                  className={
+                    !d.color
+                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550 fill-primary-gray-300 dark:fill-primary-gray-550'
+                      : ''
+                  }
                 />
               ) : (
                 <line
@@ -312,13 +309,16 @@ export function Graph(props: Props) {
                   y1={y(d.coordinates[1] as number)}
                   x2={x(parse(`${d.coordinates[2]}`, dateFormat, new Date()))}
                   y2={y(d.coordinates[3] as number)}
+                  className={
+                    !d.color
+                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
+                      : ''
+                  }
                   style={{
                     fill: 'none',
                     strokeWidth: d.strokeWidth || 1,
-                    stroke:
-                      d.color ||
-                      UNDPColorModule[mode || 'light'].grays['gray-300'],
                     strokeDasharray: d.dashedStroke ? '4,4' : 'none',
+                    ...(d.color ? { stroke: d.color } : {}),
                   }}
                 />
               )}
@@ -333,26 +333,15 @@ export function Graph(props: Props) {
                     y2={y(d)}
                     x1={width}
                     x2={-20}
-                    style={{
-                      stroke:
-                        UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    }}
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
+                    className='undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550'
                   />
                   <text
                     x={-25}
                     y={y(d)}
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                      textAnchor: 'end',
                     }}
-                    textAnchor='end'
-                    fontSize={12}
+                    className='fill-primary-gray-550 dark:fill-primary-gray-500 text-xs'
                     dy={3}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
@@ -365,10 +354,7 @@ export function Graph(props: Props) {
               y2={y(minParam < 0 ? 0 : minParam)}
               x1={-20}
               x2={width}
-              style={{
-                stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-              }}
-              strokeWidth={1}
+              className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
             />
             {yAxisTitle ? (
               <text
@@ -376,15 +362,9 @@ export function Graph(props: Props) {
                   graphHeight / 2
                 }) rotate(-90)`}
                 style={{
-                  fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  textAnchor: 'middle',
                 }}
-                textAnchor='middle'
-                fontSize={12}
+                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
               >
                 {yAxisTitle}
               </text>
@@ -393,15 +373,9 @@ export function Graph(props: Props) {
               x={-25}
               y={y(0)}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'end',
               }}
-              textAnchor='end'
-              fontSize={12}
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
               dy={3}
             >
               {numberFormattingFunction(
@@ -415,19 +389,12 @@ export function Graph(props: Props) {
             {xTicks.map((d, i) => (
               <g key={i}>
                 <text
-                  className='undp-viz-x-axis-text'
                   y={graphHeight}
                   x={x(d)}
                   style={{
-                    fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                    fontFamily: rtl
-                      ? language === 'he'
-                        ? 'Noto Sans Hebrew, sans-serif'
-                        : 'Noto Sans Arabic, sans-serif'
-                      : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                    textAnchor: 'middle',
                   }}
-                  textAnchor='middle'
-                  fontSize={12}
+                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
                   dy={15}
                 >
                   {format(d, dateFormat)}
@@ -450,11 +417,11 @@ export function Graph(props: Props) {
                 <path
                   key={i}
                   d={lineShape(d as any) as string}
-                  fill='none'
                   style={{
                     stroke: colors[i],
+                    fill: 'none',
+                    strokeWidth,
                   }}
-                  strokeWidth={strokeWidth}
                 />
                 <g>
                   {d.map((el, j) => (
@@ -482,17 +449,11 @@ export function Graph(props: Props) {
                               x={x(el.date)}
                               y={y(el.y as number)}
                               dy={-8}
-                              fontSize={12}
-                              textAnchor='middle'
                               style={{
-                                fontWeight: 'bold',
                                 fill: colors[i],
-                                fontFamily: rtl
-                                  ? language === 'he'
-                                    ? 'Noto Sans Hebrew, sans-serif'
-                                    : 'Noto Sans Arabic, sans-serif'
-                                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                                textAnchor: 'middle',
                               }}
+                              className='text-xs font-bold'
                             >
                               {numberFormattingFunction(el.y, prefix, suffix)}
                             </text>
@@ -506,13 +467,8 @@ export function Graph(props: Props) {
                   <text
                     style={{
                       fill: colors[i],
-                      fontSize: '12px',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
+                    className='text-xs'
                     x={x(d[d.length - 1].date)}
                     y={y(d[d.length - 1].y as number)}
                     dx={5}
@@ -529,24 +485,21 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                style={{
-                  stroke: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                }}
-                strokeDasharray='4 8'
-                strokeWidth={1}
+                className='undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-400'
               />
             ) : null}
           </g>
           {refValues.map((el, i) => (
             <g key={i}>
               <line
+                className={`undp-ref-line ${
+                  !el.color
+                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                    : ''
+                }`}
                 style={{
-                  stroke:
-                    el.color ||
-                    UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  strokeWidth: 1.5,
+                  ...(el.color && { stroke: el.color }),
                 }}
-                strokeDasharray='4,4'
                 y1={y(el.value as number)}
                 y2={y(el.value as number)}
                 x1={0 - 20}
@@ -554,20 +507,16 @@ export function Graph(props: Props) {
               />
               <text
                 x={graphWidth + margin.right}
-                fontWeight='bold'
                 y={y(el.value as number)}
                 style={{
-                  fill:
-                    el.color ||
-                    UNDPColorModule[mode || 'light'].grays['gray-700'],
-                  fontFamily: rtl
-                    ? language === 'he'
-                      ? 'Noto Sans Hebrew, sans-serif'
-                      : 'Noto Sans Arabic, sans-serif'
-                    : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                  ...(el.color && { fill: el.color }),
                   textAnchor: 'end',
                 }}
-                fontSize={12}
+                className={`text-xs font-bold${
+                  !el.color
+                    ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
+                    : ''
+                }`}
                 dy={-5}
               >
                 {el.text}
@@ -618,15 +567,18 @@ export function Graph(props: Props) {
                             ? 3.5
                             : (d.connectorRadius as number)
                         }
+                        className={
+                          !d.color
+                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            : ''
+                        }
                         style={{
+                          fill: 'none',
                           strokeWidth:
                             d.showConnector === true
                               ? 2
                               : Math.min(d.showConnector, 1),
-                          fill: 'none',
-                          stroke:
-                            d.color ||
-                            UNDPColorModule[mode || 'light'].grays['gray-700'],
+                          ...(d.color ? { stroke: d.color } : {}),
                         }}
                       />
                       <line
@@ -648,15 +600,18 @@ export function Graph(props: Props) {
                               ) + (d.xOffset || 0)
                             : 0 + (d.xOffset || 0)
                         }
+                        className={
+                          !d.color
+                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            : ''
+                        }
                         style={{
+                          fill: 'none',
                           strokeWidth:
                             d.showConnector === true
                               ? 2
                               : Math.min(d.showConnector, 1),
-                          fill: 'none',
-                          stroke:
-                            d.color ||
-                            UNDPColorModule[mode || 'light'].grays['gray-700'],
+                          ...(d.color ? { stroke: d.color } : {}),
                         }}
                       />
                     </>
@@ -700,27 +655,16 @@ export function Graph(props: Props) {
                     }}
                   >
                     <p
-                      className={`${
-                        rtl ? `undp-viz-typography-${language || 'ar'} ` : ''
-                      }undp-viz-typography`}
+                      className={`text-sm font-${
+                        d.fontWeight || 'normal'
+                      } leading-tight m-0 whitespace-normal ${
+                        !d.color
+                          ? 'text-primary-gray-700 dark:text-primary-gray-300'
+                          : ''
+                      }`}
                       style={{
-                        color:
-                          d.color ||
-                          UNDPColorModule[mode || 'light'].grays['gray-700'],
-                        fontWeight: d.fontWeight || 'regular',
-                        whiteSpace: 'normal',
-                        fontSize: '14px',
-                        textAlign: d.align || (rtl ? 'right' : 'left'),
                         maxWidth: d.maxWidth || 'auto',
-                        fontFamily: rtl
-                          ? language === 'he'
-                            ? 'Noto Sans Hebrew, sans-serif'
-                            : 'Noto Sans Arabic, sans-serif'
-                          : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                        lineHeight: 1.2,
-                        margin: 0,
-                        paddingLeft: rtl ? 0 : '4px',
-                        paddingRight: !rtl ? 0 : '4px',
+                        ...(d.color ? { color: d.color } : {}),
                       }}
                     >
                       {d.text}
@@ -732,8 +676,10 @@ export function Graph(props: Props) {
           </g>
           <rect
             ref={MouseoverRectRef}
-            fill='none'
-            pointerEvents='all'
+            style={{
+              fill: 'none',
+              pointerEvents: 'all',
+            }}
             width={graphWidth}
             height={graphHeight}
           />
@@ -741,13 +687,10 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}

@@ -1,16 +1,12 @@
 /* eslint-disable react/no-danger */
 import { CSSObject } from '../../Types';
 import { string2HTML } from '../../Utils/string2HTML';
-import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
   body: string;
   xPos: number;
   yPos: number;
   data: any;
-  rtl?: boolean;
-  language?: 'ar' | 'he' | 'en';
-  mode: 'dark' | 'light';
   backgroundStyle?: CSSObject;
 }
 
@@ -20,24 +16,16 @@ export function Tooltip(props: Props) {
     xPos,
     yPos,
     data,
-    rtl,
-    language,
-    mode,
     backgroundStyle = {
-      backgroundColor: UNDPColorModule[mode].grays['gray-200'],
-      border: `1px solid ${UNDPColorModule[mode].grays['gray-300']}`,
       maxWidth: '24rem',
-      padding: '0.5rem',
     },
   } = props;
   const htmlString = string2HTML(body, data);
   return (
     <div
+      className='block p-2 fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark:border-primary-gray-500'
       style={{
         ...backgroundStyle,
-        display: 'block',
-        position: 'fixed',
-        zIndex: '1000',
         wordWrap: 'break-word',
         top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
         left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,
@@ -47,10 +35,7 @@ export function Tooltip(props: Props) {
       }}
     >
       <div
-        className={`${
-          rtl ? `undp-viz-tooltip-${language || 'ar'} ` : ''
-        }undp-viz-tooltip${mode === 'dark' ? ' undp-viz-tooltip-dark' : ''}`}
-        style={{ margin: 0 }}
+        className='text-sm leading-normal text-primary-black dark:text-primary-gray-100 m-0'
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />
     </div>

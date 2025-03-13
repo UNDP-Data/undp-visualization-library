@@ -8,14 +8,13 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Modal } from '@undp-data/undp-design-system-react';
 import { CSSObject, DumbbellChartWithDateDataType } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../ColorPalette';
 import { ensureCompleteDataForDumbbellChart } from '../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { Modal } from '../../../../Elements/Modal';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];
@@ -45,13 +44,10 @@ interface Props {
   sortParameter?: number | 'diff';
   arrowConnector: boolean;
   connectorStrokeWidth: number;
-  rtl: boolean;
-  language: 'en' | 'he' | 'ar';
-  mode: 'light' | 'dark';
   maxBarThickness?: number;
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle: CSSObject;
+  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   barAxisTitle?: string;
   noOfTicks: number;
@@ -87,9 +83,6 @@ export function Graph(props: Props) {
     sortParameter,
     connectorStrokeWidth,
     arrowConnector,
-    rtl,
-    language,
-    mode,
     maxBarThickness,
     minBarThickness,
     resetSelectionOnDoubleClick,
@@ -197,6 +190,7 @@ export function Graph(props: Props) {
         width={`${width}px`}
         height={`${height}px`}
         viewBox={`0 0 ${width} ${height}`}
+        direction='ltr'
       >
         {arrowConnector ? (
           <defs>
@@ -211,7 +205,7 @@ export function Graph(props: Props) {
             >
               <path
                 d='M 0 0 L 10 5 L 0 10 z'
-                fill={UNDPColorModule[mode || 'light'].grays['gray-600']}
+                className='fill-primary-gray-600 dark:fill-primary-gray-300'
               />
             </marker>
           </defs>
@@ -225,29 +219,20 @@ export function Graph(props: Props) {
                     x2={x(d)}
                     y1={0 - topMargin}
                     y2={graphHeight + margin.bottom}
-                    style={{
-                      stroke:
-                        UNDPColorModule[mode || 'light'].grays['gray-500'],
-                    }}
-                    strokeWidth={1}
-                    strokeDasharray='4,8'
-                    opacity={d === 0 ? 0 : 1}
+                    className={`undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550 opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                   />
                   <text
                     x={x(d)}
                     y={0 - topMargin}
-                    textAnchor='start'
-                    fontSize={12}
                     dy={10}
                     dx={3}
-                    opacity={d === 0 ? 0 : 1}
+                    className={`fill-primary-gray-550 dark:fill-primary-gray-500 text-xs opacity-${
+                      d === 0 ? 0 : 100
+                    }`}
                     style={{
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-550'],
+                      textAnchor: 'start',
                     }}
                   >
                     {numberFormattingFunction(d, prefix, suffix)}
@@ -259,16 +244,10 @@ export function Graph(props: Props) {
             <text
               transform={`translate(${graphWidth / 2}, ${0 - margin.top})`}
               style={{
-                fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                fontFamily: rtl
-                  ? language === 'he'
-                    ? 'Noto Sans Hebrew, sans-serif'
-                    : 'Noto Sans Arabic, sans-serif'
-                  : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
+                textAnchor: 'middle',
               }}
-              textAnchor='middle'
               dy={15}
-              fontSize={12}
+              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
             >
               {barAxisTitle}
             </text>
@@ -282,18 +261,12 @@ export function Graph(props: Props) {
                 {showLabels ? (
                   <motion.text
                     style={{
-                      fill: UNDPColorModule[mode || 'light'].grays['gray-700'],
-                      fontSize: '0.75rem',
                       textAnchor: 'end',
-                      fontFamily: rtl
-                        ? language === 'he'
-                          ? 'Noto Sans Hebrew, sans-serif'
-                          : 'Noto Sans Arabic, sans-serif'
-                        : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                     }}
                     x={0}
                     dx={-10}
                     dy={4}
+                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
                     animate={{
                       y: (y(`${i}`) as number) + y.bandwidth() / 2,
                     }}
@@ -307,11 +280,7 @@ export function Graph(props: Props) {
                 <motion.line
                   x1={0}
                   x2={graphWidth}
-                  style={{
-                    stroke: UNDPColorModule[mode || 'light'].grays['gray-400'],
-                  }}
-                  strokeWidth={1}
-                  strokeDasharray='4,8'
+                  className='undp-tick-line stroke-primary-gray-400 dark:stroke-primary-gray-600 '
                   animate={{
                     y1: (y(`${i}`) as number) + y.bandwidth() / 2,
                     y2: (y(`${i}`) as number) + y.bandwidth() / 2,
@@ -320,9 +289,9 @@ export function Graph(props: Props) {
                 />
                 <motion.line
                   style={{
-                    stroke: UNDPColorModule[mode || 'light'].grays['gray-600'],
                     strokeWidth: connectorStrokeWidth,
                   }}
+                  className='stroke-primary-gray-600 dark:stroke-primary-gray-300 '
                   animate={{
                     y1: (y(`${i}`) as number) + y.bandwidth() / 2,
                     y2: (y(`${i}`) as number) + y.bandwidth() / 2,
@@ -408,15 +377,9 @@ export function Graph(props: Props) {
                       <motion.text
                         style={{
                           fill: valueColor || dotColors[j],
-                          fontSize: '0.875rem',
-                          fontWeight: 'bold',
                           textAnchor: 'middle',
-                          fontFamily: rtl
-                            ? language === 'he'
-                              ? 'Noto Sans Hebrew, sans-serif'
-                              : 'Noto Sans Arabic, sans-serif'
-                            : 'ProximaNova, proxima-nova, Helvetica Neue, Roboto, sans-serif',
                         }}
+                        className='text-sm font-bold'
                         dx={0}
                         dy={0 - radius - 3}
                         animate={{
@@ -438,25 +401,22 @@ export function Graph(props: Props) {
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
-          rtl={rtl}
-          language={language}
           data={mouseOverData}
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          mode={mode}
           backgroundStyle={tooltipBackgroundStyle}
         />
       ) : null}
       {detailsOnClick ? (
         <Modal
-          isOpen={mouseClickData !== undefined}
+          open={mouseClickData !== undefined}
           onClose={() => {
             setMouseClickData(undefined);
           }}
         >
           <div
-            style={{ margin: 0 }}
+            className='m-0'
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: string2HTML(detailsOnClick, mouseClickData),
