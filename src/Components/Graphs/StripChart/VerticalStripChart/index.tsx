@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
   StripChartDataType,
 } from '../../../../Types';
@@ -45,7 +46,7 @@ interface Props {
   prefix?: string;
   suffix?: string;
   stripType?: 'strip' | 'dot';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   highlightColor?: string;
   dotOpacity?: number;
   showNAColor?: boolean;

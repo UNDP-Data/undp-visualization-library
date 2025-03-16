@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   ChoroplethMapWithDateDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -54,7 +55,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

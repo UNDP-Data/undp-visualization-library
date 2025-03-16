@@ -7,6 +7,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DonutChartDataType,
+  Languages,
   SourcesDataType,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -40,7 +41,7 @@ interface Props {
   dataDownload?: boolean;
   colorDomain?: string[];
   sortData?: 'asc' | 'desc';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   width?: number;
   height?: number;

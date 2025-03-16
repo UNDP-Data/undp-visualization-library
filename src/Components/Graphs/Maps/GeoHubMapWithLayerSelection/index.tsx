@@ -7,7 +7,11 @@ import {
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { MapEl } from './MapEl';
-import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
+import {
+  BackgroundStyleDataType,
+  Languages,
+  SourcesDataType,
+} from '../../../../Types';
 
 interface Props {
   mapStyle: string;
@@ -23,13 +27,14 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   layerSelection: { layerID: string[]; name: string }[];
   excludeLayers?: string[];
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  uiMode?: 'light' | 'normal';
 }
 
 export function GeoHubMapWithLayerSelection(props: Props) {
@@ -54,6 +59,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     excludeLayers = [],
     ariaLabel,
     backgroundStyle = {},
+    uiMode = 'normal',
   } = props;
 
   const [selectedLayer, setSelectedLayer] = useState(layerSelection[0].layerID);
@@ -118,7 +124,9 @@ export function GeoHubMapWithLayerSelection(props: Props) {
                 label: d.name,
                 value: d.layerID,
               }))}
+              size='sm'
               isClearable={false}
+              variant={uiMode}
               isRtl={language === 'he' || language === 'ar'}
               isSearchable
               filterOption={createFilter(filterConfig)}

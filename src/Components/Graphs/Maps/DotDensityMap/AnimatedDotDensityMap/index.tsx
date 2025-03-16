@@ -10,6 +10,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DotDensityMapWithDateDataType,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import WorldMapData from '../../WorldMapData/data.json';
@@ -55,7 +56,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

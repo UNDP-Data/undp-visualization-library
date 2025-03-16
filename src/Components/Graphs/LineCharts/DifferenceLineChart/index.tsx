@@ -10,6 +10,7 @@ import {
   CSSObject,
   CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../Types';
@@ -46,7 +47,7 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   showColorLegendAtTop?: boolean;
   labels: [string, string];

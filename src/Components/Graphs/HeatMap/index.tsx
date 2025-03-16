@@ -5,6 +5,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   HeatMapDataType,
+  Languages,
   ScaleDataType,
   SourcesDataType,
 } from '../../../Types';
@@ -48,7 +49,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

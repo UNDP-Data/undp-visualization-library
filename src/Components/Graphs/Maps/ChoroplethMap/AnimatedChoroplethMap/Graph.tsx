@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
@@ -7,7 +8,7 @@ import isEqual from 'lodash.isequal';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
-import { Modal } from '@undp-data/undp-design-system-react';
+import { Modal, P } from '@undp-data/undp-design-system-react';
 import { ChoroplethMapWithDateDataType, CSSObject } from '../../../../../Types';
 import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../../Elements/Tooltip';
@@ -258,10 +259,10 @@ export function Graph(props: Props) {
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
+                      onSeriesMouseClick?.(undefined);
                     } else {
                       setMouseClickData(d);
-                      if (onSeriesMouseClick) onSeriesMouseClick(d);
+                      onSeriesMouseClick?.(d);
                     }
                   }
                 }}
@@ -400,8 +401,10 @@ export function Graph(props: Props) {
             <div className='relative z-10 p-4'>
               <div>
                 {colorLegendTitle && colorLegendTitle !== '' ? (
-                  <p
-                    className='text-primary-gray-700 dark:text-primary-gray-100 leading-normal text-xs mx-0 mt-0 mb-2 p-0 overflow-hidden'
+                  <P
+                    size='xs'
+                    marginBottom='xs'
+                    className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
                     style={{
                       display: '-webkit-box',
                       WebkitLineClamp: '1',
@@ -409,65 +412,51 @@ export function Graph(props: Props) {
                     }}
                   >
                     {colorLegendTitle}
-                  </p>
+                  </P>
                 ) : null}
-                <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
-                  <g>
-                    {domain.map((d, i) => (
-                      <g
-                        key={i}
-                        onMouseOver={() => {
-                          setSelectedColor(colors[i]);
-                        }}
-                        onMouseLeave={() => {
-                          setSelectedColor(undefined);
-                        }}
-                        className='cursor-pointer'
-                      >
-                        <rect
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 1
-                              : (i * 320) / colors.length + 1
-                          }
-                          y={1}
-                          width={
-                            categorical
-                              ? 320 / domain.length - 2
-                              : 320 / colors.length - 2
-                          }
-                          height={8}
-                          className={
-                            selectedColor === colors[i]
-                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                              : ''
-                          }
-                          style={{
-                            fill: colors[i],
-                            ...(selectedColor === colors[i]
-                              ? {}
-                              : { stroke: colors[i] }),
+                {!categorical ? (
+                  <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                    <g>
+                      {domain.map((d, i) => (
+                        <g
+                          key={i}
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i]);
                           }}
-                        />
-                        <text
-                          x={
-                            categorical
-                              ? (i * 320) / domain.length + 160 / domain.length
-                              : ((i + 1) * 320) / colors.length
-                          }
-                          y={25}
-                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                          style={{
-                            textAnchor: 'middle',
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
                           }}
+                          className='cursor-pointer'
                         >
-                          {categorical
-                            ? d
-                            : numberFormattingFunction(d as number, '', '')}
-                        </text>
-                      </g>
-                    ))}
-                    {categorical ? null : (
+                          <rect
+                            x={(i * 320) / colors.length + 1}
+                            y={1}
+                            width={320 / colors.length - 2}
+                            height={8}
+                            className={
+                              selectedColor === colors[i]
+                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                : ''
+                            }
+                            style={{
+                              fill: colors[i],
+                              ...(selectedColor === colors[i]
+                                ? {}
+                                : { stroke: colors[i] }),
+                            }}
+                          />
+                          <text
+                            x={((i + 1) * 320) / colors.length}
+                            y={25}
+                            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                            style={{
+                              textAnchor: 'middle',
+                            }}
+                          >
+                            {numberFormattingFunction(d as number, '', '')}
+                          </text>
+                        </g>
+                      ))}
                       <g>
                         <rect
                           onMouseOver={() => {
@@ -493,9 +482,34 @@ export function Graph(props: Props) {
                           }}
                         />
                       </g>
-                    )}
-                  </g>
-                </svg>
+                    </g>
+                  </svg>
+                ) : (
+                  <div className='flex flex-col gap-2'>
+                    {domain.map((d, i) => (
+                      <div
+                        key={i}
+                        className='flex gap-1 items-center'
+                        onMouseOver={() => {
+                          setSelectedColor(colors[i % colors.length]);
+                        }}
+                        onMouseLeave={() => {
+                          setSelectedColor(undefined);
+                        }}
+                      >
+                        <div
+                          className='w-3 h-3 rounded-full'
+                          style={{
+                            backgroundColor: colors[i % colors.length],
+                          }}
+                        />
+                        <P size='sm' marginBottom='none'>
+                          {d}
+                        </P>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

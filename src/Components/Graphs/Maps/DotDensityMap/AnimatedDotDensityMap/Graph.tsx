@@ -245,10 +245,10 @@ export function Graph(props: Props) {
                         resetSelectionOnDoubleClick
                       ) {
                         setMouseClickData(undefined);
-                        if (onSeriesMouseClick) onSeriesMouseClick(undefined);
+                        onSeriesMouseClick?.(undefined);
                       } else {
                         setMouseClickData(d);
-                        if (onSeriesMouseClick) onSeriesMouseClick(d);
+                        onSeriesMouseClick?.(d);
                       }
                     }
                   }}

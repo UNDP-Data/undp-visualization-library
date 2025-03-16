@@ -4,6 +4,7 @@ import {
   BackgroundStyleDataType,
   ChoroplethMapDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -46,7 +47,7 @@ interface Props {
   dataDownload?: boolean;
   mapProperty?: string;
   showAntarctica?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

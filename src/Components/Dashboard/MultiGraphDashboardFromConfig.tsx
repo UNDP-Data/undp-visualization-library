@@ -27,6 +27,7 @@ interface ConfigObject {
   dataFilters?: DataFilterDataType[];
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
 }
 
 interface Props {
@@ -83,6 +84,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       filterPosition={configSettings.filterPosition}
       graphBackgroundColor={configSettings.graphBackgroundColor}
       graphBackgroundStyle={configSettings.graphBackgroundStyle}
+      uiMode={configSettings.uiMode}
     />
   );
 }

@@ -7,6 +7,7 @@ import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import {
   BackgroundStyleDataType,
+  Languages,
   SourcesDataType,
   StatCardsFromDataSheetDataType,
 } from '../../../Types';
@@ -26,7 +27,7 @@ interface Props {
   graphID?: string;
   countOnly?: (string | number)[];
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   textBackground?: boolean;

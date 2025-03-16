@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   BivariateMapWithDateDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -55,7 +56,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

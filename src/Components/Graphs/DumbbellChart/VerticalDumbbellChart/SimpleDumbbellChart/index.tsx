@@ -5,6 +5,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DumbbellChartDataType,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -50,7 +51,7 @@ interface Props {
   sortParameter?: number | 'diff';
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

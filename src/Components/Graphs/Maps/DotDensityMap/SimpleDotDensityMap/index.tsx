@@ -7,6 +7,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DotDensityMapDataType,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import WorldMapData from '../../WorldMapData/data.json';
@@ -48,7 +49,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   showAntarctica?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

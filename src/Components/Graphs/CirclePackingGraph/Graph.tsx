@@ -228,10 +228,10 @@ export const Graph = memo((props: Props) => {
       if (onSeriesMouseClick || detailsOnClick) {
         if (mouseClickData === d.label && resetSelectionOnDoubleClick) {
           setMouseClickData(undefined);
-          if (onSeriesMouseClick) onSeriesMouseClick(undefined);
+          onSeriesMouseClick?.(undefined);
         } else {
           setMouseClickData(d.label);
-          if (onSeriesMouseClick) onSeriesMouseClick(d);
+          onSeriesMouseClick?.(d);
         }
       }
     },

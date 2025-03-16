@@ -23,6 +23,7 @@ interface ConfigObject {
   dataFilters?: DataFilterDataType[];
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
 }
 
 interface Props {
@@ -81,6 +82,7 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       dataFilters={configSettings.dataFilters}
       graphBackgroundColor={configSettings.graphBackgroundColor}
       graphBackgroundStyle={configSettings.graphBackgroundStyle}
+      uiMode={configSettings.uiMode}
     />
   );
 }

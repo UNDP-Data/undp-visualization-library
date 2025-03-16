@@ -8,6 +8,7 @@ import {
   UnitChartDataType,
   SourcesDataType,
   BackgroundStyleDataType,
+  Languages,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
@@ -27,7 +28,7 @@ interface Props {
   graphID?: string;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   graphLegend?: boolean;
   showStrokeForWhiteDots?: boolean;
   note?: string;

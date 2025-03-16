@@ -4,6 +4,7 @@ import {
   BackgroundStyleDataType,
   BivariateMapDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -46,7 +47,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   showAntarctica?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

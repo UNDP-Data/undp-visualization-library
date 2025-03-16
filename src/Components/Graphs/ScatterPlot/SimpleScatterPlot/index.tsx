@@ -8,6 +8,7 @@ import {
   SourcesDataType,
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
 } from '../../../../Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '../../../Elements/GraphFooter';
@@ -60,7 +61,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];

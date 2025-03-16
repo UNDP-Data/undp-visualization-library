@@ -362,7 +362,7 @@ export function Graph(props: Props) {
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
+                      onSeriesMouseClick?.(undefined);
                     } else {
                       setMouseClickData((d as any).data);
                       if (onSeriesMouseClick)

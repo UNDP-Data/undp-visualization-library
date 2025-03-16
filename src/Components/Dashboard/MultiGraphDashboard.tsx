@@ -45,6 +45,7 @@ interface Props {
   }[];
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -76,6 +77,7 @@ export function MultiGraphDashboard(props: Props) {
     filterPosition,
     graphBackgroundStyle,
     graphBackgroundColor,
+    uiMode = 'normal',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -264,6 +266,8 @@ export function MultiGraphDashboard(props: Props) {
                             isClearable={
                               d.clearable === undefined ? true : d.clearable
                             }
+                            size='sm'
+                            variant={uiMode}
                             isMulti={false}
                             isSearchable
                             filterOption={createFilter(filterConfig)}
@@ -278,9 +282,11 @@ export function MultiGraphDashboard(props: Props) {
                             <DropdownSelect
                               options={d.availableValues}
                               isMulti
+                              size='sm'
                               isClearable={
                                 d.clearable === undefined ? true : d.clearable
                               }
+                              variant={uiMode}
                               isSearchable
                               controlShouldRenderValue
                               closeMenuOnSelect={false}

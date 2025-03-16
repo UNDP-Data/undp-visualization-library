@@ -7,6 +7,7 @@ import {
   SourcesDataType,
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -43,7 +44,7 @@ interface Props {
   highlightedDataPoints?: (string | number)[];
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

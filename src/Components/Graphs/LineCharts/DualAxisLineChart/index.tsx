@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DualAxisLineChartDataType,
+  Languages,
   SourcesDataType,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
@@ -44,7 +45,7 @@ interface Props {
   highlightAreaColor?: string;
   animateLine?: boolean | number;
   showColorScale?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   strokeWidth?: number;
   showDots?: boolean;

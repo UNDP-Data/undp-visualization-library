@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   SlopeChartDataType,
   SourcesDataType,
 } from '../../../Types';
@@ -45,7 +46,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

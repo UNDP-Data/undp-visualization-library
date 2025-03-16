@@ -16,6 +16,7 @@ import {
 import {
   BackgroundStyleDataType,
   FilterSettingsDataType,
+  Languages,
   SourcesDataType,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -61,7 +62,7 @@ interface Props {
   height?: number;
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   cardTemplate: string;
@@ -85,6 +86,7 @@ interface Props {
   detailsOnClick?: string;
   allowDataDownloadOnDetail?: string | boolean;
   noOfItemsInAPage?: number;
+  uiMode?: 'light' | 'normal';
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -123,6 +125,7 @@ export function DataCards(props: Props) {
     detailsOnClick,
     allowDataDownloadOnDetail = false,
     noOfItemsInAPage,
+    uiMode = 'normal',
   } = props;
 
   const [cardData, setCardData] = useState(data);
@@ -293,6 +296,8 @@ export function DataCards(props: Props) {
                       onChange={(el: any) => {
                         setSortedBy(el || undefined);
                       }}
+                      variant={uiMode}
+                      size='sm'
                       defaultValue={
                         !cardSortingOptions.defaultValue ||
                         cardSortingOptions.options.findIndex(
@@ -331,6 +336,8 @@ export function DataCards(props: Props) {
                       }
                       isRtl={language === 'he' || language === 'ar'}
                       isSearchable
+                      variant={uiMode}
+                      size='sm'
                       controlShouldRenderValue
                       filterOption={createFilter(filterConfig)}
                       onChange={(el: any) => {
@@ -349,6 +356,10 @@ export function DataCards(props: Props) {
                 onChange={e => {
                   setSearchQuery(e.target.value);
                 }}
+                buttonVariant='icon'
+                inputVariant={uiMode}
+                showSearchButton={false}
+                inputSize='sm'
               />
             ) : null}
             <div
@@ -385,7 +396,7 @@ export function DataCards(props: Props) {
                         : ''
                     }`}
                     onClick={() => {
-                      if (onSeriesMouseClick) onSeriesMouseClick(d);
+                      onSeriesMouseClick?.(d);
                       if (detailsOnClick) setSelectedData(d);
                     }}
                     dangerouslySetInnerHTML={{

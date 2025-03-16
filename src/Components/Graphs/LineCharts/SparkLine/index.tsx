@@ -3,6 +3,7 @@ import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   LineChartDataType,
   SourcesDataType,
 } from '../../../../Types';
@@ -36,7 +37,7 @@ interface Props {
   minValue?: number;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

@@ -827,6 +827,10 @@ export const getSingleGraphJSONSchema = (
             getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
         },
         required: ['dataSettings', 'graphType'],
       }
@@ -855,6 +859,10 @@ export const getSingleGraphJSONSchema = (
             getAdvancedDataSelectionSchema(columnList),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
         },
         required: !graphType
           ? ['graphType']
@@ -1010,6 +1018,10 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     dataSettings: getDataSettingsSchema(columnList),
     filters: getFiltersSchema(columnList),
     noOfFiltersPerRow: { type: 'number' },
+    uiMode: {
+      type: 'string',
+      enum: ['light', 'normal'],
+    },
     filterPosition: { type: 'string', enum: ['top', 'side'] },
     readableHeader: getReadableHeaderSchema(columnList),
     dataFilters: getDataFiltersSchema(columnList),
@@ -1106,6 +1118,10 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
       },
       required: ['keyColumn'],
       type: 'object',
+    },
+    uiMode: {
+      type: 'string',
+      enum: ['light', 'normal'],
     },
     dataFilters: getDataFiltersSchema(),
     readableHeader: getReadableHeaderSchema(),

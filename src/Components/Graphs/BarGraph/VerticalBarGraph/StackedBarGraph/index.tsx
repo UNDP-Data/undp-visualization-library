@@ -8,6 +8,7 @@ import {
   SourcesDataType,
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
 } from '../../../../../Types';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -49,7 +50,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

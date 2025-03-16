@@ -7,6 +7,7 @@ import { Graph } from './Graph';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   SourcesDataType,
   TreeMapDataType,
 } from '../../../Types';
@@ -46,7 +47,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

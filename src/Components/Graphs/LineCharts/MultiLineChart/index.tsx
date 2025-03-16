@@ -5,6 +5,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   CustomHighlightAreaSettingsDataType,
+  Languages,
   MultiLineChartDataType,
   ReferenceDataType,
   SourcesDataType,
@@ -49,7 +50,7 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   animateLine?: boolean | number;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   colorLegendTitle?: string;
   minHeight?: number;
   strokeWidth?: number;

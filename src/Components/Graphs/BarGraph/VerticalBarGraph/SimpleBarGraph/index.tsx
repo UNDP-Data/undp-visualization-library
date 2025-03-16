@@ -8,6 +8,7 @@ import {
   SourcesDataType,
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
@@ -52,7 +53,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

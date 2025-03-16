@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   BarGraphWithDateDataType,
   CSSObject,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -57,7 +58,7 @@ interface Props {
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
   autoSort?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   mode?: 'light' | 'dark';

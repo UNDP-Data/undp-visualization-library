@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   CustomHighlightAreaSettingsDataType,
+  Languages,
   ReferenceDataType,
   ScatterPlotWithDateDataType,
   SourcesDataType,
@@ -66,7 +67,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];

@@ -9,6 +9,7 @@ import {
   SourcesDataType,
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
@@ -51,7 +52,7 @@ interface Props {
   sortData?: 'asc' | 'desc';
   barGraphLayout?: 'horizontal' | 'vertical';
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   maxBarThickness?: number;
   mode?: 'light' | 'dark';

@@ -37,6 +37,7 @@ interface Props {
   dataFilters?: DataFilterDataType[];
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -56,6 +57,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     dataFilters,
     graphBackgroundStyle,
     graphBackgroundColor,
+    uiMode = 'normal',
   } = props;
 
   const filterConfig = useMemo(
@@ -209,6 +211,8 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                         value: d,
                         label: d,
                       }))}
+                      size='sm'
+                      variant={uiMode}
                       isClearable={false}
                       isSearchable
                       controlShouldRenderValue

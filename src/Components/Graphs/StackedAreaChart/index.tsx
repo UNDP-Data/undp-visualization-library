@@ -6,6 +6,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   CustomHighlightAreaSettingsDataType,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../Types';
@@ -45,7 +46,7 @@ interface Props {
   dataDownload?: boolean;
   highlightAreaColor?: string;
   showColorScale?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   annotations?: AnnotationSettingsDataType[];
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];

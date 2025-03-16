@@ -7,6 +7,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   GroupedBarGraphDataType,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -49,7 +50,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

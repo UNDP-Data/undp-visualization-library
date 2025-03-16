@@ -34,6 +34,7 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
+  uiMode?: 'light' | 'normal';
 }
 
 interface Props {
@@ -91,6 +92,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
+      uiMode={configSettings.uiMode}
     />
   );
 }

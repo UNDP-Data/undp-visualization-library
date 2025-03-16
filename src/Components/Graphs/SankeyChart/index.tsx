@@ -7,6 +7,7 @@ import { GraphHeader } from '../../Elements/GraphHeader';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   NodesLinkDataType,
   SankeyDataType,
   SourcesDataType,
@@ -46,7 +47,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   fillContainer?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

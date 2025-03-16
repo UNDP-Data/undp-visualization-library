@@ -2,7 +2,11 @@ import { H3 } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { BackgroundStyleDataType, SourcesDataType } from '../../../Types';
+import {
+  BackgroundStyleDataType,
+  Languages,
+  SourcesDataType,
+} from '../../../Types';
 
 interface Props {
   year?: number | string;
@@ -16,7 +20,7 @@ interface Props {
   backgroundColor?: string | boolean;
   padding?: string;
   graphID?: string;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   textBackground?: boolean;

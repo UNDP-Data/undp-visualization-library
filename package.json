@@ -1,6 +1,6 @@
 {
   "name": "@undp-data/undp-visualization-library",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "browser": "./dist/index.umd.js",
@@ -52,7 +52,7 @@
     "maps"
   ],
   "dependencies": {
-    "@undp-data/undp-design-system-react": "^1.0.18",
+    "@undp-data/undp-design-system-react": "^1.0.23",
     "ajv": "^8.17.1",
     "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",

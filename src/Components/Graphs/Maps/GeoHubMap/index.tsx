@@ -8,7 +8,11 @@ import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
-import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
+import {
+  BackgroundStyleDataType,
+  Languages,
+  SourcesDataType,
+} from '../../../../Types';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];
@@ -24,13 +28,14 @@ interface Props {
   height?: number;
   relativeHeight?: number;
   graphID?: string;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   includeLayers?: string[];
   excludeLayers?: string[];
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;
+  uiMode?: 'light' | 'normal';
 }
 
 export function GeoHubMap(props: Props) {
@@ -55,6 +60,7 @@ export function GeoHubMap(props: Props) {
     excludeLayers = [],
     ariaLabel,
     backgroundStyle = {},
+    uiMode = 'normal',
   } = props;
 
   const [selectedMapStyle, setSelectedMapStyle] = useState(
@@ -122,6 +128,8 @@ export function GeoHubMap(props: Props) {
               <DropdownSelect
                 options={mapStyle.map(d => ({ label: d.name, value: d.style }))}
                 isClearable={false}
+                size='sm'
+                variant={uiMode}
                 isRtl={language === 'he' || language === 'ar'}
                 isSearchable
                 filterOption={createFilter(filterConfig)}

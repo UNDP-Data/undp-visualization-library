@@ -6,6 +6,7 @@ import { ColorLegend } from '../../Elements/ColorLegend';
 import {
   BackgroundStyleDataType,
   CSSObject,
+  Languages,
   ParetoChartDataType,
   SourcesDataType,
 } from '../../../Types';
@@ -40,7 +41,7 @@ interface Props {
   truncateBy?: number;
   showLabels?: boolean;
   onSeriesMouseClick?: (_d: any) => void;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   colorLegendTitle?: string;
   minHeight?: number;
   mode?: 'light' | 'dark';

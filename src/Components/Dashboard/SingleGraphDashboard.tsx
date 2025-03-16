@@ -61,6 +61,7 @@ interface Props {
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   debugMode?: boolean;
   mode?: 'dark' | 'light';
+  uiMode?: 'light' | 'normal';
   updateFilters?: (_d: string) => void;
 }
 
@@ -106,6 +107,7 @@ export function SingleGraphDashboard(props: Props) {
     readableHeader,
     noOfFiltersPerRow = 4,
     updateFilters,
+    uiMode = 'normal',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -373,8 +375,10 @@ export function SingleGraphDashboard(props: Props) {
                         {d.ui !== 'radio' ? (
                           <DropdownSelect
                             options={d.options}
+                            size='sm'
                             isClearable={false}
                             isSearchable
+                            variant={uiMode}
                             controlShouldRenderValue
                             defaultValue={d.defaultValue || d.options[0]}
                             onChange={(el: any) => {
@@ -397,6 +401,7 @@ export function SingleGraphDashboard(props: Props) {
                             defaultValue={
                               d.defaultValue?.label || d.options[0].label
                             }
+                            variant={uiMode}
                             onValueChange={el => {
                               const selectedOption =
                                 d.options[
@@ -453,8 +458,10 @@ export function SingleGraphDashboard(props: Props) {
                           d.ui !== 'radio' ? (
                             <DropdownSelect
                               options={d.allowedColumnIds}
+                              size='sm'
                               isClearable={false}
                               isSearchable
+                              variant={uiMode}
                               controlShouldRenderValue
                               defaultValue={
                                 graphDataConfiguration
@@ -492,6 +499,7 @@ export function SingleGraphDashboard(props: Props) {
                             />
                           ) : (
                             <RadioGroup
+                              variant={uiMode}
                               defaultValue={
                                 graphDataConfiguration
                                   ? d.allowedColumnIds[
@@ -544,8 +552,10 @@ export function SingleGraphDashboard(props: Props) {
                         ) : d.ui !== 'radio' ? (
                           <DropdownSelect
                             options={d.allowedColumnIds}
+                            size='sm'
                             isMulti
                             isSearchable
+                            variant={uiMode}
                             controlShouldRenderValue
                             defaultValue={
                               graphDataConfiguration
@@ -585,6 +595,7 @@ export function SingleGraphDashboard(props: Props) {
                           />
                         ) : (
                           <CheckboxGroup
+                            variant={uiMode}
                             defaultValue={
                               graphDataConfiguration
                                 ? (
@@ -649,6 +660,7 @@ export function SingleGraphDashboard(props: Props) {
                         {d.singleSelect ? (
                           <DropdownSelect
                             options={d.availableValues}
+                            variant={uiMode}
                             isClearable={
                               d.clearable === undefined ? true : d.clearable
                             }
@@ -665,6 +677,8 @@ export function SingleGraphDashboard(props: Props) {
                           <>
                             <DropdownSelect
                               options={d.availableValues}
+                              variant={uiMode}
+                              size='sm'
                               isMulti
                               isClearable={
                                 d.clearable === undefined ? true : d.clearable

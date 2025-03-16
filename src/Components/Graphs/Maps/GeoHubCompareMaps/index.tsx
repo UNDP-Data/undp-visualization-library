@@ -2,7 +2,11 @@ import { useRef, useEffect, useState } from 'react';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { Graph } from './Graph';
-import { BackgroundStyleDataType, SourcesDataType } from '../../../../Types';
+import {
+  BackgroundStyleDataType,
+  Languages,
+  SourcesDataType,
+} from '../../../../Types';
 
 interface Props {
   graphTitle?: string;
@@ -18,7 +22,7 @@ interface Props {
   mapStyles: [string, string];
   center?: [number, number];
   zoomLevel?: number;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;

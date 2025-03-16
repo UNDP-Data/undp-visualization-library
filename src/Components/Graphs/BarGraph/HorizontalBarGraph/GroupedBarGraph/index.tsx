@@ -4,6 +4,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   GroupedBarGraphDataType,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -48,7 +49,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   labelOrder?: string[];
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;

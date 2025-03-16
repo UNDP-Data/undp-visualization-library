@@ -18,7 +18,6 @@ interface Props {
   width: number;
   height: number;
   colors: string[];
-  colorDomain?: string[];
   colorLegendTitle?: string;
   categorical: boolean;
   data: ChoroplethMapDataType[];
@@ -70,7 +69,6 @@ export function Graph(props: Props) {
     resetSelectionOnDoubleClick,
     tooltipBackgroundStyle,
     detailsOnClick,
-    colorDomain,
   } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -244,10 +242,10 @@ export function Graph(props: Props) {
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
-                      if (onSeriesMouseClick) onSeriesMouseClick(undefined);
+                      onSeriesMouseClick?.(undefined);
                     } else {
                       setMouseClickData(d);
-                      if (onSeriesMouseClick) onSeriesMouseClick(d);
+                      onSeriesMouseClick?.(d);
                     }
                   }
                 }}
@@ -470,45 +468,29 @@ export function Graph(props: Props) {
                     </g>
                   </svg>
                 ) : (
-                  <div>
-                    {colorLegendTitle && colorLegendTitle !== '' ? (
-                      <P
-                        size='xs'
-                        marginBottom='xs'
-                        className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
-                        style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: '1',
-                          WebkitBoxOrient: 'vertical',
+                  <div className='flex flex-col gap-2'>
+                    {domain.map((d, i) => (
+                      <div
+                        key={i}
+                        className='flex gap-1 items-center'
+                        onMouseOver={() => {
+                          setSelectedColor(colors[i % colors.length]);
+                        }}
+                        onMouseLeave={() => {
+                          setSelectedColor(undefined);
                         }}
                       >
-                        {colorLegendTitle}
-                      </P>
-                    ) : null}
-                    <div className='flex flex-col gap-2'>
-                      {(colorDomain || domain).map((d, i) => (
                         <div
-                          key={i}
-                          className='flex gap-1 items-center'
-                          onMouseOver={() => {
-                            setSelectedColor(colors[i % colors.length]);
+                          className='w-3 h-3 rounded-full'
+                          style={{
+                            backgroundColor: colors[i % colors.length],
                           }}
-                          onMouseLeave={() => {
-                            setSelectedColor(undefined);
-                          }}
-                        >
-                          <div
-                            className='w-3 h-3 rounded-full'
-                            style={{
-                              backgroundColor: colors[i % colors.length],
-                            }}
-                          />
-                          <P size='sm' marginBottom='none'>
-                            {d}
-                          </P>
-                        </div>
-                      ))}
-                    </div>
+                        />
+                        <P size='sm' marginBottom='none'>
+                          {d}
+                        </P>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>

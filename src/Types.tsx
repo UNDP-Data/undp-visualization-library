@@ -1,3 +1,20 @@
+export type Languages =
+  | 'en'
+  | 'ar'
+  | 'az'
+  | 'bn'
+  | 'cy'
+  | 'he'
+  | 'hi'
+  | 'jp'
+  | 'ka'
+  | 'km'
+  | 'ko'
+  | 'my'
+  | 'ne'
+  | 'zh'
+  | 'custom';
+
 export type GraphTypeForGriddedGraph =
   | 'horizontalBarChart'
   | 'horizontalStackedBarChart'
@@ -408,7 +425,7 @@ export type DashboardLayoutDataType = {
   description?: string;
   padding?: string;
   backgroundColor?: string | boolean;
-  language?: 'ar' | 'en' | 'he';
+  language?: Languages;
   rows: {
     columns: DashboardColumnDataType[];
     height?: number;
@@ -435,7 +452,7 @@ export type DashboardFromWideToLongFormatLayoutDataType = {
   dropdownLabel?: string;
   padding?: string;
   backgroundColor?: string | boolean;
-  language?: 'ar' | 'en' | 'he';
+  language?: Languages;
   rows: {
     columns: DashboardFromWideToLongFormatColumnDataType[];
     height?: number;
@@ -661,7 +678,7 @@ export interface GraphSettingsDataType {
   aggregationMethod?: 'count' | 'max' | 'min' | 'average' | 'sum';
   stripType?: 'strip' | 'dot';
   showAxis?: boolean;
-  language?: 'ar' | 'en' | 'he';
+  language?: Languages;
   animateLine?: boolean | number;
   highlightColor?: string;
   dotOpacity?: number;

@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   GroupedBarGraphWithDateDataType,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -54,7 +55,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

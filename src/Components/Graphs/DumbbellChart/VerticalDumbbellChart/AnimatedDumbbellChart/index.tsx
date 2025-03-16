@@ -8,6 +8,7 @@ import {
   BackgroundStyleDataType,
   CSSObject,
   DumbbellChartWithDateDataType,
+  Languages,
   SourcesDataType,
 } from '../../../../../Types';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
@@ -56,7 +57,7 @@ interface Props {
   autoPlay?: boolean;
   arrowConnector?: boolean;
   connectorStrokeWidth?: number;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   minHeight?: number;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

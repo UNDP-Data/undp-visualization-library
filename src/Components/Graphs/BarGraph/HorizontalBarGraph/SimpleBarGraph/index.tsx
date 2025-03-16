@@ -6,6 +6,7 @@ import {
   BackgroundStyleDataType,
   BarGraphDataType,
   CSSObject,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../../Types';
@@ -53,7 +54,7 @@ interface Props {
   graphDownload?: boolean;
   dataDownload?: boolean;
   sortData?: 'asc' | 'desc';
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   showNAColor?: boolean;
   mode?: 'light' | 'dark';
   maxBarThickness?: number;

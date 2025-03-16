@@ -7,6 +7,7 @@ import { P } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
   DataTableColumnDataType,
+  Languages,
   SourcesDataType,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -31,7 +32,7 @@ interface Props {
   columnData: DataTableColumnDataType[];
   onSeriesMouseClick?: (_d: any) => void;
   data: any;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   backgroundStyle?: BackgroundStyleDataType;

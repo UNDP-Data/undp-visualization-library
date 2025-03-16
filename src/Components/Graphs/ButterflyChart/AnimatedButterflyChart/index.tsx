@@ -12,6 +12,7 @@ import {
   BackgroundStyleDataType,
   ButterflyChartWithDateDataType,
   CSSObject,
+  Languages,
   ReferenceDataType,
   SourcesDataType,
 } from '../../../../Types';
@@ -57,7 +58,7 @@ interface Props {
   dateFormat?: string;
   showOnlyActiveDate?: boolean;
   autoPlay?: boolean;
-  language?: 'ar' | 'he' | 'en';
+  language?: Languages;
   colorLegendTitle?: string;
   minHeight?: number;
   mode?: 'light' | 'dark';
