@@ -2251,6 +2251,7 @@ function GraphEl(props: Props) {
           includeLayers: settings?.includeLayers,
           excludeLayers: settings?.excludeLayers,
           ariaLabel: settings?.ariaLabel,
+          uiMode: settings?.uiMode,
         };
       case 'geoHubMapWithLayerSelection':
         return {
@@ -2274,6 +2275,7 @@ function GraphEl(props: Props) {
           layerSelection: settings?.layerSelection,
           excludeLayers: settings?.excludeLayers,
           ariaLabel: settings?.ariaLabel,
+          uiMode: settings?.uiMode,
         };
       case 'unitChart':
         return {
@@ -2789,6 +2791,7 @@ function GraphEl(props: Props) {
           detailsOnClick: settings?.detailsOnClick,
           allowDataDownloadOnDetail: settings?.allowDataDownloadOnDetail,
           noOfItemsInAPage: settings?.noOfItemsInAPage,
+          uiMode: settings?.uiMode,
         };
       default:
         return {};

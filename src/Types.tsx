@@ -701,6 +701,7 @@ export interface GraphSettingsDataType {
   showDots?: boolean;
   diffAreaColors?: [string, string];
   mode?: 'dark' | 'light';
+  uiMode?: 'light' | 'normal';
   maxBarThickness?: number;
   minBarThickness?: number;
   maxNumberOfBars?: number;
