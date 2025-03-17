@@ -13,6 +13,7 @@ import {
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { EmptyState } from '../../../Elements/EmptyState';
 
 interface Props {
   data: LineChartDataType[];
@@ -184,60 +185,66 @@ export function SimpleLineChart(props: Props) {
                 }
               />
             ) : null}
-            <div
-              className='flex flex-col grow justify-center leading-0'
-              ref={graphDiv}
-              aria-label='Graph area'
-            >
-              {(width || svgWidth) && (height || svgHeight) ? (
-                <Graph
-                  data={data}
-                  color={
-                    color || UNDPColorModule[mode].primaryColors['blue-600']
-                  }
-                  width={width || svgWidth}
-                  height={Math.max(
-                    minHeight,
-                    height ||
-                      (relativeHeight
-                        ? minHeight
-                          ? (width || svgWidth) * relativeHeight > minHeight
-                            ? (width || svgWidth) * relativeHeight
-                            : minHeight
-                          : (width || svgWidth) * relativeHeight
-                        : svgHeight),
-                  )}
-                  suffix={suffix}
-                  prefix={prefix}
-                  dateFormat={dateFormat}
-                  showValues={showValues}
-                  noOfXTicks={noOfXTicks}
-                  leftMargin={leftMargin}
-                  rightMargin={rightMargin}
-                  topMargin={topMargin}
-                  bottomMargin={bottomMargin}
-                  tooltip={tooltip}
-                  highlightAreaSettings={highlightAreaSettings}
-                  onSeriesMouseOver={onSeriesMouseOver}
-                  refValues={refValues}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  highlightAreaColor={highlightAreaColor}
-                  animateLine={animateLine}
-                  rtl={language === 'he' || language === 'ar'}
-                  strokeWidth={strokeWidth}
-                  showDots={showDots}
-                  annotations={annotations}
-                  customHighlightAreaSettings={customHighlightAreaSettings}
-                  regressionLine={regressionLine}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
-                  yAxisTitle={yAxisTitle}
-                  noOfYTicks={noOfYTicks}
-                  maxDate={maxDate}
-                  minDate={minDate}
-                />
-              ) : null}
-            </div>
+            {data.length === 0 ? (
+              <div className='grow flex flex-col justify-center gap-3 w-full'>
+                <EmptyState />
+              </div>
+            ) : (
+              <div
+                className='flex flex-col grow justify-center leading-0'
+                ref={graphDiv}
+                aria-label='Graph area'
+              >
+                {(width || svgWidth) && (height || svgHeight) ? (
+                  <Graph
+                    data={data}
+                    color={
+                      color || UNDPColorModule[mode].primaryColors['blue-600']
+                    }
+                    width={width || svgWidth}
+                    height={Math.max(
+                      minHeight,
+                      height ||
+                        (relativeHeight
+                          ? minHeight
+                            ? (width || svgWidth) * relativeHeight > minHeight
+                              ? (width || svgWidth) * relativeHeight
+                              : minHeight
+                            : (width || svgWidth) * relativeHeight
+                          : svgHeight),
+                    )}
+                    suffix={suffix}
+                    prefix={prefix}
+                    dateFormat={dateFormat}
+                    showValues={showValues}
+                    noOfXTicks={noOfXTicks}
+                    leftMargin={leftMargin}
+                    rightMargin={rightMargin}
+                    topMargin={topMargin}
+                    bottomMargin={bottomMargin}
+                    tooltip={tooltip}
+                    highlightAreaSettings={highlightAreaSettings}
+                    onSeriesMouseOver={onSeriesMouseOver}
+                    refValues={refValues}
+                    minValue={minValue}
+                    maxValue={maxValue}
+                    highlightAreaColor={highlightAreaColor}
+                    animateLine={animateLine}
+                    rtl={language === 'he' || language === 'ar'}
+                    strokeWidth={strokeWidth}
+                    showDots={showDots}
+                    annotations={annotations}
+                    customHighlightAreaSettings={customHighlightAreaSettings}
+                    regressionLine={regressionLine}
+                    tooltipBackgroundStyle={tooltipBackgroundStyle}
+                    yAxisTitle={yAxisTitle}
+                    noOfYTicks={noOfYTicks}
+                    maxDate={maxDate}
+                    minDate={minDate}
+                  />
+                ) : null}
+              </div>
+            )}
             {sources || footNote ? (
               <GraphFooter
                 sources={sources}

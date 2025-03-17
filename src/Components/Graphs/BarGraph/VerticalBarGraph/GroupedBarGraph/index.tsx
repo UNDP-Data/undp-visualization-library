@@ -12,6 +12,7 @@ import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { EmptyState } from '../../../../Elements/EmptyState';
 
 interface Props {
   data: GroupedBarGraphDataType[];
@@ -188,64 +189,73 @@ export function VerticalGroupedBarGraph(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              <ColorLegendWithMouseOver
-                width={width}
-                colorDomain={colorDomain}
-                colors={colors}
-                colorLegendTitle={colorLegendTitle}
-                setSelectedColor={setSelectedColor}
-                showNAColor={false}
-              />
-              <div
-                className='w-full grow leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    barColors={colors}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    suffix={suffix}
-                    prefix={prefix}
-                    barPadding={barPadding}
-                    showLabels={showLabels}
-                    showValues={showValues}
-                    showTicks={showTicks}
-                    truncateBy={truncateBy}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    refValues={refValues}
-                    maxValue={maxValue}
-                    minValue={minValue}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    selectedColor={selectedColor}
-                    labelOrder={labelOrder}
-                    maxBarThickness={maxBarThickness}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                    barAxisTitle={barAxisTitle}
-                    noOfTicks={noOfTicks}
-                    valueColor={valueColor}
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  <ColorLegendWithMouseOver
+                    width={width}
+                    colorDomain={colorDomain}
+                    colors={colors}
+                    colorLegendTitle={colorLegendTitle}
+                    setSelectedColor={setSelectedColor}
+                    showNAColor={false}
                   />
-                ) : null}
-              </div>
+                  <div
+                    className='w-full grow leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        barColors={colors}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        suffix={suffix}
+                        prefix={prefix}
+                        barPadding={barPadding}
+                        showLabels={showLabels}
+                        showValues={showValues}
+                        showTicks={showTicks}
+                        truncateBy={truncateBy}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        refValues={refValues}
+                        maxValue={maxValue}
+                        minValue={minValue}
+                        onSeriesMouseClick={onSeriesMouseClick}
+                        selectedColor={selectedColor}
+                        labelOrder={labelOrder}
+                        maxBarThickness={maxBarThickness}
+                        resetSelectionOnDoubleClick={
+                          resetSelectionOnDoubleClick
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        detailsOnClick={detailsOnClick}
+                        barAxisTitle={barAxisTitle}
+                        noOfTicks={noOfTicks}
+                        valueColor={valueColor}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

@@ -15,6 +15,7 @@ import {
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { ColorLegend } from '../../../Elements/ColorLegend';
+import { EmptyState } from '../../../Elements/EmptyState';
 
 interface Props {
   data: LineChartWithConfidenceIntervalDataType[];
@@ -210,77 +211,86 @@ export function LineChartWithConfidenceInterval(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              {colorLegendColors && colorLegendDomains ? (
-                <ColorLegend
-                  width={width}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={colorLegendColors}
-                  colorDomain={colorLegendDomains}
-                  showNAColor={false}
-                  mode={mode}
-                />
-              ) : null}
-              <div
-                className='flex flex-col grow justify-center leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    lineColor={
-                      lineColor ||
-                      UNDPColorModule[mode].primaryColors['blue-600']
-                    }
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    suffix={suffix}
-                    prefix={prefix}
-                    dateFormat={dateFormat}
-                    showValues={showValues}
-                    noOfXTicks={noOfXTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    tooltip={tooltip}
-                    highlightAreaSettings={highlightAreaSettings}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    refValues={refValues}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    highlightAreaColor={highlightAreaColor}
-                    animateLine={animateLine}
-                    rtl={language === 'he' || language === 'ar'}
-                    strokeWidth={strokeWidth}
-                    showDots={showDots}
-                    annotations={annotations}
-                    customHighlightAreaSettings={customHighlightAreaSettings}
-                    regressionLine={regressionLine}
-                    showIntervalDots={showIntervalDots}
-                    showIntervalValues={showIntervalValues}
-                    intervalLineStrokeWidth={intervalLineStrokeWidth}
-                    intervalLineColors={intervalLineColors}
-                    intervalAreaColor={intervalAreaColor}
-                    intervalAreaOpacity={intervalAreaOpacity}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    yAxisTitle={yAxisTitle}
-                    noOfYTicks={noOfYTicks}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                  />
-                ) : null}
-              </div>
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {colorLegendColors && colorLegendDomains ? (
+                    <ColorLegend
+                      width={width}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={colorLegendColors}
+                      colorDomain={colorLegendDomains}
+                      showNAColor={false}
+                      mode={mode}
+                    />
+                  ) : null}
+                  <div
+                    className='flex flex-col grow justify-center leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        lineColor={
+                          lineColor ||
+                          UNDPColorModule[mode].primaryColors['blue-600']
+                        }
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        suffix={suffix}
+                        prefix={prefix}
+                        dateFormat={dateFormat}
+                        showValues={showValues}
+                        noOfXTicks={noOfXTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        tooltip={tooltip}
+                        highlightAreaSettings={highlightAreaSettings}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        refValues={refValues}
+                        minValue={minValue}
+                        maxValue={maxValue}
+                        highlightAreaColor={highlightAreaColor}
+                        animateLine={animateLine}
+                        rtl={language === 'he' || language === 'ar'}
+                        strokeWidth={strokeWidth}
+                        showDots={showDots}
+                        annotations={annotations}
+                        customHighlightAreaSettings={
+                          customHighlightAreaSettings
+                        }
+                        regressionLine={regressionLine}
+                        showIntervalDots={showIntervalDots}
+                        showIntervalValues={showIntervalValues}
+                        intervalLineStrokeWidth={intervalLineStrokeWidth}
+                        intervalLineColors={intervalLineColors}
+                        intervalAreaColor={intervalAreaColor}
+                        intervalAreaOpacity={intervalAreaOpacity}
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        yAxisTitle={yAxisTitle}
+                        noOfYTicks={noOfYTicks}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

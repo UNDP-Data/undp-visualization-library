@@ -14,6 +14,7 @@ import { numberFormattingFunction } from '../../../Utils/numberFormattingFunctio
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { UNDPColorModule } from '../../ColorPalette';
+import { EmptyState } from '../../Elements/EmptyState';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };
@@ -195,106 +196,122 @@ export function DonutChart(props: Props) {
                 padding: `${topMargin}px 0 ${bottomMargin}px 0`,
               }}
             >
-              {graphLegend ? (
-                <div className='leading-0' aria-label='Color legend'>
-                  <div
-                    className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
-                    style={{
-                      maxWidth: legendMaxWidth,
-                    }}
-                  >
-                    {sortedData.map((d, i) => (
-                      <div className='flex gap-2 items-center' key={i}>
-                        <div
-                          className='w-3 h-3 rounded-full'
-                          style={{
-                            backgroundColor:
-                              (
-                                colorDomain || sortedData.map(el => el.label)
-                              ).indexOf(d.label) !== -1
-                                ? (colors ||
-                                    UNDPColorModule[mode].categoricalColors
-                                      .colors)[
-                                    (
-                                      colorDomain ||
-                                      sortedData.map(el => el.label)
-                                    ).indexOf(d.label) %
-                                      (
-                                        colors ||
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {graphLegend ? (
+                    <div className='leading-0' aria-label='Color legend'>
+                      <div
+                        className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
+                        style={{
+                          maxWidth: legendMaxWidth,
+                        }}
+                      >
+                        {sortedData.map((d, i) => (
+                          <div className='flex gap-2 items-center' key={i}>
+                            <div
+                              className='w-3 h-3 rounded-full'
+                              style={{
+                                backgroundColor:
+                                  (
+                                    colorDomain ||
+                                    sortedData.map(el => el.label)
+                                  ).indexOf(d.label) !== -1
+                                    ? (colors ||
                                         UNDPColorModule[mode].categoricalColors
-                                          .colors
-                                      ).length
-                                  ]
-                                : UNDPColorModule.gray,
-                          }}
-                        />
-                        <P
-                          marginBottom='none'
-                          size='sm'
-                          className='text-primary-gray-700 dark:text-primary-gray-100'
-                        >
-                          {d.label}:{' '}
-                          <span
-                            className='font-bold'
-                            style={{ fontSize: 'inherit' }}
-                          >
-                            {numberFormattingFunction(d.size, prefix, suffix)}
-                          </span>
-                        </P>
+                                          .colors)[
+                                        (
+                                          colorDomain ||
+                                          sortedData.map(el => el.label)
+                                        ).indexOf(d.label) %
+                                          (
+                                            colors ||
+                                            UNDPColorModule[mode]
+                                              .categoricalColors.colors
+                                          ).length
+                                      ]
+                                    : UNDPColorModule.gray,
+                              }}
+                            />
+                            <P
+                              marginBottom='none'
+                              size='sm'
+                              className='text-primary-gray-700 dark:text-primary-gray-100'
+                            >
+                              {d.label}:{' '}
+                              <span
+                                className='font-bold'
+                                style={{ fontSize: 'inherit' }}
+                              >
+                                {numberFormattingFunction(
+                                  d.size,
+                                  prefix,
+                                  suffix,
+                                )}
+                              </span>
+                            </P>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              <div
-                className={`flex ${
-                  width ? 'grow-0' : 'grow'
-                } items-center justify-center leading-0`}
-                style={{
-                  width: width ? `${width}px` : '100%',
-                  height: height
-                    ? `${Math.max(
-                        minHeight,
-                        height ||
-                          (relativeHeight
-                            ? minHeight
-                              ? (width || svgWidth) * relativeHeight > minHeight
-                                ? (width || svgWidth) * relativeHeight
-                                : minHeight
-                              : (width || svgWidth) * relativeHeight
-                            : svgHeight),
-                      )}px`
-                    : 'auto',
-                }}
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                <div className='w-full flex justify-center leading-0'>
-                  {radius || donutRadius ? (
-                    <Graph
-                      mainText={mainText}
-                      data={
-                        sortData === 'asc'
-                          ? sortBy(data, d => d.size)
-                          : sortData === 'desc'
-                          ? sortBy(data, d => d.size).reverse()
-                          : data
-                      }
-                      colors={colors}
-                      radius={radius || donutRadius}
-                      subNote={subNote}
-                      strokeWidth={strokeWidth}
-                      tooltip={tooltip}
-                      colorDomain={colorDomain || sortedData.map(d => d.label)}
-                      onSeriesMouseOver={onSeriesMouseOver}
-                      onSeriesMouseClick={onSeriesMouseClick}
-                      resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                      tooltipBackgroundStyle={tooltipBackgroundStyle}
-                      detailsOnClick={detailsOnClick}
-                    />
+                    </div>
                   ) : null}
-                </div>
-              </div>
+                  <div
+                    className={`flex ${
+                      width ? 'grow-0' : 'grow'
+                    } items-center justify-center leading-0`}
+                    style={{
+                      width: width ? `${width}px` : '100%',
+                      height: height
+                        ? `${Math.max(
+                            minHeight,
+                            height ||
+                              (relativeHeight
+                                ? minHeight
+                                  ? (width || svgWidth) * relativeHeight >
+                                    minHeight
+                                    ? (width || svgWidth) * relativeHeight
+                                    : minHeight
+                                  : (width || svgWidth) * relativeHeight
+                                : svgHeight),
+                          )}px`
+                        : 'auto',
+                    }}
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    <div className='w-full flex justify-center leading-0'>
+                      {radius || donutRadius ? (
+                        <Graph
+                          mainText={mainText}
+                          data={
+                            sortData === 'asc'
+                              ? sortBy(data, d => d.size)
+                              : sortData === 'desc'
+                              ? sortBy(data, d => d.size).reverse()
+                              : data
+                          }
+                          colors={colors}
+                          radius={radius || donutRadius}
+                          subNote={subNote}
+                          strokeWidth={strokeWidth}
+                          tooltip={tooltip}
+                          colorDomain={
+                            colorDomain || sortedData.map(d => d.label)
+                          }
+                          onSeriesMouseOver={onSeriesMouseOver}
+                          onSeriesMouseClick={onSeriesMouseClick}
+                          resetSelectionOnDoubleClick={
+                            resetSelectionOnDoubleClick
+                          }
+                          tooltipBackgroundStyle={tooltipBackgroundStyle}
+                          detailsOnClick={detailsOnClick}
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

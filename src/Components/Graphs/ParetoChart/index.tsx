@@ -11,6 +11,7 @@ import {
   SourcesDataType,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
+import { EmptyState } from '../../Elements/EmptyState';
 
 interface Props {
   data: ParetoChartDataType[];
@@ -177,62 +178,72 @@ export function ParetoChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              <ColorLegend
-                colorDomain={[barTitle, lineTitle]}
-                colors={[
-                  barColor || UNDPColorModule[mode].categoricalColors.colors[0],
-                  lineColor ||
-                    UNDPColorModule[mode].categoricalColors.colors[1],
-                ]}
-                colorLegendTitle={colorLegendTitle}
-                showNAColor={false}
-                mode={mode}
-              />
-              <div
-                className='flex flex-col grow justify-center leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    sameAxes={sameAxes}
-                    lineColor={lineColor}
-                    barColor={barColor}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    truncateBy={truncateBy}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    axisTitles={[barTitle, lineTitle]}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    barPadding={barPadding}
-                    showLabels={showLabels}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                    noOfYTicks={noOfYTicks}
-                    lineSuffix={lineSuffix}
-                    barSuffix={barSuffix}
-                    linePrefix={linePrefix}
-                    barPrefix={barPrefix}
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  <ColorLegend
+                    colorDomain={[barTitle, lineTitle]}
+                    colors={[
+                      barColor ||
+                        UNDPColorModule[mode].categoricalColors.colors[0],
+                      lineColor ||
+                        UNDPColorModule[mode].categoricalColors.colors[1],
+                    ]}
+                    colorLegendTitle={colorLegendTitle}
+                    showNAColor={false}
+                    mode={mode}
                   />
-                ) : null}
-              </div>
+                  <div
+                    className='flex flex-col grow justify-center leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        sameAxes={sameAxes}
+                        lineColor={lineColor}
+                        barColor={barColor}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        truncateBy={truncateBy}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        axisTitles={[barTitle, lineTitle]}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        barPadding={barPadding}
+                        showLabels={showLabels}
+                        onSeriesMouseClick={onSeriesMouseClick}
+                        resetSelectionOnDoubleClick={
+                          resetSelectionOnDoubleClick
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        detailsOnClick={detailsOnClick}
+                        noOfYTicks={noOfYTicks}
+                        lineSuffix={lineSuffix}
+                        barSuffix={barSuffix}
+                        linePrefix={linePrefix}
+                        barPrefix={barPrefix}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

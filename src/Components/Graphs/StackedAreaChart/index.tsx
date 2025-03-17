@@ -14,6 +14,7 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegend } from '../../Elements/ColorLegend';
 import { UNDPColorModule } from '../../ColorPalette';
+import { EmptyState } from '../../Elements/EmptyState';
 
 interface Props {
   data: AreaChartDataType[];
@@ -180,60 +181,69 @@ export function AreaChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              {showColorScale !== false ? (
-                <ColorLegend
-                  colorDomain={colorDomain}
-                  colors={colors}
-                  colorLegendTitle={colorLegendTitle}
-                  showNAColor={false}
-                  mode={mode}
-                />
-              ) : null}
-              <div
-                className='w-full grow leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    colors={colors}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    dateFormat={dateFormat}
-                    noOfXTicks={noOfXTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    highlightAreaSettings={highlightAreaSettings}
-                    refValues={refValues}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    highlightAreaColor={highlightAreaColor}
-                    rtl={language === 'he' || language === 'ar'}
-                    annotations={annotations}
-                    customHighlightAreaSettings={customHighlightAreaSettings}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    yAxisTitle={yAxisTitle}
-                    noOfYTicks={noOfYTicks}
-                    prefix={prefix}
-                    suffix={suffix}
-                  />
-                ) : null}
-              </div>
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {showColorScale !== false ? (
+                    <ColorLegend
+                      colorDomain={colorDomain}
+                      colors={colors}
+                      colorLegendTitle={colorLegendTitle}
+                      showNAColor={false}
+                      mode={mode}
+                    />
+                  ) : null}
+                  <div
+                    className='w-full grow leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        colors={colors}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        dateFormat={dateFormat}
+                        noOfXTicks={noOfXTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        highlightAreaSettings={highlightAreaSettings}
+                        refValues={refValues}
+                        minValue={minValue}
+                        maxValue={maxValue}
+                        highlightAreaColor={highlightAreaColor}
+                        rtl={language === 'he' || language === 'ar'}
+                        annotations={annotations}
+                        customHighlightAreaSettings={
+                          customHighlightAreaSettings
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        yAxisTitle={yAxisTitle}
+                        noOfYTicks={noOfYTicks}
+                        prefix={prefix}
+                        suffix={suffix}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

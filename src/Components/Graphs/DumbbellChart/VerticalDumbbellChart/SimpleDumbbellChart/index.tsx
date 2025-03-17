@@ -13,6 +13,7 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { EmptyState } from '../../../../Elements/EmptyState';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -198,88 +199,97 @@ export function VerticalDumbbellChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              <ColorLegendWithMouseOver
-                width={width}
-                colorDomain={colorDomain}
-                colors={colors}
-                colorLegendTitle={colorLegendTitle}
-                setSelectedColor={setSelectedColor}
-                showNAColor={false}
-              />
-              <div
-                className='flex grow w-full justify-center leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={
-                      sortParameter !== undefined
-                        ? sortParameter === 'diff'
-                          ? sortBy(data, d =>
-                              checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
-                              checkIfNullOrUndefined(d.x[0])
-                                ? -Infinity
-                                : (d.x[d.x.length - 1] as number) -
-                                  (d.x[0] as number),
-                            ).filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
-                            )
-                          : sortBy(data, d =>
-                              checkIfNullOrUndefined(d.x[sortParameter])
-                                ? -Infinity
-                                : d.x[sortParameter],
-                            ).filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
-                            )
-                        : data.filter((_d, i) =>
-                            maxNumberOfBars ? i < maxNumberOfBars : true,
-                          )
-                    }
-                    dotColors={colors}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    radius={radius}
-                    barPadding={barPadding}
-                    showTicks={showTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    truncateBy={truncateBy}
-                    showLabels={showLabels}
-                    showValues={showValues}
-                    tooltip={tooltip}
-                    suffix={suffix}
-                    prefix={prefix}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    maxPositionValue={maxPositionValue}
-                    minPositionValue={minPositionValue}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    selectedColor={selectedColor}
-                    arrowConnector={arrowConnector}
-                    connectorStrokeWidth={connectorStrokeWidth}
-                    maxBarThickness={maxBarThickness}
-                    minBarThickness={minBarThickness}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                    barAxisTitle={barAxisTitle}
-                    noOfTicks={noOfTicks}
-                    valueColor={valueColor}
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  <ColorLegendWithMouseOver
+                    width={width}
+                    colorDomain={colorDomain}
+                    colors={colors}
+                    colorLegendTitle={colorLegendTitle}
+                    setSelectedColor={setSelectedColor}
+                    showNAColor={false}
                   />
-                ) : null}
-              </div>
+                  <div
+                    className='flex grow w-full justify-center leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={
+                          sortParameter !== undefined
+                            ? sortParameter === 'diff'
+                              ? sortBy(data, d =>
+                                  checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+                                  checkIfNullOrUndefined(d.x[0])
+                                    ? -Infinity
+                                    : (d.x[d.x.length - 1] as number) -
+                                      (d.x[0] as number),
+                                ).filter((_d, i) =>
+                                  maxNumberOfBars ? i < maxNumberOfBars : true,
+                                )
+                              : sortBy(data, d =>
+                                  checkIfNullOrUndefined(d.x[sortParameter])
+                                    ? -Infinity
+                                    : d.x[sortParameter],
+                                ).filter((_d, i) =>
+                                  maxNumberOfBars ? i < maxNumberOfBars : true,
+                                )
+                            : data.filter((_d, i) =>
+                                maxNumberOfBars ? i < maxNumberOfBars : true,
+                              )
+                        }
+                        dotColors={colors}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        radius={radius}
+                        barPadding={barPadding}
+                        showTicks={showTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        truncateBy={truncateBy}
+                        showLabels={showLabels}
+                        showValues={showValues}
+                        tooltip={tooltip}
+                        suffix={suffix}
+                        prefix={prefix}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        maxPositionValue={maxPositionValue}
+                        minPositionValue={minPositionValue}
+                        onSeriesMouseClick={onSeriesMouseClick}
+                        selectedColor={selectedColor}
+                        arrowConnector={arrowConnector}
+                        connectorStrokeWidth={connectorStrokeWidth}
+                        maxBarThickness={maxBarThickness}
+                        minBarThickness={minBarThickness}
+                        resetSelectionOnDoubleClick={
+                          resetSelectionOnDoubleClick
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        detailsOnClick={detailsOnClick}
+                        barAxisTitle={barAxisTitle}
+                        noOfTicks={noOfTicks}
+                        valueColor={valueColor}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

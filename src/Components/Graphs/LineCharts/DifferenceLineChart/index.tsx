@@ -16,6 +16,7 @@ import {
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { generateRandomString } from '../../../../Utils/generateRandomString';
+import { EmptyState } from '../../../Elements/EmptyState';
 
 interface Props {
   data: DifferenceLineChartDataType[];
@@ -202,70 +203,79 @@ export function DifferenceLineChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              {showColorLegendAtTop ? (
-                <ColorLegend
-                  colorDomain={labels}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={lineColors}
-                  showNAColor={false}
-                  mode={mode}
-                />
-              ) : null}
-              <div
-                className='flex flex-col grow justify-center leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    lineColors={lineColors}
-                    colorDomain={labels}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    suffix={suffix}
-                    prefix={prefix}
-                    dateFormat={dateFormat}
-                    showValues={showValues}
-                    noOfXTicks={noOfXTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    highlightAreaSettings={highlightAreaSettings}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    showColorLegendAtTop={showColorLegendAtTop}
-                    highlightAreaColor={highlightAreaColor}
-                    animateLine={animateLine}
-                    rtl={language === 'he' || language === 'ar'}
-                    diffAreaColors={diffAreaColors}
-                    idSuffix={generateRandomString(8)}
-                    strokeWidth={strokeWidth}
-                    showDots={showDots}
-                    refValues={refValues}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    annotations={annotations}
-                    customHighlightAreaSettings={customHighlightAreaSettings}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    yAxisTitle={yAxisTitle}
-                    noOfYTicks={noOfYTicks}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                  />
-                ) : null}
-              </div>
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {showColorLegendAtTop ? (
+                    <ColorLegend
+                      colorDomain={labels}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={lineColors}
+                      showNAColor={false}
+                      mode={mode}
+                    />
+                  ) : null}
+                  <div
+                    className='flex flex-col grow justify-center leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        lineColors={lineColors}
+                        colorDomain={labels}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        suffix={suffix}
+                        prefix={prefix}
+                        dateFormat={dateFormat}
+                        showValues={showValues}
+                        noOfXTicks={noOfXTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        highlightAreaSettings={highlightAreaSettings}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        showColorLegendAtTop={showColorLegendAtTop}
+                        highlightAreaColor={highlightAreaColor}
+                        animateLine={animateLine}
+                        rtl={language === 'he' || language === 'ar'}
+                        diffAreaColors={diffAreaColors}
+                        idSuffix={generateRandomString(8)}
+                        strokeWidth={strokeWidth}
+                        showDots={showDots}
+                        refValues={refValues}
+                        minValue={minValue}
+                        maxValue={maxValue}
+                        annotations={annotations}
+                        customHighlightAreaSettings={
+                          customHighlightAreaSettings
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        yAxisTitle={yAxisTitle}
+                        noOfYTicks={noOfYTicks}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

@@ -15,6 +15,7 @@ import { GraphFooter } from '../../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../../Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../../../ColorPalette';
+import { EmptyState } from '../../../../Elements/EmptyState';
 
 interface Props {
   data: GroupedBarGraphDataType[];
@@ -195,91 +196,104 @@ export function HorizontalStackedBarGraph(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              <ColorLegendWithMouseOver
-                width={width}
-                colorDomain={colorDomain}
-                colors={colors}
-                colorLegendTitle={colorLegendTitle}
-                setSelectedColor={setSelectedColor}
-                showNAColor={false}
-              />
-              <div
-                className='w-full grow leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={
-                      sortParameter !== undefined
-                        ? sortParameter === 'total'
-                          ? sortBy(data, d =>
-                              sum(
-                                d.size.filter(
-                                  el => !checkIfNullOrUndefined(el),
-                                ),
-                              ),
-                            )
-                              .reverse()
-                              .filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
-                          : sortBy(data, d =>
-                              checkIfNullOrUndefined(d.size[sortParameter])
-                                ? -Infinity
-                                : d.size[sortParameter],
-                            )
-                              .reverse()
-                              .filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
-                        : data.filter((_d, i) =>
-                            maxNumberOfBars ? i < maxNumberOfBars : true,
-                          )
-                    }
-                    barColors={colors}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    barPadding={barPadding}
-                    showTicks={showTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    truncateBy={truncateBy}
-                    showLabels={showLabels}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    showValues={showValues}
-                    suffix={suffix}
-                    prefix={prefix}
-                    refValues={refValues}
-                    maxValue={maxValue}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    selectedColor={selectedColor}
-                    rtl={language === 'he' || language === 'ar'}
-                    labelOrder={labelOrder}
-                    maxBarThickness={maxBarThickness}
-                    minBarThickness={minBarThickness}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                    barAxisTitle={barAxisTitle}
-                    noOfTicks={noOfTicks}
-                    valueColor={valueColor}
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  <ColorLegendWithMouseOver
+                    width={width}
+                    colorDomain={colorDomain}
+                    colors={colors}
+                    colorLegendTitle={colorLegendTitle}
+                    setSelectedColor={setSelectedColor}
+                    showNAColor={false}
                   />
-                ) : null}
-              </div>
+                  <div
+                    className='w-full grow leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={
+                          sortParameter !== undefined
+                            ? sortParameter === 'total'
+                              ? sortBy(data, d =>
+                                  sum(
+                                    d.size.filter(
+                                      el => !checkIfNullOrUndefined(el),
+                                    ),
+                                  ),
+                                )
+                                  .reverse()
+                                  .filter((_d, i) =>
+                                    maxNumberOfBars
+                                      ? i < maxNumberOfBars
+                                      : true,
+                                  )
+                              : sortBy(data, d =>
+                                  checkIfNullOrUndefined(d.size[sortParameter])
+                                    ? -Infinity
+                                    : d.size[sortParameter],
+                                )
+                                  .reverse()
+                                  .filter((_d, i) =>
+                                    maxNumberOfBars
+                                      ? i < maxNumberOfBars
+                                      : true,
+                                  )
+                            : data.filter((_d, i) =>
+                                maxNumberOfBars ? i < maxNumberOfBars : true,
+                              )
+                        }
+                        barColors={colors}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        barPadding={barPadding}
+                        showTicks={showTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        truncateBy={truncateBy}
+                        showLabels={showLabels}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        showValues={showValues}
+                        suffix={suffix}
+                        prefix={prefix}
+                        refValues={refValues}
+                        maxValue={maxValue}
+                        onSeriesMouseClick={onSeriesMouseClick}
+                        selectedColor={selectedColor}
+                        rtl={language === 'he' || language === 'ar'}
+                        labelOrder={labelOrder}
+                        maxBarThickness={maxBarThickness}
+                        minBarThickness={minBarThickness}
+                        resetSelectionOnDoubleClick={
+                          resetSelectionOnDoubleClick
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        detailsOnClick={detailsOnClick}
+                        barAxisTitle={barAxisTitle}
+                        noOfTicks={noOfTicks}
+                        valueColor={valueColor}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

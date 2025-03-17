@@ -12,6 +12,7 @@ import {
   SourcesDataType,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
+import { EmptyState } from '../../../Elements/EmptyState';
 
 interface Props {
   data: DualAxisLineChartDataType[];
@@ -187,63 +188,70 @@ export function DualAxisLineChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              {showColorScale ? null : (
-                <ColorLegend
-                  colorDomain={lineTitles}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={lineColors}
-                  showNAColor={false}
-                  mode={mode}
-                />
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {showColorScale ? null : (
+                    <ColorLegend
+                      colorDomain={lineTitles}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={lineColors}
+                      showNAColor={false}
+                      mode={mode}
+                    />
+                  )}
+                  <div
+                    className='flex flex-col grow justify-center leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data}
+                        sameAxes={sameAxes}
+                        lineColors={lineColors}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        suffix={suffix}
+                        prefix={prefix}
+                        dateFormat={dateFormat}
+                        showValues={showValues}
+                        noOfXTicks={noOfXTicks}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        lineTitles={lineTitles}
+                        highlightAreaSettings={highlightAreaSettings}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        highlightAreaColor={highlightAreaColor}
+                        animateLine={animateLine}
+                        strokeWidth={strokeWidth}
+                        showDots={showDots}
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        noOfYTicks={noOfYTicks}
+                        lineSuffixes={lineSuffixes}
+                        linePrefixes={linePrefixes}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                      />
+                    ) : null}
+                  </div>
+                </>
               )}
-              <div
-                className='flex flex-col grow justify-center leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data}
-                    sameAxes={sameAxes}
-                    lineColors={lineColors}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    suffix={suffix}
-                    prefix={prefix}
-                    dateFormat={dateFormat}
-                    showValues={showValues}
-                    noOfXTicks={noOfXTicks}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    lineTitles={lineTitles}
-                    highlightAreaSettings={highlightAreaSettings}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    highlightAreaColor={highlightAreaColor}
-                    animateLine={animateLine}
-                    strokeWidth={strokeWidth}
-                    showDots={showDots}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    noOfYTicks={noOfYTicks}
-                    lineSuffixes={lineSuffixes}
-                    linePrefixes={linePrefixes}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                  />
-                ) : null}
-              </div>
             </div>
             {sources || footNote ? (
               <GraphFooter

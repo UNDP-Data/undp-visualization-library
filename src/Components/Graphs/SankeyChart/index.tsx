@@ -15,6 +15,7 @@ import {
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../ColorPalette';
 import { generateRandomString } from '../../../Utils/generateRandomString';
+import { EmptyState } from '../../Elements/EmptyState';
 
 interface Props {
   data: SankeyDataType[];
@@ -264,58 +265,64 @@ export function SankeyChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              <div
-                className='flex flex-col grow justify-center gap-3 w-full leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
-                  <Graph
-                    data={sankeyData}
-                    width={width || svgWidth}
-                    nodePadding={nodePadding}
-                    nodeWidth={nodeWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    showLabels={showLabels}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    truncateBy={truncateBy}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    showValues={showValues}
-                    suffix={suffix}
-                    prefix={prefix}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    id={generateRandomString(8)}
-                    highlightedSourceDataPoints={highlightedSourceDataPoints.map(
-                      d => `${d}`,
-                    )}
-                    highlightedTargetDataPoints={highlightedTargetDataPoints.map(
-                      d => `${d}`,
-                    )}
-                    defaultLinkOpacity={defaultLinkOpacity}
-                    sourceTitle={sourceTitle}
-                    targetTitle={targetTitle}
-                    animateLinks={animateLinks}
-                    sortNodes={sortNodes}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                  />
-                ) : null}
-              </div>
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <div
+                  className='flex flex-col grow justify-center gap-3 w-full leading-0'
+                  ref={graphDiv}
+                  aria-label='Graph area'
+                >
+                  {(width || svgWidth) &&
+                  (height || svgHeight) &&
+                  sankeyData ? (
+                    <Graph
+                      data={sankeyData}
+                      width={width || svgWidth}
+                      nodePadding={nodePadding}
+                      nodeWidth={nodeWidth}
+                      height={Math.max(
+                        minHeight,
+                        height ||
+                          (relativeHeight
+                            ? minHeight
+                              ? (width || svgWidth) * relativeHeight > minHeight
+                                ? (width || svgWidth) * relativeHeight
+                                : minHeight
+                              : (width || svgWidth) * relativeHeight
+                            : svgHeight),
+                      )}
+                      showLabels={showLabels}
+                      leftMargin={leftMargin}
+                      rightMargin={rightMargin}
+                      topMargin={topMargin}
+                      bottomMargin={bottomMargin}
+                      truncateBy={truncateBy}
+                      tooltip={tooltip}
+                      onSeriesMouseOver={onSeriesMouseOver}
+                      showValues={showValues}
+                      suffix={suffix}
+                      prefix={prefix}
+                      onSeriesMouseClick={onSeriesMouseClick}
+                      id={generateRandomString(8)}
+                      highlightedSourceDataPoints={highlightedSourceDataPoints.map(
+                        d => `${d}`,
+                      )}
+                      highlightedTargetDataPoints={highlightedTargetDataPoints.map(
+                        d => `${d}`,
+                      )}
+                      defaultLinkOpacity={defaultLinkOpacity}
+                      sourceTitle={sourceTitle}
+                      targetTitle={targetTitle}
+                      animateLinks={animateLinks}
+                      sortNodes={sortNodes}
+                      resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
+                      tooltipBackgroundStyle={tooltipBackgroundStyle}
+                      detailsOnClick={detailsOnClick}
+                    />
+                  ) : null}
+                </div>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter

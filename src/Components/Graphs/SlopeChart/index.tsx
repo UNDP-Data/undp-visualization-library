@@ -13,6 +13,7 @@ import { GraphHeader } from '../../Elements/GraphHeader';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
 import { UNDPColorModule } from '../../ColorPalette';
+import { EmptyState } from '../../Elements/EmptyState';
 
 interface Props {
   data: SlopeChartDataType[];
@@ -177,86 +178,100 @@ export function SlopeChart(props: Props) {
               />
             ) : null}
             <div className='grow flex flex-col justify-center gap-3 w-full'>
-              {showColorScale && data.filter(el => el.color).length !== 0 ? (
-                <ColorLegendWithMouseOver
-                  width={width}
-                  colorLegendTitle={colorLegendTitle}
-                  colors={
-                    (colors as string[] | undefined) ||
-                    UNDPColorModule[mode].categoricalColors.colors
-                  }
-                  colorDomain={
-                    colorDomain ||
-                    (uniqBy(
-                      data.filter(el => el.color),
-                      'color',
-                    ).map(d => d.color) as string[])
-                  }
-                  setSelectedColor={setSelectedColor}
-                  showNAColor={showNAColor}
-                />
-              ) : null}
-              <div
-                className='flex flex-col grow justify-center w-full leading-0'
-                ref={graphDiv}
-                aria-label='Graph area'
-              >
-                {(width || svgWidth) && (height || svgHeight) ? (
-                  <Graph
-                    data={data.filter(
-                      d =>
-                        !checkIfNullOrUndefined(d.y1) &&
-                        !checkIfNullOrUndefined(d.y2),
-                    )}
-                    width={width || svgWidth}
-                    height={Math.max(
-                      minHeight,
-                      height ||
-                        (relativeHeight
-                          ? minHeight
-                            ? (width || svgWidth) * relativeHeight > minHeight
-                              ? (width || svgWidth) * relativeHeight
-                              : minHeight
-                            : (width || svgWidth) * relativeHeight
-                          : svgHeight),
-                    )}
-                    colorDomain={
-                      data.filter(el => el.color).length === 0
-                        ? []
-                        : colorDomain ||
-                          (uniqBy(
-                            data.filter(el => el.color),
-                            'color',
-                          ).map(d => d.color) as string[])
-                    }
-                    colors={
-                      data.filter(el => el.color).length === 0
-                        ? colors
-                          ? [colors as string]
-                          : [UNDPColorModule[mode].primaryColors['blue-600']]
-                        : (colors as string[] | undefined) ||
-                          UNDPColorModule[mode].categoricalColors.colors
-                    }
-                    selectedColor={selectedColor}
-                    axisTitle={axisTitle}
-                    showLabels={showLabels}
-                    radius={radius}
-                    leftMargin={leftMargin}
-                    rightMargin={rightMargin}
-                    topMargin={topMargin}
-                    bottomMargin={bottomMargin}
-                    tooltip={tooltip}
-                    onSeriesMouseOver={onSeriesMouseOver}
-                    highlightedDataPoints={highlightedDataPoints}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    onSeriesMouseClick={onSeriesMouseClick}
-                    resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
-                    detailsOnClick={detailsOnClick}
-                  />
-                ) : null}
-              </div>
+              {data.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {showColorScale &&
+                  data.filter(el => el.color).length !== 0 ? (
+                    <ColorLegendWithMouseOver
+                      width={width}
+                      colorLegendTitle={colorLegendTitle}
+                      colors={
+                        (colors as string[] | undefined) ||
+                        UNDPColorModule[mode].categoricalColors.colors
+                      }
+                      colorDomain={
+                        colorDomain ||
+                        (uniqBy(
+                          data.filter(el => el.color),
+                          'color',
+                        ).map(d => d.color) as string[])
+                      }
+                      setSelectedColor={setSelectedColor}
+                      showNAColor={showNAColor}
+                    />
+                  ) : null}
+                  <div
+                    className='flex flex-col grow justify-center w-full leading-0'
+                    ref={graphDiv}
+                    aria-label='Graph area'
+                  >
+                    {(width || svgWidth) && (height || svgHeight) ? (
+                      <Graph
+                        data={data.filter(
+                          d =>
+                            !checkIfNullOrUndefined(d.y1) &&
+                            !checkIfNullOrUndefined(d.y2),
+                        )}
+                        width={width || svgWidth}
+                        height={Math.max(
+                          minHeight,
+                          height ||
+                            (relativeHeight
+                              ? minHeight
+                                ? (width || svgWidth) * relativeHeight >
+                                  minHeight
+                                  ? (width || svgWidth) * relativeHeight
+                                  : minHeight
+                                : (width || svgWidth) * relativeHeight
+                              : svgHeight),
+                        )}
+                        colorDomain={
+                          data.filter(el => el.color).length === 0
+                            ? []
+                            : colorDomain ||
+                              (uniqBy(
+                                data.filter(el => el.color),
+                                'color',
+                              ).map(d => d.color) as string[])
+                        }
+                        colors={
+                          data.filter(el => el.color).length === 0
+                            ? colors
+                              ? [colors as string]
+                              : [
+                                  UNDPColorModule[mode].primaryColors[
+                                    'blue-600'
+                                  ],
+                                ]
+                            : (colors as string[] | undefined) ||
+                              UNDPColorModule[mode].categoricalColors.colors
+                        }
+                        selectedColor={selectedColor}
+                        axisTitle={axisTitle}
+                        showLabels={showLabels}
+                        radius={radius}
+                        leftMargin={leftMargin}
+                        rightMargin={rightMargin}
+                        topMargin={topMargin}
+                        bottomMargin={bottomMargin}
+                        tooltip={tooltip}
+                        onSeriesMouseOver={onSeriesMouseOver}
+                        highlightedDataPoints={highlightedDataPoints}
+                        minValue={minValue}
+                        maxValue={maxValue}
+                        onSeriesMouseClick={onSeriesMouseClick}
+                        resetSelectionOnDoubleClick={
+                          resetSelectionOnDoubleClick
+                        }
+                        tooltipBackgroundStyle={tooltipBackgroundStyle}
+                        detailsOnClick={detailsOnClick}
+                      />
+                    ) : null}
+                  </div>
+                </>
+              )}
             </div>
             {sources || footNote ? (
               <GraphFooter
