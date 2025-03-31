@@ -1,3 +1,4 @@
+import { CSSObject } from '../../Types';
 import { CsvDownloadButton } from '../Actions/CsvDownloadButton';
 import { ImageDownloadButton } from '../Actions/ImageDownloadButton';
 import { GraphDescription } from '../Typography/GraphDescription';
@@ -10,6 +11,8 @@ interface Props {
   graphDownload?: HTMLDivElement | null;
   dataDownload?: any;
   isDashboard?: boolean;
+  styles?: { title?: CSSObject; description?: CSSObject };
+  classNames?: { title?: string; description?: string };
 }
 
 export function GraphHeader(props: Props) {
@@ -20,6 +23,8 @@ export function GraphHeader(props: Props) {
     graphDownload,
     dataDownload,
     isDashboard,
+    styles,
+    classNames,
   } = props;
   return (
     <div
@@ -33,9 +38,20 @@ export function GraphHeader(props: Props) {
     >
       <div className='flex-col flex gap-1'>
         {graphTitle ? (
-          <GraphTitle text={graphTitle} isDashboard={isDashboard} />
+          <GraphTitle
+            text={graphTitle}
+            isDashboard={isDashboard}
+            style={styles?.title}
+            className={classNames?.title}
+          />
         ) : null}
-        {graphDescription ? <GraphDescription text={graphDescription} /> : null}
+        {graphDescription ? (
+          <GraphDescription
+            text={graphDescription}
+            style={styles?.description}
+            className={classNames?.description}
+          />
+        ) : null}
       </div>
       {graphDownload || dataDownload ? (
         <div className='flex gap-3'>

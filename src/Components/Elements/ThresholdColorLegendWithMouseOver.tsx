@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { P } from '@undp-data/undp-design-system-react';
+import { cn, P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
+  className?: string;
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -19,6 +20,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
+    className,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -27,7 +29,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
-      className='flex flex-wrap gap-0 justify-center leading-0'
+      className={cn('flex flex-wrap gap-0 justify-center leading-0', className)}
       style={{
         maxWidth: width ? `${width}px` : 'none',
       }}

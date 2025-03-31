@@ -4,11 +4,11 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { ColorLegend } from '../../Elements/ColorLegend';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
   ParetoChartDataType,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { EmptyState } from '../../Elements/EmptyState';
@@ -47,15 +47,16 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfYTicks?: number;
   lineSuffix?: string;
   barSuffix?: string;
   linePrefix?: string;
   barPrefix?: string;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function ParetoChart(props: Props) {
@@ -93,15 +94,16 @@ export function ParetoChart(props: Props) {
     minHeight = 0,
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
     noOfYTicks = 5,
     lineSuffix = '',
     barSuffix = '',
     linePrefix = '',
     barPrefix = '',
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -138,7 +140,7 @@ export function ParetoChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -163,6 +165,14 @@ export function ParetoChart(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -232,13 +242,15 @@ export function ParetoChart(props: Props) {
                         resetSelectionOnDoubleClick={
                           resetSelectionOnDoubleClick
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         detailsOnClick={detailsOnClick}
                         noOfYTicks={noOfYTicks}
                         lineSuffix={lineSuffix}
                         barSuffix={barSuffix}
                         linePrefix={linePrefix}
                         barPrefix={barPrefix}
+                        curveType={curveType}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -247,6 +259,11 @@ export function ParetoChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

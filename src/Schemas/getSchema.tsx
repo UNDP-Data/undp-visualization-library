@@ -107,29 +107,17 @@ export function getDataSchema(graph: GraphType) {
           additionalProperties: true,
         },
       };
-    case 'horizontalBarChart':
+    case 'barChart':
       return barGraphDataSchema;
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return stackedBarGraphDataSchema;
-    case 'horizontalGroupedBarChart':
+    case 'groupedBarChart':
       return groupedBarGraphDataSchema;
-    case 'verticalBarChart':
-      return barGraphDataSchema;
-    case 'verticalStackedBarChart':
-      return stackedBarGraphDataSchema;
-    case 'verticalGroupedBarChart':
-      return groupedBarGraphDataSchema;
-    case 'animatedHorizontalBarChart':
+    case 'animatedBarChart':
       return animatedBarGraphDataSchema;
-    case 'animatedHorizontalStackedBarChart':
+    case 'animatedStackedBarChart':
       return animatedStackedBarGraphDataSchema;
-    case 'animatedHorizontalGroupedBarChart':
-      return animatedGroupedBarGraphDataSchema;
-    case 'animatedVerticalBarChart':
-      return animatedBarGraphDataSchema;
-    case 'animatedVerticalStackedBarChart':
-      return animatedStackedBarGraphDataSchema;
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return animatedGroupedBarGraphDataSchema;
     case 'lineChart':
       return lineChartDataSchema;
@@ -161,13 +149,9 @@ export function getDataSchema(graph: GraphType) {
       return scatterPlotDataSchema;
     case 'animatedScatterPlot':
       return animatedScatterPlotDataSchema;
-    case 'horizontalDumbbellChart':
+    case 'dumbbellChart':
       return dumbbellChartDataSchema;
-    case 'verticalDumbbellChart':
-      return dumbbellChartDataSchema;
-    case 'animatedHorizontalDumbbellChart':
-      return animatedDumbbellChartDataSchema;
-    case 'animatedVerticalDumbbellChart':
+    case 'animatedDumbbellChart':
       return animatedDumbbellChartDataSchema;
     case 'treeMap':
       return treeMapDataSchema;
@@ -175,13 +159,9 @@ export function getDataSchema(graph: GraphType) {
       return circlePackingDataSchema;
     case 'heatMap':
       return heatMapDataSchema;
-    case 'horizontalStripChart':
+    case 'stripChart':
       return stripChartDataSchema;
-    case 'verticalStripChart':
-      return stripChartDataSchema;
-    case 'horizontalBeeSwarmChart':
-      return beeSwarmChartDataSchema;
-    case 'verticalBeeSwarmChart':
+    case 'beeSwarmChart':
       return beeSwarmChartDataSchema;
     case 'butterflyChart':
       return butterflyChartDataSchema;
@@ -209,29 +189,17 @@ export function getDataSchema(graph: GraphType) {
 
 export function getSettingsSchema(graph: GraphType | 'allGraphs') {
   switch (graph) {
-    case 'horizontalBarChart':
+    case 'barChart':
       return simpleBarChartSettingsSchema;
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return stackedBarChartSettingsSchema;
-    case 'horizontalGroupedBarChart':
+    case 'groupedBarChart':
       return groupedBarChartSettingsSchema;
-    case 'verticalBarChart':
-      return simpleBarChartSettingsSchema;
-    case 'verticalStackedBarChart':
-      return stackedBarChartSettingsSchema;
-    case 'verticalGroupedBarChart':
-      return groupedBarChartSettingsSchema;
-    case 'animatedHorizontalBarChart':
+    case 'animatedBarChart':
       return animatedSimpleBarChartSettingsSchema;
-    case 'animatedHorizontalStackedBarChart':
+    case 'animatedStackedBarChart':
       return animatedStackedBarChartSettingsSchema;
-    case 'animatedHorizontalGroupedBarChart':
-      return animatedGroupedBarChartSettingsSchema;
-    case 'animatedVerticalBarChart':
-      return animatedSimpleBarChartSettingsSchema;
-    case 'animatedVerticalStackedBarChart':
-      return animatedStackedBarChartSettingsSchema;
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return animatedGroupedBarChartSettingsSchema;
     case 'lineChart':
       return lineChartSettingsSchema;
@@ -263,13 +231,9 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return scatterPlotSettingsSchema;
     case 'animatedScatterPlot':
       return animatedScatterPlotSettingsSchema;
-    case 'horizontalDumbbellChart':
+    case 'dumbbellChart':
       return dumbbellChartSettingsSchema;
-    case 'verticalDumbbellChart':
-      return dumbbellChartSettingsSchema;
-    case 'animatedHorizontalDumbbellChart':
-      return animatedDumbbellChartSettingsSchema;
-    case 'animatedVerticalDumbbellChart':
+    case 'animatedDumbbellChart':
       return animatedDumbbellChartSettingsSchema;
     case 'treeMap':
       return treeMapSettingsSchema;
@@ -277,13 +241,9 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return circlePackingSettingsSchema;
     case 'heatMap':
       return heatMapSettingsSchema;
-    case 'horizontalStripChart':
+    case 'stripChart':
       return stripChartSettingsSchema;
-    case 'verticalStripChart':
-      return stripChartSettingsSchema;
-    case 'horizontalBeeSwarmChart':
-      return beeSwarmChartSettingsSchema;
-    case 'verticalBeeSwarmChart':
+    case 'beeSwarmChart':
       return beeSwarmChartSettingsSchema;
     case 'butterflyChart':
       return butterflyChartSettingsSchema;
@@ -325,13 +285,9 @@ export function getGraphConfigChartConfigIdEnum(
   chartType?: GraphType | 'dashboardWideToLong' | 'dashboard',
 ) {
   switch (chartType) {
-    case 'horizontalBarChart':
+    case 'barChart':
       return ['label', 'size', 'color'];
-    case 'verticalBarChart':
-      return ['label', 'size', 'color'];
-    case 'animatedHorizontalBarChart':
-      return ['label', 'size', 'color', 'date'];
-    case 'animatedVerticalBarChart':
+    case 'animatedBarChart':
       return ['label', 'size', 'color', 'date'];
     case 'treeMap':
       return ['label', 'size', 'color'];
@@ -339,31 +295,19 @@ export function getGraphConfigChartConfigIdEnum(
       return ['label', 'size', 'color'];
     case 'butterflyChart':
       return ['label', 'leftBar', 'rightBar'];
-    case 'verticalGroupedBarChart':
+    case 'groupedBarChart':
       return ['label', 'size'];
-    case 'verticalStackedBarChart':
-      return ['label', 'size'];
-    case 'horizontalGroupedBarChart':
-      return ['label', 'size'];
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return ['label', 'size'];
     case 'animatedButterflyChart':
       return ['label', 'leftBar', 'rightBar', 'date'];
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return ['label', 'size', 'date'];
-    case 'animatedVerticalStackedBarChart':
+    case 'animatedStackedBarChart':
       return ['label', 'size', 'date'];
-    case 'animatedHorizontalGroupedBarChart':
-      return ['label', 'size', 'date'];
-    case 'animatedHorizontalStackedBarChart':
-      return ['label', 'size', 'date'];
-    case 'verticalDumbbellChart':
+    case 'dumbbellChart':
       return ['x', 'label'];
-    case 'horizontalDumbbellChart':
-      return ['x', 'label'];
-    case 'animatedVerticalDumbbellChart':
-      return ['x', 'label', 'date'];
-    case 'animatedHorizontalDumbbellChart':
+    case 'animatedDumbbellChart':
       return ['x', 'label', 'date'];
     case 'donutChart':
       return ['size', 'label'];
@@ -399,13 +343,9 @@ export function getGraphConfigChartConfigIdEnum(
       return ['y1', 'y2', 'color', 'label'];
     case 'heatMap':
       return ['row', 'column', 'value'];
-    case 'horizontalBeeSwarmChart':
+    case 'beeSwarmChart':
       return ['label', 'position', 'radius', 'color'];
-    case 'verticalBeeSwarmChart':
-      return ['label', 'position', 'radius', 'color'];
-    case 'verticalStripChart':
-      return ['label', 'position', 'color'];
-    case 'horizontalStripChart':
+    case 'stripChart':
       return ['label', 'position', 'color'];
     case 'statCard':
       return ['value'];
@@ -885,6 +825,7 @@ export const getGriddedGraphJSONSchema = (
             type: 'string',
             enum: ['dataTable', 'dataCards'],
           },
+          styles: { type: 'object' },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
           noOfColumns: { type: 'number' },
@@ -917,6 +858,7 @@ export const getGriddedGraphJSONSchema = (
               el => el.availableInGriddedGraph !== false,
             ).map(el => el.graphID),
           },
+          styles: { type: 'object' },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
           graphDataConfiguration: getGraphDataConfigurationSchema(
@@ -951,6 +893,8 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     dashboardId: {
       type: 'string',
     },
+    styles: { type: 'object' },
+    graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {
         backgroundColor: {
@@ -1027,14 +971,6 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
-    graphBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     graphBackgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -1048,6 +984,8 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     dashboardId: {
       type: 'string',
     },
+    styles: { type: 'object' },
+    graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {
         backgroundColor: {
@@ -1127,14 +1065,6 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     readableHeader: getReadableHeaderSchema(),
     debugMode: { type: 'boolean' },
     mode: { type: 'string', enum: ['dark', 'light'] },
-    graphBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     graphBackgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },

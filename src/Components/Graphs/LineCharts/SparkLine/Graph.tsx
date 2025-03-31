@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { line, curveMonotoneX, area } from 'd3-shape';
+import {
+  line,
+  curveMonotoneX,
+  area,
+  curveLinear,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+} from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
@@ -7,7 +15,12 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
-import { CSSObject, LineChartDataType } from '../../../../Types';
+import { cn } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  LineChartDataType,
+  StyleObject,
+} from '../../../../Types';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 
@@ -26,7 +39,9 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   maxValue?: number;
   minValue?: number;
-  tooltipBackgroundStyle?: CSSObject;
+  curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -45,8 +60,20 @@ export function Graph(props: Props) {
     onSeriesMouseOver,
     minValue,
     maxValue,
-    tooltipBackgroundStyle,
+    curveType,
+    styles,
+    classNames,
   } = props;
+  const curve =
+    curveType === 'linear'
+      ? curveLinear
+      : curveType === 'step'
+      ? curveStep
+      : curveType === 'stepAfter'
+      ? curveStepAfter
+      : curveType === 'stepBefore'
+      ? curveStepBefore
+      : curveMonotoneX;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -95,11 +122,11 @@ export function Graph(props: Props) {
     .x((d: any) => x(d.date))
     .y1((d: any) => y(d.y))
     .y0(graphHeight)
-    .curve(curveMonotoneX);
+    .curve(curve);
   const lineShape = line()
     .x((d: any) => x(d.date))
     .y((d: any) => y(d.y))
-    .curve(curveMonotoneX);
+    .curve(curve);
   useEffect(() => {
     const mousemove = (event: any) => {
       const selectedData =
@@ -163,11 +190,15 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
             <text
-              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
+              className={cn(
+                'xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
+                classNames?.xAxis?.labels,
+              )}
               y={graphHeight}
               x={x(dataFormatted[dataFormatted.length - 1].date)}
               style={{
                 textAnchor: 'end',
+                ...styles?.xAxis?.labels,
               }}
               dy={15}
             >
@@ -178,8 +209,12 @@ export function Graph(props: Props) {
               x={x(dataFormatted[0].date)}
               style={{
                 textAnchor: 'start',
+                ...styles?.xAxis?.labels,
               }}
-              className='xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
+              className={cn(
+                'xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
+                classNames?.xAxis?.labels,
+              )}
               dy={15}
             >
               {format(dataFormatted[0].date, dateFormat)}
@@ -230,7 +265,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
     </>

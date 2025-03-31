@@ -3,24 +3,20 @@ import '@undp-data/undp-design-system-react/dist/style.css';
 import './styles/styles.css';
 
 /* ------- All Graphs Components ------- */
-// Horizontal Bar Graph
-export { HorizontalGroupedBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/GroupedBarGraph';
-export { HorizontalBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/SimpleBarGraph';
-export { HorizontalStackedBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/StackedBarGraph';
-// Vertical Bar Graph
-export { VerticalGroupedBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/GroupedBarGraph';
-export { VerticalBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/SimpleBarGraph';
-export { VerticalStackedBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/StackedBarGraph';
+// Bar Graph
+export {
+  SimpleBarGraph,
+  StackedBarGraph,
+  GroupedBarGraph,
+} from './Components/Graphs/BarGraph';
 // Circle packing graph
 export { CirclePackingGraph } from './Components/Graphs/CirclePackingGraph';
 // Donut chart
 export { DonutChart } from './Components/Graphs/DonutChart';
 // Dumbbell chart
-export { HorizontalDumbbellChart } from './Components/Graphs/DumbbellChart/HorizontalDumbbellChart/SimpleDumbbellChart';
-export { VerticalDumbbellChart } from './Components/Graphs/DumbbellChart/VerticalDumbbellChart/SimpleDumbbellChart';
+export { DumbbellChart } from './Components/Graphs/DumbbellChart';
 // BeeSwarm chart
-export { HorizontalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/HorizontalBeeSwarmChart';
-export { VerticalBeeSwarmChart } from './Components/Graphs/BeeSwarmChart/VerticalBeeSwarmChart';
+export { BeeSwarmChart } from './Components/Graphs/BeeSwarmChart';
 // Line Charts
 export { DualAxisLineChart } from './Components/Graphs/LineCharts/DualAxisLineChart';
 export { LineChartWithConfidenceInterval } from './Components/Graphs/LineCharts/LineChartWithConfidenceInterval';
@@ -29,14 +25,14 @@ export { MultiLineChart } from './Components/Graphs/LineCharts/MultiLineChart';
 export { DifferenceLineChart } from './Components/Graphs/LineCharts/DifferenceLineChart';
 export { SparkLine } from './Components/Graphs/LineCharts/SparkLine';
 // Maps
-export { BiVariantMap } from './Components/Graphs/Maps/BiVariateMap/SimpleBiVariateMap';
-export { ChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/SimpleChoroplethMap';
-export { DotDensityMap } from './Components/Graphs/Maps/DotDensityMap/SimpleDotDensityMap';
-export { GeoHubMap } from './Components/Graphs/Maps/GeoHubMap';
-export { GeoHubCompareMaps } from './Components/Graphs/Maps/GeoHubCompareMaps';
-export { GeoHubMapWithLayerSelection } from './Components/Graphs/Maps/GeoHubMapWithLayerSelection';
+export { BiVariantMap } from './Components/Graphs/Maps/BiVariateMap/Simple';
+export { ChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/Simple';
+export { DotDensityMap } from './Components/Graphs/Maps/DotDensityMap/Simple';
+export { GeoHubMap } from './Components/Graphs/Maps/GeoHubMaps/SimpleMap';
+export { GeoHubCompareMaps } from './Components/Graphs/Maps/GeoHubMaps/CompareMaps';
+export { GeoHubMapWithLayerSelection } from './Components/Graphs/Maps/GeoHubMaps/MapWithLayerSelection';
 // Scatter Plot
-export { ScatterPlot } from './Components/Graphs/ScatterPlot/SimpleScatterPlot';
+export { ScatterPlot } from './Components/Graphs/ScatterPlot/Simple';
 // Slope Chart
 export { SlopeChart } from './Components/Graphs/SlopeChart';
 // Area Chart
@@ -54,12 +50,11 @@ export { HeatMap } from './Components/Graphs/HeatMap';
 export { DataTable } from './Components/Graphs/DataTable';
 export { DataCards } from './Components/Graphs/DataCards';
 // Strip chart
-export { HorizontalStripChart } from './Components/Graphs/StripChart/HorizontalStripChart';
-export { VerticalStripChart } from './Components/Graphs/StripChart/VerticalStripChart';
+export { StripChart } from './Components/Graphs/StripChart';
 // Pareto Chart
 export { ParetoChart } from './Components/Graphs/ParetoChart';
 // Butterfly Chart
-export { ButterflyChart } from './Components/Graphs/ButterflyChart/SimpleButterflyChart';
+export { ButterflyChart } from './Components/Graphs/ButterflyChart/Simple';
 // Histogram
 export { Histogram } from './Components/Graphs/Histogram';
 // Sankey Chart
@@ -74,25 +69,22 @@ export { MultiGraphDashboardFromConfig } from './Components/Dashboard/MultiGraph
 export { MultiGraphDashboardWideToLongFormatFromConfig } from './Components/Dashboard/MultiGraphDashboardWideToLongFormatFromConfig';
 export { SingleGraphDashboardFromConfig } from './Components/Dashboard/SingleGraphDashboardFromConfig';
 export { GriddedGraphsFromConfig } from './Components/Dashboard/GriddedGraphsFromConfig';
-// Animated Horizontal Bar Graphs
-export { AnimatedHorizontalBarChart } from './Components/Graphs/BarGraph/HorizontalBarGraph/AnimatedBarChart';
-export { AnimatedHorizontalStackedBarChart } from './Components/Graphs/BarGraph/HorizontalBarGraph/AnimatedStackedBarChart';
-export { AnimatedHorizontalGroupedBarGraph } from './Components/Graphs/BarGraph/HorizontalBarGraph/AnimatedGroupedBarGraph';
-// Animated Vertical Bar Graphs
-export { AnimatedVerticalBarChart } from './Components/Graphs/BarGraph/VerticalBarGraph/AnimatedBarChart';
-export { AnimatedVerticalStackedBarChart } from './Components/Graphs/BarGraph/VerticalBarGraph/AnimatedStackedBarChart';
-export { AnimatedVerticalGroupedBarGraph } from './Components/Graphs/BarGraph/VerticalBarGraph/AnimatedGroupedBarGraph';
+// Animated Bar Graphs
+export {
+  AnimatedBarGraph,
+  AnimatedGroupedBarGraph,
+  AnimatedStackedBarGraph,
+} from './Components/Graphs/BarGraph/Animated';
 // Animated Butterfly Chart
-export { AnimatedButterflyChart } from './Components/Graphs/ButterflyChart/AnimatedButterflyChart';
+export { AnimatedButterflyChart } from './Components/Graphs/ButterflyChart/Animated';
 // Animated Dumbbell chart
-export { AnimatedHorizontalDumbbellChart } from './Components/Graphs/DumbbellChart/HorizontalDumbbellChart/AnimatedDumbbellChart';
-export { AnimatedVerticalDumbbellChart } from './Components/Graphs/DumbbellChart/VerticalDumbbellChart/AnimatedDumbbellChart';
+export { AnimatedDumbbellChart } from './Components/Graphs/DumbbellChart/Animated';
 // Animated Maps
-export { AnimatedBiVariantMap } from './Components/Graphs/Maps/BiVariateMap/AnimatedBiVariateMap';
-export { AnimatedChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/AnimatedChoroplethMap';
-export { AnimatedDotDensityMap } from './Components/Graphs/Maps/DotDensityMap/AnimatedDotDensityMap';
+export { AnimatedBiVariantMap } from './Components/Graphs/Maps/BiVariateMap/Animated';
+export { AnimatedChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/Animated';
+export { AnimatedDotDensityMap } from './Components/Graphs/Maps/DotDensityMap/Animated';
 // Animated Scatter Plot
-export { AnimatedScatterPlot } from './Components/Graphs/ScatterPlot/AnimatedScatterPlot';
+export { AnimatedScatterPlot } from './Components/Graphs/ScatterPlot/Animated';
 
 /* ------- All Button ------- */
 // Utility Buttons

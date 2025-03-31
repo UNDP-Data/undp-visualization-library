@@ -7,7 +7,6 @@ import {
   Label,
 } from '@undp-data/undp-design-system-react';
 import {
-  BackgroundStyleDataType,
   DashboardColumnDataType,
   DashboardLayoutDataType,
   DataFilterDataType,
@@ -15,6 +14,7 @@ import {
   FilterSettingsDataType,
   FilterUiSettingsDataType,
   GraphType,
+  StyleObject,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -43,9 +43,10 @@ interface Props {
     value: string;
     label: string;
   }[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  styles?: StyleObject;
+  graphStyles?: StyleObject;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -55,8 +56,7 @@ const TotalWidth = (columns: DashboardColumnDataType[]) => {
 };
 
 const GraphWithAttachedFilter: GraphType[] = [
-  'horizontalBarChart',
-  'verticalBarChart',
+  'barChart',
   'choroplethMap',
   'biVariateChoroplethMap',
   'circlePacking',
@@ -75,9 +75,11 @@ export function MultiGraphDashboard(props: Props) {
     dataFilters,
     noOfFiltersPerRow = 4,
     filterPosition,
-    graphBackgroundStyle,
     graphBackgroundColor,
     uiMode = 'normal',
+    styles,
+    graphstyles,
+    classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -220,6 +222,14 @@ export function MultiGraphDashboard(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {dashboardLayout.title || dashboardLayout.description ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={dashboardLayout.title}
                 graphDescription={dashboardLayout.description}
                 isDashboard
@@ -371,12 +381,10 @@ export function MultiGraphDashboard(props: Props) {
                             resetSelectionOnDoubleClick: el.attachedFilter
                               ? false
                               : el.settings?.resetSelectionOnDoubleClick,
-                            backgroundStyle:
-                              el.settings?.backgroundStyle ||
-                              graphBackgroundStyle,
                             backgroundColor:
                               el.settings?.backgroundColor ||
                               graphBackgroundColor,
+                            styles: el.settings?.backgroundColor || graphStyles,
                             radius:
                               el.graphType === 'donutChart'
                                 ? undefined

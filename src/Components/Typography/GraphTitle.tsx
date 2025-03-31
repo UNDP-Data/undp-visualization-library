@@ -1,13 +1,16 @@
-import { H5, P } from '@undp-data/undp-design-system-react';
+import { cn, H5, P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
+import { CSSObject } from '../../Types';
 
 interface Props {
   text: string;
   isDashboard?: boolean;
+  style?: CSSObject;
+  className?: string;
 }
 
 export function GraphTitle(props: Props) {
-  const { text, isDashboard } = props;
+  const { text, isDashboard, style, className } = props;
   if (extractInnerString(text)) {
     return (
       <div
@@ -15,6 +18,7 @@ export function GraphTitle(props: Props) {
         dangerouslySetInnerHTML={{
           __html: extractInnerString(text) as string,
         }}
+        className={className}
       />
     );
   }
@@ -22,8 +26,12 @@ export function GraphTitle(props: Props) {
     return (
       <H5
         marginBottom='base'
-        className='font-bold pb-3 text-primary-black dark:text-primary-gray-100'
+        className={cn(
+          'font-bold pb-3 text-primary-black dark:text-primary-gray-100',
+          className,
+        )}
         aria-label='Dashboard title'
+        style={style}
       >
         {text}
       </H5>
@@ -31,8 +39,9 @@ export function GraphTitle(props: Props) {
   return (
     <P
       marginBottom='none'
-      className='text-primary-black dark:text-primary-gray-100'
+      className={cn('text-primary-black dark:text-primary-gray-100', className)}
       aria-label='Graph title'
+      style={style}
     >
       {text}
     </P>

@@ -7,8 +7,9 @@ import { UNDPColorModule } from '../../ColorPalette';
 import {
   UnitChartDataType,
   SourcesDataType,
-  BackgroundStyleDataType,
   Languages,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
@@ -38,7 +39,8 @@ interface Props {
   minHeight?: number;
   relativeHeight?: number;
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function UnitChart(props: Props) {
@@ -68,7 +70,8 @@ export function UnitChart(props: Props) {
     minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle = {},
+    styles,
+    classNames,
   } = props;
   const totalValue = sum(data.map(d => d.value));
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -106,7 +109,7 @@ export function UnitChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
@@ -130,6 +133,14 @@ export function UnitChart(props: Props) {
           <div className='flex flex-col gap-3 w-full grow'>
             {graphTitle || graphDescription || graphDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -261,6 +272,10 @@ export function UnitChart(props: Props) {
               </div>
               {sources || footNote ? (
                 <GraphFooter
+                  styles={{
+                    footnote: styles?.footnote,
+                    source: styles?.source,
+                  }}
                   sources={sources}
                   footNote={footNote}
                   width={width}

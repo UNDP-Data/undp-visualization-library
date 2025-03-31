@@ -4,11 +4,11 @@ import sortBy from 'lodash.sortby';
 import { P } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   DonutChartDataType,
   Languages,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -49,11 +49,11 @@ interface Props {
   minHeight?: number;
   relativeHeight?: number;
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
   legendMaxWidth?: string;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function DonutChart(props: Props) {
@@ -90,11 +90,11 @@ export function DonutChart(props: Props) {
     minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
     legendMaxWidth,
     detailsOnClick,
-    tooltipBackgroundStyle,
+    styles,
+    classNames,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -149,7 +149,7 @@ export function DonutChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
@@ -175,6 +175,14 @@ export function DonutChart(props: Props) {
           <div className='flex flex-col gap-2 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -304,7 +312,7 @@ export function DonutChart(props: Props) {
                           resetSelectionOnDoubleClick={
                             resetSelectionOnDoubleClick
                           }
-                          tooltipBackgroundStyle={tooltipBackgroundStyle}
+                          styles={styles}
                           detailsOnClick={detailsOnClick}
                         />
                       ) : null}
@@ -315,6 +323,11 @@ export function DonutChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

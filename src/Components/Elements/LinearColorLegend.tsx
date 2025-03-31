@@ -1,4 +1,4 @@
-import { P } from '@undp-data/undp-design-system-react';
+import { cn, P } from '@undp-data/undp-design-system-react';
 import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
 
 interface Props {
@@ -6,13 +6,14 @@ interface Props {
   colorDomain: number[];
   colorLegendTitle?: string;
   width?: number;
+  className?: string;
 }
 
 export function LinearColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, width } = props;
+  const { colorLegendTitle, colorDomain, colors, width, className } = props;
   return (
     <div
-      className='flex gap-0 flex-wrap justify-center leading-0'
+      className={cn('flex gap-0 flex-wrap justify-center leading-0', className)}
       style={{
         maxWidth: width ? `${width}px` : 'none',
       }}

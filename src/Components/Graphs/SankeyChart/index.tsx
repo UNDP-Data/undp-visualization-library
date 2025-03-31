@@ -5,12 +5,12 @@ import sum from 'lodash.sum';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
+  ClassNameObject,
   Languages,
   NodesLinkDataType,
   SankeyDataType,
   SourcesDataType,
+  StyleObject,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { UNDPColorModule } from '../../ColorPalette';
@@ -61,10 +61,10 @@ interface Props {
   targetTitle?: string;
   animateLinks?: boolean | number;
   sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
-  backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 export function SankeyChart(props: Props) {
   const {
@@ -111,10 +111,10 @@ export function SankeyChart(props: Props) {
     targetTitle,
     animateLinks,
     sortNodes = 'mostReadable',
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -225,7 +225,7 @@ export function SankeyChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -250,6 +250,14 @@ export function SankeyChart(props: Props) {
           <div className='flex flex-col gap-4 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -317,7 +325,8 @@ export function SankeyChart(props: Props) {
                       animateLinks={animateLinks}
                       sortNodes={sortNodes}
                       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                      tooltipBackgroundStyle={tooltipBackgroundStyle}
+                      styles={styles}
+                      classNames={classNames}
                       detailsOnClick={detailsOnClick}
                     />
                   ) : null}
@@ -326,6 +335,11 @@ export function SankeyChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

@@ -23,6 +23,7 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
+  StyleObject,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -63,6 +64,7 @@ interface Props {
   mode?: 'dark' | 'light';
   uiMode?: 'light' | 'normal';
   updateFilters?: (_d: string) => void;
+  styles?: StyleObject;
 }
 
 const addMinAndMax = (config: GraphConfigurationDataType[]) => {
@@ -108,6 +110,7 @@ export function SingleGraphDashboard(props: Props) {
     noOfFiltersPerRow = 4,
     updateFilters,
     uiMode = 'normal',
+    styles, classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -326,6 +329,10 @@ export function SingleGraphDashboard(props: Props) {
                 graphSettings?.graphDownload ||
                 graphSettings?.dataDownload ? (
                   <GraphHeader
+                    styles={{
+                      title: styles?.title,
+                      description: styles?.description,
+                    }}
                     graphTitle={graphSettings?.graphTitle}
                     graphDescription={graphSettings?.graphDescription}
                     width={graphSettings?.width}
@@ -731,6 +738,7 @@ export function SingleGraphDashboard(props: Props) {
                           dataDownload: false,
                           backgroundColor: undefined,
                           padding: '0',
+                          styles,
                           mode,
                         }
                       : ({
@@ -743,6 +751,7 @@ export function SingleGraphDashboard(props: Props) {
                           backgroundColor: undefined,
                           padding: '0',
                           mode,
+                          styles,
                         } as GraphSettingsDataType)
                   }
                 />

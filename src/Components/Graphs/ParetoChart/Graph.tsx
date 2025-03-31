@@ -1,15 +1,29 @@
 import { useState } from 'react';
-import { line, curveMonotoneX } from 'd3-shape';
+import {
+  line,
+  curveMonotoneX,
+  curveLinear,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+} from 'd3-shape';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
-import { Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, ParetoChartDataType } from '../../../Types';
+import { cn, Modal } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  ParetoChartDataType,
+  StyleObject,
+} from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
 import { string2HTML } from '../../../Utils/string2HTML';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { Axis } from '../../Elements/Axes/Axis';
+import { AxisTitle } from '../../Elements/Axes/AxisTitle';
+import { XAxesLabels } from '../../Elements/Axes/XAxesLabels';
 
 interface Props {
   data: ParetoChartDataType[];
@@ -30,13 +44,15 @@ interface Props {
   showLabels: boolean;
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
   noOfYTicks: number;
   lineSuffix: string;
   barSuffix: string;
   linePrefix: string;
   barPrefix: string;
+  curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -59,14 +75,26 @@ export function Graph(props: Props) {
     showLabels,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
     noOfYTicks,
     lineSuffix,
     barSuffix,
     linePrefix,
     barPrefix,
+    curveType,
+    styles,
+    classNames,
   } = props;
+  const curve =
+    curveType === 'linear'
+      ? curveLinear
+      : curveType === 'step'
+      ? curveStep
+      : curveType === 'stepAfter'
+      ? curveStepAfter
+      : curveType === 'stepBefore'
+      ? curveStepBefore
+      : curveMonotoneX;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
@@ -74,8 +102,8 @@ export function Graph(props: Props) {
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
-    right: rightMargin,
+    left: leftMargin + 50,
+    right: rightMargin + 65,
   };
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
@@ -124,7 +152,7 @@ export function Graph(props: Props) {
     .defined((d: any) => !checkIfNullOrUndefined(d.line))
     .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
     .y((d: any) => y2(d.line))
-    .curve(curveMonotoneX);
+    .curve(curve);
   const y1Ticks = y1.ticks(noOfYTicks);
   const y2Ticks = y2.ticks(noOfYTicks);
   return (
@@ -147,46 +175,49 @@ export function Graph(props: Props) {
                   style={{
                     stroke: barColor,
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
-                  x={-25}
+                  x={0 - 25}
                   y={y1(d)}
                   dy={3}
-                  className='text-xs'
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                   style={{
                     textAnchor: 'end',
                     fill: barColor,
+                    ...(styles?.yAxis?.labels || {}),
                   }}
                 >
                   {numberFormattingFunction(d, barPrefix, barSuffix)}
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              style={{
-                stroke: barColor,
-                strokeWidth: 1,
+              classNames={{
+                axis: classNames?.xAxis?.axis,
+              }}
+              styles={{
+                axis: { stroke: barColor, ...(styles?.xAxis?.axis || {}) },
               }}
             />
-            <text
-              transform={`translate(${20 - leftMargin}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              style={{
-                textAnchor: 'middle',
-                fill: barColor,
-              }}
-              className='text-xs'
-            >
-              {axisTitles[0].length > 100
-                ? `${axisTitles[0].substring(0, 100)}...`
-                : axisTitles[0]}
-            </text>
+            <AxisTitle
+              x={10 - margin.left}
+              y={graphHeight / 2}
+              style={{ fill: barColor, ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                axisTitles[0].length > 100
+                  ? `${axisTitles[0].substring(0, 100)}...`
+                  : axisTitles[0]
+              }
+              rotate90
+            />
           </g>
           <g>
             {y2Ticks.map((d, i) => (
@@ -199,57 +230,63 @@ export function Graph(props: Props) {
                   style={{
                     stroke: lineColor,
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
                   dy={3}
                   dx={-2}
-                  className='text-xs'
                   style={{
                     textAnchor: 'start',
                     fill: lineColor,
+                    ...(styles?.yAxis?.labels || {}),
                   }}
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                 >
                   {numberFormattingFunction(d, linePrefix, lineSuffix)}
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              style={{
-                stroke: lineColor,
-                strokeWidth: 1,
+              classNames={{
+                axis: classNames?.xAxis?.axis,
+              }}
+              styles={{
+                axis: { stroke: lineColor, ...(styles?.xAxis?.axis || {}) },
               }}
             />
-            <text
-              transform={`translate(${graphWidth + rightMargin - 15}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              style={{
-                textAnchor: 'middle',
-                fill: lineColor,
-              }}
-              className='text-xs'
-            >
-              {axisTitles[1].length > 100
-                ? `${axisTitles[1].substring(0, 100)}...`
-                : axisTitles[1]}
-            </text>
-          </g>
-          <g>
-            <line
-              y1={graphHeight}
-              y2={graphHeight}
-              x1={-15}
-              x2={graphWidth + 15}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
+            <AxisTitle
+              x={graphWidth + margin.right - 15}
+              y={graphHeight / 2}
+              style={{ fill: lineColor, ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                axisTitles[1].length > 100
+                  ? `${axisTitles[1].substring(0, 100)}...`
+                  : axisTitles[1]
+              }
+              rotate90
             />
           </g>
+          <Axis
+            y1={sameAxes ? y1(0) : graphHeight}
+            y2={sameAxes ? y1(0) : graphHeight}
+            x1={-15}
+            x2={graphWidth + 15}
+            classNames={{
+              axis: classNames?.xAxis?.axis,
+            }}
+            styles={{
+              axis: styles?.xAxis?.axis,
+            }}
+          />
           {dataWithId.map((d, i) => {
             return (
               <g
@@ -294,27 +331,28 @@ export function Graph(props: Props) {
               >
                 <rect
                   x={x(`${i}`)}
-                  y={d.bar ? y1(d.bar) : 0}
+                  y={d.bar ? (d.bar > 0 ? y1(d.bar) : y1(0)) : 0}
                   width={x.bandwidth()}
                   style={{
                     fill: barColor,
                   }}
-                  height={d.bar ? Math.abs(y1(d.bar) - graphHeight) : 0}
+                  height={d.bar ? Math.abs(y1(d.bar) - y1(0)) : 0}
                 />
                 {showLabels ? (
-                  <text
-                    x={(x(`${i}`) as number) + x.bandwidth() / 2}
-                    y={y1(0)}
-                    style={{
-                      textAnchor: 'middle',
-                    }}
-                    dy='15px'
-                    className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                  >
-                    {`${d.label}`.length < truncateBy
-                      ? `${d.label}`
-                      : `${`${d.label}`.substring(0, truncateBy)}...`}
-                  </text>
+                  <XAxesLabels
+                    value={
+                      `${d.label}`.length < truncateBy
+                        ? `${d.label}`
+                        : `${`${d.label}`.substring(0, truncateBy)}...`
+                    }
+                    y={graphHeight + 5}
+                    x={x(`${d.id}`) as number}
+                    width={x.bandwidth()}
+                    height={margin.bottom}
+                    style={styles?.xAxis?.labels}
+                    className={classNames?.xAxis?.labels}
+                    alignment='top'
+                  />
                 ) : null}
               </g>
             );
@@ -393,7 +431,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

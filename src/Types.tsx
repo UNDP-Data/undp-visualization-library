@@ -16,12 +16,9 @@ export type Languages =
   | 'custom';
 
 export type GraphTypeForGriddedGraph =
-  | 'horizontalBarChart'
-  | 'horizontalStackedBarChart'
-  | 'horizontalGroupedBarChart'
-  | 'verticalBarChart'
-  | 'verticalStackedBarChart'
-  | 'verticalGroupedBarChart'
+  | 'barChart'
+  | 'stackedBarChart'
+  | 'groupedBarChart'
   | 'lineChart'
   | 'dualAxisLineChart'
   | 'multiLineChart'
@@ -33,15 +30,12 @@ export type GraphTypeForGriddedGraph =
   | 'donutChart'
   | 'slopeChart'
   | 'scatterPlot'
-  | 'horizontalDumbbellChart'
-  | 'verticalDumbbellChart'
+  | 'dumbbellChart'
   | 'treeMap'
   | 'circlePacking'
   | 'heatMap'
-  | 'horizontalStripChart'
-  | 'verticalStripChart'
-  | 'horizontalBeeSwarmChart'
-  | 'verticalBeeSwarmChart'
+  | 'stripChart'
+  | 'beeSwarmChart'
   | 'butterflyChart'
   | 'histogram'
   | 'sparkLine'
@@ -50,17 +44,13 @@ export type GraphTypeForGriddedGraph =
   | 'statCard'
   | 'unitChart'
   | 'animatedScatterPlot'
-  | 'animatedHorizontalBarChart'
-  | 'animatedHorizontalStackedBarChart'
-  | 'animatedHorizontalGroupedBarChart'
-  | 'animatedVerticalBarChart'
-  | 'animatedVerticalStackedBarChart'
-  | 'animatedVerticalGroupedBarChart'
+  | 'animatedBarChart'
+  | 'animatedStackedBarChart'
+  | 'animatedGroupedBarChart'
   | 'animatedChoroplethMap'
   | 'animatedBiVariateChoroplethMap'
   | 'animatedDotDensityMap'
-  | 'animatedHorizontalDumbbellChart'
-  | 'animatedVerticalDumbbellChart'
+  | 'animatedDumbbellChart'
   | 'animatedButterflyChart'
   | 'sankeyChart'
   | 'lineChartWithConfidenceInterval'
@@ -110,6 +100,50 @@ export interface ButterflyChartDataType {
 
 export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
   date: string | number;
+}
+
+export interface AxesStyleObject {
+  gridLines?: CSSObject;
+  labels?: CSSObject;
+  title?: CSSObject;
+  axis?: CSSObject;
+}
+
+export interface StyleObject {
+  title?: CSSObject;
+  footnote?: CSSObject;
+  source?: CSSObject;
+  description?: CSSObject;
+  graphBackground?: CSSObject;
+  tooltip?: CSSObject;
+  xAxis?: AxesStyleObject;
+  yAxis?: AxesStyleObject;
+  graphObjectValues?: CSSObject;
+  dataConnectors?: CSSObject;
+  mouseOverLine?: CSSObject;
+  regLine?: CSSObject;
+}
+
+export interface AxesClassNameObject {
+  gridLines?: string;
+  labels?: string;
+  title?: string;
+  axis?: string;
+}
+export interface ClassNameObject {
+  title?: string;
+  footnote?: string;
+  source?: string;
+  description?: string;
+  tooltip?: string;
+  xAxis?: AxesClassNameObject;
+  yAxis?: AxesClassNameObject;
+  legend?: string;
+  graph?: string;
+  graphObjectValues?: string;
+  dataConnectors?: string;
+  mouseOverLine?: string;
+  regLine?: string;
 }
 
 export interface BarGraphDataType {
@@ -347,6 +381,14 @@ export interface ReferenceDataType {
   value: number | null;
   text: string;
   color?: string;
+  styles?: {
+    line?: CSSObject;
+    text?: CSSObject;
+  };
+  classNames?: {
+    line?: string;
+    text?: string;
+  };
 }
 
 export interface GraphConfigurationDataType {
@@ -435,8 +477,7 @@ export type DashboardLayoutDataType = {
 export type DashboardFromWideToLongFormatColumnDataType = {
   graphType:
     | 'donutChart'
-    | 'verticalBarChart'
-    | 'horizontalBarChart'
+    | 'barChart'
     | 'unitChart'
     | 'treeMap'
     | 'circlePacking';
@@ -551,6 +592,14 @@ export interface AnnotationSettingsDataType {
   fontWeight?: 'regular' | 'bold' | 'medium';
   showConnector?: boolean | number;
   connectorRadius?: number;
+  classNames?: {
+    connector?: string;
+    text?: string;
+  };
+  styles?: {
+    connector?: CSSObject;
+    text?: CSSObject;
+  };
 }
 
 export interface CustomHighlightAreaSettingsDataType {
@@ -568,6 +617,7 @@ export interface BackgroundStyleDataType {
 
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
+  orientation?: 'horizontal' | 'vertical';
   graphTitle?: string;
   labelOrder?: string[];
   graphDescription?: string;
@@ -754,12 +804,10 @@ export interface GraphSettingsDataType {
   headingFontSize?: string;
   centerAlign?: boolean;
   verticalAlign?: 'center' | 'top' | 'bottom';
-  backgroundStyle?: BackgroundStyleDataType;
   cardBackgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
   intervalAreaOpacity?: number;
   detailsOnClick?: string;
-  tooltipBackgroundStyle?: CSSObject;
   valueColor?: string;
   labelColor?: string;
   noOfYTicks?: number;
@@ -781,4 +829,7 @@ export interface GraphSettingsDataType {
   linePrefixes?: [string, string];
   allowDataDownloadOnDetail?: string | boolean;
   noOfItemsInAPage?: number;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }

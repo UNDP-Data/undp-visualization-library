@@ -23,6 +23,8 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
+  StyleObject,
+  ClassNameObject,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -73,6 +75,8 @@ interface Props {
     value: string;
     label: string;
   }[];
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function GriddedGraphs(props: Props) {
@@ -96,6 +100,8 @@ export function GriddedGraphs(props: Props) {
     mode = 'light',
     readableHeader,
     noOfFiltersPerRow = 4,
+    styles,
+    classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -269,6 +275,14 @@ export function GriddedGraphs(props: Props) {
             graphSettings?.graphDownload ||
             graphSettings?.dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphSettings?.graphTitle}
                 graphDescription={graphSettings?.graphDescription}
                 width={graphSettings?.width}
@@ -735,6 +749,7 @@ export function GriddedGraphs(props: Props) {
                             graphSettings?.showColorScale === false
                               ? false
                               : showCommonColorScale === false,
+                          styles,
                         }}
                         readableHeader={readableHeader || []}
                       />
@@ -749,6 +764,11 @@ export function GriddedGraphs(props: Props) {
             )}
             {graphSettings?.source || graphSettings?.footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={graphSettings?.sources}
                 footNote={graphSettings?.footNote}
                 width={graphSettings?.width}

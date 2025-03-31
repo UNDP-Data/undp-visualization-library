@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   CustomHighlightAreaSettingsDataType,
   Languages,
   MultiLineChartDataType,
   ReferenceDataType,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -60,12 +60,13 @@ interface Props {
   customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks?: number;
   minDate?: string | number;
   maxDate?: string | number;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function MultiLineChart(props: Props) {
@@ -86,7 +87,7 @@ export function MultiLineChart(props: Props) {
     padding,
     showValues = false,
     backgroundColor = false,
-    leftMargin = 70,
+    leftMargin = 30,
     rightMargin = 50,
     topMargin = 20,
     bottomMargin = 25,
@@ -113,12 +114,13 @@ export function MultiLineChart(props: Props) {
     customHighlightAreaSettings = [],
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
     minDate,
     maxDate,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -155,7 +157,7 @@ export function MultiLineChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -180,6 +182,14 @@ export function MultiLineChart(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -260,11 +270,13 @@ export function MultiLineChart(props: Props) {
                         customHighlightAreaSettings={
                           customHighlightAreaSettings
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         yAxisTitle={yAxisTitle}
                         noOfYTicks={noOfYTicks}
                         minDate={minDate}
                         maxDate={maxDate}
+                        curveType={curveType}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -273,6 +285,11 @@ export function MultiLineChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

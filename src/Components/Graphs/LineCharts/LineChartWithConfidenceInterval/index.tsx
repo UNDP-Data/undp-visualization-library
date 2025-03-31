@@ -5,13 +5,13 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import {
   AnnotationSettingsDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   CustomHighlightAreaSettingsDataType,
   Languages,
   LineChartWithConfidenceIntervalDataType,
   ReferenceDataType,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { ColorLegend } from '../../../Elements/ColorLegend';
@@ -64,8 +64,6 @@ interface Props {
   intervalAreaColor?: string;
   intervalAreaOpacity?: number;
   lineColor?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks?: number;
   minDate?: string | number;
@@ -73,6 +71,9 @@ interface Props {
   colorLegendTitle?: string;
   colorLegendColors?: string[];
   colorLegendDomains?: string[];
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function LineChartWithConfidenceInterval(props: Props) {
@@ -92,7 +93,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     backgroundColor = false,
     padding,
     lineColor,
-    leftMargin = 70,
+    leftMargin = 30,
     rightMargin = 30,
     topMargin = 20,
     bottomMargin = 25,
@@ -126,8 +127,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
     customHighlightAreaSettings = [],
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
     minDate,
@@ -135,6 +134,9 @@ export function LineChartWithConfidenceInterval(props: Props) {
     colorLegendTitle,
     colorLegendColors,
     colorLegendDomains,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -171,7 +173,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -196,6 +198,14 @@ export function LineChartWithConfidenceInterval(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -281,11 +291,13 @@ export function LineChartWithConfidenceInterval(props: Props) {
                         intervalLineColors={intervalLineColors}
                         intervalAreaColor={intervalAreaColor}
                         intervalAreaOpacity={intervalAreaOpacity}
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         yAxisTitle={yAxisTitle}
                         noOfYTicks={noOfYTicks}
                         minDate={minDate}
                         maxDate={maxDate}
+                        curveType={curveType}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -294,6 +306,11 @@ export function LineChartWithConfidenceInterval(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

@@ -3,12 +3,18 @@ import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
-import { Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, SlopeChartDataType } from '../../../Types';
+import { cn, Modal } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  SlopeChartDataType,
+  StyleObject,
+} from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '../../ColorPalette';
 import { string2HTML } from '../../../Utils/string2HTML';
+import { Axis } from '../../Elements/Axes/Axis';
+import { AxisTitle } from '../../Elements/Axes/AxisTitle';
 
 interface Props {
   data: SlopeChartDataType[];
@@ -31,8 +37,9 @@ interface Props {
   minValue?: number;
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -57,8 +64,9 @@ export function Graph(props: Props) {
     maxValue,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -106,44 +114,52 @@ export function Graph(props: Props) {
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
-              x1={radius + 5}
-              x2={radius + 5}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
-            />
-            <text
-              x={radius + 5}
-              y={graphHeight}
-              style={{
-                textAnchor: 'middle',
+              x1={radius}
+              x2={radius}
+              classNames={{
+                axis: cn(
+                  'stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550',
+                  classNames?.yAxis?.axis,
+                ),
               }}
-              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-              dy={15}
-            >
-              {axisTitle[0]}
-            </text>
+            />
+            <AxisTitle
+              x={radius}
+              y={graphHeight + 15}
+              style={styles?.yAxis?.title}
+              className={cn(
+                'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
+                classNames?.yAxis?.title,
+              )}
+              text={axisTitle[0]}
+            />
           </g>
           <g>
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
-              x1={graphWidth - (radius + 5)}
-              x2={graphWidth - (radius + 5)}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
-            />
-            <text
-              x={graphWidth - (radius + 5)}
-              y={graphHeight}
-              style={{
-                textAnchor: 'middle',
+              x1={graphWidth - radius}
+              x2={graphWidth - radius}
+              classNames={{
+                axis: cn(
+                  'stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550',
+                  classNames?.yAxis?.axis,
+                ),
               }}
-              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-              dy={15}
-            >
-              {axisTitle[1]}
-            </text>
+            />
+            <AxisTitle
+              x={graphWidth - radius}
+              y={graphHeight + 15}
+              style={styles?.yAxis?.title}
+              className={cn(
+                'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
+                classNames?.yAxis?.title,
+              )}
+              text={axisTitle[1]}
+            />
           </g>
           {data.map((d, i) => {
             return (
@@ -204,7 +220,7 @@ export function Graph(props: Props) {
                 }}
               >
                 <circle
-                  cx={radius + 5}
+                  cx={radius}
                   cy={y(d.y1)}
                   r={radius}
                   style={{
@@ -233,8 +249,9 @@ export function Graph(props: Props) {
                           ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
+                      ...(styles?.yAxis?.labels || {}),
                     }}
-                    className='text-[10px]'
+                    className={cn('text-[10px]', classNames?.yAxis?.labels)}
                     y={y(d.y1)}
                     x={5}
                     dy={4}
@@ -253,8 +270,9 @@ export function Graph(props: Props) {
                             ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
+                        ...(styles?.yAxis?.labels || {}),
                       }}
-                      className='text-[10px]'
+                      className={cn('text-[10px]', classNames?.yAxis?.labels)}
                       y={y(d.y1)}
                       x={5}
                       dy={4}
@@ -265,7 +283,7 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <circle
-                  cx={graphWidth - (radius + 5)}
+                  cx={graphWidth - radius}
                   cy={y(d.y2)}
                   r={radius}
                   style={{
@@ -294,8 +312,9 @@ export function Graph(props: Props) {
                           ? UNDPColorModule.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
+                      ...(styles?.yAxis?.labels || {}),
                     }}
-                    className='text-[10px]'
+                    className={cn('text-[10px]', classNames?.yAxis?.labels)}
                     y={y(d.y2)}
                     x={graphWidth - 5}
                     dy={4}
@@ -314,8 +333,9 @@ export function Graph(props: Props) {
                             ? UNDPColorModule.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
+                        ...(styles?.yAxis?.labels || {}),
                       }}
-                      className='text-[10px]'
+                      className={cn('text-[10px]', classNames?.yAxis?.labels)}
                       y={y(d.y2)}
                       x={graphWidth - 5}
                       dy={4}
@@ -326,10 +346,11 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <line
-                  x1={radius + 5}
-                  x2={graphWidth - (radius + 5)}
+                  x1={radius}
+                  x2={graphWidth - radius}
                   y1={y(d.y1)}
                   y2={y(d.y2)}
+                  className={classNames?.dataConnectors}
                   style={{
                     fill: 'none',
                     stroke:
@@ -339,6 +360,7 @@ export function Graph(props: Props) {
                         ? UNDPColorModule.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
+                    ...styles?.dataConnectors,
                   }}
                 />
               </g>
@@ -352,7 +374,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

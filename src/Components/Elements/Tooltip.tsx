@@ -1,4 +1,5 @@
 /* eslint-disable react/no-danger */
+import { cn } from '@undp-data/undp-design-system-react';
 import { CSSObject } from '../../Types';
 import { string2HTML } from '../../Utils/string2HTML';
 
@@ -8,6 +9,7 @@ interface Props {
   yPos: number;
   data: any;
   backgroundStyle?: CSSObject;
+  className?: string;
 }
 
 export function Tooltip(props: Props) {
@@ -18,15 +20,19 @@ export function Tooltip(props: Props) {
     data,
     backgroundStyle = {
       maxWidth: '24rem',
+      wordWrap: 'break-word',
     },
+    className,
   } = props;
   const htmlString = string2HTML(body, data);
   return (
     <div
-      className='block p-2 fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark:border-primary-gray-500'
+      className={cn(
+        'block p-2 fixed z-[1000] bg-primary-gray-200 dark:bg-primary-gray-600 border border-primary-gray-300 dark:border-primary-gray-500',
+        className,
+      )}
       style={{
         ...backgroundStyle,
-        wordWrap: 'break-word',
         top: `${yPos < window.innerHeight / 2 ? yPos - 10 : yPos + 10}px`,
         left: `${xPos > window.innerWidth / 2 ? xPos - 10 : xPos + 10}px`,
         transform: `translate(${

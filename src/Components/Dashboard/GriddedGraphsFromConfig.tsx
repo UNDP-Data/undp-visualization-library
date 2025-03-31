@@ -9,6 +9,7 @@ import {
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
   GraphType,
+  StyleObject,
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { GriddedGraphs } from './GriddedGraphs';
@@ -43,6 +44,7 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
+  styles?: StyleObject; classNames?:  ClassNameObject;
 }
 
 interface Props {
@@ -105,6 +107,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
+      styles={configSettings.styles}
     />
   );
 }

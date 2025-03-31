@@ -9,59 +9,53 @@ import {
   validateDataSchema,
   validateSettingsSchema,
 } from '../../Utils/validateSchema';
-import { AnimatedHorizontalBarChart } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedBarChart';
-import { AnimatedHorizontalGroupedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedGroupedBarGraph';
-import { AnimatedHorizontalStackedBarChart } from '../Graphs/BarGraph/HorizontalBarGraph/AnimatedStackedBarChart';
-import { HorizontalGroupedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/GroupedBarGraph';
-import { HorizontalBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/SimpleBarGraph';
-import { HorizontalStackedBarGraph } from '../Graphs/BarGraph/HorizontalBarGraph/StackedBarGraph';
-import { AnimatedVerticalBarChart } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedBarChart';
-import { AnimatedVerticalGroupedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedGroupedBarGraph';
-import { AnimatedVerticalStackedBarChart } from '../Graphs/BarGraph/VerticalBarGraph/AnimatedStackedBarChart';
-import { VerticalGroupedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/GroupedBarGraph';
-import { VerticalBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/SimpleBarGraph';
-import { VerticalStackedBarGraph } from '../Graphs/BarGraph/VerticalBarGraph/StackedBarGraph';
-import { HorizontalBeeSwarmChart } from '../Graphs/BeeSwarmChart/HorizontalBeeSwarmChart';
-import { VerticalBeeSwarmChart } from '../Graphs/BeeSwarmChart/VerticalBeeSwarmChart';
-import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/AnimatedButterflyChart';
-import { ButterflyChart } from '../Graphs/ButterflyChart/SimpleButterflyChart';
+import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/Animated';
+import { ButterflyChart } from '../Graphs/ButterflyChart/Simple';
 import { CirclePackingGraph } from '../Graphs/CirclePackingGraph';
 import { DataTable } from '../Graphs/DataTable';
 import { DonutChart } from '../Graphs/DonutChart';
-import { AnimatedHorizontalDumbbellChart } from '../Graphs/DumbbellChart/HorizontalDumbbellChart/AnimatedDumbbellChart';
-import { HorizontalDumbbellChart } from '../Graphs/DumbbellChart/HorizontalDumbbellChart/SimpleDumbbellChart';
-import { AnimatedVerticalDumbbellChart } from '../Graphs/DumbbellChart/VerticalDumbbellChart/AnimatedDumbbellChart';
-import { VerticalDumbbellChart } from '../Graphs/DumbbellChart/VerticalDumbbellChart/SimpleDumbbellChart';
 import { HeatMap } from '../Graphs/HeatMap';
 import { Histogram } from '../Graphs/Histogram';
 import { DualAxisLineChart } from '../Graphs/LineCharts/DualAxisLineChart';
 import { SimpleLineChart } from '../Graphs/LineCharts/LineChart';
 import { MultiLineChart } from '../Graphs/LineCharts/MultiLineChart';
 import { SparkLine } from '../Graphs/LineCharts/SparkLine';
-import { AnimatedBiVariantMap } from '../Graphs/Maps/BiVariateMap/AnimatedBiVariateMap';
-import { BiVariantMap } from '../Graphs/Maps/BiVariateMap/SimpleBiVariateMap';
-import { AnimatedChoroplethMap } from '../Graphs/Maps/ChoroplethMap/AnimatedChoroplethMap';
-import { ChoroplethMap } from '../Graphs/Maps/ChoroplethMap/SimpleChoroplethMap';
-import { AnimatedDotDensityMap } from '../Graphs/Maps/DotDensityMap/AnimatedDotDensityMap';
-import { DotDensityMap } from '../Graphs/Maps/DotDensityMap/SimpleDotDensityMap';
-import { GeoHubCompareMaps } from '../Graphs/Maps/GeoHubCompareMaps';
-import { GeoHubMap } from '../Graphs/Maps/GeoHubMap';
+import { AnimatedBiVariantMap } from '../Graphs/Maps/BiVariateMap/Animated';
+import { BiVariantMap } from '../Graphs/Maps/BiVariateMap/Simple';
+import { AnimatedChoroplethMap } from '../Graphs/Maps/ChoroplethMap/Animated';
+import { ChoroplethMap } from '../Graphs/Maps/ChoroplethMap/Simple';
+import { AnimatedDotDensityMap } from '../Graphs/Maps/DotDensityMap/Animated';
+import { DotDensityMap } from '../Graphs/Maps/DotDensityMap/Simple';
+import { GeoHubCompareMaps } from '../Graphs/Maps/GeoHubMaps/CompareMaps';
+import { GeoHubMap } from '../Graphs/Maps/GeoHubMaps/SimpleMap';
 import { ParetoChart } from '../Graphs/ParetoChart';
-import { AnimatedScatterPlot } from '../Graphs/ScatterPlot/AnimatedScatterPlot';
-import { ScatterPlot } from '../Graphs/ScatterPlot/SimpleScatterPlot';
+import { AnimatedScatterPlot } from '../Graphs/ScatterPlot/Animated';
+import { ScatterPlot } from '../Graphs/ScatterPlot/Simple';
 import { SlopeChart } from '../Graphs/SlopeChart';
 import { AreaChart } from '../Graphs/StackedAreaChart';
 import { StatCardFromData } from '../Graphs/StatCard/StatCardFromData';
-import { HorizontalStripChart } from '../Graphs/StripChart/HorizontalStripChart';
-import { VerticalStripChart } from '../Graphs/StripChart/VerticalStripChart';
 import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
 import { getValues } from '../../Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
-import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMapWithLayerSelection';
+import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMaps/MapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
 import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
 import { DataCards } from '../Graphs/DataCards';
+import {
+  SimpleBarGraph,
+  GroupedBarGraph,
+  StackedBarGraph,
+} from '../Graphs/BarGraph';
+import { DumbbellChart } from '../Graphs/DumbbellChart';
+import { AnimatedDumbbellChart } from '../Graphs/DumbbellChart/Animated';
+import {
+  AnimatedBarGraph,
+  AnimatedGroupedBarGraph,
+  AnimatedStackedBarGraph,
+} from '../Graphs/BarGraph/Animated';
+import { StripChart } from '../Graphs/StripChart';
+import { BeeSwarmChart } from '../Graphs/BeeSwarmChart';
 
 interface Props {
   graph: GraphType;
@@ -114,12 +108,9 @@ function GraphEl(props: Props) {
       </div>
     );
   const graphComponents: Record<GraphType, React.ElementType | null> = {
-    horizontalBarChart: HorizontalBarGraph,
-    horizontalGroupedBarChart: HorizontalGroupedBarGraph,
-    horizontalStackedBarChart: HorizontalStackedBarGraph,
-    verticalBarChart: VerticalBarGraph,
-    verticalGroupedBarChart: VerticalGroupedBarGraph,
-    verticalStackedBarChart: VerticalStackedBarGraph,
+    barChart: SimpleBarGraph,
+    groupedBarChart: GroupedBarGraph,
+    stackedBarChart: StackedBarGraph,
     lineChart: SimpleLineChart,
     dualAxisLineChart: DualAxisLineChart,
     multiLineChart: MultiLineChart,
@@ -130,15 +121,12 @@ function GraphEl(props: Props) {
     donutChart: DonutChart,
     slopeChart: SlopeChart,
     scatterPlot: ScatterPlot,
-    horizontalDumbbellChart: HorizontalDumbbellChart,
-    verticalDumbbellChart: VerticalDumbbellChart,
+    dumbbellChart: DumbbellChart,
     treeMap: TreeMapGraph,
     circlePacking: CirclePackingGraph,
     heatMap: HeatMap,
-    horizontalStripChart: HorizontalStripChart,
-    verticalStripChart: VerticalStripChart,
-    horizontalBeeSwarmChart: HorizontalBeeSwarmChart,
-    verticalBeeSwarmChart: VerticalBeeSwarmChart,
+    stripChart: StripChart,
+    beeSwarmChart: BeeSwarmChart,
     butterflyChart: ButterflyChart,
     histogram: Histogram,
     sparkLine: SparkLine,
@@ -149,17 +137,13 @@ function GraphEl(props: Props) {
     geoHubMap: GeoHubMap,
     unitChart: UnitChart,
     animatedScatterPlot: AnimatedScatterPlot,
-    animatedHorizontalBarChart: AnimatedHorizontalBarChart,
-    animatedHorizontalStackedBarChart: AnimatedHorizontalStackedBarChart,
-    animatedHorizontalGroupedBarChart: AnimatedHorizontalGroupedBarGraph,
-    animatedVerticalBarChart: AnimatedVerticalBarChart,
-    animatedVerticalStackedBarChart: AnimatedVerticalStackedBarChart,
-    animatedVerticalGroupedBarChart: AnimatedVerticalGroupedBarGraph,
+    animatedBarChart: AnimatedBarGraph,
+    animatedStackedBarChart: AnimatedStackedBarGraph,
+    animatedGroupedBarChart: AnimatedGroupedBarGraph,
     animatedChoroplethMap: AnimatedChoroplethMap,
     animatedBiVariateChoroplethMap: AnimatedBiVariantMap,
     animatedDotDensityMap: AnimatedDotDensityMap,
-    animatedHorizontalDumbbellChart: AnimatedHorizontalDumbbellChart,
-    animatedVerticalDumbbellChart: AnimatedVerticalDumbbellChart,
+    animatedDumbbellChart: AnimatedDumbbellChart,
     animatedButterflyChart: AnimatedButterflyChart,
     differenceLineChart: DifferenceLineChart,
     geoHubMapWithLayerSelection: GeoHubMapWithLayerSelection,
@@ -169,10 +153,10 @@ function GraphEl(props: Props) {
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
-      case 'horizontalBarChart':
+      case 'barChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle,
+          orientation: settings?.orientation,
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -223,21 +207,20 @@ function GraphEl(props: Props) {
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.label);
-            }
+            updateFilters?.(el.label);
           },
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'horizontalGroupedBarChart':
+      case 'groupedBarChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
+          orientation: settings?.orientation,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -282,16 +265,17 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'horizontalStackedBarChart':
+      case 'stackedBarChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -337,189 +321,17 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'verticalBarChart':
+      case 'animatedBarChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showValues: settings?.showValues,
-          showTicks: settings?.showTicks,
-          labelOrder: settings?.labelOrder,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain: settings?.colorDomain,
-          colorLegendTitle:
-            Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
-              ? settings?.colorLegendTitle
-              : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          showLabels: settings?.showLabels,
-          showColorScale: settings?.showColorScale,
-          maxValue: settings?.maxValue,
-          minValue: settings?.minValue,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          highlightedDataPoints: settings?.highlightedDataPoints,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          sortData: settings?.sortData,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          showNAColor: settings?.showNAColor,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          maxNumberOfBars: settings?.maxNumberOfBars,
-          ariaLabel: settings?.ariaLabel,
-          onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.label);
-            }
-          },
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'verticalGroupedBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          labelOrder: settings?.labelOrder,
-          showTicks: settings?.showTicks,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          showValues: settings?.showValues,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          topMargin: settings?.topMargin,
-          showLabels: settings?.showLabels,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          maxValue: settings?.maxValue,
-          minValue: settings?.minValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          maxBarThickness: settings?.maxBarThickness,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'verticalStackedBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showTicks: settings?.showTicks,
-          labelOrder: settings?.labelOrder,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          showValues: settings?.showValues,
-          showLabels: settings?.showLabels,
-          relativeHeight: settings?.relativeHeight,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          maxValue: settings?.maxValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          maxNumberOfBars: settings?.maxNumberOfBars,
-          sortParameter: settings?.sortParameter,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'animatedHorizontalBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -572,16 +384,17 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'animatedHorizontalGroupedBarChart':
+      case 'animatedGroupedBarChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -627,16 +440,17 @@ function GraphEl(props: Props) {
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'animatedHorizontalStackedBarChart':
+      case 'animatedStackedBarChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -683,188 +497,16 @@ function GraphEl(props: Props) {
           sortParameter: settings?.sortParameter,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
-        };
-      case 'animatedVerticalBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showValues: settings?.showValues,
-          showTicks: settings?.showTicks,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain: settings?.colorDomain,
-          colorLegendTitle:
-            Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
-              ? settings?.colorLegendTitle
-              : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          showLabels: settings?.showLabels,
-          showColorScale: settings?.showColorScale,
-          maxValue: settings?.maxValue,
-          minValue: settings?.minValue,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          highlightedDataPoints: settings?.highlightedDataPoints,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          sortData: settings?.sortData,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          showNAColor: settings?.showNAColor,
-          autoPlay: settings?.autoPlay,
-          autoSort: settings?.autoSort,
-          showOnlyActiveDate: settings?.showOnlyActiveDate,
-          dateFormat: settings?.dateFormat,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'animatedVerticalGroupedBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showTicks: settings?.showTicks,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          showValues: settings?.showValues,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          topMargin: settings?.topMargin,
-          showLabels: settings?.showLabels,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          maxValue: settings?.maxValue,
-          minValue: settings?.minValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          autoPlay: settings?.autoPlay,
-          showOnlyActiveDate: settings?.showOnlyActiveDate,
-          dateFormat: settings?.dateFormat,
-          maxBarThickness: settings?.maxBarThickness,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'animatedVerticalStackedBarChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showTicks: settings?.showTicks,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          showValues: settings?.showValues,
-          showLabels: settings?.showLabels,
-          relativeHeight: settings?.relativeHeight,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          maxValue: settings?.maxValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          autoPlay: settings?.autoPlay,
-          showOnlyActiveDate: settings?.showOnlyActiveDate,
-          dateFormat: settings?.dateFormat,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          sortParameter: settings?.sortParameter,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'lineChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
+          curveType: settings?.curveType,
           data: graphData,
           graphID: settings?.graphID,
           color: settings?.color as string | undefined,
@@ -905,17 +547,18 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           yAxisTitle: settings?.yAxisTitle,
           noOfYTicks: settings?.noOfYTicks,
           minDate: settings?.minDate,
           maxDate: settings?.maxDate,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'lineChartWithConfidenceInterval':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           graphID: settings?.graphID,
           lineColor: settings?.lineColor,
           graphTitle: settings?.graphTitle,
@@ -961,7 +604,6 @@ function GraphEl(props: Props) {
           intervalLineColors: settings?.intervalLineColors,
           intervalAreaColor: settings?.intervalAreaColor,
           intervalAreaOpacity: settings?.intervalAreaOpacity,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           yAxisTitle: settings?.yAxisTitle,
           noOfYTicks: settings?.noOfYTicks,
           minDate: settings?.minDate,
@@ -969,12 +611,14 @@ function GraphEl(props: Props) {
           colorLegendTitle: settings?.colorLegendTitle,
           colorLegendColors: settings?.colorLegendColors,
           colorLegendDomains: settings?.colorLegendDomains,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'dualAxisLineChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           lineTitles: settings?.lineTitles || [
@@ -1014,18 +658,19 @@ function GraphEl(props: Props) {
           showDots: settings?.showDots,
           colorLegendTitle: settings?.colorLegendTitle,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           noOfYTicks: settings?.noOfYTicks,
           minDate: settings?.minDate,
           maxDate: settings?.maxDate,
           lineSuffixes: settings?.lineSuffixes,
           linePrefixes: settings?.linePrefixes,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'multiLineChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1074,17 +719,18 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           yAxisTitle: settings?.yAxisTitle,
           noOfYTicks: settings?.noOfYTicks,
           minDate: settings?.minDate,
           maxDate: settings?.maxDate,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'differenceLineChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           lineColors: settings?.colors as [string, string] | undefined,
           diffAreaColors: settings?.diffAreaColors,
           graphTitle: settings?.graphTitle,
@@ -1130,17 +776,18 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           yAxisTitle: settings?.yAxisTitle,
           noOfYTicks: settings?.noOfYTicks,
           minDate: settings?.minDate,
           maxDate: settings?.maxDate,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'stackedAreaChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1182,17 +829,17 @@ function GraphEl(props: Props) {
           customHighlightAreaSettings: settings?.customHighlightAreaSettings,
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           yAxisTitle: settings?.yAxisTitle,
           noOfYTicks: settings?.noOfYTicks,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'choroplethMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -1240,13 +887,13 @@ function GraphEl(props: Props) {
             }
           },
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'biVariateChoroplethMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           mapData: settings?.mapData,
           graphTitle: settings?.graphTitle,
@@ -1301,13 +948,13 @@ function GraphEl(props: Props) {
             }
           },
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'dotDensityMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -1350,13 +997,13 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'donutChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           mainText: settings?.mainText,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1388,18 +1035,16 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           legendMaxWidth: settings?.legendMaxWidth,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.label);
-            }
+            updateFilters?.(el.label);
           },
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'slopeChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1440,13 +1085,13 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'scatterPlot':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1500,7 +1145,6 @@ function GraphEl(props: Props) {
           regressionLine: settings?.regressionLine,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           noOfXTicks: settings?.noOfXTicks,
           noOfYTicks: settings?.noOfYTicks,
           labelColor: settings?.labelColor,
@@ -1508,69 +1152,14 @@ function GraphEl(props: Props) {
           ySuffix: settings?.ySuffix,
           xPrefix: settings?.xPrefix,
           yPrefix: settings?.yPrefix,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'horizontalDumbbellChart':
+      case 'dumbbellChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showValues: settings?.showValues,
-          showTicks: settings?.showTicks,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'x',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          radius: settings?.radius,
-          relativeHeight: settings?.relativeHeight,
-          showLabels: settings?.showLabels,
-          tooltip: settings?.tooltip,
-          graphID: settings?.graphID,
-          maxPositionValue: settings?.maxPositionValue,
-          minPositionValue: settings?.minPositionValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          sortParameter: settings?.sortParameter,
-          arrowConnector: settings?.arrowConnector,
-          connectorStrokeWidth: settings?.connectorStrokeWidth,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          maxNumberOfBars: settings?.maxNumberOfBars,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'verticalDumbbellChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1618,16 +1207,16 @@ function GraphEl(props: Props) {
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'treeMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1667,18 +1256,16 @@ function GraphEl(props: Props) {
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.label);
-            }
+            updateFilters?.(el.label);
           },
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'circlePacking':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1720,18 +1307,16 @@ function GraphEl(props: Props) {
           radius: settings?.radius,
           maxRadiusValue: settings?.maxRadiusValue,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.label);
-            }
+            updateFilters?.(el.label);
           },
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'heatMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1775,64 +1360,14 @@ function GraphEl(props: Props) {
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'horizontalStripChart':
+      case 'stripChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          stripType: settings?.stripType,
-          colors: settings?.colors as string | string[] | undefined,
-          colorDomain: settings?.colorDomain,
-          colorLegendTitle:
-            Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
-              ? settings?.colorLegendTitle
-              : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
-          radius: settings?.radius,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          tooltip: settings?.tooltip,
-          highlightedDataPoints: settings?.highlightedDataPoints,
-          showColorScale: settings?.showColorScale,
-          graphID: settings?.graphID,
-          maxValue: settings?.maxValue,
-          minValue: settings?.minValue,
-          showAxis: settings?.showAxis,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          prefix: settings?.prefix,
-          suffix: settings?.suffix,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          highlightColor: settings?.highlightColor,
-          dotOpacity: settings?.dotOpacity,
-          showNAColor: settings?.showNAColor,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-        };
-      case 'verticalStripChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -1877,13 +1412,13 @@ function GraphEl(props: Props) {
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'horizontalBeeSwarmChart':
+      case 'beeSwarmChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string | string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -1926,62 +1461,14 @@ function GraphEl(props: Props) {
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-        };
-      case 'verticalBeeSwarmChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string | string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          sources: settings?.sources,
-          showTicks: settings?.showTicks,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          colorDomain: settings?.colorDomain,
-          colorLegendTitle:
-            Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
-              ? settings?.colorLegendTitle
-              : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          relativeHeight: settings?.relativeHeight,
-          showLabels: settings?.showLabels,
-          showColorScale: settings?.showColorScale,
-          tooltip: settings?.tooltip,
-          refValues: settings?.refValues,
-          graphID: settings?.graphID,
-          radius: settings?.radius,
-          maxRadiusValue: settings?.maxRadiusValue,
-          maxPositionValue: settings?.maxPositionValue,
-          minPositionValue: settings?.minPositionValue,
-          highlightedDataPoints: settings?.highlightedDataPoints,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          showNAColor: settings?.showNAColor,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          orientation: settings?.orientation,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'butterflyChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2032,12 +1519,12 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'histogram':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           color: settings?.color,
           graphTitle: settings?.graphTitle,
@@ -2073,14 +1560,15 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           maxBarThickness: settings?.maxBarThickness,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           detailsOnClick: settings?.detailsOnClick,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'sparkLine':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
+          curveType: settings?.curveType,
           color: settings?.color as string | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2106,13 +1594,13 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'paretoChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2143,6 +1631,7 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           barColor: settings?.barColor,
+          curveType: settings?.curveType,
           lineColor: settings?.lineColor,
           sameAxes: settings?.sameAxes,
           relativeHeight: settings?.relativeHeight,
@@ -2157,18 +1646,18 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           noOfYTicks: settings?.noOfYTicks,
           lineSuffix: settings?.lineSuffix,
           barSuffix: settings?.barSuffix,
           linePrefix: settings?.lineSuffix,
           barPrefix: settings?.barPrefix,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'dataTable':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           sources: settings?.sources,
           graphDescription: settings?.graphDescription,
@@ -2182,11 +1671,12 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'statCard':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           year: settings?.year,
           data: graphData,
           graphTitle: settings?.graphTitle || '',
@@ -2207,11 +1697,12 @@ function GraphEl(props: Props) {
           headingFontSize: settings?.headingFontSize,
           centerAlign: settings?.centerAlign,
           verticalAlign: settings?.verticalAlign,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'geoHubCompareMap':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           sources: settings?.sources,
           graphDescription: settings?.graphDescription,
@@ -2228,11 +1719,12 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'geoHubMap':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           mapStyle: settings?.mapStyle,
           center: settings?.center,
           zoomLevel: settings?.zoomLevel,
@@ -2252,11 +1744,12 @@ function GraphEl(props: Props) {
           excludeLayers: settings?.excludeLayers,
           ariaLabel: settings?.ariaLabel,
           uiMode: settings?.uiMode,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'geoHubMapWithLayerSelection':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           mapStyle: settings?.mapStyle,
           center: settings?.center,
           zoomLevel: settings?.zoomLevel,
@@ -2280,7 +1773,6 @@ function GraphEl(props: Props) {
       case 'unitChart':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           totalNoOfDots: settings?.totalNoOfDots,
           gridSize: settings?.gridSize,
           unitPadding: settings?.unitPadding,
@@ -2305,12 +1797,13 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           relativeHeight: settings?.relativeHeight,
           ariaLabel: settings?.ariaLabel,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'animatedBiVariateChoroplethMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           mapData: settings?.mapData,
           graphTitle: settings?.graphTitle,
@@ -2363,13 +1856,13 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'animatedChoroplethMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -2415,13 +1908,13 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'animatedDotDensityMap':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           mapData: settings?.mapData,
           graphDescription: settings?.graphDescription,
@@ -2467,13 +1960,13 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'animatedButterflyChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2527,72 +2020,14 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
-      case 'animatedHorizontalDumbbellChart':
+      case 'animatedDumbbellChart':
         return {
           mode: settings?.mode,
+          orientation: settings?.orientation,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
-          data: graphData,
-          colors: settings?.colors as string[] | undefined,
-          graphTitle: settings?.graphTitle,
-          graphDescription: settings?.graphDescription,
-          footNote: settings?.footNote,
-          width: settings?.width,
-          height: settings?.height,
-          suffix: settings?.suffix,
-          prefix: settings?.prefix,
-          sources: settings?.sources,
-          barPadding: settings?.barPadding,
-          showValues: settings?.showValues,
-          showTicks: settings?.showTicks,
-          leftMargin: settings?.leftMargin,
-          rightMargin: settings?.rightMargin,
-          topMargin: settings?.topMargin,
-          bottomMargin: settings?.bottomMargin,
-          truncateBy: settings?.truncateBy,
-          colorDomain:
-            settings?.colorDomain ||
-            (getValues(
-              'x',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
-          colorLegendTitle: settings?.colorLegendTitle,
-          backgroundColor: settings?.backgroundColor,
-          padding: settings?.padding,
-          radius: settings?.radius,
-          relativeHeight: settings?.relativeHeight,
-          showLabels: settings?.showLabels,
-          tooltip: settings?.tooltip,
-          graphID: settings?.graphID,
-          maxPositionValue: settings?.maxPositionValue,
-          minPositionValue: settings?.minPositionValue,
-          graphDownload: settings?.graphDownload,
-          dataDownload: settings?.dataDownload,
-          language: settings?.language,
-          minHeight: settings?.minHeight,
-          sortParameter: settings?.sortParameter,
-          arrowConnector: settings?.arrowConnector,
-          connectorStrokeWidth: settings?.connectorStrokeWidth,
-          autoPlay: settings?.autoPlay,
-          showOnlyActiveDate: settings?.showOnlyActiveDate,
-          dateFormat: settings?.dateFormat,
-          maxBarThickness: settings?.maxBarThickness,
-          minBarThickness: settings?.minBarThickness,
-          ariaLabel: settings?.ariaLabel,
-          detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
-          barAxisTitle: settings?.barAxisTitle,
-          noOfTicks: settings?.noOfTicks,
-          valueColor: settings?.valueColor,
-        };
-      case 'animatedVerticalDumbbellChart':
-        return {
-          mode: settings?.mode,
-          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           colors: settings?.colors as string[] | undefined,
           graphTitle: settings?.graphTitle,
@@ -2642,16 +2077,16 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           barAxisTitle: settings?.barAxisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'animatedScatterPlot':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2707,7 +2142,6 @@ function GraphEl(props: Props) {
           annotations: settings?.annotations,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
           noOfXTicks: settings?.noOfXTicks,
           noOfYTicks: settings?.noOfYTicks,
           labelColor: settings?.labelColor,
@@ -2715,12 +2149,13 @@ function GraphEl(props: Props) {
           ySuffix: settings?.ySuffix,
           xPrefix: settings?.xPrefix,
           yPrefix: settings?.yPrefix,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'sankeyChart':
         return {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
-          backgroundStyle: settings?.backgroundStyle || {},
           data: graphData,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
@@ -2762,12 +2197,12 @@ function GraphEl(props: Props) {
           animateLinks: settings?.animateLinks,
           sortNodes: settings?.sortNodes,
           detailsOnClick: settings?.detailsOnClick,
-          tooltipBackgroundStyle: settings?.tooltipBackgroundStyle,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       case 'dataCards':
         return {
           mode: settings?.mode,
-          backgroundStyle: settings?.backgroundStyle || {},
           graphTitle: settings?.graphTitle,
           sources: settings?.sources,
           graphDescription: settings?.graphDescription,
@@ -2792,6 +2227,8 @@ function GraphEl(props: Props) {
           allowDataDownloadOnDetail: settings?.allowDataDownloadOnDetail,
           noOfItemsInAPage: settings?.noOfItemsInAPage,
           uiMode: settings?.uiMode,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
         };
       default:
         return {};

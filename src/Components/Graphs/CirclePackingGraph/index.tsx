@@ -5,10 +5,10 @@ import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import { Graph } from './Graph';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
   TreeMapDataType,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -55,10 +55,10 @@ interface Props {
   ariaLabel?: string;
   radius?: number;
   maxRadiusValue?: number;
-  backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function CirclePackingGraph(props: Props) {
@@ -99,10 +99,10 @@ export function CirclePackingGraph(props: Props) {
     ariaLabel,
     radius,
     maxRadiusValue,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -139,7 +139,7 @@ export function CirclePackingGraph(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -164,6 +164,14 @@ export function CirclePackingGraph(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -299,8 +307,9 @@ export function CirclePackingGraph(props: Props) {
                         resetSelectionOnDoubleClick={
                           resetSelectionOnDoubleClick
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         detailsOnClick={detailsOnClick}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -309,6 +318,11 @@ export function CirclePackingGraph(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

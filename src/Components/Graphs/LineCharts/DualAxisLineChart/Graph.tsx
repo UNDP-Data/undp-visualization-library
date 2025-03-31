@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { line, curveMonotoneX } from 'd3-shape';
+import {
+  line,
+  curveMonotoneX,
+  curveLinear,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+} from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
@@ -8,10 +15,18 @@ import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'framer-motion';
-import { CSSObject, DualAxisLineChartDataType } from '../../../../Types';
+import { cn } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  DualAxisLineChartDataType,
+  StyleObject,
+} from '../../../../Types';
 import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
+import { Axis } from '../../../Elements/Axes/Axis';
+import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
 
 interface Props {
   data: DualAxisLineChartDataType[];
@@ -36,12 +51,14 @@ interface Props {
   animateLine: boolean | number;
   strokeWidth: number;
   showDots: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks: number;
   lineSuffixes: [string, string];
   linePrefixes: [string, string];
   minDate?: string | number;
   maxDate?: string | number;
+  curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -68,13 +85,25 @@ export function Graph(props: Props) {
     animateLine,
     strokeWidth,
     showDots,
-    tooltipBackgroundStyle,
     noOfYTicks,
     lineSuffixes,
     linePrefixes,
     minDate,
     maxDate,
+    curveType,
+    styles,
+    classNames,
   } = props;
+  const curve =
+    curveType === 'linear'
+      ? curveLinear
+      : curveType === 'step'
+      ? curveStep
+      : curveType === 'stepAfter'
+      ? curveStepAfter
+      : curveType === 'stepBefore'
+      ? curveStepBefore
+      : curveMonotoneX;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
   const isInView = useInView(scope);
@@ -84,8 +113,8 @@ export function Graph(props: Props) {
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
-    right: rightMargin,
+    left: leftMargin + 50,
+    right: rightMargin + 65,
   };
   const MouseoverRectRef = useRef(null);
   const dataFormatted = sortBy(
@@ -153,13 +182,13 @@ export function Graph(props: Props) {
     .defined((d: any) => !checkIfNullOrUndefined(d.y1))
     .x((d: any) => x(d.date))
     .y((d: any) => y1(d.y1))
-    .curve(curveMonotoneX);
+    .curve(curve);
 
   const lineShape2 = line()
     .defined((d: any) => !checkIfNullOrUndefined(d.y2))
     .x((d: any) => x(d.date))
     .y((d: any) => y2(d.y2))
-    .curve(curveMonotoneX);
+    .curve(curve);
   const y1Ticks = y1.ticks(noOfYTicks);
   const y2Ticks = y2.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
@@ -262,16 +291,19 @@ export function Graph(props: Props) {
                   style={{
                     stroke: lineColors[0],
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
-                  x={-25}
+                  x={0 - 25}
                   y={y1(d)}
                   dy={3}
-                  className='text-xs'
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                   style={{
                     textAnchor: 'end',
                     fill: lineColors[0],
+                    ...(styles?.yAxis?.labels || {}),
                   }}
                 >
                   {numberFormattingFunction(
@@ -282,30 +314,30 @@ export function Graph(props: Props) {
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              style={{
-                stroke: lineColors[0],
-                strokeWidth: 1,
+              classNames={{
+                axis: classNames?.xAxis?.axis,
+              }}
+              styles={{
+                axis: { stroke: lineColors[0], ...(styles?.xAxis?.axis || {}) },
               }}
             />
-            <text
-              transform={`translate(${20 - leftMargin}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              className='text-xs'
-              style={{
-                textAnchor: 'middle',
-                fill: lineColors[0],
-              }}
-            >
-              {lineTitles[0].length > 100
-                ? `${lineTitles[0].substring(0, 100)}...`
-                : lineTitles[0]}
-            </text>
+            <AxisTitle
+              x={10 - margin.left}
+              y={graphHeight / 2}
+              style={{ fill: lineColors[0], ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                lineTitles[0].length > 100
+                  ? `${lineTitles[0].substring(0, 100)}...`
+                  : lineTitles[0]
+              }
+              rotate90
+            />
           </g>
           <g>
             {y2Ticks.map((d, i) => (
@@ -318,18 +350,21 @@ export function Graph(props: Props) {
                   style={{
                     stroke: lineColors[1],
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
                   dy={3}
                   dx={-2}
-                  className='text-xs'
                   style={{
                     textAnchor: 'start',
                     fill: lineColors[1],
+                    ...(styles?.yAxis?.labels || {}),
                   }}
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                 >
                   {numberFormattingFunction(
                     d,
@@ -339,54 +374,65 @@ export function Graph(props: Props) {
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              style={{
-                stroke: lineColors[1],
-                strokeWidth: 1,
+              classNames={{
+                axis: classNames?.xAxis?.axis,
+              }}
+              styles={{
+                axis: { stroke: lineColors[1], ...(styles?.xAxis?.axis || {}) },
               }}
             />
-            <text
-              transform={`translate(${graphWidth + rightMargin - 15}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              className='text-xs'
-              style={{
-                textAnchor: 'middle',
-                fill: lineColors[1],
-              }}
-            >
-              {lineTitles[1].length > 100
-                ? `${lineTitles[1].substring(0, 100)}...`
-                : lineTitles[1]}
-            </text>
+            <AxisTitle
+              x={graphWidth + margin.right - 15}
+              y={graphHeight / 2}
+              style={{ fill: lineColors[1], ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                lineTitles[1].length > 100
+                  ? `${lineTitles[1].substring(0, 100)}...`
+                  : lineTitles[1]
+              }
+              rotate90
+            />
           </g>
           <g>
-            <line
+            <Axis
               y1={graphHeight}
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
+              classNames={{
+                axis: classNames?.xAxis?.axis,
+              }}
+              styles={{
+                axis: styles?.xAxis?.axis,
+              }}
             />
-            {xTicks.map((d, i) => (
-              <g key={i}>
-                <text
-                  y={graphHeight}
-                  x={x(d)}
-                  style={{
-                    textAnchor: 'middle',
-                  }}
-                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
-                  dy={15}
-                >
-                  {format(d, dateFormat)}
-                </text>
-              </g>
-            ))}
+            <XTicksAndGridLines
+              values={xTicks.map(d => format(d, dateFormat))}
+              x={xTicks.map(d => x(d))}
+              y1={0}
+              y2={graphHeight}
+              styles={{
+                gridLines: styles?.xAxis?.gridLines,
+                labels: styles?.xAxis?.labels,
+              }}
+              classNames={{
+                gridLines: cn('opacity-0', classNames?.xAxis?.gridLines),
+                labels: cn(
+                  'fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
+                  classNames?.xAxis?.labels,
+                ),
+              }}
+              suffix={suffix}
+              prefix={prefix}
+              labelType='primary'
+              showGridLines
+            />
           </g>
           <g ref={scope}>
             <path
@@ -411,7 +457,11 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                className='undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100 '
+                className={cn(
+                  'undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100',
+                  classNames?.mouseOverLine,
+                )}
+                style={styles?.mouseOverLine}
               />
             ) : null}
           </g>
@@ -450,8 +500,12 @@ export function Graph(props: Props) {
                         style={{
                           fill: lineColors[0],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-1 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
                         {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
@@ -490,8 +544,12 @@ export function Graph(props: Props) {
                         style={{
                           fill: lineColors[1],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-2 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
                         {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>
@@ -518,7 +576,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
     </>

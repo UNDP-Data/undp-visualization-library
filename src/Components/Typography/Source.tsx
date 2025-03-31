@@ -1,31 +1,43 @@
-import { A, P } from '@undp-data/undp-design-system-react';
-import { SourcesDataType } from '../../Types';
+import { A, cn, P } from '@undp-data/undp-design-system-react';
+import { CSSObject, SourcesDataType } from '../../Types';
 
 interface SourceProps {
   sources: SourcesDataType[];
+  style?: CSSObject;
+  className?: string;
 }
 
 export function Source(props: SourceProps) {
-  const { sources } = props;
+  const { sources, style = {}, className } = props;
   return (
     <P
       size='sm'
       marginBottom='none'
       aria-label='Data sources'
-      className='text-primary-gray-550 dark:text-primary-gray-400'
+      className={cn(
+        'text-primary-gray-550 dark:text-primary-gray-400',
+        className,
+      )}
+      style={style}
     >
       Source:{' '}
       {sources.map((d, i) => (
         <span
           key={i}
-          className='text-primary-gray-550 dark:text-primary-gray-400'
+          className={cn(
+            'text-primary-gray-550 dark:text-primary-gray-400',
+            className,
+          )}
           style={{
             fontFamily: 'inherit',
           }}
         >
           {d.link ? (
             <A
-              className='text-primary-gray-550 dark:text-primary-gray-400'
+              className={cn(
+                'text-primary-gray-550 dark:text-primary-gray-400',
+                className,
+              )}
               href={d.link}
               target='_blank'
               rel='noreferrer'

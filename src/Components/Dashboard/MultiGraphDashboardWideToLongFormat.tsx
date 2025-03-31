@@ -6,11 +6,11 @@ import {
   Spinner,
 } from '@undp-data/undp-design-system-react';
 import {
-  BackgroundStyleDataType,
   DashboardFromWideToLongFormatColumnDataType,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
+  StyleObject,
 } from '../../Types';
 import {
   fetchAndParseCSV,
@@ -35,9 +35,10 @@ interface Props {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  styles?: StyleObject;
+  graphStyles?: StyleObject;
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -55,9 +56,11 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     mode = 'light',
     readableHeader,
     dataFilters,
-    graphBackgroundStyle,
     graphBackgroundColor,
     uiMode = 'normal',
+    styles,
+    graphstyles,
+    classNames,
   } = props;
 
   const filterConfig = useMemo(
@@ -177,6 +180,14 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {dashboardLayout.title || dashboardLayout.description ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={dashboardLayout.title}
                 graphDescription={dashboardLayout.description}
                 isDashboard
@@ -272,9 +283,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                                 : undefined,
                             language: dashboardLayout.language,
                             mode: mode || el.settings?.mode,
-                            backgroundStyle:
-                              el.settings?.backgroundStyle ||
-                              graphBackgroundStyle,
+                            styles: el.settings?.styles || graphStyles,
                             backgroundColor:
                               el.settings?.backgroundColor ||
                               graphBackgroundColor,

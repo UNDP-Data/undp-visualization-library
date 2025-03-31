@@ -7,16 +7,15 @@ import {
   HistogramDataType,
   DonutChartDataType,
   SourcesDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { UNDPColorModule } from '../../ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
 import { TreeMapGraph } from '../TreeMapGraph';
-import { VerticalBarGraph } from '../BarGraph/VerticalBarGraph/SimpleBarGraph';
 import { DonutChart } from '../DonutChart';
-import { HorizontalBarGraph } from '../BarGraph/HorizontalBarGraph/SimpleBarGraph';
+import { SimpleBarGraph } from '../BarGraph';
 
 interface Props {
   data: HistogramDataType[];
@@ -57,9 +56,9 @@ interface Props {
   maxBarThickness?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Histogram(props: Props) {
@@ -102,9 +101,9 @@ export function Histogram(props: Props) {
     mode = 'light',
     maxBarThickness,
     ariaLabel,
-    backgroundStyle,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
@@ -163,9 +162,9 @@ export function Histogram(props: Props) {
         minHeight={minHeight}
         mode={mode}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   if (graphType === 'treeMap')
@@ -199,9 +198,9 @@ export function Histogram(props: Props) {
         minHeight={minHeight}
         mode={mode}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   if (graphType === 'donutChart')
@@ -237,56 +236,13 @@ export function Histogram(props: Props) {
         language={language}
         mode={mode}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
-      />
-    );
-  if (barGraphLayout === 'horizontal')
-    return (
-      <HorizontalBarGraph
-        colors={color || UNDPColorModule.graphMainColor}
-        graphTitle={graphTitle}
-        graphDescription={graphDescription}
-        footNote={footNote}
-        width={width}
-        height={height}
-        sources={sources}
-        leftMargin={leftMargin}
-        rightMargin={rightMargin}
-        backgroundColor={backgroundColor}
-        padding={padding}
-        topMargin={topMargin}
-        bottomMargin={bottomMargin}
-        relativeHeight={relativeHeight}
-        showLabels={showLabels}
-        tooltip={tooltip}
-        onSeriesMouseOver={onSeriesMouseOver}
-        showColorScale={false}
-        showValues={showValues}
-        graphID={graphID}
-        onSeriesMouseClick={onSeriesMouseClick}
-        graphDownload={graphDownload}
-        dataDownload={dataDownload}
-        data={dataFormatted}
-        barPadding={barPadding}
-        refValues={refValues}
-        truncateBy={truncateBy}
-        maxValue={maxValue}
-        showTicks={showTicks}
-        sortData={sortData}
-        language={language}
-        minHeight={minHeight}
-        mode={mode}
-        maxBarThickness={maxBarThickness}
-        ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
-        detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   return (
-    <VerticalBarGraph
+    <SimpleBarGraph
       colors={color || UNDPColorModule.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
@@ -322,9 +278,10 @@ export function Histogram(props: Props) {
       mode={mode}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
-      backgroundStyle={backgroundStyle}
-      tooltipBackgroundStyle={tooltipBackgroundStyle}
+      orientation={barGraphLayout}
       detailsOnClick={detailsOnClick}
+      styles={styles}
+      classNames={classNames}
     />
   );
 }

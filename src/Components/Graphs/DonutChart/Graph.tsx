@@ -2,7 +2,11 @@ import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { H2, Modal, P } from '@undp-data/undp-design-system-react';
-import { CSSObject, DonutChartDataType } from '../../../Types';
+import {
+  ClassNameObject,
+  DonutChartDataType,
+  StyleObject,
+} from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { UNDPColorModule } from '../../ColorPalette';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
@@ -20,8 +24,9 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -37,8 +42,9 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     colorDomain,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const pieData = pie()
     .sort(null)
@@ -68,7 +74,7 @@ export function Graph(props: Props) {
                 {mainText ? (
                   <H2
                     marginBottom='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 leading-none text-center'
+                    className='donut-main-text text-primary-gray-700 dark:text-primary-gray-100 leading-none text-center'
                   >
                     {typeof mainText === 'string'
                       ? mainText
@@ -87,7 +93,7 @@ export function Graph(props: Props) {
                     marginBottom='none'
                     size='base'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
+                    className='donut-sub-note text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {subNote}
                   </P>
@@ -96,7 +102,7 @@ export function Graph(props: Props) {
                     size='base'
                     marginBottom='none'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
+                    className='donut-label text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {mainText.label}
                   </P>
@@ -174,7 +180,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

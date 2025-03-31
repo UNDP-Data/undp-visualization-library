@@ -1,4 +1,4 @@
-import { P } from '@undp-data/undp-design-system-react';
+import { cn, P } from '@undp-data/undp-design-system-react';
 import { UNDPColorModule } from '../ColorPalette';
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   isCenter?: boolean;
+  className?: string;
 }
 
 export function ColorLegendWithMouseOver(props: Props) {
@@ -20,11 +21,12 @@ export function ColorLegendWithMouseOver(props: Props) {
     showNAColor,
     width,
     isCenter,
+    className,
   } = props;
 
   return (
     <div
-      className={`flex ${isCenter ? 'justify-center' : ''} leading-0`}
+      className={cn('flex leading-0', isCenter && 'justify-center', className)}
       style={{
         maxWidth: width ? `${width}px` : 'none',
       }}

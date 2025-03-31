@@ -18,6 +18,8 @@ import {
   FilterSettingsDataType,
   Languages,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
@@ -79,7 +81,6 @@ interface Props {
   };
   cardSearchColumns?: string[];
   cardMinWidth?: number;
-  backgroundStyle?: BackgroundStyleDataType;
   backgroundColor?: string | boolean;
   padding?: string;
   cardBackgroundStyle?: BackgroundStyleDataType;
@@ -87,6 +88,8 @@ interface Props {
   allowDataDownloadOnDetail?: string | boolean;
   noOfItemsInAPage?: number;
   uiMode?: 'light' | 'normal';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -118,7 +121,6 @@ export function DataCards(props: Props) {
     cardSortingOptions,
     cardSearchColumns = [],
     cardMinWidth = 320,
-    backgroundStyle = {},
     backgroundColor = false,
     padding,
     cardBackgroundStyle = {},
@@ -126,6 +128,8 @@ export function DataCards(props: Props) {
     allowDataDownloadOnDetail = false,
     noOfItemsInAPage,
     uiMode = 'normal',
+    styles,
+    classNames,
   } = props;
 
   const [cardData, setCardData] = useState(data);
@@ -243,7 +247,7 @@ export function DataCards(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -267,6 +271,14 @@ export function DataCards(props: Props) {
           <div className='flex flex-col grow gap-3 w-full justify-between'>
             {graphTitle || graphDescription ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -417,6 +429,11 @@ export function DataCards(props: Props) {
             ) : null}
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

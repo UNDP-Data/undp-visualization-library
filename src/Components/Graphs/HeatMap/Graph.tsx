@@ -2,13 +2,20 @@ import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
 import isEqual from 'lodash.isequal';
-import { Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, HeatMapDataType, ScaleDataType } from '../../../Types';
+import { cn, Modal } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  HeatMapDataType,
+  ScaleDataType,
+  StyleObject,
+} from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 import { string2HTML } from '../../../Utils/string2HTML';
+import { XAxesLabels } from '../../Elements/Axes/XAxesLabels';
+import { YAxesLabels } from '../../Elements/Axes/YAxesLabels';
 
 interface Props {
   data: HeatMapDataType[];
@@ -33,8 +40,9 @@ interface Props {
   selectedColor?: string;
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -61,8 +69,9 @@ export function Graph(props: Props) {
     selectedColor,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const margin = {
     top: topMargin,
@@ -106,42 +115,42 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
             ? columns.map((d, i) => (
-                <foreignObject
+                <XAxesLabels
                   key={i}
                   y={0}
-                  x={x(d)}
+                  x={x(d) as number}
                   width={barWidth}
-                  height={margin.top}
-                >
-                  <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
-                    <p className='text-base text-center leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
-                      {`${d}`.length < truncateBy
-                        ? `${d}`
-                        : `${`${d}`.substring(0, truncateBy)}...`}
-                    </p>
-                  </div>
-                </foreignObject>
+                  height={margin.top - 5}
+                  value={
+                    `${d}`.length < truncateBy
+                      ? `${d}`
+                      : `${`${d}`.substring(0, truncateBy)}...`
+                  }
+                  style={styles?.xAxis?.labels}
+                  className={classNames?.xAxis?.labels}
+                  alignment='bottom'
+                />
               ))
             : null}
         </g>
         <g transform={`translate(${0},${margin.top})`}>
           {showRowLabels
             ? rows.map((d, i) => (
-                <foreignObject
+                <YAxesLabels
+                  value={
+                    `${d}`.length < truncateBy
+                      ? `${d}`
+                      : `${`${d}`.substring(0, truncateBy)}...`
+                  }
                   key={i}
-                  y={y(d)}
+                  y={y(d) as number}
                   x={0}
                   width={margin.left}
                   height={barHeight}
-                >
-                  <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
-                    <p className='text-base text-right leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
-                      {`${d}`.length < truncateBy
-                        ? `${d}`
-                        : `${`${d}`.substring(0, truncateBy)}...`}
-                    </p>
-                  </div>
-                </foreignObject>
+                  alignment='right'
+                  style={styles?.yAxis?.labels}
+                  className={classNames?.yAxis?.labels}
+                />
               ))
             : null}
         </g>
@@ -230,11 +239,15 @@ export function Graph(props: Props) {
                       width={barWidth}
                       height={barHeight}
                     >
-                      <div className='flex flex-col justify-center items-center h-inherit p-0.2'>
+                      <div className='flex flex-col justify-center items-center h-inherit p-1'>
                         <p
-                          className='text-xs text-center m-0 leading-tight'
+                          className={cn(
+                            'text-xs text-center m-0 leading-tight graph-value',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             color: getTextColorBasedOnBgColor(color),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
                           {typeof d.value === 'string'
@@ -269,7 +282,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

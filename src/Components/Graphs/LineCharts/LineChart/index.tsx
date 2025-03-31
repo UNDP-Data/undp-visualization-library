@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
   AnnotationSettingsDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   CustomHighlightAreaSettingsDataType,
   Languages,
   LineChartDataType,
   ReferenceDataType,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -56,12 +56,13 @@ interface Props {
   mode?: 'light' | 'dark';
   regressionLine?: boolean | string;
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks?: number;
   minDate?: string | number;
   maxDate?: string | number;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function SimpleLineChart(props: Props) {
@@ -81,7 +82,7 @@ export function SimpleLineChart(props: Props) {
     showValues = false,
     padding,
     backgroundColor = false,
-    leftMargin = 70,
+    leftMargin = 30,
     rightMargin = 30,
     topMargin = 20,
     bottomMargin = 25,
@@ -107,11 +108,12 @@ export function SimpleLineChart(props: Props) {
     customHighlightAreaSettings = [],
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
     regressionLine = false,
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -146,7 +148,7 @@ export function SimpleLineChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -171,6 +173,14 @@ export function SimpleLineChart(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -236,17 +246,24 @@ export function SimpleLineChart(props: Props) {
                     annotations={annotations}
                     customHighlightAreaSettings={customHighlightAreaSettings}
                     regressionLine={regressionLine}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
                     yAxisTitle={yAxisTitle}
                     noOfYTicks={noOfYTicks}
                     maxDate={maxDate}
                     minDate={minDate}
+                    curveType={curveType}
+                    styles={styles}
+                    classNames={classNames}
                   />
                 ) : null}
               </div>
             )}
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

@@ -648,7 +648,8 @@ export const sankeyChartSettingsSchema = {
   type: 'object',
   properties: {
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     graphTitle: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
@@ -749,14 +750,6 @@ export const sankeyChartSettingsSchema = {
       type: 'array',
       items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
@@ -764,7 +757,8 @@ export const simpleBarChartSettingsSchema = {
   type: 'object',
   properties: {
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     colors: {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
@@ -827,6 +821,20 @@ export const simpleBarChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -875,17 +883,13 @@ export const simpleBarChartSettingsSchema = {
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
     ariaLabel: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
   },
 };
 
@@ -893,7 +897,8 @@ export const groupedBarChartSettingsSchema = {
   type: 'object',
   properties: {
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -954,6 +959,20 @@ export const groupedBarChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -991,17 +1010,13 @@ export const groupedBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     ariaLabel: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -1010,7 +1025,8 @@ export const stackedBarChartSettingsSchema = {
   type: 'object',
   properties: {
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1072,6 +1088,20 @@ export const stackedBarChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -1112,17 +1142,13 @@ export const stackedBarChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
   },
   required: ['colorDomain'],
 };
@@ -1131,7 +1157,8 @@ export const animatedSimpleBarChartSettingsSchema = {
   type: 'object',
   properties: {
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     colors: {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
     },
@@ -1191,6 +1218,20 @@ export const animatedSimpleBarChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -1237,25 +1278,26 @@ export const animatedSimpleBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
   },
 };
 
 export const animatedGroupedBarChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1315,6 +1357,20 @@ export const animatedGroupedBarChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -1352,14 +1408,6 @@ export const animatedGroupedBarChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
@@ -1370,8 +1418,13 @@ export const animatedGroupedBarChartSettingsSchema = {
 export const animatedStackedBarChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     colors: {
       type: 'array',
       items: { type: 'string' },
@@ -1429,6 +1482,20 @@ export const animatedStackedBarChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -1474,14 +1541,6 @@ export const animatedStackedBarChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
@@ -1492,10 +1551,15 @@ export const animatedStackedBarChartSettingsSchema = {
 export const beeSwarmChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     colors: {
       oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
+    },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
     },
     ariaLabel: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
@@ -1547,6 +1611,20 @@ export const beeSwarmChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -1590,22 +1668,15 @@ export const beeSwarmChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const butterflyChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
@@ -1668,6 +1739,20 @@ export const butterflyChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -1698,22 +1783,15 @@ export const butterflyChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const animatedButterflyChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     ariaLabel: { type: 'string' },
@@ -1776,6 +1854,20 @@ export const animatedButterflyChartSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -1809,22 +1901,15 @@ export const animatedButterflyChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const circlePackingSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     colors: {
       oneOf: [
         { type: 'string' },
@@ -1909,20 +1994,14 @@ export const circlePackingSettingsSchema = {
     },
     radius: { type: 'number' },
     maxRadiusValue: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const dataTableSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     sources: {
@@ -1963,14 +2042,6 @@ export const dataTableSettingsSchema = {
     },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
-    },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
     },
     padding: { type: 'string' },
     mode: {
@@ -2021,6 +2092,8 @@ export const dataTableSettingsSchema = {
 export const dataCardListSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     sources: {
@@ -2118,14 +2191,6 @@ export const dataCardListSettingsSchema = {
       },
     },
     cardMinWidth: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     cardBackgroundStyle: {
       type: 'object',
       properties: {
@@ -2146,8 +2211,9 @@ export const dataCardListSettingsSchema = {
 export const donutChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     mainText: {
       oneOf: [
         { type: 'string' },
@@ -2239,14 +2305,6 @@ export const donutChartSettingsSchema = {
     height: { type: 'number' },
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -2254,12 +2312,17 @@ export const donutChartSettingsSchema = {
 export const dumbbellChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
+    },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
     },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -2338,14 +2401,6 @@ export const dumbbellChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     maxNumberOfBars: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
@@ -2357,12 +2412,17 @@ export const dumbbellChartSettingsSchema = {
 export const animatedDumbbellChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
       items: { type: 'string' },
+    },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
     },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -2443,14 +2503,6 @@ export const animatedDumbbellChartSettingsSchema = {
     },
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     valueColor: { type: 'string' },
     barAxisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
@@ -2462,8 +2514,9 @@ export const animatedDumbbellChartSettingsSchema = {
 export const heatMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
@@ -2547,14 +2600,6 @@ export const heatMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
@@ -2563,7 +2608,8 @@ export const heatMapSettingsSchema = {
 export const histogramSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     ariaLabel: { type: 'string' },
     color: {
       oneOf: [
@@ -2619,6 +2665,20 @@ export const histogramSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -2667,14 +2727,6 @@ export const histogramSettingsSchema = {
       enum: ['light', 'dark'],
     },
     maxBarThickness: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     detailsOnClick: { type: 'string' },
   },
   required: ['color', 'graphType'],
@@ -2683,10 +2735,15 @@ export const histogramSettingsSchema = {
 export const dualAxisLineChartSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     lineTitles: {
       type: 'array',
       items: { type: 'string' },
@@ -2773,14 +2830,6 @@ export const dualAxisLineChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
@@ -2807,7 +2856,12 @@ export const dualAxisLineChartSettingsSchema = {
 export const lineChartSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     ariaLabel: { type: 'string' },
     graphID: { type: 'string' },
     regressionLine: {
@@ -2863,6 +2917,20 @@ export const lineChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -2906,6 +2974,20 @@ export const lineChartSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -2975,14 +3057,6 @@ export const lineChartSettingsSchema = {
     },
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
@@ -2993,7 +3067,12 @@ export const lineChartSettingsSchema = {
 export const lineChartWithConfidenceIntervalSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     ariaLabel: { type: 'string' },
     graphID: { type: 'string' },
     regressionLine: {
@@ -3049,6 +3128,20 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -3092,6 +3185,20 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -3172,14 +3279,6 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
     },
     intervalAreaColor: { type: 'string' },
     intervalAreaOpacity: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
@@ -3199,7 +3298,12 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
 export const differenceLineChartSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     ariaLabel: { type: 'string' },
     lineColors: {
       type: 'array',
@@ -3265,6 +3369,20 @@ export const differenceLineChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -3308,6 +3426,20 @@ export const differenceLineChartSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -3383,14 +3515,6 @@ export const differenceLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
@@ -3402,7 +3526,12 @@ export const differenceLineChartSettingsSchema = {
 export const multiLineChartSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     ariaLabel: { type: 'string' },
     colors: {
       type: 'array',
@@ -3459,6 +3588,20 @@ export const multiLineChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -3502,6 +3645,20 @@ export const multiLineChartSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -3581,14 +3738,6 @@ export const multiLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
@@ -3600,7 +3749,12 @@ export const multiLineChartSettingsSchema = {
 export const sparkLineSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     color: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
@@ -3661,22 +3815,15 @@ export const sparkLineSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const choroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
@@ -3784,14 +3931,6 @@ export const choroplethMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
@@ -3800,8 +3939,9 @@ export const choroplethMapSettingsSchema = {
 export const biVariateChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     graphTitle: { type: 'string' },
@@ -3913,14 +4053,6 @@ export const biVariateChoroplethMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -3928,8 +4060,9 @@ export const biVariateChoroplethMapSettingsSchema = {
 export const dotDensityMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
@@ -4036,14 +4169,6 @@ export const dotDensityMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -4051,8 +4176,9 @@ export const dotDensityMapSettingsSchema = {
 export const animatedChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
@@ -4163,14 +4289,6 @@ export const animatedChoroplethMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
   required: ['domain'],
@@ -4179,8 +4297,9 @@ export const animatedChoroplethMapSettingsSchema = {
 export const animatedBiVariateChoroplethMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
@@ -4291,14 +4410,6 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
@@ -4310,8 +4421,9 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
 export const animatedDotDensityMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
@@ -4418,14 +4530,6 @@ export const animatedDotDensityMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
@@ -4436,6 +4540,8 @@ export const animatedDotDensityMapSettingsSchema = {
 export const geoHubCompareMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     sources: {
@@ -4497,14 +4603,6 @@ export const geoHubCompareMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
   required: ['mapStyles'],
 };
@@ -4512,6 +4610,8 @@ export const geoHubCompareMapSettingsSchema = {
 export const geoHubMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     mapStyle: {
       oneOf: [
         { type: 'string' },
@@ -4596,14 +4696,6 @@ export const geoHubMapSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
   required: ['mapStyle'],
 };
@@ -4611,6 +4703,8 @@ export const geoHubMapSettingsSchema = {
 export const geoHubMapWithLayerSelectionSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     mapStyle: { type: 'string' },
     center: {
       type: 'array',
@@ -4687,14 +4781,6 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
   required: ['mapStyle', 'layerSelection'],
 };
@@ -4702,8 +4788,13 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
 export const paretoChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -4767,14 +4858,6 @@ export const paretoChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     noOfYTicks: { type: 'number' },
     lineSuffix: { type: 'string' },
     barSuffix: { type: 'string' },
@@ -4787,8 +4870,9 @@ export const paretoChartSettingsSchema = {
 export const scatterPlotSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     regressionLine: {
@@ -4851,6 +4935,20 @@ export const scatterPlotSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -4868,6 +4966,20 @@ export const scatterPlotSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -4912,6 +5024,20 @@ export const scatterPlotSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -4967,14 +5093,6 @@ export const scatterPlotSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     customHighlightAreaSettings: {
       type: 'array',
       items: {
@@ -5014,8 +5132,9 @@ export const scatterPlotSettingsSchema = {
 export const animatedScatterPlotSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -5075,6 +5194,20 @@ export const animatedScatterPlotSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -5092,6 +5225,20 @@ export const animatedScatterPlotSettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -5136,6 +5283,20 @@ export const animatedScatterPlotSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -5194,14 +5355,6 @@ export const animatedScatterPlotSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     customHighlightAreaSettings: {
       type: 'array',
       items: {
@@ -5241,8 +5394,9 @@ export const animatedScatterPlotSettingsSchema = {
 export const slopeChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -5330,14 +5484,6 @@ export const slopeChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -5345,11 +5491,16 @@ export const slopeChartSettingsSchema = {
 export const stackedAreaChartSettingsSchema = {
   type: 'object',
   properties: {
-    tooltipBackgroundStyle: { type: 'object' },
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     colors: {
       type: 'array',
       items: { type: 'string' },
       minItems: 0,
+    },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
@@ -5400,6 +5551,20 @@ export const stackedAreaChartSettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -5443,6 +5608,20 @@ export const stackedAreaChartSettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -5513,14 +5692,6 @@ export const stackedAreaChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     yAxisTitle: { type: 'string' },
     noOfYTicks: { type: 'number' },
     prefix: { type: 'string' },
@@ -5532,6 +5703,8 @@ export const stackedAreaChartSettingsSchema = {
 export const statCardSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     year: {
       oneOf: [{ type: 'number' }, { type: 'string' }],
     },
@@ -5598,14 +5771,6 @@ export const statCardSettingsSchema = {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
   required: ['graphTitle'],
 };
@@ -5613,8 +5778,9 @@ export const statCardSettingsSchema = {
 export const stripChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -5704,13 +5870,9 @@ export const stripChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
@@ -5719,8 +5881,9 @@ export const stripChartSettingsSchema = {
 export const treeMapSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     colors: {
       oneOf: [
         { type: 'string' },
@@ -5802,14 +5965,6 @@ export const treeMapSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
 };
@@ -5817,6 +5972,8 @@ export const treeMapSettingsSchema = {
 export const unitChartSettingsSchema = {
   type: 'object',
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
     totalNoOfDots: { type: 'number' },
     ariaLabel: { type: 'string' },
     gridSize: { type: 'number' },
@@ -5878,19 +6035,17 @@ export const unitChartSettingsSchema = {
     height: { type: 'number' },
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
   },
 };
 
 export const SettingsSchema = {
   properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
@@ -5974,6 +6129,20 @@ export const SettingsSchema = {
           },
           maxWidth: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -6430,6 +6599,20 @@ export const SettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -6448,6 +6631,20 @@ export const SettingsSchema = {
           value: {
             type: 'number',
           },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
         },
         type: 'object',
         required: ['value', 'text'],
@@ -6465,6 +6662,20 @@ export const SettingsSchema = {
           },
           value: {
             type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
           },
         },
         type: 'object',
@@ -6674,14 +6885,6 @@ export const SettingsSchema = {
     },
     nodePadding: { type: 'number' },
     nodeWidth: { type: 'number' },
-    backgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     defaultLinkOpacity: { type: 'number', minimum: 0, maximum: 1 },
     animateLinks: {
       oneOf: [{ type: 'number' }, { type: 'boolean' }],
@@ -6770,7 +6973,6 @@ export const SettingsSchema = {
       },
     },
     detailsOnClick: { type: 'string' },
-    tooltipBackgroundStyle: { type: 'object' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     legendMaxWidth: { type: 'string' },
     intervalAreaOpacity: { type: 'number' },
@@ -6825,6 +7027,10 @@ export const SettingsSchema = {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
     noOfItemsInAPage: { type: 'number', minimum: 0 },
+    orientation: {
+      type: 'string',
+      enum: ['vertical', 'horizontal'],
+    },
   },
   type: 'object',
 };

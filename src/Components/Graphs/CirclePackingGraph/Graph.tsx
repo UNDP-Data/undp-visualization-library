@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React, { memo, useCallback, useMemo, useEffect, useState } from 'react';
+import { memo, useCallback, useMemo, useEffect, useState } from 'react';
 
 import {
   forceCollide,
@@ -14,8 +14,8 @@ import maxBy from 'lodash.maxby';
 
 // Assuming these are imported from correct paths
 import { extent } from 'd3-array';
-import { Modal, Spinner } from '@undp-data/undp-design-system-react';
-import { CSSObject, TreeMapDataType } from '../../../Types';
+import { cn, Modal, Spinner } from '@undp-data/undp-design-system-react';
+import { ClassNameObject, StyleObject, TreeMapDataType } from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
@@ -46,8 +46,9 @@ interface Props {
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 interface TreeMapDataTypeForBubbleChart extends TreeMapDataType {
@@ -81,8 +82,9 @@ export const Graph = memo((props: Props) => {
     maxRadiusValue,
     radius,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
@@ -333,7 +335,10 @@ export const Graph = memo((props: Props) => {
                       <div className='flex flex-col justify-center items-center h-full py-0 px-3'>
                         {showLabels && (
                           <p
-                            className='text-center leading-tight overflow-hidden m-0'
+                            className={cn(
+                              'text-center leading-tight overflow-hidden m-0 circle-packing-label',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
@@ -357,6 +362,7 @@ export const Graph = memo((props: Props) => {
                               WebkitBoxOrient: 'vertical',
                               color: getTextColorBasedOnBgColor(circleColor),
                               hyphens: 'auto',
+                              ...(styles?.graphObjectValues || {}),
                             }}
                           >
                             {d.label}
@@ -364,7 +370,7 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className='text-center font-bold leading-tight w-full m-0'
+                            className='text-center font-bold leading-tight w-full m-0 circle-packing-value'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),
@@ -390,7 +396,8 @@ export const Graph = memo((props: Props) => {
             body={tooltip}
             xPos={eventX}
             yPos={eventY}
-            backgroundStyle={tooltipBackgroundStyle}
+            backgroundStyle={styles?.tooltip}
+            className={classNames?.tooltip}
           />
         )}
         {detailsOnClick ? (

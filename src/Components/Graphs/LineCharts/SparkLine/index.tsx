@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
   LineChartDataType,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../../Types';
 import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
@@ -41,8 +41,9 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function SparkLine(props: Props) {
@@ -75,8 +76,9 @@ export function SparkLine(props: Props) {
     minHeight = 0,
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
-    tooltipBackgroundStyle,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -113,7 +115,7 @@ export function SparkLine(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -138,6 +140,14 @@ export function SparkLine(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -185,12 +195,19 @@ export function SparkLine(props: Props) {
                   onSeriesMouseOver={onSeriesMouseOver}
                   minValue={minValue}
                   maxValue={maxValue}
-                  tooltipBackgroundStyle={tooltipBackgroundStyle}
+                  curveType={curveType}
+                  styles={styles}
+                  classNames={classNames}
                 />
               ) : null}
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

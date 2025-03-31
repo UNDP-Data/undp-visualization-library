@@ -5,10 +5,11 @@ import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
 import { P } from '@undp-data/undp-design-system-react';
 import {
-  BackgroundStyleDataType,
   DataTableColumnDataType,
   Languages,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { GraphFooter } from '../../Elements/GraphFooter';
@@ -35,10 +36,11 @@ interface Props {
   language?: Languages;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
   backgroundColor?: string | boolean;
   padding?: string;
   resetSelectionOnDoubleClick?: boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -62,10 +64,11 @@ export function DataTable(props: Props) {
     language = 'en',
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
     backgroundColor = false,
     padding,
     resetSelectionOnDoubleClick = true,
+    styles,
+    classNames,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
@@ -132,7 +135,7 @@ export function DataTable(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -156,6 +159,14 @@ export function DataTable(props: Props) {
           <div className='flex flex-col gap-3 w-full justify-between grow'>
             {graphTitle || graphDescription ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -442,6 +453,11 @@ export function DataTable(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

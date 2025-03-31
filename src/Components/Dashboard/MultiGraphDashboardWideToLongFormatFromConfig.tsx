@@ -5,6 +5,7 @@ import {
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
+  StyleObject,
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { validateConfigSchema } from '../../Utils/validateSchema';
@@ -24,6 +25,8 @@ interface ConfigObject {
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  styles?: StyleObject;
+  graphStyles?: StyleObject;
 }
 
 interface Props {
@@ -81,8 +84,9 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
       graphBackgroundColor={configSettings.graphBackgroundColor}
-      graphBackgroundStyle={configSettings.graphBackgroundStyle}
       uiMode={configSettings.uiMode}
+      styles={configSettings.styles}
+      graphStyles={configSettings.graphStyles}
     />
   );
 }

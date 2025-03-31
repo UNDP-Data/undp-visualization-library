@@ -5,11 +5,11 @@ import { GraphFooter } from '../../../Elements/GraphFooter';
 import { GraphHeader } from '../../../Elements/GraphHeader';
 import { ColorLegend } from '../../../Elements/ColorLegend';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   DualAxisLineChartDataType,
   Languages,
   SourcesDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../../Types';
 import { UNDPColorModule } from '../../../ColorPalette';
 import { EmptyState } from '../../../Elements/EmptyState';
@@ -53,13 +53,14 @@ interface Props {
   colorLegendTitle?: string;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks?: number;
   lineSuffixes?: [string, string];
   linePrefixes?: [string, string];
   minDate?: string | number;
   maxDate?: string | number;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function DualAxisLineChart(props: Props) {
@@ -107,11 +108,12 @@ export function DualAxisLineChart(props: Props) {
     colorLegendTitle,
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
-    tooltipBackgroundStyle,
     noOfYTicks = 5,
     maxDate,
     minDate,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -148,7 +150,7 @@ export function DualAxisLineChart(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -173,6 +175,14 @@ export function DualAxisLineChart(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -241,12 +251,14 @@ export function DualAxisLineChart(props: Props) {
                         animateLine={animateLine}
                         strokeWidth={strokeWidth}
                         showDots={showDots}
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         noOfYTicks={noOfYTicks}
                         lineSuffixes={lineSuffixes}
                         linePrefixes={linePrefixes}
                         minDate={minDate}
                         maxDate={maxDate}
+                        curveType={curveType}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -255,6 +267,11 @@ export function DualAxisLineChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

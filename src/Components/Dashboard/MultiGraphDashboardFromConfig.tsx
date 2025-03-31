@@ -6,6 +6,7 @@ import {
   DataFilterDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
+  StyleObject,
 } from '../../Types';
 import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
 import { MultiGraphDashboard } from './MultiGraphDashboard';
@@ -28,6 +29,8 @@ interface ConfigObject {
   graphBackgroundStyle?: BackgroundStyleDataType;
   graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  styles?: StyleObject;
+  graphStyles?: StyleObject;
 }
 
 interface Props {
@@ -83,8 +86,9 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       filterPosition={configSettings.filterPosition}
       graphBackgroundColor={configSettings.graphBackgroundColor}
-      graphBackgroundStyle={configSettings.graphBackgroundStyle}
       uiMode={configSettings.uiMode}
+      styles={configSettings.styles}
+      graphStyles={configSettings.graphStyles}
     />
   );
 }

@@ -2,12 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   HeatMapDataType,
   Languages,
   ScaleDataType,
   SourcesDataType,
+  StyleObject, ClassNameObject,
 } from '../../../Types';
 import { GraphFooter } from '../../Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
@@ -55,10 +54,9 @@ interface Props {
   minHeight?: number;
   mode?: 'light' | 'dark';
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject; classNames?:  ClassNameObject;
 }
 
 export function HeatMap(props: Props) {
@@ -101,10 +99,9 @@ export function HeatMap(props: Props) {
     minHeight = 0,
     mode = 'light',
     ariaLabel,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles, classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -151,7 +148,7 @@ export function HeatMap(props: Props) {
             : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -174,6 +171,14 @@ export function HeatMap(props: Props) {
           <div className='flex flex-col gap-4 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -324,7 +329,6 @@ export function HeatMap(props: Props) {
                         resetSelectionOnDoubleClick={
                           resetSelectionOnDoubleClick
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         detailsOnClick={detailsOnClick}
                       />
                     ) : null}
@@ -334,6 +338,8 @@ export function HeatMap(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+classNames={{ footnote: classNames?.footnote, source: classNames?.source }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'framer-motion';
-import { Modal, P } from '@undp-data/undp-design-system-react';
-import { CSSObject, NodeDataType, NodesLinkDataType } from '../../../Types';
+import { cn, Modal, P } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  NodeDataType,
+  NodesLinkDataType,
+  StyleObject,
+} from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { Tooltip } from '../../Elements/Tooltip';
 import { string2HTML } from '../../../Utils/string2HTML';
@@ -35,8 +40,9 @@ interface Props {
   animateLinks?: boolean | number;
   sortNodes: 'asc' | 'desc' | 'mostReadable' | 'none';
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -67,8 +73,9 @@ export function Graph(props: Props) {
     animateLinks,
     sortNodes,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -199,10 +206,14 @@ export function Graph(props: Props) {
                             marginBottom={showValues ? '3xs' : 'none'}
                             size='sm'
                             leading='none'
-                            className='text-right'
+                            className={cn(
+                              'sankey-right-label text-right',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,
+                              ...styles?.graphObjectValues,
                             }}
                           >
                             {`${(d as NodeDataType).label}`.length < truncateBy
@@ -218,10 +229,14 @@ export function Graph(props: Props) {
                             marginBottom='none'
                             size='sm'
                             leading='none'
-                            className='text-right font-bold'
+                            className={cn(
+                              'sankey-right-value text-right font-bold',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               hyphens: 'auto',
-                              color: (d as any).color,
+                              color: (d as NodeDataType).color,
+                              ...styles?.graphObjectValues,
                             }}
                           >
                             {numberFormattingFunction(d.value, prefix, suffix)}
@@ -275,10 +290,14 @@ export function Graph(props: Props) {
                             marginBottom={showValues ? '3xs' : 'none'}
                             size='sm'
                             leading='none'
-                            className='text-left'
+                            className={cn(
+                              'sankey-left-label text-left',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               hyphens: 'auto',
-                              color: (d as any).color,
+                              color: (d as NodeDataType).color,
+                              ...styles?.graphObjectValues,
                             }}
                           >
                             {`${(d as NodeDataType).label}`.length < truncateBy
@@ -294,10 +313,14 @@ export function Graph(props: Props) {
                             size='sm'
                             leading='none'
                             marginBottom='none'
-                            className='text-left font-bold'
+                            className={cn(
+                              'sankey-left-value text-left font-bold',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               hyphens: 'auto',
                               color: (d as NodeDataType).color,
+                              ...styles?.graphObjectValues,
                             }}
                           >
                             {numberFormattingFunction(d.value, prefix, suffix)}
@@ -416,7 +439,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

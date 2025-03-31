@@ -1,7 +1,12 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
-import { P, Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, TreeMapDataType } from '../../../Types';
+import { P, Modal, cn } from '@undp-data/undp-design-system-react';
+import {
+  ClassNameObject,
+  Languages,
+  StyleObject,
+  TreeMapDataType,
+} from '../../../Types';
 import { Tooltip } from '../../Elements/Tooltip';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
@@ -28,8 +33,10 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+  language?: Languages;
 }
 
 export function Graph(props: Props) {
@@ -53,8 +60,10 @@ export function Graph(props: Props) {
     highlightedDataPoints,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    language,
+    styles,
+    classNames,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -203,7 +212,13 @@ export function Graph(props: Props) {
                           marginBottom='none'
                           size='sm'
                           leading='none'
-                          className='w-full'
+                          className={cn(
+                            'w-full treemap-label',
+                            language === 'ar' || language === 'he'
+                              ? 'text-right'
+                              : 'text-left',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             WebkitLineClamp:
                               d.y1 - d.y0 > 50
@@ -227,6 +242,7 @@ export function Graph(props: Props) {
                                     )
                                   ],
                             ),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
                           {(d.data as any).id}
@@ -237,7 +253,13 @@ export function Graph(props: Props) {
                           marginBottom='none'
                           size='sm'
                           leading='none'
-                          className='font-bold w-full'
+                          className={cn(
+                            'w-full font-bold treemap-value',
+                            language === 'ar' || language === 'he'
+                              ? 'text-right'
+                              : 'text-left',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
@@ -250,6 +272,7 @@ export function Graph(props: Props) {
                                     )
                                   ],
                             ),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
                           {numberFormattingFunction(
@@ -273,7 +296,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (

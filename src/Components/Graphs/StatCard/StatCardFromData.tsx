@@ -6,10 +6,11 @@ import { GraphFooter } from '../../Elements/GraphFooter';
 import { GraphHeader } from '../../Elements/GraphHeader';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 import {
-  BackgroundStyleDataType,
   Languages,
   SourcesDataType,
   StatCardsFromDataSheetDataType,
+  StyleObject,
+  ClassNameObject,
 } from '../../../Types';
 
 interface Props {
@@ -31,9 +32,10 @@ interface Props {
   mode?: 'light' | 'dark';
   ariaLabel?: string;
   textBackground?: boolean;
-  backgroundStyle?: BackgroundStyleDataType;
   centerAlign?: boolean;
   verticalAlign?: 'center' | 'top' | 'bottom';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function StatCardFromData(props: Props) {
@@ -55,10 +57,11 @@ export function StatCardFromData(props: Props) {
     mode = 'light',
     ariaLabel,
     textBackground = false,
-    backgroundStyle = {},
     headingFontSize = '4.375rem',
     centerAlign = false,
     verticalAlign = 'center',
+    styles,
+    classNames,
   } = props;
 
   return (
@@ -75,7 +78,7 @@ export function StatCardFromData(props: Props) {
             : ''
         }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -99,6 +102,14 @@ export function StatCardFromData(props: Props) {
           <div className='flex flex-col w-full gap-12 justify-between grow'>
             {graphTitle || graphDescription ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
               />
@@ -176,7 +187,15 @@ export function StatCardFromData(props: Props) {
               </H3>
             </div>
             {sources || footNote ? (
-              <GraphFooter sources={sources} footNote={footNote} />
+              <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
+                sources={sources}
+                footNote={footNote}
+              />
             ) : null}
           </div>
         </div>
