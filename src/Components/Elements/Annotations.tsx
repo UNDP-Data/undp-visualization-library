@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../Types';
 
 interface Props {
   color?: string;
@@ -27,8 +26,8 @@ interface Props {
     text?: string;
   };
   styles?: {
-    connector?: CSSObject;
-    text?: CSSObject;
+    connector?: React.CSSProperties;
+    text?: React.CSSProperties;
   };
 }
 

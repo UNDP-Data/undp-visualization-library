@@ -19,9 +19,9 @@ import { Tooltip } from '../../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
 import { ensureCompleteDataForDumbbellChart } from '../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../Utils/string2HTML';
-import { YTicksAndGridLines } from '../../../../Elements/Axes/yTicksAndGridLines';
 import { AxisTitle } from '../../../../Elements/Axes/AxisTitle';
 import { Axis } from '../../../../Elements/Axes/Axis';
+import { YTicksAndGridLines } from '../../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];

@@ -1,9 +1,9 @@
 import { A, cn, P } from '@undp-data/undp-design-system-react';
-import { CSSObject, SourcesDataType } from '../../Types';
+import { SourcesDataType } from '../../Types';
 
 interface SourceProps {
   sources: SourcesDataType[];
-  style?: CSSObject;
+  style?: React.CSSProperties;
   className?: string;
 }
 

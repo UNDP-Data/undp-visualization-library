@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../Types';
 import { string2HTML } from '../../Utils/string2HTML';
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
   xPos: number;
   yPos: number;
   data: any;
-  backgroundStyle?: CSSObject;
+  backgroundStyle?: React.CSSProperties;
   className?: string;
 }
 

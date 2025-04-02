@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../../Types';
 
 interface Props {
   value: number | string;
@@ -7,7 +6,7 @@ interface Props {
   x: number;
   width: number;
   height: number;
-  style?: CSSObject;
+  style?: React.CSSProperties;
   className?: string;
   alignment?: 'top' | 'bottom';
 }

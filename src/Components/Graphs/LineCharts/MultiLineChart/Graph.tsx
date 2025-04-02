@@ -31,10 +31,10 @@ import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
 import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
 import { Axis } from '../../../Elements/Axes/Axis';
-import { YTicksAndGridLines } from '../../../Elements/Axes/yTicksAndGridLines';
 import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
 import { RefLineY } from '../../../Elements/ReferenceLine';
 import { Annotation } from '../../../Elements/Annotations';
+import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: MultiLineChartDataType[];

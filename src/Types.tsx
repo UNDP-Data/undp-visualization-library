@@ -63,10 +63,6 @@ export type GeoHubGraphType =
 
 export type GraphType = GraphTypeForGriddedGraph | GeoHubGraphType;
 
-export type CSSObject = {
-  [property: string]: string | number;
-};
-
 export interface SourcesDataType {
   source: string;
   link?: string;
@@ -103,25 +99,25 @@ export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
 }
 
 export interface AxesStyleObject {
-  gridLines?: CSSObject;
-  labels?: CSSObject;
-  title?: CSSObject;
-  axis?: CSSObject;
+  gridLines?: React.CSSProperties;
+  labels?: React.CSSProperties;
+  title?: React.CSSProperties;
+  axis?: React.CSSProperties;
 }
 
 export interface StyleObject {
-  title?: CSSObject;
-  footnote?: CSSObject;
-  source?: CSSObject;
-  description?: CSSObject;
-  graphBackground?: CSSObject;
-  tooltip?: CSSObject;
+  title?: React.CSSProperties;
+  footnote?: React.CSSProperties;
+  source?: React.CSSProperties;
+  description?: React.CSSProperties;
+  graphBackground?: React.CSSProperties;
+  tooltip?: React.CSSProperties;
   xAxis?: AxesStyleObject;
   yAxis?: AxesStyleObject;
-  graphObjectValues?: CSSObject;
-  dataConnectors?: CSSObject;
-  mouseOverLine?: CSSObject;
-  regLine?: CSSObject;
+  graphObjectValues?: React.CSSProperties;
+  dataConnectors?: React.CSSProperties;
+  mouseOverLine?: React.CSSProperties;
+  regLine?: React.CSSProperties;
 }
 
 export interface AxesClassNameObject {
@@ -382,8 +378,8 @@ export interface ReferenceDataType {
   text: string;
   color?: string;
   styles?: {
-    line?: CSSObject;
-    text?: CSSObject;
+    line?: React.CSSProperties;
+    text?: React.CSSProperties;
   };
   classNames?: {
     line?: string;
@@ -597,8 +593,8 @@ export interface AnnotationSettingsDataType {
     text?: string;
   };
   styles?: {
-    connector?: CSSObject;
-    text?: CSSObject;
+    connector?: React.CSSProperties;
+    text?: React.CSSProperties;
   };
 }
 

@@ -29,9 +29,9 @@ import { string2HTML } from '../../../../Utils/string2HTML';
 import { Axis } from '../../../Elements/Axes/Axis';
 import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
 import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
-import { YTicksAndGridLines } from '../../../Elements/Axes/yTicksAndGridLines';
 import { RefLineX, RefLineY } from '../../../Elements/ReferenceLine';
 import { Annotation } from '../../../Elements/Annotations';
+import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: ScatterPlotWithDateDataType[];

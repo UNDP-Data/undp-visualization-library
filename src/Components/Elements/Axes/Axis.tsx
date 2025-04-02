@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../../Types';
 import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
   y2: number;
   x2: number;
   classNames?: { axis?: string; label?: string };
-  styles?: { axis?: CSSObject; label?: CSSObject };
+  styles?: { axis?: React.CSSProperties; label?: React.CSSProperties };
 }
 
 export function Axis(props: Props) {

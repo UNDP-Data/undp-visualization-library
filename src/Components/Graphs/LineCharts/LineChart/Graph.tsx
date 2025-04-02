@@ -30,13 +30,13 @@ import { Tooltip } from '../../../Elements/Tooltip';
 import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
 import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
-import { YTicksAndGridLines } from '../../../Elements/Axes/yTicksAndGridLines';
 import { Axis } from '../../../Elements/Axes/Axis';
 import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
 import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
 import { RefLineY } from '../../../Elements/ReferenceLine';
 import { RegressionLine } from '../../../Elements/RegressionLine';
 import { Annotation } from '../../../Elements/Annotations';
+import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: LineChartDataType[];

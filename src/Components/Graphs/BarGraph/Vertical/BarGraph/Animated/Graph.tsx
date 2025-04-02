@@ -21,9 +21,9 @@ import { UNDPColorModule } from '../../../../../ColorPalette';
 import { ensureCompleteDataForBarChart } from '../../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../../Utils/string2HTML';
 import { Axis } from '../../../../../Elements/Axes/Axis';
-import { YTicksAndGridLines } from '../../../../../Elements/Axes/yTicksAndGridLines';
 import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
 import { RefLineY } from '../../../../../Elements/ReferenceLine';
+import { YTicksAndGridLines } from '../../../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: BarGraphWithDateDataType[];

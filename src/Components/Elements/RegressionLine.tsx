@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../Types';
 
 interface Props {
   color?: string;
@@ -8,7 +7,7 @@ interface Props {
   x1: number;
   x2: number;
   className?: string;
-  style?: CSSObject;
+  style?: React.CSSProperties;
 }
 
 export function RegressionLine(props: Props) {

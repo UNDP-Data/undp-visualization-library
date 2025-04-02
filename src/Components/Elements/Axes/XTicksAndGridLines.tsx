@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../../Types';
 import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
   x: number[];
   y2: number;
   y1: number;
-  styles: { gridLines?: CSSObject; labels?: CSSObject };
+  styles: { gridLines?: React.CSSProperties; labels?: React.CSSProperties };
   classNames: { gridLines?: string; labels?: string };
   prefix?: string;
   suffix?: string;

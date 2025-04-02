@@ -1,5 +1,4 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../Types';
 
 interface RefLineYProps {
   text?: string;
@@ -12,8 +11,8 @@ interface RefLineYProps {
     text?: string;
   };
   styles?: {
-    line?: CSSObject;
-    text?: CSSObject;
+    line?: React.CSSProperties;
+    text?: React.CSSProperties;
   };
 }
 
@@ -74,8 +73,8 @@ interface RefLineXProps {
     text?: string;
   };
   styles?: {
-    line?: CSSObject;
-    text?: CSSObject;
+    line?: React.CSSProperties;
+    text?: React.CSSProperties;
   };
 }
 

@@ -1,11 +1,10 @@
 import { cn, H5, P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
-import { CSSObject } from '../../Types';
 
 interface Props {
   text: string;
   isDashboard?: boolean;
-  style?: CSSObject;
+  style?: React.CSSProperties;
   className?: string;
 }
 

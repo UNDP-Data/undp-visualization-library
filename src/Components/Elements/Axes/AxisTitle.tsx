@@ -1,12 +1,11 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { CSSObject } from '../../../Types';
 
 interface Props {
   text?: string;
   y: number;
   x: number;
   className?: string;
-  style?: CSSObject;
+  style?: React.CSSProperties;
   rotate90?: boolean;
 }
 

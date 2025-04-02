@@ -1,4 +1,3 @@
-import { CSSObject } from '../../Types';
 import { CsvDownloadButton } from '../Actions/CsvDownloadButton';
 import { ImageDownloadButton } from '../Actions/ImageDownloadButton';
 import { GraphDescription } from '../Typography/GraphDescription';
@@ -11,7 +10,7 @@ interface Props {
   graphDownload?: HTMLDivElement | null;
   dataDownload?: any;
   isDashboard?: boolean;
-  styles?: { title?: CSSObject; description?: CSSObject };
+  styles?: { title?: React.CSSProperties; description?: React.CSSProperties };
   classNames?: { title?: string; description?: string };
 }
 

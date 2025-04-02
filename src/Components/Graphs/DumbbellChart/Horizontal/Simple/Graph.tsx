@@ -15,8 +15,8 @@ import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefi
 import { string2HTML } from '../../../../../Utils/string2HTML';
 import { XTicksAndGridLines } from '../../../../Elements/Axes/XTicksAndGridLines';
 import { AxisTitle } from '../../../../Elements/Axes/AxisTitle';
-import { YTicksAndGridLines } from '../../../../Elements/Axes/yTicksAndGridLines';
 import { YAxesLabels } from '../../../../Elements/Axes/YAxesLabels';
+import { YTicksAndGridLines } from '../../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: DumbbellChartDataType[];

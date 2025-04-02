@@ -1,10 +1,9 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
 import { extractInnerString } from '../../Utils/extractInnerString';
-import { CSSObject } from '../../Types';
 
 interface Props {
   text: string;
-  style?: CSSObject;
+  style?: React.CSSProperties;
   className?: string;
 }
 

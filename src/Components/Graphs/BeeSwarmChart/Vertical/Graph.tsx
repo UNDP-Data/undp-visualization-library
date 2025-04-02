@@ -24,8 +24,8 @@ import { getTextColorBasedOnBgColor } from '../../../../Utils/getTextColorBasedO
 import { UNDPColorModule } from '../../../ColorPalette';
 import { string2HTML } from '../../../../Utils/string2HTML';
 import { Axis } from '../../../Elements/Axes/Axis';
-import { YTicksAndGridLines } from '../../../Elements/Axes/yTicksAndGridLines';
 import { RefLineY } from '../../../Elements/ReferenceLine';
+import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
 
 interface BeeSwarmChartDataTypeForBubbleChart extends BeeSwarmChartDataType {
   x: number;

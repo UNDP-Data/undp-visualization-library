@@ -27,3 +27,5 @@ src/setupTests.js
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log

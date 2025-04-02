@@ -1,4 +1,4 @@
-import { CSSObject, SourcesDataType } from '../../Types';
+import { SourcesDataType } from '../../Types';
 import { FootNote } from '../Typography/FootNote';
 import { Source } from '../Typography/Source';
 
@@ -6,7 +6,7 @@ interface Props {
   footNote?: string;
   sources?: SourcesDataType[];
   width?: number;
-  styles?: { footnote?: CSSObject; source?: CSSObject };
+  styles?: { footnote?: React.CSSProperties; source?: React.CSSProperties };
   classNames?: { footnote?: string; source?: string };
 }
 

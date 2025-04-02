@@ -21,9 +21,9 @@ import { ensureCompleteDataForStackedBarChart } from '../../../../../../Utils/en
 import { getTextColorBasedOnBgColor } from '../../../../../../Utils/getTextColorBasedOnBgColor';
 import { string2HTML } from '../../../../../../Utils/string2HTML';
 import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { YTicksAndGridLines } from '../../../../../Elements/Axes/yTicksAndGridLines';
 import { Axis } from '../../../../../Elements/Axes/Axis';
 import { RefLineY } from '../../../../../Elements/ReferenceLine';
+import { YTicksAndGridLines } from '../../../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];

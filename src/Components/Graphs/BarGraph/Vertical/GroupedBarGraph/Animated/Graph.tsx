@@ -21,10 +21,10 @@ import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUnd
 import { ensureCompleteDataForStackedBarChart } from '../../../../../../Utils/ensureCompleteData';
 import { string2HTML } from '../../../../../../Utils/string2HTML';
 import { XAxesLabels } from '../../../../../Elements/Axes/XAxesLabels';
-import { YTicksAndGridLines } from '../../../../../Elements/Axes/yTicksAndGridLines';
 import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
 import { Axis } from '../../../../../Elements/Axes/Axis';
 import { RefLineY } from '../../../../../Elements/ReferenceLine';
+import { YTicksAndGridLines } from '../../../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];

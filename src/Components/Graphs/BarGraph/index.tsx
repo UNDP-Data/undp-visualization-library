@@ -15,59 +15,74 @@ import { VerticalGroupedBarGraph } from './Vertical/GroupedBarGraph/Simple';
 import { VerticalStackedBarGraph } from './Vertical/StackedBarGraph/Simple';
 
 interface Props {
+  // Data
   data: BarGraphDataType[];
-  colors?: string | string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
-  labelOrder?: string[];
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
-  sources?: SourcesDataType[];
   graphDescription?: string;
   footNote?: string;
-  barPadding?: number;
-  showLabels?: boolean;
-  showValues?: boolean;
-  showTicks?: boolean;
+  sources?: SourcesDataType[];
+  ariaLabel?: string;
+  barAxisTitle?: string;
+
+  // Colors and Styling
+  colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
-  truncateBy?: number;
+  valueColor?: string;
   backgroundColor?: string | boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
-  relativeHeight?: number;
   bottomMargin?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  showColorScale?: boolean;
-  graphID?: string;
+  barPadding?: number;
+  maxBarThickness?: number;
+  minBarThickness?: number;
+  maxNumberOfBars?: number;
+
+  // Values and Ticks
+  prefix?: string;
+  suffix?: string;
   maxValue?: number;
   minValue?: number;
-  highlightedDataPoints?: (string | number)[];
-  onSeriesMouseClick?: (_d: any) => void;
+  truncateBy?: number;
+  refValues?: ReferenceDataType[];
+  noOfTicks?: number;
+
+  // Graph Parameters
+  showLabels?: boolean;
+  showValues?: boolean;
+  labelOrder?: string[];
+  showTicks?: boolean;
+  showColorScale?: boolean;
   graphDownload?: boolean;
   dataDownload?: boolean;
+  showNAColor?: boolean;
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
+  detailsOnClick?: string;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+  highlightedDataPoints?: (string | number)[];
+
+  // Configuration and Options
   sortData?: 'asc' | 'desc';
   language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
   mode?: 'light' | 'dark';
-  maxBarThickness?: number;
-  maxNumberOfBars?: number;
-  minBarThickness?: number;
-  ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  barAxisTitle?: string;
-  noOfTicks?: number;
-  valueColor?: string;
   orientation?: 'vertical' | 'horizontal';
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphID?: string;
 }
 
 export function SimpleBarGraph(props: Props) {

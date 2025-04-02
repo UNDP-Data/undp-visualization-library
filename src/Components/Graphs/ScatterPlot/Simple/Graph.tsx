@@ -22,13 +22,13 @@ import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunc
 import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
 import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
 import { string2HTML } from '../../../../Utils/string2HTML';
-import { YTicksAndGridLines } from '../../../Elements/Axes/yTicksAndGridLines';
 import { Axis } from '../../../Elements/Axes/Axis';
 import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
 import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
 import { RefLineX, RefLineY } from '../../../Elements/ReferenceLine';
 import { RegressionLine } from '../../../Elements/RegressionLine';
 import { Annotation } from '../../../Elements/Annotations';
+import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: ScatterPlotDataType[];
