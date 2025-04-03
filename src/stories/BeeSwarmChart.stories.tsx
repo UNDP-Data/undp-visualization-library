@@ -2,15 +2,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { BeeSwarmChart } from '@/index';
-
-function parseValue(str?: any) {
-  try {
-    JSON.parse(str);
-    return JSON.parse(str);
-  } catch (_e) {
-    return str;
-  }
-}
+import { parseValue } from './assets/parseValue';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof BeeSwarmChart>;
 
@@ -398,16 +390,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: '2023 Q3', position: 11 },
       { label: '2024 Q4', position: 19 },
     ],
-  },
-  parameters: {
-    docs: {
-      argTypes: {
-        sort: 'none',
-      },
-      source: {
-        type: 'dynamic',
-      },
-    },
   },
   render: ({
     colors,

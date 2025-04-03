@@ -2,15 +2,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GroupedBarGraph } from '@/index';
-
-function parseValue(str?: any, defaultVal?: any) {
-  try {
-    JSON.parse(str);
-    return JSON.parse(str);
-  } catch (_e) {
-    return defaultVal;
-  }
-}
+import { parseValue } from '../assets/parseValue';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
 
@@ -428,16 +420,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: '2020 Q4', size: [5, 6, 7] },
     ],
     colorDomain: ['Apples', 'Mangoes', 'Oranges'],
-  },
-  parameters: {
-    docs: {
-      argTypes: {
-        sort: 'none',
-      },
-      source: {
-        type: 'dynamic',
-      },
-    },
   },
   render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
     return (

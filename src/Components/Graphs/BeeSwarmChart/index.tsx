@@ -22,7 +22,7 @@ interface Props {
 
   // Colors and Styling
   colors?: string[];
-  colorDomain: string[];
+  colorDomain?: string[];
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
   styles?: StyleObject;
