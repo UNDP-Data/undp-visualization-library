@@ -16,44 +16,59 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
   data: TreeMapDataType[];
-  colors?: string | string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
   sources?: SourcesDataType[];
-  leftMargin?: number;
-  rightMargin?: number;
+  ariaLabel?: string;
+
+  // Colors and Styling
+  colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
+  leftMargin?: number;
+  rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  relativeHeight?: number;
+
+  // Values and Ticks
+  prefix?: string;
+  suffix?: string;
+
+  // Graph Parameters
   showLabels?: boolean;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  onSeriesMouseClick?: (_d: any) => void;
-  showColorScale?: boolean;
   showValues?: boolean;
-  graphID?: string;
+  showColorScale?: boolean;
+  showNAColor?: boolean;
   highlightedDataPoints?: (string | number)[];
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
   detailsOnClick?: string;
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  language?: Languages;
+  mode?: 'light' | 'dark';
+  graphID?: string;
 }
 
 export function TreeMapGraph(props: Props) {

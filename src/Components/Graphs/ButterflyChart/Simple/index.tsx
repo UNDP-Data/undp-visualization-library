@@ -16,49 +16,66 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
   data: ButterflyChartDataType[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
   graphDescription?: string;
+  footNote?: string;
+  sources?: SourcesDataType[];
+  ariaLabel?: string;
   leftBarTitle?: string;
   rightBarTitle?: string;
-  footNote?: string;
+
+  // Colors and Styling
+  colorLegendTitle?: string;
+  backgroundColor?: string | boolean;
+  leftBarColor?: string;
+  rightBarColor?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
   width?: number;
   height?: number;
-  sources?: SourcesDataType[];
-  backgroundColor?: string | boolean;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  barColors?: [string, string];
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
   barPadding?: number;
-  truncateBy?: number;
-  suffix?: string;
-  prefix?: string;
-  showTicks?: boolean;
-  showValues?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
   centerGap?: number;
+
+  // Values and Ticks
+  prefix?: string;
+  suffix?: string;
   maxValue?: number;
   minValue?: number;
-  showColorScale?: boolean;
+  truncateBy?: number;
   refValues?: ReferenceDataType[];
-  language?: Languages;
-  colorLegendTitle?: string;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  ariaLabel?: string;
+  noOfTicks?: number;
+
+  // Graph Parameters
+  showValues?: boolean;
+  showTicks?: boolean;
+  showColorScale?: boolean;
+  graphDownload?: boolean;
+  dataDownload?: boolean;
   resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
   detailsOnClick?: string;
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  language?: Languages;
+  mode?: 'light' | 'dark';
+  graphID?: string;
 }
 
 export function ButterflyChart(props: Props) {
@@ -71,10 +88,8 @@ export function ButterflyChart(props: Props) {
     width,
     footNote,
     padding,
-    barColors = [
-      UNDPColorModule.light.categoricalColors.colors[0],
-      UNDPColorModule.light.categoricalColors.colors[1],
-    ],
+    leftBarColor = UNDPColorModule.light.categoricalColors.colors[0],
+    rightBarColor = UNDPColorModule.light.categoricalColors.colors[1],
     backgroundColor = false,
     leftMargin = 20,
     rightMargin = 20,
@@ -109,6 +124,7 @@ export function ButterflyChart(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    noOfTicks = 5,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -200,7 +216,7 @@ export function ButterflyChart(props: Props) {
                     <ColorLegend
                       colorLegendTitle={colorLegendTitle}
                       colorDomain={[leftBarTitle, rightBarTitle]}
-                      colors={barColors}
+                      colors={[leftBarColor, rightBarColor]}
                       showNAColor={false}
                       mode={mode}
                     />
@@ -213,7 +229,7 @@ export function ButterflyChart(props: Props) {
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
-                        barColors={barColors}
+                        barColors={[leftBarColor, rightBarColor]}
                         width={width || svgWidth}
                         centerGap={centerGap}
                         height={Math.max(
@@ -251,6 +267,7 @@ export function ButterflyChart(props: Props) {
                         detailsOnClick={detailsOnClick}
                         styles={styles}
                         classNames={classNames}
+                        noOfTicks={noOfTicks}
                       />
                     ) : null}
                   </div>

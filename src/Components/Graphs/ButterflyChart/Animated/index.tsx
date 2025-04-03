@@ -36,7 +36,8 @@ interface Props {
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  barColors?: [string, string];
+  leftBarColor?: string;
+  rightBarColor?: string;
   relativeHeight?: number;
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
@@ -67,6 +68,7 @@ interface Props {
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  noOfTicks?: number;
 }
 
 export function AnimatedButterflyChart(props: Props) {
@@ -79,10 +81,8 @@ export function AnimatedButterflyChart(props: Props) {
     width,
     footNote,
     padding,
-    barColors = [
-      UNDPColorModule.light.categoricalColors.colors[0],
-      UNDPColorModule.light.categoricalColors.colors[1],
-    ],
+    leftBarColor = UNDPColorModule.light.categoricalColors.colors[0],
+    rightBarColor = UNDPColorModule.light.categoricalColors.colors[1],
     backgroundColor = false,
     leftMargin = 20,
     rightMargin = 20,
@@ -120,6 +120,7 @@ export function AnimatedButterflyChart(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    noOfTicks = 5,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -266,7 +267,7 @@ export function AnimatedButterflyChart(props: Props) {
                 <ColorLegend
                   colorLegendTitle={colorLegendTitle}
                   colorDomain={[leftBarTitle, rightBarTitle]}
-                  colors={barColors}
+                  colors={[leftBarColor, rightBarColor]}
                   showNAColor={false}
                   mode={mode}
                 />
@@ -279,7 +280,7 @@ export function AnimatedButterflyChart(props: Props) {
                 {(width || svgWidth) && (height || svgHeight) ? (
                   <Graph
                     data={data}
-                    barColors={barColors}
+                    barColors={[leftBarColor, rightBarColor]}
                     width={width || svgWidth}
                     centerGap={centerGap}
                     height={Math.max(
@@ -320,6 +321,7 @@ export function AnimatedButterflyChart(props: Props) {
                     detailsOnClick={detailsOnClick}
                     styles={styles}
                     classNames={classNames}
+                    noOfTicks={noOfTicks}
                   />
                 ) : null}
               </div>

@@ -19,46 +19,61 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
   data: TreeMapDataType[];
-  colors?: string | string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
   sources?: SourcesDataType[];
-  leftMargin?: number;
-  rightMargin?: number;
+  ariaLabel?: string;
+
+  // Colors and Styling
+  colors?: string | string[];
   colorDomain?: string[];
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
-  padding?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  showLabels?: boolean;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  showColorScale?: boolean;
-  showValues?: boolean;
-  graphID?: string;
-  highlightedDataPoints?: (string | number)[];
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  ariaLabel?: string;
-  radius?: number;
-  maxRadiusValue?: number;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
+  padding?: string;
+  leftMargin?: number;
+  rightMargin?: number;
+  topMargin?: number;
+  bottomMargin?: number;
+  radius?: number;
+
+  // Values and Ticks
+  prefix?: string;
+  suffix?: string;
+  maxRadiusValue?: number;
+
+  // Graph Parameters
+  showLabels?: boolean;
+  showValues?: boolean;
+  showColorScale?: boolean;
+  showNAColor?: boolean;
+  highlightedDataPoints?: (string | number)[];
+  graphDownload?: boolean;
+  dataDownload?: boolean;
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
+  detailsOnClick?: string;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  language?: Languages;
+  mode?: 'light' | 'dark';
+  graphID?: string;
 }
 
 export function CirclePackingGraph(props: Props) {

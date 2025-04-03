@@ -44,6 +44,7 @@ interface Props {
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  noOfTicks: number;
 }
 
 export function Graph(props: Props) {
@@ -74,6 +75,7 @@ export function Graph(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    noOfTicks,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -155,12 +157,12 @@ export function Graph(props: Props) {
     .domain([minParam, maxParam])
     .range([0, (graphWidth - centerGap) / 2])
     .nice();
-  const xRightTicks = xRightBar.ticks(5);
+  const xRightTicks = xRightBar.ticks(noOfTicks);
   const xLeftBar = scaleLinear()
     .domain([minParam, maxParam])
     .range([(graphWidth - centerGap) / 2, 0])
     .nice();
-  const xLeftTicks = xLeftBar.ticks(5);
+  const xLeftTicks = xLeftBar.ticks(noOfTicks);
   return (
     <>
       <svg
@@ -460,7 +462,7 @@ export function Graph(props: Props) {
                     ? `${d.label}`
                     : `${`${d.label}`.substring(0, truncateBy)}...`
                 }
-                y={y(`${d.label}`) as number}
+                y={y(`${d.id}`) as number}
                 x={0 - centerGap / 2}
                 width={centerGap}
                 height={y.bandwidth()}

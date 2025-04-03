@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { CirclePackingGraph } from '@/index';
+import { parseValue } from './assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof CirclePackingGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Circle Packing',
+  component: CirclePackingGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -17,10 +17,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'BarGraphDataType[]',
+          summary: 'CirclePackingGraphDataType[]',
           detail: `{
-  label: string; 
-  size: number;
+  label: string | number;
+  size?: number | null;
   color?: string;
 }`,
         },
@@ -63,11 +63,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Accessibility label',
       table: { type: { summary: 'string' } },
     },
-    barAxisTitle: {
-      control: 'text',
-      description: 'Title for the bar axis',
-      table: { type: { summary: 'string' } },
-    },
 
     // Colors and Styling
     colors: {
@@ -89,11 +84,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     colorLegendTitle: {
       control: 'text',
       description: 'Title for the color legend',
-      table: { type: { summary: 'string' } },
-    },
-    valueColor: {
-      control: 'color',
-      description: 'Color of value labels',
       table: { type: { summary: 'string' } },
     },
     backgroundColor: {
@@ -216,24 +206,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Bottom margin of the graph',
       table: { type: { summary: 'number' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-      description: 'Padding between bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxBarThickness: {
+    radius: {
       control: 'number',
-      description: 'Maximum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    minBarThickness: {
-      control: 'number',
-      description: 'Minimum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxNumberOfBars: {
-      control: { type: 'number', min: 0 },
-      description: 'Maximum number of bars shown in the graph',
+      description: 'Maximum radius for circles in the graph',
       table: { type: { summary: 'number' } },
     },
 
@@ -248,49 +223,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Suffix for values',
       table: { type: { summary: 'string' } },
     },
-    maxValue: {
+    maxRadiusValue: {
       control: 'number',
-      description: 'Maximum value for the chart',
+      description: 'Maximum value for radius for circles in the chart',
       table: { type: { summary: 'number' } },
     },
-    minValue: {
-      control: 'number',
-      description: 'Minimum value for the chart',
-      table: { type: { summary: 'number' } },
-    },
-    truncateBy: {
-      control: 'number',
-      description: 'Truncate labels by specified length',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '999' } },
-    },
-    refValues: {
-      control: 'object',
-      description: 'Reference values for comparison',
-      table: {
-        type: {
-          summary: 'ReferenceDataType[]',
-          detail: `{
-    value: number | null;
-    text: string;
-    color?: string;
-    styles?: {
-      line?: React.CSSProperties;
-      text?: React.CSSProperties;
-    };
-    classNames?: {
-      line?: string;
-      text?: string;
-    };
-  }`,
-        },
-      },
-    },
-    noOfTicks: {
-      control: 'number',
-      description: 'Number of ticks on the axis',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '5' } },
-    },
-
     // Graph parameters
     showLabels: {
       control: 'boolean',
@@ -308,26 +245,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    labelOrder: {
-      control: 'text',
-      description: 'Custom order for labels',
-      table: { type: { summary: 'string[]' } },
-    },
-    showTicks: {
-      control: 'boolean',
-      description: 'Toggle visibility of axis ticks',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
     showColorScale: {
       control: 'boolean',
       description:
         'Show or hide color scale. This is only applicable if the data props hae color parameter',
       table: {
         type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'false' },
       },
     },
     showNAColor: {
@@ -395,13 +319,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      description:
-        'Sorting order for data. This is overwritten by labelOrder prop',
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -439,15 +356,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      description: 'Orientation of the graph',
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
     graphID: {
       control: 'text',
       description: 'Unique ID for the graph',
@@ -456,31 +364,30 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2010', size: 3 },
+      { label: '2012', size: 8 },
+      { label: '2014', size: 11 },
+      { label: '2016', size: 19 },
+      { label: '2018', size: 3 },
+      { label: '2020', size: 8 },
+      { label: '2022', size: 11 },
+      { label: '2024', size: 19 },
     ],
   },
   render: ({
     colors,
-    labelOrder,
     highlightedDataPoints,
     backgroundColor,
     colorDomain,
     ...args
   }) => {
     return (
-      <SimpleBarGraph
+      <CirclePackingGraph
         colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
+        {...args}
         {...args}
       />
     );
@@ -489,6 +396,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof CirclePackingGraph>;
 
 export const Default: Story = {};

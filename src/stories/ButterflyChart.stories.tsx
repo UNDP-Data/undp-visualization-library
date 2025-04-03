@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { ButterflyChart } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof ButterflyChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Butterfly Chart',
+  component: ButterflyChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -17,10 +16,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'BarGraphDataType[]',
+          summary: 'ButterflyChartDataType[]',
           detail: `{
-  label: string; 
-  size: number;
+  label: string | number;
+  position: number;
+  radius?: number;
   color?: string;
 }`,
         },
@@ -63,43 +63,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Accessibility label',
       table: { type: { summary: 'string' } },
     },
-    barAxisTitle: {
+    leftBarTitle: {
       control: 'text',
-      description: 'Title for the bar axis',
+      description: 'Title for the  left bar axis',
+      table: { type: { summary: 'string' } },
+    },
+    rightBarTitle: {
+      control: 'text',
+      description: 'Title for the right bar axis',
       table: { type: { summary: 'string' } },
     },
 
     // Colors and Styling
-    colors: {
-      control: 'text',
-      description: 'Color or array of colors for bars',
-      table: {
-        type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
-        },
-      },
-    },
-    colorDomain: {
-      control: 'text',
-      description: 'Domain of colors for the graph',
-      table: { type: { summary: 'string[]' } },
-    },
     colorLegendTitle: {
       control: 'text',
       description: 'Title for the color legend',
-      table: { type: { summary: 'string' } },
-    },
-    valueColor: {
-      control: 'color',
-      description: 'Color of value labels',
       table: { type: { summary: 'string' } },
     },
     backgroundColor: {
       control: 'text',
       description: 'Background color of the graph',
       table: { type: { summary: 'string | boolean' } },
+    },
+    leftBarColor: {
+      control: 'color',
+      description: 'Color of the left bars',
+      table: { type: { summary: 'string' } },
+    },
+    rightBarColor: {
+      control: 'color',
+      description: 'Color of the right bars',
+      table: { type: { summary: 'string' } },
     },
     styles: {
       control: 'object',
@@ -221,20 +215,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Padding between bars',
       table: { type: { summary: 'number' } },
     },
-    maxBarThickness: {
-      control: 'number',
-      description: 'Maximum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    minBarThickness: {
-      control: 'number',
-      description: 'Minimum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxNumberOfBars: {
+    centerGap: {
       control: { type: 'number', min: 0 },
-      description: 'Maximum number of bars shown in the graph',
-      table: { type: { summary: 'number' } },
+      description: 'Spacing between the left and right bars',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '100' } },
     },
 
     // Values and Ticks
@@ -290,16 +274,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Number of ticks on the axis',
       table: { type: { summary: 'number' }, defaultValue: { summary: '5' } },
     },
-
     // Graph parameters
-    showLabels: {
-      control: 'boolean',
-      description: 'Toggle visibility of labels',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
     showValues: {
       control: 'boolean',
       description: 'Toggle visibility of values',
@@ -307,11 +282,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
       },
-    },
-    labelOrder: {
-      control: 'text',
-      description: 'Custom order for labels',
-      table: { type: { summary: 'string[]' } },
     },
     showTicks: {
       control: 'boolean',
@@ -327,23 +297,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         'Show or hide color scale. This is only applicable if the data props hae color parameter',
       table: {
         type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'false' },
       },
-    },
-    showNAColor: {
-      control: 'boolean',
-      description:
-        'Show NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      description:
-        'Data points to highlight. Use the label value from data to highlight the data point',
-      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       control: 'boolean',
@@ -395,13 +350,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      description:
-        'Sorting order for data. This is overwritten by labelOrder prop',
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -439,15 +387,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      description: 'Orientation of the graph',
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
     graphID: {
       control: 'text',
       description: 'Unique ID for the graph',
@@ -456,30 +395,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2010', leftBar: 3, rightBar: 5 },
+      { label: '2012', leftBar: 8, rightBar: 10 },
+      { label: '2014', leftBar: 11, rightBar: 6 },
+      { label: '2016', leftBar: 19, rightBar: 17 },
+      { label: '2018', leftBar: 3, rightBar: 15 },
+      { label: '2020', leftBar: 8, rightBar: 7 },
+      { label: '2022', leftBar: 11, rightBar: 8 },
+      { label: '2024', leftBar: 19, rightBar: 9 },
     ],
   },
-  render: ({
-    colors,
-    labelOrder,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ backgroundColor, ...args }) => {
     return (
-      <SimpleBarGraph
-        colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <ButterflyChart
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
         {...args}
       />
@@ -489,6 +417,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof ButterflyChart>;
 
 export const Default: Story = {};

@@ -265,7 +265,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     showNAColor: {
       control: 'boolean',
       description:
-        'Show NA color in the graph. This is only applicable if the data props hae color parameter and showColorScale prop is true',
+        'Show NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
