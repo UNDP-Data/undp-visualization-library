@@ -311,7 +311,7 @@ export function Graph(props: Props) {
                         : `${`${d.label}`.substring(0, truncateBy)}...`
                     }
                     y={y(0) + 5}
-                    x={x(`${d.id}`) as number}
+                    x={0}
                     width={x.bandwidth()}
                     height={margin.bottom}
                     style={styles?.xAxis?.labels}

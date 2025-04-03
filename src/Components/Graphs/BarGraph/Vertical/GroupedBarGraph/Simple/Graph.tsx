@@ -187,7 +187,7 @@ export function Graph(props: Props) {
               values={yTicks.filter(d => d !== 0)}
               y={yTicks.filter(d => d !== 0).map(d => y(d))}
               x1={0 - leftMargin}
-              x2={graphHeight + margin.bottom + margin.top}
+              x2={graphWidth + margin.right}
               styles={{
                 gridLines: styles?.yAxis?.gridLines,
                 labels: styles?.yAxis?.labels,
@@ -304,7 +304,7 @@ export function Graph(props: Props) {
                         : `${`${d.label}`.substring(0, truncateBy)}...`
                     }
                     y={y(0) + 5}
-                    x={x(`${d.id}`) as number}
+                    x={0}
                     width={x.bandwidth()}
                     height={margin.bottom}
                     style={styles?.xAxis?.labels}

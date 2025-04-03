@@ -3,12 +3,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GroupedBarGraph } from '@/index';
 
-function parseValue(str?: any) {
+function parseValue(str?: any, defaultVal?: any) {
   try {
     JSON.parse(str);
     return JSON.parse(str);
   } catch (_e) {
-    return str;
+    return defaultVal;
   }
 }
 
@@ -427,6 +427,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: '2020 Q3', size: [6, 7, 8] },
       { label: '2020 Q4', size: [5, 6, 7] },
     ],
+    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
   parameters: {
     docs: {
@@ -443,7 +444,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       <GroupedBarGraph
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain)}
+        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
         {...args}
       />

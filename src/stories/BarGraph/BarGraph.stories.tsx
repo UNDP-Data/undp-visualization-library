@@ -3,12 +3,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SimpleBarGraph } from '@/index';
 
-function parseValue(str?: any) {
+function parseValue(str?: any, defaultVal?: any) {
   try {
     JSON.parse(str);
     return JSON.parse(str);
   } catch (_e) {
-    return str;
+    return defaultVal;
   }
 }
 
