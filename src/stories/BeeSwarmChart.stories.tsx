@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
+import { BeeSwarmChart } from '@/index';
 
 function parseValue(str?: any) {
   try {
@@ -12,11 +12,11 @@ function parseValue(str?: any) {
   }
 }
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof BeeSwarmChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Beeswarm Chart',
+  component: BeeSwarmChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -25,10 +25,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'BarGraphDataType[]',
+          summary: 'BeeSwarmChartDataType[]',
           detail: `{
-  label: string; 
-  size: number;
+  label: string | number;
+  position: number;
+  radius?: number;
   color?: string;
 }`,
         },
@@ -71,11 +72,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Accessibility label',
       table: { type: { summary: 'string' } },
     },
-    barAxisTitle: {
-      control: 'text',
-      description: 'Title for the bar axis',
-      table: { type: { summary: 'string' } },
-    },
 
     // Colors and Styling
     colors: {
@@ -97,11 +93,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     colorLegendTitle: {
       control: 'text',
       description: 'Title for the color legend',
-      table: { type: { summary: 'string' } },
-    },
-    valueColor: {
-      control: 'color',
-      description: 'Color of value labels',
       table: { type: { summary: 'string' } },
     },
     backgroundColor: {
@@ -224,53 +215,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Bottom margin of the graph',
       table: { type: { summary: 'number' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-      description: 'Padding between bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxBarThickness: {
-      control: 'number',
-      description: 'Maximum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    minBarThickness: {
-      control: 'number',
-      description: 'Minimum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxNumberOfBars: {
-      control: { type: 'number', min: 0 },
-      description: 'Maximum number of bars shown in the graph',
-      table: { type: { summary: 'number' } },
-    },
 
     // Values and Ticks
-    prefix: {
-      control: 'text',
-      description: 'Prefix for values',
-      table: { type: { summary: 'string' } },
-    },
-    suffix: {
-      control: 'text',
-      description: 'Suffix for values',
-      table: { type: { summary: 'string' } },
-    },
-    maxValue: {
-      control: 'number',
-      description: 'Maximum value for the chart',
-      table: { type: { summary: 'number' } },
-    },
-    minValue: {
-      control: 'number',
-      description: 'Minimum value for the chart',
-      table: { type: { summary: 'number' } },
-    },
-    truncateBy: {
-      control: 'number',
-      description: 'Truncate labels by specified length',
-      table: { type: { summary: 'number' }, defaultValue: { summary: '999' } },
-    },
     refValues: {
       control: 'object',
       description: 'Reference values for comparison',
@@ -298,7 +244,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Number of ticks on the axis',
       table: { type: { summary: 'number' }, defaultValue: { summary: '5' } },
     },
-
     // Graph parameters
     showLabels: {
       control: 'boolean',
@@ -307,19 +252,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
       },
-    },
-    showValues: {
-      control: 'boolean',
-      description: 'Toggle visibility of values',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
-    labelOrder: {
-      control: 'text',
-      description: 'Custom order for labels',
-      table: { type: { summary: 'string[]' } },
     },
     showTicks: {
       control: 'boolean',
@@ -403,13 +335,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      description:
-        'Sorting order for data. This is overwritten by labelOrder prop',
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -464,14 +389,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2020 Q1', position: 3 },
+      { label: '2020 Q2', position: 8 },
+      { label: '2020 Q3', position: 11 },
+      { label: '2020 Q4', position: 19 },
+      { label: '2021 Q1', position: 3 },
+      { label: '2022 Q2', position: 8 },
+      { label: '2023 Q3', position: 11 },
+      { label: '2024 Q4', position: 19 },
     ],
   },
   parameters: {
@@ -486,16 +411,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   render: ({
     colors,
-    labelOrder,
     highlightedDataPoints,
     backgroundColor,
     colorDomain,
     ...args
   }) => {
     return (
-      <SimpleBarGraph
+      <BeeSwarmChart
         colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
@@ -507,6 +430,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof BeeSwarmChart>;
 
 export const Default: Story = {};

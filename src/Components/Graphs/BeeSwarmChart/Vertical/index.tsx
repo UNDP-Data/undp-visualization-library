@@ -57,6 +57,7 @@ interface Props {
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
+  noOfTicks?: number;
   styles?: StyleObject;
   classNames?: ClassNameObject;
 }
@@ -106,6 +107,7 @@ export function VerticalBeeSwarmChart(props: Props) {
     prefix = '',
     styles,
     classNames,
+    noOfTicks,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -284,6 +286,7 @@ export function VerticalBeeSwarmChart(props: Props) {
                         classNames={classNames}
                         suffix={suffix}
                         prefix={prefix}
+                        noOfTicks={noOfTicks || 5}
                       />
                     ) : null}
                   </div>

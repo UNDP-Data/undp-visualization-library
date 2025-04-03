@@ -386,7 +386,8 @@ export function MultiGraphDashboard(props: Props) {
                             backgroundColor:
                               el.settings?.backgroundColor ||
                               graphBackgroundColor,
-                            styles: el.settings?.backgroundColor || graphStyles,
+                            styles: el.settings?.styles || graphStyles,
+                            classNames: el.settings?.classNames || classNames,
                             radius:
                               el.graphType === 'donutChart'
                                 ? undefined
@@ -395,7 +396,9 @@ export function MultiGraphDashboard(props: Props) {
                               el.graphType === 'unitChart'
                                 ? el.settings.size
                                 : undefined,
-                            language: dashboardLayout.language,
+                            language:
+                              el.settings?.language || dashboardLayout.language,
+                            mode: el.settings?.mode || mode,
                           }}
                           dataSettings={{
                             data: data
@@ -433,7 +436,6 @@ export function MultiGraphDashboard(props: Props) {
                           graphDataConfiguration={el.graphDataConfiguration}
                           debugMode={debugMode}
                           readableHeader={readableHeader || []}
-                          mode={mode}
                         />
                       </div>
                     ))}

@@ -65,9 +65,10 @@ interface Props {
   labelOrder?: string[];
   showTicks?: boolean;
   showColorScale?: boolean;
+  showNAColor?: boolean;
+  highlightedDataPoints?: (string | number)[];
   graphDownload?: boolean;
   dataDownload?: boolean;
-  showNAColor?: boolean;
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
@@ -75,7 +76,6 @@ interface Props {
   detailsOnClick?: string;
   onSeriesMouseOver?: (_d: any) => void;
   onSeriesMouseClick?: (_d: any) => void;
-  highlightedDataPoints?: (string | number)[];
 
   // Configuration and Options
   sortData?: 'asc' | 'desc';

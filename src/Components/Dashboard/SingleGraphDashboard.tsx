@@ -23,7 +23,6 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
-  StyleObject,
 } from '@/Types';
 import {
   fetchAndParseCSV,
@@ -61,10 +60,8 @@ interface Props {
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
   uiMode?: 'light' | 'normal';
   updateFilters?: (_d: string) => void;
-  styles?: StyleObject;
 }
 
 const addMinAndMax = (config: GraphConfigurationDataType[]) => {
@@ -105,13 +102,10 @@ export function SingleGraphDashboard(props: Props) {
     debugMode,
     dataSelectionOptions,
     advancedDataSelectionOptions,
-    mode = 'light',
     readableHeader,
     noOfFiltersPerRow = 4,
     updateFilters,
     uiMode = 'normal',
-    styles,
-    classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -281,7 +275,7 @@ export function SingleGraphDashboard(props: Props) {
     );
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${graphSettings?.mode || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
@@ -331,8 +325,12 @@ export function SingleGraphDashboard(props: Props) {
                 graphSettings?.dataDownload ? (
                   <GraphHeader
                     styles={{
-                      title: styles?.title,
-                      description: styles?.description,
+                      title: graphSettings?.styles?.title,
+                      description: graphSettings?.styles?.description,
+                    }}
+                    classNames={{
+                      title: graphSettings?.classNames?.title,
+                      description: graphSettings?.classNames?.description,
                     }}
                     graphTitle={graphSettings?.graphTitle}
                     graphDescription={graphSettings?.graphDescription}
@@ -739,8 +737,6 @@ export function SingleGraphDashboard(props: Props) {
                           dataDownload: false,
                           backgroundColor: undefined,
                           padding: '0',
-                          styles,
-                          mode,
                         }
                       : ({
                           ...advancedGraphSettings,
@@ -751,8 +747,6 @@ export function SingleGraphDashboard(props: Props) {
                           dataDownload: false,
                           backgroundColor: undefined,
                           padding: '0',
-                          mode,
-                          styles,
                         } as GraphSettingsDataType)
                   }
                 />

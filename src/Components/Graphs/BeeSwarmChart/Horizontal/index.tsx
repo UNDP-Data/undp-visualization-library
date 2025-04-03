@@ -59,6 +59,7 @@ interface Props {
   prefix?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  noOfTicks?: number;
 }
 
 export function HorizontalBeeSwarmChart(props: Props) {
@@ -106,6 +107,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
     prefix = '',
     styles,
     classNames,
+    noOfTicks,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -289,6 +291,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                         prefix={prefix}
                         styles={styles}
                         classNames={classNames}
+                        noOfTicks={noOfTicks || 5}
                       />
                     ) : null}
                   </div>

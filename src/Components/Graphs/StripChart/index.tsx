@@ -2,7 +2,8 @@ import {
   SourcesDataType,
   Languages,
   StripChartDataType,
-  StyleObject, ClassNameObject,
+  StyleObject,
+  ClassNameObject,
 } from '@/Types';
 import { HorizontalStripChart } from './Horizontal';
 import { VerticalStripChart } from './Vertical';
@@ -50,7 +51,8 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
   orientation?: 'vertical' | 'horizontal';
-  styles?: StyleObject; classNames?:  ClassNameObject;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function StripChart(props: Props) {
@@ -97,7 +99,8 @@ export function StripChart(props: Props) {
     resetSelectionOnDoubleClick,
     detailsOnClick,
     orientation = 'vertical',
-    styles, classNames,
+    styles,
+    classNames,
   } = props;
 
   if (orientation === 'vertical')
@@ -145,6 +148,7 @@ export function StripChart(props: Props) {
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
         styles={styles}
         detailsOnClick={detailsOnClick}
+        classNames={classNames}
       />
     );
   return (
@@ -191,6 +195,7 @@ export function StripChart(props: Props) {
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
       styles={styles}
       detailsOnClick={detailsOnClick}
+      classNames={classNames}
     />
   );
 }

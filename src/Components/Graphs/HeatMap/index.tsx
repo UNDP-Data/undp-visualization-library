@@ -6,7 +6,8 @@ import {
   Languages,
   ScaleDataType,
   SourcesDataType,
-  StyleObject, ClassNameObject,
+  StyleObject,
+  ClassNameObject,
 } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
@@ -56,7 +57,8 @@ interface Props {
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
-  styles?: StyleObject; classNames?:  ClassNameObject;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function HeatMap(props: Props) {
@@ -101,7 +103,8 @@ export function HeatMap(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
-    styles, classNames,
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -175,7 +178,7 @@ export function HeatMap(props: Props) {
                   title: styles?.title,
                   description: styles?.description,
                 }}
-classNames={{
+                classNames={{
                   title: classNames?.title,
                   description: classNames?.description,
                 }}
@@ -339,7 +342,10 @@ classNames={{
             {sources || footNote ? (
               <GraphFooter
                 styles={{ footnote: styles?.footnote, source: styles?.source }}
-classNames={{ footnote: classNames?.footnote, source: classNames?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

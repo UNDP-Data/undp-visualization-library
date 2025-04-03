@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
   BackgroundStyleDataType,
+  ClassNameObject,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
@@ -27,6 +28,7 @@ interface ConfigObject {
   uiMode?: 'light' | 'normal';
   styles?: StyleObject;
   graphStyles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 interface Props {
@@ -87,6 +89,7 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
       uiMode={configSettings.uiMode}
       styles={configSettings.styles}
       graphStyles={configSettings.graphStyles}
+      classNames={configSettings.classNames}
     />
   );
 }

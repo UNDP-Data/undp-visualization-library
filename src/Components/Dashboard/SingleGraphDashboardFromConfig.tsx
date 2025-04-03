@@ -9,7 +9,6 @@ import {
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
   GraphType,
-  StyleObject,
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
@@ -30,13 +29,11 @@ interface ConfigObject {
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
   uiMode?: 'light' | 'normal';
-  styles?: StyleObject;
 }
 
 interface Props {
@@ -91,11 +88,9 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
       advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
-      mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       uiMode={configSettings.uiMode}
-      styles={configSettings.styles}
     />
   );
 }

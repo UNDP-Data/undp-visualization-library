@@ -3,53 +3,71 @@ import {
   SourcesDataType,
   Languages,
   BeeSwarmChartDataType,
-  StyleObject, ClassNameObject,
+  StyleObject,
+  ClassNameObject,
 } from '@/Types';
 import { HorizontalBeeSwarmChart } from './Horizontal';
 import { VerticalBeeSwarmChart } from './Vertical';
 
 interface Props {
+  // Data
   data: BeeSwarmChartDataType[];
-  colors?: string | string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  width?: number;
-  height?: number;
   sources?: SourcesDataType[];
-  showTicks?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  colorDomain?: string[];
+  ariaLabel?: string;
+
+  // Colors and Styling
+  colors?: string[];
+  colorDomain: string[];
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
+  leftMargin?: number;
+  rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  relativeHeight?: number;
-  showLabels?: boolean;
-  showColorScale?: boolean;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
+
+  // Values and Ticks
   refValues?: ReferenceDataType[];
-  graphID?: string;
+  noOfTicks?: number;
+
+  // Graph Parameters
+  showLabels?: boolean;
+  showTicks?: boolean;
+  showColorScale?: boolean;
+  showNAColor?: boolean;
   radius?: number;
   maxRadiusValue?: number;
   maxPositionValue?: number;
   minPositionValue?: number;
   highlightedDataPoints?: (string | number)[];
-  onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
   detailsOnClick?: string;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  language?: Languages;
+  mode?: 'light' | 'dark';
   orientation?: 'vertical' | 'horizontal';
-  styles?: StyleObject; classNames?:  ClassNameObject;
+  graphID?: string;
 }
 
 export function BeeSwarmChart(props: Props) {
@@ -93,8 +111,10 @@ export function BeeSwarmChart(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick,
     detailsOnClick,
+    noOfTicks,
     orientation = 'vertical',
-    styles, classNames,
+    styles,
+    classNames,
   } = props;
 
   if (orientation === 'vertical')
@@ -140,6 +160,8 @@ export function BeeSwarmChart(props: Props) {
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
         styles={styles}
         detailsOnClick={detailsOnClick}
+        classNames={classNames}
+        noOfTicks={noOfTicks}
       />
     );
   return (
@@ -184,6 +206,8 @@ export function BeeSwarmChart(props: Props) {
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
       styles={styles}
       detailsOnClick={detailsOnClick}
+      classNames={classNames}
+      noOfTicks={noOfTicks}
     />
   );
 }

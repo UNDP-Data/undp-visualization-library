@@ -63,6 +63,7 @@ interface Props {
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  noOfTicks: number;
 }
 
 export function Graph(props: Props) {
@@ -95,6 +96,7 @@ export function Graph(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    noOfTicks,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -163,7 +165,7 @@ export function Graph(props: Props) {
     .domain([yMinValue, yMaxValue])
     .range([graphHeight, 0])
     .nice();
-  const yTicks = y.ticks(5);
+  const yTicks = y.ticks(noOfTicks);
 
   useEffect(() => {
     setFinalData(null);
