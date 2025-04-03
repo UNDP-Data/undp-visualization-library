@@ -10,12 +10,12 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { ColorLegendWithMouseOver } from '../../../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { Pause, Play } from '../../../../Icons/Icons';
+} from '@/Types';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];

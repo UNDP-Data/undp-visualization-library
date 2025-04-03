@@ -23,18 +23,18 @@ import {
   LineChartWithConfidenceIntervalDataType,
   ReferenceDataType,
   StyleObject,
-} from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
-import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
-import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
-import { Axis } from '../../../Elements/Axes/Axis';
-import { RefLineY } from '../../../Elements/ReferenceLine';
-import { RegressionLine } from '../../../Elements/RegressionLine';
-import { Annotation } from '../../../Elements/Annotations';
-import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { getLineEndPoint } from '@/Utils/getLineEndPoint';
+import { getPathFromPoints } from '@/Utils/getPathFromPoints';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
+import { RegressionLine } from '@/Components/Elements/RegressionLine';
+import { Annotation } from '@/Components/Elements/Annotations';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: LineChartWithConfidenceIntervalDataType[];

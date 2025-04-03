@@ -6,7 +6,7 @@ import {
   StyleObject,
   ClassNameObject,
   GroupedBarGraphWithDateDataType,
-} from '../../../Types';
+} from '@/Types';
 import { AnimatedHorizontalBarChart } from './Horizontal/BarGraph/Animated';
 import { AnimatedHorizontalGroupedBarGraph } from './Horizontal/GroupedBarGraph/Animated';
 import { AnimatedHorizontalStackedBarChart } from './Horizontal/StackedBarGraph/Animated';

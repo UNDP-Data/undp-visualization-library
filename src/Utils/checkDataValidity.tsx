@@ -1,5 +1,5 @@
 import flattenDeep from 'lodash.flattendeep';
-import { GraphConfigurationDataType, GraphType } from '../Types';
+import { GraphConfigurationDataType, GraphType } from '@/Types';
 import ChartConfiguration from './transformData/graphConfig.json';
 
 function missingValuesInArray(superset: string[], subset: string[]): string[] {

@@ -17,21 +17,21 @@ import {
   CustomHighlightAreaSettingsDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { ensureCompleteDataForScatterPlot } from '../../../../Utils/ensureCompleteData';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
-import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
-import { string2HTML } from '../../../../Utils/string2HTML';
-import { Axis } from '../../../Elements/Axes/Axis';
-import { AxisTitle } from '../../../Elements/Axes/AxisTitle';
-import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
-import { RefLineX, RefLineY } from '../../../Elements/ReferenceLine';
-import { Annotation } from '../../../Elements/Annotations';
-import { YTicksAndGridLines } from '../../../Elements/Axes/YTicksAndGridLines';
+} from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { ensureCompleteDataForScatterPlot } from '@/Utils/ensureCompleteData';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { getLineEndPoint } from '@/Utils/getLineEndPoint';
+import { getPathFromPoints } from '@/Utils/getPathFromPoints';
+import { string2HTML } from '@/Utils/string2HTML';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { RefLineX, RefLineY } from '@/Components/Elements/ReferenceLine';
+import { Annotation } from '@/Components/Elements/Annotations';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: ScatterPlotWithDateDataType[];

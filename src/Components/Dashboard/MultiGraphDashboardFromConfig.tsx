@@ -7,10 +7,10 @@ import {
   DataSettingsDataType,
   FilterUiSettingsDataType,
   StyleObject,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { MultiGraphDashboard } from './MultiGraphDashboard';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
   dashboardId?: string;

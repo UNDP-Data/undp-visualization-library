@@ -1,4 +1,4 @@
-import { ColumnConfigurationDataType } from '../../Types';
+import { ColumnConfigurationDataType } from '@/Types';
 
 export function transformColumnsToArray(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

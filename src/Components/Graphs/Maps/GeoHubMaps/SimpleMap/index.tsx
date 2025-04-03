@@ -4,8 +4,8 @@ import {
   DropdownSelect,
   createFilter,
 } from '@undp-data/undp-design-system-react';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
 import {
@@ -13,7 +13,7 @@ import {
   Languages,
   SourcesDataType,
   StyleObject,
-} from '../../../../../Types';
+} from '@/Types';
 
 interface Props {
   mapStyle: string | { style: string; name: string }[];

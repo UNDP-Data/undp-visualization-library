@@ -2,15 +2,11 @@ import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { H2, Modal, P } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  DonutChartDataType,
-  StyleObject,
-} from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { ClassNameObject, DonutChartDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };

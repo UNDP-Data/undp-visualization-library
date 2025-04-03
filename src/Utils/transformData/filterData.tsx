@@ -1,6 +1,6 @@
 import flattenDeep from 'lodash.flattendeep';
 import intersection from 'lodash.intersection';
-import { DataFilterDataType } from '../../Types';
+import { DataFilterDataType } from '@/Types';
 
 export function filterData(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

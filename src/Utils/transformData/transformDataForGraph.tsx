@@ -1,4 +1,4 @@
-import { GraphConfigurationDataType, GraphType } from '../../Types';
+import { GraphConfigurationDataType, GraphType } from '@/Types';
 import { checkDataConfigValidity } from '../checkDataValidity';
 import { checkIfNullOrUndefined } from '../checkIfNullOrUndefined';
 import { GraphList } from '../getGraphList';

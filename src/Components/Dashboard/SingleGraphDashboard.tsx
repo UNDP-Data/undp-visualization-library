@@ -24,23 +24,23 @@ import {
   GraphSettingsDataType,
   GraphType,
   StyleObject,
-} from '../../Types';
+} from '@/Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
-} from '../../Utils/fetchAndParseData';
-import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
-import { getUniqValue } from '../../Utils/getUniqValue';
-import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
-import { GraphHeader } from '../Elements/GraphHeader';
-import { filterData } from '../../Utils/transformData/filterData';
+} from '@/Utils/fetchAndParseData';
+import { transformDataForGraph } from '@/Utils/transformData/transformDataForGraph';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { transformDataForAggregation } from '@/Utils/transformData/transformDataForAggregation';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { filterData } from '@/Utils/transformData/filterData';
 import GraphEl from './GraphEl';
-import { checkIfMultiple } from '../../Utils/checkIfMultiple';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
-import { GraphList } from '../../Utils/getGraphList';
-import { transformDefaultValue } from '../../Utils/transformDataForSelect';
+import { checkIfMultiple } from '@/Utils/checkIfMultiple';
+import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
+import { GraphList } from '@/Utils/getGraphList';
+import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
   graphSettings?: any;
@@ -110,7 +110,8 @@ export function SingleGraphDashboard(props: Props) {
     noOfFiltersPerRow = 4,
     updateFilters,
     uiMode = 'normal',
-    styles, classNames,
+    styles,
+    classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);

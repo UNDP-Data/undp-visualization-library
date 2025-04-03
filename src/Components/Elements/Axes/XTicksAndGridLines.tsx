@@ -1,5 +1,5 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
   values?: (number | string)[];

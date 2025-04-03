@@ -7,6 +7,7 @@ import {
   Label,
 } from '@undp-data/undp-design-system-react';
 import {
+  ClassNameObject,
   DashboardColumnDataType,
   DashboardLayoutDataType,
   DataFilterDataType,
@@ -15,19 +16,19 @@ import {
   FilterUiSettingsDataType,
   GraphType,
   StyleObject,
-} from '../../Types';
+} from '@/Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
-} from '../../Utils/fetchAndParseData';
-import { getUniqValue } from '../../Utils/getUniqValue';
-import { GraphHeader } from '../Elements/GraphHeader';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+} from '@/Utils/fetchAndParseData';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
-import { filterData } from '../../Utils/transformData/filterData';
-import { transformDefaultValue } from '../../Utils/transformDataForSelect';
+import { filterData } from '@/Utils/transformData/filterData';
+import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
   dashboardId?: string;
@@ -47,6 +48,7 @@ interface Props {
   uiMode?: 'light' | 'normal';
   styles?: StyleObject;
   graphStyles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -78,7 +80,7 @@ export function MultiGraphDashboard(props: Props) {
     graphBackgroundColor,
     uiMode = 'normal',
     styles,
-    graphstyles,
+    graphStyles,
     classNames,
   } = props;
   const [data, setData] = useState<any>(undefined);

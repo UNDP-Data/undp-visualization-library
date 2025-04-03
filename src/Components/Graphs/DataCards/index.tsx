@@ -20,14 +20,14 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { string2HTML } from '../../../Utils/string2HTML';
-import { getUniqValue } from '../../../Utils/getUniqValue';
-import { transformDefaultValue } from '../../../Utils/transformDataForSelect';
-import { CsvDownloadButton } from '../../Actions/CsvDownloadButton';
-import { FileDown } from '../../Icons/Icons';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { string2HTML } from '@/Utils/string2HTML';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { transformDefaultValue } from '@/Utils/transformDataForSelect';
+import { CsvDownloadButton } from '@/Components/Actions/CsvDownloadButton';
+import { FileDown } from '@/Components/Icons';
 
 export type FilterDataType = {
   column: string;

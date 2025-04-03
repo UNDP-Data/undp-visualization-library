@@ -6,12 +6,12 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
+} from '@/Types';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
 interface Props {
   data: BivariateMapDataType[];

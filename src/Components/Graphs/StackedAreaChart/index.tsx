@@ -9,12 +9,12 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { ColorLegend } from '../../Elements/ColorLegend';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: AreaChartDataType[];

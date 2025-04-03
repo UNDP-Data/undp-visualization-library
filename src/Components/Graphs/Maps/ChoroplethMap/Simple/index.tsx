@@ -6,12 +6,12 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
 interface Props {
   graphTitle?: string;

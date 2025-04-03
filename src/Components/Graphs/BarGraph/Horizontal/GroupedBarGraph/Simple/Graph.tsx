@@ -9,16 +9,16 @@ import {
   GroupedBarGraphDataType,
   ReferenceDataType,
   StyleObject,
-} from '../../../../../../Types';
-import { numberFormattingFunction } from '../../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../../../../Utils/string2HTML';
-import { YAxesLabels } from '../../../../../Elements/Axes/YAxesLabels';
-import { Axis } from '../../../../../Elements/Axes/Axis';
-import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { XTicksAndGridLines } from '../../../../../Elements/Axes/XTicksAndGridLines';
-import { RefLineX } from '../../../../../Elements/ReferenceLine';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
+import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { RefLineX } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: GroupedBarGraphDataType[];

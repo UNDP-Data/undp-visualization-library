@@ -3,6 +3,7 @@ import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
+  ClassNameObject,
   DataFilterDataType,
   DataSelectionDataType,
   DataSettingsDataType,
@@ -10,10 +11,10 @@ import {
   GraphConfigurationDataType,
   GraphType,
   StyleObject,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { GriddedGraphs } from './GriddedGraphs';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
   noOfColumns?: number;
@@ -44,7 +45,8 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
-  styles?: StyleObject; classNames?:  ClassNameObject;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 interface Props {

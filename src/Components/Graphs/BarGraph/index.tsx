@@ -6,7 +6,7 @@ import {
   StyleObject,
   ClassNameObject,
   GroupedBarGraphDataType,
-} from '../../../Types';
+} from '@/Types';
 import { HorizontalBarGraph } from './Horizontal/BarGraph/Simple';
 import { HorizontalGroupedBarGraph } from './Horizontal/GroupedBarGraph/Simple';
 import { HorizontalStackedBarGraph } from './Horizontal/StackedBarGraph/Simple';
@@ -258,53 +258,68 @@ export function SimpleBarGraph(props: Props) {
 }
 
 interface GroupedBarChartProps {
+  // Data
   data: GroupedBarGraphDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
-  width?: number;
-  height?: number;
   sources?: SourcesDataType[];
-  barPadding?: number;
-  showTicks?: boolean;
-  truncateBy?: number;
+  ariaLabel?: string;
+  barAxisTitle?: string;
+
+  // Colors and Styling
+  colors?: string[];
   colorDomain: string[];
   colorLegendTitle?: string;
-  suffix?: string;
-  prefix?: string;
-  showValues?: boolean;
+  valueColor?: string;
   backgroundColor?: string | boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
-  showLabels?: boolean;
   bottomMargin?: number;
-  relativeHeight?: number;
-  minHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  graphID?: string;
+  barPadding?: number;
+  maxBarThickness?: number;
+
+  // Values and Ticks
+  prefix?: string;
+  suffix?: string;
   maxValue?: number;
   minValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
+  truncateBy?: number;
+  refValues?: ReferenceDataType[];
+  noOfTicks?: number;
+
+  // Graph Parameters
+  showLabels?: boolean;
+  showValues?: boolean;
+  labelOrder?: string[];
+  showTicks?: boolean;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  labelOrder?: string[];
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
+  detailsOnClick?: string;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
   language?: Languages;
   mode?: 'light' | 'dark';
-  maxBarThickness?: number;
-  ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  barAxisTitle?: string;
-  noOfTicks?: number;
-  valueColor?: string;
   orientation?: 'vertical' | 'horizontal';
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphID?: string;
 }
 
 export function GroupedBarGraph(props: GroupedBarChartProps) {
@@ -462,55 +477,70 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
 }
 
 interface StackedBarChartProps {
+  // Data
   data: GroupedBarGraphDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
   graphTitle?: string;
-  width?: number;
-  labelOrder?: string[];
-  height?: number;
-  sources?: SourcesDataType[];
   graphDescription?: string;
   footNote?: string;
-  barPadding?: number;
-  showLabels?: boolean;
-  showTicks?: boolean;
+  sources?: SourcesDataType[];
+  ariaLabel?: string;
+  barAxisTitle?: string;
+
+  // Colors and Styling
+  colors?: string[];
   colorDomain: string[];
   colorLegendTitle?: string;
-  truncateBy?: number;
+  valueColor?: string;
   backgroundColor?: string | boolean;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  width?: number;
+  height?: number;
+  minHeight?: number;
+  relativeHeight?: number;
   padding?: string;
   leftMargin?: number;
   rightMargin?: number;
   topMargin?: number;
   bottomMargin?: number;
-  showValues?: boolean;
-  suffix?: string;
+  barPadding?: number;
+  maxBarThickness?: number;
+  minBarThickness?: number;
+  maxNumberOfBars?: number;
+
+  // Values and Ticks
   prefix?: string;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  graphID?: string;
+  suffix?: string;
   maxValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
+  truncateBy?: number;
+  refValues?: ReferenceDataType[];
+  noOfTicks?: number;
+
+  // Graph Parameters
+  showLabels?: boolean;
+  showValues?: boolean;
+  labelOrder?: string[];
+  showTicks?: boolean;
   graphDownload?: boolean;
   dataDownload?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  maxBarThickness?: number;
-  sortParameter?: number | 'total';
-  maxNumberOfBars?: number;
-  minBarThickness?: number;
-  ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  tooltip?: string;
   detailsOnClick?: string;
-  barAxisTitle?: string;
-  noOfTicks?: number;
-  valueColor?: string;
+  onSeriesMouseOver?: (_d: any) => void;
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  sortParameter?: number | 'total';
+  language?: Languages;
+  mode?: 'light' | 'dark';
   orientation?: 'vertical' | 'horizontal';
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphID?: string;
 }
 
 export function StackedBarGraph(props: StackedBarChartProps) {

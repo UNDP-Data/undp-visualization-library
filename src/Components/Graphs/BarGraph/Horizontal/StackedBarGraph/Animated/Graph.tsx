@@ -13,17 +13,17 @@ import {
   GroupedBarGraphWithDateDataType,
   ReferenceDataType,
   StyleObject,
-} from '../../../../../../Types';
-import { numberFormattingFunction } from '../../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUndefined';
-import { ensureCompleteDataForStackedBarChart } from '../../../../../../Utils/ensureCompleteData';
-import { getTextColorBasedOnBgColor } from '../../../../../../Utils/getTextColorBasedOnBgColor';
-import { string2HTML } from '../../../../../../Utils/string2HTML';
-import { XTicksAndGridLines } from '../../../../../Elements/Axes/XTicksAndGridLines';
-import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { Axis } from '../../../../../Elements/Axes/Axis';
-import { RefLineX } from '../../../../../Elements/ReferenceLine';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { ensureCompleteDataForStackedBarChart } from '@/Utils/ensureCompleteData';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { string2HTML } from '@/Utils/string2HTML';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { RefLineX } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];

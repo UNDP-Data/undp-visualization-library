@@ -1,13 +1,13 @@
 import { useRef, useEffect, useState } from 'react';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { Graph } from './Graph';
 import {
   ClassNameObject,
   Languages,
   SourcesDataType,
   StyleObject,
-} from '../../../../../Types';
+} from '@/Types';
 
 interface Props {
   graphTitle?: string;

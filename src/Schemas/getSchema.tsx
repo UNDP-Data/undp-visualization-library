@@ -1,5 +1,5 @@
-import { GraphType } from '../Types';
-import { GraphList } from '../Utils/getGraphList';
+import { GraphType } from '@/Types';
+import { GraphList } from '@/Utils/getGraphList';
 import {
   barGraphDataSchema,
   stackedBarGraphDataSchema,

@@ -3,7 +3,7 @@ import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import flattenDeep from 'lodash.flattendeep';
-import { AggregationSettingsDataType } from '../../Types';
+import { AggregationSettingsDataType } from '@/Types';
 
 export function transformDataForAggregation(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

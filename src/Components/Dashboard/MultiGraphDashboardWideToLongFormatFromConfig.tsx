@@ -6,9 +6,9 @@ import {
   DataFilterDataType,
   DataSettingsWideToLongDataType,
   StyleObject,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
 
 interface ConfigObject {

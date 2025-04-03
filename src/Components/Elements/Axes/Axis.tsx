@@ -1,5 +1,5 @@
 import { cn } from '@undp-data/undp-design-system-react';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   label?: string;

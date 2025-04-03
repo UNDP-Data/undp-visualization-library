@@ -8,10 +8,10 @@ import {
   NodeDataType,
   NodesLinkDataType,
   StyleObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../Elements/Tooltip';
-import { string2HTML } from '../../../Utils/string2HTML';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: NodesLinkDataType;

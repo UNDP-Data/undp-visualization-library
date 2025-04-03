@@ -3,7 +3,7 @@ import {
   FileSettingsDataType,
   GraphConfigurationDataType,
   GraphType,
-} from '../../Types';
+} from '@/Types';
 import {
   fetchAndParseJSON,
   fetchAndParseCSV,

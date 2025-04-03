@@ -6,23 +6,24 @@ import {
   Spinner,
 } from '@undp-data/undp-design-system-react';
 import {
+  ClassNameObject,
   DashboardFromWideToLongFormatColumnDataType,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
   StyleObject,
-} from '../../Types';
+} from '@/Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
-} from '../../Utils/fetchAndParseData';
-import { GraphHeader } from '../Elements/GraphHeader';
+} from '@/Utils/fetchAndParseData';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
-import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
-import { filterData } from '../../Utils/transformData/filterData';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+import { wideToLongTransformation } from '@/Utils/wideToLongTranformation';
+import { filterData } from '@/Utils/transformData/filterData';
+import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 
 interface Props {
   dashboardId?: string;
@@ -39,6 +40,7 @@ interface Props {
   uiMode?: 'light' | 'normal';
   styles?: StyleObject;
   graphStyles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -59,7 +61,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     graphBackgroundColor,
     uiMode = 'normal',
     styles,
-    graphstyles,
+    graphStyles,
     classNames,
   } = props;
 

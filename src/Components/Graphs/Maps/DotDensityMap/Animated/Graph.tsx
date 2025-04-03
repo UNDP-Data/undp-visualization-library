@@ -14,10 +14,10 @@ import {
   ClassNameObject,
   DotDensityMapWithDateDataType,
   StyleObject,
-} from '../../../../../Types';
-import { Tooltip } from '../../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { string2HTML } from '../../../../../Utils/string2HTML';
+} from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: DotDensityMapWithDateDataType[];

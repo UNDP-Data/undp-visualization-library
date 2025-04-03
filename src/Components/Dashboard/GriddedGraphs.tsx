@@ -25,26 +25,26 @@ import {
   GraphType,
   StyleObject,
   ClassNameObject,
-} from '../../Types';
+} from '@/Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
-} from '../../Utils/fetchAndParseData';
-import { UNDPColorModule } from '../ColorPalette';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+} from '@/Utils/fetchAndParseData';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 import GraphEl from './GraphEl';
-import { transformDataForGraph } from '../../Utils/transformData/transformDataForGraph';
-import { getUniqValue } from '../../Utils/getUniqValue';
-import { transformDataForAggregation } from '../../Utils/transformData/transformDataForAggregation';
-import { GraphHeader } from '../Elements/GraphHeader';
-import { GraphFooter } from '../Elements/GraphFooter';
-import { filterData } from '../../Utils/transformData/filterData';
-import { ColorLegend } from '../Elements/ColorLegend';
-import { checkIfNullOrUndefined } from '../../Utils/checkIfNullOrUndefined';
-import { checkIfMultiple } from '../../Utils/checkIfMultiple';
-import { transformDefaultValue } from '../../Utils/transformDataForSelect';
+import { transformDataForGraph } from '@/Utils/transformData/transformDataForGraph';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { transformDataForAggregation } from '@/Utils/transformData/transformDataForAggregation';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { filterData } from '@/Utils/transformData/filterData';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { checkIfMultiple } from '@/Utils/checkIfMultiple';
+import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
   noOfColumns?: number;

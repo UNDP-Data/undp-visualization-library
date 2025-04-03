@@ -1,13 +1,13 @@
 import { H3 } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {
   ClassNameObject,
   Languages,
   SourcesDataType,
   StyleObject,
-} from '../../../Types';
+} from '@/Types';
 
 interface Props {
   year?: number | string;

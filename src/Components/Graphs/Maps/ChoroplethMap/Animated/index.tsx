@@ -10,13 +10,13 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { Pause, Play } from '../../../../Icons/Icons';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
 interface Props {
   graphTitle?: string;

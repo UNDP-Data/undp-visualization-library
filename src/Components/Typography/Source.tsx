@@ -1,5 +1,5 @@
 import { A, cn, P } from '@undp-data/undp-design-system-react';
-import { SourcesDataType } from '../../Types';
+import { SourcesDataType } from '@/Types';
 
 interface SourceProps {
   sources: SourcesDataType[];

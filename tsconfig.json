@@ -17,7 +17,11 @@
     "declaration": true,
     "declarationDir": "./dist",
     "outDir": "./dist",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     ".eslintrc.json",

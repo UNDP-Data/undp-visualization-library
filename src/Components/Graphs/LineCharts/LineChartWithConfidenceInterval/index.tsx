@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { Graph } from './Graph';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   AnnotationSettingsDataType,
   CustomHighlightAreaSettingsDataType,
@@ -12,10 +12,10 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { ColorLegend } from '../../../Elements/ColorLegend';
-import { EmptyState } from '../../../Elements/EmptyState';
+} from '@/Types';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: LineChartWithConfidenceIntervalDataType[];

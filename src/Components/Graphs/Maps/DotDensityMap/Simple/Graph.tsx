@@ -6,14 +6,10 @@ import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import isEqual from 'lodash.isequal';
 import { Modal } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  DotDensityMapDataType,
-  StyleObject,
-} from '../../../../../Types';
-import { Tooltip } from '../../../../Elements/Tooltip';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { string2HTML } from '../../../../../Utils/string2HTML';
+import { ClassNameObject, DotDensityMapDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: DotDensityMapDataType[];

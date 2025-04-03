@@ -1,7 +1,7 @@
-import { CsvDownloadButton } from '../Actions/CsvDownloadButton';
-import { ImageDownloadButton } from '../Actions/ImageDownloadButton';
-import { GraphDescription } from '../Typography/GraphDescription';
-import { GraphTitle } from '../Typography/GraphTitle';
+import { CsvDownloadButton } from '@/Components/Actions/CsvDownloadButton';
+import { ImageDownloadButton } from '@/Components/Actions/ImageDownloadButton';
+import { GraphDescription } from '@/Components/Typography/GraphDescription';
+import { GraphTitle } from '@/Components/Typography/GraphTitle';
 
 interface Props {
   graphTitle?: string;

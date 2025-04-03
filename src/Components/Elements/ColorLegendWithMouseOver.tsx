@@ -1,5 +1,5 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
-import { UNDPColorModule } from '../ColorPalette';
+import { UNDPColorModule } from '@/Components/ColorPalette';
 
 interface Props {
   colors: string[];

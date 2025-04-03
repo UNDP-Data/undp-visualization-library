@@ -6,16 +6,12 @@ import { select } from 'd3-selection';
 import { scaleThreshold } from 'd3-scale';
 import isEqual from 'lodash.isequal';
 import { Modal } from '@undp-data/undp-design-system-react';
-import {
-  BivariateMapDataType,
-  ClassNameObject,
-  StyleObject,
-} from '../../../../../Types';
-import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../Elements/Tooltip';
-import { X } from '../../../../Icons/Icons';
-import { string2HTML } from '../../../../../Utils/string2HTML';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { BivariateMapDataType, ClassNameObject, StyleObject } from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { X } from '@/Components/Icons';
+import { string2HTML } from '@/Utils/string2HTML';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: BivariateMapDataType[];

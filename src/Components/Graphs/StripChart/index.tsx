@@ -3,7 +3,7 @@ import {
   Languages,
   StripChartDataType,
   StyleObject, ClassNameObject,
-} from '../../../Types';
+} from '@/Types';
 import { HorizontalStripChart } from './Horizontal';
 import { VerticalStripChart } from './Vertical';
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
+import { StackedBarGraph } from '@/index';
 
 function parseValue(str?: any) {
   try {
@@ -12,11 +12,11 @@ function parseValue(str?: any) {
   }
 }
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof StackedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Components/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Stacked Bar Graph',
+  component: StackedBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -25,11 +25,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'BarGraphDataType[]',
+          summary: 'StackedBarGraphDataType[]',
           detail: `{
   label: string; 
-  size: number;
-  color?: string;
+  size: (number | undefined | null)[];
 }`,
         },
       },
@@ -83,7 +82,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Color or array of colors for bars',
       table: {
         type: {
-          summary: 'string | string[]',
+          summary: 'string[]',
           detail:
             'Requires a array if color key is present in the data else requires a string',
         },
@@ -261,11 +260,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Maximum value for the chart',
       table: { type: { summary: 'number' } },
     },
-    minValue: {
-      control: 'number',
-      description: 'Minimum value for the chart',
-      table: { type: { summary: 'number' } },
-    },
     truncateBy: {
       control: 'number',
       description: 'Truncate labels by specified length',
@@ -329,15 +323,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
-      control: 'boolean',
-      description:
-        'Show or hide color scale. This is only applicable if the data props hae color parameter',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
     graphDownload: {
       control: 'boolean',
       description: 'Enable graph download option as png',
@@ -352,15 +337,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
-      },
-    },
-    showNAColor: {
-      control: 'boolean',
-      description:
-        'Show NA color in the graph. This is only applicable if the data props hae color parameter and showColorScale prop is true',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
       },
     },
     resetSelectionOnDoubleClick: {
@@ -395,20 +371,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Callback for mouse click event',
       table: { type: { summary: '(_d: any) => void' } },
     },
-    highlightedDataPoints: {
-      control: 'text',
-      description:
-        'Data points to highlight. Use the label value from data to highlight the data point',
-      table: { type: { summary: '(string | number)[]' } },
-    },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
+    sortParameter: {
+      control: 'number',
       description:
-        'Sorting order for data. This is overwritten by labelOrder prop',
-      table: { type: { summary: "'asc' | 'desc'" } },
+        'Parameter to sort the data. If a number is provided, it refers to the index of the size array to determine which value to sort by. If set to total, it sorts by the sum of all the values.',
+      table: {
+        type: { summary: "'number' | 'total'" },
+      },
     },
     language: {
       control: 'select',
@@ -464,14 +435,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2020 Q1', size: [3, 4, 5] },
+      { label: '2020 Q2', size: [8, 9, 10] },
+      { label: '2020 Q3', size: [6, 7, 8] },
+      { label: '2020 Q4', size: [5, 6, 7] },
     ],
   },
   parameters: {
@@ -484,19 +451,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
   },
-  render: ({
-    colors,
-    labelOrder,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
     return (
-      <SimpleBarGraph
+      <StackedBarGraph
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
         {...args}
@@ -507,6 +466,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof StackedBarGraph>;
 
 export const Default: Story = {};

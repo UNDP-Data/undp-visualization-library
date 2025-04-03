@@ -10,17 +10,17 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   FilterIcon,
   FilterIconApplied,
   SortingIcon,
   SortingIconAscending,
   SortingIconDescending,
-} from '../../Icons/Icons';
+} from '@/Components/Icons';
 
 interface Props {
   graphTitle?: string;

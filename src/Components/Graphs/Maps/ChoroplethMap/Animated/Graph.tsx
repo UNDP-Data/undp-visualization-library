@@ -13,11 +13,11 @@ import {
   ChoroplethMapWithDateDataType,
   ClassNameObject,
   StyleObject,
-} from '../../../../../Types';
-import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../Elements/Tooltip';
-import { string2HTML } from '../../../../../Utils/string2HTML';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { string2HTML } from '@/Utils/string2HTML';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   domain: number[] | string[];

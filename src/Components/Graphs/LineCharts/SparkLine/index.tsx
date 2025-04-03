@@ -6,11 +6,11 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { generateRandomString } from '../../../../Utils/generateRandomString';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { generateRandomString } from '@/Utils/generateRandomString';
 
 interface Props {
   data: LineChartDataType[];

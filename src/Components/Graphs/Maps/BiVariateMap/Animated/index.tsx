@@ -10,14 +10,14 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+} from '@/Types';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { Pause, Play } from '../../../../Icons/Icons';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
 interface Props {
   data: BivariateMapWithDateDataType[];

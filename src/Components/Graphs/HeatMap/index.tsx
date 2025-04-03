@@ -1,19 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
-import { GraphHeader } from '../../Elements/GraphHeader';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   HeatMapDataType,
   Languages,
   ScaleDataType,
   SourcesDataType,
   StyleObject, ClassNameObject,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
-import { LinearColorLegend } from '../../Elements/LinearColorLegend';
-import { ThresholdColorLegendWithMouseOver } from '../../Elements/ThresholdColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
+import { LinearColorLegend } from '@/Components/Elements/LinearColorLegend';
+import { ThresholdColorLegendWithMouseOver } from '@/Components/Elements/ThresholdColorLegendWithMouseOver';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: HeatMapDataType[];

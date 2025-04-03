@@ -3,8 +3,8 @@ import maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
-import { filterData } from '../../../../../Utils/transformData/filterData';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { filterData } from '@/Utils/transformData/filterData';
 
 interface Props {
   mapStyle: string;

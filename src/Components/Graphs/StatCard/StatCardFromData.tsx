@@ -2,16 +2,16 @@ import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import { H3 } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {
   Languages,
   SourcesDataType,
   StatCardsFromDataSheetDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
+} from '@/Types';
 
 interface Props {
   year?: number | string;

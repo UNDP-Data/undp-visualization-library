@@ -4,7 +4,7 @@ import {
   Languages,
   BeeSwarmChartDataType,
   StyleObject, ClassNameObject,
-} from '../../../Types';
+} from '@/Types';
 import { HorizontalBeeSwarmChart } from './Horizontal';
 import { VerticalBeeSwarmChart } from './Vertical';
 

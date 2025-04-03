@@ -12,13 +12,13 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
+} from '@/Types';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { Pause, Play } from '../../../Icons/Icons';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
 
 interface Props {
   data: ScatterPlotWithDateDataType[];

@@ -8,14 +8,14 @@ import {
   HeatMapDataType,
   ScaleDataType,
   StyleObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../Elements/Tooltip';
-import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../Utils/string2HTML';
-import { XAxesLabels } from '../../Elements/Axes/XAxesLabels';
-import { YAxesLabels } from '../../Elements/Axes/YAxesLabels';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
+import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
 
 interface Props {
   data: HeatMapDataType[];

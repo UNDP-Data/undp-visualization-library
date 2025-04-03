@@ -1,5 +1,5 @@
 import { cn, H5, P } from '@undp-data/undp-design-system-react';
-import { extractInnerString } from '../../Utils/extractInnerString';
+import { extractInnerString } from '@/Utils/extractInnerString';
 
 interface Props {
   text: string;

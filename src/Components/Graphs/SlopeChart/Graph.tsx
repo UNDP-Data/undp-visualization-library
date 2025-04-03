@@ -4,17 +4,13 @@ import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  SlopeChartDataType,
-  StyleObject,
-} from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
-import { string2HTML } from '../../../Utils/string2HTML';
-import { Axis } from '../../Elements/Axes/Axis';
-import { AxisTitle } from '../../Elements/Axes/AxisTitle';
+import { ClassNameObject, SlopeChartDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 
 interface Props {
   data: SlopeChartDataType[];

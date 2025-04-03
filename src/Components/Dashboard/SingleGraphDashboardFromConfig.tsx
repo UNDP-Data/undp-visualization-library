@@ -10,10 +10,10 @@ import {
   GraphConfigurationDataType,
   GraphType,
   StyleObject,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { SingleGraphDashboard } from './SingleGraphDashboard';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
   graphSettings?: any;

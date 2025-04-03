@@ -3,7 +3,7 @@ import uniqBy from 'lodash.uniqby';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
 import { Graph } from './Graph';
-import { GraphHeader } from '../../Elements/GraphHeader';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   ClassNameObject,
   Languages,
@@ -11,11 +11,11 @@ import {
   SankeyDataType,
   SourcesDataType,
   StyleObject,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { UNDPColorModule } from '../../ColorPalette';
-import { generateRandomString } from '../../../Utils/generateRandomString';
-import { EmptyState } from '../../Elements/EmptyState';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { generateRandomString } from '@/Utils/generateRandomString';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: SankeyDataType[];

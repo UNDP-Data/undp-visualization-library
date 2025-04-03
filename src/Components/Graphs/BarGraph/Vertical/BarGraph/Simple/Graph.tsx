@@ -3,22 +3,22 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import { numberFormattingFunction } from '../../../../../../Utils/numberFormattingFunction';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {
   BarGraphDataType,
   ClassNameObject,
   ReferenceDataType,
   StyleObject,
-} from '../../../../../../Types';
-import { Tooltip } from '../../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../../../../ColorPalette';
-import { string2HTML } from '../../../../../../Utils/string2HTML';
-import { Axis } from '../../../../../Elements/Axes/Axis';
-import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { XAxesLabels } from '../../../../../Elements/Axes/XAxesLabels';
-import { RefLineY } from '../../../../../Elements/ReferenceLine';
-import { YTicksAndGridLines } from '../../../../../Elements/Axes/YTicksAndGridLines';
+} from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: BarGraphDataType[];

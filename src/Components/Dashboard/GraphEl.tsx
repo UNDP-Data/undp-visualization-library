@@ -4,11 +4,11 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
-} from '../../Types';
+} from '@/Types';
 import {
   validateDataSchema,
   validateSettingsSchema,
-} from '../../Utils/validateSchema';
+} from '@/Utils/validateSchema';
 import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/Animated';
 import { ButterflyChart } from '../Graphs/ButterflyChart/Simple';
 import { CirclePackingGraph } from '../Graphs/CirclePackingGraph';
@@ -36,7 +36,7 @@ import { AreaChart } from '../Graphs/StackedAreaChart';
 import { StatCardFromData } from '../Graphs/StatCard/StatCardFromData';
 import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
-import { getValues } from '../../Utils/getValues';
+import { getValues } from '@/Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMaps/MapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';

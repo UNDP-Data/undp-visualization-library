@@ -1,6 +1,6 @@
-import { SourcesDataType } from '../../Types';
-import { FootNote } from '../Typography/FootNote';
-import { Source } from '../Typography/Source';
+import { SourcesDataType } from '@/Types';
+import { FootNote } from '@/Components/Typography/FootNote';
+import { Source } from '@/Components/Typography/Source';
 
 interface Props {
   footNote?: string;

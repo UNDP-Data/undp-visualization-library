@@ -6,13 +6,13 @@ import {
   StripChartDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
+} from '@/Types';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { ColorLegendWithMouseOver } from '../../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { EmptyState } from '../../../Elements/EmptyState';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: StripChartDataType[];

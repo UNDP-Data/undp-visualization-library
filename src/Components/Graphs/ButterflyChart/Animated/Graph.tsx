@@ -12,16 +12,16 @@ import {
   ClassNameObject,
   ReferenceDataType,
   StyleObject,
-} from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { ensureCompleteDataForButterFlyChart } from '../../../../Utils/ensureCompleteData';
-import { string2HTML } from '../../../../Utils/string2HTML';
-import { XTicksAndGridLines } from '../../../Elements/Axes/XTicksAndGridLines';
-import { Axis } from '../../../Elements/Axes/Axis';
-import { YAxesLabels } from '../../../Elements/Axes/YAxesLabels';
-import { RefLineX } from '../../../Elements/ReferenceLine';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { ensureCompleteDataForButterFlyChart } from '@/Utils/ensureCompleteData';
+import { string2HTML } from '@/Utils/string2HTML';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
+import { RefLineX } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: ButterflyChartWithDateDataType[];

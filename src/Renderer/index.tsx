@@ -1,8 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import { GriddedGraphsFromConfig } from '../Components/Dashboard/GriddedGraphsFromConfig';
-import { MultiGraphDashboardFromConfig } from '../Components/Dashboard/MultiGraphDashboardFromConfig';
-import { MultiGraphDashboardWideToLongFormatFromConfig } from '../Components/Dashboard/MultiGraphDashboardWideToLongFormatFromConfig';
-import { SingleGraphDashboardFromConfig } from '../Components/Dashboard/SingleGraphDashboardFromConfig';
+import { GriddedGraphsFromConfig } from '@/Components/Dashboard/GriddedGraphsFromConfig';
+import { MultiGraphDashboardFromConfig } from '@/Components/Dashboard/MultiGraphDashboardFromConfig';
+import { MultiGraphDashboardWideToLongFormatFromConfig } from '@/Components/Dashboard/MultiGraphDashboardWideToLongFormatFromConfig';
+import { SingleGraphDashboardFromConfig } from '@/Components/Dashboard/SingleGraphDashboardFromConfig';
 
 export function Dashboard(div: Element, config: any) {
   const rootEmbed = ReactDOM.createRoot(div);

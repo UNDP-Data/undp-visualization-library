@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
+import { GroupedBarGraph } from '@/index';
 
 function parseValue(str?: any) {
   try {
@@ -12,11 +12,11 @@ function parseValue(str?: any) {
   }
 }
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Components/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Grouped Bar Graph',
+  component: GroupedBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -25,11 +25,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'BarGraphDataType[]',
+          summary: 'GroupedBarGraphDataType[]',
           detail: `{
   label: string; 
-  size: number;
-  color?: string;
+  size: (number | undefined | null)[];
 }`,
         },
       },
@@ -234,16 +233,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Maximum thickness of bars',
       table: { type: { summary: 'number' } },
     },
-    minBarThickness: {
-      control: 'number',
-      description: 'Minimum thickness of bars',
-      table: { type: { summary: 'number' } },
-    },
-    maxNumberOfBars: {
-      control: { type: 'number', min: 0 },
-      description: 'Maximum number of bars shown in the graph',
-      table: { type: { summary: 'number' } },
-    },
 
     // Values and Ticks
     prefix: {
@@ -256,14 +245,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Suffix for values',
       table: { type: { summary: 'string' } },
     },
-    maxValue: {
-      control: 'number',
-      description: 'Maximum value for the chart',
-      table: { type: { summary: 'number' } },
-    },
     minValue: {
       control: 'number',
       description: 'Minimum value for the chart',
+      table: { type: { summary: 'number' } },
+    },
+    maxValue: {
+      control: 'number',
+      description: 'Maximum value for the chart',
       table: { type: { summary: 'number' } },
     },
     truncateBy: {
@@ -329,15 +318,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
-      control: 'boolean',
-      description:
-        'Show or hide color scale. This is only applicable if the data props hae color parameter',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
     graphDownload: {
       control: 'boolean',
       description: 'Enable graph download option as png',
@@ -352,15 +332,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
-      },
-    },
-    showNAColor: {
-      control: 'boolean',
-      description:
-        'Show NA color in the graph. This is only applicable if the data props hae color parameter and showColorScale prop is true',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
       },
     },
     resetSelectionOnDoubleClick: {
@@ -395,21 +366,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Callback for mouse click event',
       table: { type: { summary: '(_d: any) => void' } },
     },
-    highlightedDataPoints: {
-      control: 'text',
-      description:
-        'Data points to highlight. Use the label value from data to highlight the data point',
-      table: { type: { summary: '(string | number)[]' } },
-    },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      description:
-        'Sorting order for data. This is overwritten by labelOrder prop',
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -464,14 +422,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2020 Q1', size: [3, 4, 5] },
+      { label: '2020 Q2', size: [8, 9, 10] },
+      { label: '2020 Q3', size: [6, 7, 8] },
+      { label: '2020 Q4', size: [5, 6, 7] },
     ],
   },
   parameters: {
@@ -484,19 +438,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
   },
-  render: ({
-    colors,
-    labelOrder,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
     return (
-      <SimpleBarGraph
+      <GroupedBarGraph
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
         {...args}
@@ -507,6 +453,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof GroupedBarGraph>;
 
 export const Default: Story = {};

@@ -12,18 +12,14 @@ import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  ParetoChartDataType,
-  StyleObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../Elements/Tooltip';
-import { string2HTML } from '../../../Utils/string2HTML';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { Axis } from '../../Elements/Axes/Axis';
-import { AxisTitle } from '../../Elements/Axes/AxisTitle';
-import { XAxesLabels } from '../../Elements/Axes/XAxesLabels';
+import { ClassNameObject, ParetoChartDataType, StyleObject } from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { string2HTML } from '@/Utils/string2HTML';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
 
 interface Props {
   data: ParetoChartDataType[];

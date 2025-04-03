@@ -15,13 +15,13 @@ import maxBy from 'lodash.maxby';
 // Assuming these are imported from correct paths
 import { extent } from 'd3-array';
 import { cn, Modal, Spinner } from '@undp-data/undp-design-system-react';
-import { ClassNameObject, StyleObject, TreeMapDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '../../ColorPalette';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { ClassNameObject, StyleObject, TreeMapDataType } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: TreeMapDataType[];

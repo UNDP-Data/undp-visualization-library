@@ -9,12 +9,12 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };

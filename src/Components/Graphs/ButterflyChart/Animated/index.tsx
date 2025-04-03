@@ -4,10 +4,10 @@ import uniqBy from 'lodash.uniqby';
 import { ascending, sort } from 'd3-array';
 import { format, parse } from 'date-fns';
 import { SliderUI } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { ColorLegend } from '../../../Elements/ColorLegend';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
 import {
   ButterflyChartWithDateDataType,
   Languages,
@@ -15,9 +15,9 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../Types';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { Pause, Play } from '../../../Icons/Icons';
+} from '@/Types';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
 import { Graph } from './Graph';
 
 interface Props {

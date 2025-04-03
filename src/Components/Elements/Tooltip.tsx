@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import { cn } from '@undp-data/undp-design-system-react';
-import { string2HTML } from '../../Utils/string2HTML';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   body: string;

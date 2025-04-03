@@ -10,8 +10,8 @@ import {
   Languages,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { UNDPColorModule } from '../../ColorPalette';
+} from '@/Types';
+import { UNDPColorModule } from '@/Components/ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
 import { TreeMapGraph } from '../TreeMapGraph';
 import { DonutChart } from '../DonutChart';

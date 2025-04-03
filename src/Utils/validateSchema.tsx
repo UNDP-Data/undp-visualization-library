@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import { GraphType } from '../Types';
+import { GraphType } from '@/Types';
 import {
   getDashboardJSONSchema,
   getDashboardWideToLongFormatJSONSchema,
@@ -7,7 +7,7 @@ import {
   getGriddedGraphJSONSchema,
   getSettingsSchema,
   getSingleGraphJSONSchema,
-} from '../Schemas/getSchema';
+} from '@/Schemas/getSchema';
 import { GraphList } from './getGraphList';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });

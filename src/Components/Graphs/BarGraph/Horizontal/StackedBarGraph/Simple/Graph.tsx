@@ -8,17 +8,17 @@ import {
   GroupedBarGraphDataType,
   ReferenceDataType,
   StyleObject,
-} from '../../../../../../Types';
-import { numberFormattingFunction } from '../../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUndefined';
-import { getTextColorBasedOnBgColor } from '../../../../../../Utils/getTextColorBasedOnBgColor';
-import { string2HTML } from '../../../../../../Utils/string2HTML';
-import { YAxesLabels } from '../../../../../Elements/Axes/YAxesLabels';
-import { XTicksAndGridLines } from '../../../../../Elements/Axes/XTicksAndGridLines';
-import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { Axis } from '../../../../../Elements/Axes/Axis';
-import { RefLineX } from '../../../../../Elements/ReferenceLine';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { string2HTML } from '@/Utils/string2HTML';
+import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { RefLineX } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: GroupedBarGraphDataType[];

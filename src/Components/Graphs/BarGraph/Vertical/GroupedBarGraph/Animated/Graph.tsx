@@ -9,22 +9,22 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import { numberFormattingFunction } from '../../../../../../Utils/numberFormattingFunction';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {
   ReferenceDataType,
   GroupedBarGraphWithDateDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../../Types';
-import { Tooltip } from '../../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../../Utils/checkIfNullOrUndefined';
-import { ensureCompleteDataForStackedBarChart } from '../../../../../../Utils/ensureCompleteData';
-import { string2HTML } from '../../../../../../Utils/string2HTML';
-import { XAxesLabels } from '../../../../../Elements/Axes/XAxesLabels';
-import { AxisTitle } from '../../../../../Elements/Axes/AxisTitle';
-import { Axis } from '../../../../../Elements/Axes/Axis';
-import { RefLineY } from '../../../../../Elements/ReferenceLine';
-import { YTicksAndGridLines } from '../../../../../Elements/Axes/YTicksAndGridLines';
+} from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { ensureCompleteDataForStackedBarChart } from '@/Utils/ensureCompleteData';
+import { string2HTML } from '@/Utils/string2HTML';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: GroupedBarGraphWithDateDataType[];

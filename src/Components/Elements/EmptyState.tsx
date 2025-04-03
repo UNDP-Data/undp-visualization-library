@@ -1,5 +1,5 @@
 import { P } from '@undp-data/undp-design-system-react';
-import { Alert } from '../Icons/Icons';
+import { Alert } from '@/Components/Icons';
 
 export function EmptyState() {
   return (

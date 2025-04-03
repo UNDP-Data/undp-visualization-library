@@ -10,13 +10,13 @@ import {
   StyleObject,
   ClassNameObject,
   TreeMapDataType,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { ColorLegendWithMouseOver } from '../../Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '../../ColorPalette';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { EmptyState } from '../../Elements/EmptyState';
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
   data: TreeMapDataType[];

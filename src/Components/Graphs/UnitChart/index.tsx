@@ -1,17 +1,17 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
 import { H2, P } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../ColorPalette';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { UNDPColorModule } from '@/Components/ColorPalette';
 import {
   UnitChartDataType,
   SourcesDataType,
   Languages,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
   data: UnitChartDataType[];

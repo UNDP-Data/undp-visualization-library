@@ -4,7 +4,7 @@ import {
   DumbbellChartDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../Types';
+} from '@/Types';
 import { HorizontalDumbbellChart } from './Horizontal/Simple';
 import { VerticalDumbbellChart } from './Vertical/Simple';
 

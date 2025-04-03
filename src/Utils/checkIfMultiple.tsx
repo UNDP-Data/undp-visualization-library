@@ -1,4 +1,4 @@
-import { GraphConfigurationDataType } from '../Types';
+import { GraphConfigurationDataType } from '@/Types';
 
 export function checkIfMultiple(
   id: string,

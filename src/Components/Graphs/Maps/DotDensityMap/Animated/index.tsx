@@ -4,20 +4,20 @@ import { ascending, sort } from 'd3-array';
 import { format, parse } from 'date-fns';
 import { SliderUI } from '@undp-data/undp-design-system-react';
 import { Graph } from './Graph';
-import { GraphFooter } from '../../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../../Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   DotDensityMapWithDateDataType,
   Languages,
   SourcesDataType,
   StyleObject,
   ClassNameObject,
-} from '../../../../../Types';
+} from '@/Types';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '../../../../ColorPalette';
-import { Pause, Play } from '../../../../Icons/Icons';
-import { fetchAndParseJSON } from '../../../../../Utils/fetchAndParseData';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
+import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Pause, Play } from '@/Components/Icons';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   graphTitle?: string;

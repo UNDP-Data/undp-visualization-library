@@ -1,6 +1,6 @@
 import { CSVLink } from 'react-csv';
 import { Button } from '@undp-data/undp-design-system-react';
-import { FileDown } from '../Icons/Icons';
+import { FileDown } from '@/Components/Icons';
 
 interface HeaderProps {
   label: string;

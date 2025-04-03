@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { cn, P } from '@undp-data/undp-design-system-react';
-import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
   colors: string[];

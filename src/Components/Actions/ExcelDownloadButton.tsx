@@ -1,6 +1,6 @@
 import { Button } from '@undp-data/undp-design-system-react';
-import { excelDownload } from '../../Utils/excelDownload';
-import { FileDown } from '../Icons/Icons';
+import { excelDownload } from '@/Utils/excelDownload';
+import { FileDown } from '@/Components/Icons';
 
 interface WsColInterface {
   wch: number;

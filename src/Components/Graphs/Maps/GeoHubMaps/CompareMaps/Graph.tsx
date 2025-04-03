@@ -5,7 +5,7 @@ import * as pmtiles from 'pmtiles';
 import Draggable, { DraggableData } from 'react-draggable';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
-import { ChevronLeftRight } from '../../../../Icons/Icons';
+import { ChevronLeftRight } from '@/Components/Icons';
 
 interface Props {
   width: number;

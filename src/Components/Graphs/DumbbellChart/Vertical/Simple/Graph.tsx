@@ -4,19 +4,15 @@ import min from 'lodash.min';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  DumbbellChartDataType,
-  StyleObject,
-} from '../../../../../Types';
-import { numberFormattingFunction } from '../../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../../../Utils/string2HTML';
-import { AxisTitle } from '../../../../Elements/Axes/AxisTitle';
-import { Axis } from '../../../../Elements/Axes/Axis';
-import { XAxesLabels } from '../../../../Elements/Axes/XAxesLabels';
-import { YTicksAndGridLines } from '../../../../Elements/Axes/YTicksAndGridLines';
+import { ClassNameObject, DumbbellChartDataType, StyleObject } from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 
 interface Props {
   data: DumbbellChartDataType[];

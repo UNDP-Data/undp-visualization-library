@@ -6,7 +6,7 @@ import {
   DumbbellChartWithDateDataType,
   GroupedBarGraphWithDateDataType,
   ScatterPlotWithDateDataType,
-} from '../Types';
+} from '@/Types';
 
 export function ensureCompleteDataForBarChart(
   data: BarGraphWithDateDataType[],

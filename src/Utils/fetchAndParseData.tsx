@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import Papa from 'papaparse';
 import Handlebars from 'handlebars';
-import { ColumnConfigurationDataType, FileSettingsDataType } from '../Types';
+import { ColumnConfigurationDataType, FileSettingsDataType } from '@/Types';
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
 import { mergeMultipleData } from './transformData/mergeMultipleData';
 

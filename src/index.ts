@@ -165,7 +165,7 @@ export type {
   GraphType,
   GeoHubGraphType,
   GraphTypeForGriddedGraph,
-} from './Types';
+} from '@/Types';
 export { GraphList } from './Utils/getGraphList';
 
 /* ----------Renderers For Vanilla JS-------------*/

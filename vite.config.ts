@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import dts from 'vite-plugin-dts';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -41,6 +42,11 @@ export default defineConfig({
       methods: ['GET'],
       preflightContinue: false,
       optionsSuccessStatus: 204,
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

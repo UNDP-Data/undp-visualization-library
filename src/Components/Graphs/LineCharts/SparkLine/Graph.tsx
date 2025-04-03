@@ -16,13 +16,9 @@ import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { cn } from '@undp-data/undp-design-system-react';
-import {
-  ClassNameObject,
-  LineChartDataType,
-  StyleObject,
-} from '../../../../Types';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { ClassNameObject, LineChartDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: LineChartDataType[];
