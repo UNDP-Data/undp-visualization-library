@@ -7,6 +7,7 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  ReferenceDataType,
 } from '@/Types';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
@@ -61,11 +62,13 @@ interface Props {
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
-  barAxisTitle?: string;
+  axisTitle?: string;
   noOfTicks?: number;
   valueColor?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  labelOrder?: string[];
+  refValues?: ReferenceDataType[];
 }
 
 export function HorizontalDumbbellChart(props: Props) {
@@ -109,17 +112,19 @@ export function HorizontalDumbbellChart(props: Props) {
     language = 'en',
     minHeight = 0,
     mode = 'light',
+    labelOrder,
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks = 5,
     valueColor,
     styles,
     classNames,
+    refValues,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -297,11 +302,14 @@ export function HorizontalDumbbellChart(props: Props) {
                           resetSelectionOnDoubleClick
                         }
                         detailsOnClick={detailsOnClick}
-                        barAxisTitle={barAxisTitle}
+                        axisTitle={axisTitle}
                         noOfTicks={noOfTicks}
                         valueColor={valueColor}
                         styles={styles}
                         classNames={classNames}
+                        labelOrder={labelOrder}
+                        refValues={refValues}
+                        rtl={language === 'he' || language === 'ar'}
                       />
                     ) : null}
                   </div>

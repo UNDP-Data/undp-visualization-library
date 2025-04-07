@@ -22,7 +22,7 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: LineChartDataType[];
-  color: string;
+  lineColor: string;
   width: number;
   height: number;
   dateFormat: string;
@@ -45,7 +45,7 @@ export function Graph(props: Props) {
     data,
     width,
     height,
-    color,
+    lineColor,
     dateFormat,
     areaId,
     leftMargin,
@@ -169,14 +169,14 @@ export function Graph(props: Props) {
           <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
             <stop
               style={{
-                stopColor: color,
+                stopColor: lineColor,
               }}
               stopOpacity='0.1'
               offset='0%'
             />
             <stop
               style={{
-                stopColor: color,
+                stopColor: lineColor,
               }}
               stopOpacity='0'
               offset='100%'
@@ -227,7 +227,7 @@ export function Graph(props: Props) {
             <path
               d={lineShape(dataFormatted as any) as string}
               style={{
-                stroke: color,
+                stroke: lineColor,
                 fill: 'none',
                 strokeWidth: 2,
               }}
@@ -239,7 +239,7 @@ export function Graph(props: Props) {
                 cx={x(mouseOverData.date)}
                 r={5}
                 style={{
-                  fill: color,
+                  fill: lineColor,
                 }}
               />
             ) : null}

@@ -17,48 +17,106 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: HeatMapDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  scaleType?: ScaleDataType;
-  domain: number[] | string[];
-  showColumnLabels?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  truncateBy?: number;
-  colorLegendTitle?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  suffix?: string;
-  prefix?: string;
-  showValues?: boolean;
-  showRowLabels?: boolean;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  noDataColor?: string;
-  showColorScale?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  fillContainer?: boolean;
-  language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
+
+  // Colors and Styling
+  /** Array of colors for cells */
+  colors?: string[];
+  /** Color where data is not available */
+  noDataColor?: string;
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Toggles the background to fill the container. This only works if the width of the graph is defined. */
+  fillContainer?: boolean;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  truncateBy?: number;
+  /** Reference values for comparison */
+
+  // Graph Parameters
+  /** Toggle visibility of labels in the column */
+  showColumnLabels?: boolean;
+  /** Toggle visibility of labels in the row */
+  showRowLabels?: boolean;
+  /** Scale for the colors in the cell */
+  scaleType?: ScaleDataType;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
+  showNAColor?: boolean;
+  /** Domain for the colors in the cell.  */
+  domain: number[] | string[];
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function HeatMap(props: Props) {

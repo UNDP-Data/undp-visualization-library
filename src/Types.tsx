@@ -118,6 +118,7 @@ export interface StyleObject {
   dataConnectors?: React.CSSProperties;
   mouseOverLine?: React.CSSProperties;
   regLine?: React.CSSProperties;
+  dataCards?: React.CSSProperties;
 }
 
 export interface AxesClassNameObject {
@@ -140,6 +141,7 @@ export interface ClassNameObject {
   dataConnectors?: string;
   mouseOverLine?: string;
   regLine?: string;
+  dataCards?: string;
 }
 
 export interface BarGraphDataType {
@@ -386,7 +388,6 @@ export interface ReferenceDataType {
     text?: string;
   };
 }
-
 export interface GraphConfigurationDataType {
   columnId: string | string[];
   chartConfigId: string;
@@ -598,11 +599,38 @@ export interface AnnotationSettingsDataType {
   };
 }
 
-export interface CustomHighlightAreaSettingsDataType {
-  coordinates: (number | string)[];
+export interface HighlightAreaSettingsDataType {
+  coordinates: [number | string | null, number | string | null];
+  style?: React.CSSProperties;
+  className?: string;
   color?: string;
   strokeWidth?: number;
-  dashedStroke?: boolean;
+}
+
+export interface CustomHighlightAreaSettingsDataType {
+  coordinates: (number | string)[];
+  closePath?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
+}
+
+export interface HighlightAreaSettingsForScatterPlotDataType {
+  coordinates: [number | null, number | null, number | null, number | null];
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
+}
+
+export interface CustomHighlightAreaSettingsForScatterPlotDataType {
+  coordinates: number[];
+  closePath?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
 }
 
 export interface BackgroundStyleDataType {
@@ -614,6 +642,7 @@ export interface BackgroundStyleDataType {
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
   orientation?: 'horizontal' | 'vertical';
+  axisTitles?: [string, string];
   graphTitle?: string;
   labelOrder?: string[];
   graphDescription?: string;
@@ -657,7 +686,6 @@ export interface GraphSettingsDataType {
   subNote?: string;
   radius?: number;
   strokeWidth?: number;
-  graphLegend?: boolean;
   showValues?: boolean;
   scaleType?: ScaleDataType;
   domain?: number[] | string[];
@@ -665,7 +693,6 @@ export interface GraphSettingsDataType {
   showRowLabels?: boolean;
   noDataColor?: string;
   fillContainer?: boolean;
-  color?: string[] | string;
   numberOfBins?: number;
   donutStrokeWidth?: number;
   barGraphLayout?: 'horizontal' | 'vertical';
@@ -677,9 +704,8 @@ export interface GraphSettingsDataType {
   lineColors?: [string, string];
   sameAxes?: boolean;
   highlightAreaSettings?:
-    | [number | string | null, number | string | null]
-    | [number | null, number | null, number | null, number | null];
-  highlightAreaColor?: string;
+    | HighlightAreaSettingsDataType[]
+    | HighlightAreaSettingsForScatterPlotDataType[];
   labels?: string[];
   showColorLegendAtTop?: boolean;
   highlightedLines?: string[];
@@ -800,7 +826,6 @@ export interface GraphSettingsDataType {
   headingFontSize?: string;
   centerAlign?: boolean;
   verticalAlign?: 'center' | 'top' | 'bottom';
-  cardBackgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
   intervalAreaOpacity?: number;
   detailsOnClick?: string;
@@ -811,7 +836,7 @@ export interface GraphSettingsDataType {
   minDate: string | number;
   maxDate: string | number;
   colorLegendColors: string[];
-  colorLegendDomains: string[];
+  colorLegendDomain: string[];
   barAxisTitle?: string;
   barSuffix?: string;
   barPrefix?: string;

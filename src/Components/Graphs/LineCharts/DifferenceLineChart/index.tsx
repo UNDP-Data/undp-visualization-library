@@ -13,62 +13,126 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  HighlightAreaSettingsDataType,
 } from '@/Types';
 import { UNDPColorModule } from '@/Components/ColorPalette';
 import { generateRandomString } from '@/Utils/generateRandomString';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: DifferenceLineChartDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  diffAreaColors?: [string, string];
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  lineColors?: [string, string];
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  highlightAreaSettings?: [number | string | null, number | string | null];
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
-  language?: Languages;
-  minHeight?: number;
-  showColorLegendAtTop?: boolean;
-  labels: [string, string];
-  colorLegendTitle?: string;
-  strokeWidth?: number;
-  showDots?: boolean;
-  refValues?: ReferenceDataType[];
-  maxValue?: number;
-  minValue?: number;
-  annotations?: AnnotationSettingsDataType[];
-  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  yAxisTitle?: string;
-  noOfYTicks?: number;
-  minDate?: string | number;
-  maxDate?: string | number;
-  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+
+  // Colors and Styling
+  /** Array of colors for the 2 lines */
+  lineColors?: [string, string];
+  /** Array of colors to highlight the negative and positive difference between the lines */
+  diffAreaColors?: [string, string];
+  /** Toggle the visibility of color legend between the top of the graphs and next to the line */
+  showColorLegendAtTop?: boolean;
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+  /** Maximum value of the date for the chart */
+  maxDate?: string | number;
+  /** Minimum value of the date for the chart */
+  minDate?: string | number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** No. of ticks on the x-axis  */
+  noOfXTicks?: number;
+  /** No. of ticks on the y-axis  */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of dots on the line */
+  showDots?: boolean;
+  /** Stroke width of the line */
+  strokeWidth?: number;
+  /** Toggle the initial animation of the line. If the type is number then it uses the number as the time in seconds for animation. */
+  animateLine?: boolean | number;
+  /** Labels for the lines  */
+  labels: [string, string];
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Title for the Y-axis */
+  yAxisTitle?: string;
+  /** Annotations on the chart */
+  annotations?: AnnotationSettingsDataType[];
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsDataType[];
+  /** Highlighted area(custom shape) on the chart  */
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function DifferenceLineChart(props: Props) {
@@ -96,13 +160,12 @@ export function DifferenceLineChart(props: Props) {
     topMargin = 20,
     bottomMargin = 25,
     tooltip,
-    highlightAreaSettings = [null, null],
+    highlightAreaSettings = [],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
     language = 'en',
     minHeight = 0,
@@ -262,7 +325,6 @@ export function DifferenceLineChart(props: Props) {
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
                         showColorLegendAtTop={showColorLegendAtTop}
-                        highlightAreaColor={highlightAreaColor}
                         animateLine={animateLine}
                         rtl={language === 'he' || language === 'ar'}
                         diffAreaColors={diffAreaColors}

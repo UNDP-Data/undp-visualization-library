@@ -19,6 +19,7 @@ import { cn } from '@undp-data/undp-design-system-react';
 import {
   ClassNameObject,
   DualAxisLineChartDataType,
+  HighlightAreaSettingsDataType,
   StyleObject,
 } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
@@ -27,15 +28,14 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { HighlightArea } from '@/Components/Elements/HighlightArea';
 
 interface Props {
   data: DualAxisLineChartDataType[];
   lineColors: [string, string];
-  lineTitles: [string, string];
+  labels: [string, string];
   width: number;
   height: number;
-  suffix: string;
-  prefix: string;
   dateFormat: string;
   showValues: boolean;
   noOfXTicks: number;
@@ -44,8 +44,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   sameAxes: boolean;
-  highlightAreaSettings: [number | string | null, number | string | null];
-  highlightAreaColor: string;
+  highlightAreaSettings: HighlightAreaSettingsDataType[];
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   animateLine: boolean | number;
@@ -67,10 +66,8 @@ export function Graph(props: Props) {
     width,
     height,
     lineColors,
-    lineTitles,
+    labels,
     sameAxes,
-    suffix,
-    prefix,
     dateFormat,
     showValues,
     noOfXTicks,
@@ -80,7 +77,6 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     highlightAreaSettings,
-    highlightAreaColor,
     onSeriesMouseOver,
     animateLine,
     strokeWidth,
@@ -126,14 +122,17 @@ export function Graph(props: Props) {
     })),
     'date',
   );
-  const highlightAreaSettingsFormatted = [
-    highlightAreaSettings[0] === null
-      ? null
-      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
-    highlightAreaSettings[1] === null
-      ? null
-      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
-  ];
+  const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: [
+      d.coordinates[0] === null
+        ? null
+        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null
+        ? null
+        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+    ],
+  }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = minDate
@@ -252,34 +251,12 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettingsFormatted[0] === null &&
-          highlightAreaSettingsFormatted[1] === null ? null : (
-            <g>
-              <rect
-                style={{
-                  fill: highlightAreaColor,
-                }}
-                x={
-                  highlightAreaSettingsFormatted[0]
-                    ? x(highlightAreaSettingsFormatted[0])
-                    : 0
-                }
-                width={
-                  highlightAreaSettingsFormatted[1]
-                    ? x(highlightAreaSettingsFormatted[1]) -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                    : graphWidth -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                }
-                y={0}
-                height={graphHeight}
-              />
-            </g>
-          )}
+          <HighlightArea
+            areaSettings={highlightAreaSettingsFormatted}
+            width={graphWidth}
+            height={graphHeight}
+            scale={x}
+          />
           <g>
             {y1Ticks.map((d, i) => (
               <g key={i}>
@@ -332,9 +309,9 @@ export function Graph(props: Props) {
               style={{ fill: lineColors[0], ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
               text={
-                lineTitles[0].length > 100
-                  ? `${lineTitles[0].substring(0, 100)}...`
-                  : lineTitles[0]
+                labels[0].length > 100
+                  ? `${labels[0].substring(0, 100)}...`
+                  : labels[0]
               }
               rotate90
             />
@@ -392,9 +369,9 @@ export function Graph(props: Props) {
               style={{ fill: lineColors[1], ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
               text={
-                lineTitles[1].length > 100
-                  ? `${lineTitles[1].substring(0, 100)}...`
-                  : lineTitles[1]
+                labels[1].length > 100
+                  ? `${labels[1].substring(0, 100)}...`
+                  : labels[1]
               }
               rotate90
             />
@@ -428,8 +405,6 @@ export function Graph(props: Props) {
                   classNames?.xAxis?.labels,
                 ),
               }}
-              suffix={suffix}
-              prefix={prefix}
               labelType='primary'
               showGridLines
             />
@@ -507,7 +482,11 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                       >
-                        {numberFormattingFunction(d.y1, prefix, suffix)}
+                        {numberFormattingFunction(
+                          d.y1,
+                          linePrefixes[0],
+                          lineSuffixes[0],
+                        )}
                       </text>
                     ) : null}
                   </g>
@@ -551,7 +530,11 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                       >
-                        {numberFormattingFunction(d.y2, prefix, suffix)}
+                        {numberFormattingFunction(
+                          d.y2,
+                          linePrefixes[1],
+                          lineSuffixes[1],
+                        )}
                       </text>
                     ) : null}
                   </g>

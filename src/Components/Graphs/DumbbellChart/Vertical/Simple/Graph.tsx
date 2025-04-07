@@ -4,7 +4,12 @@ import min from 'lodash.min';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import { ClassNameObject, DumbbellChartDataType, StyleObject } from '@/Types';
+import {
+  ClassNameObject,
+  DumbbellChartDataType,
+  ReferenceDataType,
+  StyleObject,
+} from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -13,6 +18,7 @@ import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -43,11 +49,13 @@ interface Props {
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
-  barAxisTitle?: string;
+  axisTitle?: string;
   noOfTicks: number;
   valueColor?: string;
+  labelOrder?: string[];
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  refValues?: ReferenceDataType[];
 }
 
 export function Graph(props: Props) {
@@ -80,16 +88,18 @@ export function Graph(props: Props) {
     minBarThickness,
     resetSelectionOnDoubleClick,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks,
     valueColor,
     styles,
     classNames,
+    labelOrder,
+    refValues,
   } = props;
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: barAxisTitle ? leftMargin + 30 : leftMargin,
+    left: axisTitle ? leftMargin + 30 : leftMargin,
     right: rightMargin,
   };
   const graphWidth = width - margin.left - margin.right;
@@ -110,13 +120,17 @@ export function Graph(props: Props) {
     ? 0
     : Math.min(...data.map(d => min(d.x) || 0));
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const y = scaleLinear()
     .domain([yMinValue, yMaxValue])
     .range([graphHeight, 0])
     .nice();
   const x = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([
       0,
       minBarThickness
@@ -201,15 +215,15 @@ export function Graph(props: Props) {
             y={graphHeight / 2}
             style={styles?.yAxis?.title}
             className={classNames?.yAxis?.title}
-            text={barAxisTitle}
+            text={axisTitle}
             rotate90
           />
-          {data.map((d: DumbbellChartDataType, i) => (
+          {dataWithId.map((d, i) => (
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
               transform={`translate(${
-                (x(`${i}`) as number) + x.bandwidth() / 2
+                (x(`${d.id}`) as number) + x.bandwidth() / 2
               },0)`}
             >
               {showLabels ? (
@@ -339,6 +353,22 @@ export function Graph(props: Props) {
               ))}
             </g>
           ))}
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <RefLineY
+                  key={i}
+                  text={el.text}
+                  color={el.color}
+                  y={y(el.value as number)}
+                  x1={0 - leftMargin}
+                  x2={graphWidth + margin.right}
+                  classNames={el.classNames}
+                  styles={el.styles}
+                />
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

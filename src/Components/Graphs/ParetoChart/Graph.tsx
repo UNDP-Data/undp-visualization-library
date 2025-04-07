@@ -41,7 +41,7 @@ interface Props {
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
-  noOfYTicks: number;
+  noOfTicks: number;
   lineSuffix: string;
   barSuffix: string;
   linePrefix: string;
@@ -72,7 +72,7 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
     detailsOnClick,
-    noOfYTicks,
+    noOfTicks,
     lineSuffix,
     barSuffix,
     linePrefix,
@@ -149,8 +149,8 @@ export function Graph(props: Props) {
     .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
     .y((d: any) => y2(d.line))
     .curve(curve);
-  const y1Ticks = y1.ticks(noOfYTicks);
-  const y2Ticks = y2.ticks(noOfYTicks);
+  const y1Ticks = y1.ticks(noOfTicks);
+  const y2Ticks = y2.ticks(noOfTicks);
   return (
     <>
       <svg

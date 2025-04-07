@@ -19,7 +19,7 @@ import { SimpleBarGraph } from '../BarGraph';
 
 interface Props {
   data: HistogramDataType[];
-  color?: string[] | string;
+  colors?: string[] | string;
   graphTitle?: string;
   graphDescription?: string;
   footNote?: string;
@@ -75,7 +75,7 @@ export function Histogram(props: Props) {
     height,
     width,
     footNote,
-    color,
+    colors,
     padding,
     backgroundColor,
     topMargin,
@@ -134,7 +134,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={colors || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -170,7 +170,7 @@ export function Histogram(props: Props) {
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={colors || UNDPColorModule.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -207,7 +207,7 @@ export function Histogram(props: Props) {
     return (
       <DonutChart
         colors={
-          (color as string[] | undefined) ||
+          (colors as string[] | undefined) ||
           UNDPColorModule[mode].categoricalColors.colors
         }
         graphTitle={graphTitle}
@@ -231,7 +231,7 @@ export function Histogram(props: Props) {
         dataDownload={dataDownload}
         data={dataFormatted as DonutChartDataType[]}
         strokeWidth={donutStrokeWidth}
-        graphLegend
+        showColorScale
         sortData={sortData}
         language={language}
         mode={mode}
@@ -243,7 +243,7 @@ export function Histogram(props: Props) {
     );
   return (
     <SimpleBarGraph
-      colors={color || UNDPColorModule.graphMainColor}
+      colors={colors || UNDPColorModule.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}

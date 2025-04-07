@@ -113,7 +113,7 @@ export { Source } from './Components/Typography/Source';
 
 /* ------- Utils ------- */
 export { checkIfNullOrUndefined } from './Utils/checkIfNullOrUndefined';
-export { getEmbedLink } from './Utils/getEmbedCode';
+export { getEmbedLink, getIframeCode } from './Utils/getEmbedCode';
 export { getPercentileValue } from './Utils/getPercentileValue';
 export { getQueryParamsFromLink } from './Utils/getQueryParamsFromLink';
 export { numberFormattingFunction } from './Utils/numberFormattingFunction';

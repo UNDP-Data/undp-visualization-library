@@ -14,33 +14,71 @@ import {
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: UnitChartDataType[];
-  totalNoOfDots?: number;
-  gridSize?: number;
-  unitPadding?: number;
-  size?: number;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
-  colors?: string[];
+  /** Description of the graph */
   graphDescription?: string;
-  footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  language?: Languages;
-  graphLegend?: boolean;
-  showStrokeForWhiteDots?: boolean;
+  /** Note with h2 tag just above the graph. Can be used to highlight text */
   note?: string;
-  mode?: 'light' | 'dark';
-  width?: number;
-  height?: number;
-  minHeight?: number;
-  relativeHeight?: number;
+  /** Footnote for the graph */
+  footNote?: string;
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
+
+  // Colors and Styling
+  /** Colors of the highlighted circles */
+  colors?: string[];
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Size of the visualization */
+  size?: number;
+  /** No. of dots in a single row */
+  gridSize?: number;
+  /** Spacing between 2 dots */
+  unitPadding?: number;
+  /** Total no. of dot that are rendered in the chart */
+  totalNoOfDots?: number;
+  /** Toggle visibility of stroke for the unfilled dots */
+  showStrokeForWhiteDots?: boolean;
+  /** Toggle visibility of color scale */
+  showColorScale?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function UnitChart(props: Props) {
@@ -60,7 +98,7 @@ export function UnitChart(props: Props) {
     graphID,
     graphDownload = false,
     language = 'en',
-    graphLegend = true,
+    showColorScale = true,
     showStrokeForWhiteDots = true,
     note,
     dataDownload = false,
@@ -168,7 +206,7 @@ export function UnitChart(props: Props) {
             ) : null}
             <div className='flex grow flex-col justify-between'>
               <div>
-                {graphLegend ? (
+                {showColorScale ? (
                   <div
                     className='mb-4 leading-0'
                     style={{

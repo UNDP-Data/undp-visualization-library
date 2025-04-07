@@ -39,6 +39,17 @@ function getLuminance(r: number, g: number, b: number) {
   return 0.2126 * adjustedR + 0.7152 * adjustedG + 0.0722 * adjustedB;
 }
 
+/**
+ * Returns a contrasting text color (`#000` or `#fff`) based on the given background color.
+ *
+ * @param bgColor - A background color string in either hex (e.g., `#ffffff`) or RGB format (e.g., `rgb(255,255,255)`).
+ * @returns `'#000'` for light backgrounds, `'#fff'` for dark backgrounds.
+ *
+ * @example
+ * getTextColorBasedOnBgColor('#000000'); // "#fff"
+ * getTextColorBasedOnBgColor('rgb(255,255,255)'); // "#000"
+ */
+
 export const getTextColorBasedOnBgColor = (bgColor: string) => {
   try {
     const rgb = bgColor[0] === 'r' ? getRGB(bgColor) : getRGBFromHex(bgColor);

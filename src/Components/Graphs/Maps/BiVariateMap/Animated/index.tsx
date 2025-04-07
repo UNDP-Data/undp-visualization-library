@@ -21,49 +21,106 @@ import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
 interface Props {
   data: BivariateMapWithDateDataType[];
-  mapData?: any;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  xColorLegendTitle?: string;
-  yColorLegendTitle?: string;
-  xDomain: [number, number, number, number];
-  yDomain: [number, number, number, number];
-  colors?: string[][];
-  scale?: number;
-  centerPoint?: [number, number];
-  backgroundColor?: string | boolean;
-  mapBorderWidth?: number;
-  mapNoDataColor?: string;
-  padding?: string;
-  mapBorderColor?: string;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  isWorldMap?: boolean;
-  zoomScaleExtend?: [number, number];
-  zoomTranslateExtend?: [[number, number], [number, number]];
-  graphID?: string;
-  highlightedCountryCodes?: string[];
-  onSeriesMouseClick?: (_d: any) => void;
-  mapProperty?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  showAntarctica?: boolean;
-  dateFormat?: string;
-  showOnlyActiveDate?: boolean;
-  autoPlay?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
+
+  // Colors and Styling
+  /** Colors for the choropleth map. Array must be 5x5 */
+  colors?: string[][];
+  /** Title for the first color legend */
+  xColorLegendTitle?: string;
+  /** Title for the second color legend */
+  yColorLegendTitle?: string;
+  /** Domain of x-colors for the map */
+  xDomain: [number, number, number, number];
+  /** Domain of y-colors for the map */
+  yDomain: [number, number, number, number];
+  /** Color for the areas where data is no available */
+  mapNoDataColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Map data as an object in geoJson format */
+  mapData?: any;
+  /** Scale of the map */
+  scale?: number;
+  /** Center point of the map */
+  centerPoint?: [number, number];
+  /** Stroke width of the regions in the map */
+  mapBorderWidth?: number;
+  /** Stroke color of the regions in the map */
+  mapBorderColor?: string;
+  /** Toggle if the map is a world map */
+  isWorldMap?: boolean;
+  /** Extend of the allowed zoom in the map */
+  zoomScaleExtend?: [number, number];
+  /** Extend of the allowed panning in the map */
+  zoomTranslateExtend?: [[number, number], [number, number]];
+  /** Countries or regions to be highlighted */
+  highlightedCountryCodes?: string[];
+  /** Property in the property object in mapData geoJson object is used to match to the countryCode in the data object */
+  mapProperty?: string;
+  /** Toggles the visibility of Antarctica in the default map */
+  showAntarctica?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Slider features
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggles if only the currently active date should be shown on the timeline. */
+  showOnlyActiveDate?: boolean;
+  /** Toggles if the animation should start automatically. */
+  autoPlay?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function AnimatedBiVariantMap(props: Props) {

@@ -10,66 +10,120 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  HighlightAreaSettingsDataType,
 } from '@/Types';
 import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: DualAxisLineChartDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  lineTitles?: [string, string];
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  lineColors?: [string, string];
-  sameAxes?: boolean;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  highlightAreaSettings?: [number | string | null, number | string | null];
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
-  showColorScale?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  strokeWidth?: number;
-  showDots?: boolean;
-  colorLegendTitle?: string;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  noOfYTicks?: number;
-  lineSuffixes?: [string, string];
-  linePrefixes?: [string, string];
-  minDate?: string | number;
-  maxDate?: string | number;
-  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+
+  // Colors and Styling
+  /** Array of colors for the 2 lines */
+  lineColors?: [string, string];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values of the lines */
+  linePrefixes?: [string, string];
+  /** Suffix for values of the lines */
+  lineSuffixes?: [string, string];
+  /** Maximum value of the date for the chart */
+  maxDate?: string | number;
+  /** Minimum value of the date for the chart */
+  minDate?: string | number;
+  /** No. of ticks on the x-axis  */
+  noOfXTicks?: number;
+  /** No. of ticks on the y-axis  */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of dots on the line */
+  showDots?: boolean;
+  /** Stroke width of the line */
+  strokeWidth?: number;
+  /** Toggle the initial animation of the line. If the type is number then it uses the number as the time in seconds for animation. */
+  animateLine?: boolean | number;
+  /** Enables same axis for the 2 lines */
+  sameAxes?: boolean;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Labels for the lines  */
+  labels: [string, string];
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsDataType[];
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function DualAxisLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    suffix = '',
     sources,
-    prefix = '',
     graphDescription,
     height,
     width,
@@ -88,17 +142,16 @@ export function DualAxisLineChart(props: Props) {
     rightMargin = 80,
     topMargin = 20,
     bottomMargin = 25,
-    lineTitles = ['Line 1', 'Line 2'],
+    labels = ['Line 1', 'Line 2'],
     lineSuffixes = ['', ''],
     linePrefixes = ['', ''],
     tooltip,
-    highlightAreaSettings = [null, null],
+    highlightAreaSettings = [],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
     strokeWidth = 2,
     showDots = true,
@@ -204,7 +257,7 @@ export function DualAxisLineChart(props: Props) {
                 <>
                   {showColorScale ? null : (
                     <ColorLegend
-                      colorDomain={lineTitles}
+                      colorDomain={labels}
                       colorLegendTitle={colorLegendTitle}
                       colors={lineColors}
                       showNAColor={false}
@@ -234,8 +287,6 @@ export function DualAxisLineChart(props: Props) {
                                 : (width || svgWidth) * relativeHeight
                               : svgHeight),
                         )}
-                        suffix={suffix}
-                        prefix={prefix}
                         dateFormat={dateFormat}
                         showValues={showValues}
                         noOfXTicks={noOfXTicks}
@@ -243,11 +294,10 @@ export function DualAxisLineChart(props: Props) {
                         rightMargin={rightMargin}
                         topMargin={topMargin}
                         bottomMargin={bottomMargin}
-                        lineTitles={lineTitles}
+                        labels={labels}
                         highlightAreaSettings={highlightAreaSettings}
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
-                        highlightAreaColor={highlightAreaColor}
                         animateLine={animateLine}
                         strokeWidth={strokeWidth}
                         showDots={showDots}

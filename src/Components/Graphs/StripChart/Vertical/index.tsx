@@ -58,6 +58,7 @@ interface Props {
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  valueColor?: string;
 }
 
 export function VerticalStripChart(props: Props) {
@@ -105,6 +106,7 @@ export function VerticalStripChart(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    valueColor,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -280,6 +282,7 @@ export function VerticalStripChart(props: Props) {
                         detailsOnClick={detailsOnClick}
                         styles={styles}
                         classNames={classNames}
+                        valueColor={valueColor}
                       />
                     ) : null}
                   </div>

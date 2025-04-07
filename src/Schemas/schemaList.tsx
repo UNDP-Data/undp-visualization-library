@@ -2191,14 +2191,6 @@ export const dataCardListSettingsSchema = {
       },
     },
     cardMinWidth: { type: 'number' },
-    cardBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     detailsOnClick: { type: 'string' },
     allowDataDownloadOnDetail: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
@@ -2260,7 +2252,7 @@ export const donutChartSettingsSchema = {
     footNote: { type: 'string' },
     radius: { type: 'number' },
     strokeWidth: { type: 'number' },
-    graphLegend: { type: 'boolean' },
+    showColorScale: { type: 'boolean' },
     backgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -2317,6 +2309,42 @@ export const dumbbellChartSettingsSchema = {
     detailsOnClick: { type: 'string' },
     ariaLabel: { type: 'string' },
     colors: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    refValues: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
+    },
+    labelOrder: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -2403,7 +2431,7 @@ export const dumbbellChartSettingsSchema = {
     maxNumberOfBars: { type: 'number' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     valueColor: { type: 'string' },
-    barAxisTitle: { type: 'string' },
+    axisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
   },
   required: ['colorDomain'],
@@ -2419,6 +2447,38 @@ export const animatedDumbbellChartSettingsSchema = {
     colors: {
       type: 'array',
       items: { type: 'string' },
+    },
+    refValues: {
+      type: 'array',
+      items: {
+        properties: {
+          color: {
+            type: 'string',
+          },
+          text: {
+            type: 'string',
+          },
+          value: {
+            type: 'number',
+          },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
     },
     orientation: {
       type: 'string',
@@ -2504,7 +2564,7 @@ export const animatedDumbbellChartSettingsSchema = {
     maxBarThickness: { type: 'number' },
     minBarThickness: { type: 'number' },
     valueColor: { type: 'string' },
-    barAxisTitle: { type: 'string' },
+    axisTitle: { type: 'string' },
     noOfTicks: { type: 'number' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
@@ -2611,7 +2671,7 @@ export const histogramSettingsSchema = {
     styles: { type: 'object' },
     classNames: { type: 'object' },
     ariaLabel: { type: 'string' },
-    color: {
+    colors: {
       oneOf: [
         { type: 'string' },
         {
@@ -2744,7 +2804,7 @@ export const dualAxisLineChartSettingsSchema = {
       type: 'string',
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
-    lineTitles: {
+    labels: {
       type: 'array',
       items: { type: 'string' },
       minItems: 2,
@@ -2753,8 +2813,6 @@ export const dualAxisLineChartSettingsSchema = {
     footNote: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
-    suffix: { type: 'string' },
-    prefix: { type: 'string' },
     sources: {
       type: 'array',
       items: {
@@ -2791,15 +2849,27 @@ export const dualAxisLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     graphID: { type: 'string' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     language: {
       type: 'string',
       enum: [
@@ -2867,7 +2937,7 @@ export const lineChartSettingsSchema = {
     regressionLine: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
-    color: { type: 'string' },
+    lineColor: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -3014,6 +3084,9 @@ export const lineChartSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -3022,16 +3095,28 @@ export const lineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     maxValue: { type: 'number' },
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     language: {
       type: 'string',
       enum: [
@@ -3225,6 +3310,9 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -3233,16 +3321,28 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     maxValue: { type: 'number' },
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     language: {
       type: 'string',
       enum: [
@@ -3288,7 +3388,7 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
-    colorLegendDomains: {
+    colorLegendDomain: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -3466,6 +3566,9 @@ export const differenceLineChartSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -3474,17 +3577,29 @@ export const differenceLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     language: {
       type: 'string',
       enum: [
@@ -3685,6 +3800,9 @@ export const multiLineChartSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -3693,10 +3811,23 @@ export const multiLineChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
@@ -3707,7 +3838,6 @@ export const multiLineChartSettingsSchema = {
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     language: {
       type: 'string',
       enum: [
@@ -3755,7 +3885,7 @@ export const sparkLineSettingsSchema = {
       type: 'string',
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
-    color: { type: 'string' },
+    lineColor: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -3842,7 +3972,7 @@ export const choroplethMapSettingsSchema = {
         required: ['source'],
       },
     },
-    domain: {
+    colorDomain: {
       oneOf: [
         {
           type: 'array',
@@ -4197,7 +4327,7 @@ export const animatedChoroplethMapSettingsSchema = {
         required: ['source'],
       },
     },
-    domain: {
+    colorDomain: {
       oneOf: [
         {
           type: 'array',
@@ -4858,7 +4988,7 @@ export const paretoChartSettingsSchema = {
       type: 'string',
       enum: ['light', 'dark'],
     },
-    noOfYTicks: { type: 'number' },
+    noOfTicks: { type: 'number' },
     lineSuffix: { type: 'string' },
     barSuffix: { type: 'string' },
     linePrefix: { type: 'string' },
@@ -5053,12 +5183,24 @@ export const scatterPlotSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'null' }],
+            },
+            minItems: 4,
+            maxItems: 4,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 4,
-      maxItems: 4,
     },
-    highlightAreaColor: { type: 'string' },
     showColorScale: { type: 'boolean' },
     graphID: { type: 'string' },
     maxRadiusValue: { type: 'number' },
@@ -5111,6 +5253,9 @@ export const scatterPlotSettingsSchema = {
             type: 'number',
           },
           dashedStroke: {
+            type: 'boolean',
+          },
+          closePath: {
             type: 'boolean',
           },
         },
@@ -5312,12 +5457,24 @@ export const animatedScatterPlotSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'null' }],
+            },
+            minItems: 4,
+            maxItems: 4,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 4,
-      maxItems: 4,
     },
-    highlightAreaColor: { type: 'string' },
     showColorScale: { type: 'boolean' },
     graphID: { type: 'string' },
     maxRadiusValue: { type: 'number' },
@@ -5375,6 +5532,9 @@ export const animatedScatterPlotSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -5430,7 +5590,7 @@ export const slopeChartSettingsSchema = {
     },
     colorLegendTitle: { type: 'string' },
     radius: { type: 'number' },
-    axisTitle: {
+    axisTitles: {
       type: 'array',
       items: { type: 'string' },
       minItems: 2,
@@ -5648,6 +5808,9 @@ export const stackedAreaChartSettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -5656,17 +5819,29 @@ export const stackedAreaChartSettingsSchema = {
     highlightAreaSettings: {
       type: 'array',
       items: {
-        oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: {
+              oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
+            },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
       },
-      minItems: 2,
-      maxItems: 2,
     },
     graphID: { type: 'string' },
     maxValue: { type: 'number' },
     minValue: { type: 'number' },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
-    highlightAreaColor: { type: 'string' },
     showColorScale: { type: 'boolean' },
     language: {
       type: 'string',
@@ -5782,6 +5957,7 @@ export const stripChartSettingsSchema = {
     classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
     graphTitle: { type: 'string' },
+    valueColor: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -6024,7 +6200,7 @@ export const unitChartSettingsSchema = {
         'custom',
       ],
     },
-    graphLegend: { type: 'boolean' },
+    showColorScale: { type: 'boolean' },
     showStrokeForWhiteDots: { type: 'boolean' },
     note: { type: 'string' },
     mode: {
@@ -6046,6 +6222,7 @@ export const SettingsSchema = {
       type: 'string',
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
+    axisTitle: { type: 'string' },
     mode: {
       type: 'string',
       enum: ['light', 'dark'],
@@ -6161,7 +6338,7 @@ export const SettingsSchema = {
     autoSort: {
       type: 'boolean',
     },
-    axisTitle: {
+    axisTitles: {
       items: {
         type: 'string',
       },
@@ -6377,7 +6554,7 @@ export const SettingsSchema = {
     graphID: {
       type: 'string',
     },
-    graphLegend: {
+    showColorScale: {
       type: 'boolean',
     },
     graphTitle: {
@@ -6399,20 +6576,50 @@ export const SettingsSchema = {
     highlightAreaSettings: {
       anyOf: [
         {
-          items: {
-            oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
-          },
-          maxItems: 2,
-          minItems: 2,
           type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              coordinates: {
+                type: 'array',
+                items: {
+                  oneOf: [
+                    { type: 'number' },
+                    { type: 'string' },
+                    { type: 'null' },
+                  ],
+                },
+                minItems: 2,
+                maxItems: 2,
+              },
+              style: { type: 'object' },
+              className: { type: 'string' },
+              color: { type: 'string' },
+              strokeWidth: { type: 'number' },
+            },
+            required: ['coordinates'],
+          },
         },
         {
-          items: {
-            oneOf: [{ type: 'number' }, { type: 'null' }],
-          },
-          maxItems: 4,
-          minItems: 4,
           type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              coordinates: {
+                type: 'array',
+                items: {
+                  oneOf: [{ type: 'number' }, { type: 'null' }],
+                },
+                minItems: 4,
+                maxItems: 4,
+              },
+              style: { type: 'object' },
+              className: { type: 'string' },
+              color: { type: 'string' },
+              strokeWidth: { type: 'number' },
+            },
+            required: ['coordinates'],
+          },
         },
       ],
     },
@@ -6475,14 +6682,6 @@ export const SettingsSchema = {
     },
     lineTitle: {
       type: 'string',
-    },
-    lineTitles: {
-      items: {
-        type: 'string',
-      },
-      maxItems: 2,
-      minItems: 2,
-      type: 'array',
     },
     mainText: {
       oneOf: [
@@ -6703,6 +6902,9 @@ export const SettingsSchema = {
           dashedStroke: {
             type: 'boolean',
           },
+          closePath: {
+            type: 'boolean',
+          },
         },
         type: 'object',
         required: ['coordinates'],
@@ -6734,9 +6936,6 @@ export const SettingsSchema = {
       type: 'boolean',
     },
     showColorLegendAtTop: {
-      type: 'boolean',
-    },
-    showColorScale: {
       type: 'boolean',
     },
     showColumnLabels: {
@@ -6964,14 +7163,6 @@ export const SettingsSchema = {
       },
     },
     cardMinWidth: { type: 'number' },
-    cardBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
     detailsOnClick: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     legendMaxWidth: { type: 'string' },
@@ -6988,7 +7179,7 @@ export const SettingsSchema = {
         type: 'string',
       },
     },
-    colorLegendDomains: {
+    colorLegendDomain: {
       type: 'array',
       items: {
         type: 'string',

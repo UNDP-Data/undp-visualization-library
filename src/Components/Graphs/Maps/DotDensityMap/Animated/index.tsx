@@ -20,50 +20,109 @@ import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
-  graphTitle?: string;
-  mapData?: any;
-  graphDescription?: string;
-  footNote?: string;
-  width?: number;
-  height?: number;
-  radius?: number;
-  sources?: SourcesDataType[];
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
+  // Data
+  /** Array of data objects */
   data: DotDensityMapWithDateDataType[];
-  scale?: number;
-  centerPoint?: [number, number];
-  backgroundColor?: string | boolean;
-  mapBorderWidth?: number;
-  mapNoDataColor?: string;
-  mapBorderColor?: string;
-  padding?: string;
-  showLabels?: boolean;
-  relativeHeight?: number;
-  isWorldMap?: boolean;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  showColorScale?: boolean;
-  zoomScaleExtend?: [number, number];
-  zoomTranslateExtend?: [[number, number], [number, number]];
-  graphID?: string;
-  highlightedDataPoints?: (string | number)[];
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  showAntarctica?: boolean;
-  dateFormat?: string;
-  showOnlyActiveDate?: boolean;
-  autoPlay?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
+  graphTitle?: string;
+  /** Description of the graph */
+  graphDescription?: string;
+  /** Footnote for the graph */
+  footNote?: string;
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
+
+  // Colors and Styling
+  /** Color or array of colors for the circle */
+  colors?: string | string[];
+  /** Domain of colors for the graph */
+  colorDomain: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Color for the areas where data is no available */
+  mapNoDataColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Maximum radius of the circle */
+  radius?: number;
+  /** Map data as an object in geoJson format */
+  mapData?: any;
+  /** Scale of the map */
+  scale?: number;
+  /** Center point of the map */
+  centerPoint?: [number, number];
+  /** Stroke width of the regions in the map */
+  mapBorderWidth?: number;
+  /** Stroke color of the regions in the map */
+  mapBorderColor?: string;
+  /** Toggle if the map is a world map */
+  isWorldMap?: boolean;
+  /** Extend of the allowed zoom in the map */
+  zoomScaleExtend?: [number, number];
+  /** Extend of the allowed panning in the map */
+  zoomTranslateExtend?: [[number, number], [number, number]];
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Data points to highlight. Use the label value from data to highlight the data point */
+  highlightedDataPoints?: (string | number)[];
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggles the visibility of Antarctica in the default map */
+  showAntarctica?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Slider features
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggles if only the currently active date should be shown on the timeline. */
+  showOnlyActiveDate?: boolean;
+  /** Toggles if the animation should start automatically. */
+  autoPlay?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function AnimatedDotDensityMap(props: Props) {

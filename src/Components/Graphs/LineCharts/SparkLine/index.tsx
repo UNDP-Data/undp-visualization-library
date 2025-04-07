@@ -13,44 +13,90 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { generateRandomString } from '@/Utils/generateRandomString';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: LineChartDataType[];
-  color?: string;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  dateFormat?: string;
-  area?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+
+  // Colors and Styling
+  /** Colors of the lines */
+  lineColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+
+  // Graph Parameters
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggles the visibility of the area below the line */
+  area?: boolean;
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function SparkLine(props: Props) {
   const {
     data,
     graphTitle,
-    color,
+    lineColor,
     sources,
     graphDescription,
     height,
@@ -170,8 +216,8 @@ export function SparkLine(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  color={
-                    color || UNDPColorModule[mode].primaryColors['blue-600']
+                  lineColor={
+                    lineColor || UNDPColorModule[mode].primaryColors['blue-600']
                   }
                   width={width || svgWidth}
                   height={Math.max(

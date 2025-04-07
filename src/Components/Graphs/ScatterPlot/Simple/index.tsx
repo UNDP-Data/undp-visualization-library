@@ -4,11 +4,12 @@ import {
   ReferenceDataType,
   ScatterPlotDataType,
   AnnotationSettingsDataType,
-  CustomHighlightAreaSettingsDataType,
   SourcesDataType,
   Languages,
   StyleObject,
   ClassNameObject,
+  CustomHighlightAreaSettingsForScatterPlotDataType,
+  HighlightAreaSettingsForScatterPlotDataType,
 } from '@/Types';
 import { Graph } from './Graph';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
@@ -18,68 +19,133 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: ScatterPlotDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  showLabels?: boolean;
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  radius?: number;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refXValues?: ReferenceDataType[];
-  refYValues?: ReferenceDataType[];
-  highlightedDataPoints?: (string | number)[];
-  highlightAreaSettings?: [
-    number | null,
-    number | null,
-    number | null,
-    number | null,
-  ];
-  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
-  highlightAreaColor?: string;
-  showColorScale?: boolean;
-  graphID?: string;
-  maxRadiusValue?: number;
-  maxXValue?: number;
-  minXValue?: number;
-  maxYValue?: number;
-  minYValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  language?: Languages;
-  showNAColor?: boolean;
-  minHeight?: number;
-  annotations?: AnnotationSettingsDataType[];
-  mode?: 'light' | 'dark';
-  regressionLine?: boolean | string;
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  noOfXTicks?: number;
-  noOfYTicks?: number;
-  labelColor?: string;
-  xSuffix?: string;
-  ySuffix?: string;
-  xPrefix?: string;
-  yPrefix?: string;
+
+  // Colors and Styling
+  /** Color or array of colors for circle */
+  colors?: string | string[];
+  /** Domain of colors for the graph */
+  colorDomain?: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values on x-axis */
+  xPrefix?: string;
+  /** Suffix for values on x-axis */
+  xSuffix?: string;
+  /** Prefix for values on y-axis */
+  yPrefix?: string;
+  /** Suffix for values on y-axis */
+  ySuffix?: string;
+  /** Maximum value for the x-axis */
+  maxXValue?: number;
+  /** Minimum value for the x-axis */
+  minXValue?: number;
+  /** Maximum value for the y-axis */
+  maxYValue?: number;
+  /** Minimum value for the y-axis */
+  minYValue?: number;
+  /** Maximum value mapped to the radius chart */
+  maxRadiusValue?: number;
+  /** Reference values for comparison on x-axis */
+  refXValues?: ReferenceDataType[];
+  /** Reference values for comparison on y-axis */
+  refYValues?: ReferenceDataType[];
+  /** Number of ticks on the x-axis */
+  noOfXTicks?: number;
+  /** Number of ticks on the y-axis */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Maximum radius of the circle */
+  radius?: number;
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
+  showNAColor?: boolean;
+  /** Data points to highlight. Use the label value from data to highlight the data point */
+  highlightedDataPoints?: (string | number)[];
+  /** Title for the x-axis */
+  xAxisTitle?: string;
+  /** Title for the y-axis */
+  yAxisTitle?: string;
+  /** Annotations on the chart */
+  annotations?: AnnotationSettingsDataType[];
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsForScatterPlotDataType[];
+  /** Highlighted area(custom shape) on the chart  */
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsForScatterPlotDataType[];
+  /** Toggles the visibility of the regression line for the data. If the type is string then string is use to define the color of the line. */
+  regressionLine?: boolean | string;
+  /** Color of the labels */
+  labelColor?: string;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function ScatterPlot(props: Props) {
@@ -109,7 +175,7 @@ export function ScatterPlot(props: Props) {
     onSeriesMouseOver,
     refXValues = [],
     refYValues = [],
-    highlightAreaSettings = [null, null, null, null],
+    highlightAreaSettings = [],
     showColorScale = true,
     highlightedDataPoints = [],
     graphID,
@@ -125,7 +191,6 @@ export function ScatterPlot(props: Props) {
     onSeriesMouseClick,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     language = 'en',
     showNAColor = true,
     minHeight = 0,
@@ -311,7 +376,6 @@ export function ScatterPlot(props: Props) {
                             ? []
                             : highlightedDataPoints
                         }
-                        highlightAreaColor={highlightAreaColor}
                         selectedColor={selectedColor}
                         maxRadiusValue={maxRadiusValue}
                         maxXValue={maxXValue}

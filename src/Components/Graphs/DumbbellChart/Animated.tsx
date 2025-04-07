@@ -4,64 +4,137 @@ import {
   DumbbellChartWithDateDataType,
   StyleObject,
   ClassNameObject,
+  ReferenceDataType,
 } from '@/Types';
 import { AnimatedHorizontalDumbbellChart } from './Horizontal/Animated';
 import { AnimatedVerticalDumbbellChart } from './Vertical/Animated';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: DumbbellChartWithDateDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  barPadding?: number;
-  showTicks?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  truncateBy?: number;
-  colorDomain: string[];
-  colorLegendTitle?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  radius?: number;
-  relativeHeight?: number;
-  showValues?: boolean;
-  showLabels?: boolean;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  maxPositionValue?: number;
-  minPositionValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  suffix?: string;
-  prefix?: string;
-  sortParameter?: number | 'diff';
-  dateFormat?: string;
-  showOnlyActiveDate?: boolean;
-  autoPlay?: boolean;
-  arrowConnector?: boolean;
-  connectorStrokeWidth?: number;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  maxBarThickness?: number;
-  minBarThickness?: number;
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  barAxisTitle?: string;
-  noOfTicks?: number;
+
+  // Colors and Styling
+  /** Array of colors for the circle */
+  colors?: string[];
+  /** Domain of colors for the graph */
+  colorDomain: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Color of value labels */
   valueColor?: string;
-  orientation?: 'vertical' | 'horizontal';
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+  /** Maximum thickness of bars */
+  maxBarThickness?: number;
+  /** Minimum thickness of bars */
+  minBarThickness?: number;
+  /** Radius of the dots */
+  radius?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxPositionValue?: number;
+  /** Minimum value for the chart */
+  minPositionValue?: number;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** Number of ticks on the axis */
+  noOfTicks?: number;
+
+  // Graph Parameters
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of axis ticks */
+  showTicks?: boolean;
+  /** Toggle if the is a arrow head at the end of the connector */
+  arrowConnector?: boolean;
+  /** Stroke width of the connector */
+  connectorStrokeWidth?: number;
+  /** Title for the  axis */
+  axisTitle?: string;
+  /** Sorting order for data. If this is a number then data is sorted by value at that index x array in the data props. If this is diff then data is sorted by the difference of the last and first element in the x array in the data props. This is overwritten by labelOrder prop */
+  sortParameter?: number | 'diff';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Slider features
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggles if only the currently active date should be shown on the timeline. */
+  showOnlyActiveDate?: boolean;
+  /** Toggles if the animation should start automatically. */
+  autoPlay?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function AnimatedDumbbellChart(props: Props) {
@@ -113,10 +186,11 @@ export function AnimatedDumbbellChart(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks,
     valueColor,
     orientation = 'vertical',
+    refValues,
     styles,
     classNames,
   } = props;
@@ -172,8 +246,9 @@ export function AnimatedDumbbellChart(props: Props) {
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
         styles={styles}
         detailsOnClick={detailsOnClick}
-        barAxisTitle={barAxisTitle}
+        axisTitle={axisTitle}
         noOfTicks={noOfTicks}
+        refValues={refValues}
         valueColor={valueColor}
         classNames={classNames}
       />
@@ -228,8 +303,9 @@ export function AnimatedDumbbellChart(props: Props) {
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
       styles={styles}
       detailsOnClick={detailsOnClick}
-      barAxisTitle={barAxisTitle}
+      axisTitle={axisTitle}
       noOfTicks={noOfTicks}
+      refValues={refValues}
       valueColor={valueColor}
       classNames={classNames}
     />

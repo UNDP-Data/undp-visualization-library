@@ -14,49 +14,107 @@ import { UNDPColorModule } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: ParetoChartDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  barTitle?: string;
-  lineTitle?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  barColor?: string;
-  lineColor?: string;
-  sameAxes?: boolean;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  barPadding?: number;
-  truncateBy?: number;
-  showLabels?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
-  language?: Languages;
-  colorLegendTitle?: string;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  noOfYTicks?: number;
-  lineSuffix?: string;
-  barSuffix?: string;
-  linePrefix?: string;
-  barPrefix?: string;
-  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+
+  // Colors and Styling
+  /** Color of the bars */
+  barColor?: string;
+  /** Color of the line */
+  lineColor?: string;
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+
+  // Values and Ticks
+  /** Suffix for values of the lines */
+  lineSuffix?: string;
+  /** Suffix for values of the bars */
+  barSuffix?: string;
+  /** Prefix for values of the lines */
+  linePrefix?: string;
+  /** Prefix for values of the bars */
+  barPrefix?: string;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Number of ticks on the axis */
+  noOfTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enables same axis for bars and line */
+  sameAxes?: boolean;
+  /** Title for the bar axis */
+  barAxisTitle?: string;
+  /** Title for the line axis */
+  lineAxisTitle?: string;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function ParetoChart(props: Props) {
@@ -77,8 +135,8 @@ export function ParetoChart(props: Props) {
     rightMargin = 80,
     topMargin = 20,
     bottomMargin = 25,
-    lineTitle = 'Line chart',
-    barTitle = 'Bar graph',
+    lineAxisTitle = 'Line chart',
+    barAxisTitle = 'Bar graph',
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
@@ -96,7 +154,7 @@ export function ParetoChart(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
-    noOfYTicks = 5,
+    noOfTicks = 5,
     lineSuffix = '',
     barSuffix = '',
     linePrefix = '',
@@ -193,7 +251,7 @@ export function ParetoChart(props: Props) {
               ) : (
                 <>
                   <ColorLegend
-                    colorDomain={[barTitle, lineTitle]}
+                    colorDomain={[barAxisTitle, lineAxisTitle]}
                     colors={[
                       barColor ||
                         UNDPColorModule[mode].categoricalColors.colors[0],
@@ -233,7 +291,7 @@ export function ParetoChart(props: Props) {
                         rightMargin={rightMargin}
                         topMargin={topMargin}
                         bottomMargin={bottomMargin}
-                        axisTitles={[barTitle, lineTitle]}
+                        axisTitles={[barAxisTitle, lineAxisTitle]}
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
                         barPadding={barPadding}
@@ -243,7 +301,7 @@ export function ParetoChart(props: Props) {
                           resetSelectionOnDoubleClick
                         }
                         detailsOnClick={detailsOnClick}
-                        noOfYTicks={noOfYTicks}
+                        noOfTicks={noOfTicks}
                         lineSuffix={lineSuffix}
                         barSuffix={barSuffix}
                         linePrefix={linePrefix}

@@ -12,6 +12,7 @@ import { cn, Modal } from '@undp-data/undp-design-system-react';
 import {
   ClassNameObject,
   DumbbellChartWithDateDataType,
+  ReferenceDataType,
   StyleObject,
 } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
@@ -22,6 +23,7 @@ import { string2HTML } from '@/Utils/string2HTML';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: DumbbellChartWithDateDataType[];
@@ -55,11 +57,12 @@ interface Props {
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
-  barAxisTitle?: string;
+  axisTitle?: string;
   noOfTicks: number;
   valueColor?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  refValues?: ReferenceDataType[];
 }
 
 export function Graph(props: Props) {
@@ -95,11 +98,12 @@ export function Graph(props: Props) {
     minBarThickness,
     resetSelectionOnDoubleClick,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks,
     valueColor,
     styles,
     classNames,
+    refValues,
   } = props;
 
   const dataFormatted = sortBy(
@@ -151,7 +155,7 @@ export function Graph(props: Props) {
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: barAxisTitle ? leftMargin + 30 : leftMargin,
+    left: axisTitle ? leftMargin + 30 : leftMargin,
     right: rightMargin,
   };
   const graphWidth = width - margin.left - margin.right;
@@ -262,7 +266,7 @@ export function Graph(props: Props) {
             y={graphHeight / 2}
             style={styles?.yAxis?.title}
             className={classNames?.yAxis?.title}
-            text={barAxisTitle}
+            text={axisTitle}
             rotate90
           />
           <AnimatePresence>
@@ -412,6 +416,22 @@ export function Graph(props: Props) {
               </motion.g>
             ))}
           </AnimatePresence>
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <RefLineY
+                  key={i}
+                  text={el.text}
+                  color={el.color}
+                  y={y(el.value as number)}
+                  x1={0 - leftMargin}
+                  x2={graphWidth + margin.right}
+                  classNames={el.classNames}
+                  styles={el.styles}
+                />
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

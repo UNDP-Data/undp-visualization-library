@@ -13,7 +13,7 @@ import { string2HTML } from '@/Utils/string2HTML';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
-  domain: number[] | string[];
+  colorDomain: number[] | string[];
   mapData: any;
   width: number;
   height: number;
@@ -45,7 +45,7 @@ interface Props {
 export function Graph(props: Props) {
   const {
     data,
-    domain,
+    colorDomain,
     colors,
     mapData,
     colorLegendTitle,
@@ -87,9 +87,9 @@ export function Graph(props: Props) {
     ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
     : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
   const colorScale = categorical
-    ? scaleOrdinal<number | string, string>().domain(domain).range(colors)
+    ? scaleOrdinal<number | string, string>().domain(colorDomain).range(colors)
     : scaleThreshold<number, string>()
-        .domain(domain as number[])
+        .domain(colorDomain as number[])
         .range(colors);
 
   useEffect(() => {
@@ -402,7 +402,7 @@ export function Graph(props: Props) {
                 {!categorical ? (
                   <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
                     <g>
-                      {domain.map((d, i) => (
+                      {colorDomain.map((d, i) => (
                         <g
                           key={i}
                           onMouseOver={() => {
@@ -445,25 +445,25 @@ export function Graph(props: Props) {
                       <g>
                         <rect
                           onMouseOver={() => {
-                            setSelectedColor(colors[domain.length]);
+                            setSelectedColor(colors[colorDomain.length]);
                           }}
                           onMouseLeave={() => {
                             setSelectedColor(undefined);
                           }}
-                          x={(domain.length * 320) / colors.length + 1}
+                          x={(colorDomain.length * 320) / colors.length + 1}
                           y={1}
                           width={320 / colors.length - 2}
                           height={8}
                           className={`cursor-pointer ${
-                            selectedColor === colors[domain.length]
+                            selectedColor === colors[colorDomain.length]
                               ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
                               : ''
                           }`}
                           style={{
-                            fill: colors[domain.length],
-                            ...(selectedColor === colors[domain.length]
+                            fill: colors[colorDomain.length],
+                            ...(selectedColor === colors[colorDomain.length]
                               ? {}
-                              : { stroke: colors[domain.length] }),
+                              : { stroke: colors[colorDomain.length] }),
                           }}
                         />
                       </g>
@@ -471,7 +471,7 @@ export function Graph(props: Props) {
                   </svg>
                 ) : (
                   <div className='flex flex-col gap-2'>
-                    {domain.map((d, i) => (
+                    {colorDomain.map((d, i) => (
                       <div
                         key={i}
                         className='flex gap-1 items-center'

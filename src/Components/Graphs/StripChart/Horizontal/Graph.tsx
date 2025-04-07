@@ -38,6 +38,7 @@ interface Props {
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  valueColor?: string;
 }
 
 export function Graph(props: Props) {
@@ -69,6 +70,7 @@ export function Graph(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    valueColor,
   } = props;
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
@@ -236,7 +238,8 @@ export function Graph(props: Props) {
                       y={0 - radius - 5}
                       style={{
                         fill:
-                          highlightColor && highlightedDataPoints
+                          valueColor ||
+                          (highlightColor && highlightedDataPoints
                             ? highlightedDataPoints.indexOf(d.label) !== -1
                               ? highlightColor
                               : data.filter(el => el.color).length === 0
@@ -248,7 +251,7 @@ export function Graph(props: Props) {
                             ? colors[0]
                             : !d.color
                             ? UNDPColorModule.gray
-                            : colors[colorDomain.indexOf(d.color)],
+                            : colors[colorDomain.indexOf(d.color)]),
                         textAnchor: 'middle',
                         ...(styles?.graphObjectValues || {}),
                       }}

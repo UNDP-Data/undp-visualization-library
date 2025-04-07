@@ -4,6 +4,8 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
+  HighlightAreaSettingsDataType,
+  HighlightAreaSettingsForScatterPlotDataType,
 } from '@/Types';
 import {
   validateDataSchema,
@@ -509,7 +511,7 @@ function GraphEl(props: Props) {
           curveType: settings?.curveType,
           data: graphData,
           graphID: settings?.graphID,
-          color: settings?.color as string | undefined,
+          lineColor: settings?.lineColor as string | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           footNote: settings?.footNote,
@@ -531,13 +533,12 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           maxValue: settings?.maxValue,
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -582,13 +583,12 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           maxValue: settings?.maxValue,
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -610,7 +610,7 @@ function GraphEl(props: Props) {
           maxDate: settings?.maxDate,
           colorLegendTitle: settings?.colorLegendTitle,
           colorLegendColors: settings?.colorLegendColors,
-          colorLegendDomains: settings?.colorLegendDomains,
+          colorLegendDomain: settings?.colorLegendDomain,
           styles: settings?.styles,
           classNames: settings?.classNames,
         };
@@ -621,7 +621,7 @@ function GraphEl(props: Props) {
           curveType: settings?.curveType,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
-          lineTitles: settings?.lineTitles || [
+          labels: settings?.labels || [
             getValues('y1', graphDataConfiguration || [], readableHeader || []),
             getValues('y2', graphDataConfiguration || [], readableHeader || []),
           ],
@@ -645,12 +645,11 @@ function GraphEl(props: Props) {
           relativeHeight: settings?.relativeHeight,
           tooltip: settings?.tooltip,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           graphID: settings?.graphID,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -701,7 +700,7 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,
@@ -709,7 +708,6 @@ function GraphEl(props: Props) {
           highlightedLines: settings?.highlightedLines,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -759,14 +757,13 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           animateLine: settings?.animateLine,
@@ -815,14 +812,13 @@ function GraphEl(props: Props) {
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | string | null, number | string | null]
+            | HighlightAreaSettingsDataType[]
             | undefined,
           graphID: settings?.graphID,
           maxValue: settings?.maxValue,
           minValue: settings?.minValue,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
-          highlightAreaColor: settings?.highlightAreaColor,
           showColorScale: settings?.showColorScale,
           language: settings?.language,
           minHeight: settings?.minHeight,
@@ -847,7 +843,7 @@ function GraphEl(props: Props) {
           width: settings?.width,
           height: settings?.height,
           sources: settings?.sources,
-          domain: settings?.domain as string[] | number[],
+          colorDomain: settings?.colorDomain as string[] | number[],
           colors: settings?.colors as string[] | undefined,
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
@@ -1016,7 +1012,7 @@ function GraphEl(props: Props) {
           footNote: settings?.footNote,
           radius: settings?.radius,
           strokeWidth: settings?.strokeWidth,
-          graphLegend: settings?.graphLegend,
+          showColorScale: settings?.showColorScale,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           tooltip: settings?.tooltip,
@@ -1064,7 +1060,7 @@ function GraphEl(props: Props) {
                   readableHeader || [],
                 ),
           radius: settings?.radius,
-          axisTitle: settings?.axisTitle,
+          axisTitles: settings?.axisTitles,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,
@@ -1125,9 +1121,8 @@ function GraphEl(props: Props) {
           refYValues: settings?.refYValues,
           highlightedDataPoints: settings?.highlightedDataPoints,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null, number | null, number | null]
+            | HighlightAreaSettingsForScatterPlotDataType[]
             | undefined,
-          highlightAreaColor: settings?.highlightAreaColor,
           showColorScale: settings?.showColorScale,
           graphID: settings?.graphID,
           maxRadiusValue: settings?.maxRadiusValue,
@@ -1159,6 +1154,7 @@ function GraphEl(props: Props) {
         return {
           mode: settings?.mode,
           orientation: settings?.orientation,
+          refValues: settings?.refValues,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           data: graphData,
           colors: settings?.colors as string[] | undefined,
@@ -1175,6 +1171,7 @@ function GraphEl(props: Props) {
           topMargin: settings?.topMargin,
           bottomMargin: settings?.bottomMargin,
           truncateBy: settings?.truncateBy,
+          labelOrder: settings?.labelOrder,
           colorDomain:
             settings?.colorDomain ||
             (getValues(
@@ -1207,7 +1204,7 @@ function GraphEl(props: Props) {
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          barAxisTitle: settings?.barAxisTitle,
+          axisTitle: settings?.axisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
           styles: settings?.styles,
@@ -1405,6 +1402,7 @@ function GraphEl(props: Props) {
           prefix: settings?.prefix,
           suffix: settings?.suffix,
           stripType: settings?.stripType,
+          valueColor: settings?.valueColor,
           language: settings?.language,
           minHeight: settings?.minHeight,
           highlightColor: settings?.highlightColor,
@@ -1526,7 +1524,7 @@ function GraphEl(props: Props) {
         return {
           mode: settings?.mode,
           data: graphData,
-          color: settings?.color,
+          colors: settings?.colors,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           footNote: settings?.footNote,
@@ -1569,7 +1567,7 @@ function GraphEl(props: Props) {
           mode: settings?.mode,
           data: graphData,
           curveType: settings?.curveType,
-          color: settings?.color as string | undefined,
+          lineColor: settings?.lineColor as string | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           footNote: settings?.footNote,
@@ -1646,7 +1644,7 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          noOfYTicks: settings?.noOfYTicks,
+          noOfTicks: settings?.noOfTicks,
           lineSuffix: settings?.lineSuffix,
           barSuffix: settings?.barSuffix,
           linePrefix: settings?.lineSuffix,
@@ -1788,7 +1786,7 @@ function GraphEl(props: Props) {
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           language: settings?.language,
-          graphLegend: settings?.graphLegend,
+          showColorScale: settings?.showColorScale,
           showStrokeForWhiteDots: settings?.showStrokeForWhiteDots,
           note: settings?.note,
           data: graphData,
@@ -1870,7 +1868,7 @@ function GraphEl(props: Props) {
           width: settings?.width,
           height: settings?.height,
           sources: settings?.sources,
-          domain: settings?.domain as string[] | number[],
+          colorDomain: settings?.colorDomain as string[] | number[],
           colors: settings?.colors as string[] | undefined,
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
@@ -2035,6 +2033,7 @@ function GraphEl(props: Props) {
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
+          refValues: settings?.refValues,
           sources: settings?.sources,
           barPadding: settings?.barPadding,
           showTicks: settings?.showTicks,
@@ -2077,7 +2076,7 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           ariaLabel: settings?.ariaLabel,
           detailsOnClick: settings?.detailsOnClick,
-          barAxisTitle: settings?.barAxisTitle,
+          axisTitle: settings?.axisTitle,
           noOfTicks: settings?.noOfTicks,
           valueColor: settings?.valueColor,
           styles: settings?.styles,
@@ -2120,9 +2119,8 @@ function GraphEl(props: Props) {
           refYValues: settings?.refYValues,
           highlightedDataPoints: settings?.highlightedDataPoints,
           highlightAreaSettings: settings?.highlightAreaSettings as
-            | [number | null, number | null, number | null, number | null]
+            | HighlightAreaSettingsForScatterPlotDataType[]
             | undefined,
-          highlightAreaColor: settings?.highlightAreaColor,
           showColorScale: settings?.showColorScale,
           graphID: settings?.graphID,
           maxRadiusValue: settings?.maxRadiusValue,
@@ -2222,7 +2220,6 @@ function GraphEl(props: Props) {
           cardMinWidth: settings?.cardMinWidth,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
-          cardBackgroundStyle: settings?.cardBackgroundStyle,
           detailsOnClick: settings?.detailsOnClick,
           allowDataDownloadOnDetail: settings?.allowDataDownloadOnDetail,
           noOfItemsInAPage: settings?.noOfItemsInAPage,

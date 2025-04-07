@@ -1,3 +1,7 @@
+/**
+ * Converts an array of strings or numbers into a tilde-separated string with spaces replaced by `+`.
+ * Example: `['A B', 'C']` → `'A+B~C'`
+ */
 const ArrToString = (d: string[] | number[]) => {
   let stringValTemp = '';
   d.forEach(el => {
@@ -7,11 +11,20 @@ const ArrToString = (d: string[] | number[]) => {
   return stringVal;
 };
 
+/**
+ * Represents a parameter to be embedded in a URL.
+ */
 interface ParamsProps {
   id: string;
   value: string | boolean | number | string[] | number[];
 }
 
+/**
+ * Generates an embed link with custom query parameters.
+ * @param link - The base URL.
+ * @param params - An array of parameters to append.
+ * @returns A URL string with encoded query parameters.
+ */
 export function getEmbedLink(link: string, params: ParamsProps[]) {
   let queryParams = '';
   params.forEach(d => {
@@ -36,6 +49,12 @@ export function getEmbedLink(link: string, params: ParamsProps[]) {
   return `${link}?${queryParams}`;
 }
 
+/**
+ * Generates an iframe HTML string using a base link and parameters.
+ * @param link - The base URL.
+ * @param params - Parameters to convert into query string.
+ * @returns A string of iframe HTML.
+ */
 export function getIframeCode(link: string, params: ParamsProps[]) {
   return `<iframe src="${getEmbedLink(
     link,

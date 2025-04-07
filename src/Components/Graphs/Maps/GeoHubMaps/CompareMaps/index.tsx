@@ -10,25 +10,53 @@ import {
 } from '@/Types';
 
 interface Props {
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  width?: number;
-  height?: number;
-  relativeHeight?: number;
-  graphID?: string;
-  mapStyles: [string, string];
-  center?: [number, number];
-  zoomLevel?: number;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
+
+  // Colors and Styling
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** URLs for mapStyles JSON user wants to compare  */
+  mapStyles: [string, string];
+  /** Starting center point of the map */
+  center?: [number, number];
+  /** Starting zoom level of the map */
+  zoomLevel?: number;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function GeoHubCompareMaps(props: Props) {

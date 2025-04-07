@@ -12,68 +12,138 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  HighlightAreaSettingsDataType,
 } from '@/Types';
 import { UNDPColorModule } from '@/Components/ColorPalette';
 import { ColorLegend } from '@/Components/Elements/ColorLegend';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: LineChartWithConfidenceIntervalDataType[];
-  graphID?: string;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  highlightAreaSettings?: [number | string | null, number | string | null];
-  maxValue?: number;
-  minValue?: number;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
-  language?: Languages;
-  minHeight?: number;
-  strokeWidth?: number;
-  showDots?: boolean;
-  annotations?: AnnotationSettingsDataType[];
-  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
-  mode?: 'light' | 'dark';
-  regressionLine?: boolean | string;
+  /** Accessibility label */
   ariaLabel?: string;
-  showIntervalDots?: boolean;
-  showIntervalValues?: boolean;
-  intervalLineStrokeWidth?: number;
-  intervalLineColors?: [string, string];
-  intervalAreaColor?: string;
-  intervalAreaOpacity?: number;
+
+  // Colors and Styling
+  /** Colors of the line */
   lineColor?: string;
-  yAxisTitle?: string;
-  noOfYTicks?: number;
-  minDate?: string | number;
-  maxDate?: string | number;
-  colorLegendTitle?: string;
+  /** Colors of the interval area */
+  intervalAreaColor?: string;
+  /** Colors of the top and bottom lines of the interval */
+  intervalLineColors?: [string, string];
+  /** Colors for the legend */
   colorLegendColors?: string[];
-  colorLegendDomains?: string[];
-  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Domain of colors for the legend */
+  colorLegendDomain?: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** Maximum value of the date for the chart */
+  maxDate?: string | number;
+  /** Minimum value of the date for the chart */
+  minDate?: string | number;
+  /** No. of ticks on the x-axis  */
+  noOfXTicks?: number;
+  /** No. of ticks on the y-axis  */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of values of the interval area */
+  showIntervalValues?: boolean;
+  /** Toggle visibility of dots on the line */
+  showDots?: boolean;
+  /** Toggle visibility of dots on the line of te interval area */
+  showIntervalDots?: boolean;
+  /** Stroke width of the line */
+  strokeWidth?: number;
+  /** Stroke width of the lines of the interval area */
+  intervalLineStrokeWidth?: number;
+  /** Opacity of the interval area */
+  intervalAreaOpacity?: number;
+  /** Toggle the initial animation of the line. If the type is number then it uses the number as the time in seconds for animation. */
+  animateLine?: boolean | number;
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Title for the Y-axis */
+  yAxisTitle?: string;
+  /** Annotations on the chart */
+  annotations?: AnnotationSettingsDataType[];
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsDataType[];
+  /** Highlighted area(custom shape) on the chart  */
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  /** Toggles the visibility of the regression line for the data. If the type is string then string is use to define the color of the line. */
+  regressionLine?: boolean | string;
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function LineChartWithConfidenceInterval(props: Props) {
@@ -99,7 +169,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     bottomMargin = 25,
     tooltip,
     refValues = [],
-    highlightAreaSettings = [null, null],
+    highlightAreaSettings = [],
     relativeHeight,
     onSeriesMouseOver,
     graphID,
@@ -117,7 +187,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
     intervalAreaOpacity = 0.4,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
     language = 'en',
     minHeight = 0,
@@ -133,7 +202,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     maxDate,
     colorLegendTitle,
     colorLegendColors,
-    colorLegendDomains,
+    colorLegendDomain,
     curveType = 'curve',
     styles,
     classNames,
@@ -225,12 +294,12 @@ export function LineChartWithConfidenceInterval(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {colorLegendColors && colorLegendDomains ? (
+                  {colorLegendColors && colorLegendDomain ? (
                     <ColorLegend
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={colorLegendColors}
-                      colorDomain={colorLegendDomains}
+                      colorDomain={colorLegendDomain}
                       showNAColor={false}
                       mode={mode}
                     />
@@ -275,7 +344,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
                         refValues={refValues}
                         minValue={minValue}
                         maxValue={maxValue}
-                        highlightAreaColor={highlightAreaColor}
                         animateLine={animateLine}
                         rtl={language === 'he' || language === 'ar'}
                         strokeWidth={strokeWidth}

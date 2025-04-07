@@ -25,7 +25,7 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  axisTitle: [string, string];
+  axisTitles: [string, string];
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
@@ -53,7 +53,7 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    axisTitle,
+    axisTitles,
     highlightedDataPoints,
     selectedColor,
     minValue,
@@ -130,7 +130,7 @@ export function Graph(props: Props) {
                 'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
                 classNames?.yAxis?.title,
               )}
-              text={axisTitle[0]}
+              text={axisTitles[0]}
             />
           </g>
           <g>
@@ -154,7 +154,7 @@ export function Graph(props: Props) {
                 'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
                 classNames?.yAxis?.title,
               )}
-              text={axisTitle[1]}
+              text={axisTitles[1]}
             />
           </g>
           {data.map((d, i) => {
@@ -176,7 +176,7 @@ export function Graph(props: Props) {
                     : highlightedDataPoints.length !== 0
                     ? highlightedDataPoints.indexOf(d.label) !== -1
                       ? 1
-                      : 0.3
+                      : 0.5
                     : 1
                 }
                 onMouseEnter={event => {
@@ -247,10 +247,10 @@ export function Graph(props: Props) {
                       textAnchor: 'end',
                       ...(styles?.yAxis?.labels || {}),
                     }}
-                    className={cn('text-[10px]', classNames?.yAxis?.labels)}
+                    className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y1)}
                     x={5}
-                    dy={4}
+                    dy={5}
                     dx={-3}
                   >
                     {d.label}
@@ -268,10 +268,10 @@ export function Graph(props: Props) {
                         textAnchor: 'end',
                         ...(styles?.yAxis?.labels || {}),
                       }}
-                      className={cn('text-[10px]', classNames?.yAxis?.labels)}
+                      className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y1)}
                       x={5}
-                      dy={4}
+                      dy={5}
                       dx={-3}
                     >
                       {d.label}
@@ -310,10 +310,10 @@ export function Graph(props: Props) {
                       textAnchor: 'start',
                       ...(styles?.yAxis?.labels || {}),
                     }}
-                    className={cn('text-[10px]', classNames?.yAxis?.labels)}
+                    className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y2)}
                     x={graphWidth - 5}
-                    dy={4}
+                    dy={5}
                     dx={3}
                   >
                     {d.label}
@@ -331,10 +331,10 @@ export function Graph(props: Props) {
                         textAnchor: 'start',
                         ...(styles?.yAxis?.labels || {}),
                       }}
-                      className={cn('text-[10px]', classNames?.yAxis?.labels)}
+                      className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y2)}
                       x={graphWidth - 5}
-                      dy={4}
+                      dy={5}
                       dx={3}
                     >
                       {d.label}

@@ -23,24 +23,55 @@ import {
 } from '@/Components/Icons';
 
 interface Props {
+  // Data
+  /** Array of data objects */
+  data: object[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  graphID?: string;
-  width?: number;
-  height?: number;
-  columnData: DataTableColumnDataType[];
-  onSeriesMouseClick?: (_d: any) => void;
-  data: any;
-  language?: Languages;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
+
+  // Colors and Styling
+  /** Background color of the graph */
   backgroundColor?: string | boolean;
-  padding?: string;
-  resetSelectionOnDoubleClick?: boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Column settings for each column shown in the table. */
+  columnData: DataTableColumnDataType[];
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {

@@ -10,26 +10,53 @@ import {
 } from '@/Types';
 
 interface Props {
-  year?: number | string;
-  value: number | string;
-  graphTitle: string;
+  // Titles, Labels, and Sources
+  /** Title of the graph */
+  graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  suffix?: string;
-  prefix?: string;
-  sources?: SourcesDataType[];
+  /** Footnote for the graph */
   footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  graphID?: string;
-  language?: Languages;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  textBackground?: boolean;
+
+  // Colors and Styling
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Font size of the main text */
   headingFontSize?: string;
+  /** Padding around the graph */
+  padding?: string;
+  /** Toggle the fill color of the main text. */
+  textBackground?: boolean;
+  /** Toggle is the text is center aligned. */
   centerAlign?: boolean;
+  /** Vertical alignment of the main text */
   verticalAlign?: 'center' | 'top' | 'bottom';
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Main text */
+  value: number | string;
+  /** Sub text next to main text */
+  year?: number | string;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function BasicStatCard(props: Props) {

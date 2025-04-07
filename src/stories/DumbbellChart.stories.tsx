@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { CirclePackingGraph } from '@/index';
+import { DumbbellChart } from '@/index';
 import { parseValue } from './assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof CirclePackingGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DumbbellChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Circle Packing',
-  component: CirclePackingGraph,
+  title: 'Graphs/Dumbbell Chart',
+  component: DumbbellChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -17,11 +17,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Array of bar graph data',
       table: {
         type: {
-          summary: 'CirclePackingGraphDataType[]',
+          summary: 'DumbbellChartDataType[]',
           detail: `{
-  label: string | number;
-  size?: number | null;
-  color?: string;
+  label: string; 
+  x: (number | undefined | null)[];
 }`,
         },
       },
@@ -63,14 +62,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Accessibility label',
       table: { type: { summary: 'string' } },
     },
+    axisTitle: {
+      control: 'text',
+      description: 'Title for the bar axis',
+      table: { type: { summary: 'string' } },
+    },
 
     // Colors and Styling
     colors: {
       control: 'text',
-      description: 'Color or array of colors for bars',
+      description: 'Color of the circle',
       table: {
         type: {
-          summary: 'string | string[]',
+          summary: 'string[]',
           detail:
             'Requires a array if color key is present in the data else requires a string',
         },
@@ -84,6 +88,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     colorLegendTitle: {
       control: 'text',
       description: 'Title for the color legend',
+      table: { type: { summary: 'string' } },
+    },
+    valueColor: {
+      control: 'color',
+      description: 'Color of value labels',
       table: { type: { summary: 'string' } },
     },
     backgroundColor: {
@@ -206,9 +215,29 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Bottom margin of the graph',
       table: { type: { summary: 'number' } },
     },
-    radius: {
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+      description: 'Padding between bars',
+      table: { type: { summary: 'number' } },
+    },
+    maxBarThickness: {
       control: 'number',
-      description: 'Maximum radius for circles in the graph',
+      description: 'Maximum thickness of bars',
+      table: { type: { summary: 'number' } },
+    },
+    minBarThickness: {
+      control: 'number',
+      description: 'Minimum thickness of bars',
+      table: { type: { summary: 'number' } },
+    },
+    maxNumberOfBars: {
+      control: { type: 'number', min: 0 },
+      description: 'Maximum number of bars shown in the graph',
+      table: { type: { summary: 'number' } },
+    },
+    radius: {
+      control: { type: 'number', min: 0 },
+      description: 'Radius of the dot',
       table: { type: { summary: 'number' } },
     },
 
@@ -223,11 +252,49 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       description: 'Suffix for values',
       table: { type: { summary: 'string' } },
     },
-    maxRadiusValue: {
+    maxPositionValue: {
       control: 'number',
-      description: 'Maximum value for radius for circles in the chart',
+      description: 'Maximum value for the chart',
       table: { type: { summary: 'number' } },
     },
+    minPositionValue: {
+      control: 'number',
+      description: 'Minimum value for the chart',
+      table: { type: { summary: 'number' } },
+    },
+    truncateBy: {
+      control: 'number',
+      description: 'Truncate labels by specified length',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '999' } },
+    },
+    refValues: {
+      control: 'object',
+      description: 'Reference values for comparison',
+      table: {
+        type: {
+          summary: 'ReferenceDataType[]',
+          detail: `{
+    value: number | null;
+    text: string;
+    color?: string;
+    styles?: {
+      line?: React.CSSProperties;
+      text?: React.CSSProperties;
+    };
+    classNames?: {
+      line?: string;
+      text?: string;
+    };
+  }`,
+        },
+      },
+    },
+    noOfTicks: {
+      control: 'number',
+      description: 'Number of ticks on the axis',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '5' } },
+    },
+
     // Graph parameters
     showLabels: {
       control: 'boolean',
@@ -245,29 +312,34 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
-      control: 'boolean',
-      description:
-        'Toggle visibility of color scale. This is only applicable if the data props hae color parameter',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
+    labelOrder: {
+      control: 'text',
+      description: 'Custom order for labels',
+      table: { type: { summary: 'string[]' } },
     },
-    showNAColor: {
+    showTicks: {
       control: 'boolean',
-      description:
-        'Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true',
+      description: 'Toggle visibility of axis ticks',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
       },
     },
-    highlightedDataPoints: {
-      control: 'text',
-      description:
-        'Data points to highlight. Use the label value from data to highlight the data point',
-      table: { type: { summary: '(string | number)[]' } },
+    arrowConnector: {
+      control: 'boolean',
+      description: 'Shows an arrow connecting the first and last point',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    connectorStrokeWidth: {
+      control: 'number',
+      description: 'Stroke width of the connector',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '2' },
+      },
     },
     graphDownload: {
       control: 'boolean',
@@ -319,6 +391,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
+    sortParameter: {
+      control: 'text',
+      options: ['asc', 'desc'],
+      description:
+        'Sorting order for data. If this is a number then data is sorted by value at that index x array in the data props. If this is diff then data is sorted by the difference of the last and first element in the x array in the data props. This is overwritten by labelOrder prop',
+      table: { type: { summary: "'number' | 'diff'" } },
+    },
     language: {
       control: 'select',
       options: [
@@ -356,6 +435,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      description: 'Orientation of the graph',
+      table: {
+        type: { summary: "'vertical' | 'horizontal'" },
+        defaultValue: { summary: 'vertical' },
+      },
+    },
     graphID: {
       control: 'text',
       description: 'Unique ID for the graph',
@@ -364,28 +452,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2010', size: 3 },
-      { label: '2012', size: 8 },
-      { label: '2014', size: 11 },
-      { label: '2016', size: 19 },
-      { label: '2018', size: 3 },
-      { label: '2020', size: 8 },
-      { label: '2022', size: 11 },
-      { label: '2024', size: 19 },
+      { label: '2020 Q1', x: [3, 5] },
+      { label: '2020 Q2', x: [8, 6] },
+      { label: '2020 Q3', x: [11, 8] },
+      { label: '2020 Q4', x: [19, 10] },
+      { label: '2021 Q1', x: [3, 15] },
+      { label: '2022 Q2', x: [8, 5] },
+      { label: '2023 Q3', x: [11, 3] },
+      { label: '2024 Q4', x: [19, 10] },
     ],
+    colorDomain: ['Apple', 'Oranges'],
   },
   render: ({
-    colors,
-    highlightedDataPoints,
+    labelOrder,
     backgroundColor,
     colorDomain,
+    sortParameter,
     ...args
   }) => {
     return (
-      <CirclePackingGraph
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <DumbbellChart
+        labelOrder={parseValue(labelOrder)}
+        colorDomain={parseValue(colorDomain, ['Apple', 'Oranges'])}
+        sortParameter={
+          !sortParameter
+            ? undefined
+            : sortParameter === 'diff'
+            ? 'diff'
+            : /^\d+$/.test(sortParameter as any)
+            ? parseInt(sortParameter as any, 10)
+            : undefined
+        }
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
         {...args}
       />
@@ -395,6 +492,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof CirclePackingGraph>;
+type Story = StoryObj<typeof DumbbellChart>;
 
 export const Default: Story = {};

@@ -15,28 +15,59 @@ import {
 } from '@/Types';
 
 interface Props {
-  mapStyle: string;
-  center?: [number, number];
-  zoomLevel?: number;
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  width?: number;
-  height?: number;
-  relativeHeight?: number;
-  graphID?: string;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
-  layerSelection: { layerID: string[]; name: string }[];
-  excludeLayers?: string[];
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  uiMode?: 'light' | 'normal';
+
+  // Colors and Styling
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** URL for mapStyle JSON  */
+  mapStyle: string;
+  /** Starting center point of the map */
+  center?: [number, number];
+  /** Starting zoom level of the map */
+  zoomLevel?: number;
+  /** List of the layers that the user select and switch between sing a drop down */
+  layerSelection: { layerID: string[]; name: string }[];
+  /** List of layer IDs to be excluded from the visualization */
+  excludeLayers?: string[];
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Theme for the UI elements */
+  uiMode?: 'light' | 'normal';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function GeoHubMapWithLayerSelection(props: Props) {

@@ -14,7 +14,6 @@ import {
   Search,
 } from '@undp-data/undp-design-system-react';
 import {
-  BackgroundStyleDataType,
   FilterSettingsDataType,
   Languages,
   SourcesDataType,
@@ -55,21 +54,46 @@ const csvData = (data: any) => {
 };
 
 interface Props {
+  // Data
+  /** Array of data objects */
+  data: object[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  graphID?: string;
-  width?: number;
-  height?: number;
-  onSeriesMouseClick?: (_d: any) => void;
-  data: any;
-  language?: Languages;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  cardTemplate: string;
+
+  // Colors and Styling
+  /** Background color of each of the card */
   cardBackgroundColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Html for each card based on handlebars template. */
+  cardTemplate: string;
+  /** Allows users to add a dropdown menus, that can be used as filters in the graph. Each filter is an object that specifies the column to filter by, and the default value. All the filters are single select only.  */
   cardFilters?: FilterDataType[];
+  /** Allows users to add a dropdown menus, that can be used to sort the cards based on different columns. */
   cardSortingOptions?: {
     defaultValue?: string;
     options: {
@@ -79,17 +103,30 @@ interface Props {
     }[];
     width?: string;
   };
+  /** Adds a search bar to search the cards list. The array defines all the columns from the data where text is used to search from. */
   cardSearchColumns?: string[];
+  /** Min width of the cards for responsiveness. */
   cardMinWidth?: number;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  cardBackgroundStyle?: BackgroundStyleDataType;
-  detailsOnClick?: string;
+  /** Add a button to download data object when viewing details. If true, data can be downloaded; if a string is provided, it specifies the button label. */
   allowDataDownloadOnDetail?: string | boolean;
+  /** Defines the number of items displayed per page. */
   noOfItemsInAPage?: number;
+
+  // Interactions and Callbacks
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Theme for the UI elements */
   uiMode?: 'light' | 'normal';
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
@@ -123,7 +160,6 @@ export function DataCards(props: Props) {
     cardMinWidth = 320,
     backgroundColor = false,
     padding,
-    cardBackgroundStyle = {},
     detailsOnClick,
     allowDataDownloadOnDetail = false,
     noOfItemsInAPage,
@@ -393,7 +429,7 @@ export function DataCards(props: Props) {
                   <div
                     key={i}
                     style={{
-                      ...cardBackgroundStyle,
+                      ...(styles?.dataCards || {}),
                       ...(cardBackgroundColor && {
                         backgroundColor: cardBackgroundColor,
                       }),
@@ -406,7 +442,7 @@ export function DataCards(props: Props) {
                       !cardBackgroundColor
                         ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
                         : ''
-                    }`}
+                    } ${classNames?.dataCards || ''}`}
                     onClick={() => {
                       onSeriesMouseClick?.(d);
                       if (detailsOnClick) setSelectedData(d);

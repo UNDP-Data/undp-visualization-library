@@ -4,7 +4,12 @@ import min from 'lodash.min';
 import { useState } from 'react';
 import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
-import { ClassNameObject, DumbbellChartDataType, StyleObject } from '@/Types';
+import {
+  ClassNameObject,
+  DumbbellChartDataType,
+  ReferenceDataType,
+  StyleObject,
+} from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -13,6 +18,7 @@ import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLine
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { RefLineX } from '@/Components/Elements/ReferenceLine';
 
 interface Props {
   data: DumbbellChartDataType[];
@@ -43,11 +49,14 @@ interface Props {
   minBarThickness?: number;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
-  barAxisTitle?: string;
+  axisTitle?: string;
   noOfTicks: number;
   valueColor?: string;
+  labelOrder?: string[];
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  refValues?: ReferenceDataType[];
+  rtl: boolean;
 }
 
 export function Graph(props: Props) {
@@ -80,14 +89,17 @@ export function Graph(props: Props) {
     minBarThickness,
     resetSelectionOnDoubleClick,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks,
     valueColor,
     styles,
     classNames,
+    labelOrder,
+    refValues,
+    rtl,
   } = props;
   const margin = {
-    top: barAxisTitle ? topMargin + 25 : topMargin,
+    top: axisTitle ? topMargin + 25 : topMargin,
     bottom: bottomMargin,
     left: leftMargin,
     right: rightMargin,
@@ -110,13 +122,17 @@ export function Graph(props: Props) {
     ? 0
     : Math.min(...data.map(d => min(d.x) || 0));
 
-  const dataWithId = data.map((d, i) => ({ ...d, id: `${i}` }));
+  const dataWithId = data.map((d, i) => ({
+    ...d,
+    id: labelOrder ? `${d.label}` : `${i}`,
+  }));
+  const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const x = scaleLinear()
     .domain([xMinValue, xMaxValue])
     .range([0, graphWidth])
     .nice();
   const y = scaleBand()
-    .domain(dataWithId.map(d => `${d.id}`))
+    .domain(barOrder)
     .range([
       0,
       minBarThickness
@@ -180,7 +196,7 @@ export function Graph(props: Props) {
             y={0 - margin.top + 15}
             style={styles?.xAxis?.title}
             className={classNames?.xAxis?.title}
-            text={barAxisTitle}
+            text={axisTitle}
           />
           <YTicksAndGridLines
             y={data.map((_d, i) => (y(`${i}`) as number) + y.bandwidth() / 2)}
@@ -196,12 +212,12 @@ export function Graph(props: Props) {
             showGridLines
             labelPos='vertical'
           />
-          {data.map((d, i) => (
+          {dataWithId.map((d, i) => (
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
               transform={`translate(0,${
-                (y(`${i}`) as number) + y.bandwidth() / 2
+                (y(`${d.id}`) as number) + y.bandwidth() / 2
               })`}
             >
               {showLabels ? (
@@ -336,6 +352,27 @@ export function Graph(props: Props) {
               ))}
             </g>
           ))}
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <RefLineX
+                  key={i}
+                  text={el.text}
+                  color={el.color}
+                  x={x(el.value as number)}
+                  y1={0 - margin.top}
+                  y2={graphHeight + margin.bottom}
+                  textSide={
+                    x(el.value as number) > graphWidth * 0.75 || rtl
+                      ? 'left'
+                      : 'right'
+                  }
+                  classNames={el.classNames}
+                  styles={el.styles}
+                />
+              ))}
+            </>
+          ) : null}
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

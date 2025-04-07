@@ -16,72 +16,125 @@ import { VerticalStackedBarGraph } from './Vertical/StackedBarGraph/Simple';
 
 interface Props {
   // Data
+  /** Array of data objects */
   data: BarGraphDataType[];
 
   // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  barAxisTitle?: string;
 
   // Colors and Styling
+  /** Color or array of colors for bars */
   colors?: string | string[];
+  /** Domain of colors for the graph */
   colorDomain?: string[];
+  /** Title for the color legend */
   colorLegendTitle?: string;
+  /** Color of value labels */
   valueColor?: string;
+  /** Background color of the graph */
   backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
 
   // Size and Spacing
+  /** Width of the graph */
   width?: number;
+  /** Height of the graph */
   height?: number;
+  /** Minimum height of the graph */
   minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
+  /** Padding around the graph */
   padding?: string;
+  /** Left margin of the graph */
   leftMargin?: number;
+  /** Right margin of the graph */
   rightMargin?: number;
+  /** Top margin of the graph */
   topMargin?: number;
+  /** Bottom margin of the graph */
   bottomMargin?: number;
+  /** Padding between bars */
   barPadding?: number;
+  /** Maximum thickness of bars */
   maxBarThickness?: number;
+  /** Minimum thickness of bars */
   minBarThickness?: number;
+  /** Maximum number of bars shown in the graph */
   maxNumberOfBars?: number;
 
   // Values and Ticks
+  /** Prefix for values */
   prefix?: string;
+  /** Suffix for values */
   suffix?: string;
+  /** Maximum value for the chart */
   maxValue?: number;
+  /** Minimum value for the chart */
   minValue?: number;
+  /** Truncate labels by specified length */
   truncateBy?: number;
+  /** Reference values for comparison */
   refValues?: ReferenceDataType[];
+  /** Number of ticks on the axis */
   noOfTicks?: number;
 
   // Graph Parameters
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+  /** Toggle visibility of labels */
   showLabels?: boolean;
+  /** Toggle visibility of values */
   showValues?: boolean;
+  /** Custom order for labels */
   labelOrder?: string[];
+  /** Toggle visibility of axis ticks */
   showTicks?: boolean;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
   showColorScale?: boolean;
+  /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
   showNAColor?: boolean;
+  /** Data points to highlight. Use the label value from data to highlight the data point */
   highlightedDataPoints?: (string | number)[];
+  /** Title for the bar axis */
+  barAxisTitle?: string;
+  /** Sorting order for data. This is overwritten by labelOrder prop */
+  sortData?: 'asc' | 'desc';
+  /** Enable graph download option as png */
   graphDownload?: boolean;
+  /** Enable data download option as a csv */
   dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
   tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
   onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
-  sortData?: 'asc' | 'desc';
+  /** Language setting  */
   language?: Languages;
+  /** Theme mode */
   mode?: 'light' | 'dark';
-  orientation?: 'vertical' | 'horizontal';
+  /** Unique ID for the graph */
   graphID?: string;
 }
 
@@ -259,66 +312,113 @@ export function SimpleBarGraph(props: Props) {
 
 interface GroupedBarChartProps {
   // Data
+  /** Array of data objects */
   data: GroupedBarGraphDataType[];
 
   // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  barAxisTitle?: string;
 
   // Colors and Styling
+  /** Array of colors for different bars in the group */
   colors?: string[];
+  /** Domain of colors for the graph */
   colorDomain: string[];
+  /** Title for the color legend */
   colorLegendTitle?: string;
+  /** Color of value labels */
   valueColor?: string;
+  /** Background color of the graph */
   backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
 
   // Size and Spacing
+  /** Width of the graph */
   width?: number;
+  /** Height of the graph */
   height?: number;
+  /** Minimum height of the graph */
   minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
+  /** Padding around the graph */
   padding?: string;
+  /** Left margin of the graph */
   leftMargin?: number;
+  /** Right margin of the graph */
   rightMargin?: number;
+  /** Top margin of the graph */
   topMargin?: number;
+  /** Bottom margin of the graph */
   bottomMargin?: number;
+  /** Padding between bars */
   barPadding?: number;
+  /** Maximum thickness of bars */
   maxBarThickness?: number;
 
   // Values and Ticks
+  /** Prefix for values */
   prefix?: string;
+  /** Suffix for values */
   suffix?: string;
+  /** Maximum value for the chart */
   maxValue?: number;
+  /** Minimum value for the chart */
   minValue?: number;
+  /** Truncate labels by specified length */
   truncateBy?: number;
+  /** Reference values for comparison */
   refValues?: ReferenceDataType[];
+  /** Number of ticks on the axis */
   noOfTicks?: number;
 
   // Graph Parameters
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+  /** Toggle visibility of labels */
   showLabels?: boolean;
+  /** Toggle visibility of values */
   showValues?: boolean;
+  /** Custom order for labels */
   labelOrder?: string[];
+  /** Toggle visibility of axis ticks */
   showTicks?: boolean;
+  /** Title for the bar axis */
+  barAxisTitle?: string;
+  /** Enable graph download option as png */
   graphDownload?: boolean;
+  /** Enable data download option as a csv */
   dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
   tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
   onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
+  /** Language setting  */
   language?: Languages;
+  /** Theme mode */
   mode?: 'light' | 'dark';
-  orientation?: 'vertical' | 'horizontal';
+  /** Unique ID for the graph */
   graphID?: string;
 }
 
@@ -478,68 +578,117 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
 
 interface StackedBarChartProps {
   // Data
+  /** Array of data objects */
   data: GroupedBarGraphDataType[];
 
   // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  barAxisTitle?: string;
 
   // Colors and Styling
+  /** Array of colors for different bars in the group */
   colors?: string[];
+  /** Domain of colors for the graph */
   colorDomain: string[];
+  /** Title for the color legend */
   colorLegendTitle?: string;
+  /** Color of value labels */
   valueColor?: string;
+  /** Background color of the graph */
   backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
 
   // Size and Spacing
+  /** Width of the graph */
   width?: number;
+  /** Height of the graph */
   height?: number;
+  /** Minimum height of the graph */
   minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
+  /** Padding around the graph */
   padding?: string;
+  /** Left margin of the graph */
   leftMargin?: number;
+  /** Right margin of the graph */
   rightMargin?: number;
+  /** Top margin of the graph */
   topMargin?: number;
+  /** Bottom margin of the graph */
   bottomMargin?: number;
+  /** Padding between bars */
   barPadding?: number;
+  /** Maximum thickness of bars */
   maxBarThickness?: number;
+  /** Minimum thickness of bars */
   minBarThickness?: number;
+  /** Maximum number of bars shown in the graph */
   maxNumberOfBars?: number;
 
   // Values and Ticks
+  /** Prefix for values */
   prefix?: string;
+  /** Suffix for values */
   suffix?: string;
+  /** Maximum value for the chart */
   maxValue?: number;
+  /** Minimum value for the chart */
   truncateBy?: number;
+  /** Reference values for comparison */
   refValues?: ReferenceDataType[];
+  /** Number of ticks on the axis */
   noOfTicks?: number;
 
   // Graph Parameters
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+  /** Toggle visibility of labels */
   showLabels?: boolean;
+  /** Toggle visibility of values */
   showValues?: boolean;
+  /** Custom order for labels */
   labelOrder?: string[];
+  /** Toggle visibility of axis ticks */
   showTicks?: boolean;
+  /** Title for the bar axis */
+  barAxisTitle?: string;
+  /** Parameter to sort the data. If a number is provided, it refers to the index of the size array to determine which value to sort by. If set to total, it sorts by the sum of all the values. */
+  sortParameter?: number | 'total';
+  /** Enable graph download option as png */
   graphDownload?: boolean;
+  /** Enable data download option as a csv */
   dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
   tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
   onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
-  sortParameter?: number | 'total';
+  /** Language setting  */
   language?: Languages;
+  /** Theme mode */
   mode?: 'light' | 'dark';
-  orientation?: 'vertical' | 'horizontal';
+  /** Unique ID for the graph */
   graphID?: string;
 }
 

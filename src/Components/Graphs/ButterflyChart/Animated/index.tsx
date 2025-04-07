@@ -21,54 +21,119 @@ import { Pause, Play } from '@/Components/Icons';
 import { Graph } from './Graph';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: ButterflyChartWithDateDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  leftBarTitle?: string;
-  rightBarTitle?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  leftBarColor?: string;
-  rightBarColor?: string;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  barPadding?: number;
-  truncateBy?: number;
-  suffix?: string;
-  prefix?: string;
-  showTicks?: boolean;
-  showValues?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
-  centerGap?: number;
-  maxValue?: number;
-  minValue?: number;
-  showColorScale?: boolean;
-  refValues?: ReferenceDataType[];
-  dateFormat?: string;
-  showOnlyActiveDate?: boolean;
-  autoPlay?: boolean;
-  language?: Languages;
-  colorLegendTitle?: string;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
+
+  // Colors and Styling
+  /** Color for the left bars */
+  leftBarColor?: string;
+  /** Color for the right bars */
+  rightBarColor?: string;
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+  /** Spacing between the left and right bars */
+  centerGap?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** Number of ticks on the axis */
   noOfTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of axis ticks */
+  showTicks?: boolean;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Title for the left bars */
+  leftBarTitle?: string;
+  /** Title for the right bars */
+  rightBarTitle?: string;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Slider features
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggles if only the currently active date should be shown on the timeline. */
+  showOnlyActiveDate?: boolean;
+  /** Toggles if the animation should start automatically. */
+  autoPlay?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function AnimatedButterflyChart(props: Props) {

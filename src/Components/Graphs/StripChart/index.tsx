@@ -9,50 +9,111 @@ import { HorizontalStripChart } from './Horizontal';
 import { VerticalStripChart } from './Vertical';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: StripChartDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  colors?: string | string[];
-  colorDomain?: string[];
-  colorLegendTitle?: string;
-  radius?: number;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  highlightedDataPoints?: (string | number)[];
-  showColorScale?: boolean;
-  graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  onSeriesMouseClick?: (_d: any) => void;
-  showAxis?: boolean;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  prefix?: string;
-  suffix?: string;
-  stripType?: 'strip' | 'dot';
-  language?: Languages;
-  highlightColor?: string;
-  dotOpacity?: number;
-  showNAColor?: boolean;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  resetSelectionOnDoubleClick?: boolean;
-  detailsOnClick?: string;
-  orientation?: 'vertical' | 'horizontal';
+
+  // Colors and Styling
+  /** Color or array of colors for circles */
+  colors?: string | string[];
+  /** Color of the highlighted data points */
+  highlightColor?: string;
+  /** Domain of colors for the graph */
+  colorDomain?: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Color of value labels */
+  valueColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+
+  // Graph Parameters
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+  /** Toggle visibility of axis */
+  showAxis?: boolean;
+  /** Radius of the dots or width of the strips */
+  radius?: number;
+  /** Opacity of each dot or strip */
+  dotOpacity?: number;
+  /** Type of strip */
+  stripType?: 'strip' | 'dot';
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
+  showNAColor?: boolean;
+  /** Data points to highlight. Use the label value from data to highlight the data point */
+  highlightedDataPoints?: (string | number)[];
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function StripChart(props: Props) {
@@ -96,6 +157,7 @@ export function StripChart(props: Props) {
     minHeight,
     mode,
     ariaLabel,
+    valueColor,
     resetSelectionOnDoubleClick,
     detailsOnClick,
     orientation = 'vertical',
@@ -147,6 +209,7 @@ export function StripChart(props: Props) {
         ariaLabel={ariaLabel}
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
         styles={styles}
+        valueColor={valueColor}
         detailsOnClick={detailsOnClick}
         classNames={classNames}
       />
@@ -194,6 +257,7 @@ export function StripChart(props: Props) {
       ariaLabel={ariaLabel}
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
       styles={styles}
+      valueColor={valueColor}
       detailsOnClick={detailsOnClick}
       classNames={classNames}
     />

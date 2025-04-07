@@ -11,16 +11,16 @@ import {
   ScatterPlotDataType,
   ReferenceDataType,
   AnnotationSettingsDataType,
-  CustomHighlightAreaSettingsDataType,
   StyleObject,
   ClassNameObject,
+  CustomHighlightAreaSettingsForScatterPlotDataType,
+  HighlightAreaSettingsForScatterPlotDataType,
 } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { UNDPColorModule } from '@/Components/ColorPalette';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { getLineEndPoint } from '@/Utils/getLineEndPoint';
-import { getPathFromPoints } from '@/Utils/getPathFromPoints';
 import { string2HTML } from '@/Utils/string2HTML';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
@@ -29,6 +29,8 @@ import { RefLineX, RefLineY } from '@/Components/Elements/ReferenceLine';
 import { RegressionLine } from '@/Components/Elements/RegressionLine';
 import { Annotation } from '@/Components/Elements/Annotations';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { CustomArea } from '@/Components/Elements/HighlightArea/customArea';
+import { HighlightAreaForScatterPlot } from '@/Components/Elements/HighlightArea';
 
 interface Props {
   data: ScatterPlotDataType[];
@@ -48,12 +50,7 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   refXValues: ReferenceDataType[];
   refYValues: ReferenceDataType[];
-  highlightAreaSettings: [
-    number | null,
-    number | null,
-    number | null,
-    number | null,
-  ];
+  highlightAreaSettings: HighlightAreaSettingsForScatterPlotDataType[];
   selectedColor?: string;
   highlightedDataPoints: (string | number)[];
   maxRadiusValue?: number;
@@ -61,11 +58,10 @@ interface Props {
   minXValue?: number;
   maxYValue?: number;
   minYValue?: number;
-  highlightAreaColor: string;
   onSeriesMouseClick?: (_d: any) => void;
   rtl: boolean;
   annotations: AnnotationSettingsDataType[];
-  customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
+  customHighlightAreaSettings: CustomHighlightAreaSettingsForScatterPlotDataType[];
   regressionLine: boolean | string;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -108,7 +104,6 @@ export function Graph(props: Props) {
     maxYValue,
     minYValue,
     onSeriesMouseClick,
-    highlightAreaColor,
     rtl,
     annotations,
     customHighlightAreaSettings,
@@ -212,91 +207,18 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettings.filter(d => d === null).length === 4 ? null : (
-            <g>
-              <rect
-                style={{
-                  fill: highlightAreaColor,
-                }}
-                x={
-                  highlightAreaSettings[0]
-                    ? x(highlightAreaSettings[0] as number)
-                    : 0
-                }
-                width={
-                  highlightAreaSettings[1]
-                    ? x(highlightAreaSettings[1] as number) -
-                      (highlightAreaSettings[0]
-                        ? x(highlightAreaSettings[0] as number)
-                        : 0)
-                    : graphWidth -
-                      (highlightAreaSettings[0]
-                        ? x(highlightAreaSettings[0] as number)
-                        : 0)
-                }
-                y={
-                  highlightAreaSettings[3]
-                    ? y(highlightAreaSettings[3] as number)
-                    : 0
-                }
-                height={
-                  highlightAreaSettings[2] !== null
-                    ? y(highlightAreaSettings[2] as number) -
-                      (highlightAreaSettings[3]
-                        ? y(highlightAreaSettings[3] as number)
-                        : 0)
-                    : graphHeight -
-                      (highlightAreaSettings[3]
-                        ? graphHeight - y(highlightAreaSettings[3] as number)
-                        : 0)
-                }
-              />
-            </g>
-          )}
-          {customHighlightAreaSettings.map((d, i) => (
-            <g key={i}>
-              {d.coordinates.length !== 4 ? (
-                <path
-                  d={getPathFromPoints(
-                    d.coordinates.map((el, j) =>
-                      j % 2 === 0 ? x(el as number) : y(el as number),
-                    ),
-                  )}
-                  style={{
-                    strokeWidth: d.strokeWidth || 0,
-                    ...(d.coordinates.length > 4
-                      ? d.color && { fill: d.color }
-                      : { fill: 'none' }),
-                    ...(d.color && { stroke: d.color }),
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                  }}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550 fill-primary-gray-300 dark:fill-primary-gray-550'
-                      : ''
-                  }
-                />
-              ) : (
-                <line
-                  x1={x(d.coordinates[0] as number)}
-                  y1={y(d.coordinates[1] as number)}
-                  x2={x(d.coordinates[2] as number)}
-                  y2={y(d.coordinates[3] as number)}
-                  style={{
-                    ...(d.color && { stroke: d.color }),
-                    fill: 'none',
-                    strokeWidth: d.strokeWidth || 1,
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                  }}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
-                      : ''
-                  }
-                />
-              )}
-            </g>
-          ))}
+          <HighlightAreaForScatterPlot
+            areaSettings={highlightAreaSettings}
+            width={graphWidth}
+            height={graphHeight}
+            scaleX={x}
+            scaleY={y}
+          />
+          <CustomArea
+            areaSettings={customHighlightAreaSettings}
+            scaleX={x}
+            scaleY={y}
+          />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}
@@ -425,7 +347,7 @@ export function Graph(props: Props) {
                         : highlightedDataPoints.length !== 0
                         ? highlightedDataPoints.indexOf(d.label || '') !== -1
                           ? 1
-                          : 0.3
+                          : 0.5
                         : 1
                     }
                     transform={`translate(${x(d.x as number)},${y(
@@ -465,12 +387,12 @@ export function Graph(props: Props) {
                           ...(styles?.graphObjectValues || {}),
                         }}
                         className={cn(
-                          'graph-value text-[10px]',
+                          'graph-value text-xs',
                           classNames?.graphObjectValues,
                         )}
                         y={0}
                         x={!radiusScale ? radius : radiusScale(d.radius || 0)}
-                        dy={4}
+                        dy={5}
                         dx={3}
                       >
                         {d.label}
@@ -492,12 +414,12 @@ export function Graph(props: Props) {
                             ...(styles?.graphObjectValues || {}),
                           }}
                           className={cn(
-                            'graph-value text-[10px]',
+                            'graph-value text-xs',
                             classNames?.graphObjectValues,
                           )}
                           y={0}
                           x={!radiusScale ? radius : radiusScale(d.radius || 0)}
-                          dy={4}
+                          dy={5}
                           dx={3}
                         >
                           {d.label}

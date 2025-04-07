@@ -238,7 +238,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     showColorScale: {
       control: 'boolean',
       description:
-        'Show or hide color scale. This is only applicable if the data props hae color parameter',
+        'Toggle visibility of color scale. This is only applicable if the data props hae color parameter',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -247,7 +247,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     showNAColor: {
       control: 'boolean',
       description:
-        'Show NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true',
+        'Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -373,11 +373,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   }) => {
     return (
       <TreeMapGraph
-        colors={parseValue(colors)}
+        colors={parseValue(colors, colors)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
-        {...args}
         {...args}
       />
     );

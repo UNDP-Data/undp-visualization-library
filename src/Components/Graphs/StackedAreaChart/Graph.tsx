@@ -18,6 +18,7 @@ import {
   AnnotationSettingsDataType,
   ClassNameObject,
   CustomHighlightAreaSettingsDataType,
+  HighlightAreaSettingsDataType,
   MultiLineChartDataType,
   ReferenceDataType,
   StyleObject,
@@ -26,13 +27,14 @@ import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { getLineEndPoint } from '@/Utils/getLineEndPoint';
-import { getPathFromPoints } from '@/Utils/getPathFromPoints';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
 import { RefLineY } from '@/Components/Elements/ReferenceLine';
 import { Annotation } from '@/Components/Elements/Annotations';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { CustomArea } from '@/Components/Elements/HighlightArea/customArea';
+import { HighlightArea } from '@/Components/Elements/HighlightArea';
 
 interface Props {
   data: MultiLineChartDataType[];
@@ -49,10 +51,9 @@ interface Props {
   tooltip?: string;
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
-  highlightAreaSettings: [number | string | null, number | string | null];
+  highlightAreaSettings: HighlightAreaSettingsDataType[];
   maxValue?: number;
   minValue?: number;
-  highlightAreaColor: string;
   rtl: boolean;
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
@@ -83,7 +84,6 @@ export function Graph(props: Props) {
     refValues,
     minValue,
     maxValue,
-    highlightAreaColor,
     rtl,
     annotations,
     customHighlightAreaSettings,
@@ -122,14 +122,25 @@ export function Graph(props: Props) {
     })),
     'date',
   );
-  const highlightAreaSettingsFormatted = [
-    highlightAreaSettings[0] === null
-      ? null
-      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
-    highlightAreaSettings[1] === null
-      ? null
-      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
-  ];
+  const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: [
+      d.coordinates[0] === null
+        ? null
+        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null
+        ? null
+        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+    ],
+  }));
+  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(
+    d => ({
+      ...d,
+      coordinates: d.coordinates.map((el, j) =>
+        j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
+      ),
+    }),
+  );
   const dataArray = dataFormatted[0].y.map((_d, i) => {
     return dataFormatted.map(el => ({
       date: el.date,
@@ -199,80 +210,17 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettingsFormatted[0] === null &&
-          highlightAreaSettingsFormatted[1] === null ? null : (
-            <g>
-              <rect
-                style={{
-                  fill: highlightAreaColor,
-                }}
-                x={
-                  highlightAreaSettingsFormatted[0]
-                    ? x(highlightAreaSettingsFormatted[0])
-                    : 0
-                }
-                width={
-                  highlightAreaSettingsFormatted[1]
-                    ? x(highlightAreaSettingsFormatted[1]) -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                    : graphWidth -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                }
-                y={0}
-                height={graphHeight}
-              />
-            </g>
-          )}
-          {customHighlightAreaSettings.map((d, i) => (
-            <g key={i}>
-              {d.coordinates.length !== 4 ? (
-                <path
-                  d={getPathFromPoints(
-                    d.coordinates.map((el, j) =>
-                      j % 2 === 0
-                        ? x(parse(`${el}`, dateFormat, new Date()))
-                        : y(el as number),
-                    ),
-                  )}
-                  style={{
-                    strokeWidth: d.strokeWidth || 0,
-                    ...(d.coordinates.length > 4
-                      ? d.color && { fill: d.color }
-                      : { fill: 'none' }),
-                    ...(d.color && { stroke: d.color }),
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                  }}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550 fill-primary-gray-300 dark:fill-primary-gray-550'
-                      : ''
-                  }
-                />
-              ) : (
-                <line
-                  x1={x(parse(`${d.coordinates[0]}`, dateFormat, new Date()))}
-                  y1={y(d.coordinates[1] as number)}
-                  x2={x(parse(`${d.coordinates[2]}`, dateFormat, new Date()))}
-                  y2={y(d.coordinates[3] as number)}
-                  style={{
-                    ...(d.color && { stroke: d.color }),
-                    fill: 'none',
-                    strokeWidth: d.strokeWidth || 1,
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                  }}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
-                      : ''
-                  }
-                />
-              )}
-            </g>
-          ))}
+          <HighlightArea
+            areaSettings={highlightAreaSettingsFormatted}
+            width={graphWidth}
+            height={graphHeight}
+            scale={x}
+          />
+          <CustomArea
+            areaSettings={customHighlightAreaSettingsFormatted}
+            scaleX={x}
+            scaleY={y}
+          />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}

@@ -7,6 +7,7 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  ReferenceDataType,
 } from '@/Types';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
@@ -61,11 +62,13 @@ interface Props {
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
-  barAxisTitle?: string;
+  axisTitle?: string;
   noOfTicks?: number;
   valueColor?: string;
+  labelOrder?: string[];
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  refValues?: ReferenceDataType[];
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -115,11 +118,13 @@ export function VerticalDumbbellChart(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
-    barAxisTitle,
+    axisTitle,
     noOfTicks = 5,
     valueColor,
     styles,
     classNames,
+    labelOrder,
+    refValues,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -289,11 +294,13 @@ export function VerticalDumbbellChart(props: Props) {
                           resetSelectionOnDoubleClick
                         }
                         detailsOnClick={detailsOnClick}
-                        barAxisTitle={barAxisTitle}
+                        axisTitle={axisTitle}
                         noOfTicks={noOfTicks}
                         valueColor={valueColor}
                         styles={styles}
                         classNames={classNames}
+                        labelOrder={labelOrder}
+                        refValues={refValues}
                       />
                     ) : null}
                   </div>
