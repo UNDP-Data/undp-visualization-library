@@ -126,11 +126,13 @@ export { excelDownload } from './Utils/excelDownload';
 export { getUniqValue } from './Utils/getUniqValue';
 
 /* ---------Data fetch and Parse ------------*/
-export { fetchAndParseCSV } from './Utils/fetchAndParseData';
-export { fetchAndParseJSON } from './Utils/fetchAndParseData';
-export { fetchAndTransformDataFromAPI } from './Utils/fetchAndParseData';
-export { fetchAndParseCSVFromTextBlob } from './Utils/fetchAndParseData';
-export { fetchAndParseMultipleDataSources } from './Utils/fetchAndParseData';
+export {
+  fetchAndParseCSV,
+  fetchAndParseJSON,
+  fetchAndTransformDataFromAPI,
+  fetchAndParseCSVFromTextBlob,
+  fetchAndParseMultipleDataSources,
+} from './Utils/fetchAndParseData';
 
 /* ---------Data Transformations ------------*/
 export { transformDataForAggregation } from './Utils/transformData/transformDataForAggregation';
@@ -142,6 +144,7 @@ export { transformDataForGraph } from './Utils/transformData/transformDataForGra
 export {
   validateDataSchema,
   validateSettingsSchema,
+  validateConfigSchema,
 } from './Utils/validateSchema';
 
 export {
