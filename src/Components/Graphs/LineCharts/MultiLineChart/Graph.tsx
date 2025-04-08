@@ -42,7 +42,7 @@ interface Props {
   // Data
   /** Array of data objects */
   data: MultiLineChartDataType[];
-  colors: string[];
+  lineColors: string[];
   width: number;
   height: number;
   dateFormat: string;
@@ -83,7 +83,7 @@ export function Graph(props: Props) {
     data,
     width,
     height,
-    colors,
+    lineColors,
     dateFormat,
     noOfXTicks,
     labels,
@@ -335,7 +335,9 @@ export function Graph(props: Props) {
               )}
               labelPos={{
                 x: 0 - leftMargin,
-                y: y(minParam < 0 ? 0 : minParam) - 5,
+                y: y(minParam < 0 ? 0 : minParam),
+                dx: 0,
+                dy: maxParam < 0 ? '1em' : -5,
               }}
               classNames={{
                 axis: classNames?.xAxis?.axis,
@@ -394,7 +396,7 @@ export function Graph(props: Props) {
                   key={i}
                   d={lineShape(d as any) as string}
                   style={{
-                    stroke: colors[i],
+                    stroke: lineColors[i],
                     fill: 'none',
                     strokeWidth,
                   }}
@@ -416,7 +418,7 @@ export function Graph(props: Props) {
                                   : 4
                               }
                               style={{
-                                fill: colors[i],
+                                fill: lineColors[i],
                               }}
                             />
                           ) : null}
@@ -426,7 +428,7 @@ export function Graph(props: Props) {
                               y={y(el.y as number)}
                               dy={-8}
                               style={{
-                                fill: colors[i],
+                                fill: lineColors[i],
                                 textAnchor: 'middle',
                                 ...(styles?.graphObjectValues || {}),
                               }}
@@ -446,7 +448,7 @@ export function Graph(props: Props) {
                 {showColorLegendAtTop ? null : (
                   <text
                     style={{
-                      fill: colors[i],
+                      fill: lineColors[i],
                     }}
                     className='text-xs'
                     x={x(d[d.length - 1].date)}

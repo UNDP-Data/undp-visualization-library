@@ -309,7 +309,7 @@ export function Graph(props: Props) {
                             classNames?.graphObjectValues,
                           )}
                           dx={el ? (el < 0 ? -5 : 5) : 5}
-                          dy={6}
+                          dy='0.33em'
                           animate={{
                             x: x(el || 0),
                           }}

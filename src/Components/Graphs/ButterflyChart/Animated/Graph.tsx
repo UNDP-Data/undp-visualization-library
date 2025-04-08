@@ -304,7 +304,7 @@ export function Graph(props: Props) {
                           ...(styles?.graphObjectValues || {}),
                         }}
                         dx={d.leftBar ? (d.leftBar > 0 ? -5 : 5) : 5}
-                        dy={5}
+                        dy='0.33em'
                         animate={{
                           x: d.leftBar
                             ? xLeftBar(d.leftBar)
@@ -456,7 +456,7 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                         dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
-                        dy={5}
+                        dy='0.33em'
                         animate={{
                           x: d.rightBar
                             ? xRightBar(d.rightBar)

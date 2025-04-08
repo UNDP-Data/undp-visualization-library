@@ -196,7 +196,7 @@ export function Graph(props: Props) {
                 textAnchor: 'end',
                 ...styles?.xAxis?.labels,
               }}
-              dy={15}
+              dy='1em'
             >
               {format(dataFormatted[dataFormatted.length - 1].date, dateFormat)}
             </text>
@@ -211,7 +211,7 @@ export function Graph(props: Props) {
                 'xs:max-[360px]:hidden fill-primary-gray-700 dark:fill-primary-gray-300 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
                 classNames?.xAxis?.labels,
               )}
-              dy={15}
+              dy='1em'
             >
               {format(dataFormatted[0].date, dateFormat)}
             </text>

@@ -178,7 +178,7 @@ export function Graph(props: Props) {
                 <text
                   x={0 - 25}
                   y={y1(d)}
-                  dy={3}
+                  dy='0.33em'
                   className={cn('text-xs', classNames?.yAxis?.labels)}
                   style={{
                     textAnchor: 'end',
@@ -233,7 +233,7 @@ export function Graph(props: Props) {
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  dy={3}
+                  dy='0.33em'
                   dx={-2}
                   style={{
                     textAnchor: 'start',

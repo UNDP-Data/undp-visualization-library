@@ -670,7 +670,7 @@ function GraphEl(props: Props) {
           mode: settings?.mode,
           data: graphData,
           curveType: settings?.curveType,
-          colors: settings?.colors as string[] | undefined,
+          lineColors: settings?.lineColors as string[] | undefined,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           footNote: settings?.footNote,

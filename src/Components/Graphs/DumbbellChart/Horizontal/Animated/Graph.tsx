@@ -266,7 +266,7 @@ export function Graph(props: Props) {
                     }}
                     x={0}
                     dx={-10}
-                    dy={4}
+                    dy='0.33em'
                     className={cn(
                       'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
                       classNames?.yAxis?.labels,

@@ -263,7 +263,7 @@ export function Graph(props: Props) {
                           textAnchor: 'middle',
                           ...(styles?.graphObjectValues || {}),
                         }}
-                        dy={5}
+                        dy='0.33em'
                         className={cn(
                           'graph-value text-sm',
                           classNames?.graphObjectValues,
@@ -306,7 +306,7 @@ export function Graph(props: Props) {
                     x={x(sum(d.size.map(el => el || 0)))}
                     y={y.bandwidth() / 2}
                     dx={5}
-                    dy={5}
+                    dy='0.33em'
                   >
                     {numberFormattingFunction(
                       sum(d.size.filter(element => element)),

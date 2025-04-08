@@ -53,7 +53,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     backgroundColor: {
       control: 'text',
-      table: { type: { summary: 'string | boolean' } },
+      table: {
+        type: {
+          summary: 'string | boolean',
+          detail: 'If type is string then background uses the string as color',
+        },
+      },
     },
     styles: {
       table: {
@@ -81,7 +86,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     // Values and Ticks
     truncateBy: {
       control: 'number',
-      description: 'Truncate labels by specified length',
       table: { defaultValue: { summary: '999' } },
     },
     refValues: {
@@ -143,7 +147,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     sortParameter: {
       control: 'number',
       table: {
-        type: { summary: "'number' | 'total'" },
+        type: { summary: "number | 'total'" },
       },
     },
     language: {
@@ -205,7 +209,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
         colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
-        backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
+        backgroundColor={
+          backgroundColor === 'false'
+            ? false
+            : backgroundColor === 'true'
+            ? true
+            : backgroundColor
+        }
         {...args}
       />
     );

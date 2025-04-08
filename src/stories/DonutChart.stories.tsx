@@ -1,20 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { DonutChart } from '@/index';
+import { parseValue } from './assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from './assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DonutChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
-  component: GroupedBarGraph,
+  title: 'Graphs/Donut chart',
+  component: DonutChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -23,7 +22,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   label: string; 
-  size: (number | undefined | null)[];
+  size: number;
 }`,
         },
       },
@@ -31,7 +30,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
-      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
@@ -44,13 +42,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary: 'string[]',
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
     colorDomain: {
       control: 'text',
-      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -80,41 +79,20 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
 
-    // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
-    refValues: {
+    // Graph parameters
+    mainText: {
+      control: 'text',
       table: {
         type: {
-          detail: REF_VALUE_OBJECT,
+          summary:
+            'string | { label: string; suffix?: string; prefix?: string }',
+          detail:
+            'If the type is an object then the text is the value in the data for the label mentioned in the object',
         },
       },
     },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-
-    // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    labelOrder: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
-    },
-    showTicks: {
+    showColorScale: {
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -130,6 +108,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -144,6 +123,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
+    sortData: {
+      control: 'inline-radio',
+      options: ['asc', 'desc'],
+      table: { type: { summary: "'asc' | 'desc'" } },
+    },
     language: {
       control: 'select',
       options: [
@@ -179,30 +163,25 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', size: [3, 4, 5] },
-      { label: '2020 Q2', size: [8, 9, 10] },
-      { label: '2020 Q3', size: [6, 7, 8] },
-      { label: '2020 Q4', size: [5, 6, 7] },
+      { label: '2020 Q1', size: 3 },
+      { label: '2020 Q2', size: 8 },
+      { label: '2020 Q3', size: 11 },
+      { label: '2020 Q4', size: 19 },
+      { label: '2021 Q1', size: 3 },
+      { label: '2022 Q2', size: 8 },
+      { label: '2023 Q3', size: 11 },
+      { label: '2024 Q4', size: 19 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
+  render: ({ colors, backgroundColor, colorDomain, mainText, ...args }) => {
     return (
-      <GroupedBarGraph
-        colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+      <DonutChart
+        colors={parseValue(colors, colors)}
+        colorDomain={parseValue(colorDomain)}
+        mainText={parseValue(mainText, mainText)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -218,6 +197,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GroupedBarGraph>;
+type Story = StoryObj<typeof DonutChart>;
 
 export const Default: Story = {};

@@ -51,7 +51,7 @@ export function YTicksAndGridLines(props: Props) {
             <text
               x={x1}
               y={d}
-              dy={labelPos === 'side' ? 3 : values[i] < 0 ? 15 : -5}
+              dy={labelPos === 'side' ? '0.33em' : values[i] < 0 ? '1em' : -5}
               dx={labelPos === 'side' ? -4 : 0}
               style={{
                 textAnchor: labelPos === 'side' ? 'end' : 'start',

@@ -1,20 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { SparkLine } from '@/index';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof SparkLine>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
-  component: GroupedBarGraph,
+  title: 'Graphs/Sparkline',
+  component: SparkLine,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,8 +20,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: (number | undefined | null)[];
+  date: number | string;
+  y: number;
 }`,
         },
       },
@@ -31,7 +29,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
-      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
@@ -40,17 +37,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    colors: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'string[]',
-        },
-      },
-    },
-    colorDomain: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
+    lineColor: {
+      control: 'color',
     },
     backgroundColor: {
       control: 'text',
@@ -80,43 +68,18 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
-
-    // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
 
     // Graph parameters
-    showLabels: {
+    dateFormat: {
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'yyyy' },
       },
     },
-    showValues: {
+    curveType: {
+      control: 'radio',
+      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
       table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    labelOrder: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'curve' },
       },
     },
     graphDownload: {
@@ -129,18 +92,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
 
     // Interactions and Callbacks
     onSeriesMouseOver: {
       action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
     },
 
     // Configuration and Options
@@ -179,30 +134,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', size: [3, 4, 5] },
-      { label: '2020 Q2', size: [8, 9, 10] },
-      { label: '2020 Q3', size: [6, 7, 8] },
-      { label: '2020 Q4', size: [5, 6, 7] },
+      { date: '2020', y: 3 },
+      { date: '2021', y: 8 },
+      { date: '2022', y: 11 },
+      { date: '2023', y: 19 },
+      { date: '2024', y: 3 },
+      { date: '2025', y: 8 },
+      { date: '2026', y: 11 },
+      { date: '2027', y: 19 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
+  render: ({ backgroundColor, ...args }) => {
     return (
-      <GroupedBarGraph
-        colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+      <SparkLine
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -218,6 +165,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GroupedBarGraph>;
+type Story = StoryObj<typeof SparkLine>;
 
 export const Default: Story = {};

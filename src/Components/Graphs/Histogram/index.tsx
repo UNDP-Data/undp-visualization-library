@@ -18,47 +18,103 @@ import { DonutChart } from '../DonutChart';
 import { SimpleBarGraph } from '../BarGraph';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: HistogramDataType[];
-  colors?: string[] | string;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  barPadding?: number;
-  showValues?: boolean;
-  showTicks?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  showLabels?: boolean;
-  maxValue?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  graphID?: string;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  numberOfBins?: number;
-  truncateBy?: number;
-  donutStrokeWidth?: number;
-  sortData?: 'asc' | 'desc';
-  barGraphLayout?: 'horizontal' | 'vertical';
-  graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  language?: Languages;
-  minHeight?: number;
-  maxBarThickness?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  detailsOnClick?: string;
+
+  // Colors and Styling
+  /** Colors for visualization */
+  colors?: string[] | string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
   styles?: StyleObject;
+  /** Custom class names */
   classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+  /** Maximum thickness of bars */
+  maxBarThickness?: number;
+
+  // Values and Ticks
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+
+  // Graph Parameters
+  /** Number of bins for the histogram */
+  numberOfBins?: number;
+  /** Type of the graph for histogram */
+  graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
+  /** Orientation of the bar graph. Only applicable if graphType is barGraph. */
+  barGraphLayout?: 'vertical' | 'horizontal';
+  /** Stroke width of the arcs and circle of the donut. Only applicable if graphType is donutChart.  */
+  donutStrokeWidth?: number;
+  /** Sorting order for data. This is overwritten by labelOrder prop */
+  sortData?: 'asc' | 'desc';
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of axis ticks */
+  showTicks?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click even */
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Theme mode */
+  mode?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function Histogram(props: Props) {

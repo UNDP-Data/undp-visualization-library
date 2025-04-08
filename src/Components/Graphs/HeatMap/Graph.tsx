@@ -19,7 +19,7 @@ import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
 
 interface Props {
   data: HeatMapDataType[];
-  domain: string[] | number[];
+  colorDomain: string[] | number[];
   colors: string[];
   noDataColor: string;
   scaleType: ScaleDataType;
@@ -61,7 +61,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     showValues,
-    domain,
+    colorDomain,
     colors,
     noDataColor,
     scaleType,
@@ -95,13 +95,15 @@ export function Graph(props: Props) {
   const barWidth = x.bandwidth();
   const colorScale =
     scaleType === 'categorical'
-      ? scaleOrdinal<number | string, string>().domain(domain).range(colors)
+      ? scaleOrdinal<number | string, string>()
+          .domain(colorDomain)
+          .range(colors)
       : scaleType === 'threshold'
       ? scaleThreshold<number, string>()
-          .domain(domain as number[])
+          .domain(colorDomain as number[])
           .range(colors)
       : scaleLinear<string, string>()
-          .domain(domain as number[])
+          .domain(colorDomain as number[])
           .range(colors);
   return (
     <>

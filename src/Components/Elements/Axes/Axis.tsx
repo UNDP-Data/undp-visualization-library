@@ -3,7 +3,7 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   label?: string;
-  labelPos?: { x: number; y: number };
+  labelPos?: { x: number; y: number; dy: string | number; dx: string | number };
   y1: number;
   x1: number;
   y2: number;
@@ -39,6 +39,8 @@ export function Axis(props: Props) {
             'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
             classNames?.label,
           )}
+          dy={labelPos?.dy}
+          dx={labelPos?.dx}
         >
           {label}
         </text>

@@ -1,20 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { DualAxisLineChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+import { parseValue } from '../assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DualAxisLineChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
-  component: GroupedBarGraph,
+  title: 'Graphs/Dual axis line chart',
+  component: DualAxisLineChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,8 +21,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: (number | undefined | null)[];
+  date: number | string;
+  y1?: number;
+  y2?: number;
 }`,
         },
       },
@@ -31,7 +31,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
-      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
@@ -40,17 +39,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    colors: {
+    lineColors: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'string[]',
-        },
-      },
-    },
-    colorDomain: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -80,29 +70,34 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
 
     // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
+    minDate: { control: 'text' },
+    maxDate: { control: 'text' },
+    noOfXTicks: {
+      table: { defaultValue: { summary: '5' } },
     },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
+    noOfYTicks: {
       table: { defaultValue: { summary: '5' } },
     },
 
     // Graph parameters
-    showLabels: {
+    animateLine: {
+      control: 'text',
       table: {
-        defaultValue: { summary: 'true' },
+        type: {
+          summary: 'boolean | number',
+          detail:
+            'If the type is number then it uses the number as the time in seconds for animation.',
+        },
+      },
+    },
+    labels: {
+      control: 'text',
+    },
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
       },
     },
     showValues: {
@@ -110,13 +105,31 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    labelOrder: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
-    },
-    showTicks: {
+    curveType: {
+      control: 'radio',
+      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'curve' },
+      },
+    },
+    lineSuffixes: {
+      control: 'text',
+    },
+    linePrefixes: {
+      control: 'text',
+    },
+    highlightAreaSettings: {
+      control: 'object',
+      table: {
+        type: {
+          detail: `{
+  coordinates: [number | string | null, number | string | null];
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
+}`,
+        },
       },
     },
     graphDownload: {
@@ -129,18 +142,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
 
     // Interactions and Callbacks
     onSeriesMouseOver: {
       action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
     },
 
     // Configuration and Options
@@ -179,30 +184,42 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', size: [3, 4, 5] },
-      { label: '2020 Q2', size: [8, 9, 10] },
-      { label: '2020 Q3', size: [6, 7, 8] },
-      { label: '2020 Q4', size: [5, 6, 7] },
+      { date: '2020', y1: 3, y2: 5 },
+      { date: '2021', y1: 8, y2: 15 },
+      { date: '2022', y1: 11, y2: 10 },
+      { date: '2023', y1: 19, y2: 6 },
+      { date: '2024', y1: 3, y2: 9 },
+      { date: '2025', y1: 8, y2: 5 },
+      { date: '2026', y1: 11, y2: 8 },
+      { date: '2027', y1: 19, y2: 10 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
+    labels: ['Apples', 'Oranges'],
   },
-  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
+  render: ({
+    animateLine,
+    backgroundColor,
+    lineColors,
+    linePrefixes,
+    lineSuffixes,
+    labels,
+    ...args
+  }) => {
     return (
-      <GroupedBarGraph
-        colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+      <DualAxisLineChart
+        animateLine={
+          (animateLine as any) === 'false'
+            ? false
+            : (animateLine as any) === 'true'
+            ? true
+            : Number(animateLine)
+        }
+        lineColors={parseValue(lineColors)}
+        lineSuffixes={parseValue(lineSuffixes)}
+        linePrefixes={parseValue(linePrefixes)}
+        labels={parseValue(labels, ['Apples', 'Oranges'])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -218,6 +235,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GroupedBarGraph>;
+type Story = StoryObj<typeof DualAxisLineChart>;
 
 export const Default: Story = {};

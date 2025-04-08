@@ -389,7 +389,9 @@ export function Graph(props: Props) {
                 )}
                 labelPos={{
                   x: 0 - leftMargin,
-                  y: y(minParam < 0 ? 0 : minParam) - 5,
+                  y: y(minParam < 0 ? 0 : minParam),
+                  dx: 0,
+                  dy: maxParam < 0 ? '1rem' : -5,
                 }}
                 classNames={{
                   axis: classNames?.xAxis?.axis,
@@ -529,7 +531,7 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y(d.y1)}
-                        dy={d.y2 < d.y1 ? -8 : 15}
+                        dy={d.y2 < d.y1 ? -8 : '1em'}
                         style={{
                           fill: lineColors[0],
                           textAnchor: 'middle',
@@ -567,7 +569,7 @@ export function Graph(props: Props) {
                       <text
                         x={x(d.date)}
                         y={y(d.y2)}
-                        dy={d.y2 > d.y1 ? -8 : 15}
+                        dy={d.y2 > d.y1 ? -8 : '1em'}
                         style={{
                           fill: lineColors[1],
                           textAnchor: 'middle',

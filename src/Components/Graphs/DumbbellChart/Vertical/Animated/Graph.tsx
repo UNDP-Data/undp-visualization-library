@@ -232,7 +232,9 @@ export function Graph(props: Props) {
             )}
             labelPos={{
               x: 0 - leftMargin,
-              y: yMaxValue < 0 ? -15 : y(yMinValue < 0 ? 0 : yMinValue) - 5,
+              y: yMaxValue < 0 ? 0 : y(yMinValue < 0 ? 0 : yMinValue),
+              dx: 0,
+              dy: yMaxValue < 0 ? '1em' : -5,
             }}
             classNames={{
               axis: classNames?.xAxis?.axis,
@@ -282,7 +284,7 @@ export function Graph(props: Props) {
                       ...(styles?.xAxis?.labels || {}),
                     }}
                     y={graphHeight}
-                    dy='15px'
+                    dy='1em'
                     animate={{
                       x: (x(`${i}`) as number) + x.bandwidth() / 2,
                     }}
@@ -400,7 +402,7 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                         dx={radius + 3}
-                        dy={4.5}
+                        dy='0.33em'
                         animate={{
                           x: (x(`${i}`) as number) + x.bandwidth() / 2,
                           y: y(el || 0),

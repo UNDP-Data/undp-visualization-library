@@ -1,20 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { HeatMap } from '@/index';
+import { parseValue } from './assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from './assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof HeatMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
-  component: GroupedBarGraph,
+  title: 'Graphs/Heat map',
+  component: HeatMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,8 +21,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: (number | undefined | null)[];
+  row: string;
+  column: string;
+  value?: string | number;
 }`,
         },
       },
@@ -31,7 +31,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
-      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
@@ -48,9 +47,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    colorDomain: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
+    noDataColor: {
+      control: 'color',
     },
     backgroundColor: {
       control: 'text',
@@ -80,27 +78,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
 
     // Values and Ticks
     truncateBy: {
       table: { defaultValue: { summary: '999' } },
     },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
 
     // Graph parameters
-    showLabels: {
+    showColumnLabels: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showRowLabels: {
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -110,14 +100,24 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    labelOrder: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
+    scaleType: {
+      control: 'inline-radio',
+      options: ['categorical', 'linear', 'threshold'],
+      table: { type: { summary: "'categorical' | 'linear' | 'threshold'" } },
     },
-    showTicks: {
+    showColorScale: {
       table: {
         defaultValue: { summary: 'true' },
       },
+    },
+    showNAColor: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    colorDomain: {
+      control: 'text',
+      table: { type: { summary: 'number[] | string[]' } },
     },
     graphDownload: {
       table: {
@@ -130,6 +130,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -179,30 +180,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', size: [3, 4, 5] },
-      { label: '2020 Q2', size: [8, 9, 10] },
-      { label: '2020 Q3', size: [6, 7, 8] },
-      { label: '2020 Q4', size: [5, 6, 7] },
+      { row: '2020', column: 'Q1', value: 1 },
+      { row: '2020', column: 'Q2', value: 3 },
+      { row: '2020', column: 'Q3', value: 4 },
+      { row: '2020', column: 'Q4', value: 5 },
+      { row: '2021', column: 'Q1', value: 3 },
+      { row: '2021', column: 'Q2', value: 2 },
+      { row: '2021', column: 'Q3', value: 1 },
+      { row: '2021', column: 'Q4', value: 8 },
+      { row: '2022', column: 'Q1', value: 0 },
+      { row: '2022', column: 'Q2', value: 4 },
+      { row: '2022', column: 'Q3', value: 8 },
+      { row: '2022', column: 'Q4', value: 9 },
+      { row: '2023', column: 'Q1', value: 10 },
+      { row: '2023', column: 'Q2', value: 2 },
+      { row: '2023', column: 'Q3', value: 1 },
+      { row: '2023', column: 'Q4', value: 3 },
+      { row: '2024', column: 'Q1', value: 6 },
+      { row: '2024', column: 'Q2', value: 4 },
+      { row: '2024', column: 'Q3', value: 5 },
+      { row: '2024', column: 'Q4', value: 9 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
+    colorDomain: [2, 4, 6, 8],
   },
-  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
+  render: ({ colors, colorDomain, backgroundColor, ...args }) => {
     return (
-      <GroupedBarGraph
-        colors={parseValue(colors)}
-        labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+      <HeatMap
+        colors={parseValue(colors, colors)}
+        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -218,6 +226,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GroupedBarGraph>;
+type Story = StoryObj<typeof HeatMap>;
 
 export const Default: Story = {};

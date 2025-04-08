@@ -144,7 +144,9 @@ export function Graph(props: Props) {
             label={numberFormattingFunction(0, prefix, suffix)}
             labelPos={{
               x: 0 - leftMargin,
-              y: y(0) - 5,
+              y: y(0),
+              dx: 0,
+              dy: -5,
             }}
             classNames={{
               axis: classNames?.xAxis?.axis,
@@ -296,7 +298,7 @@ export function Graph(props: Props) {
                           'graph-value text-sm',
                           classNames?.graphObjectValues,
                         )}
-                        dy={5}
+                        dy='0.33em'
                       >
                         {numberFormattingFunction(el, prefix, suffix)}
                       </text>

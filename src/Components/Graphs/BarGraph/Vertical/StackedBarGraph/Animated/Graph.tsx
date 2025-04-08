@@ -195,7 +195,9 @@ export function Graph(props: Props) {
             label={numberFormattingFunction(0, prefix, suffix)}
             labelPos={{
               x: 0 - leftMargin,
-              y: y(0) - 5,
+              y: y(0),
+              dx: 0,
+              dy: -5,
             }}
             classNames={{
               axis: classNames?.xAxis?.axis,
@@ -324,9 +326,13 @@ export function Graph(props: Props) {
                           style={{
                             fill: getTextColorBasedOnBgColor(barColors[j]),
                             textAnchor: 'middle',
+                            ...(styles?.graphObjectValues || {}),
                           }}
-                          className='text-sm'
-                          dy={5}
+                          className={cn(
+                            'graph-value text-sm',
+                            classNames?.graphObjectValues,
+                          )}
+                          dy='0.33em'
                           animate={{
                             y:
                               y(
@@ -392,7 +398,7 @@ export function Graph(props: Props) {
                         'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
                         classNames?.xAxis?.labels,
                       )}
-                      dy='15px'
+                      dy='1em'
                       animate={{
                         y: y(0),
                         x: (x(d.id) || 0) + x.bandwidth() / 2,
@@ -409,12 +415,15 @@ export function Graph(props: Props) {
                       style={{
                         ...(valueColor && { fill: valueColor }),
                         textAnchor: 'middle',
+                        ...(styles?.graphObjectValues || {}),
                       }}
-                      className={`text-sm${
+                      className={cn(
+                        'graph-value graph-value-total',
                         !valueColor
-                          ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
-                          : ''
-                      }`}
+                          ? 'fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
+                          : 'text-sm',
+                        classNames?.graphObjectValues,
+                      )}
                       dy={-10}
                       animate={{
                         y: y(sum(d.size.map(el => el || 0))),

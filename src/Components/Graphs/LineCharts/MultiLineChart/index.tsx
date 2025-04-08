@@ -36,7 +36,7 @@ interface Props {
 
   // Colors and Styling
   /** Array of colors of the lines */
-  colors?: string[];
+  lineColors?: string[];
   /** Toggle the visibility of color legend between the top of the graphs and next to the line */
   showColorLegendAtTop?: boolean;
   /** Title for the color legend */
@@ -102,7 +102,7 @@ interface Props {
   /** Title for the Y-axis */
   yAxisTitle?: string;
   /** Labels for the lines  */
-  labels: [string, string];
+  labels: string[];
   /** Data points to highlight. Use the label value from data to highlight the data point */
   highlightedLines?: string[];
   /** Annotations on the chart */
@@ -137,7 +137,7 @@ export function MultiLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    lineColors = UNDPColorModule.light.categoricalColors.colors,
     suffix = '',
     sources,
     prefix = '',
@@ -276,7 +276,7 @@ export function MultiLineChart(props: Props) {
                     <ColorLegend
                       colorDomain={labels}
                       colorLegendTitle={colorLegendTitle}
-                      colors={colors}
+                      colors={lineColors}
                       showNAColor={false}
                       mode={mode}
                     />
@@ -289,10 +289,7 @@ export function MultiLineChart(props: Props) {
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
-                        colors={
-                          colors ||
-                          UNDPColorModule[mode].categoricalColors.colors
-                        }
+                        lineColors={lineColors}
                         width={width || svgWidth}
                         height={Math.max(
                           minHeight,

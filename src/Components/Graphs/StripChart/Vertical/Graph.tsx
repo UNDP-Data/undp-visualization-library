@@ -234,7 +234,8 @@ export function Graph(props: Props) {
                 {highlightedDataPoints.length !== 0 ? (
                   highlightedDataPoints.indexOf(d.label) !== -1 ? (
                     <text
-                      y={0 + 4}
+                      y={0}
+                      dy='0.33em'
                       x={0 + radius + 3}
                       style={{
                         fill:
@@ -281,7 +282,7 @@ export function Graph(props: Props) {
                   classNames?.yAxis?.labels,
                 )}
               >
-                {numberFormattingFunction(y.invert(0))}
+                {numberFormattingFunction(y.invert(0), prefix, suffix)}
               </text>
               <text
                 y={graphHeight}
@@ -295,7 +296,11 @@ export function Graph(props: Props) {
                   classNames?.yAxis?.labels,
                 )}
               >
-                {numberFormattingFunction(y.invert(graphHeight))}
+                {numberFormattingFunction(
+                  y.invert(graphHeight),
+                  prefix,
+                  suffix,
+                )}
               </text>
             </>
           ) : null}

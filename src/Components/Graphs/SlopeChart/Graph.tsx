@@ -250,7 +250,7 @@ export function Graph(props: Props) {
                     className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y1)}
                     x={5}
-                    dy={5}
+                    dy='0.33em'
                     dx={-3}
                   >
                     {d.label}
@@ -271,7 +271,7 @@ export function Graph(props: Props) {
                       className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y1)}
                       x={5}
-                      dy={5}
+                      dy='0.33em'
                       dx={-3}
                     >
                       {d.label}
@@ -313,7 +313,7 @@ export function Graph(props: Props) {
                     className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y2)}
                     x={graphWidth - 5}
-                    dy={5}
+                    dy='0.33em'
                     dx={3}
                   >
                     {d.label}
@@ -334,7 +334,7 @@ export function Graph(props: Props) {
                       className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y2)}
                       x={graphWidth - 5}
-                      dy={5}
+                      dy='0.33em'
                       dx={3}
                     >
                       {d.label}

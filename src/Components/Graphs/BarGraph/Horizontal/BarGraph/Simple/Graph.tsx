@@ -308,7 +308,7 @@ export function Graph(props: Props) {
                       classNames?.graphObjectValues,
                     )}
                     dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
-                    dy={5}
+                    dy='0.33em'
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}
                   </text>

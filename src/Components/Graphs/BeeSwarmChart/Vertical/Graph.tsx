@@ -216,10 +216,9 @@ export function Graph(props: Props) {
                   )}
                   labelPos={{
                     x: 0 - margin.left,
-                    y:
-                      yMaxValue < 0
-                        ? -15
-                        : y(yMinValue < 0 ? 0 : yMinValue) - 5,
+                    y: y(yMinValue < 0 ? 0 : yMinValue),
+                    dx: 0,
+                    dy: yMaxValue < 0 ? '1em' : -5,
                   }}
                   classNames={{
                     axis: classNames?.xAxis?.axis,

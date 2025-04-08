@@ -271,7 +271,7 @@ export function Graph(props: Props) {
                         ...(styles?.graphObjectValues || {}),
                       }}
                       dx={d.rightBar ? (d.rightBar > 0 ? -5 : 5) : 5}
-                      dy={5}
+                      dy='0.33em'
                       className={cn(
                         'graph-value text-sm',
                         classNames?.graphObjectValues,
@@ -415,7 +415,7 @@ export function Graph(props: Props) {
                         classNames?.graphObjectValues,
                       )}
                       dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
-                      dy={5}
+                      dy='0.33em'
                     >
                       {numberFormattingFunction(d.rightBar, prefix, suffix)}
                     </text>

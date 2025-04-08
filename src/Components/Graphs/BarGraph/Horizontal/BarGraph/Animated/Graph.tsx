@@ -330,7 +330,7 @@ export function Graph(props: Props) {
                     x={0}
                     y={0}
                     dx={d.size ? (d.size < 0 ? 10 : -10) : -10}
-                    dy={5}
+                    dy='0.33em'
                     animate={{
                       x: x(xMinValue < 0 ? 0 : xMinValue),
                       y: (y(d.id) as number) + y.bandwidth() / 2,
@@ -370,7 +370,7 @@ export function Graph(props: Props) {
                       x: d.size ? x(d.size) : x(0),
                       y: (y(d.id) as number) + y.bandwidth() / 2,
                     }}
-                    dy={5}
+                    dy='0.33em'
                     transition={{ duration: 0.5 }}
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}

@@ -3648,7 +3648,7 @@ export const multiLineChartSettingsSchema = {
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
     ariaLabel: { type: 'string' },
-    colors: {
+    lineColors: {
       type: 'array',
       items: { type: 'string' },
     },

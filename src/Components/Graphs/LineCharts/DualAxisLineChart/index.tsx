@@ -142,7 +142,7 @@ export function DualAxisLineChart(props: Props) {
     rightMargin = 80,
     topMargin = 20,
     bottomMargin = 25,
-    labels = ['Line 1', 'Line 2'],
+    labels,
     lineSuffixes = ['', ''],
     linePrefixes = ['', ''],
     tooltip,

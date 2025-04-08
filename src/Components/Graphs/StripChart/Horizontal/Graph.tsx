@@ -271,21 +271,22 @@ export function Graph(props: Props) {
             <>
               <text
                 x={0}
-                y={graphHeight / 2 + radius + 14}
+                y={graphHeight / 2 + radius}
                 style={{
-                  textAnchor: 'end',
+                  textAnchor: 'start',
                   ...(styles?.yAxis?.labels || {}),
                 }}
                 className={cn(
                   'fill-primary-gray-550 dark:fill-primary-gray-500 text-xs',
                   classNames?.yAxis?.labels,
                 )}
+                dy='1em'
               >
-                {numberFormattingFunction(x.invert(0))}
+                {numberFormattingFunction(x.invert(0), prefix, suffix)}
               </text>
               <text
                 x={graphWidth}
-                y={graphHeight / 2 + radius + 14}
+                y={graphHeight / 2 + radius}
                 style={{
                   textAnchor: 'end',
                   ...(styles?.yAxis?.labels || {}),
@@ -294,8 +295,9 @@ export function Graph(props: Props) {
                   'fill-primary-gray-550 dark:fill-primary-gray-500 text-xs',
                   classNames?.yAxis?.labels,
                 )}
+                dy='1em'
               >
-                {numberFormattingFunction(x.invert(graphWidth))}
+                {numberFormattingFunction(x.invert(graphWidth), prefix, suffix)}
               </text>
             </>
           ) : null}

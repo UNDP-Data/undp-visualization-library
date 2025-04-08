@@ -296,6 +296,29 @@ export function Graph(props: Props) {
                         }}
                         transition={{ duration: 0.5 }}
                       />
+                      {showLabels ? (
+                        <motion.text
+                          style={{
+                            textAnchor: 'end',
+                            ...(styles?.yAxis?.labels || {}),
+                          }}
+                          className={cn(
+                            'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
+                            classNames?.yAxis?.labels,
+                          )}
+                          dx={-10}
+                          dy='0.33em'
+                          animate={{
+                            x: x(0),
+                            y: (y(d.id) || 0) + y.bandwidth() / 2,
+                          }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {`${d.label}`.length < truncateBy
+                            ? `${d.label}`
+                            : `${`${d.label}`.substring(0, truncateBy)}...`}
+                        </motion.text>
+                      ) : null}
                       {showValues ? (
                         <motion.text
                           style={{
@@ -307,7 +330,7 @@ export function Graph(props: Props) {
                             'graph-value text-sm',
                             classNames?.graphObjectValues,
                           )}
-                          dy={5}
+                          dy='0.33em'
                           animate={{
                             x:
                               x(
@@ -337,29 +360,6 @@ export function Graph(props: Props) {
                       ) : null}
                     </motion.g>
                   ))}
-                  {showLabels ? (
-                    <motion.text
-                      style={{
-                        textAnchor: 'end',
-                        ...(styles?.yAxis?.labels || {}),
-                      }}
-                      className={cn(
-                        'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
-                        classNames?.yAxis?.labels,
-                      )}
-                      dx={-10}
-                      dy={5}
-                      animate={{
-                        x: x(0),
-                        y: (y(d.id) || 0) + y.bandwidth() / 2,
-                      }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {`${d.label}`.length < truncateBy
-                        ? `${d.label}`
-                        : `${`${d.label}`.substring(0, truncateBy)}...`}
-                    </motion.text>
-                  ) : null}
                   {showValues ? (
                     <motion.text
                       style={{
@@ -375,7 +375,7 @@ export function Graph(props: Props) {
                         classNames?.graphObjectValues,
                       )}
                       dx={5}
-                      dy={5}
+                      dy='0.33em'
                       animate={{
                         x: x(sum(d.size.map(el => el || 0))),
                         y: (y(d.id) || 0) + y.bandwidth() / 2,

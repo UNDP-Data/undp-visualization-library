@@ -55,7 +55,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     backgroundColor: {
       control: 'text',
-      table: { type: { summary: 'string | boolean' } },
+      table: {
+        type: {
+          summary: 'string | boolean',
+          detail: 'If type is string then background uses the string as color',
+        },
+      },
     },
     styles: {
       table: {
@@ -231,7 +236,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         labelOrder={parseValue(labelOrder)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
-        backgroundColor={backgroundColor === 'true' ? true : backgroundColor}
+        backgroundColor={
+          backgroundColor === 'false'
+            ? false
+            : backgroundColor === 'true'
+            ? true
+            : backgroundColor
+        }
         {...args}
       />
     );

@@ -271,8 +271,10 @@ export function Graph(props: Props) {
                 ySuffix,
               )}
               labelPos={{
-                x: -4,
-                y: y(yMinVal < 0 ? 0 : yMinVal) + 3,
+                x: 0,
+                y: y(yMinVal < 0 ? 0 : yMinVal),
+                dy: '0.33em',
+                dx: -4,
               }}
               classNames={{
                 axis: classNames?.xAxis?.axis,
@@ -323,7 +325,9 @@ export function Graph(props: Props) {
               )}
               labelPos={{
                 x: x(xMinVal < 0 ? 0 : xMinVal),
-                y: graphHeight + 12,
+                y: graphHeight,
+                dy: '1em',
+                dx: 0,
               }}
               classNames={{
                 axis: classNames?.xAxis?.axis,
@@ -403,7 +407,7 @@ export function Graph(props: Props) {
                     {showLabels && !checkIfNullOrUndefined(d.label) ? (
                       <motion.text
                         className={cn(
-                          'graph-value text-xs',
+                          'graph-value text-sm',
                           classNames?.graphObjectValues,
                         )}
                         style={{
@@ -416,7 +420,7 @@ export function Graph(props: Props) {
                               : colors[colorDomain.indexOf(`${d.color}`)]),
                           ...(styles?.graphObjectValues || {}),
                         }}
-                        dy={5}
+                        dy='0.33em'
                         dx={3}
                         animate={{
                           y: y(d.y || 0),
@@ -440,7 +444,7 @@ export function Graph(props: Props) {
                       ) !== -1 ? (
                         <motion.text
                           className={cn(
-                            'graph-value text-xs',
+                            'graph-value text-sm',
                             classNames?.graphObjectValues,
                           )}
                           style={{
@@ -453,7 +457,7 @@ export function Graph(props: Props) {
                                 : colors[colorDomain.indexOf(`${d.color}`)]),
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          dy={5}
+                          dy='0.33em'
                           dx={3}
                           animate={{
                             y: y(d.y || 0),

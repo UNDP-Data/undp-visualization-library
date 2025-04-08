@@ -1,32 +1,26 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ButterflyChart } from '@/index';
+import { DataTable } from '@/index';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from './assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ButterflyChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DataTable>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Butterfly Chart',
-  component: ButterflyChart,
+  title: 'Graphs/Data Table',
+  component: DataTable,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
+      control: 'object',
       table: {
         type: {
-          summary: 'ButterflyChartDataType[]',
-          detail: `{
-  label: string | number;
-  position: number;
-  radius?: number;
-  color?: string;
-}`,
+          summary: 'object[]',
         },
       },
     },
@@ -50,11 +44,28 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    leftBarColor: {
-      control: 'color',
-    },
-    rightBarColor: {
-      control: 'color',
+    columnData: {
+      control: 'object',
+      table: {
+        type: {
+          detail: `{
+  columnTitle?: string;
+  columnId: string;
+  sortable?: boolean;
+  filterOptions?: string[];
+  chip?: boolean;
+  chipColors?: {
+    value: string;
+    color: string;
+  }[];
+  separator?: string;
+  align?: 'left' | 'right' | 'center';
+  suffix?: string;
+  prefix?: string;
+  columnWidth?: number;
+}`,
+        },
+      },
     },
     styles: {
       table: {
@@ -71,67 +82,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
-    // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
-    centerGap: {
-      table: { defaultValue: { summary: '100' } },
-    },
-
-    // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    // Graph parameters
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
     onSeriesMouseClick: {
       action: 'seriesMouseClick',
     },
@@ -175,19 +126,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2010', leftBar: 3, rightBar: 5 },
-      { label: '2012', leftBar: 8, rightBar: 10 },
-      { label: '2014', leftBar: 11, rightBar: 6 },
-      { label: '2016', leftBar: 19, rightBar: 17 },
-      { label: '2018', leftBar: 3, rightBar: 15 },
-      { label: '2020', leftBar: 8, rightBar: 7 },
-      { label: '2022', leftBar: 11, rightBar: 8 },
-      { label: '2024', leftBar: 19, rightBar: 9 },
+      { label: '2020 Q1', value1: 3, value2: 3, value3: 3 },
+      { label: '2020 Q2', value1: 8, value2: 3, value3: 3 },
+      { label: '2020 Q3', value1: 11, value2: 3, value3: 3 },
+      { label: '2020 Q4', value1: 19, value2: 3, value3: 3 },
+    ],
+    columnData: [
+      {
+        columnTitle: 'Label',
+        columnId: 'label',
+      },
+      {
+        columnTitle: 'Value #1',
+        columnId: 'value1',
+        sortable: true,
+        align: 'right',
+      },
+      {
+        columnTitle: 'Value #3',
+        columnId: 'value2',
+        align: 'center',
+      },
+      {
+        columnTitle: 'Value #3',
+        columnId: 'value3',
+        prefix: 'US $ ',
+      },
     ],
   },
   render: ({ backgroundColor, ...args }) => {
     return (
-      <ButterflyChart
+      <DataTable
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -203,6 +172,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ButterflyChart>;
+type Story = StoryObj<typeof DataTable>;
 
 export const Default: Story = {};

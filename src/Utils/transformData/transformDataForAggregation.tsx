@@ -49,6 +49,7 @@ export function transformDataForAggregation(
         (j: any) => j[keyColumn] === d[keyColumn],
       );
       dataObj.count = filteredData.length;
+      dataObj.rollUpData = filteredData;
       aggregationSettings?.forEach(el => {
         dataObj[el.column] =
           el.aggregationMethod === 'average'
@@ -78,6 +79,7 @@ export function transformDataForAggregation(
     const filteredData = data.filter(
       (j: any) => j[keyColumn].indexOf(d) !== -1,
     );
+    dataObj.rollUpData = filteredData;
     dataObj.count = filteredData.length;
     aggregationSettings?.forEach(el => {
       dataObj[el.column] =

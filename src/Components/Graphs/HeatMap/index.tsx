@@ -92,7 +92,7 @@ interface Props {
   /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
   showNAColor?: boolean;
   /** Domain for the colors in the cell.  */
-  domain: number[] | string[];
+  colorDomain: number[] | string[];
   /** Enable graph download option as png */
   graphDownload?: boolean;
   /** Enable data download option as a csv */
@@ -133,7 +133,7 @@ export function HeatMap(props: Props) {
     height,
     width,
     scaleType,
-    domain,
+    colorDomain,
     footNote,
     colorLegendTitle,
     padding,
@@ -187,9 +187,9 @@ export function HeatMap(props: Props) {
   }, [width, height]);
   const scale =
     scaleType ||
-    (typeof domain[0] === 'string'
+    (typeof colorDomain[0] === 'string'
       ? 'categorical'
-      : domain.length === 2
+      : colorDomain.length === 2
       ? 'linear'
       : 'threshold');
 
@@ -267,9 +267,9 @@ export function HeatMap(props: Props) {
                           colorLegendTitle={colorLegendTitle}
                           colors={
                             colors ||
-                            (typeof domain[0] === 'string'
+                            (typeof colorDomain[0] === 'string'
                               ? UNDPColorModule[mode].categoricalColors.colors
-                              : domain.length === 2
+                              : colorDomain.length === 2
                               ? [
                                   UNDPColorModule[mode].sequentialColors
                                     .neutralColorsx09[0],
@@ -278,11 +278,17 @@ export function HeatMap(props: Props) {
                                 ]
                               : UNDPColorModule[mode].sequentialColors[
                                   `neutralColorsx0${
-                                    (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                    (colorDomain.length + 1) as
+                                      | 4
+                                      | 5
+                                      | 6
+                                      | 7
+                                      | 8
+                                      | 9
                                   }`
                                 ])
                           }
-                          colorDomain={domain.map(d => `${d}`)}
+                          colorDomain={colorDomain.map(d => `${d}`)}
                           setSelectedColor={setSelectedColor}
                           showNAColor={showNAColor}
                         />
@@ -294,9 +300,9 @@ export function HeatMap(props: Props) {
                           colorLegendTitle={colorLegendTitle}
                           colors={
                             colors ||
-                            (typeof domain[0] === 'string'
+                            (typeof colorDomain[0] === 'string'
                               ? UNDPColorModule[mode].categoricalColors.colors
-                              : domain.length === 2
+                              : colorDomain.length === 2
                               ? [
                                   UNDPColorModule[mode].sequentialColors
                                     .neutralColorsx09[0],
@@ -305,11 +311,17 @@ export function HeatMap(props: Props) {
                                 ]
                               : UNDPColorModule[mode].sequentialColors[
                                   `neutralColorsx0${
-                                    (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                    (colorDomain.length + 1) as
+                                      | 4
+                                      | 5
+                                      | 6
+                                      | 7
+                                      | 8
+                                      | 9
                                   }`
                                 ])
                           }
-                          colorDomain={domain as number[]}
+                          colorDomain={colorDomain as number[]}
                           setSelectedColor={setSelectedColor}
                           naColor={noDataColor}
                         />
@@ -327,7 +339,7 @@ export function HeatMap(props: Props) {
                                 .neutralColorsx09[8],
                             ]
                           }
-                          colorDomain={domain as number[]}
+                          colorDomain={colorDomain as number[]}
                         />
                       </div>
                     )
@@ -340,13 +352,13 @@ export function HeatMap(props: Props) {
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
-                        domain={domain}
+                        colorDomain={colorDomain}
                         width={width || svgWidth}
                         colors={
                           colors ||
-                          (typeof domain[0] === 'string'
+                          (typeof colorDomain[0] === 'string'
                             ? UNDPColorModule[mode].categoricalColors.colors
-                            : domain.length === 2
+                            : colorDomain.length === 2
                             ? [
                                 UNDPColorModule[mode].sequentialColors
                                   .neutralColorsx09[0],
@@ -355,7 +367,13 @@ export function HeatMap(props: Props) {
                               ]
                             : UNDPColorModule[mode].sequentialColors[
                                 `neutralColorsx0${
-                                  (domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                  (colorDomain.length + 1) as
+                                    | 4
+                                    | 5
+                                    | 6
+                                    | 7
+                                    | 8
+                                    | 9
                                 }`
                               ])
                         }

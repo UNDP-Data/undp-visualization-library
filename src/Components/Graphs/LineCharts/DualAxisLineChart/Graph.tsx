@@ -275,7 +275,7 @@ export function Graph(props: Props) {
                 <text
                   x={0 - 25}
                   y={y1(d)}
-                  dy={3}
+                  dy='0.33em'
                   className={cn('text-xs', classNames?.yAxis?.labels)}
                   style={{
                     textAnchor: 'end',
@@ -334,7 +334,7 @@ export function Graph(props: Props) {
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  dy={3}
+                  dy='0.33em'
                   dx={-2}
                   style={{
                     textAnchor: 'start',
@@ -470,7 +470,7 @@ export function Graph(props: Props) {
                             ? -8
                             : (d.y2 as number) < (d.y1 as number)
                             ? -8
-                            : 15
+                            : '1em'
                         }
                         style={{
                           fill: lineColors[0],
@@ -518,7 +518,7 @@ export function Graph(props: Props) {
                             ? -8
                             : (d.y1 as number) < (d.y2 as number)
                             ? -8
-                            : 15
+                            : '1em'
                         }
                         style={{
                           fill: lineColors[1],

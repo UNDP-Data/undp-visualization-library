@@ -380,7 +380,9 @@ export function Graph(props: Props) {
               )}
               labelPos={{
                 x: 0 - leftMargin,
-                y: y(minParam < 0 ? 0 : minParam) - 5,
+                y: y(minParam < 0 ? 0 : minParam),
+                dx: 0,
+                dy: maxParam < 0 ? '1em' : -5,
               }}
               classNames={{
                 axis: classNames?.xAxis?.axis,
@@ -546,12 +548,16 @@ export function Graph(props: Props) {
                         <text
                           x={x(d.date)}
                           y={y(d.yMin)}
-                          dy={16}
+                          dy='1em'
                           style={{
                             fill: intervalLineColors[0],
                             textAnchor: 'middle',
+                            ...(styles?.graphObjectValues || {}),
                           }}
-                          className='text-xs font-bold'
+                          className={cn(
+                            'text-xs font-bold',
+                            classNames?.graphObjectValues,
+                          )}
                         >
                           {numberFormattingFunction(d.yMin, prefix, suffix)}
                         </text>
@@ -562,8 +568,12 @@ export function Graph(props: Props) {
                           style={{
                             fill: intervalLineColors[1],
                             textAnchor: 'middle',
+                            ...(styles?.graphObjectValues || {}),
                           }}
-                          className='text-xs font-bold'
+                          className={cn(
+                            'text-xs font-bold',
+                            classNames?.graphObjectValues,
+                          )}
                         >
                           {numberFormattingFunction(d.yMax, prefix, suffix)}
                         </text>

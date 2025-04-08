@@ -222,7 +222,9 @@ export function Graph(props: Props) {
             )}
             labelPos={{
               x: 0 - leftMargin,
-              y: xMaxValue < 0 ? -15 : y(xMinValue < 0 ? 0 : xMinValue) - 5,
+              y: xMaxValue < 0 ? -15 : y(xMinValue < 0 ? 0 : xMinValue),
+              dy: xMaxValue < 0 ? '1em' : -5,
+              dx: 0,
             }}
             classNames={{
               axis: classNames?.xAxis?.axis,
@@ -344,7 +346,7 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       ...(styles?.xAxis?.labels || {}),
                     }}
-                    dy={d.size ? (d.size >= 0 ? '15px' : '-5px') : '15px'}
+                    dy={d.size ? (d.size >= 0 ? '1em' : '-5px') : '1em'}
                     animate={{
                       x: (x(`${d.id}`) as number) + x.bandwidth() / 2,
                       y: y(0),
@@ -382,7 +384,7 @@ export function Graph(props: Props) {
                       x: (x(`${d.id}`) as number) + x.bandwidth() / 2,
                       y: y(d.size || 0),
                     }}
-                    dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
+                    dy={d.size ? (d.size >= 0 ? '-5px' : '1em') : '-5px'}
                     transition={{ duration: 0.5 }}
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}

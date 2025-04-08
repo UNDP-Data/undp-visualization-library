@@ -51,7 +51,7 @@ export function XTicksAndGridLines(props: Props) {
             <text
               x={d}
               y={labelType === 'primary' ? y2 : y1}
-              dy={labelType === 'primary' ? 12 : 10}
+              dy={labelType === 'primary' ? '1em' : '0.75em'}
               dx={labelType === 'primary' ? 0 : d < 0 || leftLabel ? -3 : 3}
               style={{
                 textAnchor:
@@ -60,6 +60,7 @@ export function XTicksAndGridLines(props: Props) {
                     : d < 0 || leftLabel
                     ? 'end'
                     : 'start',
+                fontSize: '32px',
                 ...(styles?.labels || {}),
               }}
               className={cn(

@@ -177,7 +177,9 @@ export function Graph(props: Props) {
             )}
             labelPos={{
               x: 0 - leftMargin,
-              y: xMaxValue < 0 ? -15 : y(xMinValue < 0 ? 0 : xMinValue) - 5,
+              dx: 0,
+              dy: xMaxValue < 0 ? '1em' : -5,
+              y: y(xMinValue < 0 ? 0 : xMinValue),
             }}
             classNames={{
               axis: classNames?.xAxis?.axis,
@@ -320,7 +322,7 @@ export function Graph(props: Props) {
                         : '',
                       classNames?.graphObjectValues,
                     )}
-                    dy={d.size ? (d.size >= 0 ? '-5px' : '15px') : '-5px'}
+                    dy={d.size ? (d.size >= 0 ? '-5px' : '1em') : '-5px'}
                   >
                     {numberFormattingFunction(d.size, prefix, suffix)}
                   </text>
