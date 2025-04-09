@@ -1,32 +1,34 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TreeMapGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { AnimatedButterflyChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
+  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof TreeMapGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof AnimatedButterflyChart
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Tree map',
-  component: TreeMapGraph,
+  title: 'Animated Graphs/Butterfly Chart',
+  component: AnimatedButterflyChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
-      control: 'object',
       table: {
         type: {
-          summary: 'TreeMapGraphDataType[]',
           detail: `{
   label: string | number;
-  size?: number | null;
+  position: number;
+  radius?: number;
   color?: string;
+  date: string | number;
 }`,
         },
       },
@@ -42,19 +44,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    colors: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
-        },
-      },
-    },
-    colorDomain: {
-      control: 'text',
-    },
     backgroundColor: {
       control: 'text',
       table: {
@@ -63,6 +52,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: 'If type is string then background uses the string as color',
         },
       },
+    },
+    leftBarColor: {
+      control: 'color',
+    },
+    rightBarColor: {
+      control: 'color',
     },
     styles: {
       table: {
@@ -83,14 +78,34 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+    },
+    centerGap: {
+      table: { defaultValue: { summary: '100' } },
+    },
 
+    // Values and Ticks
+    truncateBy: {
+      table: { defaultValue: { summary: '999' } },
+    },
+    refValues: {
+      table: {
+        type: {
+          detail: REF_VALUE_OBJECT,
+        },
+      },
+    },
+    noOfTicks: {
+      table: { defaultValue: { summary: '5' } },
+    },
     // Graph parameters
-    showLabels: {
+    showValues: {
       table: {
         defaultValue: { summary: 'true' },
       },
     },
-    showValues: {
+    showTicks: {
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -99,15 +114,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         defaultValue: { summary: 'false' },
       },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -145,6 +151,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'en' },
       },
     },
+
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
     mode: {
       control: 'inline-radio',
       options: ['light', 'dark'],
@@ -153,35 +165,38 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    graphID: {
-      control: 'text',
-      table: { type: { summary: 'string' } },
-    },
   },
   args: {
     data: [
-      { label: '2010', size: 3 },
-      { label: '2012', size: 8 },
-      { label: '2014', size: 11 },
-      { label: '2016', size: 19 },
-      { label: '2018', size: 3 },
-      { label: '2020', size: 8 },
-      { label: '2022', size: 11 },
-      { label: '2024', size: 19 },
+      { label: 'Category 5', leftBar: 7, rightBar: 9, date: '2010' },
+      { label: 'Category 5', leftBar: 10, rightBar: 12, date: '2012' },
+      { label: 'Category 5', leftBar: 6, rightBar: 11, date: '2014' },
+      { label: 'Category 5', leftBar: 10, rightBar: 14, date: '2016' },
+
+      { label: 'Category 4', leftBar: 6, rightBar: 8, date: '2010' },
+      { label: 'Category 4', leftBar: 9, rightBar: 11, date: '2012' },
+      { label: 'Category 4', leftBar: 12, rightBar: 10, date: '2014' },
+      { label: 'Category 4', leftBar: 6, rightBar: 13, date: '2016' },
+
+      { label: 'Category 3', leftBar: 5, rightBar: 7, date: '2010' },
+      { label: 'Category 3', leftBar: 8, rightBar: 10, date: '2012' },
+      { label: 'Category 3', leftBar: 11, rightBar: 9, date: '2014' },
+      { label: 'Category 3', leftBar: 14, rightBar: 12, date: '2016' },
+
+      { label: 'Category 2', leftBar: 4, rightBar: 6, date: '2010' },
+      { label: 'Category 2', leftBar: 7, rightBar: 9, date: '2012' },
+      { label: 'Category 2', leftBar: 10, rightBar: 8, date: '2014' },
+      { label: 'Category 2', leftBar: 13, rightBar: 11, date: '2016' },
+
+      { label: 'Category 1', leftBar: 3, rightBar: 5, date: '2010' },
+      { label: 'Category 1', leftBar: 6, rightBar: 8, date: '2012' },
+      { label: 'Category 1', leftBar: 9, rightBar: 7, date: '2014' },
+      { label: 'Category 1', leftBar: 12, rightBar: 10, date: '2016' },
     ],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ backgroundColor, ...args }) => {
     return (
-      <TreeMapGraph
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <AnimatedButterflyChart
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -197,6 +212,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof TreeMapGraph>;
+type Story = StoryObj<typeof AnimatedButterflyChart>;
 
 export const Default: Story = {};

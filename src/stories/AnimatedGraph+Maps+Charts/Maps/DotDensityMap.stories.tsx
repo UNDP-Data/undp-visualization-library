@@ -1,21 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScatterPlot } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { AnimatedDotDensityMap } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ScatterPlot>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof AnimatedDotDensityMap
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Scatter plot',
-  component: ScatterPlot,
+  title: 'Animated Maps/Dot density map',
+  component: AnimatedDotDensityMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -23,9 +24,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: number;
-  color?: string;
+  lat: number;
+  long: number;
+  radius?: number;
+  color?: string | number;
+  label?: string | number;
 }`,
         },
       },
@@ -38,6 +41,18 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: SOURCE_OBJECT,
         },
       },
+    },
+
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
+    mapNoDataColor: {
+      control: 'color',
+    },
+    mapBorderColor: {
+      control: 'color',
     },
 
     // Colors and Styling
@@ -84,39 +99,36 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Values and Ticks
-    refXValues: {
+    mapData: {
+      control: 'object',
+    },
+    centerPoint: {
+      control: 'text',
       table: {
         type: {
-          detail: REF_VALUE_OBJECT,
+          summary: '[number, number]',
         },
       },
     },
-    refYValues: {
+    zoomTranslateExtend: {
+      control: 'text',
       table: {
         type: {
-          detail: REF_VALUE_OBJECT,
+          summary: '[[number, number], [number, number]]',
         },
       },
     },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
-      table: { defaultValue: { summary: '5' } },
+    zoomScaleExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[number, number]',
+        },
+      },
     },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
     showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showNAColor: {
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -125,79 +137,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
     },
-    annotations: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  text: string;
-  maxWidth?: number;
-  xCoordinate?: number | string;
-  yCoordinate?: number | string;
-  xOffset?: number;
-  yOffset?: number;
-  align?: 'center' | 'left' | 'right';
-  color?: string;
-  fontWeight?: 'regular' | 'bold' | 'medium';
-  showConnector?: boolean | number;
-  connectorRadius?: number;
-  classNames?: {
-    connector?: string;
-    text?: string;
-  };
-  styles?: {
-    connector?: React.CSSProperties;
-    text?: React.CSSProperties;
-  };
-}`,
-        },
-      },
-    },
-    highlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: [number | string | null, number | string | null];
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
-      },
-    },
-    customHighlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: (number | string)[];
-  closePath?: boolean;
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
-      },
-    },
     graphDownload: {
       table: {
         defaultValue: { summary: 'false' },
-      },
-    },
-    labelColor: {
-      control: 'color',
-    },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
       },
     },
     dataDownload: {
@@ -221,7 +163,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-
     language: {
       control: 'select',
       options: LANGUAGE_OPTIONS,
@@ -244,36 +185,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { x: 1, y: 3 },
-      { x: 2, y: 8 },
-      { x: 3, y: 11 },
-      { x: 4, y: 19 },
-      { x: 5, y: 3 },
-      { x: 6, y: 8 },
-      { x: 7, y: 11 },
-      { x: 8, y: 19 },
+      { lat: 20, long: 10, date: '2020' },
+      { lat: 25, long: 26, date: '2020' },
+      { lat: 0, long: 0, date: '2020' },
+      { lat: 40, long: 20, date: '2020' },
+
+      { lat: 15, long: 5, date: '2021' },
+      { lat: 10, long: 20, date: '2021' },
+      { lat: 30, long: 15, date: '2021' },
+
+      { lat: 5, long: 25, date: '2022' },
+      { lat: 12, long: 18, date: '2022' },
     ],
   },
   render: ({
     colors,
-    regressionLine,
-    highlightedDataPoints,
     backgroundColor,
     colorDomain,
+    highlightedDataPoints,
+    centerPoint,
+    zoomScaleExtend,
+    zoomTranslateExtend,
     ...args
   }) => {
     return (
-      <ScatterPlot
+      <AnimatedDotDensityMap
         colors={parseValue(colors, colors)}
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
-        }
         highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+        centerPoint={parseValue(centerPoint)}
+        zoomTranslateExtend={parseValue(zoomTranslateExtend)}
+        zoomScaleExtend={parseValue(zoomScaleExtend)}
+        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -289,6 +231,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScatterPlot>;
+type Story = StoryObj<typeof AnimatedDotDensityMap>;
 
 export const Default: Story = {};

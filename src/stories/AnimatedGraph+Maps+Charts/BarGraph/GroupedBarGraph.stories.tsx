@@ -1,32 +1,32 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TreeMapGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { AnimatedGroupedBarGraph } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
+  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof TreeMapGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof AnimatedGroupedBarGraph
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Tree map',
-  component: TreeMapGraph,
+  title: 'Animated Graphs/Grouped Bar Graph',
+  component: AnimatedGroupedBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
-      control: 'object',
       table: {
         type: {
-          summary: 'TreeMapGraphDataType[]',
           detail: `{
-  label: string | number;
-  size?: number | null;
-  color?: string;
+  label: string; 
+  size: (number | undefined | null)[];
 }`,
         },
       },
@@ -34,10 +34,16 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
+      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
         },
+      },
+    },
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
       },
     },
 
@@ -46,14 +52,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          summary: 'string[]',
         },
       },
     },
     colorDomain: {
       control: 'text',
+      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -83,6 +88,24 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+    },
+
+    // Values and Ticks
+    truncateBy: {
+      table: { defaultValue: { summary: '999' } },
+    },
+    refValues: {
+      table: {
+        type: {
+          detail: REF_VALUE_OBJECT,
+        },
+      },
+    },
+    noOfTicks: {
+      table: { defaultValue: { summary: '5' } },
+    },
 
     // Graph parameters
     showLabels: {
@@ -95,19 +118,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    showNAColor: {
+    showTicks: {
       table: {
         defaultValue: { summary: 'true' },
       },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -153,35 +167,42 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    graphID: {
-      control: 'text',
-      table: { type: { summary: 'string' } },
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      table: {
+        type: { summary: "'vertical' | 'horizontal'" },
+        defaultValue: { summary: 'vertical' },
+      },
     },
   },
   args: {
     data: [
-      { label: '2010', size: 3 },
-      { label: '2012', size: 8 },
-      { label: '2014', size: 11 },
-      { label: '2016', size: 19 },
-      { label: '2018', size: 3 },
-      { label: '2020', size: 8 },
-      { label: '2022', size: 11 },
-      { label: '2024', size: 19 },
+      { label: 'Category 1', size: [7, 12, 5], date: '2020' },
+      { label: 'Category 1', size: [8, 13, 6], date: '2021' },
+      { label: 'Category 1', size: [6, 14, 4], date: '2022' },
+      { label: 'Category 1', size: [9, 15, 7], date: '2023' },
+      { label: 'Category 1', size: [10, 16, 8], date: '2024' },
+
+      { label: 'Category 2', size: [8, 10, 9], date: '2020' },
+      { label: 'Category 2', size: [9, 11, 10], date: '2021' },
+      { label: 'Category 2', size: [7, 13, 8], date: '2022' },
+      { label: 'Category 2', size: [8, 14, 9], date: '2023' },
+      { label: 'Category 2', size: [9, 15, 10], date: '2024' },
+
+      { label: 'Category 3', size: [9, 7, 11], date: '2020' },
+      { label: 'Category 3', size: [10, 8, 12], date: '2021' },
+      { label: 'Category 3', size: [11, 9, 13], date: '2022' },
+      { label: 'Category 3', size: [12, 10, 14], date: '2023' },
+      { label: 'Category 3', size: [13, 11, 15], date: '2024' },
     ],
+    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, backgroundColor, colorDomain, ...args }) => {
     return (
-      <TreeMapGraph
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <AnimatedGroupedBarGraph
+        colors={parseValue(colors)}
+        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -197,6 +218,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof TreeMapGraph>;
+type Story = StoryObj<typeof AnimatedGroupedBarGraph>;
 
 export const Default: Story = {};

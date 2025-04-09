@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScatterPlot } from '@/index';
+import { AnimatedScatterPlot } from '@/index';
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -11,11 +11,11 @@ import {
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ScatterPlot>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedScatterPlot>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Scatter plot',
-  component: ScatterPlot,
+  title: 'Animated Graphs/Scatter plot',
+  component: AnimatedScatterPlot,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -26,6 +26,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   label: string; 
   size: number;
   color?: string;
+  date: string | number;
 }`,
         },
       },
@@ -190,16 +191,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     labelColor: {
       control: 'color',
     },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
-      },
-    },
     dataDownload: {
       table: {
         defaultValue: { summary: 'false' },
@@ -241,37 +232,43 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
   },
   args: {
     data: [
-      { x: 1, y: 3 },
-      { x: 2, y: 8 },
-      { x: 3, y: 11 },
-      { x: 4, y: 19 },
-      { x: 5, y: 3 },
-      { x: 6, y: 8 },
-      { x: 7, y: 11 },
-      { x: 8, y: 19 },
+      { label: 'Item 1', x: 1, y: 3, date: '2020' },
+      { label: 'Item 2', x: 2, y: 8, date: '2020' },
+      { label: 'Item 3', x: 3, y: 11, date: '2020' },
+      { label: 'Item 4', x: 4, y: 19, date: '2020' },
+      { label: 'Item 5', x: 5, y: 3, date: '2020' },
+
+      { label: 'Item 1', x: 6, y: 8, date: '2021' },
+      { label: 'Item 2', x: 7, y: 11, date: '2021' },
+      { label: 'Item 3', x: 8, y: 19, date: '2021' },
+      { label: 'Item 4', x: 9, y: 7, date: '2021' },
+      { label: 'Item 5', x: 10, y: 12, date: '2021' },
+
+      { label: 'Item 1', x: 11, y: 14, date: '2022' },
+      { label: 'Item 2', x: 12, y: 9, date: '2022' },
+      { label: 'Item 3', x: 13, y: 16, date: '2022' },
+      { label: 'Item 4', x: 14, y: 18, date: '2022' },
+      { label: 'Item 5', x: 15, y: 5, date: '2022' },
     ],
   },
   render: ({
     colors,
-    regressionLine,
     highlightedDataPoints,
     backgroundColor,
     colorDomain,
     ...args
   }) => {
     return (
-      <ScatterPlot
+      <AnimatedScatterPlot
         colors={parseValue(colors, colors)}
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
-        }
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
@@ -289,6 +286,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScatterPlot>;
+type Story = StoryObj<typeof AnimatedScatterPlot>;
 
 export const Default: Story = {};

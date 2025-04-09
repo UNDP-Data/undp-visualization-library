@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScatterPlot } from '@/index';
+import { AnimatedDumbbellChart } from '@/index';
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -11,21 +11,24 @@ import {
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ScatterPlot>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof AnimatedDumbbellChart
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Scatter plot',
-  component: ScatterPlot,
+  title: 'Animated Graphs/Dumbbell Chart',
+  component: AnimatedDumbbellChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
+      control: 'object',
       table: {
         type: {
           detail: `{
   label: string; 
-  size: number;
-  color?: string;
+  x: (number | undefined | null)[];
+  date: string | number;
 }`,
         },
       },
@@ -43,13 +46,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     // Colors and Styling
     colors: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
-        },
-      },
     },
     colorDomain: {
       control: 'text',
@@ -82,122 +78,55 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+    },
 
     // Values and Ticks
-    refXValues: {
+    truncateBy: {
+      control: 'number',
+      table: { defaultValue: { summary: '999' } },
+    },
+    refValues: {
       table: {
         type: {
           detail: REF_VALUE_OBJECT,
         },
       },
     },
-    refYValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
+    noOfTicks: {
       table: { defaultValue: { summary: '5' } },
     },
 
     // Graph parameters
     showLabels: {
       table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showValues: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showTicks: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    arrowConnector: {
+      table: {
         defaultValue: { summary: 'false' },
       },
     },
-    showColorScale: {
+    connectorStrokeWidth: {
       table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
-    },
-    annotations: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  text: string;
-  maxWidth?: number;
-  xCoordinate?: number | string;
-  yCoordinate?: number | string;
-  xOffset?: number;
-  yOffset?: number;
-  align?: 'center' | 'left' | 'right';
-  color?: string;
-  fontWeight?: 'regular' | 'bold' | 'medium';
-  showConnector?: boolean | number;
-  connectorRadius?: number;
-  classNames?: {
-    connector?: string;
-    text?: string;
-  };
-  styles?: {
-    connector?: React.CSSProperties;
-    text?: React.CSSProperties;
-  };
-}`,
-        },
-      },
-    },
-    highlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: [number | string | null, number | string | null];
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
-      },
-    },
-    customHighlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: (number | string)[];
-  closePath?: boolean;
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
+        defaultValue: { summary: '2' },
       },
     },
     graphDownload: {
       table: {
         defaultValue: { summary: 'false' },
-      },
-    },
-    labelColor: {
-      control: 'color',
-    },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
       },
     },
     dataDownload: {
@@ -206,7 +135,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -221,7 +149,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-
+    sortParameter: {
+      control: 'text',
+      table: { type: { summary: "'number' | 'diff'" } },
+    },
     language: {
       control: 'select',
       options: LANGUAGE_OPTIONS,
@@ -241,39 +172,57 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      table: {
+        type: { summary: "'vertical' | 'horizontal'" },
+        defaultValue: { summary: 'vertical' },
+      },
+    },
   },
   args: {
     data: [
-      { x: 1, y: 3 },
-      { x: 2, y: 8 },
-      { x: 3, y: 11 },
-      { x: 4, y: 19 },
-      { x: 5, y: 3 },
-      { x: 6, y: 8 },
-      { x: 7, y: 11 },
-      { x: 8, y: 19 },
+      { label: 'Category 1', x: [3, 6], date: '2020' },
+      { label: 'Category 1', x: [8, 2], date: '2021' },
+      { label: 'Category 1', x: [11, 5], date: '2022' },
+      { label: 'Category 1', x: [19, 7], date: '2023' },
+
+      { label: 'Category 2', x: [3, 4], date: '2020' },
+      { label: 'Category 2', x: [8, 12], date: '2021' },
+      { label: 'Category 2', x: [11, 15], date: '2022' },
+      { label: 'Category 2', x: [19, 5], date: '2023' },
+
+      { label: 'Category 3', x: [5, 9], date: '2020' },
+      { label: 'Category 3', x: [7, 14], date: '2021' },
+      { label: 'Category 3', x: [10, 13], date: '2022' },
+      { label: 'Category 3', x: [12, 6], date: '2023' },
+
+      { label: 'Category 4', x: [4, 8], date: '2020' },
+      { label: 'Category 4', x: [6, 11], date: '2021' },
+      { label: 'Category 4', x: [9, 12], date: '2022' },
+      { label: 'Category 4', x: [14, 10], date: '2023' },
     ],
+    colorDomain: ['Apple', 'Oranges'],
   },
-  render: ({
-    colors,
-    regressionLine,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ backgroundColor, colorDomain, sortParameter, ...args }) => {
     return (
-      <ScatterPlot
-        colors={parseValue(colors, colors)}
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
+      <AnimatedDumbbellChart
+        colorDomain={parseValue(colorDomain, ['Apple', 'Oranges'])}
+        sortParameter={
+          !sortParameter
+            ? undefined
+            : sortParameter === 'diff'
+            ? 'diff'
+            : /^\d+$/.test(sortParameter as any)
+            ? parseInt(sortParameter as any, 10)
+            : undefined
         }
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -289,6 +238,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScatterPlot>;
+type Story = StoryObj<typeof AnimatedDumbbellChart>;
 
 export const Default: Story = {};

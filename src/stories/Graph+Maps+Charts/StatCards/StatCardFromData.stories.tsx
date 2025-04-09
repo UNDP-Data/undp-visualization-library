@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StatCardFromData } from '@/index';
 import {
   CLASS_NAME_OBJECT,
+  LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
@@ -111,23 +112,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     // Configuration and Options
     language: {
       control: 'select',
-      options: [
-        'en',
-        'ar',
-        'az',
-        'bn',
-        'cy',
-        'he',
-        'hi',
-        'jp',
-        'ka',
-        'km',
-        'ko',
-        'my',
-        'ne',
-        'zh',
-        'custom',
-      ],
+      options: LANGUAGE_OPTIONS,
       table: {
         type: {
           summary:

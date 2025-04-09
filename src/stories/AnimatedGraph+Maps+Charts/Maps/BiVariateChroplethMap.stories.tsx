@@ -1,32 +1,33 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { TreeMapGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { AnimatedBiVariateChoroplethMap } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof TreeMapGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof AnimatedBiVariateChoroplethMap
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Tree map',
-  component: TreeMapGraph,
+  title: 'Animated Maps/Bi-variate choropleth map',
+  component: AnimatedBiVariateChoroplethMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
-      control: 'object',
       table: {
         type: {
-          summary: 'TreeMapGraphDataType[]',
           detail: `{
-  label: string | number;
-  size?: number | null;
-  color?: string;
+  x?: number | null;
+  y?: number | null;
+  id: string;
+  date: string | number;
 }`,
         },
       },
@@ -41,19 +42,46 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
+
     // Colors and Styling
     colors: {
       control: 'text',
       table: {
         type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          summary: 'string[][]',
         },
       },
     },
-    colorDomain: {
+    mapNoDataColor: {
+      control: 'color',
+    },
+    mapBorderColor: {
+      control: 'color',
+    },
+    xDomain: {
       control: 'text',
+      table: {
+        type: {
+          summary: 'number[]',
+          detail:
+            'The length of array should be equal to the no. of rows in colors props',
+        },
+      },
+    },
+    yDomain: {
+      control: 'text',
+      table: {
+        type: {
+          summary: 'number[]',
+          detail:
+            'The length of array should be equal to the no. of columns in colors props',
+        },
+      },
     },
     backgroundColor: {
       control: 'text',
@@ -84,30 +112,39 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: { defaultValue: { summary: '0' } },
     },
 
-    // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+    // Values and Ticks
+    mapData: {
+      control: 'object',
     },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    highlightedDataPoints: {
+    centerPoint: {
       control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
+      table: {
+        type: {
+          summary: '[number, number]',
+        },
+      },
+    },
+    zoomTranslateExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[[number, number], [number, number]]',
+        },
+      },
+    },
+    zoomScaleExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[number, number]',
+        },
+      },
+    },
+
+    // Graph parameters
+    highlightedIds: {
+      control: 'text',
+      table: { type: { summary: 'string[]' } },
     },
     graphDownload: {
       table: {
@@ -120,6 +157,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -153,35 +191,44 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    graphID: {
-      control: 'text',
-      table: { type: { summary: 'string' } },
-    },
   },
   args: {
     data: [
-      { label: '2010', size: 3 },
-      { label: '2012', size: 8 },
-      { label: '2014', size: 11 },
-      { label: '2016', size: 19 },
-      { label: '2018', size: 3 },
-      { label: '2020', size: 8 },
-      { label: '2022', size: 11 },
-      { label: '2024', size: 19 },
+      { id: 'IND', x: 1, y: 3, date: '2020' },
+      { id: 'FIN', x: 2, y: 8, date: '2020' },
+      { id: 'IDN', x: 3, y: 11, date: '2020' },
+
+      { id: 'ZAF', x: 4, y: 19, date: '2021' },
+      { id: 'PER', x: 5, y: 3, date: '2021' },
+      { id: 'PAK', x: 6, y: 8, date: '2021' },
+
+      { id: 'USA', x: 7, y: 11, date: '2022' },
+      { id: 'SWE', x: 8, y: 19, date: '2022' },
+      { id: 'BRA', x: 9, y: 5, date: '2022' },
     ],
+    xDomain: [2, 4, 6, 8],
+    yDomain: [2, 4, 6, 8],
   },
   render: ({
     colors,
-    highlightedDataPoints,
     backgroundColor,
-    colorDomain,
+    xDomain,
+    yDomain,
+    highlightedIds,
+    centerPoint,
+    zoomScaleExtend,
+    zoomTranslateExtend,
     ...args
   }) => {
     return (
-      <TreeMapGraph
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <AnimatedBiVariateChoroplethMap
+        colors={parseValue(colors)}
+        highlightedIds={parseValue(highlightedIds)}
+        centerPoint={parseValue(centerPoint)}
+        zoomTranslateExtend={parseValue(zoomTranslateExtend)}
+        zoomScaleExtend={parseValue(zoomScaleExtend)}
+        xDomain={parseValue(xDomain, [2, 4, 6, 8])}
+        yDomain={parseValue(yDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -197,6 +244,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof TreeMapGraph>;
+type Story = StoryObj<typeof AnimatedBiVariateChoroplethMap>;
 
 export const Default: Story = {};

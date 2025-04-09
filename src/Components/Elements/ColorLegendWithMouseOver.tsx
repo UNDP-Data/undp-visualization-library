@@ -83,7 +83,7 @@ export function ColorLegendWithMouseOver(props: Props) {
                   backgroundColor: UNDPColorModule.gray,
                 }}
               />
-              <P size='sm' marginBottom='2xs'>
+              <P size='sm' marginBottom='none'>
                 NA
               </P>
             </div>

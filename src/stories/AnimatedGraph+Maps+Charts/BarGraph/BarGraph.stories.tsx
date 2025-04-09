@@ -1,21 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScatterPlot } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { AnimatedBarGraph } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ScatterPlot>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Scatter plot',
-  component: ScatterPlot,
+  title: 'Animated Graphs/Bar Graph',
+  component: AnimatedBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -26,6 +26,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   label: string; 
   size: number;
   color?: string;
+  date: string | number;
 }`,
         },
       },
@@ -82,33 +83,40 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+    },
 
     // Values and Ticks
-    refXValues: {
+    truncateBy: {
+      table: { defaultValue: { summary: '999' } },
+    },
+    refValues: {
       table: {
         type: {
+          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
     },
-    refYValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
+    noOfTicks: {
       table: { defaultValue: { summary: '5' } },
     },
 
     // Graph parameters
     showLabels: {
       table: {
-        defaultValue: { summary: 'false' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showValues: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showTicks: {
+      table: {
+        defaultValue: { summary: 'true' },
       },
     },
     showColorScale: {
@@ -125,79 +133,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
     },
-    annotations: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  text: string;
-  maxWidth?: number;
-  xCoordinate?: number | string;
-  yCoordinate?: number | string;
-  xOffset?: number;
-  yOffset?: number;
-  align?: 'center' | 'left' | 'right';
-  color?: string;
-  fontWeight?: 'regular' | 'bold' | 'medium';
-  showConnector?: boolean | number;
-  connectorRadius?: number;
-  classNames?: {
-    connector?: string;
-    text?: string;
-  };
-  styles?: {
-    connector?: React.CSSProperties;
-    text?: React.CSSProperties;
-  };
-}`,
-        },
-      },
-    },
-    highlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: [number | string | null, number | string | null];
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
-      },
-    },
-    customHighlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: (number | string)[];
-  closePath?: boolean;
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
-      },
-    },
     graphDownload: {
       table: {
         defaultValue: { summary: 'false' },
-      },
-    },
-    labelColor: {
-      control: 'color',
-    },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
       },
     },
     dataDownload: {
@@ -212,6 +150,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
+    dateFormat: {
+      table: {
+        defaultValue: { summary: 'yyyy' },
+      },
+    },
+
     // Interactions and Callbacks
     onSeriesMouseOver: {
       action: 'seriesMouseOver',
@@ -221,7 +165,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-
     language: {
       control: 'select',
       options: LANGUAGE_OPTIONS,
@@ -241,37 +184,52 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    orientation: {
+      control: 'inline-radio',
+      options: ['vertical', 'horizontal'],
+      table: {
+        type: { summary: "'vertical' | 'horizontal'" },
+        defaultValue: { summary: 'vertical' },
+      },
+    },
   },
   args: {
     data: [
-      { x: 1, y: 3 },
-      { x: 2, y: 8 },
-      { x: 3, y: 11 },
-      { x: 4, y: 19 },
-      { x: 5, y: 3 },
-      { x: 6, y: 8 },
-      { x: 7, y: 11 },
-      { x: 8, y: 19 },
+      { label: 'Category 1', size: 7, date: '2020' },
+      { label: 'Category 1', size: 12, date: '2021' },
+      { label: 'Category 1', size: 5, date: '2022' },
+      { label: 'Category 1', size: 14, date: '2023' },
+      { label: 'Category 1', size: 9, date: '2024' },
+
+      { label: 'Category 2', size: 8, date: '2020' },
+      { label: 'Category 2', size: 15, date: '2021' },
+      { label: 'Category 2', size: 6, date: '2022' },
+      { label: 'Category 2', size: 13, date: '2023' },
+      { label: 'Category 2', size: 10, date: '2024' },
+
+      { label: 'Category 3', size: 9, date: '2020' },
+      { label: 'Category 3', size: 14, date: '2021' },
+      { label: 'Category 3', size: 8, date: '2022' },
+      { label: 'Category 3', size: 17, date: '2023' },
+      { label: 'Category 3', size: 12, date: '2024' },
+
+      { label: 'Category 4', size: 10, date: '2020' },
+      { label: 'Category 4', size: 11, date: '2021' },
+      { label: 'Category 4', size: 13, date: '2022' },
+      { label: 'Category 4', size: 15, date: '2023' },
+      { label: 'Category 4', size: 7, date: '2024' },
     ],
   },
   render: ({
     colors,
-    regressionLine,
     highlightedDataPoints,
     backgroundColor,
     colorDomain,
     ...args
   }) => {
     return (
-      <ScatterPlot
+      <AnimatedBarGraph
         colors={parseValue(colors, colors)}
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
-        }
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
@@ -289,6 +247,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScatterPlot>;
+type Story = StoryObj<typeof AnimatedBarGraph>;
 
 export const Default: Story = {};

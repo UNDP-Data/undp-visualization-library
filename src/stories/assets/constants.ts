@@ -98,3 +98,21 @@ export const CUSTOM_HIGHLIGHT_AREA_OBJECT = `{
   color?: string;
   strokeWidth?: number;
 }`;
+
+export const LANGUAGE_OPTIONS = [
+  'en',
+  'ar',
+  'az',
+  'bn',
+  'cy',
+  'he',
+  'hi',
+  'jp',
+  'ka',
+  'km',
+  'ko',
+  'my',
+  'ne',
+  'zh',
+  'custom',
+];

@@ -5,6 +5,7 @@ import { StackedBarGraph } from '@/index';
 import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
+  LANGUAGE_OPTIONS,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
@@ -152,23 +153,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     language: {
       control: 'select',
-      options: [
-        'en',
-        'ar',
-        'az',
-        'bn',
-        'cy',
-        'he',
-        'hi',
-        'jp',
-        'ka',
-        'km',
-        'ko',
-        'my',
-        'ne',
-        'zh',
-        'custom',
-      ],
+      options: LANGUAGE_OPTIONS,
       table: {
         type: {
           summary:
