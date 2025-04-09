@@ -16,8 +16,8 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 interface Props {
   data: BivariateMapDataType[];
   mapData: any;
-  xDomain: [number, number, number, number];
-  yDomain: [number, number, number, number];
+  xDomain: number[];
+  yDomain: number[];
   width: number;
   height: number;
   colors: string[][];
@@ -73,6 +73,12 @@ export function Graph(props: Props) {
     styles,
     classNames,
   } = props;
+  if (xDomain.length !== colors[0].length || yDomain.length !== colors.length) {
+    console.error(
+      "the xDomain and yDomain array length don't match to the color array length",
+    );
+    return null;
+  }
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
@@ -89,9 +95,9 @@ export function Graph(props: Props) {
     ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
     : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
 
-  const xRange = [0, 1, 2, 3, 4];
+  const xRange = Array.from({ length: xDomain.length }, (_, i) => i);
 
-  const yRange = [0, 1, 2, 3, 4];
+  const yRange = Array.from({ length: yDomain.length }, (_, i) => i);
 
   const xScale = scaleThreshold<number, number>().domain(xDomain).range(xRange);
   const yScale = scaleThreshold<number, number>().domain(yDomain).range(yRange);

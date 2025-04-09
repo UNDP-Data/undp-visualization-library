@@ -42,9 +42,9 @@ interface Props {
   /** Title for the second color legend */
   yColorLegendTitle?: string;
   /** Domain of x-colors for the map */
-  xDomain: [number, number, number, number];
+  xDomain: number[];
   /** Domain of y-colors for the map */
-  yDomain: [number, number, number, number];
+  yDomain: number[];
   /** Color for the areas where data is no available */
   mapNoDataColor?: string;
   /** Background color of the graph */
