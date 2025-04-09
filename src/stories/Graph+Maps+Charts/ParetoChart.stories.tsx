@@ -1,27 +1,29 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DataCards } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { ParetoChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof DataCards>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof ParetoChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Data Cards',
-  component: DataCards,
+  title: 'Graphs/Pareto chart (line + bar graph)',
+  component: ParetoChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
-      control: 'object',
       table: {
         type: {
-          summary: 'object[]',
+          detail: `{
+  label: number | string;
+  bar?: number;
+  line?: number;
+}`,
         },
       },
     },
@@ -36,6 +38,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
+    barColor: {
+      control: 'color',
+    },
+    lineColor: {
+      control: 'color',
+    },
     backgroundColor: {
       control: 'text',
       table: {
@@ -44,39 +52,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: 'If type is string then background uses the string as color',
         },
       },
-    },
-    cardFilters: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  column: string;
-  label?: string;
-  defaultValue?: string;
-  excludeValues?: string[];
-  width?: string;
-}`,
-        },
-      },
-    },
-    cardSortingOptions: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  defaultValue?: string;
-  options: {
-    value: string;
-    label: string;
-    type: 'asc' | 'desc';
-  }[];
-  width?: string;
-}`,
-        },
-      },
-    },
-    cardSearchColumns: {
-      control: 'text',
     },
     styles: {
       table: {
@@ -93,7 +68,61 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
+    // Size and Spacing
+    minHeight: {
+      table: { defaultValue: { summary: '0' } },
+    },
+    barPadding: {
+      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+    },
+
+    // Values and Ticks
+    truncateBy: {
+      table: { defaultValue: { summary: '999' } },
+    },
+    noOfTicks: {
+      table: { defaultValue: { summary: '5' } },
+    },
+
+    // Graph parameters
+    showLabels: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    curveType: {
+      control: 'radio',
+      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+      table: {
+        defaultValue: { summary: 'curve' },
+      },
+    },
+    showValues: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    graphDownload: {
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
+    dataDownload: {
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
+    resetSelectionOnDoubleClick: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+
     // Interactions and Callbacks
+    onSeriesMouseOver: {
+      action: 'seriesMouseOver',
+    },
     onSeriesMouseClick: {
       action: 'seriesMouseClick',
     },
@@ -137,28 +166,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      {
-        label: 'Project A',
-        category: 'Category 1',
-        description: 'Lorem ipsum dolor sit amet <...>',
-      },
-      {
-        label: 'Project B',
-        category: 'Category 2',
-        description: 'Lorem ipsum dolor sit amet <...>',
-      },
-      {
-        label: 'Project C',
-        category: 'Category 3',
-        description: 'Lorem ipsum dolor sit amet <...>',
-      },
+      { label: '2010', bar: 3, line: 5 },
+      { label: '2012', bar: 8, line: 10 },
+      { label: '2014', bar: 11, line: 6 },
+      { label: '2016', bar: 19, line: 17 },
+      { label: '2018', bar: 3, line: 15 },
+      { label: '2020', bar: 8, line: 7 },
+      { label: '2022', bar: 11, line: 8 },
+      { label: '2024', bar: 19, line: 9 },
     ],
-    cardTemplate:
-      "<div style='padding: 24px;'><h6 class='undp-viz-typography'>{{label}}</h6><p class='undp-viz-typography' style='font-size: 16px;'>{{description}}</p></div>",
   },
-  render: ({ backgroundColor, cardSearchColumns, ...args }) => {
+  render: ({ backgroundColor, ...args }) => {
     return (
-      <DataCards
+      <ParetoChart
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -166,7 +186,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             ? true
             : backgroundColor
         }
-        cardSearchColumns={parseValue(cardSearchColumns)}
         {...args}
       />
     );
@@ -175,6 +194,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DataCards>;
+type Story = StoryObj<typeof ParetoChart>;
 
 export const Default: Story = {};

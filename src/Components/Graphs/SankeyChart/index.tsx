@@ -33,8 +33,6 @@ interface Props {
   sources?: SourcesDataType[];
   /** Accessibility label */
   ariaLabel?: string;
-  sourceTitle?: string;
-  targetTitle?: string;
 
   // Colors and Styling
   /** Color or array of colors for source */
@@ -87,6 +85,10 @@ interface Props {
   truncateBy?: number;
 
   // Graph Parameters
+  /** Title of the source */
+  sourceTitle?: string;
+  /** Title of the targets */
+  targetTitle?: string;
   /** Toggle visibility of labels */
   showLabels?: boolean;
   /** Toggle visibility of values */
@@ -109,7 +111,7 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content whn user mouseover on the links. This uses the handlebar template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;

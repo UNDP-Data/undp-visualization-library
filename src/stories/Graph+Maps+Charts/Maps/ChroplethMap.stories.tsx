@@ -1,31 +1,28 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ButterflyChart } from '@/index';
+import { ChoroplethMap } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ButterflyChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof ChoroplethMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Butterfly Chart',
-  component: ButterflyChart,
+  title: 'Maps/Choropleth map',
+  component: ChoroplethMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
       table: {
         type: {
-          summary: 'ButterflyChartDataType[]',
           detail: `{
-  label: string | number;
-  position: number;
-  radius?: number;
-  color?: string;
+  x?: number | string | null;
+  id: string;
 }`,
         },
       },
@@ -39,8 +36,32 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
+    mapNoDataColor: {
+      control: 'color',
+    },
+    mapBorderColor: {
+      control: 'color',
+    },
 
     // Colors and Styling
+    colors: {
+      control: 'text',
+      table: {
+        type: {
+          summary: 'string[]',
+        },
+      },
+    },
+    colorDomain: {
+      control: 'text',
+      table: {
+        type: {
+          summary: 'number[] | string[]',
+          detail:
+            'If type is string[] then map uses a categorical scale else it uses threshold scale',
+        },
+      },
+    },
     backgroundColor: {
       control: 'text',
       table: {
@@ -49,12 +70,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: 'If type is string then background uses the string as color',
         },
       },
-    },
-    leftBarColor: {
-      control: 'color',
-    },
-    rightBarColor: {
-      control: 'color',
     },
     styles: {
       table: {
@@ -75,42 +90,45 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
-    centerGap: {
-      table: { defaultValue: { summary: '100' } },
-    },
 
     // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
+    mapData: {
+      control: 'object',
     },
-    refValues: {
+    centerPoint: {
+      control: 'text',
       table: {
         type: {
-          detail: REF_VALUE_OBJECT,
+          summary: '[number, number]',
         },
       },
     },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
+    zoomTranslateExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[[number, number], [number, number]]',
+        },
+      },
     },
+    zoomScaleExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[number, number]',
+        },
+      },
+    },
+
     // Graph parameters
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
     showColorScale: {
       table: {
-        defaultValue: { summary: 'false' },
+        defaultValue: { summary: 'true' },
       },
+    },
+    highlightedIds: {
+      control: 'text',
+      table: { type: { summary: 'string[]' } },
     },
     graphDownload: {
       table: {
@@ -123,6 +141,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -175,19 +194,35 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2010', leftBar: 3, rightBar: 5 },
-      { label: '2012', leftBar: 8, rightBar: 10 },
-      { label: '2014', leftBar: 11, rightBar: 6 },
-      { label: '2016', leftBar: 19, rightBar: 17 },
-      { label: '2018', leftBar: 3, rightBar: 15 },
-      { label: '2020', leftBar: 8, rightBar: 7 },
-      { label: '2022', leftBar: 11, rightBar: 8 },
-      { label: '2024', leftBar: 19, rightBar: 9 },
+      { id: 'IND', x: 1 },
+      { id: 'FIN', x: 2 },
+      { id: 'IDN', x: 3 },
+      { id: 'ZAF', x: 4 },
+      { id: 'PER', x: 5 },
+      { id: 'PAK', x: 6 },
+      { id: 'USA', x: 7 },
+      { id: 'SWE', x: 8 },
     ],
+    colorDomain: [2, 4, 6, 8],
   },
-  render: ({ backgroundColor, ...args }) => {
+  render: ({
+    colors,
+    backgroundColor,
+    colorDomain,
+    highlightedIds,
+    centerPoint,
+    zoomScaleExtend,
+    zoomTranslateExtend,
+    ...args
+  }) => {
     return (
-      <ButterflyChart
+      <ChoroplethMap
+        colors={parseValue(colors)}
+        highlightedIds={parseValue(highlightedIds)}
+        centerPoint={parseValue(centerPoint)}
+        zoomTranslateExtend={parseValue(zoomTranslateExtend)}
+        zoomScaleExtend={parseValue(zoomScaleExtend)}
+        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -203,6 +238,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ButterflyChart>;
+type Story = StoryObj<typeof ChoroplethMap>;
 
 export const Default: Story = {};

@@ -1,31 +1,31 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DumbbellChart } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { DotDensityMap } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof DumbbellChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DotDensityMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Dumbbell Chart',
-  component: DumbbellChart,
+  title: 'Maps/Dot density map',
+  component: DotDensityMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
-      control: 'object',
       table: {
         type: {
-          summary: 'DumbbellChartDataType[]',
           detail: `{
-  label: string; 
-  x: (number | undefined | null)[];
+  lat: number;
+  long: number;
+  radius?: number;
+  color?: string | number;
+  label?: string | number;
 }`,
         },
       },
@@ -39,10 +39,23 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
+    mapNoDataColor: {
+      control: 'color',
+    },
+    mapBorderColor: {
+      control: 'color',
+    },
 
     // Colors and Styling
     colors: {
       control: 'text',
+      table: {
+        type: {
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
+        },
+      },
     },
     colorDomain: {
       control: 'text',
@@ -75,55 +88,45 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
-    barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
-    },
 
     // Values and Ticks
-    truncateBy: {
-      control: 'number',
-      table: { defaultValue: { summary: '999' } },
+    mapData: {
+      control: 'object',
     },
-    refValues: {
+    centerPoint: {
+      control: 'text',
       table: {
         type: {
-          detail: REF_VALUE_OBJECT,
+          summary: '[number, number]',
         },
       },
     },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
+    zoomTranslateExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[[number, number], [number, number]]',
+        },
+      },
+    },
+    zoomScaleExtend: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '[number, number]',
+        },
+      },
     },
 
     // Graph parameters
-    showLabels: {
+    showColorScale: {
       table: {
         defaultValue: { summary: 'true' },
       },
     },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    labelOrder: {
+    highlightedDataPoints: {
       control: 'text',
-      table: { type: { summary: 'string[]' } },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    arrowConnector: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    connectorStrokeWidth: {
-      table: {
-        defaultValue: { summary: '2' },
-      },
+      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -136,6 +139,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -150,10 +154,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortParameter: {
-      control: 'text',
-      table: { type: { summary: "'number' | 'diff'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -189,48 +189,34 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', x: [3, 5] },
-      { label: '2020 Q2', x: [8, 6] },
-      { label: '2020 Q3', x: [11, 8] },
-      { label: '2020 Q4', x: [19, 10] },
-      { label: '2021 Q1', x: [3, 15] },
-      { label: '2022 Q2', x: [8, 5] },
-      { label: '2023 Q3', x: [11, 3] },
-      { label: '2024 Q4', x: [19, 10] },
+      { lat: 20, long: 10 },
+      { lat: 25, long: 26 },
+      { lat: 0, long: 0 },
+      { lat: 15, long: 5 },
+      { lat: 10, long: 20 },
     ],
-    colorDomain: ['Apple', 'Oranges'],
   },
   render: ({
-    labelOrder,
+    colors,
     backgroundColor,
     colorDomain,
-    sortParameter,
+    highlightedDataPoints,
+    centerPoint,
+    zoomScaleExtend,
+    zoomTranslateExtend,
     ...args
   }) => {
     return (
-      <DumbbellChart
-        labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apple', 'Oranges'])}
-        sortParameter={
-          !sortParameter
-            ? undefined
-            : sortParameter === 'diff'
-            ? 'diff'
-            : /^\d+$/.test(sortParameter as any)
-            ? parseInt(sortParameter as any, 10)
-            : undefined
-        }
+      <DotDensityMap
+        colors={parseValue(colors, colors)}
+        highlightedDataPoints={parseValue(highlightedDataPoints)}
+        centerPoint={parseValue(centerPoint)}
+        zoomTranslateExtend={parseValue(zoomTranslateExtend)}
+        zoomScaleExtend={parseValue(zoomScaleExtend)}
+        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -246,6 +232,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DumbbellChart>;
+type Story = StoryObj<typeof DotDensityMap>;
 
 export const Default: Story = {};

@@ -81,14 +81,14 @@ interface Props {
   /** Extend of the allowed panning in the map */
   zoomTranslateExtend?: [[number, number], [number, number]];
   /** Countries or regions to be highlighted */
-  highlightedCountryCodes?: string[];
+  highlightedIds?: string[];
   /** Toggles if the color scaling is categorical or not */
   categorical?: boolean;
   /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
   showColorScale?: boolean;
-  /** Property in the property object in mapData geoJson object is used to match to the countryCode in the data object */
+  /** Property in the property object in mapData geoJson object is used to match to the id in the data object */
   mapProperty?: string;
-  /** Toggles the visibility of Antarctica in the default map */
+  /** Toggles the visibility of Antarctica in the default map. Only applicable for the default map. */
   showAntarctica?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
@@ -153,7 +153,7 @@ export function AnimatedChoroplethMap(props: Props) {
     zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes = [],
+    highlightedIds = [],
     onSeriesMouseClick,
     mapProperty = 'ISO3',
     graphDownload = false,
@@ -376,7 +376,7 @@ export function AnimatedChoroplethMap(props: Props) {
                   showAntarctica={
                     showAntarctica === undefined ? false : showAntarctica
                   }
-                  highlightedCountryCodes={highlightedCountryCodes}
+                  highlightedIds={highlightedIds}
                   dateFormat={dateFormat}
                   indx={index}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

@@ -39,7 +39,7 @@ interface Props {
   isWorldMap: boolean;
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
-  highlightedCountryCodes: string[];
+  highlightedIds: string[];
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
@@ -47,6 +47,7 @@ interface Props {
   dateFormat: string;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
+  showColorScale: boolean;
   styles?: StyleObject;
   classNames?: ClassNameObject;
 }
@@ -72,7 +73,7 @@ export function Graph(props: Props) {
     isWorldMap,
     zoomScaleExtend,
     zoomTranslateExtend,
-    highlightedCountryCodes,
+    highlightedIds,
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
@@ -80,6 +81,7 @@ export function Graph(props: Props) {
     indx,
     resetSelectionOnDoubleClick,
     detailsOnClick,
+    showColorScale,
     styles,
     classNames,
   } = props;
@@ -151,7 +153,7 @@ export function Graph(props: Props) {
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
             const index = groupedData[indx].values.findIndex(
-              el => el.countryCode === d.properties[mapProperty],
+              el => el.id === d.properties[mapProperty],
             );
             if (!showAntarctica && d.properties.NAME === 'Antarctica')
               return null;
@@ -162,10 +164,8 @@ export function Graph(props: Props) {
                 opacity={
                   selectedColor
                     ? 0.3
-                    : highlightedCountryCodes.length !== 0
-                    ? highlightedCountryCodes.indexOf(
-                        d.properties[mapProperty],
-                      ) !== -1
+                    : highlightedIds.length !== 0
+                    ? highlightedIds.indexOf(d.properties[mapProperty]) !== -1
                       ? 1
                       : 0.3
                     : 1
@@ -227,7 +227,7 @@ export function Graph(props: Props) {
           })}
           {groupedData[indx].values.map((d, i) => {
             const index = mapData.features.findIndex(
-              (el: any) => d.countryCode === el.properties[mapProperty],
+              (el: any) => d.id === el.properties[mapProperty],
             );
             const xColorCoord = !checkIfNullOrUndefined(d.x)
               ? xScale(d.x as number)
@@ -248,8 +248,8 @@ export function Graph(props: Props) {
                     ? selectedColor === color
                       ? 1
                       : 0.3
-                    : highlightedCountryCodes.length !== 0
-                    ? highlightedCountryCodes.indexOf(d.countryCode) !== -1
+                    : highlightedIds.length !== 0
+                    ? highlightedIds.indexOf(d.id) !== -1
                       ? 1
                       : 0.3
                     : 1
@@ -362,7 +362,7 @@ export function Graph(props: Props) {
             ? mapData.features
                 .filter(
                   (d: { properties: any }) =>
-                    d.properties[mapProperty] === mouseOverData.countryCode,
+                    d.properties[mapProperty] === mouseOverData.id,
                 )
                 .map((d: any, i: number) => {
                   return (
@@ -426,139 +426,144 @@ export function Graph(props: Props) {
             : null}
         </g>
       </svg>
-      {showLegend ? (
-        <div className='undp-viz-bivariate-legend-container relative'>
-          <div className='undp-viz-bivariate-legend'>
-            <button
-              className='mt-2 mr-2 ml-0 mb-0 cursor-pointer border-0 h-6 p-0'
-              type='button'
-              onClick={() => {
-                setShowLegend(false);
-              }}
-            >
-              <X />
-            </button>
-            <div className='items-end flex'>
-              <div className='relative z-10 my-3 mr-14 ml-3'>
-                <div className='flex pointer-events-auto'>
-                  <div>
-                    <svg width='135px' viewBox='0 0 135 135'>
-                      <g>
-                        {colors.map((d, i) => (
-                          <g key={i} transform={`translate(0,${100 - i * 25})`}>
-                            {d.map((el, j) => (
-                              <rect
+      {showColorScale ? (
+        showLegend ? (
+          <div className='undp-viz-bivariate-legend-container relative'>
+            <div className='undp-viz-bivariate-legend'>
+              <button
+                className='mt-2 mr-2 ml-0 mb-0 cursor-pointer border-0 h-6 p-0'
+                type='button'
+                onClick={() => {
+                  setShowLegend(false);
+                }}
+              >
+                <X />
+              </button>
+              <div className='items-end flex'>
+                <div className='relative z-10 my-3 mr-14 ml-3'>
+                  <div className='flex pointer-events-auto'>
+                    <div>
+                      <svg width='135px' viewBox='0 0 135 135'>
+                        <g>
+                          {colors.map((d, i) => (
+                            <g
+                              key={i}
+                              transform={`translate(0,${100 - i * 25})`}
+                            >
+                              {d.map((el, j) => (
+                                <rect
+                                  key={j}
+                                  y={1}
+                                  x={j * 25 + 1}
+                                  fill={el}
+                                  width={23}
+                                  height={23}
+                                  strokeWidth={selectedColor === el ? 2 : 0.25}
+                                  style={{ cursor: 'pointer' }}
+                                  onMouseOver={() => {
+                                    setSelectedColor(el);
+                                  }}
+                                  onMouseLeave={() => {
+                                    setSelectedColor(undefined);
+                                  }}
+                                />
+                              ))}
+                            </g>
+                          ))}
+                          <g transform='translate(0,125)'>
+                            {xDomain.map((el, j) => (
+                              <text
                                 key={j}
-                                y={1}
-                                x={j * 25 + 1}
-                                fill={el}
-                                width={23}
-                                height={23}
-                                strokeWidth={selectedColor === el ? 2 : 0.25}
-                                style={{ cursor: 'pointer' }}
-                                onMouseOver={() => {
-                                  setSelectedColor(el);
-                                }}
-                                onMouseLeave={() => {
-                                  setSelectedColor(undefined);
-                                }}
-                              />
+                                y={10}
+                                x={(j + 1) * 25}
+                                fontSize={10}
+                                textAnchor='middle'
+                              >
+                                {typeof el === 'string' || el < 1
+                                  ? el
+                                  : numberFormattingFunction(el, '', '')}
+                              </text>
                             ))}
                           </g>
-                        ))}
-                        <g transform='translate(0,125)'>
-                          {xDomain.map((el, j) => (
-                            <text
+                          {yDomain.map((el, j) => (
+                            <g
                               key={j}
-                              y={10}
-                              x={(j + 1) * 25}
-                              fontSize={10}
-                              textAnchor='middle'
+                              transform={`translate(${
+                                Math.max(Math.min(xDomain.length + 1, 5), 4) *
+                                  25 +
+                                10
+                              },${100 - j * 25})`}
                             >
-                              {typeof el === 'string' || el < 1
-                                ? el
-                                : numberFormattingFunction(el, '', '')}
-                            </text>
+                              <text
+                                x={0}
+                                transform='rotate(-90)'
+                                y={0}
+                                fontSize={10}
+                                textAnchor='middle'
+                              >
+                                {typeof el === 'string' || el < 1
+                                  ? el
+                                  : numberFormattingFunction(el, '', '')}
+                              </text>
+                            </g>
                           ))}
                         </g>
-                        {yDomain.map((el, j) => (
-                          <g
-                            key={j}
-                            transform={`translate(${
-                              Math.max(Math.min(xDomain.length + 1, 5), 4) *
-                                25 +
-                              10
-                            },${100 - j * 25})`}
-                          >
-                            <text
-                              x={0}
-                              transform='rotate(-90)'
-                              y={0}
-                              fontSize={10}
-                              textAnchor='middle'
-                            >
-                              {typeof el === 'string' || el < 1
-                                ? el
-                                : numberFormattingFunction(el, '', '')}
-                            </text>
-                          </g>
-                        ))}
-                      </g>
-                    </svg>
+                      </svg>
+                      <div
+                        style={{
+                          lineHeight: 'normal',
+                          marginTop: '0.5rem',
+                          textAlign: 'center',
+                          fontStyle: 'normal',
+                          fontSize: '0.75rem',
+                          display: '-webkit-box',
+                          WebkitLineClamp: '2',
+                          width: '8.125rem',
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {xColorLegendTitle}
+                      </div>
+                    </div>
                     <div
                       style={{
                         lineHeight: 'normal',
-                        marginTop: '0.5rem',
                         textAlign: 'center',
                         fontStyle: 'normal',
                         fontSize: '0.75rem',
-                        display: '-webkit-box',
-                        WebkitLineClamp: '2',
                         width: '8.125rem',
+                        display: '-webkit-box',
+                        position: 'absolute',
+                        top: '80px',
+                        translate: '75% -50%',
+                        rotate: '90deg',
+                        WebkitLineClamp: '2',
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                       }}
                     >
-                      {xColorLegendTitle}
+                      {yColorLegendTitle}
                     </div>
-                  </div>
-                  <div
-                    style={{
-                      lineHeight: 'normal',
-                      textAlign: 'center',
-                      fontStyle: 'normal',
-                      fontSize: '0.75rem',
-                      width: '8.125rem',
-                      display: '-webkit-box',
-                      position: 'absolute',
-                      top: '80px',
-                      translate: '75% -50%',
-                      rotate: '90deg',
-                      WebkitLineClamp: '2',
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {yColorLegendTitle}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <button
-          type='button'
-          className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0 self-start'
-          onClick={() => {
-            setShowLegend(true);
-          }}
-        >
-          <div className='items-start text-sm font-medium cursor-pointer p-2 mb-3 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
-            Show Legend
-          </div>
-        </button>
-      )}
+        ) : (
+          <button
+            type='button'
+            className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0 self-start'
+            onClick={() => {
+              setShowLegend(true);
+            }}
+          >
+            <div className='items-start text-sm font-medium cursor-pointer p-2 mb-3 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
+              Show Legend
+            </div>
+          </button>
+        )
+      ) : null}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
           data={mouseOverData}

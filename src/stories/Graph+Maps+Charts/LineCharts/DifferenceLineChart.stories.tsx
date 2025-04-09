@@ -1,19 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleLineChart } from '@/index';
+import { DifferenceLineChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
+import { parseValue } from '../../assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleLineChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DifferenceLineChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Line chart',
-  component: SimpleLineChart,
+  title: 'Graphs/Difference line chart',
+  component: DifferenceLineChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,7 +23,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y: number;
+  y1: number;
+  y2: number;
 }`,
         },
       },
@@ -38,8 +40,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColor: {
-      control: 'color',
+    lineColors: {
+      control: 'text',
+    },
+    diffAreaColors: {
+      control: 'text',
     },
     backgroundColor: {
       control: 'text',
@@ -74,18 +79,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     refValues: {
       table: {
         type: {
+          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
     },
+    minDate: { control: 'text' },
+    maxDate: { control: 'text' },
     noOfXTicks: {
       table: { defaultValue: { summary: '5' } },
     },
     noOfYTicks: {
       table: { defaultValue: { summary: '5' } },
     },
-    minDate: { control: 'text' },
-    maxDate: { control: 'text' },
 
     // Graph parameters
     animateLine: {
@@ -97,6 +103,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             'If the type is number then it uses the number as the time in seconds for animation.',
         },
       },
+    },
+    labels: {
+      control: 'text',
     },
     dateFormat: {
       table: {
@@ -177,16 +186,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
-      },
-    },
     dataDownload: {
       table: {
         defaultValue: { summary: 'false' },
@@ -237,19 +236,27 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y: 3 },
-      { date: '2021', y: 8 },
-      { date: '2022', y: 11 },
-      { date: '2023', y: 19 },
-      { date: '2024', y: 3 },
-      { date: '2025', y: 8 },
-      { date: '2026', y: 11 },
-      { date: '2027', y: 19 },
+      { date: '2020', y1: 3, y2: 5 },
+      { date: '2021', y1: 8, y2: 15 },
+      { date: '2022', y1: 11, y2: 10 },
+      { date: '2023', y1: 19, y2: 6 },
+      { date: '2024', y1: 3, y2: 9 },
+      { date: '2025', y1: 8, y2: 5 },
+      { date: '2026', y1: 11, y2: 8 },
+      { date: '2027', y1: 19, y2: 10 },
     ],
+    labels: ['Apples', 'Oranges'],
   },
-  render: ({ animateLine, backgroundColor, regressionLine, ...args }) => {
+  render: ({
+    animateLine,
+    backgroundColor,
+    lineColors,
+    diffAreaColors,
+    labels,
+    ...args
+  }) => {
     return (
-      <SimpleLineChart
+      <DifferenceLineChart
         animateLine={
           (animateLine as any) === 'false'
             ? false
@@ -257,13 +264,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             ? true
             : Number(animateLine)
         }
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
-        }
+        lineColors={parseValue(lineColors)}
+        diffAreaColors={parseValue(diffAreaColors)}
+        labels={parseValue(labels, ['Apples', 'Oranges'])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -279,6 +282,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleLineChart>;
+type Story = StoryObj<typeof DifferenceLineChart>;
 
 export const Default: Story = {};

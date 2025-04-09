@@ -314,13 +314,13 @@ export function getGraphConfigChartConfigIdEnum(
     case 'histogram':
       return ['value'];
     case 'choroplethMap':
-      return ['x', 'countryCode'];
+      return ['x', 'id'];
     case 'biVariateChoroplethMap':
-      return ['x', 'y', 'countryCode'];
+      return ['x', 'y', 'id'];
     case 'animatedChoroplethMap':
-      return ['x', 'countryCode', 'date'];
+      return ['x', 'id', 'date'];
     case 'animatedBiVariateChoroplethMap':
-      return ['x', 'y', 'countryCode', 'date'];
+      return ['x', 'y', 'id', 'date'];
     case 'lineChart':
       return ['date', 'y'];
     case 'multiLineChart':
@@ -382,7 +382,7 @@ export function getGraphConfigChartConfigIdEnum(
         'color',
         'long',
         'lat',
-        'countryCode',
+        'id',
         'source',
         'target',
         'yMin',
@@ -409,7 +409,7 @@ export function getGraphConfigChartConfigIdEnum(
         'color',
         'long',
         'lat',
-        'countryCode',
+        'id',
         'source',
         'target',
         'yMin',

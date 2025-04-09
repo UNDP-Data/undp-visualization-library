@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DonutChart } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { HeatMap } from '@/index';
+import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof DonutChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof HeatMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Donut chart',
-  component: DonutChart,
+  title: 'Graphs/Heat map',
+  component: HeatMap,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -21,8 +21,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: number;
+  row: string;
+  column: string;
+  value?: string | number;
 }`,
         },
       },
@@ -42,14 +43,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          summary: 'string[]',
         },
       },
     },
-    colorDomain: {
-      control: 'text',
+    noDataColor: {
+      control: 'color',
     },
     backgroundColor: {
       control: 'text',
@@ -80,22 +79,45 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: { defaultValue: { summary: '0' } },
     },
 
+    // Values and Ticks
+    truncateBy: {
+      table: { defaultValue: { summary: '999' } },
+    },
+
     // Graph parameters
-    mainText: {
-      control: 'text',
+    showColumnLabels: {
       table: {
-        type: {
-          summary:
-            'string | { label: string; suffix?: string; prefix?: string }',
-          detail:
-            'If the type is an object then the text is the value in the data for the label mentioned in the object',
-        },
+        defaultValue: { summary: 'true' },
       },
+    },
+    showRowLabels: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showValues: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    scaleType: {
+      control: 'inline-radio',
+      options: ['categorical', 'linear', 'threshold'],
+      table: { type: { summary: "'categorical' | 'linear' | 'threshold'" } },
     },
     showColorScale: {
       table: {
         defaultValue: { summary: 'true' },
       },
+    },
+    showNAColor: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    colorDomain: {
+      control: 'text',
+      table: { type: { summary: 'number[] | string[]' } },
     },
     graphDownload: {
       table: {
@@ -123,11 +145,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -166,22 +183,34 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { row: '2020', column: 'Q1', value: 1 },
+      { row: '2020', column: 'Q2', value: 3 },
+      { row: '2020', column: 'Q3', value: 4 },
+      { row: '2020', column: 'Q4', value: 5 },
+      { row: '2021', column: 'Q1', value: 3 },
+      { row: '2021', column: 'Q2', value: 2 },
+      { row: '2021', column: 'Q3', value: 1 },
+      { row: '2021', column: 'Q4', value: 8 },
+      { row: '2022', column: 'Q1', value: 0 },
+      { row: '2022', column: 'Q2', value: 4 },
+      { row: '2022', column: 'Q3', value: 8 },
+      { row: '2022', column: 'Q4', value: 9 },
+      { row: '2023', column: 'Q1', value: 10 },
+      { row: '2023', column: 'Q2', value: 2 },
+      { row: '2023', column: 'Q3', value: 1 },
+      { row: '2023', column: 'Q4', value: 3 },
+      { row: '2024', column: 'Q1', value: 6 },
+      { row: '2024', column: 'Q2', value: 4 },
+      { row: '2024', column: 'Q3', value: 5 },
+      { row: '2024', column: 'Q4', value: 9 },
     ],
+    colorDomain: [2, 4, 6, 8],
   },
-  render: ({ colors, backgroundColor, colorDomain, mainText, ...args }) => {
+  render: ({ colors, colorDomain, backgroundColor, ...args }) => {
     return (
-      <DonutChart
+      <HeatMap
         colors={parseValue(colors, colors)}
-        colorDomain={parseValue(colorDomain)}
-        mainText={parseValue(mainText, mainText)}
+        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -197,6 +226,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DonutChart>;
+type Story = StoryObj<typeof HeatMap>;
 
 export const Default: Story = {};

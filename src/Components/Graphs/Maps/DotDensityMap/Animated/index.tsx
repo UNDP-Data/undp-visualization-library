@@ -89,7 +89,7 @@ interface Props {
   highlightedDataPoints?: (string | number)[];
   /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
   showColorScale?: boolean;
-  /** Toggles the visibility of Antarctica in the default map */
+  /** Toggles the visibility of Antarctica in the default map. Only applicable for the default map. */
   showAntarctica?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;

@@ -1,20 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { StackedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { SimpleBarGraph } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof StackedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Stacked Bar Graph',
-  component: StackedBarGraph,
+  title: 'Graphs/Bar Graph',
+  component: SimpleBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -23,7 +23,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   label: string; 
-  size: (number | undefined | null)[];
+  size: number;
+  color?: string;
 }`,
         },
       },
@@ -43,13 +44,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary: 'string[]',
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
     colorDomain: {
       control: 'text',
-      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -85,12 +87,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Values and Ticks
     truncateBy: {
-      control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
     refValues: {
       table: {
         type: {
+          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
@@ -119,6 +121,20 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
+    showColorScale: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showNAColor: {
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
+    highlightedDataPoints: {
+      control: 'text',
+      table: { type: { summary: '(string | number)[]' } },
+    },
     graphDownload: {
       table: {
         defaultValue: { summary: 'false' },
@@ -130,6 +146,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
+      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -144,11 +161,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortParameter: {
-      control: 'number',
-      table: {
-        type: { summary: "number | 'total'" },
-      },
+    sortData: {
+      control: 'inline-radio',
+      options: ['asc', 'desc'],
+      table: { type: { summary: "'asc' | 'desc'" } },
     },
     language: {
       control: 'select',
@@ -196,19 +212,30 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: [3, 4, 5] },
-      { label: '2020 Q2', size: [8, 9, 10] },
-      { label: '2020 Q3', size: [6, 7, 8] },
-      { label: '2020 Q4', size: [5, 6, 7] },
+      { label: '2020 Q1', size: 3 },
+      { label: '2020 Q2', size: 8 },
+      { label: '2020 Q3', size: 11 },
+      { label: '2020 Q4', size: 19 },
+      { label: '2021 Q1', size: 3 },
+      { label: '2022 Q2', size: 8 },
+      { label: '2023 Q3', size: 11 },
+      { label: '2024 Q4', size: 19 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
+  render: ({
+    colors,
+    labelOrder,
+    highlightedDataPoints,
+    backgroundColor,
+    colorDomain,
+    ...args
+  }) => {
     return (
-      <StackedBarGraph
-        colors={parseValue(colors)}
+      <SimpleBarGraph
+        colors={parseValue(colors, colors)}
         labelOrder={parseValue(labelOrder)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+        highlightedDataPoints={parseValue(highlightedDataPoints)}
+        colorDomain={parseValue(colorDomain)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -224,6 +251,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof StackedBarGraph>;
+type Story = StoryObj<typeof SimpleBarGraph>;
 
 export const Default: Story = {};

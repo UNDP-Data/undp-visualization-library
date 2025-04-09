@@ -84,10 +84,12 @@ interface Props {
   /** Extend of the allowed panning in the map */
   zoomTranslateExtend?: [[number, number], [number, number]];
   /** Countries or regions to be highlighted */
-  highlightedCountryCodes?: string[];
-  /** Property in the property object in mapData geoJson object is used to match to the countryCode in the data object */
+  highlightedIds?: string[];
+  /** Property in the property object in mapData geoJson object is used to match to the id in the data object */
   mapProperty?: string;
-  /** Toggles the visibility of Antarctica in the default map */
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggles the visibility of Antarctica in the default map. Only applicable for the default map. */
   showAntarctica?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
@@ -123,7 +125,7 @@ interface Props {
   graphID?: string;
 }
 
-export function AnimatedBiVariantMap(props: Props) {
+export function AnimatedBiVariateChoroplethMap(props: Props) {
   const {
     data,
     mapData,
@@ -143,6 +145,7 @@ export function AnimatedBiVariantMap(props: Props) {
     centerPoint = [10, 10],
     padding,
     mapBorderWidth = 0.5,
+    showColorScale = true,
     mapNoDataColor = UNDPColorModule.light.graphNoData,
     backgroundColor = false,
     mapBorderColor = UNDPColorModule.light.grays['gray-500'],
@@ -152,7 +155,7 @@ export function AnimatedBiVariantMap(props: Props) {
     zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes = [],
+    highlightedIds = [],
     onSeriesMouseClick,
     mapProperty = 'ISO3',
     graphDownload = false,
@@ -357,6 +360,7 @@ export function AnimatedBiVariantMap(props: Props) {
                   mapNoDataColor={mapNoDataColor}
                   mapBorderColor={mapBorderColor}
                   tooltip={tooltip}
+                  showColorScale={showColorScale}
                   onSeriesMouseOver={onSeriesMouseOver}
                   isWorldMap={isWorldMap}
                   zoomScaleExtend={zoomScaleExtend}
@@ -366,7 +370,7 @@ export function AnimatedBiVariantMap(props: Props) {
                   showAntarctica={
                     showAntarctica === undefined ? false : showAntarctica
                   }
-                  highlightedCountryCodes={highlightedCountryCodes}
+                  highlightedIds={highlightedIds}
                   dateFormat={dateFormat}
                   indx={index}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}

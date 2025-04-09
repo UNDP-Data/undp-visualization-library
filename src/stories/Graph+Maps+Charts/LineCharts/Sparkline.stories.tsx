@@ -1,20 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { BeeSwarmChart } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { SparkLine } from '@/index';
 import {
   CLASS_NAME_OBJECT,
-  REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof BeeSwarmChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof SparkLine>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Beeswarm Chart',
-  component: BeeSwarmChart,
+  title: 'Graphs/Sparkline',
+  component: SparkLine,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,10 +20,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string | number;
-  position: number;
-  radius?: number;
-  color?: string;
+  date: number | string;
+  y: number;
 }`,
         },
       },
@@ -41,17 +37,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    colors: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'string[]',
-        },
-      },
-    },
-    colorDomain: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
+    lineColor: {
+      control: 'color',
     },
     backgroundColor: {
       control: 'text',
@@ -77,41 +64,23 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
-    // Values and Ticks
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
+    // Size and Spacing
+    minHeight: {
+      table: { defaultValue: { summary: '0' } },
     },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+
     // Graph parameters
-    showLabels: {
+    dateFormat: {
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'yyyy' },
       },
     },
-    showTicks: {
+    curveType: {
+      control: 'radio',
+      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'curve' },
       },
-    },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -123,23 +92,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    radius: {
-      table: {
-        defaultValue: { summary: '5' },
-      },
-    },
 
     // Interactions and Callbacks
     onSeriesMouseOver: {
       action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
     },
 
     // Configuration and Options
@@ -178,39 +134,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: '2020 Q1', position: 3 },
-      { label: '2020 Q2', position: 8 },
-      { label: '2020 Q3', position: 11 },
-      { label: '2020 Q4', position: 19 },
-      { label: '2021 Q1', position: 3 },
-      { label: '2022 Q2', position: 8 },
-      { label: '2023 Q3', position: 11 },
-      { label: '2024 Q4', position: 19 },
+      { date: '2020', y: 3 },
+      { date: '2021', y: 8 },
+      { date: '2022', y: 11 },
+      { date: '2023', y: 19 },
+      { date: '2024', y: 3 },
+      { date: '2025', y: 8 },
+      { date: '2026', y: 11 },
+      { date: '2027', y: 19 },
     ],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ backgroundColor, ...args }) => {
     return (
-      <BeeSwarmChart
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <SparkLine
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -226,6 +165,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof BeeSwarmChart>;
+type Story = StoryObj<typeof SparkLine>;
 
 export const Default: Story = {};

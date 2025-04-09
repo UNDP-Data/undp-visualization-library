@@ -1,32 +1,23 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SparkLine } from '@/index';
+import { GeoHubMapWithLayerSelection } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SparkLine>;
+type PagePropsAndCustomArgs = React.ComponentProps<
+  typeof GeoHubMapWithLayerSelection
+>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Sparkline',
-  component: SparkLine,
+  title: 'Maps/GeoHub map with layer selection',
+  component: GeoHubMapWithLayerSelection,
   tags: ['autodocs'],
   argTypes: {
-    // Data
-    data: {
-      table: {
-        type: {
-          detail: `{
-  date: number | string;
-  y: number;
-}`,
-        },
-      },
-    },
-
     // Titles and Labels and Sources
     sources: {
       table: {
@@ -37,18 +28,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColor: {
-      control: 'color',
-    },
-    backgroundColor: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'string | boolean',
-          detail: 'If type is string then background uses the string as color',
-        },
-      },
-    },
     styles: {
       table: {
         type: {
@@ -68,34 +47,28 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: {
       table: { defaultValue: { summary: '0' } },
     },
+    layerSelection: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '{ layerID: string[]; name: string }[]',
+        },
+      },
+    },
 
-    // Graph parameters
-    dateFormat: {
+    // Values and Ticks
+    center: {
+      control: 'text',
       table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
-    curveType: {
-      control: 'radio',
-      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
-      table: {
-        defaultValue: { summary: 'curve' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
+        type: {
+          summary: '[number, number]',
+        },
       },
     },
 
-    // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
+    // Graph parameters
+    excludeLayers: {
+      control: 'text',
     },
 
     // Configuration and Options
@@ -134,22 +107,51 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    uiMode: {
+      control: 'inline-radio',
+      options: ['light', 'normal'],
+      table: {
+        type: { summary: "'light' | 'normal'" },
+        defaultValue: { summary: 'light' },
+      },
+    },
   },
   args: {
-    data: [
-      { date: '2020', y: 3 },
-      { date: '2021', y: 8 },
-      { date: '2022', y: 11 },
-      { date: '2023', y: 19 },
-      { date: '2024', y: 3 },
-      { date: '2025', y: 8 },
-      { date: '2026', y: 11 },
-      { date: '2027', y: 19 },
+    mapStyle:
+      'https://api.maptiler.com/maps/hybrid/style.json?key=YbCPLULzWdf1NplssEIc#0.8/-14.45028/20.54042',
+
+    layerSelection: [
+      {
+        name: 'Population',
+        layerID: ['layer-1', 'layer-2'],
+      },
+      {
+        name: 'Female Population',
+        layerID: ['layer-3', 'layer-4'],
+      },
     ],
   },
-  render: ({ backgroundColor, ...args }) => {
+  render: ({
+    center,
+    backgroundColor,
+    excludeLayers,
+    layerSelection,
+    ...args
+  }) => {
     return (
-      <SparkLine
+      <GeoHubMapWithLayerSelection
+        layerSelection={parseValue(layerSelection, [
+          {
+            name: 'Population',
+            layerID: ['layer-1', 'layer-2'],
+          },
+          {
+            name: 'Female Population',
+            layerID: ['layer-3', 'layer-4'],
+          },
+        ])}
+        center={parseValue(center)}
+        excludeLayers={parseValue(excludeLayers)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -165,6 +167,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SparkLine>;
+type Story = StoryObj<typeof GeoHubMapWithLayerSelection>;
 
 export const Default: Story = {};

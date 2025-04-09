@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ChoroplethMap } from '@/index';
+import { BeeSwarmChart } from '@/index';
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,11 +10,11 @@ import {
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof ChoroplethMap>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof BeeSwarmChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Maps/Choropleth map',
-  component: ChoroplethMap,
+  title: 'Graphs/Beeswarm Chart',
+  component: BeeSwarmChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -22,8 +22,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  x?: number | string | null;
-  countryCode: string;
+  label: string | number;
+  position: number;
+  radius?: number;
+  color?: string;
 }`,
         },
       },
@@ -49,11 +51,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     colorDomain: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'number[] | string[]',
-        },
-      },
+      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -79,41 +77,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
 
-    // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
-
     // Values and Ticks
-    mapData: {
-      control: 'object',
-    },
-    centerPoint: {
-      control: 'text',
+    refValues: {
       table: {
         type: {
-          summary: '[number, number]',
+          detail: REF_VALUE_OBJECT,
         },
       },
     },
     noOfTicks: {
       table: { defaultValue: { summary: '5' } },
     },
-
     // Graph parameters
     showLabels: {
       table: {
         defaultValue: { summary: 'true' },
       },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    labelOrder: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
     },
     showTicks: {
       table: {
@@ -145,9 +124,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
+      },
+    },
+    radius: {
+      table: {
+        defaultValue: { summary: '5' },
       },
     },
 
@@ -160,11 +143,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      table: { type: { summary: "'asc' | 'desc'" } },
-    },
     language: {
       control: 'select',
       options: [
@@ -211,28 +189,26 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2020 Q1', position: 3 },
+      { label: '2020 Q2', position: 8 },
+      { label: '2020 Q3', position: 11 },
+      { label: '2020 Q4', position: 19 },
+      { label: '2021 Q1', position: 3 },
+      { label: '2022 Q2', position: 8 },
+      { label: '2023 Q3', position: 11 },
+      { label: '2024 Q4', position: 19 },
     ],
   },
   render: ({
     colors,
-    labelOrder,
     highlightedDataPoints,
     backgroundColor,
     colorDomain,
     ...args
   }) => {
     return (
-      <ChoroplethMap
+      <BeeSwarmChart
         colors={parseValue(colors, colors)}
-        labelOrder={parseValue(labelOrder)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
@@ -250,6 +226,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ChoroplethMap>;
+type Story = StoryObj<typeof BeeSwarmChart>;
 
 export const Default: Story = {};

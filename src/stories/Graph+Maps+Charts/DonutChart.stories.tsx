@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DualAxisLineChart } from '@/index';
+import { DonutChart } from '@/index';
+import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
-import { parseValue } from '../assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof DualAxisLineChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DonutChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Dual axis line chart',
-  component: DualAxisLineChart,
+  title: 'Graphs/Donut chart',
+  component: DonutChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -21,9 +21,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  date: number | string;
-  y1?: number;
-  y2?: number;
+  label: string; 
+  size: number;
 }`,
         },
       },
@@ -39,7 +38,17 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColors: {
+    colors: {
+      control: 'text',
+      table: {
+        type: {
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
+        },
+      },
+    },
+    colorDomain: {
       control: 'text',
     },
     backgroundColor: {
@@ -71,65 +80,21 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: { defaultValue: { summary: '0' } },
     },
 
-    // Values and Ticks
-    minDate: { control: 'text' },
-    maxDate: { control: 'text' },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-
     // Graph parameters
-    animateLine: {
+    mainText: {
       control: 'text',
       table: {
         type: {
-          summary: 'boolean | number',
+          summary:
+            'string | { label: string; suffix?: string; prefix?: string }',
           detail:
-            'If the type is number then it uses the number as the time in seconds for animation.',
+            'If the type is an object then the text is the value in the data for the label mentioned in the object',
         },
       },
     },
-    labels: {
-      control: 'text',
-    },
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
-    showValues: {
+    showColorScale: {
       table: {
         defaultValue: { summary: 'true' },
-      },
-    },
-    curveType: {
-      control: 'radio',
-      options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
-      table: {
-        defaultValue: { summary: 'curve' },
-      },
-    },
-    lineSuffixes: {
-      control: 'text',
-    },
-    linePrefixes: {
-      control: 'text',
-    },
-    highlightAreaSettings: {
-      control: 'object',
-      table: {
-        type: {
-          detail: `{
-  coordinates: [number | string | null, number | string | null];
-  style?: React.CSSProperties;
-  className?: string;
-  color?: string;
-  strokeWidth?: number;
-}`,
-        },
       },
     },
     graphDownload: {
@@ -142,13 +107,27 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
+    resetSelectionOnDoubleClick: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'true' },
+      },
+    },
 
     // Interactions and Callbacks
     onSeriesMouseOver: {
       action: 'seriesMouseOver',
     },
+    onSeriesMouseClick: {
+      action: 'seriesMouseClick',
+    },
 
     // Configuration and Options
+    sortData: {
+      control: 'inline-radio',
+      options: ['asc', 'desc'],
+      table: { type: { summary: "'asc' | 'desc'" } },
+    },
     language: {
       control: 'select',
       options: [
@@ -187,39 +166,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y1: 3, y2: 5 },
-      { date: '2021', y1: 8, y2: 15 },
-      { date: '2022', y1: 11, y2: 10 },
-      { date: '2023', y1: 19, y2: 6 },
-      { date: '2024', y1: 3, y2: 9 },
-      { date: '2025', y1: 8, y2: 5 },
-      { date: '2026', y1: 11, y2: 8 },
-      { date: '2027', y1: 19, y2: 10 },
+      { label: '2020 Q1', size: 3 },
+      { label: '2020 Q2', size: 8 },
+      { label: '2020 Q3', size: 11 },
+      { label: '2020 Q4', size: 19 },
+      { label: '2021 Q1', size: 3 },
+      { label: '2022 Q2', size: 8 },
+      { label: '2023 Q3', size: 11 },
+      { label: '2024 Q4', size: 19 },
     ],
-    labels: ['Apples', 'Oranges'],
   },
-  render: ({
-    animateLine,
-    backgroundColor,
-    lineColors,
-    linePrefixes,
-    lineSuffixes,
-    labels,
-    ...args
-  }) => {
+  render: ({ colors, backgroundColor, colorDomain, mainText, ...args }) => {
     return (
-      <DualAxisLineChart
-        animateLine={
-          (animateLine as any) === 'false'
-            ? false
-            : (animateLine as any) === 'true'
-            ? true
-            : Number(animateLine)
-        }
-        lineColors={parseValue(lineColors)}
-        lineSuffixes={parseValue(lineSuffixes)}
-        linePrefixes={parseValue(linePrefixes)}
-        labels={parseValue(labels, ['Apples', 'Oranges'])}
+      <DonutChart
+        colors={parseValue(colors, colors)}
+        colorDomain={parseValue(colorDomain)}
+        mainText={parseValue(mainText, mainText)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -235,6 +197,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DualAxisLineChart>;
+type Story = StoryObj<typeof DonutChart>;
 
 export const Default: Story = {};

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DifferenceLineChart } from '@/index';
+import { AreaChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
@@ -10,11 +10,11 @@ import {
 } from '../assets/constants';
 import { parseValue } from '../assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof DifferenceLineChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AreaChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Difference line chart',
-  component: DifferenceLineChart,
+  title: 'Graphs/Stacked area chart',
+  component: AreaChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -23,14 +23,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y1: number;
-  y2: number;
+  y: (number | undefined | null)[];
 }`,
         },
       },
     },
 
-    // Titles and Labels and Sources
+    // Titles and colorDomain and Sources
     sources: {
       table: {
         type: {
@@ -40,10 +39,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColors: {
+    colors: {
       control: 'text',
     },
-    diffAreaColors: {
+    colorDomain: {
       control: 'text',
     },
     backgroundColor: {
@@ -79,13 +78,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     refValues: {
       table: {
         type: {
-          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
     },
-    minDate: { control: 'text' },
-    maxDate: { control: 'text' },
     noOfXTicks: {
       table: { defaultValue: { summary: '5' } },
     },
@@ -94,27 +90,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Graph parameters
-    animateLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | number',
-          detail:
-            'If the type is number then it uses the number as the time in seconds for animation.',
-        },
-      },
-    },
-    labels: {
-      control: 'text',
-    },
     dateFormat: {
       table: {
         defaultValue: { summary: 'yyyy' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
       },
     },
     curveType: {
@@ -236,37 +214,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y1: 3, y2: 5 },
-      { date: '2021', y1: 8, y2: 15 },
-      { date: '2022', y1: 11, y2: 10 },
-      { date: '2023', y1: 19, y2: 6 },
-      { date: '2024', y1: 3, y2: 9 },
-      { date: '2025', y1: 8, y2: 5 },
-      { date: '2026', y1: 11, y2: 8 },
-      { date: '2027', y1: 19, y2: 10 },
+      { date: '2020', y: [3, 5] },
+      { date: '2021', y: [8, 5] },
+      { date: '2022', y: [11, 5] },
+      { date: '2023', y: [19, 5] },
+      { date: '2024', y: [3, 5] },
+      { date: '2025', y: [8, 5] },
+      { date: '2026', y: [11, 5] },
+      { date: '2027', y: [19, 5] },
     ],
-    labels: ['Apples', 'Oranges'],
+    colorDomain: ['Apples', 'Oranges'],
   },
-  render: ({
-    animateLine,
-    backgroundColor,
-    lineColors,
-    diffAreaColors,
-    labels,
-    ...args
-  }) => {
+  render: ({ backgroundColor, colorDomain, colors, ...args }) => {
     return (
-      <DifferenceLineChart
-        animateLine={
-          (animateLine as any) === 'false'
-            ? false
-            : (animateLine as any) === 'true'
-            ? true
-            : Number(animateLine)
-        }
-        lineColors={parseValue(lineColors)}
-        diffAreaColors={parseValue(diffAreaColors)}
-        labels={parseValue(labels, ['Apples', 'Oranges'])}
+      <AreaChart
+        colors={parseValue(colors)}
+        colorDomain={parseValue(colorDomain, ['Apples', 'Oranges'])}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -282,6 +245,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DifferenceLineChart>;
+type Story = StoryObj<typeof AreaChart>;
 
 export const Default: Story = {};

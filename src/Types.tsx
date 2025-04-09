@@ -192,13 +192,13 @@ export interface HistogramDataType {
 
 export interface ChoroplethMapDataType {
   x?: number | string | null;
-  countryCode: string;
+  id: string;
   data?: object;
 }
 
 export interface ChoroplethMapWithDateDataType {
   x?: number | string | null;
-  countryCode: string;
+  id: string;
   date: string | number;
   data?: object;
 }
@@ -206,14 +206,14 @@ export interface ChoroplethMapWithDateDataType {
 export interface BivariateMapDataType {
   x?: number | null;
   y?: number | null;
-  countryCode: string;
+  id: string;
   data?: object;
 }
 
 export interface BivariateMapWithDateDataType {
   x?: number | null;
   y?: number | null;
-  countryCode: string;
+  id: string;
   date: string | number;
   data?: object;
 }
@@ -723,7 +723,7 @@ export interface GraphSettingsDataType {
   isWorldMap?: boolean;
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
-  highlightedCountryCodes?: string[];
+  highlightedIds?: string[];
   mapProperty?: string;
   showAntarctica?: boolean;
   categorical?: boolean;

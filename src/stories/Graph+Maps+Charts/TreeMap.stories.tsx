@@ -1,29 +1,31 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { HeatMap } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { TreeMapGraph } from '@/index';
+import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof HeatMap>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof TreeMapGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Heat map',
-  component: HeatMap,
+  title: 'Graphs/Tree map',
+  component: TreeMapGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
+      control: 'object',
       table: {
         type: {
+          summary: 'TreeMapGraphDataType[]',
           detail: `{
-  row: string;
-  column: string;
-  value?: string | number;
+  label: string | number;
+  size?: number | null;
+  color?: string;
 }`,
         },
       },
@@ -43,12 +45,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary: 'string[]',
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
-    noDataColor: {
-      control: 'color',
+    colorDomain: {
+      control: 'text',
     },
     backgroundColor: {
       control: 'text',
@@ -79,18 +83,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: { defaultValue: { summary: '0' } },
     },
 
-    // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
-
     // Graph parameters
-    showColumnLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showRowLabels: {
+    showLabels: {
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -100,14 +94,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    scaleType: {
-      control: 'inline-radio',
-      options: ['categorical', 'linear', 'threshold'],
-      table: { type: { summary: "'categorical' | 'linear' | 'threshold'" } },
-    },
     showColorScale: {
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'false' },
       },
     },
     showNAColor: {
@@ -115,9 +104,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    colorDomain: {
+    highlightedDataPoints: {
       control: 'text',
-      table: { type: { summary: 'number[] | string[]' } },
+      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -130,7 +119,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -180,37 +168,35 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
+    graphID: {
+      control: 'text',
+      table: { type: { summary: 'string' } },
+    },
   },
   args: {
     data: [
-      { row: '2020', column: 'Q1', value: 1 },
-      { row: '2020', column: 'Q2', value: 3 },
-      { row: '2020', column: 'Q3', value: 4 },
-      { row: '2020', column: 'Q4', value: 5 },
-      { row: '2021', column: 'Q1', value: 3 },
-      { row: '2021', column: 'Q2', value: 2 },
-      { row: '2021', column: 'Q3', value: 1 },
-      { row: '2021', column: 'Q4', value: 8 },
-      { row: '2022', column: 'Q1', value: 0 },
-      { row: '2022', column: 'Q2', value: 4 },
-      { row: '2022', column: 'Q3', value: 8 },
-      { row: '2022', column: 'Q4', value: 9 },
-      { row: '2023', column: 'Q1', value: 10 },
-      { row: '2023', column: 'Q2', value: 2 },
-      { row: '2023', column: 'Q3', value: 1 },
-      { row: '2023', column: 'Q4', value: 3 },
-      { row: '2024', column: 'Q1', value: 6 },
-      { row: '2024', column: 'Q2', value: 4 },
-      { row: '2024', column: 'Q3', value: 5 },
-      { row: '2024', column: 'Q4', value: 9 },
+      { label: '2010', size: 3 },
+      { label: '2012', size: 8 },
+      { label: '2014', size: 11 },
+      { label: '2016', size: 19 },
+      { label: '2018', size: 3 },
+      { label: '2020', size: 8 },
+      { label: '2022', size: 11 },
+      { label: '2024', size: 19 },
     ],
-    colorDomain: [2, 4, 6, 8],
   },
-  render: ({ colors, colorDomain, backgroundColor, ...args }) => {
+  render: ({
+    colors,
+    highlightedDataPoints,
+    backgroundColor,
+    colorDomain,
+    ...args
+  }) => {
     return (
-      <HeatMap
+      <TreeMapGraph
         colors={parseValue(colors, colors)}
-        colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
+        highlightedDataPoints={parseValue(highlightedDataPoints)}
+        colorDomain={parseValue(colorDomain)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -226,6 +212,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof HeatMap>;
+type Story = StoryObj<typeof TreeMapGraph>;
 
 export const Default: Story = {};

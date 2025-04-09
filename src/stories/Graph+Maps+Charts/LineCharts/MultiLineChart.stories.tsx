@@ -1,22 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { LineChartWithConfidenceInterval } from '@/index';
+import { MultiLineChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
-import { parseValue } from '../assets/parseValue';
+} from '../../assets/constants';
+import { parseValue } from '../../assets/parseValue';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof LineChartWithConfidenceInterval
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof MultiLineChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Line chart with interval',
-  component: LineChartWithConfidenceInterval,
+  title: 'Graphs/Multi-line chart',
+  component: MultiLineChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -25,9 +23,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y?: number | null;
-  yMin?: number | null;
-  yMax?: number | null;
+  y: (number | undefined | null)[];
 }`,
         },
       },
@@ -43,19 +39,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColor: {
-      control: 'color',
-    },
-    intervalAreaColor: {
-      control: 'color',
-    },
-    intervalLineColors: {
-      control: 'text',
-    },
-    colorLegendColors: {
-      control: 'text',
-    },
-    colorLegendDomain: {
+    lineColors: {
       control: 'text',
     },
     backgroundColor: {
@@ -123,26 +107,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     showValues: {
       table: {
         defaultValue: { summary: 'true' },
-      },
-    },
-    showIntervalValues: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    showIntervalDots: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
-        },
       },
     },
     curveType: {
@@ -214,6 +178,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
+    highlightedLines: {
+      control: 'text',
+    },
+    labels: {
+      control: 'text',
+    },
     dataDownload: {
       table: {
         defaultValue: { summary: 'false' },
@@ -264,27 +234,27 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y: 3 },
-      { date: '2021', y: 8 },
-      { date: '2022', y: 11 },
-      { date: '2023', y: 19 },
-      { date: '2024', y: 3 },
-      { date: '2025', y: 8 },
-      { date: '2026', y: 11 },
-      { date: '2027', y: 19 },
+      { date: '2020', y: [3, 5] },
+      { date: '2021', y: [8, 5] },
+      { date: '2022', y: [11, 5] },
+      { date: '2023', y: [19, 5] },
+      { date: '2024', y: [3, 5] },
+      { date: '2025', y: [8, 5] },
+      { date: '2026', y: [11, 5] },
+      { date: '2027', y: [19, 5] },
     ],
+    labels: ['Apples', 'Oranges'],
   },
   render: ({
     animateLine,
     backgroundColor,
-    intervalLineColors,
-    colorLegendColors,
-    colorLegendDomain,
-    regressionLine,
+    labels,
+    highlightedLines,
+    lineColors,
     ...args
   }) => {
     return (
-      <LineChartWithConfidenceInterval
+      <MultiLineChart
         animateLine={
           (animateLine as any) === 'false'
             ? false
@@ -292,22 +262,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             ? true
             : Number(animateLine)
         }
+        lineColors={parseValue(lineColors)}
+        labels={parseValue(labels, ['Apples', 'Oranges'])}
+        highlightedLines={parseValue(highlightedLines)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
             ? true
             : backgroundColor
-        }
-        intervalLineColors={parseValue(intervalLineColors)}
-        colorLegendColors={parseValue(colorLegendColors)}
-        colorLegendDomain={parseValue(colorLegendDomain)}
-        regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-            ? true
-            : regressionLine
         }
         {...args}
       />
@@ -317,6 +280,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof LineChartWithConfidenceInterval>;
+type Story = StoryObj<typeof MultiLineChart>;
 
 export const Default: Story = {};

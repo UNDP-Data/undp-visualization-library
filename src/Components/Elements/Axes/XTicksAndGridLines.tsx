@@ -60,7 +60,6 @@ export function XTicksAndGridLines(props: Props) {
                     : d < 0 || leftLabel
                     ? 'end'
                     : 'start',
-                fontSize: '32px',
                 ...(styles?.labels || {}),
               }}
               className={cn(

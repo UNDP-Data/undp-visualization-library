@@ -80,10 +80,12 @@ interface Props {
   /** Extend of the allowed panning in the map */
   zoomTranslateExtend?: [[number, number], [number, number]];
   /** Countries or regions to be highlighted */
-  highlightedCountryCodes?: string[];
-  /** Property in the property object in mapData geoJson object is used to match to the countryCode in the data object */
+  highlightedIds?: string[];
+  /** Property in the property object in mapData geoJson object is used to match to the id in the data object */
   mapProperty?: string;
-  /** Toggles the visibility of Antarctica in the default map */
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggles the visibility of Antarctica in the default map. Only applicable for the default map. */
   showAntarctica?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
@@ -111,7 +113,7 @@ interface Props {
   graphID?: string;
 }
 
-export function BiVariantMap(props: Props) {
+export function BiVariateChoroplethMap(props: Props) {
   const {
     data,
     mapData,
@@ -140,7 +142,8 @@ export function BiVariantMap(props: Props) {
     zoomScaleExtend = [0.8, 6],
     zoomTranslateExtend,
     graphID,
-    highlightedCountryCodes = [],
+    showColorScale = true,
+    highlightedIds = [],
     onSeriesMouseClick,
     mapProperty = 'ISO3',
     graphDownload = false,
@@ -287,9 +290,10 @@ export function BiVariantMap(props: Props) {
                   onSeriesMouseClick={onSeriesMouseClick}
                   mapProperty={mapProperty}
                   showAntarctica={showAntarctica}
-                  highlightedCountryCodes={highlightedCountryCodes}
+                  highlightedIds={highlightedIds}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   styles={styles}
+                  showColorScale={showColorScale}
                   classNames={classNames}
                   detailsOnClick={detailsOnClick}
                 />

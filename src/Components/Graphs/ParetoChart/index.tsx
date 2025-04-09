@@ -83,6 +83,8 @@ interface Props {
   // Graph Parameters
   /** Toggle visibility of labels */
   showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
   /** Curve type for the line */
   curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
   /** Enables same axis for bars and line */
@@ -154,6 +156,7 @@ export function ParetoChart(props: Props) {
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
+    showValues = true,
     noOfTicks = 5,
     lineSuffix = '',
     barSuffix = '',
@@ -307,6 +310,7 @@ export function ParetoChart(props: Props) {
                         linePrefix={linePrefix}
                         barPrefix={barPrefix}
                         curveType={curveType}
+                        showValues={showValues}
                         styles={styles}
                         classNames={classNames}
                       />

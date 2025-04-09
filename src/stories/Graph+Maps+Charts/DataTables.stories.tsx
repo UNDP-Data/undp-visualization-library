@@ -6,7 +6,7 @@ import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../assets/constants';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DataTable>;
 

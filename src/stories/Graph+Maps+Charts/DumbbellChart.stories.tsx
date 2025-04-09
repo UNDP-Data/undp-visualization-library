@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleBarGraph } from '@/index';
+import { DumbbellChart } from '@/index';
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,21 +10,22 @@ import {
   STYLE_OBJECT,
 } from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof DumbbellChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Bar Graph',
-  component: SimpleBarGraph,
+  title: 'Graphs/Dumbbell Chart',
+  component: DumbbellChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
     data: {
+      control: 'object',
       table: {
         type: {
+          summary: 'DumbbellChartDataType[]',
           detail: `{
   label: string; 
-  size: number;
-  color?: string;
+  x: (number | undefined | null)[];
 }`,
         },
       },
@@ -42,13 +43,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     // Colors and Styling
     colors: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
-        },
-      },
     },
     colorDomain: {
       control: 'text',
@@ -87,12 +81,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Values and Ticks
     truncateBy: {
+      control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
     refValues: {
       table: {
         type: {
-          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
@@ -121,19 +115,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
+    arrowConnector: {
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: 'false' },
       },
     },
-    showNAColor: {
+    connectorStrokeWidth: {
       table: {
-        defaultValue: { summary: 'true' },
+        defaultValue: { summary: '2' },
       },
-    },
-    highlightedDataPoints: {
-      control: 'text',
-      table: { type: { summary: '(string | number)[]' } },
     },
     graphDownload: {
       table: {
@@ -146,7 +136,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     resetSelectionOnDoubleClick: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'true' },
       },
@@ -161,10 +150,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortData: {
-      control: 'inline-radio',
-      options: ['asc', 'desc'],
-      table: { type: { summary: "'asc' | 'desc'" } },
+    sortParameter: {
+      control: 'text',
+      table: { type: { summary: "'number' | 'diff'" } },
     },
     language: {
       control: 'select',
@@ -212,30 +200,37 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2020 Q1', size: 3 },
-      { label: '2020 Q2', size: 8 },
-      { label: '2020 Q3', size: 11 },
-      { label: '2020 Q4', size: 19 },
-      { label: '2021 Q1', size: 3 },
-      { label: '2022 Q2', size: 8 },
-      { label: '2023 Q3', size: 11 },
-      { label: '2024 Q4', size: 19 },
+      { label: '2020 Q1', x: [3, 5] },
+      { label: '2020 Q2', x: [8, 6] },
+      { label: '2020 Q3', x: [11, 8] },
+      { label: '2020 Q4', x: [19, 10] },
+      { label: '2021 Q1', x: [3, 15] },
+      { label: '2022 Q2', x: [8, 5] },
+      { label: '2023 Q3', x: [11, 3] },
+      { label: '2024 Q4', x: [19, 10] },
     ],
+    colorDomain: ['Apple', 'Oranges'],
   },
   render: ({
-    colors,
     labelOrder,
-    highlightedDataPoints,
     backgroundColor,
     colorDomain,
+    sortParameter,
     ...args
   }) => {
     return (
-      <SimpleBarGraph
-        colors={parseValue(colors, colors)}
+      <DumbbellChart
         labelOrder={parseValue(labelOrder)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+        colorDomain={parseValue(colorDomain, ['Apple', 'Oranges'])}
+        sortParameter={
+          !sortParameter
+            ? undefined
+            : sortParameter === 'diff'
+            ? 'diff'
+            : /^\d+$/.test(sortParameter as any)
+            ? parseInt(sortParameter as any, 10)
+            : undefined
+        }
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -251,6 +246,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleBarGraph>;
+type Story = StoryObj<typeof DumbbellChart>;
 
 export const Default: Story = {};

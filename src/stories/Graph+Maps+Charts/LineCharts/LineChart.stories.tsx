@@ -1,20 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MultiLineChart } from '@/index';
+import { SimpleLineChart } from '@/index';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
-import { parseValue } from '../assets/parseValue';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof MultiLineChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleLineChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Multi-line chart',
-  component: MultiLineChart,
+  title: 'Graphs/Line chart',
+  component: SimpleLineChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -23,7 +22,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y: (number | undefined | null)[];
+  y: number;
 }`,
         },
       },
@@ -39,8 +38,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    lineColors: {
-      control: 'text',
+    lineColor: {
+      control: 'color',
     },
     backgroundColor: {
       control: 'text',
@@ -178,11 +177,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    highlightedLines: {
+    regressionLine: {
       control: 'text',
-    },
-    labels: {
-      control: 'text',
+      table: {
+        type: {
+          summary: 'boolean | string',
+          detail:
+            'If the type is string then string is use to define the color of the line.',
+        },
+      },
     },
     dataDownload: {
       table: {
@@ -234,27 +237,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y: [3, 5] },
-      { date: '2021', y: [8, 5] },
-      { date: '2022', y: [11, 5] },
-      { date: '2023', y: [19, 5] },
-      { date: '2024', y: [3, 5] },
-      { date: '2025', y: [8, 5] },
-      { date: '2026', y: [11, 5] },
-      { date: '2027', y: [19, 5] },
+      { date: '2020', y: 3 },
+      { date: '2021', y: 8 },
+      { date: '2022', y: 11 },
+      { date: '2023', y: 19 },
+      { date: '2024', y: 3 },
+      { date: '2025', y: 8 },
+      { date: '2026', y: 11 },
+      { date: '2027', y: 19 },
     ],
-    labels: ['Apples', 'Oranges'],
   },
-  render: ({
-    animateLine,
-    backgroundColor,
-    labels,
-    highlightedLines,
-    lineColors,
-    ...args
-  }) => {
+  render: ({ animateLine, backgroundColor, regressionLine, ...args }) => {
     return (
-      <MultiLineChart
+      <SimpleLineChart
         animateLine={
           (animateLine as any) === 'false'
             ? false
@@ -262,9 +257,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             ? true
             : Number(animateLine)
         }
-        lineColors={parseValue(lineColors)}
-        labels={parseValue(labels, ['Apples', 'Oranges'])}
-        highlightedLines={parseValue(highlightedLines)}
+        regressionLine={
+          regressionLine === 'false'
+            ? false
+            : regressionLine === 'true'
+            ? true
+            : regressionLine
+        }
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -280,6 +279,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof MultiLineChart>;
+type Story = StoryObj<typeof SimpleLineChart>;
 
 export const Default: Story = {};

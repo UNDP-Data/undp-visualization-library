@@ -22,8 +22,8 @@ import { DualAxisLineChart } from '../Graphs/LineCharts/DualAxisLineChart';
 import { SimpleLineChart } from '../Graphs/LineCharts/LineChart';
 import { MultiLineChart } from '../Graphs/LineCharts/MultiLineChart';
 import { SparkLine } from '../Graphs/LineCharts/SparkLine';
-import { AnimatedBiVariantMap } from '../Graphs/Maps/BiVariateMap/Animated';
-import { BiVariantMap } from '../Graphs/Maps/BiVariateMap/Simple';
+import { AnimatedBiVariateChoroplethMap } from '../Graphs/Maps/BiVariateMap/Animated';
+import { BiVariateChoroplethMap } from '../Graphs/Maps/BiVariateMap/Simple';
 import { AnimatedChoroplethMap } from '../Graphs/Maps/ChoroplethMap/Animated';
 import { ChoroplethMap } from '../Graphs/Maps/ChoroplethMap/Simple';
 import { AnimatedDotDensityMap } from '../Graphs/Maps/DotDensityMap/Animated';
@@ -118,7 +118,7 @@ function GraphEl(props: Props) {
     multiLineChart: MultiLineChart,
     stackedAreaChart: AreaChart,
     choroplethMap: ChoroplethMap,
-    biVariateChoroplethMap: BiVariantMap,
+    biVariateChoroplethMap: BiVariateChoroplethMap,
     dotDensityMap: DotDensityMap,
     donutChart: DonutChart,
     slopeChart: SlopeChart,
@@ -143,7 +143,7 @@ function GraphEl(props: Props) {
     animatedStackedBarChart: AnimatedStackedBarGraph,
     animatedGroupedBarChart: AnimatedGroupedBarGraph,
     animatedChoroplethMap: AnimatedChoroplethMap,
-    animatedBiVariateChoroplethMap: AnimatedBiVariantMap,
+    animatedBiVariateChoroplethMap: AnimatedBiVariateChoroplethMap,
     animatedDotDensityMap: AnimatedDotDensityMap,
     animatedDumbbellChart: AnimatedDumbbellChart,
     animatedButterflyChart: AnimatedButterflyChart,
@@ -869,7 +869,7 @@ function GraphEl(props: Props) {
           zoomScaleExtend: settings?.zoomScaleExtend,
           zoomTranslateExtend: settings?.zoomTranslateExtend,
           graphID: settings?.graphID,
-          highlightedCountryCodes: settings?.highlightedCountryCodes,
+          highlightedIds: settings?.highlightedIds,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           mapProperty: settings?.mapProperty,
@@ -879,7 +879,7 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
             if (updateFilters) {
-              updateFilters(el.countryCode);
+              updateFilters(el.id);
             }
           },
           detailsOnClick: settings?.detailsOnClick,
@@ -930,7 +930,7 @@ function GraphEl(props: Props) {
           zoomScaleExtend: settings?.zoomScaleExtend,
           zoomTranslateExtend: settings?.zoomTranslateExtend,
           graphID: settings?.graphID,
-          highlightedCountryCodes: settings?.highlightedCountryCodes,
+          highlightedIds: settings?.highlightedIds,
           mapProperty: settings?.mapProperty,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
@@ -940,7 +940,7 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
             if (updateFilters) {
-              updateFilters(el.countryCode);
+              updateFilters(el.id);
             }
           },
           detailsOnClick: settings?.detailsOnClick,
@@ -1600,6 +1600,7 @@ function GraphEl(props: Props) {
           mode: settings?.mode,
           resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
           data: graphData,
+          showValues: settings?.showValues,
           graphTitle: settings?.graphTitle,
           graphDescription: settings?.graphDescription,
           barTitle:
@@ -1842,7 +1843,7 @@ function GraphEl(props: Props) {
           zoomScaleExtend: settings?.zoomScaleExtend,
           zoomTranslateExtend: settings?.zoomTranslateExtend,
           graphID: settings?.graphID,
-          highlightedCountryCodes: settings?.highlightedCountryCodes,
+          highlightedIds: settings?.highlightedIds,
           mapProperty: settings?.mapProperty,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
@@ -1894,7 +1895,7 @@ function GraphEl(props: Props) {
           zoomScaleExtend: settings?.zoomScaleExtend,
           zoomTranslateExtend: settings?.zoomTranslateExtend,
           graphID: settings?.graphID,
-          highlightedCountryCodes: settings?.highlightedCountryCodes,
+          highlightedIds: settings?.highlightedIds,
           graphDownload: settings?.graphDownload,
           dataDownload: settings?.dataDownload,
           mapProperty: settings?.mapProperty,

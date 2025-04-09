@@ -39,7 +39,7 @@ interface Props {
   showColorScale: boolean;
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
-  highlightedCountryCodes: string[];
+  highlightedIds: string[];
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
@@ -72,7 +72,7 @@ export function Graph(props: Props) {
     showColorScale,
     zoomScaleExtend,
     zoomTranslateExtend,
-    highlightedCountryCodes,
+    highlightedIds,
     onSeriesMouseClick,
     mapProperty,
     showAntarctica,
@@ -142,7 +142,7 @@ export function Graph(props: Props) {
         <g ref={mapG}>
           {mapData.features.map((d: any, i: number) => {
             const index = groupedData[indx].values.findIndex(
-              el => el.countryCode === d.properties[mapProperty],
+              el => el.id === d.properties[mapProperty],
             );
             if (!showAntarctica && d.properties.NAME === 'Antarctica')
               return null;
@@ -153,10 +153,8 @@ export function Graph(props: Props) {
                 opacity={
                   selectedColor
                     ? 0.3
-                    : highlightedCountryCodes.length !== 0
-                    ? highlightedCountryCodes.indexOf(
-                        d.properties[mapProperty],
-                      ) !== -1
+                    : highlightedIds.length !== 0
+                    ? highlightedIds.indexOf(d.properties[mapProperty]) !== -1
                       ? 1
                       : 0.3
                     : 1
@@ -218,7 +216,7 @@ export function Graph(props: Props) {
           })}
           {groupedData[indx].values.map((d, i) => {
             const index = mapData.features.findIndex(
-              (el: any) => d.countryCode === el.properties[mapProperty],
+              (el: any) => d.id === el.properties[mapProperty],
             );
             const color = !checkIfNullOrUndefined(d.x)
               ? colorScale(d.x as any)
@@ -231,8 +229,8 @@ export function Graph(props: Props) {
                     ? selectedColor === color
                       ? 1
                       : 0.3
-                    : highlightedCountryCodes.length !== 0
-                    ? highlightedCountryCodes.indexOf(d.countryCode) !== -1
+                    : highlightedIds.length !== 0
+                    ? highlightedIds.indexOf(d.id) !== -1
                       ? 1
                       : 0.3
                     : 1
@@ -337,7 +335,7 @@ export function Graph(props: Props) {
             ? mapData.features
                 .filter(
                   (d: { properties: any }) =>
-                    d.properties[mapProperty] === mouseOverData.countryCode,
+                    d.properties[mapProperty] === mouseOverData.id,
                 )
                 .map((d: any, i: number) => {
                   return (

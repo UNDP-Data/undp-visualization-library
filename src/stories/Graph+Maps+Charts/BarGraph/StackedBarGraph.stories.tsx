@@ -1,20 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedBarGraph } from '@/index';
-import { parseValue } from '../assets/parseValue';
+import { StackedBarGraph } from '@/index';
+import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../assets/constants';
+} from '../../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof StackedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
-  component: GroupedBarGraph,
+  title: 'Graphs/Stacked Bar Graph',
+  component: StackedBarGraph,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -31,7 +31,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Titles and Labels and Sources
     sources: {
-      control: 'object',
       table: {
         type: {
           detail: SOURCE_OBJECT,
@@ -86,6 +85,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Values and Ticks
     truncateBy: {
+      control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
     refValues: {
@@ -144,6 +144,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
+    sortParameter: {
+      control: 'number',
+      table: {
+        type: { summary: "number | 'total'" },
+      },
+    },
     language: {
       control: 'select',
       options: [
@@ -199,7 +205,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
     return (
-      <GroupedBarGraph
+      <StackedBarGraph
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
         colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
@@ -218,6 +224,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GroupedBarGraph>;
+type Story = StoryObj<typeof StackedBarGraph>;
 
 export const Default: Story = {};

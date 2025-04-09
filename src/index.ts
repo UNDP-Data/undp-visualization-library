@@ -25,7 +25,7 @@ export { MultiLineChart } from './Components/Graphs/LineCharts/MultiLineChart';
 export { DifferenceLineChart } from './Components/Graphs/LineCharts/DifferenceLineChart';
 export { SparkLine } from './Components/Graphs/LineCharts/SparkLine';
 // Maps
-export { BiVariantMap } from './Components/Graphs/Maps/BiVariateMap/Simple';
+export { BiVariateChoroplethMap } from './Components/Graphs/Maps/BiVariateMap/Simple';
 export { ChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/Simple';
 export { DotDensityMap } from './Components/Graphs/Maps/DotDensityMap/Simple';
 export { GeoHubMap } from './Components/Graphs/Maps/GeoHubMaps/SimpleMap';
@@ -80,7 +80,7 @@ export { AnimatedButterflyChart } from './Components/Graphs/ButterflyChart/Anima
 // Animated Dumbbell chart
 export { AnimatedDumbbellChart } from './Components/Graphs/DumbbellChart/Animated';
 // Animated Maps
-export { AnimatedBiVariantMap } from './Components/Graphs/Maps/BiVariateMap/Animated';
+export { AnimatedBiVariateChoroplethMap } from './Components/Graphs/Maps/BiVariateMap/Animated';
 export { AnimatedChoroplethMap } from './Components/Graphs/Maps/ChoroplethMap/Animated';
 export { AnimatedDotDensityMap } from './Components/Graphs/Maps/DotDensityMap/Animated';
 // Animated Scatter Plot

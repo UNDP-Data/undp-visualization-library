@@ -45,6 +45,7 @@ interface Props {
   lineSuffix: string;
   barSuffix: string;
   linePrefix: string;
+  showValues: boolean;
   barPrefix: string;
   curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
   styles?: StyleObject;
@@ -65,6 +66,7 @@ export function Graph(props: Props) {
     topMargin,
     bottomMargin,
     tooltip,
+    showValues,
     onSeriesMouseOver,
     barPadding,
     truncateBy,
@@ -334,6 +336,24 @@ export function Graph(props: Props) {
                   }}
                   height={d.bar ? Math.abs(y1(d.bar) - y1(0)) : 0}
                 />
+                {showValues && !checkIfNullOrUndefined(d.bar) ? (
+                  <text
+                    x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
+                    y={y1(d.bar || 0)}
+                    style={{
+                      fill: barColor,
+                      textAnchor: 'middle',
+                      ...(styles?.graphObjectValues || {}),
+                    }}
+                    className={cn(
+                      'graph-value text-sm',
+                      classNames?.graphObjectValues,
+                    )}
+                    dy={d.bar ? (d.bar >= 0 ? '-5px' : '1em') : '-5px'}
+                  >
+                    {numberFormattingFunction(d.bar, barPrefix, barSuffix)}
+                  </text>
+                ) : null}
                 {showLabels ? (
                   <XAxesLabels
                     value={
@@ -415,6 +435,24 @@ export function Graph(props: Props) {
                       fill: lineColor,
                     }}
                   />
+                  {showValues ? (
+                    <text
+                      x={(x(`${d.id}`) as number) + x.bandwidth() / 2}
+                      y={y2(d.line as number)}
+                      style={{
+                        fill: lineColor,
+                        textAnchor: 'middle',
+                        ...(styles?.graphObjectValues || {}),
+                      }}
+                      className={cn(
+                        'graph-value text-sm',
+                        classNames?.graphObjectValues,
+                      )}
+                      dy='-5px'
+                    >
+                      {numberFormattingFunction(d.line, linePrefix, lineSuffix)}
+                    </text>
+                  ) : null}
                 </g>
               ) : null}
             </g>

@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { CirclePackingGraph } from '@/index';
-import { parseValue } from './assets/parseValue';
+import { SankeyChart } from '@/index';
+import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from './assets/constants';
+} from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof CirclePackingGraph>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof SankeyChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Circle Packing',
-  component: CirclePackingGraph,
+  title: 'Graphs/Sankey chart',
+  component: SankeyChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -21,11 +21,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'object',
       table: {
         type: {
-          summary: 'CirclePackingGraphDataType[]',
           detail: `{
-  label: string | number;
-  size?: number | null;
-  color?: string;
+  source: string | number;
+  target: string | number;
+  value: number;
 }`,
         },
       },
@@ -41,18 +40,39 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Colors and Styling
-    colors: {
+    sourceColors: {
       control: 'text',
       table: {
         type: {
           summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          detail: 'Requires a array sources need to be a different colors',
         },
       },
     },
-    colorDomain: {
+    targetColors: {
       control: 'text',
+      table: {
+        type: {
+          summary: 'string | string[]',
+          detail: 'Requires a array targets need to be a different colors',
+        },
+      },
+    },
+    sourceColorDomain: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '(string | number)[]',
+        },
+      },
+    },
+    targetColorDomain: {
+      control: 'text',
+      table: {
+        type: {
+          summary: '(string | number)[]',
+        },
+      },
     },
     backgroundColor: {
       control: 'text',
@@ -94,17 +114,26 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'true' },
       },
     },
-    showColorScale: {
+    sortNodes: {
+      control: 'inline-radio',
+      options: ['asc', 'desc', 'mostReadable', 'none'],
+      table: { type: { summary: "'asc' | 'desc' | 'mostReadable' | 'none'" } },
+    },
+    animateLinks: {
+      control: 'text',
       table: {
-        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean | number',
+          detail:
+            'If the type is number then it uses the number as the time in seconds for animation.',
+        },
       },
     },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+    highlightedSourceDataPoints: {
+      control: 'text',
+      table: { type: { summary: '(string | number)[]' } },
     },
-    highlightedDataPoints: {
+    highlightedTargetDataPoints: {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
     },
@@ -175,28 +204,33 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { label: '2010', size: 3 },
-      { label: '2012', size: 8 },
-      { label: '2014', size: 11 },
-      { label: '2016', size: 19 },
-      { label: '2018', size: 3 },
-      { label: '2020', size: 8 },
-      { label: '2022', size: 11 },
-      { label: '2024', size: 19 },
+      { source: 'A', target: 'B', value: 10 },
+      { source: 'A', target: 'C', value: 15 },
+      { source: 'B', target: 'D', value: 5 },
+      { source: 'C', target: 'D', value: 10 },
+      { source: 'C', target: 'E', value: 5 },
+      { source: 'D', target: 'F', value: 8 },
+      { source: 'E', target: 'F', value: 2 },
     ],
   },
   render: ({
-    colors,
-    highlightedDataPoints,
+    sourceColors,
+    sourceColorDomain,
+    targetColors,
+    targetColorDomain,
+    highlightedSourceDataPoints,
+    highlightedTargetDataPoints,
     backgroundColor,
-    colorDomain,
     ...args
   }) => {
     return (
-      <CirclePackingGraph
-        colors={parseValue(colors, colors)}
-        highlightedDataPoints={parseValue(highlightedDataPoints)}
-        colorDomain={parseValue(colorDomain)}
+      <SankeyChart
+        sourceColors={parseValue(sourceColors, sourceColors)}
+        sourceColorDomain={parseValue(sourceColorDomain)}
+        targetColors={parseValue(targetColors, targetColors)}
+        targetColorDomain={parseValue(targetColorDomain)}
+        highlightedSourceDataPoints={parseValue(highlightedSourceDataPoints)}
+        highlightedTargetDataPoints={parseValue(highlightedTargetDataPoints)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -212,6 +246,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof CirclePackingGraph>;
+type Story = StoryObj<typeof SankeyChart>;
 
 export const Default: Story = {};

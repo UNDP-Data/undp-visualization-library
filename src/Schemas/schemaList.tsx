@@ -297,10 +297,10 @@ export const choroplethMapDataSchema = {
       x: {
         oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
-      countryCode: { type: 'string' },
+      id: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['countryCode'],
+    required: ['id'],
   },
 };
 
@@ -311,10 +311,10 @@ export const biVariateChoroplethMapDataSchema = {
     properties: {
       x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
-      countryCode: { type: 'string' },
+      id: { type: 'string' },
       data: { type: 'object' },
     },
-    required: ['countryCode'],
+    required: ['id'],
   },
 };
 
@@ -326,13 +326,13 @@ export const animatedChoroplethMapDataSchema = {
       x: {
         oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
       },
-      countryCode: { type: 'string' },
+      id: { type: 'string' },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
       data: { type: 'object' },
     },
-    required: ['countryCode', 'date'],
+    required: ['id', 'date'],
   },
 };
 
@@ -343,13 +343,13 @@ export const animatedBiVariateChoroplethMapDataSchema = {
     properties: {
       x: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
-      countryCode: { type: 'string' },
+      id: { type: 'string' },
       data: { type: 'object' },
       date: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
       },
     },
-    required: ['countryCode', 'date'],
+    required: ['id', 'date'],
   },
 };
 
@@ -4029,7 +4029,7 @@ export const choroplethMapSettingsSchema = {
       maxItems: 2,
     },
     graphID: { type: 'string' },
-    highlightedCountryCodes: {
+    highlightedIds: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -4151,7 +4151,7 @@ export const biVariateChoroplethMapSettingsSchema = {
       maxItems: 2,
     },
     graphID: { type: 'string' },
-    highlightedCountryCodes: {
+    highlightedIds: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -4384,7 +4384,7 @@ export const animatedChoroplethMapSettingsSchema = {
       maxItems: 2,
     },
     graphID: { type: 'string' },
-    highlightedCountryCodes: {
+    highlightedIds: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -4509,7 +4509,7 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
       maxItems: 2,
     },
     graphID: { type: 'string' },
-    highlightedCountryCodes: {
+    highlightedIds: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -4925,6 +4925,7 @@ export const paretoChartSettingsSchema = {
       type: 'string',
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
+    showValues: { type: 'boolean' },
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -6626,7 +6627,7 @@ export const SettingsSchema = {
     highlightColor: {
       type: 'string',
     },
-    highlightedCountryCodes: {
+    highlightedIds: {
       items: {
         type: 'string',
       },

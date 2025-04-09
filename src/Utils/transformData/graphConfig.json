@@ -1,6 +1,6 @@
 [
     {
-        "chartID": "horizontalBarChart",
+        "chartID": "barChart",
         "configuration": [
             {
                 "id": "label",
@@ -20,7 +20,7 @@
         ]
     },
     {
-        "chartID": "horizontalStackedBarChart",
+        "chartID": "stackedBarChart",
         "configuration": [
             {
                 "id": "label",
@@ -35,7 +35,7 @@
         ]
     },
     {
-        "chartID": "horizontalGroupedBarChart",
+        "chartID": "groupedBarChart",
         "configuration": [
             {
                 "id": "label",
@@ -50,57 +50,7 @@
         ]
     },
     {
-        "chartID": "verticalBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "color",
-                "required": false,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "verticalStackedBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "multiple": true,
-                "required": true
-            }
-        ]
-    },
-    {
-        "chartID": "verticalGroupedBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "multiple": true,
-                "required": true
-            }
-        ]
-    },
-    {
-        "chartID": "animatedHorizontalBarChart",
+        "chartID": "animatedBarChart",
         "configuration": [
             {
                 "id": "label",
@@ -125,7 +75,7 @@
         ]
     },
     {
-        "chartID": "animatedHorizontalStackedBarChart",
+        "chartID": "animatedStackedBarChart",
         "configuration": [
             {
                 "id": "label",
@@ -145,72 +95,7 @@
         ]
     },
     {
-        "chartID": "animatedHorizontalGroupedBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "multiple": true,
-                "required": true
-            },
-            {
-                "id": "date",
-                "required": true,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "animatedVerticalBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "color",
-                "required": false,
-                "multiple": false
-            },
-            {
-                "id": "date",
-                "required": true,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "animatedVerticalStackedBarChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "size",
-                "multiple": true,
-                "required": true
-            },
-            {
-                "id": "date",
-                "required": true,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "animatedVerticalGroupedBarChart",
+        "chartID": "animatedGroupedBarChart",
         "configuration": [
             {
                 "id": "label",
@@ -318,7 +203,7 @@
         "chartID": "choroplethMap",
         "configuration": [
             {
-                "id": "countryCode",
+                "id": "id",
                 "required": true,
                 "multiple": false
             },
@@ -333,7 +218,7 @@
         "chartID": "biVariateChoroplethMap",
         "configuration": [
             {
-                "id": "countryCode",
+                "id": "id",
                 "required": true,
                 "multiple": false
             },
@@ -383,7 +268,7 @@
         "chartID": "animatedChoroplethMap",
         "configuration": [
             {
-                "id": "countryCode",
+                "id": "id",
                 "required": true,
                 "multiple": false
             },
@@ -403,7 +288,7 @@
         "chartID": "animatedBiVariateChoroplethMap",
         "configuration": [
             {
-                "id": "countryCode",
+                "id": "id",
                 "required": true,
                 "multiple": false
             },
@@ -565,7 +450,7 @@
         ]
     },
     {
-        "chartID": "horizontalDumbbellChart",
+        "chartID": "dumbbellChart",
         "configuration": [
             {
                 "id":"label",
@@ -580,42 +465,7 @@
         ]
     },
     {
-        "chartID": "verticalDumbbellChart",
-        "configuration": [
-            {
-                "id":"label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "x",
-                "multiple": true,
-                "required": true
-            }
-        ]
-    },
-    {
-        "chartID": "animatedHorizontalDumbbellChart",
-        "configuration": [
-            {
-                "id":"label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "x",
-                "multiple": true,
-                "required": true
-            },
-            {
-                "id": "date",
-                "required": true,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "animatedVerticalDumbbellChart",
+        "chartID": "animatedDumbbellChart",
         "configuration": [
             {
                 "id":"label",
@@ -715,27 +565,7 @@
         ]
     },
     {
-        "chartID": "verticalStripChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "position",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "color",
-                "required": false,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "horizontalStripChart",
+        "chartID": "stripChart",
         "configuration": [
             {
                 "id": "label",
@@ -765,32 +595,7 @@
         ]
     },
     {
-        "chartID": "horizontalBeeSwarmChart",
-        "configuration": [
-            {
-                "id": "label",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "position",
-                "required": true,
-                "multiple": false
-            },
-            {
-                "id": "radius",
-                "required": false,
-                "multiple": false
-            },
-            {
-                "id": "color",
-                "required": false,
-                "multiple": false
-            }
-        ]
-    },
-    {
-        "chartID": "verticalBeeSwarmChart",
+        "chartID": "beeSwarmChart",
         "configuration": [
             {
                 "id": "label",
