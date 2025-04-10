@@ -248,7 +248,7 @@ export const animatedDumbbellChartDataSchema = {
     properties: {
       x: {
         type: 'array',
-        items: [{ type: 'null' }, { type: 'number' }],
+        items: { oneOf: [{ type: 'number' }, { type: 'null' }] },
       },
       label: {
         oneOf: [{ type: 'string' }, { type: 'number' }],
@@ -2599,7 +2599,7 @@ export const heatMapSettingsSchema = {
       },
     },
     scaleType: { type: 'string', enum: ['linear', 'categorical', 'threshold'] },
-    domain: {
+    colorDomain: {
       oneOf: [
         {
           type: 'array',
@@ -2662,7 +2662,7 @@ export const heatMapSettingsSchema = {
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
-  required: ['domain'],
+  required: ['colorDomain'],
 };
 
 export const histogramSettingsSchema = {
@@ -4063,7 +4063,7 @@ export const choroplethMapSettingsSchema = {
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
-  required: ['domain'],
+  required: ['colorDomain'],
 };
 
 export const biVariateChoroplethMapSettingsSchema = {
@@ -4421,7 +4421,7 @@ export const animatedChoroplethMapSettingsSchema = {
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
-  required: ['domain'],
+  required: ['colorDomain'],
 };
 
 export const animatedBiVariateChoroplethMapSettingsSchema = {
@@ -5948,7 +5948,6 @@ export const statCardSettingsSchema = {
       },
     },
   },
-  required: ['graphTitle'],
 };
 
 export const stripChartSettingsSchema = {
@@ -6511,22 +6510,6 @@ export const SettingsSchema = {
     },
     dateFormat: {
       type: 'string',
-    },
-    domain: {
-      anyOf: [
-        {
-          items: {
-            type: 'string',
-          },
-          type: 'array',
-        },
-        {
-          items: {
-            type: 'number',
-          },
-          type: 'array',
-        },
-      ],
     },
     donutColorDomain: {
       items: {

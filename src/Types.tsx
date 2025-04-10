@@ -688,7 +688,6 @@ export interface GraphSettingsDataType {
   strokeWidth?: number;
   showValues?: boolean;
   scaleType?: ScaleDataType;
-  domain?: number[] | string[];
   showColumnLabels?: boolean;
   showRowLabels?: boolean;
   noDataColor?: string;

@@ -1323,7 +1323,7 @@ function GraphEl(props: Props) {
           height: settings?.height,
           sources: settings?.sources,
           scaleType: settings?.scaleType,
-          domain: settings?.domain as string[] | number[],
+          colorDomain: settings?.colorDomain as string[] | number[],
           showColumnLabels: settings?.showColumnLabels,
           leftMargin: settings?.leftMargin,
           rightMargin: settings?.rightMargin,
