@@ -16,7 +16,7 @@ type PagePropsAndCustomArgs = React.ComponentProps<
 >;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated Graphs/Dumbbell Chart',
+  title: 'Animated graphs/Dumbbell Chart',
   component: AnimatedDumbbellChart,
   tags: ['autodocs'],
   argTypes: {

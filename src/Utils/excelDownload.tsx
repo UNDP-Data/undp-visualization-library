@@ -19,7 +19,10 @@ interface WsColInterface {
  * @example
  * const data = [{ name: 'Alice', age: 25 }, { name: 'Bob', age: 30 }];
  * const headers = ['name', 'age'];
- * const xlsxHeader = ['Name', 'Age'];
+ * const xlsxHeader = {
+ *  name: "Full Name",
+ *  age: "Age",
+ * };
  * const columnWidths = [{ wch: 10 }, { wch: 5 }];
  * excelDownload(data, 'user_data', headers, xlsxHeader, columnWidths);
  */
@@ -30,7 +33,9 @@ export const excelDownload = (
   fileName: string,
   headers: string[],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  xlsxHeader: any,
+  xlsxHeader: {
+    [key: string]: string;
+  },
   wscols: WsColInterface[],
 ) => {
   const fileType =

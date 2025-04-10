@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/checkIfNullOrUndefined" />
+
+# checkIfNullOrUndefined
+
+Checks whether a given value is `null` or `undefined`.
+
+```ts
+function checkIfNullOrUndefined(value: any): boolean
+```
+
+## Parameters
+
+- `value` - The value to check.
+
+## Returns
+
+`true` if the value is `null` or `undefined`, otherwise `false`.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+checkIfNullOrUndefined(null); // true
+checkIfNullOrUndefined(undefined); // true
+checkIfNullOrUndefined(0); // false
+checkIfNullOrUndefined(''); // false

@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedScatterPlot>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated Graphs/Scatter plot',
+  title: 'Animated graphs/Scatter plot',
   component: AnimatedScatterPlot,
   tags: ['autodocs'],
   argTypes: {

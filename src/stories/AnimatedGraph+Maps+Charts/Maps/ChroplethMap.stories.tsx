@@ -15,7 +15,7 @@ type PagePropsAndCustomArgs = React.ComponentProps<
 >;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated Maps/Choropleth map',
+  title: 'Animated maps/Choropleth map',
   component: AnimatedChoroplethMap,
   tags: ['autodocs'],
   argTypes: {

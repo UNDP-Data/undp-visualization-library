@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Data transformation/transformDataForGraphFromFile" />
+
+# transformDataForGraphFromFile
+
+Fetches data from a given URL or multiple data sources, processes it according to the specified graph configuration, and formats it for use in a graph.
+
+This function supports different file types (CSV, JSON, and API), and can handle multiple data sources. It applies any necessary data transformations and column formatting, then prepares the data for visualization in the specified graph.
+
+```ts
+function transformDataForGraphFromFile(
+  dataURL: string | {
+    dataURL: string;
+    idColumnName: string;
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: ColumnConfigurationDataType[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+  }[],
+  dataConfiguration: {
+    columnId: string | string[];
+    chartConfigId: string;
+  }[],
+  graph: GraphType,
+  fileType?: 'csv' | 'json' | 'api',
+  delimiter?: string,
+  columnsToArray?: {
+    column: string;
+    delimiter?: string;
+  }[],
+  apiHeaders?: any,
+  dataTransformation?: string,
+  idColumnTitle?: string,
+): Promise<any> 
+```
+
+## Parameters
+
+- `dataURL` - The URL or array of data sources to fetch data from. If it's a string, it represents the URL to fetch data from. If it's an array, it represents multiple data sources with different types (CSV, JSON, API).
+- `dataConfiguration` - The graph configuration data used to determine how the data should be formatted for the graph.
+- `graph` - The type of graph to be used (e.g., lineChart, barChart).
+- `fileType` - The type of the file being fetched. Can be 'csv', 'json', or 'api'. This parameter is ignored if `dataURL` is an array.
+- `delimiter` - The delimiter used in CSV files (default is ',' if not provided).
+- `columnsToArray` - Configuration for columns that need to be transformed into arrays (optional).
+- `apiHeaders` - Headers for the API request (optional).
+- `dataTransformation` - A Handlebars template used for transforming the data (optional).
+- `idColumnTitle` - The title of the ID column when merging multiple data sources (optional).
+
+## Returns
+
+A Promise that resolves to the transformed data ready for the graph, or null if an error occurs.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const dataURL = 'https://example.com/data.json';
+const dataConfiguration = [
+  { column: 'value', chartConfigId: 'size' },
+  { column: 'category', chartConfigId: 'label' },
+];
+const graph = 'barChart';
+transformDataForGraphFromFile(dataURL, dataConfiguration, graph, 'json')
+  .then(data => {
+    console.log('Formatted Data:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+// Result
+// [
+//   { category: 'A', count: 2, value: 15, amount: 15 },
+//   { category: 'B', count: 1, value: 15, amount: 7 },
+// ]

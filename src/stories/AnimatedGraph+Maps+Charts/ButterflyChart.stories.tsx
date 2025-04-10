@@ -15,7 +15,7 @@ type PagePropsAndCustomArgs = React.ComponentProps<
 >;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated Graphs/Butterfly Chart',
+  title: 'Animated graphs/Butterfly Chart',
   component: AnimatedButterflyChart,
   tags: ['autodocs'],
   argTypes: {

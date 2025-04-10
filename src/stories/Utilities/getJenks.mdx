@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/getJenks" />
+
+# getJenks
+
+Returns a set of class break values based on Jenks natural breaks algorithm.
+```ts
+function getJenks(data: number[], noOfSteps: number): number[]
+```
+
+## Parameters
+
+- `data` - Array of numeric values to classify.
+- `noOfSteps` - Number of classification steps (breaks).
+
+## Returns
+
+An array of bin break values between min and max (excluding them).
+
+## Example Usage
+
+```js
+// Example of how to use the function
+getJenks([1, 2, 3, 10, 20, 30], 3)
+// Result: [3,10]

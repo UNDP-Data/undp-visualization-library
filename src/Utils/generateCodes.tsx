@@ -25,7 +25,7 @@ interface ParamsProps {
  * @param params - An array of parameters to append.
  * @returns A URL string with encoded query parameters.
  */
-export function getEmbedLink(link: string, params: ParamsProps[]) {
+export function generateEmbedLink(link: string, params: ParamsProps[]) {
   let queryParams = '';
   params.forEach(d => {
     let paramToString = '';
@@ -55,8 +55,8 @@ export function getEmbedLink(link: string, params: ParamsProps[]) {
  * @param params - Parameters to convert into query string.
  * @returns A string of iframe HTML.
  */
-export function getIframeCode(link: string, params: ParamsProps[]) {
-  return `<iframe src="${getEmbedLink(
+export function generateIframeCode(link: string, params: ParamsProps[]) {
+  return `<iframe src="${generateEmbedLink(
     link,
     params,
   )}" loading="lazy" style="width: 100%; border: 0px none"></iframe>`;

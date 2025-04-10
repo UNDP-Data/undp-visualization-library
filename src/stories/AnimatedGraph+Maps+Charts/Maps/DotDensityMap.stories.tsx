@@ -15,7 +15,7 @@ type PagePropsAndCustomArgs = React.ComponentProps<
 >;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated Maps/Dot density map',
+  title: 'Animated maps/Dot density map',
   component: AnimatedDotDensityMap,
   tags: ['autodocs'],
   argTypes: {

@@ -14,6 +14,19 @@ const preview: Preview = {
     docs: {
       controls: { sort: 'none' },
     },
+    options: {
+      storySort: {
+        order: [
+          'Getting started',
+          'Graphs',
+          'Maps',
+          'Animated graphs',
+          'Animated maps',
+          'Utilities',
+          '*',
+        ],
+      },
+    },
   },
 };
 

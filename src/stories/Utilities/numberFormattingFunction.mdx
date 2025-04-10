@@ -1,0 +1,37 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/numberFormattingFunction" />
+
+# numberFormattingFunction
+
+Formats a number into a human-readable string, optionally with a prefix and/or suffix.
+- Adds suffixes like `K`, `M`, `B`, and `T` for large numbers.
+- If the number is less than 10,000 and an integer, it is returned as-is.
+- If `value` is `null` or `undefined`, returns `"NA"`.
+
+```ts
+function numberFormattingFunction(value?: number, prefix?: string, suffix?: string): string
+```
+
+## Parameters
+
+- `value` - The number to format.
+- `prefix` - Optional string to prepend.
+- `suffix` - Optional string to append.
+
+## Returns
+
+A formatted string.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+numberFormattingFunction(50, '',' %'); // "5000"
+// Result: 50%
+numberFormattingFunction(125000); // "125K"
+// Result: 125K
+numberFormattingFunction(3.14159, '$'); // "$3.14"
+// Result: $3.14
+numberFormattingFunction(null);
+// Result: NA
