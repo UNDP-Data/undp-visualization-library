@@ -302,8 +302,8 @@ export function Graph(props: Props) {
                         ? x(d.size) - x(0)
                         : x(0) - x(d.size)
                       : 0,
-                    x: d.size ? (d.size >= 0 ? x(0) : x(d.size)) : 0,
-                    y: y(d.id),
+                    attrX: d.size ? (d.size >= 0 ? x(0) : x(d.size)) : 0,
+                    attrY: y(d.id),
                     fill:
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
@@ -332,8 +332,8 @@ export function Graph(props: Props) {
                     dx={d.size ? (d.size < 0 ? 10 : -10) : -10}
                     dy='0.33em'
                     animate={{
-                      x: x(xMinValue < 0 ? 0 : xMinValue),
-                      y: (y(d.id) as number) + y.bandwidth() / 2,
+                      attrX: x(xMinValue < 0 ? 0 : xMinValue),
+                      attrY: (y(d.id) as number) + y.bandwidth() / 2,
                     }}
                     transition={{ duration: 0.5 }}
                   >
@@ -367,8 +367,8 @@ export function Graph(props: Props) {
                     )}
                     dx={d.size ? (d.size < 0 ? -5 : 5) : 5}
                     animate={{
-                      x: d.size ? x(d.size) : x(0),
-                      y: (y(d.id) as number) + y.bandwidth() / 2,
+                      attrX: d.size ? x(d.size) : x(0),
+                      attrY: (y(d.id) as number) + y.bandwidth() / 2,
                     }}
                     dy='0.33em'
                     transition={{ duration: 0.5 }}

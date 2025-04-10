@@ -286,7 +286,7 @@ export function Graph(props: Props) {
                     y={graphHeight}
                     dy='1em'
                     animate={{
-                      x: (x(`${i}`) as number) + x.bandwidth() / 2,
+                      attrX: (x(`${i}`) as number) + x.bandwidth() / 2,
                     }}
                     transition={{ duration: 0.5 }}
                     className={cn(
@@ -404,8 +404,8 @@ export function Graph(props: Props) {
                         dx={radius + 3}
                         dy='0.33em'
                         animate={{
-                          x: (x(`${i}`) as number) + x.bandwidth() / 2,
-                          y: y(el || 0),
+                          attrX: (x(`${i}`) as number) + x.bandwidth() / 2,
+                          attrY: y(el || 0),
                           opacity: checkIfNullOrUndefined(el) ? 0 : 1,
                         }}
                         transition={{ duration: 0.5 }}

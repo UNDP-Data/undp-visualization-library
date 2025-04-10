@@ -312,12 +312,12 @@ export function Graph(props: Props) {
                                 ),
                               ),
                           ),
-                          y: y(
+                          attrY: y(
                             sum(
                               d.size.filter((element, k) => k <= j && element),
                             ),
                           ),
-                          x: x(d.id),
+                          attrX: x(d.id),
                         }}
                         transition={{ duration: 0.5 }}
                       />
@@ -334,7 +334,7 @@ export function Graph(props: Props) {
                           )}
                           dy='0.33em'
                           animate={{
-                            y:
+                            attrY:
                               y(
                                 sum(
                                   d.size.filter(
@@ -359,7 +359,7 @@ export function Graph(props: Props) {
                                   ),
                               ) /
                                 2,
-                            x: (x(d.id) || 0) + x.bandwidth() / 2,
+                            attrX: (x(d.id) || 0) + x.bandwidth() / 2,
                             opacity:
                               el &&
                               Math.abs(
@@ -400,8 +400,8 @@ export function Graph(props: Props) {
                       )}
                       dy='1em'
                       animate={{
-                        y: y(0),
-                        x: (x(d.id) || 0) + x.bandwidth() / 2,
+                        attrY: y(0),
+                        attrX: (x(d.id) || 0) + x.bandwidth() / 2,
                       }}
                       transition={{ duration: 0.5 }}
                     >
@@ -426,8 +426,8 @@ export function Graph(props: Props) {
                       )}
                       dy={-10}
                       animate={{
-                        y: y(sum(d.size.map(el => el || 0))),
-                        x: (x(d.id) || 0) + x.bandwidth() / 2,
+                        attrY: y(sum(d.size.map(el => el || 0))),
+                        attrX: (x(d.id) || 0) + x.bandwidth() / 2,
                       }}
                       transition={{ duration: 0.5 }}
                     >

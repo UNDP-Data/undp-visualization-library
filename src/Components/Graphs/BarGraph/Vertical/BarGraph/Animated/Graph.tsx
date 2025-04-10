@@ -329,8 +329,8 @@ export function Graph(props: Props) {
                   width={x.bandwidth()}
                   animate={{
                     height: d.size ? Math.abs(y(d.size) - y(0)) : 0,
-                    y: d.size ? (d.size > 0 ? y(d.size) : y(0)) : y(0),
-                    x: x(`${d.id}`),
+                    attrY: d.size ? (d.size > 0 ? y(d.size) : y(0)) : y(0),
+                    attrX: x(`${d.id}`),
                     fill:
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
@@ -348,8 +348,8 @@ export function Graph(props: Props) {
                     }}
                     dy={d.size ? (d.size >= 0 ? '1em' : '-5px') : '1em'}
                     animate={{
-                      x: (x(`${d.id}`) as number) + x.bandwidth() / 2,
-                      y: y(0),
+                      attrX: (x(`${d.id}`) as number) + x.bandwidth() / 2,
+                      attrY: y(0),
                     }}
                     transition={{ duration: 0.5 }}
                     className={cn(
@@ -381,8 +381,8 @@ export function Graph(props: Props) {
                       classNames?.graphObjectValues,
                     )}
                     animate={{
-                      x: (x(`${d.id}`) as number) + x.bandwidth() / 2,
-                      y: y(d.size || 0),
+                      attrX: (x(`${d.id}`) as number) + x.bandwidth() / 2,
+                      attrY: y(d.size || 0),
                     }}
                     dy={d.size ? (d.size >= 0 ? '-5px' : '1em') : '-5px'}
                     transition={{ duration: 0.5 }}

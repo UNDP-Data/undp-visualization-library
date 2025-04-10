@@ -71,7 +71,7 @@
     "dom-to-image": "^2.6.0",
     "dom-to-svg": "^0.12.2",
     "file-saver": "^2.0.5",
-    "framer-motion": "^11.3.28",
+    "framer-motion": "^12.6.3",
     "handlebars": "^4.7.8",
     "html2canvas": "^1.4.1",
     "lodash.flattendeep": "^4.4.0",

@@ -285,7 +285,7 @@ export function Graph(props: Props) {
                               ? x(el as number) - x(0)
                               : x(0) - x(el as number)
                             : 0,
-                          x: (el as number) >= 0 ? x(0) : x(el as number),
+                          attrX: (el as number) >= 0 ? x(0) : x(el as number),
                         }}
                         transition={{ duration: 0.5 }}
                       />
@@ -311,7 +311,7 @@ export function Graph(props: Props) {
                           dx={el ? (el < 0 ? -5 : 5) : 5}
                           dy='0.33em'
                           animate={{
-                            x: x(el || 0),
+                            attrX: x(el || 0),
                           }}
                           transition={{ duration: 0.5 }}
                         >

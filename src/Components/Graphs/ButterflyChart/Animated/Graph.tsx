@@ -283,8 +283,8 @@ export function Graph(props: Props) {
                             ? xLeftBar(d.leftBar) - xLeftBar(0)
                             : xLeftBar(0) - xLeftBar(d.leftBar)
                           : 0,
-                        y: y(`${d.label}`),
-                        x: d.leftBar
+                        attrY: y(`${d.label}`),
+                        attrX: d.leftBar
                           ? d.leftBar < 0
                             ? xLeftBar(0)
                             : xLeftBar(d.leftBar)
@@ -306,12 +306,13 @@ export function Graph(props: Props) {
                         dx={d.leftBar ? (d.leftBar > 0 ? -5 : 5) : 5}
                         dy='0.33em'
                         animate={{
-                          x: d.leftBar
+                          attrX: d.leftBar
                             ? xLeftBar(d.leftBar)
                             : xLeftBar(
                                 xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar,
                               ),
-                          y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
+                          attrY:
+                            (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
                         className={cn(
@@ -431,8 +432,8 @@ export function Graph(props: Props) {
                             ? xRightBar(d.rightBar) - xRightBar(0)
                             : xRightBar(0) - xRightBar(d.rightBar)
                           : 0,
-                        y: y(`${d.label}`),
-                        x: d.rightBar
+                        attrY: y(`${d.label}`),
+                        attrX: d.rightBar
                           ? d.rightBar >= 0
                             ? xRightBar(0)
                             : xRightBar(d.rightBar)
@@ -458,12 +459,13 @@ export function Graph(props: Props) {
                         dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                         dy='0.33em'
                         animate={{
-                          x: d.rightBar
+                          attrX: d.rightBar
                             ? xRightBar(d.rightBar)
                             : xRightBar(
                                 xMinValueRightBar < 0 ? 0 : xMinValueRightBar,
                               ),
-                          y: (y(`${d.label}`) as number) + y.bandwidth() / 2,
+                          attrY:
+                            (y(`${d.label}`) as number) + y.bandwidth() / 2,
                         }}
                         transition={{ duration: 0.5 }}
                       >

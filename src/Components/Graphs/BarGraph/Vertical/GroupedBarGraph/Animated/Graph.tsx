@@ -305,7 +305,7 @@ export function Graph(props: Props) {
                           height: !checkIfNullOrUndefined(el)
                             ? Math.abs(y(el as number) - y(0))
                             : 0,
-                          y: !checkIfNullOrUndefined(el)
+                          attrY: !checkIfNullOrUndefined(el)
                             ? (el as number) > 0
                               ? y(el as number)
                               : y(0)
@@ -330,7 +330,7 @@ export function Graph(props: Props) {
                           )}
                           dy={el ? (el >= 0 ? '-5px' : '1em') : '-5px'}
                           animate={{
-                            y: y(el || 0),
+                            attrY: y(el || 0),
                           }}
                           transition={{ duration: 0.5 }}
                         >

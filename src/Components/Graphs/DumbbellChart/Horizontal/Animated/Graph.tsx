@@ -272,7 +272,7 @@ export function Graph(props: Props) {
                       classNames?.yAxis?.labels,
                     )}
                     animate={{
-                      y: (y(`${i}`) as number) + y.bandwidth() / 2,
+                      attrY: (y(`${i}`) as number) + y.bandwidth() / 2,
                     }}
                     transition={{ duration: 0.5 }}
                   >
@@ -400,8 +400,8 @@ export function Graph(props: Props) {
                         dx={0}
                         dy={0 - radius - 3}
                         animate={{
-                          y: (y(`${i}`) as number) + y.bandwidth() / 2,
-                          x: x(el || 0),
+                          attrY: (y(`${i}`) as number) + y.bandwidth() / 2,
+                          attrX: x(el || 0),
                           opacity: checkIfNullOrUndefined(el) ? 0 : 1,
                         }}
                         transition={{ duration: 0.5 }}

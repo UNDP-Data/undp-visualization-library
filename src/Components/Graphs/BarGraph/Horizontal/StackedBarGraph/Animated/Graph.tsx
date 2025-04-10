@@ -283,7 +283,7 @@ export function Graph(props: Props) {
                         height={y.bandwidth()}
                         animate={{
                           width: x(el || 0),
-                          x: x(
+                          attrX: x(
                             j === 0
                               ? 0
                               : sum(
@@ -292,7 +292,7 @@ export function Graph(props: Props) {
                                   ),
                                 ),
                           ),
-                          y: y(d.id),
+                          attrY: y(d.id),
                         }}
                         transition={{ duration: 0.5 }}
                       />
@@ -309,8 +309,8 @@ export function Graph(props: Props) {
                           dx={-10}
                           dy='0.33em'
                           animate={{
-                            x: x(0),
-                            y: (y(d.id) || 0) + y.bandwidth() / 2,
+                            attrX: x(0),
+                            attrY: (y(d.id) || 0) + y.bandwidth() / 2,
                           }}
                           transition={{ duration: 0.5 }}
                         >
@@ -332,7 +332,7 @@ export function Graph(props: Props) {
                           )}
                           dy='0.33em'
                           animate={{
-                            x:
+                            attrX:
                               x(
                                 j === 0
                                   ? 0
@@ -343,7 +343,7 @@ export function Graph(props: Props) {
                                     ),
                               ) +
                               x(el || 0) / 2,
-                            y: (y(d.id) || 0) + y.bandwidth() / 2,
+                            attrY: (y(d.id) || 0) + y.bandwidth() / 2,
                             opacity:
                               el &&
                               x(el) /
@@ -377,8 +377,8 @@ export function Graph(props: Props) {
                       dx={5}
                       dy='0.33em'
                       animate={{
-                        x: x(sum(d.size.map(el => el || 0))),
-                        y: (y(d.id) || 0) + y.bandwidth() / 2,
+                        attrX: x(sum(d.size.map(el => el || 0))),
+                        attrY: (y(d.id) || 0) + y.bandwidth() / 2,
                       }}
                       transition={{ duration: 0.5 }}
                     >

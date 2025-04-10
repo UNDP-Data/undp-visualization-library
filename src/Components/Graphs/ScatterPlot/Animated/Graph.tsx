@@ -423,8 +423,8 @@ export function Graph(props: Props) {
                         dy='0.33em'
                         dx={3}
                         animate={{
-                          y: y(d.y || 0),
-                          x: !radiusScale
+                          attrY: y(d.y || 0),
+                          attrX: !radiusScale
                             ? x(d.x || 0) + radius
                             : x(d.x || 0) + radiusScale(d.radius || 0),
                           opacity:
@@ -460,8 +460,8 @@ export function Graph(props: Props) {
                           dy='0.33em'
                           dx={3}
                           animate={{
-                            y: y(d.y || 0),
-                            x: !radiusScale
+                            attrY: y(d.y || 0),
+                            attrX: !radiusScale
                               ? x(d.x || 0) + radius
                               : x(d.x || 0) + radiusScale(d.radius || 0),
                             opacity:
