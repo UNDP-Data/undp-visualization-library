@@ -135,13 +135,23 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       options: ['asc', 'desc'],
       table: { type: { summary: "'asc' | 'desc'" } },
     },
+    graphType: {
+      control: 'select',
+      options: ['barGraph', 'donutChart', 'circlePacking', 'treeMap'],
+      table: {
+        type: {
+          summary: "'barGraph' | 'donutChart' | 'circlePacking' | 'treeMap'",
+        },
+        defaultValue: { summary: 'barGraph' },
+      },
+    },
     language: {
       control: 'select',
       options: LANGUAGE_OPTIONS,
       table: {
         type: {
           summary:
-            "'en' | 'ar' | 'az' | 'bn' | 'cy' | 'he' | 'hi' | 'jp' | 'ka' | 'km' | 'ko' | 'my' | 'ne' | 'zh' | 'custom',",
+            "'en' | 'ar' | 'az' | 'bn' | 'cy' | 'he' | 'hi' | 'jp' | 'ka' | 'km' | 'ko' | 'my' | 'ne' | 'zh' | 'custom'",
         },
         defaultValue: { summary: 'en' },
       },

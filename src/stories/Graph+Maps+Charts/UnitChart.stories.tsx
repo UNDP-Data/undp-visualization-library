@@ -122,7 +122,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary:
-            "'en' | 'ar' | 'az' | 'bn' | 'cy' | 'he' | 'hi' | 'jp' | 'ka' | 'km' | 'ko' | 'my' | 'ne' | 'zh' | 'custom',",
+            "'en' | 'ar' | 'az' | 'bn' | 'cy' | 'he' | 'hi' | 'jp' | 'ka' | 'km' | 'ko' | 'my' | 'ne' | 'zh' | 'custom'",
         },
         defaultValue: { summary: 'en' },
       },

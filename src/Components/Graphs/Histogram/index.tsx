@@ -22,6 +22,9 @@ interface Props {
   /** Array of data objects */
   data: HistogramDataType[];
 
+  /** Type of the graph for histogram */
+  graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -79,8 +82,6 @@ interface Props {
   // Graph Parameters
   /** Number of bins for the histogram */
   numberOfBins?: number;
-  /** Type of the graph for histogram */
-  graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
   /** Orientation of the bar graph. Only applicable if graphType is barGraph. */
   barGraphLayout?: 'vertical' | 'horizontal';
   /** Stroke width of the arcs and circle of the donut. Only applicable if graphType is donutChart.  */
