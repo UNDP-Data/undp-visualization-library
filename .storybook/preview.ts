@@ -23,6 +23,7 @@ const preview: Preview = {
           'Animated graphs',
           'Animated maps',
           'Utilities',
+          'Misc.',
           '*',
         ],
       },
