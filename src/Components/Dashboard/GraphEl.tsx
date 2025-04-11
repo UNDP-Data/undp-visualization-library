@@ -2236,11 +2236,13 @@ function GraphEl(props: Props) {
   const graphProps = getGraphProps(graph);
   return (
     <div
-      className={`grow my-0 mx-auto flex flex-col h-inherit ${
-        settings?.width ? 'w-fit' : 'w-full'
-      } ${graph !== 'unitChart' ? 'justify-center' : 'justify-start'} ${
-        settings?.mode || 'light'
-      }`}
+      className={`grow my-0 ${
+        graph !== 'statCard' ? 'mx-auto' : 'mx-0'
+      } flex flex-col h-inherit ${settings?.width ? 'w-fit' : 'w-full'} ${
+        graph !== 'unitChart' && graph !== 'statCard'
+          ? 'justify-center'
+          : 'justify-start'
+      } ${settings?.mode || 'light'}`}
       style={{
         minHeight: 'inherit',
       }}

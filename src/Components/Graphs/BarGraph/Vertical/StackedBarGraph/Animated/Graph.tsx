@@ -109,6 +109,7 @@ export function Graph(props: Props) {
     'date',
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
+
   const groupedData = Array.from(
     group(
       ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'),
@@ -119,16 +120,19 @@ export function Graph(props: Props) {
       values:
         sortParameter !== undefined || autoSort
           ? sortParameter === 'total' || sortParameter === undefined
-            ? sortBy(data, d =>
-                sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
+            ? sortBy(
+                data.filter(d => d.date === date),
+                d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
               ).map((el, i) => ({
                 ...el,
                 id: `${i}`,
               }))
-            : sortBy(data, d =>
-                checkIfNullOrUndefined(d.size[sortParameter])
-                  ? -Infinity
-                  : d.size[sortParameter],
+            : sortBy(
+                data.filter(d => d.date === date),
+                d =>
+                  checkIfNullOrUndefined(d.size[sortParameter])
+                    ? -Infinity
+                    : d.size[sortParameter],
               ).map((el, i) => ({
                 ...el,
                 id: `${i}`,
@@ -143,7 +147,6 @@ export function Graph(props: Props) {
             })),
     }),
   );
-
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
@@ -240,6 +243,7 @@ export function Graph(props: Props) {
                 <g
                   className='undp-viz-low-opacity undp-viz-g-with-hover'
                   key={d.label}
+                  transform='translate(0,0)'
                 >
                   {d.size.map((el, j) => (
                     <motion.g

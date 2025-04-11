@@ -204,7 +204,7 @@ export function UnitChart(props: Props) {
                 {note}
               </H2>
             ) : null}
-            <div className='flex grow flex-col justify-between'>
+            <div className='flex grow flex-col gap-4 justify-between'>
               <div>
                 {showColorScale ? (
                   <div

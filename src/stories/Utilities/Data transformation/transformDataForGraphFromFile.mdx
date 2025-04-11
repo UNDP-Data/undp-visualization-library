@@ -39,7 +39,7 @@ function transformDataForGraphFromFile(
 ## Parameters
 
 - `dataURL` - The URL or array of data sources to fetch data from. If it's a string, it represents the URL to fetch data from. If it's an array, it represents multiple data sources with different types (CSV, JSON, API).
-- `dataConfiguration` - The graph configuration data used to determine how the data should be formatted for the graph.
+- `dataConfiguration` - The graph configuration data used to determine how the data should be formatted for the graph. The schema for dataConfiguration for different chart can be found [here](../?path=/docs/misc-graph-config--docs)
 - `graph` - The type of graph to be used (e.g., lineChart, barChart).
 - `fileType` - The type of the file being fetched. Can be 'csv', 'json', or 'api'. This parameter is ignored if `dataURL` is an array.
 - `delimiter` - The delimiter used in CSV files (default is ',' if not provided).

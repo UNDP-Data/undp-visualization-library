@@ -199,6 +199,7 @@ export function Graph(props: Props) {
                           height: `${
                             (d.y1 || 0) - (d.y0 || 0) + nodePadding
                           }px`,
+                          overflow: 'visible',
                         }}
                       >
                         {showLabels ? (

@@ -13,6 +13,9 @@ interface Props {
   /** Array of data objects */
   data: StripChartDataType[];
 
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -74,8 +77,6 @@ interface Props {
   minValue?: number;
 
   // Graph Parameters
-  /** Orientation of the graph */
-  orientation?: 'vertical' | 'horizontal';
   /** Toggle visibility of axis */
   showAxis?: boolean;
   /** Radius of the dots or width of the strips */

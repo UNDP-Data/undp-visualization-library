@@ -1,23 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AnimatedStackedBarGraph } from '@/index';
-import { parseValue } from '../../assets/parseValue';
+import { Histogram } from '@/index';
+import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   REF_VALUE_OBJECT,
   SOURCE_OBJECT,
   STYLE_OBJECT,
-} from '../../assets/constants';
+} from '../assets/constants';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof AnimatedStackedBarGraph
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof Histogram>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated graphs/Stacked Bar Graph',
-  component: AnimatedStackedBarGraph,
+  title: 'Graphs/Histogram',
+  component: Histogram,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -25,8 +23,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           detail: `{
-  label: string; 
-  size: (number | undefined | null)[];
+  value: number;
 }`,
         },
       },
@@ -40,24 +37,17 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
 
     // Colors and Styling
     colors: {
       control: 'text',
       table: {
         type: {
-          summary: 'string[]',
+          summary: 'string | string[]',
+          detail:
+            'Requires a array if color key is present in the data else requires a string',
         },
       },
-    },
-    colorDomain: {
-      control: 'text',
-      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -93,18 +83,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Values and Ticks
     truncateBy: {
-      control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
     refValues: {
       table: {
         type: {
+          summary: 'ReferenceDataType[]',
           detail: REF_VALUE_OBJECT,
         },
       },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
     },
 
     // Graph parameters
@@ -133,11 +120,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
 
     // Interactions and Callbacks
     onSeriesMouseOver: {
@@ -148,11 +130,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Configuration and Options
-    sortParameter: {
-      control: 'number',
-      table: {
-        type: { summary: "number | 'total'" },
-      },
+    sortData: {
+      control: 'inline-radio',
+      options: ['asc', 'desc'],
+      table: { type: { summary: "'asc' | 'desc'" } },
     },
     language: {
       control: 'select',
@@ -173,42 +154,35 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    orientation: {
-      control: 'inline-radio',
-      options: ['vertical', 'horizontal'],
-      table: {
-        type: { summary: "'vertical' | 'horizontal'" },
-        defaultValue: { summary: 'vertical' },
-      },
-    },
   },
   args: {
     data: [
-      { label: 'Category 1', size: [7, 12, 25], date: '2020' },
-      { label: 'Category 1', size: [8, 13, 6], date: '2021' },
-      { label: 'Category 1', size: [6, 14, 4], date: '2022' },
-      { label: 'Category 1', size: [9, 15, 7], date: '2023' },
-      { label: 'Category 1', size: [10, 16, 8], date: '2024' },
-
-      { label: 'Category 2', size: [8, 10, 9], date: '2020' },
-      { label: 'Category 2', size: [9, 11, 10], date: '2021' },
-      { label: 'Category 2', size: [7, 13, 8], date: '2022' },
-      { label: 'Category 2', size: [8, 14, 9], date: '2023' },
-      { label: 'Category 2', size: [9, 15, 10], date: '2024' },
-
-      { label: 'Category 3', size: [9, 7, 11], date: '2020' },
-      { label: 'Category 3', size: [10, 8, 12], date: '2021' },
-      { label: 'Category 3', size: [11, 9, 13], date: '2022' },
-      { label: 'Category 3', size: [12, 10, 14], date: '2023' },
-      { label: 'Category 3', size: [13, 11, 15], date: '2024' },
+      { value: 1 },
+      { value: 3 },
+      { value: 4 },
+      { value: 5 },
+      { value: 3 },
+      { value: 2 },
+      { value: 1 },
+      { value: 8 },
+      { value: 0 },
+      { value: 4 },
+      { value: 8 },
+      { value: 9 },
+      { value: 10 },
+      { value: 2 },
+      { value: 1 },
+      { value: 3 },
+      { value: 6 },
+      { value: 4 },
+      { value: 5 },
+      { value: 9 },
     ],
-    colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({ colors, backgroundColor, colorDomain, ...args }) => {
+  render: ({ colors, backgroundColor, ...args }) => {
     return (
-      <AnimatedStackedBarGraph
-        colors={parseValue(colors)}
-        colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
+      <Histogram
+        colors={parseValue(colors, colors)}
         backgroundColor={
           backgroundColor === 'false'
             ? false
@@ -224,6 +198,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof AnimatedStackedBarGraph>;
+type Story = StoryObj<typeof Histogram>;
 
 export const Default: Story = {};

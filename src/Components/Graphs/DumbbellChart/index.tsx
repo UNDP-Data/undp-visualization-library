@@ -14,6 +14,9 @@ interface Props {
   /** Array of data objects */
   data: DumbbellChartDataType[];
 
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -89,8 +92,6 @@ interface Props {
   noOfTicks?: number;
 
   // Graph Parameters
-  /** Orientation of the graph */
-  orientation?: 'vertical' | 'horizontal';
   /** Toggle visibility of labels */
   showLabels?: boolean;
   /** Toggle visibility of values */

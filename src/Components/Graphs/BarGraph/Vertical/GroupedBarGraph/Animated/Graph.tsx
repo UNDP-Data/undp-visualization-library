@@ -245,7 +245,7 @@ export function Graph(props: Props) {
           <AnimatePresence>
             {groupedData[indx].values.map((d, i) => {
               return (
-                <motion.g key={i} transform={`translate(${x(`${i}`)},0)`}>
+                <motion.g key={i} transform={`translate(${x(`${d.id}`)},0)`}>
                   {d.size.map((el, j) => (
                     <motion.g
                       className='undp-viz-g-with-hover'
@@ -347,7 +347,7 @@ export function Graph(props: Props) {
                           : `${`${d.label}`.substring(0, truncateBy)}...`
                       }
                       y={y(0) + 5}
-                      x={x(`${d.id}`) as number}
+                      x={0}
                       width={x.bandwidth()}
                       height={margin.bottom}
                       style={styles?.xAxis?.labels}

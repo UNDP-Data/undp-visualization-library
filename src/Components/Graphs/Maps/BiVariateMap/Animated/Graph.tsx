@@ -85,7 +85,10 @@ export function Graph(props: Props) {
     styles,
     classNames,
   } = props;
-  if (xDomain.length !== colors[0].length || yDomain.length !== colors.length) {
+  if (
+    xDomain.length !== colors[0].length - 1 ||
+    yDomain.length !== colors.length - 1
+  ) {
     console.error(
       "the xDomain and yDomain array length don't match to the color array length",
     );

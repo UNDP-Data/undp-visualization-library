@@ -2789,7 +2789,6 @@ export const histogramSettingsSchema = {
     maxBarThickness: { type: 'number' },
     detailsOnClick: { type: 'string' },
   },
-  required: ['color', 'graphType'],
 };
 
 export const dualAxisLineChartSettingsSchema = {

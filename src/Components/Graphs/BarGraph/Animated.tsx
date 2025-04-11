@@ -19,6 +19,9 @@ interface Props {
   /** Array of data objects */
   data: BarGraphWithDateDataType[];
 
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -90,8 +93,6 @@ interface Props {
   noOfTicks?: number;
 
   // Graph Parameters
-  /** Orientation of the graph */
-  orientation?: 'vertical' | 'horizontal';
   /** Toggle visibility of labels */
   showLabels?: boolean;
   /** Toggle visibility of values */
@@ -322,6 +323,9 @@ interface GroupedBarChartProps {
   /** Array of data objects */
   data: GroupedBarGraphWithDateDataType[];
 
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -391,8 +395,6 @@ interface GroupedBarChartProps {
   noOfTicks?: number;
 
   // Graph Parameters
-  /** Orientation of the graph */
-  orientation?: 'vertical' | 'horizontal';
   /** Toggle visibility of labels */
   showLabels?: boolean;
   /** Toggle visibility of values */
@@ -600,6 +602,9 @@ interface StackedBarChartProps {
   /** Array of data objects */
   data: GroupedBarGraphWithDateDataType[];
 
+  /** Orientation of the graph */
+  orientation?: 'vertical' | 'horizontal';
+
   // Titles, Labels, and Sources
   /** Title of the graph */
   graphTitle?: string;
@@ -669,8 +674,6 @@ interface StackedBarChartProps {
   noOfTicks?: number;
 
   // Graph Parameters
-  /** Orientation of the graph */
-  orientation?: 'vertical' | 'horizontal';
   /** Toggle visibility of labels */
   showLabels?: boolean;
   /** Toggle visibility of values */

@@ -20,58 +20,63 @@ import '@undp-data/undp-design-system-react/dist/style.css';
     },
   }}
 />
-<div name="Intro" className="documentation-page">
-  <div>
-    <div className="grid-x grid-margin-x intro">
-      <H3>UNDP Data Viz Library</H3>
-      <div className="medium-6 cell">
-        <p className="subtitle">
-          {`Here you can find documentation, and resources using UNDP's Data vis Library. This resource is build and maintained by UNDP's SDG Integration team.`}
-        </p>
-      </div>
-      <div className="flex github">
-        <a href="https://github.com/UNDP-Data/undp-visualization-library" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
-          <img width={'32px'} src={githubLogo} alt="" />
-          <P className='m-0 md:m-0'>View Github repository</P>
-        </a>
-      </div>
-    </div>
-    <Spacer size='2xl' />
-    <Separator />
-    <Spacer size='2xl' />
-    <div>
-      <H4>Getting started</H4>      
-      <H6>Using the library in React projects</H6>
-      <P>
-        Before starting, it is recommended to correctly install and configure [Node.js](https://nodejs.org/en/download) v16 or above.
-        We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
-      </P>
-      <H6>Installing with NPM</H6>
-      <P className='mb-0 md:mb-0'>
-        Start by installing UNDP Visualization Library as a node module and save it as a dependency in your package.json:      
-      </P>
-      <Code className='mt-3'>npm install @undp-data/undp-visualization-library `--save`</Code>
-      <H6 className='mt-6'>Import</H6>
-      <P>
-        It is recommended to import what you need and the use it.
-        It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this:
-      </P>
-      <Code>import '@undp-data/undp-visualization-library/dist/style.css';</Code>
-      <H6 className='mt-6'>Recommendation</H6>
-      <P className='mb-0 md:mb-0'>
-        You might also want to install UNDP Design system and import the style from the design system is the graph or UI doesn't look proper.       
-      </P>
-      <P>Installing UNDP Design system with NPM</P>
-      <Code className='mt-3'>npm install @undp-data/undp-design-system-react `--save`</Code>
-      <P className='mt-6'>Import CSS</P>
-      <Code>import '@undp-data/undp-design-system-react/dist/style.css';</Code>
-      <Spacer size='2xl' />
-      <Separator />
-      <Spacer size='2xl' />
-      <H6 className='mt-6'>TypeScript</H6>
-      <P>
-        UNDP Data Viz library provides a built-in ts definition, you don't need to install any type definitions.
-      </P>
-    </div>
-  </div>
+
+# UNDP Data Viz Library
+
+##### Here you can find documentation, and resources using UNDP's Data vis Library. This resource is build and maintained by UNDP's BPPS team.
+
+<br />
+
+## Getting started
+
+#### Using the library in React projects
+
+Before starting, it is recommended to correctly install and configure [Node.js](https://nodejs.org/en/download) v16 or above.
+
+We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
+      
+#### Installing with NPM
+
+Start by installing UNDP Visualization Library as a node module and save it as a dependency in your package.json:
+```
+npm install @undp-data/undp-visualization-library `--save`
+```
+
+#### Import
+
+It is recommended to import what you need and the use it.
+
+It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this:
+```
+import '@undp-data/undp-visualization-library/dist/style.css';
+```
+
+#### Recommendation
+
+You might also want to install UNDP Design system and import the style from the design system is the graph or UI doesn't look proper.
+
+Installing UNDP Design system with NPM
+```
+npm install @undp-data/undp-design-system-react `--save`
+```
+Import CSS
+```
+import '@undp-data/undp-design-system-react/dist/style.css';
+```
+
+## TypeScript
+
+UNDP Data Viz library provides a built-in ts definition, you don't need to install any type definitions.
+
+<br />
+
+## Resources
+
+<br />
+
+<div className="flex github">
+  <a href="https://github.com/UNDP-Data/undp-visualization-library" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+    <img width={'32px'} src={githubLogo} alt="" />
+    <P className='m-0 md:m-0'>View Github repository</P>
+  </a>
 </div>
