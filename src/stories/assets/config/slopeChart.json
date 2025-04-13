@@ -1,0 +1,53 @@
+{
+  "graphType": "slopeChart",
+  "dataSettings": {
+    "data": [
+      { "label": "A", "value1": 12, "value2": 10 },
+      { "label": "A", "value1": 8, "value2": 15 },
+      { "label": "B", "value1": 3, "value2": 5 },
+      { "label": "C", "value1": 17, "value2": 10 },
+      { "label": "C", "value1": 4, "value2": 5 },
+      { "label": "D", "value1": 9, "value2": 8 },
+      { "label": "E", "value1": 1, "value2": 2 }
+    ]
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "label"
+    },
+    {
+      "chartConfigId": "y1",
+      "columnId": "value1"
+    },
+    {
+      "chartConfigId": "y2",
+      "columnId": "value2"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Graph Title",
+    "suffix": "%",
+    "prefix": "",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "backgroundColor": true,
+    "padding": "1rem",
+    "width": 500,
+    "showValues": true,
+    "tooltip": "{{y1} – {{y2}}",
+    "graphID": "GraphID",
+    "sourceColors": "var(--blue-600)",
+    "targetColors": "var(--blue-600)",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "mode": "light"
+  }
+}

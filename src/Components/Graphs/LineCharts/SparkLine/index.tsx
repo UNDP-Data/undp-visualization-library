@@ -9,7 +9,7 @@ import {
 } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { generateRandomString } from '@/Utils/generateRandomString';
 
 interface Props {
@@ -216,9 +216,7 @@ export function SparkLine(props: Props) {
               {(width || svgWidth) && (height || svgHeight) ? (
                 <Graph
                   data={data}
-                  lineColor={
-                    lineColor || UNDPColorModule[mode].primaryColors['blue-600']
-                  }
+                  lineColor={lineColor || Colors.primaryColors['blue-600']}
                   width={width || svgWidth}
                   height={Math.max(
                     minHeight,

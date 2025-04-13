@@ -19,7 +19,7 @@ import { ClassNameObject, StyleObject, TreeMapDataType } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { string2HTML } from '@/Utils/string2HTML';
 
@@ -255,7 +255,7 @@ export const Graph = memo((props: Props) => {
       data.filter(el => el.color).length === 0
         ? colors[0]
         : !d.color
-        ? UNDPColorModule.gray
+        ? Colors.gray
         : colors[colorDomain.indexOf(d.color)],
     [data, colors, mode, colorDomain],
   );

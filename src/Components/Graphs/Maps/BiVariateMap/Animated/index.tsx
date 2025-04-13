@@ -15,7 +15,7 @@ import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
@@ -130,7 +130,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     data,
     mapData,
     graphTitle,
-    colors = UNDPColorModule.light.bivariateColors.colors05x05,
+    colors = Colors.light.bivariateColors.colors05x05,
     sources,
     graphDescription,
     height,
@@ -146,9 +146,9 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     padding,
     mapBorderWidth = 0.5,
     showColorScale = true,
-    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    mapNoDataColor = Colors.light.graphNoData,
     backgroundColor = false,
-    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
+    mapBorderColor = Colors.light.grays['gray-500'],
     relativeHeight,
     onSeriesMouseOver,
     isWorldMap = true,

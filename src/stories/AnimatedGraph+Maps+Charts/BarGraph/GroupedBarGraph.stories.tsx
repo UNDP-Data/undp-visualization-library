@@ -16,7 +16,7 @@ type PagePropsAndCustomArgs = React.ComponentProps<
 >;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated graphs/Grouped Bar Graph',
+  title: 'Animated graphs/Grouped gar graph',
   component: AnimatedGroupedBarGraph,
   tags: ['autodocs'],
   argTypes: {

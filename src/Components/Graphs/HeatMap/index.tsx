@@ -13,7 +13,7 @@ import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
 import { LinearColorLegend } from '@/Components/Elements/LinearColorLegend';
 import { ThresholdColorLegendWithMouseOver } from '@/Components/Elements/ThresholdColorLegendWithMouseOver';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -148,7 +148,7 @@ export function HeatMap(props: Props) {
     relativeHeight,
     showValues,
     graphID,
-    noDataColor = UNDPColorModule.gray,
+    noDataColor = Colors.gray,
     showColorScale = true,
     onSeriesMouseClick,
     graphDownload = false,
@@ -268,15 +268,15 @@ export function HeatMap(props: Props) {
                           colors={
                             colors ||
                             (typeof colorDomain[0] === 'string'
-                              ? UNDPColorModule[mode].categoricalColors.colors
+                              ? Colors[mode].categoricalColors.colors
                               : colorDomain.length === 2
                               ? [
-                                  UNDPColorModule[mode].sequentialColors
+                                  Colors[mode].sequentialColors
                                     .neutralColorsx09[0],
-                                  UNDPColorModule[mode].sequentialColors
+                                  Colors[mode].sequentialColors
                                     .neutralColorsx09[8],
                                 ]
-                              : UNDPColorModule[mode].sequentialColors[
+                              : Colors[mode].sequentialColors[
                                   `neutralColorsx0${
                                     (colorDomain.length + 1) as
                                       | 4
@@ -301,15 +301,15 @@ export function HeatMap(props: Props) {
                           colors={
                             colors ||
                             (typeof colorDomain[0] === 'string'
-                              ? UNDPColorModule[mode].categoricalColors.colors
+                              ? Colors[mode].categoricalColors.colors
                               : colorDomain.length === 2
                               ? [
-                                  UNDPColorModule[mode].sequentialColors
+                                  Colors[mode].sequentialColors
                                     .neutralColorsx09[0],
-                                  UNDPColorModule[mode].sequentialColors
+                                  Colors[mode].sequentialColors
                                     .neutralColorsx09[8],
                                 ]
-                              : UNDPColorModule[mode].sequentialColors[
+                              : Colors[mode].sequentialColors[
                                   `neutralColorsx0${
                                     (colorDomain.length + 1) as
                                       | 4
@@ -333,10 +333,8 @@ export function HeatMap(props: Props) {
                           colorLegendTitle={colorLegendTitle}
                           colors={
                             colors || [
-                              UNDPColorModule[mode].sequentialColors
-                                .neutralColorsx09[0],
-                              UNDPColorModule[mode].sequentialColors
-                                .neutralColorsx09[8],
+                              Colors[mode].sequentialColors.neutralColorsx09[0],
+                              Colors[mode].sequentialColors.neutralColorsx09[8],
                             ]
                           }
                           colorDomain={colorDomain as number[]}
@@ -357,15 +355,15 @@ export function HeatMap(props: Props) {
                         colors={
                           colors ||
                           (typeof colorDomain[0] === 'string'
-                            ? UNDPColorModule[mode].categoricalColors.colors
+                            ? Colors[mode].categoricalColors.colors
                             : colorDomain.length === 2
                             ? [
-                                UNDPColorModule[mode].sequentialColors
+                                Colors[mode].sequentialColors
                                   .neutralColorsx09[0],
-                                UNDPColorModule[mode].sequentialColors
+                                Colors[mode].sequentialColors
                                   .neutralColorsx09[8],
                               ]
-                            : UNDPColorModule[mode].sequentialColors[
+                            : Colors[mode].sequentialColors[
                                 `neutralColorsx0${
                                   (colorDomain.length + 1) as
                                     | 4

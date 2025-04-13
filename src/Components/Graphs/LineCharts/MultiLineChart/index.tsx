@@ -14,7 +14,7 @@ import {
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { ColorLegend } from '@/Components/Elements/ColorLegend';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -137,7 +137,7 @@ export function MultiLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    lineColors = UNDPColorModule.light.categoricalColors.colors,
+    lineColors = Colors.light.categoricalColors.colors,
     suffix = '',
     sources,
     prefix = '',

@@ -13,7 +13,7 @@ import {
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -112,7 +112,7 @@ export function DonutChart(props: Props) {
   const {
     mainText,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     suffix = '',
     sources,
     prefix = '',
@@ -279,19 +279,18 @@ export function DonutChart(props: Props) {
                                     sortedData.map(el => el.label)
                                   ).indexOf(d.label) !== -1
                                     ? (colors ||
-                                        UNDPColorModule[mode].categoricalColors
-                                          .colors)[
+                                        Colors[mode].categoricalColors.colors)[
                                         (
                                           colorDomain ||
                                           sortedData.map(el => el.label)
                                         ).indexOf(d.label) %
                                           (
                                             colors ||
-                                            UNDPColorModule[mode]
-                                              .categoricalColors.colors
+                                            Colors[mode].categoricalColors
+                                              .colors
                                           ).length
                                       ]
-                                    : UNDPColorModule.gray,
+                                    : Colors.gray,
                               }}
                             />
                             <P

@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DumbbellChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Dumbbell Chart',
+  title: 'Graphs/Dumbbell chart',
   component: DumbbellChart,
   tags: ['autodocs'],
   argTypes: {

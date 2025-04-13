@@ -1,0 +1,56 @@
+{
+  "graphType": "circlePacking",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "size",
+      "columnId": "Indicator-02"
+    },
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "color",
+      "columnId": "Region"
+    }
+  ],
+  "graphSettings": {
+    "colors": ["#006eb5", "#5DD4F0", "#02A38A"],
+    "colorDomain": ["Region A", "Region B", "Region C"],
+    "graphTitle": "Circle Packing",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "suffix": "",
+    "prefix": "",
+    "leftMargin": 50,
+    "rightMargin": 50,
+    "colorLegendTitle": "",
+    "backgroundColor": true,
+    "padding": "1rem",
+    "topMargin": 0,
+    "bottomMargin": 0,
+    "relativeHeight": 0.8,
+    "showLabels": true,
+    "tooltip": "{{size}}",
+    "showColorScale": true,
+    "showValues": true,
+    "graphID": "ID",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "mode": "light",
+    "showNAColor": false
+  }
+}

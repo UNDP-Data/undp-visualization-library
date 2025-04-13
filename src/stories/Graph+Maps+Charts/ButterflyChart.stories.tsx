@@ -13,7 +13,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof ButterflyChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Butterfly Chart',
+  title: 'Graphs/Butterfly chart',
   component: ButterflyChart,
   tags: ['autodocs'],
   argTypes: {

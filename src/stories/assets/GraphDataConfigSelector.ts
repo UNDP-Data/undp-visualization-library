@@ -1,33 +1,6 @@
-import React, { useState } from 'react';
-import { Meta, Source } from '@storybook/blocks';
-
-<Meta
-  title='Misc./Graph Config'
-  parameters={{
-    layout: 'fullscreen',
-    viewMode: 'docs',
-    previewTabs: {
-      canvas: { hidden: false },
-      story: { hidden: false },
-    },
-    docs: {
-      story: {
-        inline: false,
-        iframeHeight: '100%',
-      },
-    },
-  }}
-/>
-
-# Graph Config
-
-Select a chart type below to see its configuration format.
-
-<ChartConfigDropdown />
-
-export const ChartConfigDropdown = () => {
+export function GraphDataConfigSelector(graph: string) {
   const chartExamples = {
-    'Bar chart':`[
+    'Bar graph': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -45,7 +18,7 @@ export const ChartConfigDropdown = () => {
 ]`,
     'Data table': `// No configuration required`,
     'Data cards': `// No configuration required`,
-    'Stacked bar chart':`[
+    'Stacked bar graph': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -56,7 +29,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
-    'Grouped bar chart':`[
+    'Grouped bar graph': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -67,7 +40,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
-    'Line chart':`[
+    'Line chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -78,7 +51,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'y',
   }
 ]`,
-    'Sparkline':`[
+    Sparkline: `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -89,7 +62,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'y',
   }
 ]`,
-    'Dual axis line chart':`[
+    'Dual axis line chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -104,7 +77,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'y2',
   }
 ]`,
-    'Difference line chart':`[
+    'Difference line chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -119,7 +92,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'y2',
   }
 ]`,
-    'Line chart with interval':`[
+    'Line chart with interval': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -138,7 +111,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'yMax',
   }
 ]`,
-    'Multi-line chart':`[
+    'Multi-line chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -149,7 +122,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'y',
   }
 ]`,
-    'Choropleth map':`[
+    'Choropleth map': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -160,7 +133,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'id',
   }
 ]`,
-    'Bi-variate choropleth map':`[
+    'Bi-variate choropleth map': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -175,7 +148,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'id',
   }
 ]`,
-    'Dot density map':`[
+    'Dot density map': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -199,7 +172,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
-    'Donut or pie chart':`[
+    'Donut graph': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -210,7 +183,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
-    'Slope chart':`[
+    'Slope chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -230,7 +203,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'color',
   }
 ]`,
-    'Scatter plot':`[
+    'Scatter plot': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -254,7 +227,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
-    'Dumbbell chart':`[
+    'Dumbbell graph': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -328,7 +301,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'color',
   }
 ]`,
-    'Bee swarm chart': `[
+    'Beeswarm chart': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -378,7 +351,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'value',
   }
 ]`,
-  'Histogram': `[
+    Histogram: `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -411,7 +384,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'line',
   }
 ]`,
-    'Stat cards': `[
+    'Stat card': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -429,7 +402,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'value',
   }
 ]`,
-    'Bar chart (animated)': `[
+    'Bar graph (animated)': `[
   // ----Required objects---- //
   {
     columnId: 'Column 1',
@@ -449,7 +422,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'color',
   }
 ]`,
-    'Stacked bar chart (animated)': `[
+    'Stacked bar graph (animated)': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -464,7 +437,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'date',
   }
 ]`,
-    'Grouped bar chart (animated)': `[
+    'Grouped bar graph (animated)': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -498,7 +471,7 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'date',
   }
 ]`,
-    'Dumbbell chart (animated)': `[
+    'Dumbbell graph (animated)': `[
   // ----Required objects---- //
   {
     columnId: ['Column 1', 'Column 2', 'Column 3'],
@@ -603,30 +576,21 @@ export const ChartConfigDropdown = () => {
     chartConfigId: 'label',
   }
 ]`,
+    'Stacked area chart': `[
+  // ----Required objects---- //
+  {
+    columnId: 'Column 1',
+    chartConfigId: 'date',
+  },
+  {
+    columnId: ['Column 2', 'Column 3', 'Column 4'],
+    chartConfigId: 'y',
+  },
+]`,
     'GeoHub maps': `// No configuration required`,
     'GeoHub compare maps': `// No configuration required`,
     'GeoHub maps with layer selection': `// No configuration required`,
   };
 
-  const [selected, setSelected] = useState(Object.keys(chartExamples)[0]);
-
-  return (
-    <div style={{ marginTop: '1rem' }}>
-      <label htmlFor="chart-select">
-        <strong>Chart Type:{' '}</strong>
-      </label>
-      <select
-        id="chart-select"
-        value={selected}
-        onChange={(e) => setSelected(e.target.value)}
-      >
-        {Object.keys(chartExamples).sort().map((key) => (
-          <option key={key} value={key}>
-            {key}
-          </option>
-        ))}
-      </select>
-      <Source code={chartExamples[selected]} language="json" />
-    </div>
-    );
-};
+  return (chartExamples as any)[graph];
+}

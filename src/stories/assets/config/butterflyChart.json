@@ -1,0 +1,63 @@
+{
+  "graphType": "butterflyChart",
+  "debugMode": true,
+  "dataSettings": {
+    "dataURL": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "leftBar",
+      "columnId": "Indicator-01"
+    },
+    {
+      "chartConfigId": "rightBar",
+      "columnId": "Indicator-02"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Butterfly Chart Title",
+    "graphDescription": "Footnote",
+    "leftBarTitle": "Left Bar Title",
+    "rightBarTitle": "Right Bar Title",
+    "footNote": "Footnote describing data source or additional details.",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "minHeight": 600,
+    "backgroundColor": true,
+    "padding": "1rem",
+    "leftMargin": 50,
+    "rightMargin": 50,
+    "topMargin": 64,
+    "colors": ["#006eb5", "#5DD4F0"],
+    "colorLegendTitle": "",
+    "relativeHeight": 0.8,
+    "tooltip": "{{label}}:<br>Indicator 01: {{leftBar}}<br>Indicator 02: {{rightBar}}",
+    "graphID": "butterflyChart01",
+    "graphDownload": true,
+    "dataDownload": true,
+    "barPadding": 0.1,
+    "truncateBy": 10,
+    "suffix": "%",
+    "prefix": "$",
+    "showTicks": true,
+    "showValues": true,
+    "centerGap": 80,
+    "maxValue": 60,
+    "minValue": 0,
+    "showColorScale": true,
+    "refValues": [{ "value": 50, "text": "Midpoint", "color": "#000" }],
+    "language": "en",
+    "mode": "light"
+  }
+}

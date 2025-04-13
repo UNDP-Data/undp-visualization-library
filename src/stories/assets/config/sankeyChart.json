@@ -1,0 +1,50 @@
+{
+  "graphType": "sankeyChart",
+  "dataSettings": {
+    "data": [
+      { "source": "A", "target": "B", "value": 10 },
+      { "source": "A", "target": "C", "value": 15 },
+      { "source": "B", "target": "D", "value": 5 },
+      { "source": "C", "target": "D", "value": 10 },
+      { "source": "C", "target": "E", "value": 5 },
+      { "source": "D", "target": "F", "value": 8 },
+      { "source": "E", "target": "F", "value": 2 }
+    ]
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "source",
+      "columnId": "source"
+    },
+    {
+      "chartConfigId": "target",
+      "columnId": "target"
+    },
+    {
+      "chartConfigId": "value",
+      "columnId": "value"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Graph Title",
+    "suffix": "%",
+    "prefix": "",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "backgroundColor": true,
+    "padding": "1rem",
+    "graphID": "GraphID",
+    "sourceColors": "var(--blue-600)",
+    "targetColors": "var(--blue-600)",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "mode": "light"
+  }
+}

@@ -42,25 +42,40 @@ import { GraphList } from '@/Utils/getGraphList';
 import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
+  /** 	Graph rendering settings */
   graphSettings?: any;
+
+  /** Human-readable labels for data columns */
   readableHeader?: {
     value: string;
     label: string;
   }[];
+  /** Configuration for the data source */
   dataSettings?: DataSettingsDataType;
+  /** UI filter definitions */
   filters?: FilterUiSettingsDataType[];
+  /** Number of filters to show per row in the UI */
   noOfFiltersPerRow?: number;
+  /** Defines the type of graph */
   graphType: GraphType;
+  /** Data transformation config */
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
   };
+  /** Filters to apply to raw data */
   dataFilters?: DataFilterDataType[];
+  /** Defines how the graph should interpret the data */
   graphDataConfiguration?: GraphConfigurationDataType[];
+  /** Options for selecting specific columns to visualize */
   dataSelectionOptions?: DataSelectionDataType[];
+  /** Advanced Options for selecting specific columns to visualize */
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
+  /** Enables debugging logs */
   debugMode?: boolean;
+  /** Controls UI theme mode */
   uiMode?: 'light' | 'normal';
+  /** Callback to update filters */
   updateFilters?: (_d: string) => void;
 }
 

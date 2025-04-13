@@ -11,7 +11,7 @@ import {
   StyleObject,
   ClassNameObject,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { CirclePackingGraph } from '../CirclePackingGraph';
 import { TreeMapGraph } from '../TreeMapGraph';
 import { DonutChart } from '../DonutChart';
@@ -191,7 +191,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={colors || UNDPColorModule.graphMainColor}
+        colors={colors || Colors.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -227,7 +227,7 @@ export function Histogram(props: Props) {
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={colors || UNDPColorModule.graphMainColor}
+        colors={colors || Colors.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -265,7 +265,7 @@ export function Histogram(props: Props) {
       <DonutChart
         colors={
           (colors as string[] | undefined) ||
-          UNDPColorModule[mode].categoricalColors.colors
+          Colors[mode].categoricalColors.colors
         }
         graphTitle={graphTitle}
         graphDescription={graphDescription}
@@ -300,7 +300,7 @@ export function Histogram(props: Props) {
     );
   return (
     <SimpleBarGraph
-      colors={colors || UNDPColorModule.graphMainColor}
+      colors={colors || Colors.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}

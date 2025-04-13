@@ -1,0 +1,69 @@
+{
+  "graphType": "barChart",
+  "dataSettings": {
+    "data": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "size",
+      "columnId": "Indicator-01"
+    },
+    {
+      "chartConfigId": "color",
+      "columnId": "Region"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GraphID",
+    "orientation": "horizontal",
+    "graphTitle": "Horizontal Bar Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 16,
+    "bottomMargin": 16,
+    "leftMargin": 40,
+    "rightMargin": 40,
+    "maxBarThickness": 64,
+    "maxNumberOfBars": 10,
+    "minBarThickness": 24,
+    "barPadding": 0.1,
+    "suffix": "",
+    "prefix": "",
+    "mode": "light",
+    "backgroundColor": true,
+    "colors": ["#006eb5", "#5DD4F0", "#02A38A"],
+    "colorDomain": ["Region A", "Region B", "Region C"],
+    "colorLegendTitle": "Regions",
+    "showColorScale": true,
+    "sortData": "desc",
+    "showNAColor": false,
+    "showLabels": true,
+    "showValues": true,
+    "showTicks": false,
+    "maxValue": 50,
+    "minValue": 0,
+    "refValues": [{ "value": 16, "text": "Reference", "color": "#000" }],
+    "tooltip": "{{size}}",
+    "highlightedDataPoints": [],
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

@@ -1,0 +1,682 @@
+import { useState } from 'react';
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+import { GraphNames } from '../assets/constants';
+import { GraphSettingsSelector } from '../assets/GraphSettingsSelector';
+import { GraphDataConfigSelector } from '../assets/GraphDataConfigSelector';
+
+<Meta title="Dashboard/Single graphs with filters" />
+
+# Single graphs with filters
+
+This allows you to create a graph with filters, data selection and different kind of data sources.
+
+```tsx
+import { SingleGraphDashboard } from '@undp-data/undp-visualization-library';
+import '@undp-data/undp-design-system-react/dist/style.css';
+
+function Graph() {
+  return (
+    <SingleGraphDashboard
+      dataSettings={{
+        data: [
+          { Country: 'Country A', Value: 8, Region: 'Region A', Category: 'Category A' },
+          { Country: 'Country C', Value: 42, Region: 'Region C', Category: 'Category B' },
+          { Country: 'Country D', Value: 10, Region: 'Region D', Category: 'Category C' },
+        ],
+        fileType: 'json',
+      }}
+      graphType="verticalBarChart"
+      graphDataConfiguration={[
+        { columnId: 'Country', chartConfigId: 'label' },
+        { columnId: 'Value', chartConfigId: 'size' },
+      ]}
+      filters={[
+        {
+          column: 'Region',
+          singleSelect: false,
+          clearable: true,
+          label: 'Filter by column name'
+        },
+      ]}
+       graphSettings={{
+        graphTitle: 'Title of the graph',
+        graphDescription: 'Description of the graph',
+        sources: [
+          {
+            source: 'Organization ABC',
+            link: 'www.example.com',
+          }
+        ],
+        footNote: 'Footnote of the graph',
+        padding: '16px 32px 16px 16px',
+      }}
+    />
+  );
+}
+
+```
+
+
+## Props
+
+```tsx
+interface Props {
+  graphType: GraphType;
+  graphSettings?: GraphSettingsDataType;
+  dataSettings?: {
+    dataURL?: string | {
+      dataURL: string;
+      idColumnName: string;
+      fileType?: 'csv' | 'json' | 'api';
+      delimiter?: string;
+      columnsToArray?: {
+        column: string;
+        delimiter?: string;
+      }[];
+      apiHeaders?: any;
+      dataTransformation?: string;
+    }[];
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: {
+      column: string;
+      delimiter?: string;
+    }[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+    idColumnTitle?: string;
+    data?: any;
+  };
+  dataTransform?: {
+    keyColumn: string;
+    aggregationColumnsSetting?: {
+      column: string;
+      aggregationMethod?: 'sum' | 'average' | 'min' | 'max';
+    }[];
+  };
+  dataFilters?: {
+    column: string;
+    includeValues?: (string | number | boolean | null | undefined)[];
+    excludeValues?: (string | number | boolean | null | undefined)[];
+  }[];
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
+  graphDataConfiguration?: {
+    columnId: string | string[];
+    chartConfigId: string;
+  }[];
+  filters?: {
+    column: string;
+    label?: string;
+    singleSelect?: boolean;
+    clearable?: boolean;
+    defaultValue?: string[] | string | number | number[];
+    excludeValues?: string[];
+    allowSelectAll?: boolean;
+    width?: string;
+  };[];
+  noOfFiltersPerRow?: number;
+  dataSelectionOptions?: {
+    label?: string;
+    allowedColumnIds: {
+      value: string;
+      label: string;
+      graphSettings: GraphSettingsDataType;
+    }[];
+    chartConfigId: string;
+    ui?: 'select' | 'radio';
+    width?: string;
+  }[];
+  advancedDataSelectionOptions?: {
+    label?: string;
+    options: {
+      label: string;
+      value: string[];
+      graphSettings?: GraphSettingsDataType;
+    }[];
+    chartConfigId: string;
+    ui?: 'select' | 'radio';
+    width?: string;
+    defaultValue?: {
+      label: string;
+      value: string[];
+      graphSettings?: GraphSettingsDataType;
+    };
+  }[];
+  debugMode?: boolean;
+  uiMode?: 'light' | 'normal';
+}
+```
+
+#### Parameters
+
+- `graphType` - Defines the type of graph
+- `graphSettings` - Graph rendering settings 
+- `dataSettings` - Configuration for the data source
+- `dataTransform` - Data transformation config
+- `dataFilters` - Filters to apply to raw data
+- `readableHeader` - Human-readable labels for data columns
+- `graphDataConfiguration` - Defines how the graph should interpret the data
+- `filters` - UI filter definitions
+- `noOfFiltersPerRow` - Number of filters to show per row in the UI
+- `dataSelectionOptions` - Options for selecting specific columns to visualize
+- `advancedDataSelectionOptions` - Advanced Options for selecting specific groups of columns to visualize
+- `debugMode` - Enables debugging logs
+- `uiMode` - Controls UI theme mode
+
+---
+
+### graphType
+
+Defines the type of chart. Select a chart type below to see the corresponding `graphType` value.
+
+<ChartConfigDropdown type='graphType'/>
+
+---
+
+### graphSettings
+
+Defines the layout settings for each graph. The parameter within the object depends on the graph type. Select a chart type below to see its settings (please note these settings are not exhaustive and to get the exhaustive list read the documentation for individual charts).
+
+<ChartConfigDropdown type='graphSettings'/>
+
+---
+
+### dataSettings
+
+Defines the source/raw data or data file used in the dashboard
+
+#### Data format
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataURL</td>
+      <td>no</td>
+      <td><code>string</code> or <code>Array&lt;object&gt;</code></td>
+      <td></td>
+      <td>Defines the URL of the data sheet or URLs of multiple data sheets that are then combined into a single data sheet. This is not required if the <code>data</code> object is present in this object. User must either provide <code>data</code> or <code>dataURL</code>. See below in the <code>data url settings data format</code> for the object schema.</td>
+    </tr>
+    <tr>
+      <td>fileType</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td><code>csv</code></td>
+      <td>Defines the type of the file (<code>csv</code>, <code>json</code>, or <code>api</code>). Available values are <code>csv</code>, <code>json</code>, or <code>api</code>. Only applicable if the <code>data</code> object is not present in this object.</td>
+    </tr>
+    <tr>
+      <td>delimiter</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td><code>,</code></td>
+      <td>Defines the delimiter for the data file. Only applicable if the <code>data</code> object is not present in this object, and <code>fileType</code> is either not present or is defined as <code>csv</code>.</td>
+    </tr>
+    <tr>
+      <td>columnsToArray</td>
+      <td>no</td>
+      <td><code>Array&lt;{`{column: string; delimiter?: string;}`}&gt;</code></td>
+      <td></td>
+      <td>Use this option to convert specific columns in a CSV file into arrays. For example, if your CSV file has a column named tags with entries like <code>"tag 1, tag 2, tag 3"</code>, this feature allows you to split the text into an array: <code>["tag 1", "tag 2", "tag 3"]</code>. Default delimiter is <code>,</code>.</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>no</td>
+      <td><code>Array&lt;object&gt;</code></td>
+      <td></td>
+      <td>If you want to use data as an object, specify it here. If <code>data</code> is provided, then <code>dataURL</code>, <code>fileType</code>, and <code>delimiter</code> are ignored. This is not required if <code>dataURL</code> is present in this object. The user must provide either <code>data</code> or <code>dataURL</code>.</td>
+    </tr>
+    <tr>
+      <td>apiHeaders</td>
+      <td>no</td>
+      <td><code>object</code></td>
+      <td></td>
+      <td>Defines the headers for the API call. Only applicable if the <code>data</code> object is not present in this object and <code>fileType</code> is defined as <code>api</code>.</td>
+    </tr>
+    <tr>
+      <td>idColumnTitle</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td><code>~id</code></td>
+      <td>Defines the name of the common ID column in the merged file if data from multiple sources is requested and merged. Only applicable if the <code>data</code> object is not present in this object and <code>dataURL</code> is defined as an <code>array</code>.</td>
+    </tr>
+    <tr>
+      <td>dataTransformation</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines how the data is transformed. Based on <a href="https://handlebarsjs.com/">Handlebars template</a>. Can be used to fetch the correct data object from an API response.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+dataSettings={{
+  dataURL: '/data/data.csv',
+  fileType: 'csv',
+  columnsToArray: [
+    {
+      column: 'Column 1',
+      delimiter: ','
+    },
+  ],
+}}
+```
+
+#### dataURL object
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataURL</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the URL of the data sheet.</td>
+    </tr>
+    <tr>
+      <td>idColumnName</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the name of the common key used to merge different data sources.</td>
+    </tr>
+    <tr>
+      <td>fileType</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td><code>csv</code></td>
+      <td>Defines the type of the file (<code>csv</code>, <code>json</code>, or <code>api</code>). Only applicable if the <code>data</code> object is not present in this object.</td>
+    </tr>
+    <tr>
+      <td>delimiter</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td><code>,</code></td>
+      <td>Defines the delimiter for the data file. Only applicable if the <code>data</code> object is not present in this object, and <code>fileType</code> is either not present or is defined as <code>csv</code>.</td>
+    </tr>
+    <tr>
+      <td>columnsToArray</td>
+      <td>no</td>
+      <td><code>Array&lt;{`{column: string; delimiter?: string;}`}&gt;</code></td>
+      <td></td>
+      <td>Use this option to convert specific columns in a CSV file into arrays. For example, if a CSV file has a column named tags with entries like <code>"tag 1, tag 2, tag 3"</code>, this feature allows you to split the text into an array: <code>["tag 1", "tag 2", "tag 3"]</code>. Default delimiter is <code>,</code>.</td>
+    </tr>
+    <tr>
+      <td>apiHeaders</td>
+      <td>no</td>
+      <td><code>object</code></td>
+      <td></td>
+      <td>Defines the headers for the API call. Only applicable if the <code>data</code> object is not present in this object and <code>fileType</code> is defined as <code>api</code>.</td>
+    </tr>
+    <tr>
+      <td>dataTransformation</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines how the data is transformed. Based on <a href="https://handlebarsjs.com/">Handlebars template</a>. Can be used to fetch the correct data object from an API response.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### What is 'columnsToArray'
+
+Suppose you have data like this and you need to visualize the number of tags:
+
+```
+Country, Tags
+Country A, 'tag 1, tag 2, tag 3'
+Country B, 'tag 1, tag 2'
+Country C, 'tag 1, tag 3'
+Country D, 'tag 1'
+Country E, 'tag 1, tag 2, tag 3'
+```
+
+To break up the tags into individual items, you can use the `columnsToArray` setting, which splits the tags based on a delimiter (in this case, a comma):
+
+```tsx
+dataSettings={{
+  dataURL: '/data/data.csv',
+  fileType: 'csv',
+  columnsToArray: [
+    {
+      column: 'Tags',
+      delimiter: ','
+    },
+  ],
+}}
+```
+
+After this, the data will look like this:
+
+```json
+[
+  { Country: 'Country A', Tags: ["tag 1", "tag 2", "tag 3"] },
+  { Country: 'Country B', Tags: ["tag 1", "tag 2"] },
+  ...
+]
+```
+
+---
+
+### dataTransform
+
+#### Data format
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>keyColumn</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the specifics key column whose unique value are then used transformation of other columns.</td>
+    </tr>
+    <tr>
+      <td>aggregationColumnsSetting</td>
+      <td>no</td>
+      <td><code>Array&lt;{`{column: string; aggregationMethod?: string}`}&gt;</code></td>
+      <td></td>
+      <td>Defines the columns that are transformed based on aggregationMethod specified. Available values for <code>aggregationMethod</code> are <code>sum</code>, <code>average</code>, <code>min</code>, and <code>max</code>. If <code>aggregationMethod</code> is not defined it defaults to <code>sum</code>. Also make sure the <code>column</code> have the data type of <code>number</code> as mathematical operation are not possible with other data types. If not present it count the frequency of unique values in <code>keyColumn</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example 1
+
+Suppose you have data like this and you need to visualize the number of regions:
+
+```csv
+Region, Country
+Region A, Country 1
+Region A, Country 2
+Region B, Country 3
+Region B, Country 4
+```
+
+If you set the `dataTransform` key as:
+
+```tsx
+ dataTransform={{
+    "keyColumn": "Region",
+  }},
+```
+
+The data will be transformed for visualization into:
+
+```json
+[
+  {
+    Region: 'Region A',
+    count: 2
+  },
+  {
+    Region: 'Region B',
+    count: 2
+  }
+]
+```
+
+Now, you can use this transformed data to configure your chart. For example, if you're creating a donut chart to visualize the number of regions, the `graphDataConfiguration` would look like this:
+
+```
+graphDataConfiguration={[
+  { columnId: 'Region', chartConfigId: 'label' },
+  { columnId: 'count', chartConfigId: 'size' },
+]}
+```
+
+#### Example 2
+
+Suppose you have data like this and you need to visualize the total number of `Indicator` for each region:
+
+```csv
+Region, Country, Indicator
+Region A, Country 1, 10
+Region A, Country 2, 20
+Region B, Country 3, 30
+Region B, Country 4, 10
+```
+
+If you set the `dataTransform` key as:
+
+```tsx
+ dataTransform={{
+    "keyColumn": "Region",
+    "aggregationColumnsSetting": [
+      {
+        "column": "Indicator",
+        "aggregationMethod": "sum"
+      }
+    ]
+  }},
+```
+
+The data will be transformed for visualization into:
+
+```json
+[
+  {
+    Region: 'Region A',
+    count: 2,
+    'Indicator': 30,
+  },
+  {
+    Region: 'Region B',
+    count: 2,
+     'Indicator': 40,
+  }
+]
+```
+
+---
+
+
+### dataFilters
+
+Filters the data that is then visualized
+
+##### Data formats
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the specifics key column whose unique value are then used to filter the data.</td>
+    </tr>
+    <tr>
+      <td>excludeValues</td>
+      <td>no</td>
+      <td><code>Array&lt;string | number | boolean&gt;</code></td>
+      <td></td>
+      <td>Defines the value which are excluded for the column mentioned above.</td>
+    </tr>
+    <tr>
+      <td>includeValues</td>
+      <td>no</td>
+      <td><code>Array&lt;string | number | boolean&gt;</code></td>
+      <td></td>
+      <td>Defines the value which are included for the column mentioned above.</td>
+    </tr>
+  </tbody>
+</table>
+
+##### Example
+
+```tsx
+dataFilters={[
+  {
+    column: 'Column 1',
+    includeValues: ['Value 1'],
+    excludeValues: ['Value 2'],
+  },
+]},
+```
+
+---
+
+### graphDataConfiguration
+
+Defines which data sheet column maps to each graph parameter. This object depends on the graph type. Select a chart type below to see example object.
+
+<ChartConfigDropdown type='dataSettings'/>
+
+---
+
+### filters
+
+Defines the interactive filters of dynamically filter the graph
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the name of the column in the data that will be used for filtering.</td>
+    </tr>
+    <tr>
+      <td>singleSelect</td>
+      <td>no</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Determines if the filter allows only a single selection. If true, only one option can be selected at a time.</td>
+    </tr>
+    <tr>
+      <td>clearable</td>
+      <td>no</td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>Indicates if the filter can be cleared. If true, the user can clear the filter selection.</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>no</td>
+      <td><code>string | string[]</code></td>
+      <td></td>
+      <td>Sets the default value(s) for the filter when the graph is first rendered. If singleSelect is true, this should be a single string. If singleSelect is false, this can be an array of strings representing multiple selections.</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the label for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>excludeValues</td>
+      <td>no</td>
+      <td><code>string[]</code></td>
+      <td></td>
+      <td>Defines the values excluded for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the width of the filter in the top settings as a css property.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+filters={[
+  {
+    column: 'Column 1',
+    singleSelect: false,
+    clearable: true,
+    defaultValue: 'Value 1',
+    label: 'Filter by column name',
+    excludeValues: ['Value 2']
+  }
+]}
+```
+
+export const ChartConfigDropdown = ( { type } ) => {
+
+  const [selected, setSelected] = useState('Bar graph');
+
+  const codeBlock = type === 'graphType' 
+    ? `graphType={${GraphNames[GraphNames.findIndex(d => d.name === selected)].id}}` 
+    : type === 'graphSettings' 
+      ? `graphSettings={${GraphSettingsSelector(selected, true, false)}}`
+      : type === 'dataSettings' 
+        ? `dataSettings={${GraphDataConfigSelector(selected)}}`
+        : ``;
+
+  return (
+    <div style={{ marginTop: '1rem' }}>
+      <label htmlFor="chart-select">
+        <strong>Chart Type:{' '}</strong>
+      </label>
+      <select
+        id="chart-select"
+        value={selected}
+        onChange={(e) => setSelected(e.target.value)}
+      >
+        {GraphNames.map(d => d.name).sort().map((key) => (
+          <option key={key} value={key}>
+            {key}
+          </option>
+        ))}
+      </select>
+      <Source code={codeBlock} language="tsx" />
+    </div>
+    );
+};
+

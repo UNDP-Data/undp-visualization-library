@@ -10,7 +10,7 @@ import {
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
@@ -178,7 +178,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !(d.data as any).data.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[
                             colorDomain.indexOf((d.data as any).data.color)
                           ],
@@ -200,7 +200,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !(d.data as any).data.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
@@ -235,7 +235,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.gray
+                                ? Colors.gray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,
@@ -265,7 +265,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.gray
+                                ? Colors.gray
                                 : colors[
                                     colorDomain.indexOf(
                                       (d.data as any).data.color,

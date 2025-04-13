@@ -1,0 +1,62 @@
+{
+  "graphType": "stackedBarChart",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "size",
+      "columnId": ["Indicator-01", "Indicator-03"]
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GrpahID",
+    "orientation": "vertical",
+    "graphTitle": "Vertical Stacked Bar Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 0,
+    "bottomMargin": 20,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "maxBarThickness": 64,
+    "maxNumberOfBars": 10,
+    "minBarThickness": 32,
+    "barPadding": 0.1,
+    "suffix": "",
+    "prefix": "",
+    "mode": "light",
+    "backgroundColor": true,
+    "colors": ["#006eb5", "#5DD4F0"],
+    "colorDomain": ["Indicator 1", "Indicator 2"],
+    "colorLegendTitle": "Indicators",
+    "showColorScale": true,
+    "sortParameter": 0,
+    "showLabels": true,
+    "showValues": false,
+    "showTicks": false,
+    "maxValue": 80,
+    "refValues": [{ "value": 16, "text": "Reference", "color": "#000" }],
+    "tooltip": "Indicator 01: {{size.[0]}}<br>Indicator 02: {{size.[1]}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

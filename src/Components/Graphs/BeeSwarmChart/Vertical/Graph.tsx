@@ -21,7 +21,7 @@ import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { RefLineY } from '@/Components/Elements/ReferenceLine';
@@ -314,7 +314,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? circleColors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : circleColors[colorDomain.indexOf(d.color)],
                   }}
                 />
@@ -364,7 +364,7 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? circleColors[0]
                                 : !d.color
-                                ? UNDPColorModule.gray
+                                ? Colors.gray
                                 : circleColors[colorDomain.indexOf(d.color)],
                             ),
                             ...(styles?.graphObjectValues || {}),

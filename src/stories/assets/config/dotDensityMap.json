@@ -1,0 +1,51 @@
+{
+  "graphType": "dotDensityMap",
+  "debugMode": true,
+  "dataSettings": {
+    "dataURL": "/data/data-sample-02.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "lat",
+      "columnId": "Latitude (average)"
+    },
+    {
+      "chartConfigId": "long",
+      "columnId": "Longitude (average)"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Choropleth Map",
+    "graphDescription": "Human Development Index, 2020",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "domain": [0.55, 0.7, 0.8],
+    "colorLegendTitle": "Legend Title",
+    "categorical": false,
+    "backgroundColor": true,
+    "mapBorderWidth": 1,
+    "mapNoDataColor": "#EDEFF0",
+    "mapBorderColor": "#fafafa",
+    "relativeHeight": 0.7,
+    "padding": "1rem",
+    "isWorldMap": true,
+    "tooltip": "{{data.[Official Country Name]}}",
+    "showColorScale": true,
+    "graphID": "GraphID",
+    "highlightedCountryCodes": [],
+    "graphDownload": true,
+    "dataDownload": true,
+    "mapProperty": "NAME",
+    "showAntarctica": false,
+    "language": "en",
+    "mode": "light"
+  }
+}

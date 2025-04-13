@@ -12,7 +12,7 @@ import {
 } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
@@ -280,7 +280,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? barColor[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : barColor[colorDomain.indexOf(d.color)],
                     }}
                     height={Math.abs(y(d.size) - y(0))}

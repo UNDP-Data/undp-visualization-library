@@ -14,7 +14,7 @@ import {
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
@@ -253,7 +253,7 @@ export function CirclePackingGraph(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+                        Colors[mode].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -283,13 +283,9 @@ export function CirclePackingGraph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors
                               ? [colors as string]
-                              : [
-                                  UNDPColorModule[mode].primaryColors[
-                                    'blue-600'
-                                  ],
-                                ]
+                              : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              UNDPColorModule[mode].categoricalColors.colors
+                              Colors[mode].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0

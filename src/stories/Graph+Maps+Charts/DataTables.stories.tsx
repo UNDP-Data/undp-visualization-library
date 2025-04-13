@@ -12,7 +12,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DataTable>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Data Table',
+  title: 'Graphs/Data table',
   component: DataTable,
   tags: ['autodocs'],
   argTypes: {

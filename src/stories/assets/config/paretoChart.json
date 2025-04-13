@@ -1,0 +1,47 @@
+{
+  "graphType": "paretoChart",
+  "debugMode": true,
+  "dataSettings": {
+    "data": [
+      { "label": "2010", "bar": 3, "line": 5 },
+      { "label": "2012", "bar": 8, "line": 10 },
+      { "label": "2014", "bar": 11, "line": 6 },
+      { "label": "2016", "bar": 19, "line": 17 },
+      { "label": "2018", "bar": 3, "line": 15 },
+      { "label": "2020", "bar": 8, "line": 7 },
+      { "label": "2022", "bar": 11, "line": 8 },
+      { "label": "2024", "bar": 19, "line": 9 }
+    ]
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "label"
+    },
+    {
+      "chartConfigId": "bar",
+      "columnId": "bar"
+    },
+    {
+      "chartConfigId": "line",
+      "columnId": "bar"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "graphTitle": "Pareto Chart",
+    "graphDescription": "Description",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "mode": "light",
+    "backgroundColor": true,
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

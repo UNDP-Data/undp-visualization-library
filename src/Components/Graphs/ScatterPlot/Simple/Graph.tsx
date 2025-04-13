@@ -18,7 +18,7 @@ import {
 } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { getLineEndPoint } from '@/Utils/getLineEndPoint';
 import { string2HTML } from '@/Utils/string2HTML';
@@ -367,13 +367,13 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         stroke:
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         fillOpacity: 0.6,
                       }}
@@ -386,7 +386,7 @@ export function Graph(props: Props) {
                             (data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule.gray
+                              ? Colors.gray
                               : colors[colorDomain.indexOf(`${d.color}`)]),
                           ...(styles?.graphObjectValues || {}),
                         }}
@@ -413,7 +413,7 @@ export function Graph(props: Props) {
                               (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
-                                ? UNDPColorModule.gray
+                                ? Colors.gray
                                 : colors[colorDomain.indexOf(`${d.color}`)]),
                             ...(styles?.graphObjectValues || {}),
                           }}

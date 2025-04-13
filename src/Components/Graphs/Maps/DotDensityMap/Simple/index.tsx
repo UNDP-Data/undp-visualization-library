@@ -11,7 +11,7 @@ import {
   ClassNameObject,
 } from '@/Types';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
@@ -130,10 +130,10 @@ export function DotDensityMap(props: Props) {
     centerPoint = [10, 10],
     padding,
     mapBorderWidth = 0.5,
-    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    mapNoDataColor = Colors.light.graphNoData,
     backgroundColor = false,
     showLabels = false,
-    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
+    mapBorderColor = Colors.light.grays['gray-500'],
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
@@ -285,9 +285,9 @@ export function DotDensityMap(props: Props) {
                     data.filter(el => el.color).length === 0
                       ? colors
                         ? [colors as string]
-                        : [UNDPColorModule[mode].primaryColors['blue-600']]
+                        : [Colors.primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+                        Colors[mode].categoricalColors.colors
                   }
                   colorLegendTitle={colorLegendTitle}
                   radius={radius}

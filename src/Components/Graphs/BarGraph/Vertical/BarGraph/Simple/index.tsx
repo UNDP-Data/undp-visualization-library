@@ -13,7 +13,7 @@ import {
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -221,7 +221,7 @@ export function VerticalBarGraph(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        UNDPColorModule[mode].categoricalColors.colors
+                        Colors[mode].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -260,13 +260,9 @@ export function VerticalBarGraph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors
                               ? [colors as string]
-                              : [
-                                  UNDPColorModule[mode].primaryColors[
-                                    'blue-600'
-                                  ],
-                                ]
+                              : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              UNDPColorModule[mode].categoricalColors.colors
+                              Colors[mode].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0

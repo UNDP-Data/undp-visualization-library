@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import { H2, Modal, P } from '@undp-data/undp-design-system-react';
 import { ClassNameObject, DonutChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { string2HTML } from '@/Utils/string2HTML';
 
@@ -124,7 +124,7 @@ export function Graph(props: Props) {
                         colorDomain.indexOf((d.data as any).label) %
                           colors.length
                       ]
-                    : UNDPColorModule.gray,
+                    : Colors.gray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1

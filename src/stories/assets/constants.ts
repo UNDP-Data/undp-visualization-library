@@ -116,3 +116,154 @@ export const LANGUAGE_OPTIONS = [
   'zh',
   'custom',
 ];
+
+export const GraphNames = [
+  {
+    name: 'Bar graph',
+    id: 'barChart',
+  },
+  {
+    name: 'Bar graph (animated)',
+    id: 'animatedBarChart',
+  },
+  {
+    name: 'Stacked bar graph',
+    id: 'stackedBarChart',
+  },
+  {
+    name: 'Stacked bar graph (animated)',
+    id: 'animatedStackedBarChart',
+  },
+  {
+    name: 'Grouped bar graph',
+    id: 'groupedBarChart',
+  },
+  {
+    name: 'Grouped bar graph (animated)',
+    id: 'animatedGroupedBarChart',
+  },
+  {
+    name: 'Donut graph',
+    id: 'donutChart',
+  },
+  {
+    name: 'Tree map',
+    id: 'treeMap',
+  },
+  {
+    name: 'Circle packing',
+    id: 'circlePacking',
+  },
+  {
+    name: 'Beeswarm chart',
+    id: 'beeSwarmChart',
+  },
+  {
+    name: 'Butterfly chart',
+    id: 'butterflyChart',
+  },
+  {
+    name: 'Butterfly chart (animated)',
+    id: 'animatedButterflyChart',
+  },
+  {
+    name: 'Data cards',
+    id: 'dataCards',
+  },
+  {
+    name: 'Data table',
+    id: 'dataTable',
+  },
+  {
+    name: 'Dumbbell graph',
+    id: 'dumbbellChart',
+  },
+  {
+    name: 'Dumbbell graph (animated)',
+    id: 'animatedDumbbellChart',
+  },
+  {
+    name: 'Difference line chart',
+    id: 'differenceLineChart',
+  },
+  {
+    name: 'Dual axis line chart',
+    id: 'dualAxisLineChart',
+  },
+  {
+    name: 'Line chart',
+    id: 'lineChart',
+  },
+  {
+    name: 'Sparkline',
+    id: 'sparkLine',
+  },
+  {
+    name: 'Line chart with interval',
+    id: 'lineChartWithConfidenceInterval',
+  },
+  {
+    name: 'Multi-line chart',
+    id: 'multiLineChart',
+  },
+  {
+    name: 'Pareto chart',
+    id: 'paretoChart',
+  },
+  {
+    name: 'Sankey chart',
+    id: 'sankeyChart',
+  },
+  {
+    name: 'Scatter plot',
+    id: 'scatterPlot',
+  },
+  {
+    name: 'Scatter plot (animated)',
+    id: 'animatedScatterPlot',
+  },
+  {
+    name: 'Slope chart',
+    id: 'slopeChart',
+  },
+  {
+    name: 'Stacked area chart',
+    id: 'stakedAreaChart',
+  },
+  {
+    name: 'Stat card',
+    id: 'statCard',
+  },
+  {
+    name: 'Strip chart',
+    id: 'stripChart',
+  },
+  {
+    name: 'Unit chart',
+    id: 'unitChart',
+  },
+  {
+    name: 'Choropleth map',
+    id: 'choroplethMap',
+  },
+  {
+    name: 'Choropleth map (animated)',
+    id: 'animatedChoroplethMap',
+  },
+  {
+    name: 'Bi-variate choropleth map',
+    id: 'biVariateChoroplethMap',
+  },
+  {
+    name: 'Bi-variate choropleth map (animated)',
+    id: 'animatedBiVariateChoroplethMap',
+  },
+  {
+    name: 'Dot density map',
+    id: 'dotDensityMap',
+  },
+  {
+    name: 'Dot density map (animated)',
+    id: 'animatedDotDensityMap',
+  },
+];

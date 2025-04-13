@@ -15,7 +15,7 @@ import {
   ClassNameObject,
   HighlightAreaSettingsDataType,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { generateRandomString } from '@/Utils/generateRandomString';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
@@ -151,8 +151,8 @@ export function DifferenceLineChart(props: Props) {
     showValues = false,
     padding,
     lineColors = [
-      UNDPColorModule.light.categoricalColors.colors[0],
-      UNDPColorModule.light.categoricalColors.colors[1],
+      Colors.light.categoricalColors.colors[0],
+      Colors.light.categoricalColors.colors[1],
     ],
     backgroundColor = false,
     leftMargin = 30,
@@ -172,10 +172,7 @@ export function DifferenceLineChart(props: Props) {
     labels,
     showColorLegendAtTop = false,
     colorLegendTitle,
-    diffAreaColors = [
-      UNDPColorModule.light.alerts.red,
-      UNDPColorModule.light.alerts.darkGreen,
-    ],
+    diffAreaColors = [Colors.alerts.red, Colors.alerts.darkGreen],
     strokeWidth = 2,
     showDots = true,
     refValues = [],

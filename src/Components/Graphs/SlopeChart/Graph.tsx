@@ -7,7 +7,7 @@ import { cn, Modal } from '@undp-data/undp-design-system-react';
 import { ClassNameObject, SlopeChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 import { Axis } from '@/Components/Elements/Axes/Axis';
 import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
@@ -224,13 +224,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
@@ -242,7 +242,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
                       ...(styles?.yAxis?.labels || {}),
@@ -263,7 +263,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
                         ...(styles?.yAxis?.labels || {}),
@@ -287,13 +287,13 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
@@ -305,7 +305,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
                       ...(styles?.yAxis?.labels || {}),
@@ -326,7 +326,7 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
                         ...(styles?.yAxis?.labels || {}),
@@ -353,7 +353,7 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
+                        ? Colors.gray
                         : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
                     ...styles?.dataConnectors,

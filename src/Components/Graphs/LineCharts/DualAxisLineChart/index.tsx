@@ -12,7 +12,7 @@ import {
   ClassNameObject,
   HighlightAreaSettingsDataType,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -133,8 +133,8 @@ export function DualAxisLineChart(props: Props) {
     showValues = false,
     padding,
     lineColors = [
-      UNDPColorModule.light.categoricalColors.colors[0],
-      UNDPColorModule.light.categoricalColors.colors[1],
+      Colors.light.categoricalColors.colors[0],
+      Colors.light.categoricalColors.colors[1],
     ],
     sameAxes = false,
     backgroundColor = false,

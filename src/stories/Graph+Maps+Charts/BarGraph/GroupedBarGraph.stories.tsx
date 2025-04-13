@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof GroupedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Grouped Bar Graph',
+  title: 'Graphs/Grouped bar graph',
   component: GroupedBarGraph,
   tags: ['autodocs'],
   argTypes: {

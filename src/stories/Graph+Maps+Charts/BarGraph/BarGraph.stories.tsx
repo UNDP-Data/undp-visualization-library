@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Bar Graph',
+  title: 'Graphs/Bar graph',
   component: SimpleBarGraph,
   tags: ['autodocs'],
   argTypes: {

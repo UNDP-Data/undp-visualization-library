@@ -13,7 +13,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DataCards>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Data Cards',
+  title: 'Graphs/Data cards',
   component: DataCards,
   tags: ['autodocs'],
   argTypes: {

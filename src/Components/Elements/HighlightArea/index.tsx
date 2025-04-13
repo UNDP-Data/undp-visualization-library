@@ -1,5 +1,5 @@
 import { NumberValue } from 'd3-scale';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   areaSettings: {
@@ -24,7 +24,7 @@ export function HighlightArea(props: Props) {
             <g>
               <rect
                 style={{
-                  fill: d.color || UNDPColorModule.light.grays['gray-300'],
+                  fill: d.color || Colors.light.grays['gray-300'],
                   strokeWidth: d.strokeWidth,
                   ...(d.style || {}),
                 }}
@@ -71,7 +71,7 @@ export function HighlightAreaForScatterPlot(props: ScatterPlotProps) {
             <g>
               <rect
                 style={{
-                  fill: d.color || UNDPColorModule.light.grays['gray-300'],
+                  fill: d.color || Colors.light.grays['gray-300'],
                   strokeWidth: d.strokeWidth,
                   ...(d.style || {}),
                 }}

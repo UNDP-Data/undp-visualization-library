@@ -14,7 +14,7 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -72,7 +72,7 @@ export function VerticalStackedBarGraph(props: Props) {
   const {
     data,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     sources,
     graphDescription,
     barPadding = 0.25,

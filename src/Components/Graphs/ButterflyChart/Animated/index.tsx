@@ -16,7 +16,7 @@ import {
   StyleObject,
   ClassNameObject,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { Graph } from './Graph';
 
@@ -146,8 +146,8 @@ export function AnimatedButterflyChart(props: Props) {
     width,
     footNote,
     padding,
-    leftBarColor = UNDPColorModule.light.categoricalColors.colors[0],
-    rightBarColor = UNDPColorModule.light.categoricalColors.colors[1],
+    leftBarColor = Colors.light.categoricalColors.colors[0],
+    rightBarColor = Colors.light.categoricalColors.colors[1],
     backgroundColor = false,
     leftMargin = 20,
     rightMargin = 20,

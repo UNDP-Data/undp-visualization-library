@@ -1,0 +1,69 @@
+{
+  "graphType": "animatedBivariateChoroplethMap",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-06.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "x",
+      "columnId": "Indicator-01"
+    },
+    {
+      "chartConfigId": "y",
+      "columnId": "Indicator-02"
+    },
+    {
+      "chartConfigId": "id",
+      "columnId": "countryCode"
+    },
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Animated Bi-Variate Choropleth Map",
+    "graphDescription": "Sample data",
+    "footNote": "",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "xColorLegendTitle": "Title",
+    "yColorLegendTitle": "Title",
+    "xDomain": [10, 20, 30, 40],
+    "yDomain": [10, 20, 30, 40],
+    "colorLegendTitle": "Legend Title",
+    "categorical": false,
+    "scale": 180,
+    "centerPoint": [0, 20],
+    "backgroundColor": "#FAFAFA",
+    "mapBorderWidth": 1,
+    "mapNoDataColor": "#EDEFF0",
+    "mapBorderColor": "#fafafa",
+    "relativeHeight": 0.7,
+    "padding": "1rem",
+    "isWorldMap": true,
+    "tooltip": "{{data.data['Country']}}: {{data.x}}",
+    "showColorScale": true,
+    "zoomScaleExtend": [1, 8],
+    "zoomTranslateExtend": [
+      [-100, -50],
+      [100, 50]
+    ],
+    "graphID": "GraphID",
+    "highlightedCountryCodes": [],
+    "graphDownload": true,
+    "dataDownload": true,
+    "mapProperty": "ISO3",
+    "showAntarctica": false,
+    "rtl": false,
+    "language": "en",
+    "mode": "light"
+  }
+}

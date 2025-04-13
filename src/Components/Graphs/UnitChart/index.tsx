@@ -3,7 +3,7 @@ import sum from 'lodash.sum';
 import { H2, P } from '@undp-data/undp-design-system-react';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import {
   UnitChartDataType,
   SourcesDataType,
@@ -87,7 +87,7 @@ export function UnitChart(props: Props) {
     size = 200,
     graphTitle,
     sources,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     graphDescription,
     totalNoOfDots = 100,
     unitPadding = 3,

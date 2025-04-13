@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof BeeSwarmChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Beeswarm Chart',
+  title: 'Graphs/Beeswarm chart',
   component: BeeSwarmChart,
   tags: ['autodocs'],
   argTypes: {

@@ -1,0 +1,53 @@
+import React, { useState } from 'react';
+import { Meta, Source } from '@storybook/blocks';
+import { GraphDataConfigSelector } from '../assets/GraphDataConfigSelector';
+import { GraphNames } from '../assets/constants';
+
+<Meta
+  title='Graphs from JSON/Graph data config'
+  parameters={{
+    layout: 'fullscreen',
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: false },
+      story: { hidden: false },
+    },
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: '100%',
+      },
+    },
+  }}
+/>
+
+# Graph Config
+
+Select a chart type below to see its configuration format.
+
+<ChartConfigDropdown />
+
+export const ChartConfigDropdown = () => {
+
+  const [selected, setSelected] = useState('Bar graph');
+
+  return (
+    <div style={{ marginTop: '1rem' }}>
+      <label htmlFor="chart-select">
+        <strong>Chart Type:{' '}</strong>
+      </label>
+      <select
+        id="chart-select"
+        value={selected}
+        onChange={(e) => setSelected(e.target.value)}
+      >
+        {GraphNames.map(d => d.name).sort().map((key) => (
+          <option key={key} value={key}>
+            {key}
+          </option>
+        ))}
+      </select>
+      <Source code={GraphDataConfigSelector(selected)} language="json" />
+    </div>
+    );
+};

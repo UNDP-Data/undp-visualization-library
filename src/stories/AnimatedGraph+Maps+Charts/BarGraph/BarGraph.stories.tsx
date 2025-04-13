@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Animated graphs/Bar Graph',
+  title: 'Animated graphs/Bar graph',
   component: AnimatedBarGraph,
   tags: ['autodocs'],
   argTypes: {

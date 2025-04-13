@@ -1,5 +1,5 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   colors: string[];
@@ -70,7 +70,7 @@ export function ColorLegendWithMouseOver(props: Props) {
           {showNAColor ? (
             <div
               onMouseEnter={() => {
-                setSelectedColor(UNDPColorModule.gray);
+                setSelectedColor(Colors.gray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -80,7 +80,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               <div
                 className='w-3 h-3 rounded-full'
                 style={{
-                  backgroundColor: UNDPColorModule.gray,
+                  backgroundColor: Colors.gray,
                 }}
               />
               <P size='sm' marginBottom='none'>

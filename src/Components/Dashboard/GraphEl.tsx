@@ -878,9 +878,7 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.id);
-            }
+            updateFilters?.(el.id);
           },
           detailsOnClick: settings?.detailsOnClick,
           styles: settings?.styles,
@@ -939,9 +937,7 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
           onSeriesMouseClick: (el: any) => {
-            if (updateFilters) {
-              updateFilters(el.id);
-            }
+            updateFilters?.(el.id);
           },
           detailsOnClick: settings?.detailsOnClick,
           styles: settings?.styles,

@@ -14,7 +14,7 @@ import {
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import WorldMapData from '../../WorldMapData/data.json';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 
@@ -142,9 +142,9 @@ export function AnimatedChoroplethMap(props: Props) {
     centerPoint = [10, 10],
     padding,
     mapBorderWidth = 0.5,
-    mapNoDataColor = UNDPColorModule.light.graphNoData,
+    mapNoDataColor = Colors.light.graphNoData,
     backgroundColor = false,
-    mapBorderColor = UNDPColorModule.light.grays['gray-500'],
+    mapBorderColor = Colors.light.grays['gray-500'],
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
@@ -349,12 +349,12 @@ export function AnimatedChoroplethMap(props: Props) {
                   colors={
                     colors ||
                     (categorical
-                      ? UNDPColorModule[mode].sequentialColors[
+                      ? Colors[mode].sequentialColors[
                           `neutralColorsx0${
                             colorDomain.length as 4 | 5 | 6 | 7 | 8 | 9
                           }`
                         ]
-                      : UNDPColorModule[mode].sequentialColors[
+                      : Colors[mode].sequentialColors[
                           `neutralColorsx0${
                             (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                           }`

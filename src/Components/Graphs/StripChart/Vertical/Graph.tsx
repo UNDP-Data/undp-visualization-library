@@ -7,7 +7,7 @@ import { ClassNameObject, StripChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
@@ -197,12 +197,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
@@ -221,12 +221,12 @@ export function Graph(props: Props) {
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(d.color)]
                           : data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
@@ -246,12 +246,12 @@ export function Graph(props: Props) {
                               : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? UNDPColorModule.gray
+                              ? Colors.gray
                               : colors[colorDomain.indexOf(d.color)]
                             : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
+                            ? Colors.gray
                             : colors[colorDomain.indexOf(d.color)]),
                         textAnchor: 'start',
                         ...(styles?.graphObjectValues || {}),

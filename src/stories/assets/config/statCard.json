@@ -1,0 +1,41 @@
+{
+  "graphType": "statCard",
+  "dataSettings": {
+    "data": [
+      {
+        "value": 10
+      },
+      {
+        "value": 20
+      }
+    ]
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "value",
+      "columnId": "value"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Stat Card",
+    "centerAlign": false,
+    "aggregationMethod": "sum",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 500,
+    "suffix": "",
+    "prefix": "",
+    "backgroundColor": true,
+    "graphID": "ID",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "mode": "light"
+  }
+}

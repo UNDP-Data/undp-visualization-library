@@ -13,7 +13,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof CirclePackingGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Circle Packing',
+  title: 'Graphs/Circle packing',
   component: CirclePackingGraph,
   tags: ['autodocs'],
   argTypes: {

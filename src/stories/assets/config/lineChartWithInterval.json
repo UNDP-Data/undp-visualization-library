@@ -1,0 +1,66 @@
+{
+  "graphType": "lineChartWithConfidenceInterval",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-03.csv",
+    "fileType": "csv",
+    "delimiter": ";"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "y",
+      "columnId": "Indicator 01"
+    },
+    {
+      "chartConfigId": "yMin",
+      "columnId": "Indicator 03"
+    },
+    {
+      "chartConfigId": "yMax",
+      "columnId": "Indicator 04"
+    },
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "graphTitle": "Simple Line Chart",
+    "graphDescription": "Human Development Index, 2020",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 24,
+    "bottomMargin": 24,
+    "noOfXTicks": 5,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "suffix": "",
+    "prefix": "",
+    "mode": "light",
+    "backgroundColor": true,
+    "showLabels": true,
+    "showValues": false,
+    "highlightAreaSettings": [{ "coordinates": [2020, 2024] }],
+    "highlightAreaColor": "#EDEFF0",
+    "animateLine": false,
+    "strokeWidth": 2,
+    "showDots": false,
+    "tooltip": "{{y}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "dateFormat": "yyyy",
+    "regressionLine": false,
+    "curveType": "curve"
+  }
+}

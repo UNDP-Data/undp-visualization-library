@@ -14,7 +14,7 @@ import {
 type PagePropsAndCustomArgs = React.ComponentProps<typeof StackedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Stacked Bar Graph',
+  title: 'Graphs/Stacked bar graph',
   component: StackedBarGraph,
   tags: ['autodocs'],
   argTypes: {

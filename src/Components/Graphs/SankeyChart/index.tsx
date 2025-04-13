@@ -13,7 +13,7 @@ import {
   StyleObject,
 } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { generateRandomString } from '@/Utils/generateRandomString';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
@@ -196,7 +196,7 @@ export function SankeyChart(props: Props) {
       label: `${d.source}`,
       color:
         typeof sourceColors === 'string' || !sourceColors
-          ? sourceColors || UNDPColorModule.graphMainColor
+          ? sourceColors || Colors.graphMainColor
           : sourceColors[
               (
                 sourceColorDomain ||
@@ -224,7 +224,7 @@ export function SankeyChart(props: Props) {
       label: `${d.target}`,
       color:
         typeof targetColors === 'string' || !targetColors
-          ? targetColors || UNDPColorModule.graphMainColor
+          ? targetColors || Colors.graphMainColor
           : targetColors[
               (
                 targetColorDomain ||

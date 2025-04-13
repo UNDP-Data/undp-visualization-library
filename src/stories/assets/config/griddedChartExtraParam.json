@@ -1,0 +1,9 @@
+{
+  "showCommonColorScale": false,
+  "mode": "light",
+  "noOfColumns": 3,
+  "columnGridBy": "Official Country Name",
+  "relativeHeightForGraph": 0.6,
+  "minGraphWidth": 320,
+  "minGraphheight": 320
+}

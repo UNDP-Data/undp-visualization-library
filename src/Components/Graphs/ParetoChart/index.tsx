@@ -10,7 +10,7 @@ import {
   StyleObject,
   ClassNameObject,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
@@ -129,8 +129,8 @@ export function ParetoChart(props: Props) {
     width,
     footNote,
     padding,
-    lineColor = UNDPColorModule.light.categoricalColors.colors[1],
-    barColor = UNDPColorModule.light.categoricalColors.colors[0],
+    lineColor = Colors.light.categoricalColors.colors[1],
+    barColor = Colors.light.categoricalColors.colors[0],
     sameAxes = false,
     backgroundColor = false,
     leftMargin = 80,
@@ -256,10 +256,8 @@ export function ParetoChart(props: Props) {
                   <ColorLegend
                     colorDomain={[barAxisTitle, lineAxisTitle]}
                     colors={[
-                      barColor ||
-                        UNDPColorModule[mode].categoricalColors.colors[0],
-                      lineColor ||
-                        UNDPColorModule[mode].categoricalColors.colors[1],
+                      barColor || Colors[mode].categoricalColors.colors[0],
+                      lineColor || Colors[mode].categoricalColors.colors[1],
                     ]}
                     colorLegendTitle={colorLegendTitle}
                     showNAColor={false}

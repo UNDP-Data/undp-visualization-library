@@ -1,0 +1,64 @@
+{
+  "graphType": "animatedDumbbellChart",
+  "debugMode": true,
+  "dataSettings": {
+    "dataURL": "/data/data-sample-06.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    },
+    {
+      "chartConfigId": "x",
+      "columnId": ["Indicator-01", "Indicator-02"]
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GrpahID",
+    "graphTitle": "Horizontal Dumbbell Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 0,
+    "bottomMargin": 0,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "maxBarThickness": 64,
+    "maxNumberOfBars": 20,
+    "minBarThickness": 32,
+    "barPadding": 0.1,
+    "suffix": "",
+    "prefix": "",
+    "mode": "light",
+    "backgroundColor": true,
+    "colors": ["#006eb5", "#5DD4F0"],
+    "colorDomain": ["Indicator 1", "Indicator 2"],
+    "colorLegendTitle": "Indicators",
+    "showColorScale": true,
+    "showLabels": true,
+    "showValues": true,
+    "showTicks": false,
+    "refValues": [{ "value": 16, "text": "Reference", "color": "#000" }],
+    "tooltip": "Indicator 01: {{x.[0]}}<br>Indicator 02: {{x.[1]}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

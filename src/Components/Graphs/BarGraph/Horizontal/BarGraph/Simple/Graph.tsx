@@ -11,7 +11,7 @@ import {
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { string2HTML } from '@/Utils/string2HTML';
 import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
 import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
@@ -257,7 +257,7 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? barColor[0]
                           : !d.color
-                          ? UNDPColorModule.gray
+                          ? Colors.gray
                           : barColor[colorDomain.indexOf(d.color)],
                     }}
                     height={y.bandwidth()}

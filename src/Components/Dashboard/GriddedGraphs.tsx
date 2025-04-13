@@ -32,7 +32,7 @@ import {
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
 } from '@/Utils/fetchAndParseData';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 import GraphEl from './GraphEl';
 import { transformDataForGraph } from '@/Utils/transformData/transformDataForGraph';
@@ -668,7 +668,7 @@ export function GriddedGraphs(props: Props) {
                     colorLegendTitle={graphSettings?.colorLegendTitle}
                     colors={
                       (graphSettings?.colors as string[] | undefined) ||
-                      UNDPColorModule[mode].categoricalColors.colors
+                      Colors[mode].categoricalColors.colors
                     }
                     colorDomain={graphSettings?.colorDomain}
                     showNAColor={

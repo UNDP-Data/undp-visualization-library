@@ -15,7 +15,7 @@ import {
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 
 interface Props {
@@ -78,7 +78,7 @@ export function AnimatedVerticalDumbbellChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     sources,
     graphDescription,
     barPadding = 0.25,

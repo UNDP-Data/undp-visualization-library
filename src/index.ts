@@ -95,7 +95,7 @@ export { CsvDownloadButton } from './Components/Actions/CsvDownloadButton';
 export { CopyTextButton } from './Components/Actions/CopyTextButton';
 
 /* ------- Color Palette ------- */
-export { UNDPColorModule } from './Components/ColorPalette';
+export { Colors } from './Components/ColorPalette';
 
 /* ------- All Design Elements and Typography ------- */
 // Color Legend

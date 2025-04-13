@@ -14,7 +14,7 @@ import {
   ClassNameObject,
   HighlightAreaSettingsDataType,
 } from '@/Types';
-import { UNDPColorModule } from '@/Components/ColorPalette';
+import { Colors } from '@/Components/ColorPalette';
 import { ColorLegend } from '@/Components/Elements/ColorLegend';
 import { EmptyState } from '@/Components/Elements/EmptyState';
 
@@ -180,10 +180,10 @@ export function LineChartWithConfidenceInterval(props: Props) {
     showIntervalValues = false,
     intervalLineStrokeWidth = 0,
     intervalLineColors = [
-      UNDPColorModule.light.grays['gray-500'],
-      UNDPColorModule.light.grays['gray-500'],
+      Colors.light.grays['gray-500'],
+      Colors.light.grays['gray-500'],
     ],
-    intervalAreaColor = UNDPColorModule.light.primaryColors['blue-100'],
+    intervalAreaColor = Colors.primaryColors['blue-100'],
     intervalAreaOpacity = 0.4,
     graphDownload = false,
     dataDownload = false,
@@ -313,8 +313,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
                       <Graph
                         data={data}
                         lineColor={
-                          lineColor ||
-                          UNDPColorModule[mode].primaryColors['blue-600']
+                          lineColor || Colors.primaryColors['blue-600']
                         }
                         width={width || svgWidth}
                         height={Math.max(
