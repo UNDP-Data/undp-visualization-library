@@ -65,8 +65,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -87,7 +87,7 @@ export function StatCardFromData(props: Props) {
     aggregationMethod = 'count',
     language = 'en',
     countOnly,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     textBackground = false,
     headingFontSize = '4.375rem',
@@ -99,7 +99,7 @@ export function StatCardFromData(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex w-full`}
+      className={`${theme || 'light'} flex w-full`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div

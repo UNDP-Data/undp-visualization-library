@@ -51,7 +51,7 @@ interface Props {
   dataDownload?: boolean;
   labelOrder?: string[];
   language?: Languages;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
@@ -101,7 +101,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     language = 'en',
     labelOrder,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     ariaLabel,
     resetSelectionOnDoubleClick = true,
@@ -136,7 +136,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

@@ -62,8 +62,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Theme for the UI elements */
   uiMode?: 'light' | 'normal';
   /** Unique ID for the graph */
@@ -87,7 +87,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
     graphID,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     layerSelection,
     excludeLayers = [],
     ariaLabel,
@@ -112,7 +112,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
   );
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

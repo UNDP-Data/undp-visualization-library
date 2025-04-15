@@ -108,8 +108,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -151,7 +151,7 @@ export function BeeSwarmChart(props: Props) {
     language,
     showNAColor,
     minHeight,
-    mode,
+    theme,
     ariaLabel,
     resetSelectionOnDoubleClick,
     detailsOnClick,
@@ -199,7 +199,7 @@ export function BeeSwarmChart(props: Props) {
         language={language}
         showNAColor={showNAColor}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
         styles={styles}
@@ -245,7 +245,7 @@ export function BeeSwarmChart(props: Props) {
       language={language}
       showNAColor={showNAColor}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       ariaLabel={ariaLabel}
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
       styles={styles}

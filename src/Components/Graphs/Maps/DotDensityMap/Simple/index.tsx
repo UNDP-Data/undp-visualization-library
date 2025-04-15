@@ -106,8 +106,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -149,7 +149,7 @@ export function DotDensityMap(props: Props) {
     showAntarctica = false,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -188,7 +188,7 @@ export function DotDensityMap(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -287,7 +287,7 @@ export function DotDensityMap(props: Props) {
                         ? [colors as string]
                         : [Colors.primaryColors['blue-600']]
                       : (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                   }
                   colorLegendTitle={colorLegendTitle}
                   radius={radius}

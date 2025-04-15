@@ -86,8 +86,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -120,7 +120,7 @@ export function SparkLine(props: Props) {
     dataDownload = false,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     curveType = 'curve',
     styles,
@@ -147,7 +147,7 @@ export function SparkLine(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

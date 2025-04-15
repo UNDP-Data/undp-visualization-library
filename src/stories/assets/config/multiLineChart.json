@@ -37,7 +37,7 @@
     "rightMargin": 40,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "colors": ["#006eb5", "#5DD4F0", "#02A38A", "#E78625", "#E0529E"],
     "labels": ["AFG", "ARM", "ARG", "KHM", "COG"],

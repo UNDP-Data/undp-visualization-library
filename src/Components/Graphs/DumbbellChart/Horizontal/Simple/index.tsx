@@ -55,7 +55,7 @@ interface Props {
   connectorStrokeWidth?: number;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   maxNumberOfBars?: number;
   minBarThickness?: number;
@@ -111,7 +111,7 @@ export function HorizontalDumbbellChart(props: Props) {
     connectorStrokeWidth = 2,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     labelOrder,
     maxBarThickness,
     maxNumberOfBars,
@@ -150,7 +150,7 @@ export function HorizontalDumbbellChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

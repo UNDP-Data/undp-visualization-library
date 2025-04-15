@@ -42,7 +42,7 @@
     "barPadding": 0.1,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "colors": ["#006eb5", "#5DD4F0"],
     "colorDomain": ["Indicator 1", "Indicator 2"],

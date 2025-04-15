@@ -130,8 +130,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -179,7 +179,7 @@ export function AnimatedButterflyChart(props: Props) {
     autoPlay = false,
     colorLegendTitle,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -237,7 +237,7 @@ export function AnimatedButterflyChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -334,7 +334,7 @@ export function AnimatedButterflyChart(props: Props) {
                   colorDomain={[leftBarTitle, rightBarTitle]}
                   colors={[leftBarColor, rightBarColor]}
                   showNAColor={false}
-                  mode={mode}
+                  theme={theme}
                 />
               ) : null}
               <div

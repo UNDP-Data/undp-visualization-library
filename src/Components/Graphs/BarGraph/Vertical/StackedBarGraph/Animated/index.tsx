@@ -57,7 +57,7 @@ interface Props {
   autoSort?: boolean;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   sortParameter?: number | 'total';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -110,7 +110,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
     graphDownload = false,
     dataDownload = false,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     minHeight = 0,
     sortParameter,
     maxBarThickness,
@@ -177,7 +177,7 @@ export function AnimatedVerticalStackedBarChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

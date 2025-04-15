@@ -52,7 +52,7 @@ interface Props {
   dotOpacity?: number;
   showNAColor?: boolean;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
@@ -100,7 +100,7 @@ export function VerticalStripChart(props: Props) {
     dotOpacity = 0.3,
     showNAColor = true,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -131,7 +131,7 @@ export function VerticalStripChart(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -204,7 +204,7 @@ export function VerticalStripChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -252,7 +252,7 @@ export function VerticalStripChart(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         selectedColor={selectedColor}
                         radius={radius}

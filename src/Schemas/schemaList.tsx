@@ -722,7 +722,7 @@ export const sankeyChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -875,7 +875,7 @@ export const simpleBarChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1004,7 +1004,7 @@ export const groupedBarChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1132,7 +1132,7 @@ export const stackedBarChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1272,7 +1272,7 @@ export const animatedSimpleBarChartSettingsSchema = {
     autoSort: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1404,7 +1404,7 @@ export const animatedGroupedBarChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1529,7 +1529,7 @@ export const animatedStackedBarChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1664,7 +1664,7 @@ export const beeSwarmChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1779,7 +1779,7 @@ export const butterflyChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1897,7 +1897,7 @@ export const animatedButterflyChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -1988,7 +1988,7 @@ export const circlePackingSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2044,7 +2044,7 @@ export const dataTableSettingsSchema = {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
     padding: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2132,7 +2132,7 @@ export const dataCardListSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2289,7 +2289,7 @@ export const donutChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2422,7 +2422,7 @@ export const dumbbellChartSettingsSchema = {
     },
     arrowConnector: { type: 'boolean' },
     connectorStrokeWidth: { type: 'number' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2557,7 +2557,7 @@ export const animatedDumbbellChartSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2656,7 +2656,7 @@ export const heatMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2782,7 +2782,7 @@ export const histogramSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2895,7 +2895,7 @@ export const dualAxisLineChartSettingsSchema = {
     strokeWidth: { type: 'number' },
     showDots: { type: 'boolean' },
     colorLegendTitle: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -2969,7 +2969,7 @@ export const lineChartSettingsSchema = {
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
     tooltip: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -3195,7 +3195,7 @@ export const lineChartWithConfidenceIntervalSettingsSchema = {
     relativeHeight: { type: 'number' },
     minHeight: { type: 'number' },
     tooltip: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -3619,7 +3619,7 @@ export const differenceLineChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -3857,7 +3857,7 @@ export const multiLineChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -3940,7 +3940,7 @@ export const sparkLineSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4056,7 +4056,7 @@ export const choroplethMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4178,7 +4178,7 @@ export const biVariateChoroplethMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4294,7 +4294,7 @@ export const dotDensityMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4414,7 +4414,7 @@ export const animatedChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4539,7 +4539,7 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     autoPlay: { type: 'boolean' },
     showOnlyActiveDate: { type: 'boolean' },
     dateFormat: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4655,7 +4655,7 @@ export const animatedDotDensityMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4728,7 +4728,7 @@ export const geoHubCompareMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4809,7 +4809,7 @@ export const geoHubMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4886,7 +4886,7 @@ export const geoHubMapWithLayerSelectionSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -4984,7 +4984,7 @@ export const paretoChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -5231,7 +5231,7 @@ export const scatterPlotSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -5505,7 +5505,7 @@ export const animatedScatterPlotSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -5640,7 +5640,7 @@ export const slopeChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -5863,7 +5863,7 @@ export const stackedAreaChartSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -5936,7 +5936,7 @@ export const statCardSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -6041,7 +6041,7 @@ export const stripChartSettingsSchema = {
     },
     highlightColor: { type: 'string' },
     dotOpacity: { type: 'number' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -6136,7 +6136,7 @@ export const treeMapSettingsSchema = {
         'custom',
       ],
     },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -6202,7 +6202,7 @@ export const unitChartSettingsSchema = {
     showColorScale: { type: 'boolean' },
     showStrokeForWhiteDots: { type: 'boolean' },
     note: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },
@@ -6222,7 +6222,7 @@ export const SettingsSchema = {
       enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
     },
     axisTitle: { type: 'string' },
-    mode: {
+    theme: {
       type: 'string',
       enum: ['light', 'dark'],
     },

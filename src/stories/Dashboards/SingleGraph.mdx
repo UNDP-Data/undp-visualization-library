@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Meta, Source } from '@storybook/addon-docs/blocks';
-import GraphType from './PageSections/GraphType.mdx';
-import DataSettings from './PageSections/DataSettings.mdx';
-import GraphSettings from './PageSections/GraphSettings.mdx';
-import DataTransform from './PageSections/DataTransform.mdx';
-import DataFilters from './PageSections/DataFilters.mdx';
-import ReadableHeader from './PageSections/ReadableHeader.mdx';
-import GraphDataConfig from './PageSections/GraphDataConfig.mdx';
-import Filters from './PageSections/Filters.mdx';
-import NoOfFiltersPerRow from './PageSections/NoOfFiltersPerRow.mdx';
-import DataSelectionOptions from './PageSections/DataSelectionOptions.mdx';
-import AdvancedDataSelectionOptions from './PageSections/AdvancedDataSelectionOptions.mdx';
-import DebugMode from './PageSections/DebugMode.mdx';
-import UIMode from './PageSections/UIMode.mdx';
-import Mode from './PageSections/Mode.mdx';
+import GraphType from './PageSections/ComplexDataTypes/GraphType.mdx';
+import DataSettings from './PageSections/ComplexDataTypes/DataSettings.mdx';
+import GraphSettings from './PageSections/ComplexDataTypes/GraphSettings.mdx';
+import DataTransform from './PageSections/ComplexDataTypes/DataTransform.mdx';
+import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
+import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
+import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
+import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
+import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
+import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
+import DebugMode from './PageSections/SimpleDataTypes/DebugMode.mdx';
+import UIMode from './PageSections/SimpleDataTypes/UIMode.mdx';
+import Theme from './PageSections/SimpleDataTypes/Theme.mdx';
 
 <Meta title="Dashboard/Single graphs with filters" />
 
@@ -67,7 +67,7 @@ function Graph() {
 
 ```
 
-__NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#single-graph-config) to learn more about that.__
+__NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#single-graph-with-filters-config) to learn more about that.__
 
 
 ## Props
@@ -86,8 +86,8 @@ __NOTE: You can also use json config to create single graph with filters. [Click
 - [dataSelectionOptions](#dataselectionoptions) - Options for selecting specific columns to visualize
 - [advancedDataSelectionOptions](#advanceddataselectionoptions) - Advanced options for selecting specific groups of columns to visualize
 - [debugMode](#debugmode) - Enables debugging logs
-- [uiMode](#uimode) - Controls UI theme mode
-- [mode](#mode) - Controls color theme mode
+- [uiMode](#uimode) - Controls UI theme
+- [theme](#theme) - Controls color theme
 
 
 #### Props interface
@@ -185,7 +185,7 @@ interface Props {
   }[];
   debugMode?: boolean;
   uiMode?: 'light' | 'normal';
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
 }
 ```
 
@@ -243,5 +243,5 @@ interface Props {
 
 ---
 
-<Mode />
+<Theme />
 

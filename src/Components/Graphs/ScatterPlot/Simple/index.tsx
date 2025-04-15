@@ -142,8 +142,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -196,7 +196,7 @@ export function ScatterPlot(props: Props) {
     minHeight = 0,
     annotations = [],
     customHighlightAreaSettings = [],
-    mode = 'light',
+    theme = 'light',
     regressionLine = false,
     ariaLabel,
     resetSelectionOnDoubleClick = true,
@@ -230,7 +230,7 @@ export function ScatterPlot(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -303,7 +303,7 @@ export function ScatterPlot(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -352,7 +352,7 @@ export function ScatterPlot(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         xAxisTitle={xAxisTitle}
                         yAxisTitle={yAxisTitle}

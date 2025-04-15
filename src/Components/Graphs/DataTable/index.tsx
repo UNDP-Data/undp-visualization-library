@@ -68,8 +68,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -93,7 +93,7 @@ export function DataTable(props: Props) {
     columnData,
     onSeriesMouseClick,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     backgroundColor = false,
     padding,
@@ -152,7 +152,7 @@ export function DataTable(props: Props) {
   }, [columnSortBy, sortDirection, data, filterOption]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

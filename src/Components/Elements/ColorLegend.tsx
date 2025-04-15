@@ -8,7 +8,7 @@ interface Props {
   showNAColor: boolean;
   width?: number;
   isCenter?: boolean;
-  mode: 'dark' | 'light';
+  theme: 'dark' | 'light';
   className?: string;
 }
 
@@ -20,7 +20,7 @@ export function ColorLegend(props: Props) {
     showNAColor,
     width,
     isCenter,
-    mode,
+    theme,
     className,
   } = props;
 
@@ -32,7 +32,7 @@ export function ColorLegend(props: Props) {
       }}
       aria-label='Color legend'
     >
-      <div className={mode || 'light'}>
+      <div className={theme || 'light'}>
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P
             size='sm'

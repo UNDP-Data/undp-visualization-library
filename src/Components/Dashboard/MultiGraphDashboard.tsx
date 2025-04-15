@@ -31,14 +31,14 @@ import { filterData } from '@/Utils/transformData/filterData';
 import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
   dataFilters?: DataFilterDataType[];
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   filterPosition?: 'top' | 'side';
   readableHeader?: {
     value: string;
@@ -65,12 +65,12 @@ const GraphWithAttachedFilter: GraphType[] = [
 
 export function MultiGraphDashboard(props: Props) {
   const {
-    dashboardId,
+    dashboardID,
     dashboardLayout,
     dataSettings,
     filters,
     debugMode,
-    mode = 'light',
+    theme = 'light',
     readableHeader,
     dataFilters,
     noOfFiltersPerRow = 4,
@@ -183,7 +183,7 @@ export function MultiGraphDashboard(props: Props) {
   }, []);
   return (
     <div
-      className={`${mode || 'light'} flex grow`}
+      className={`${theme || 'light'} flex grow`}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'
@@ -206,7 +206,7 @@ export function MultiGraphDashboard(props: Props) {
             ? { backgroundColor: dashboardLayout.backgroundColor }
             : {}),
         }}
-        id={dashboardId}
+        id={dashboardID}
       >
         <div
           style={{
@@ -365,7 +365,7 @@ export function MultiGraphDashboard(props: Props) {
                           graphType={el.graphType}
                           dataFilters={el.dataFilters}
                           graphSettings={{
-                            ...el.settings,
+                            ...(el.settings || {}),
                             width: undefined,
                             height: undefined,
                             resetSelectionOnDoubleClick: el.attachedFilter
@@ -384,7 +384,7 @@ export function MultiGraphDashboard(props: Props) {
                                 : undefined,
                             language:
                               el.settings?.language || dashboardLayout.language,
-                            mode: el.settings?.mode || mode,
+                            theme: el.settings?.theme || theme,
                           }}
                           dataSettings={{
                             data: data

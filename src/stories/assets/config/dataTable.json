@@ -38,7 +38,7 @@
         "link": "https://hdr.undp.org/"
       }
     ],
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "graphDownload": true,
     "dataDownload": true,

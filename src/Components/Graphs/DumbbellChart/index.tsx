@@ -128,8 +128,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -174,7 +174,7 @@ export function DumbbellChart(props: Props) {
     connectorStrokeWidth,
     language,
     minHeight,
-    mode,
+    theme,
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
@@ -232,7 +232,7 @@ export function DumbbellChart(props: Props) {
         connectorStrokeWidth={connectorStrokeWidth}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         maxBarThickness={maxBarThickness}
         maxNumberOfBars={maxNumberOfBars}
         minBarThickness={minBarThickness}
@@ -288,7 +288,7 @@ export function DumbbellChart(props: Props) {
       connectorStrokeWidth={connectorStrokeWidth}
       language={language}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       maxBarThickness={maxBarThickness}
       maxNumberOfBars={maxNumberOfBars}
       minBarThickness={minBarThickness}

@@ -62,6 +62,6 @@
     "showColorScale": true,
     "refValues": [{ "value": 50, "text": "Midpoint", "color": "#000" }],
     "language": "en",
-    "mode": "light"
+    "theme": "light"
   }
 }

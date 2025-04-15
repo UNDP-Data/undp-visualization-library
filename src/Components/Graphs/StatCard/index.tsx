@@ -53,8 +53,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -73,7 +73,7 @@ export function BasicStatCard(props: Props) {
     backgroundColor = false,
     graphID,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     textBackground = false,
     headingFontSize = '4.375rem',
@@ -84,7 +84,7 @@ export function BasicStatCard(props: Props) {
   } = props;
   return (
     <div
-      className={`${mode || 'light'} flex w-full`}
+      className={`${theme || 'light'} flex w-full`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div

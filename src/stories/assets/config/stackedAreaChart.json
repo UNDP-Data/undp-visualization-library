@@ -41,7 +41,7 @@
     "barPadding": 0.1,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "colorLegendTitle": "Indicators",
     "showColorScale": true,

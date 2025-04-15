@@ -35,7 +35,7 @@
     "noOfXTicks": 5,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "color": "#006eb5",
     "showLabels": true,

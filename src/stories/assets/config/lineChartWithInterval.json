@@ -46,7 +46,7 @@
     "rightMargin": 40,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "showLabels": true,
     "showValues": false,

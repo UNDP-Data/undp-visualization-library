@@ -1,0 +1,271 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Dashboard/Data types/dashboardLayout (for multi graph dashboard (wide to long))" />
+
+### dashboardLayout (for multi graph dashboard (wide to long))
+
+`required`
+
+Type - `object`
+
+Defines the layout of the dashboard (wide to long), charts that are shown and the data used to visualize these charts.
+
+#### Data Format
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>Defines the title of the dashboard.</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>Defines the description of the dashboard.</td>
+    </tr>
+    <tr>
+      <td>padding</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the padding around the dashboard layout. Accepts any valid CSS
+        padding value (e.g. <code>"1rem"</code>, <code>"20px"</code>).
+      </td>
+    </tr>
+    <tr>
+      <td>backgroundColor</td>
+      <td>no</td>
+      <td>
+        <code>string</code> or <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Defines the background color of the dashboard. If set to{' '}
+        <code>true</code>, it uses <code>var(--gray-200)</code> as the default
+        background.
+      </td>
+    </tr>
+    <tr>
+      <td>language</td>
+      <td>no</td>
+      <td>
+        <code>'en'</code>, <code>'ar'</code>, <code>'az'</code>,{' '}
+        <code>'bn'</code>, <code>'cy'</code>, <code>'he'</code>,
+        <code>'hi'</code>, <code>'jp'</code>, <code>'ka'</code>,{' '}
+        <code>'km'</code>, <code>'ko'</code>,<code>'my'</code>,{' '}
+        <code>'ne'</code>, <code>'zh'</code>, or <code>'custom'</code>
+      </td>
+      <td>
+        <code>en</code>
+      </td>
+      <td>
+        Defines the language used in the chart. Use <code>'custom'</code> to
+        implement your own localization.
+      </td>
+    </tr>
+    <tr>
+      <td>rows</td>
+      <td>yes</td>
+      <td>
+        <code>{'Array<{columns: Array<object>; height?: number;}>'}</code>
+      </td>
+      <td></td>
+      <td>
+        An array of row configurations. Each row contains a set of columns
+        (graph blocks) and optional height to define row height.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```
+dashboardLayout={{
+  title: 'Sample Dashboard',
+  description: 'Graph Description',
+  backgroundColor: true,
+  padding: '1rem',
+  language: 'en',
+  rows: [
+    {
+      height: 700,
+      columns: [
+        {
+          graphType: 'barChart',
+          graphDataConfiguration: [
+            { columnId: 'Country', chartConfigId: 'label' },
+            { columnId: 'Value', chartConfigId: 'size' },
+          ],
+          settings: {
+            graphTitle: 'Bar Chart',
+          },
+        },
+      ],
+    },
+  ],
+}}
+```
+
+#### Column Settings Data Format
+
+`rows` can contain multiple `columns`, where each column holds one chart. You can configure each chart's settings using the following options.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>graphType</td>
+      <td>yes</td>
+      <td>
+        <code>'donutChart'</code>, <code>'barChart'</code>, <code>'unitChart'</code>, <code>'treeMap'</code>, or <code>'circlePacking'</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the type of chart. <strong>Note: Dashboard (wide to long) only support the graph types that are mentioned in the type column.</strong>
+      </td>
+    </tr>
+    <tr>
+      <td>attachedFilter</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the filter that gets triggered when data points are clicked. The
+        value must match a column in the <code>filters</code> array. Applicable
+        to charts like <code>barChart</code>, <code>circlePacking</code>, or{' '}
+        <code>treeMap</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>columnWidth</td>
+      <td>no</td>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+        <code>1</code>
+      </td>
+      <td>
+        Defines the width of the column relative to others. Works similar to{' '}
+        <code>flex-grow</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>dataTransform</td>
+      <td>no</td>
+      <td>
+        <code>
+          {
+            '{ keyColumn: string; aggregationColumnsSetting?: AggregationSettingsDataType[] }'
+          }
+        </code>
+      </td>
+      <td></td>
+      <td>
+        Use this to transform data based on a unique <code>keyColumn</code> with
+        optional aggregation settings (e.g., <code>sum</code>,{' '}
+        <code>average</code>). [Learn
+        more](?path=/docs/dashboard-data-types-datatransform--docs)
+      </td>
+    </tr>
+    <tr>
+      <td>dataFilters</td>
+      <td>no</td>
+      <td>
+        <code>DataFilterDataType[]</code>
+      </td>
+      <td></td>
+      <td>
+        Filters data based on a specific column and its values. [Learn
+        more](?path=/docs/dashboard-data-types-datafilters--docs)
+      </td>
+    </tr>
+    <tr>
+      <td>graphDataConfiguration</td>
+      <td>no</td>
+      <td>
+        <code>GraphConfigurationDataType[]</code>
+      </td>
+      <td></td>
+      <td>
+        Maps dataset columns to chart parameters. Required unless{' '}
+        <code>graphType</code> is <code>dataTable</code>, <code>dataCards</code>
+        , <code>geoHubMap</code>, or <code>geoHubCompareMap</code>. [Learn
+        more](?path=/dashboard-data-types-graphdataconfig--docs)
+      </td>
+    </tr>
+    <tr>
+      <td>dataSelectionOptions</td>
+      <td>no</td>
+      <td>
+        <code>{'Array<object>'}</code>
+      </td>
+      <td></td>
+      <td>
+        Optional data selection configuration (e.g., dropdowns or filters).
+        [Learn
+        more](?path=/docs/dashboard-data-types-dataselectionoptions--docs)
+      </td>
+    </tr>
+    <tr>
+      <td>advancedDataSelectionOptions</td>
+      <td>no</td>
+      <td>
+        <code>{'Array<object>'}</code>
+      </td>
+      <td></td>
+      <td>
+        Optional advanced filtering or selection configuration for complex
+        interactions. [Learn
+        more](?path=/docs/dashboard-data-types-advanceddataselectionoptions--docs)
+      </td>
+    </tr>
+    <tr>
+      <td>settings</td>
+      <td>no</td>
+      <td>
+        <code>{'Array<object>'}</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the chart-specific configuration. The structure of this object
+        depends on the <code>graphType</code>. [Learn
+        more](?path=/docs/dashboard-data-types-datasettings--docs)
+      </td>
+    </tr>
+  </tbody>
+</table>

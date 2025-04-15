@@ -57,7 +57,7 @@ interface Props {
   autoSort?: boolean;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   sortParameter?: number | 'total';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -111,7 +111,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
     autoSort = true,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     sortParameter,
     maxBarThickness,
     minBarThickness,
@@ -178,7 +178,7 @@ export function AnimatedHorizontalStackedBarChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

@@ -51,7 +51,7 @@ interface Props {
   language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
   detailsOnClick?: string;
@@ -99,7 +99,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
     language = 'en',
     showNAColor = true,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -133,7 +133,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -206,7 +206,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -237,7 +237,7 @@ export function HorizontalBeeSwarmChart(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0

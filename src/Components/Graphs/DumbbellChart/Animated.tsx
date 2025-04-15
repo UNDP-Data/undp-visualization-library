@@ -132,8 +132,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -178,7 +178,7 @@ export function AnimatedDumbbellChart(props: Props) {
     connectorStrokeWidth,
     language,
     minHeight,
-    mode,
+    theme,
     showOnlyActiveDate,
     autoPlay,
     dateFormat,
@@ -237,7 +237,7 @@ export function AnimatedDumbbellChart(props: Props) {
         connectorStrokeWidth={connectorStrokeWidth}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         showOnlyActiveDate={showOnlyActiveDate}
         autoPlay={autoPlay}
         dateFormat={dateFormat}
@@ -294,7 +294,7 @@ export function AnimatedDumbbellChart(props: Props) {
       connectorStrokeWidth={connectorStrokeWidth}
       language={language}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       showOnlyActiveDate={showOnlyActiveDate}
       autoPlay={autoPlay}
       dateFormat={dateFormat}

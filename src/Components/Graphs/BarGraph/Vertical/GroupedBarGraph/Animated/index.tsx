@@ -57,7 +57,7 @@ interface Props {
   autoPlay?: boolean;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
@@ -108,7 +108,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
     graphDownload = false,
     dataDownload = false,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     minHeight = 0,
     maxBarThickness,
     ariaLabel,
@@ -174,7 +174,7 @@ export function AnimatedVerticalGroupedBarGraph(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

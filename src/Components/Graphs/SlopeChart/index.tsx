@@ -107,8 +107,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -149,7 +149,7 @@ export function SlopeChart(props: Props) {
     language = 'en',
     showNAColor = true,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -179,7 +179,7 @@ export function SlopeChart(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+      className={`${theme || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } `}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -252,7 +252,7 @@ export function SlopeChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -305,7 +305,7 @@ export function SlopeChart(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         selectedColor={selectedColor}
                         axisTitles={axisTitles}

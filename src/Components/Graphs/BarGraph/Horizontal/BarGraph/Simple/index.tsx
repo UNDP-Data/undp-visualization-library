@@ -57,7 +57,7 @@ interface Props {
   sortData?: 'asc' | 'desc';
   language?: Languages;
   showNAColor?: boolean;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   maxNumberOfBars?: number;
   minBarThickness?: number;
@@ -113,7 +113,7 @@ export function HorizontalBarGraph(props: Props) {
     language = 'en',
     showNAColor = true,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     maxNumberOfBars,
     minBarThickness,
@@ -150,7 +150,7 @@ export function HorizontalBarGraph(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex ${
+      className={`${theme || 'light'} flex ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -223,7 +223,7 @@ export function HorizontalBarGraph(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -264,7 +264,7 @@ export function HorizontalBarGraph(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0

@@ -776,7 +776,7 @@ export interface GraphSettingsDataType {
   showOnlyActiveDate?: boolean;
   showDots?: boolean;
   diffAreaColors?: [string, string];
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   uiMode?: 'light' | 'normal';
   maxBarThickness?: number;
   minBarThickness?: number;

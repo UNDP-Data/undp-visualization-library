@@ -62,7 +62,7 @@ interface Props {
   debugMode?: boolean;
   uiMode?: 'light' | 'normal';
   updateFilters?: (_d: string) => void;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
 }
 
 const addMinAndMax = (config: GraphConfigurationDataType[]) => {
@@ -107,7 +107,7 @@ export function SingleGraphDashboard(props: Props) {
     noOfFiltersPerRow = 4,
     updateFilters,
     uiMode = 'normal',
-    mode = 'light',
+    theme = 'light',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -277,7 +277,7 @@ export function SingleGraphDashboard(props: Props) {
     );
   return (
     <div
-      className={`${mode || graphSettings?.mode || 'light'} flex  ${
+      className={`${theme || graphSettings?.theme || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
@@ -718,30 +718,17 @@ export function SingleGraphDashboard(props: Props) {
                   debugMode={debugMode}
                   readableHeader={readableHeader || []}
                   updateFilters={updateFilters}
-                  settings={
-                    graphSettings
-                      ? {
-                          ...graphSettings,
-                          ...advancedGraphSettings,
-                          graphTitle: undefined,
-                          graphDescription: undefined,
-                          graphDownload: false,
-                          dataDownload: false,
-                          backgroundColor: undefined,
-                          padding: '0',
-                          mode: graphSettings.mode || mode,
-                        }
-                      : ({
-                          ...advancedGraphSettings,
-                          graphTitle: undefined,
-                          graphDescription: undefined,
-                          graphDownload: false,
-                          dataDownload: false,
-                          backgroundColor: undefined,
-                          padding: '0',
-                          mode,
-                        } as GraphSettingsDataType)
-                  }
+                  settings={{
+                    ...(graphSettings || {}),
+                    ...advancedGraphSettings,
+                    graphTitle: undefined,
+                    graphDescription: undefined,
+                    graphDownload: false,
+                    dataDownload: false,
+                    backgroundColor: undefined,
+                    padding: '0',
+                    theme: graphSettings?.theme || theme,
+                  }}
                 />
               </>
             ) : (

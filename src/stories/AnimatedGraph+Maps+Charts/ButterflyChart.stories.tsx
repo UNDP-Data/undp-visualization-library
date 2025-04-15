@@ -157,7 +157,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'yyyy' },
       },
     },
-    mode: {
+    theme: {
       control: 'inline-radio',
       options: ['light', 'dark'],
       table: {

@@ -137,8 +137,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -185,7 +185,7 @@ export function AnimatedBarGraph(props: Props) {
     graphDownload,
     dataDownload,
     language,
-    mode,
+    theme,
     showNAColor,
     minHeight,
     maxBarThickness,
@@ -244,7 +244,7 @@ export function AnimatedBarGraph(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         language={language}
-        mode={mode}
+        theme={theme}
         showNAColor={showNAColor}
         minHeight={minHeight}
         maxBarThickness={maxBarThickness}
@@ -301,7 +301,7 @@ export function AnimatedBarGraph(props: Props) {
       graphDownload={graphDownload}
       dataDownload={dataDownload}
       language={language}
-      mode={mode}
+      theme={theme}
       showNAColor={showNAColor}
       minHeight={minHeight}
       maxBarThickness={maxBarThickness}
@@ -431,8 +431,8 @@ interface GroupedBarChartProps {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -477,7 +477,7 @@ export function AnimatedGroupedBarGraph(props: GroupedBarChartProps) {
     autoPlay,
     language,
     minHeight,
-    mode,
+    theme,
     maxBarThickness,
     ariaLabel,
     resetSelectionOnDoubleClick,
@@ -531,7 +531,7 @@ export function AnimatedGroupedBarGraph(props: GroupedBarChartProps) {
         autoPlay={autoPlay}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         maxBarThickness={maxBarThickness}
         ariaLabel={ariaLabel}
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
@@ -583,7 +583,7 @@ export function AnimatedGroupedBarGraph(props: GroupedBarChartProps) {
       autoPlay={autoPlay}
       language={language}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
@@ -714,8 +714,8 @@ interface StackedBarChartProps {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -759,7 +759,7 @@ export function AnimatedStackedBarGraph(props: StackedBarChartProps) {
     graphDownload,
     dataDownload,
     language,
-    mode,
+    theme,
     minHeight,
     sortParameter,
     maxBarThickness,
@@ -815,7 +815,7 @@ export function AnimatedStackedBarGraph(props: StackedBarChartProps) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         language={language}
-        mode={mode}
+        theme={theme}
         minHeight={minHeight}
         sortParameter={sortParameter}
         maxBarThickness={maxBarThickness}
@@ -869,7 +869,7 @@ export function AnimatedStackedBarGraph(props: StackedBarChartProps) {
       graphDownload={graphDownload}
       dataDownload={dataDownload}
       language={language}
-      mode={mode}
+      theme={theme}
       minHeight={minHeight}
       sortParameter={sortParameter}
       maxBarThickness={maxBarThickness}

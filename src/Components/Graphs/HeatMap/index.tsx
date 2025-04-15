@@ -113,8 +113,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -157,7 +157,7 @@ export function HeatMap(props: Props) {
     language = 'en',
     showNAColor = true,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     resetSelectionOnDoubleClick = true,
     detailsOnClick,
@@ -195,7 +195,7 @@ export function HeatMap(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+      className={`${theme || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -268,15 +268,15 @@ export function HeatMap(props: Props) {
                           colors={
                             colors ||
                             (typeof colorDomain[0] === 'string'
-                              ? Colors[mode].categoricalColors.colors
+                              ? Colors[theme].categoricalColors.colors
                               : colorDomain.length === 2
                               ? [
-                                  Colors[mode].sequentialColors
+                                  Colors[theme].sequentialColors
                                     .neutralColorsx09[0],
-                                  Colors[mode].sequentialColors
+                                  Colors[theme].sequentialColors
                                     .neutralColorsx09[8],
                                 ]
-                              : Colors[mode].sequentialColors[
+                              : Colors[theme].sequentialColors[
                                   `neutralColorsx0${
                                     (colorDomain.length + 1) as
                                       | 4
@@ -301,15 +301,15 @@ export function HeatMap(props: Props) {
                           colors={
                             colors ||
                             (typeof colorDomain[0] === 'string'
-                              ? Colors[mode].categoricalColors.colors
+                              ? Colors[theme].categoricalColors.colors
                               : colorDomain.length === 2
                               ? [
-                                  Colors[mode].sequentialColors
+                                  Colors[theme].sequentialColors
                                     .neutralColorsx09[0],
-                                  Colors[mode].sequentialColors
+                                  Colors[theme].sequentialColors
                                     .neutralColorsx09[8],
                                 ]
-                              : Colors[mode].sequentialColors[
+                              : Colors[theme].sequentialColors[
                                   `neutralColorsx0${
                                     (colorDomain.length + 1) as
                                       | 4
@@ -333,8 +333,10 @@ export function HeatMap(props: Props) {
                           colorLegendTitle={colorLegendTitle}
                           colors={
                             colors || [
-                              Colors[mode].sequentialColors.neutralColorsx09[0],
-                              Colors[mode].sequentialColors.neutralColorsx09[8],
+                              Colors[theme].sequentialColors
+                                .neutralColorsx09[0],
+                              Colors[theme].sequentialColors
+                                .neutralColorsx09[8],
                             ]
                           }
                           colorDomain={colorDomain as number[]}
@@ -355,15 +357,15 @@ export function HeatMap(props: Props) {
                         colors={
                           colors ||
                           (typeof colorDomain[0] === 'string'
-                            ? Colors[mode].categoricalColors.colors
+                            ? Colors[theme].categoricalColors.colors
                             : colorDomain.length === 2
                             ? [
-                                Colors[mode].sequentialColors
+                                Colors[theme].sequentialColors
                                   .neutralColorsx09[0],
-                                Colors[mode].sequentialColors
+                                Colors[theme].sequentialColors
                                   .neutralColorsx09[8],
                               ]
-                            : Colors[mode].sequentialColors[
+                            : Colors[theme].sequentialColors[
                                 `neutralColorsx0${
                                   (colorDomain.length + 1) as
                                     | 4

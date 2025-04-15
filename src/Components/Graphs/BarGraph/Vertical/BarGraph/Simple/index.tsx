@@ -57,7 +57,7 @@ interface Props {
   language?: Languages;
   showNAColor?: boolean;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   maxNumberOfBars?: number;
   minBarThickness?: number;
@@ -109,7 +109,7 @@ export function VerticalBarGraph(props: Props) {
     graphDownload = false,
     dataDownload = false,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     sortData,
     labelOrder,
     showNAColor = true,
@@ -148,7 +148,7 @@ export function VerticalBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -221,7 +221,7 @@ export function VerticalBarGraph(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -262,7 +262,7 @@ export function VerticalBarGraph(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0

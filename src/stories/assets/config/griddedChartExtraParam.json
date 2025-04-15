@@ -1,6 +1,6 @@
 {
   "showCommonColorScale": false,
-  "mode": "light",
+  "theme": "light",
   "noOfColumns": 3,
   "columnGridBy": "Official Country Name",
   "relativeHeightForGraph": 0.6,

@@ -118,8 +118,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -161,7 +161,7 @@ export function AnimatedChoroplethMap(props: Props) {
     showAntarctica = false,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     dateFormat = 'yyyy',
     showOnlyActiveDate = false,
     autoPlay = false,
@@ -232,7 +232,7 @@ export function AnimatedChoroplethMap(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -349,12 +349,12 @@ export function AnimatedChoroplethMap(props: Props) {
                   colors={
                     colors ||
                     (categorical
-                      ? Colors[mode].sequentialColors[
+                      ? Colors[theme].sequentialColors[
                           `neutralColorsx0${
                             colorDomain.length as 4 | 5 | 6 | 7 | 8 | 9
                           }`
                         ]
-                      : Colors[mode].sequentialColors[
+                      : Colors[theme].sequentialColors[
                           `neutralColorsx0${
                             (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
                           }`

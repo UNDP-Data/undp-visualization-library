@@ -57,7 +57,7 @@ interface Props {
   autoPlay?: boolean;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   ariaLabel?: string;
   resetSelectionOnDoubleClick?: boolean;
@@ -109,7 +109,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
     autoPlay = false,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     ariaLabel,
     resetSelectionOnDoubleClick = true,
@@ -173,7 +173,7 @@ export function AnimatedHorizontalGroupedBarGraph(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

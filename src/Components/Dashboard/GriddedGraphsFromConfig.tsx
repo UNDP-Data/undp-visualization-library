@@ -42,7 +42,7 @@ interface ConfigObject {
     value: string;
     label: string;
   }[];
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
 }
 
 interface Props {
@@ -103,7 +103,7 @@ export function GriddedGraphsFromConfig(props: Props) {
       advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
-      mode={configSettings.mode}
+      theme={configSettings.theme}
     />
   );
 }

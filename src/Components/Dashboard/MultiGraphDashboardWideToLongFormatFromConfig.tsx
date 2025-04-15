@@ -12,11 +12,11 @@ import { validateConfigSchema } from '@/Utils/validateSchema';
 import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
 
 interface ConfigObject {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardFromWideToLongFormatLayoutDataType;
   dataSettings: DataSettingsWideToLongDataType;
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
@@ -74,11 +74,11 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
     );
   return (
     <MultiGraphDashboardWideToLongFormat
-      dashboardId={configSettings.dashboardId}
+      dashboardID={configSettings.dashboardID}
       dashboardLayout={configSettings.dashboardLayout}
       dataSettings={configSettings.dataSettings}
       debugMode={configSettings.debugMode}
-      mode={configSettings.mode}
+      theme={configSettings.theme}
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
       uiMode={configSettings.uiMode}

@@ -120,8 +120,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -166,7 +166,7 @@ export function SimpleLineChart(props: Props) {
     showDots = true,
     annotations = [],
     customHighlightAreaSettings = [],
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     regressionLine = false,
     yAxisTitle,
@@ -194,7 +194,7 @@ export function SimpleLineChart(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

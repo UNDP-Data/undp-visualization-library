@@ -60,7 +60,7 @@
     "barPadding": 0.1,
     "suffix": "",
     "prefix": "",
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "sortData": "desc",
     "showNAColor": false,

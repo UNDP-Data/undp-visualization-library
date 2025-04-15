@@ -31,7 +31,7 @@
         "link": "https://hdr.undp.org/"
       }
     ],
-    "mode": "light",
+    "theme": "light",
     "backgroundColor": true,
     "cardBackgroundColor": "#fff",
     "graphDownload": true,

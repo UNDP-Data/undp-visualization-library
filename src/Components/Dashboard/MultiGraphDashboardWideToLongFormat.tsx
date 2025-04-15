@@ -26,11 +26,11 @@ import { filterData } from '@/Utils/transformData/filterData';
 import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 
 interface Props {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardFromWideToLongFormatLayoutDataType;
   dataSettings: DataSettingsWideToLongDataType;
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
@@ -49,11 +49,11 @@ const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
 
 export function MultiGraphDashboardWideToLongFormat(props: Props) {
   const {
-    dashboardId,
+    dashboardID,
     dashboardLayout,
     dataSettings,
     debugMode,
-    mode = 'light',
+    theme = 'light',
     readableHeader,
     dataFilters,
     uiMode = 'normal',
@@ -141,7 +141,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   }, [fetchDataHandler]);
   return (
     <div
-      className={`${mode || 'light'} flex grow`}
+      className={`${theme || 'light'} flex grow`}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'
@@ -164,7 +164,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
             ? { backgroundColor: dashboardLayout?.backgroundColor }
             : {}),
         }}
-        id={dashboardId}
+        id={dashboardID}
       >
         <div
           style={{
@@ -260,7 +260,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           graphType={el.graphType}
                           dataFilters={el.dataFilters}
                           graphSettings={{
-                            ...el.settings,
+                            ...(el.settings || {}),
                             width: undefined,
                             height: undefined,
                             radius:
@@ -273,7 +273,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                                 : undefined,
                             language:
                               el.settings?.language || dashboardLayout.language,
-                            mode: el.settings?.mode || mode,
+                            theme: el.settings?.theme || theme,
                             styles: el.settings?.styles || graphStyles,
                             classNames:
                               el.settings?.classNames || graphClassNames,

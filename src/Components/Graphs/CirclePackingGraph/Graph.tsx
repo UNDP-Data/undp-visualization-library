@@ -42,7 +42,7 @@ interface Props {
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
+  theme: 'light' | 'dark';
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
@@ -78,7 +78,7 @@ export const Graph = memo((props: Props) => {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    mode,
+    theme,
     maxRadiusValue,
     radius,
     resetSelectionOnDoubleClick,
@@ -257,7 +257,7 @@ export const Graph = memo((props: Props) => {
         : !d.color
         ? Colors.gray
         : colors[colorDomain.indexOf(d.color)],
-    [data, colors, mode, colorDomain],
+    [data, colors, theme, colorDomain],
   );
 
   const getOpacity = useCallback(

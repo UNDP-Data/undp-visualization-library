@@ -127,8 +127,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -175,7 +175,7 @@ export function MultiLineChart(props: Props) {
     showDots = true,
     annotations = [],
     customHighlightAreaSettings = [],
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     yAxisTitle,
     noOfYTicks = 5,
@@ -206,7 +206,7 @@ export function MultiLineChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -278,7 +278,7 @@ export function MultiLineChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={lineColors}
                       showNAColor={false}
-                      mode={mode}
+                      theme={theme}
                     />
                   ) : null}
                   <div

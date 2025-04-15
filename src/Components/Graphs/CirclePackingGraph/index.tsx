@@ -110,8 +110,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -150,7 +150,7 @@ export function CirclePackingGraph(props: Props) {
     language = 'en',
     showNAColor,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     radius,
     maxRadiusValue,
@@ -180,7 +180,7 @@ export function CirclePackingGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -253,7 +253,7 @@ export function CirclePackingGraph(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={
                         (colors as string[] | undefined) ||
-                        Colors[mode].categoricalColors.colors
+                        Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -285,7 +285,7 @@ export function CirclePackingGraph(props: Props) {
                               ? [colors as string]
                               : [Colors.primaryColors['blue-600']]
                             : (colors as string[] | undefined) ||
-                              Colors[mode].categoricalColors.colors
+                              Colors[theme].categoricalColors.colors
                         }
                         colorDomain={
                           data.filter(el => el.color).length === 0
@@ -326,7 +326,7 @@ export function CirclePackingGraph(props: Props) {
                         onSeriesMouseOver={onSeriesMouseOver}
                         highlightedDataPoints={highlightedDataPoints}
                         onSeriesMouseClick={onSeriesMouseClick}
-                        mode={mode}
+                        theme={theme}
                         radius={
                           !radius
                             ? (Math.min(

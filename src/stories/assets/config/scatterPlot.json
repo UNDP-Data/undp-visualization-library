@@ -68,7 +68,7 @@
     "graphDownload": true,
     "dataDownload": true,
     "language": "en",
-    "mode": "light",
+    "theme": "light",
     "showNAColor": false
   }
 }

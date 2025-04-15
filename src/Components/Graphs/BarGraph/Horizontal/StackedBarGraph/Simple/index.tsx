@@ -53,7 +53,7 @@ interface Props {
   dataDownload?: boolean;
   language?: Languages;
   minHeight?: number;
-  mode?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
   maxBarThickness?: number;
   sortParameter?: number | 'total';
   maxNumberOfBars?: number;
@@ -105,7 +105,7 @@ export function HorizontalStackedBarGraph(props: Props) {
     language = 'en',
     labelOrder,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     sortParameter,
     maxNumberOfBars,
@@ -142,7 +142,7 @@ export function HorizontalStackedBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

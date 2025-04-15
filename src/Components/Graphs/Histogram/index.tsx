@@ -112,8 +112,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -155,7 +155,7 @@ export function Histogram(props: Props) {
     sortData,
     language,
     minHeight,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     ariaLabel,
     detailsOnClick,
@@ -217,7 +217,7 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
         detailsOnClick={detailsOnClick}
         styles={styles}
@@ -253,7 +253,7 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
         detailsOnClick={detailsOnClick}
         styles={styles}
@@ -265,7 +265,7 @@ export function Histogram(props: Props) {
       <DonutChart
         colors={
           (colors as string[] | undefined) ||
-          Colors[mode].categoricalColors.colors
+          Colors[theme].categoricalColors.colors
         }
         graphTitle={graphTitle}
         graphDescription={graphDescription}
@@ -291,7 +291,7 @@ export function Histogram(props: Props) {
         showColorScale
         sortData={sortData}
         language={language}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
         detailsOnClick={detailsOnClick}
         styles={styles}
@@ -332,7 +332,7 @@ export function Histogram(props: Props) {
       sortData={sortData}
       language={language}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
       orientation={barGraphLayout}

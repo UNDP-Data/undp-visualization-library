@@ -100,7 +100,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'en' },
       },
     },
-    mode: {
+    theme: {
       control: 'inline-radio',
       options: ['light', 'dark'],
       table: {

@@ -40,7 +40,7 @@
               "graphTitle": "Stat Card with Data Filter and Count",
               "backgroundColor": true,
               "padding": "1.25rem 1.25rem 0.25rem 1.25rem",
-              "mode": "light"
+              "theme": "light"
             }
           },
           {
@@ -58,7 +58,7 @@
               "graphTitle": "Stat Card with Data Transformation and Count",
               "backgroundColor": true,
               "padding": "1.25rem",
-              "mode": "light",
+              "theme": "light",
               "language": "en",
               "rtl": true
             }
@@ -100,7 +100,7 @@
               "tooltip": "{{data.label}} <strong>{{data.data.count}}</strong>",
               "padding": "1.25rem",
               "graphTitle": "Vertical Bar Chart with Data Transformation",
-              "mode": "light"
+              "theme": "light"
             }
           },
           {
@@ -128,7 +128,7 @@
               "tooltip": "{{label}} <strong>{{count}}</strong>",
               "padding": "1.25rem",
               "graphTitle": "Vertical Bar Chart with Data Transformation",
-              "mode": "light"
+              "theme": "light"
             }
           }
         ]

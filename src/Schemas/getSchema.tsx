@@ -746,7 +746,7 @@ export const getSingleGraphJSONSchema = (
             ),
           },
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
@@ -777,7 +777,7 @@ export const getSingleGraphJSONSchema = (
             graphType,
           ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
@@ -815,7 +815,7 @@ export const getSingleGraphJSONSchema = (
             graphType,
           ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
@@ -862,7 +862,7 @@ export const getGriddedGraphJSONSchema = (
             graphType,
           ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
         },
         required: ['columnGridBy', 'dataSettings', 'graphType'],
       }
@@ -905,7 +905,7 @@ export const getGriddedGraphJSONSchema = (
             graphType,
           ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
         },
         required: !graphType
           ? ['columnGridBy', 'dataSettings', 'graphType']
@@ -919,7 +919,7 @@ export const getGriddedGraphJSONSchema = (
 
 export const getDashboardJSONSchema = (columnList?: string[]) => ({
   properties: {
-    dashboardId: {
+    dashboardID: {
       type: 'string',
     },
     graphClassNames: { type: 'object' },
@@ -999,7 +999,7 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     readableHeader: getReadableHeaderSchema(columnList),
     dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
+    theme: { type: 'string', enum: ['dark', 'light'] },
     graphBackgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },
@@ -1010,7 +1010,7 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
 
 export const getDashboardWideToLongFormatJSONSchema = () => ({
   properties: {
-    dashboardId: {
+    dashboardID: {
       type: 'string',
     },
     graphClassNames: { type: 'object' },
@@ -1093,7 +1093,7 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     dataFilters: getDataFiltersSchema(),
     readableHeader: getReadableHeaderSchema(),
     debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
+    theme: { type: 'string', enum: ['dark', 'light'] },
     graphBackgroundColor: {
       oneOf: [{ type: 'string' }, { type: 'boolean' }],
     },

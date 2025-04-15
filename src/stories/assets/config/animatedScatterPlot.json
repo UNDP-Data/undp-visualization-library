@@ -62,7 +62,7 @@
     "dataDownload": true,
     "rtl": false,
     "language": "en",
-    "mode": "light",
+    "theme": "light",
     "showNAColor": false
   }
 }

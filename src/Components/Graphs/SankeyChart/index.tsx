@@ -123,8 +123,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -159,7 +159,7 @@ export function SankeyChart(props: Props) {
     fillContainer = true,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     sourceColors,
     targetColors,
@@ -274,7 +274,7 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+      className={`${theme || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } `}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

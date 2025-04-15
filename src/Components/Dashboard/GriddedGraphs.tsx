@@ -72,7 +72,7 @@ interface Props {
     label: string;
   }[];
   uiMode?: 'light' | 'normal';
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
 }
 
 export function GriddedGraphs(props: Props) {
@@ -95,7 +95,7 @@ export function GriddedGraphs(props: Props) {
     readableHeader,
     noOfFiltersPerRow = 4,
     uiMode = 'normal',
-    mode = 'light',
+    theme = 'light',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -214,7 +214,7 @@ export function GriddedGraphs(props: Props) {
   }, []);
   return (
     <div
-      className={`${mode || graphSettings?.mode || 'light'} flex  ${
+      className={`${theme || graphSettings?.theme || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
@@ -671,8 +671,10 @@ export function GriddedGraphs(props: Props) {
                     colors={
                       (graphSettings?.colors as string[] | undefined) ||
                       Colors[
-                        (graphSettings?.mode as 'light' | 'dark' | undefined) ||
-                          'light'
+                        (graphSettings?.theme as
+                          | 'light'
+                          | 'dark'
+                          | undefined) || 'light'
                       ].categoricalColors.colors
                     }
                     colorDomain={graphSettings?.colorDomain}
@@ -682,7 +684,7 @@ export function GriddedGraphs(props: Props) {
                         ? true
                         : graphSettings?.showNAColor
                     }
-                    mode={graphSettings?.mode || 'light'}
+                    theme={graphSettings?.theme || 'light'}
                   />
                 ) : null}
                 <div
@@ -740,9 +742,9 @@ export function GriddedGraphs(props: Props) {
                         }
                         debugMode={debugMode}
                         settings={{
-                          ...graphSettings,
+                          ...(graphSettings || {}),
                           ...advancedGraphSettings,
-                          mode: graphSettings?.mode || mode,
+                          theme: graphSettings?.theme || theme,
                           width: undefined,
                           height: undefined,
                           relativeHeight: graphSettings?.relativeHeight || 0.67,

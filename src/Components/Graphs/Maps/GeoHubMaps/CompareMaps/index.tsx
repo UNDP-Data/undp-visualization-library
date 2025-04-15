@@ -53,8 +53,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -76,7 +76,7 @@ export function GeoHubCompareMaps(props: Props) {
     zoomLevel = 3,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     styles,
     classNames,
@@ -98,7 +98,7 @@ export function GeoHubCompareMaps(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}

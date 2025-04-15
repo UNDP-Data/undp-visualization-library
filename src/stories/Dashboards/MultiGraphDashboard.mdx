@@ -1,10 +1,25 @@
 import { useState } from 'react';
 import { Meta, Source } from '@storybook/addon-docs/blocks';
-import { GraphNames } from '../assets/constants';
-import { GraphSettingsSelector } from '../assets/GraphSettingsSelector';
-import { GraphDataConfigSelector } from '../assets/GraphDataConfigSelector';
+import GraphType from './PageSections/ComplexDataTypes/GraphType.mdx';
+import DataSettings from './PageSections/ComplexDataTypes/DataSettings.mdx';
+import DataTransform from './PageSections/ComplexDataTypes/DataTransform.mdx';
+import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
+import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
+import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
+import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
+import DashboardID from './PageSections/SimpleDataTypes/DashboardID.mdx';
+import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
+import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
+import DebugMode from './PageSections/SimpleDataTypes/DebugMode.mdx';
+import UIMode from './PageSections/SimpleDataTypes/UIMode.mdx';
+import Theme from './PageSections/SimpleDataTypes/Theme.mdx';
+import FilterPosition from './PageSections/SimpleDataTypes/FilterPosition.mdx';
+import GraphStyles from './PageSections/ComplexDataTypes/GraphStyles.mdx';
+import GraphClassNames from './PageSections/ComplexDataTypes/GraphClassNames.mdx';
+import DashboardLayout from './PageSections/ComplexDataTypes/DashboardLayout.mdx';
 
-<Meta title="Dashboard/Multi graph dashboard" />
+<Meta title='Dashboard/Multi graph dashboard' />
 
 # Multi graph dashboard
 
@@ -19,9 +34,24 @@ function Graph() {
     <MultiGraphDashboard
       dataSettings={{
         data: [
-          { Region: 'Region A', Country: 'Country A', Value: 103, Category: 'Category A' },
-          { Region: 'Region B', Country: 'Country B', Value: 97, Category: 'Category B' },
-          { Region: 'Region C', Country: 'Country C', Value: 95, Category: 'Category B' },
+          {
+            Region: 'Region A',
+            Country: 'Country A',
+            Value: 103,
+            Category: 'Category A',
+          },
+          {
+            Region: 'Region B',
+            Country: 'Country B',
+            Value: 97,
+            Category: 'Category B',
+          },
+          {
+            Region: 'Region C',
+            Country: 'Country C',
+            Value: 95,
+            Category: 'Category B',
+          },
         ],
         fileType: 'csv',
       }}
@@ -68,42 +98,39 @@ function Graph() {
           column: 'Region',
           singleSelect: false,
           clearable: true,
-          label: 'Filter by column name'
+          label: 'Filter by column name',
         },
       ]}
     />
   );
 }
-
 ```
 
-__NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#dashboard-config) to learn more about that.__
-
+**NOTE: You can also use json config to create multi-graph dashboard. [Click here](?path=/docs/dashboard-from-json-config--docs#multi-graph-dashboard-config) to learn more about that.**
 
 ## Props
 
 #### Parameters
 
-- [dashboardId](#dashboardid) - Defines the id for the dashboard.
-- [dashboardLayout](#dashboardlayout) - Dashboard layout settings 
-- [dataSettings](#datasettings) - Configuration for the data source
-- [dataFilters](#datafilters) - Filters to apply to raw data
-- [filters](#filters) - UI filter definitions
-- [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI
-- [filterPosition](#filterposition) - Defines if the filters are on the top or on the side
-- [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels
-- [debugMode](#debugmode) - Enables debugging logs
-- [uiMode](#uimode) - Controls UI theme mode
-- [mode](#mode) - Controls color theme mode
-- [graphStyles](#graphstyles) - Defines the styles of all the graphs
-- [graphClassNames](#graphclassnames) - Defines classes of different elements in all the graphs
-
+- [dashboardID](#dashboardid) - Defines the id for the dashboard.
+- [dashboardLayout](#dashboardlayout) - Dashboard layout settings.
+- [dataSettings](#datasettings) - Configuration for the data source.
+- [dataFilters](#datafilters) - Filters to apply to raw data.
+- [filters](#filters) - UI filter definitions.
+- [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI.
+- [filterPosition](#filterposition) - Defines if the filters are on the top or on the side.
+- [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels.
+- [debugMode](#debugmode) - Enables debugging logs.
+- [uiMode](#uimode) - Controls UI theme mode.
+- [mode](#mode) - Controls color theme mode.
+- [graphStyles](#graphstyles) - Defines the styles of all the graphs.
+- [graphClassNames](#graphclassnames) - Defines classes of different elements in all the graphs.
 
 #### Props interface
 
 ```tsx
 interface Props {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: {
     title?: string;
     description?: string;
@@ -129,18 +156,20 @@ interface Props {
     }[];
   };
   dataSettings?: {
-    dataURL?: string | {
-      dataURL: string;
-      idColumnName: string;
-      fileType?: 'csv' | 'json' | 'api';
-      delimiter?: string;
-      columnsToArray?: {
-        column: string;
-        delimiter?: string;
-      }[];
-      apiHeaders?: any;
-      dataTransformation?: string;
-    }[];
+    dataURL?:
+      | string
+      | {
+          dataURL: string;
+          idColumnName: string;
+          fileType?: 'csv' | 'json' | 'api';
+          delimiter?: string;
+          columnsToArray?: {
+            column: string;
+            delimiter?: string;
+          }[];
+          apiHeaders?: any;
+          dataTransformation?: string;
+        }[];
     fileType?: 'csv' | 'json' | 'api';
     delimiter?: string;
     columnsToArray?: {
@@ -231,3 +260,53 @@ interface Props {
 ```
 
 ---
+
+<DashboardID />
+
+---
+
+<DashboardLayout />
+
+---
+
+<DataSettings />
+
+---
+
+<DataFilters />
+
+---
+
+<Filters />
+
+---
+
+<NoOfFiltersPerRow />
+
+---
+
+<FilterPosition />
+
+---
+
+<ReadableHeader />
+
+---
+
+<DebugMode />
+
+---
+
+<UIMode />
+
+---
+
+<Theme />
+
+---
+
+<GraphStyles />
+
+---
+
+<GraphClassNames />

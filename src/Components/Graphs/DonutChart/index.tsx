@@ -102,8 +102,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -136,7 +136,7 @@ export function DonutChart(props: Props) {
     colorDomain,
     sortData,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     width,
     height,
     minHeight = 0,
@@ -187,7 +187,7 @@ export function DonutChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -279,14 +279,14 @@ export function DonutChart(props: Props) {
                                     sortedData.map(el => el.label)
                                   ).indexOf(d.label) !== -1
                                     ? (colors ||
-                                        Colors[mode].categoricalColors.colors)[
+                                        Colors[theme].categoricalColors.colors)[
                                         (
                                           colorDomain ||
                                           sortedData.map(el => el.label)
                                         ).indexOf(d.label) %
                                           (
                                             colors ||
-                                            Colors[mode].categoricalColors
+                                            Colors[theme].categoricalColors
                                               .colors
                                           ).length
                                       ]

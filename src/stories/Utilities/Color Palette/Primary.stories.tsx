@@ -172,7 +172,7 @@ const ColorsList = {
       name: 'Colors.sdgColors.sdg17',
     },
   },
-  'Grays (light mode)': {
+  'Grays (light theme)': {
     white: {
       color: Colors.light.grays.white,
       name: 'Colors.light.grays.white',
@@ -214,7 +214,7 @@ const ColorsList = {
       name: 'Colors.light.grays.black',
     },
   },
-  'Grays (dark mode)': {
+  'Grays (dark theme)': {
     white: {
       color: Colors.dark.grays.white,
       name: 'Colors.dark.grays.white',

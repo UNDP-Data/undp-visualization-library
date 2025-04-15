@@ -133,8 +133,8 @@ interface Props {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -177,7 +177,7 @@ export function SimpleBarGraph(props: Props) {
     graphDownload,
     dataDownload,
     language,
-    mode,
+    theme,
     sortData,
     labelOrder,
     showNAColor,
@@ -235,7 +235,7 @@ export function SimpleBarGraph(props: Props) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         language={language}
-        mode={mode}
+        theme={theme}
         sortData={sortData}
         labelOrder={labelOrder}
         showNAColor={showNAColor}
@@ -291,7 +291,7 @@ export function SimpleBarGraph(props: Props) {
       graphDownload={graphDownload}
       dataDownload={dataDownload}
       language={language}
-      mode={mode}
+      theme={theme}
       sortData={sortData}
       labelOrder={labelOrder}
       showNAColor={showNAColor}
@@ -418,8 +418,8 @@ interface GroupedBarChartProps {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -462,7 +462,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
     language,
     labelOrder,
     minHeight,
-    mode,
+    theme,
     maxBarThickness,
     ariaLabel,
     resetSelectionOnDoubleClick,
@@ -514,7 +514,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
         language={language}
         labelOrder={labelOrder}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         maxBarThickness={maxBarThickness}
         ariaLabel={ariaLabel}
         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
@@ -564,7 +564,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
       language={language}
       labelOrder={labelOrder}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
@@ -689,8 +689,8 @@ interface StackedBarChartProps {
   // Configuration and Options
   /** Language setting  */
   language?: Languages;
-  /** Theme mode */
-  mode?: 'light' | 'dark';
+  /** Color theme */
+  theme?: 'light' | 'dark';
   /** Unique ID for the graph */
   graphID?: string;
 }
@@ -730,7 +730,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
     graphDownload,
     dataDownload,
     language,
-    mode,
+    theme,
     labelOrder,
     minHeight,
     maxBarThickness,
@@ -784,7 +784,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
         graphDownload={graphDownload}
         dataDownload={dataDownload}
         language={language}
-        mode={mode}
+        theme={theme}
         labelOrder={labelOrder}
         minHeight={minHeight}
         maxBarThickness={maxBarThickness}
@@ -836,7 +836,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
       graphDownload={graphDownload}
       dataDownload={dataDownload}
       language={language}
-      mode={mode}
+      theme={theme}
       labelOrder={labelOrder}
       minHeight={minHeight}
       maxBarThickness={maxBarThickness}
