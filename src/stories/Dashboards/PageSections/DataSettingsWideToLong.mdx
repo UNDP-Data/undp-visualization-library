@@ -1,0 +1,317 @@
+### dataSettings
+
+Type - `object`
+
+Defines the source/raw data or data file used in the dashboard
+
+#### Data format
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataURL</td>
+      <td>no</td>
+      <td>
+        <code>string</code> or <code>Array&lt;object&gt;</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the URL of the data sheet or URLs of multiple data sheets that
+        are then combined into a single data sheet. This is not required if the{' '}
+        <code>data</code> object is present in this object. User must either
+        provide <code>data</code> or <code>dataURL</code>. See below in the{' '}
+        <code>data url settings data format</code> for the object schema.
+      </td>
+    </tr>
+    <tr>
+      <td>keyColumn</td>
+      <td>yes</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        The column in the original dataset whose unique values will be used to
+        generate filters (e.g., a dropdown). It also defines the row whose
+        values will be transformed from wide to long format. For example, if{' '}
+        <code>Region</code> is the key column, users will be able to select a
+        region and see related indicators for that row.
+      </td>
+    </tr>
+    <tr>
+      <td>fileType</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>csv</code>
+      </td>
+      <td>
+        Defines the type of the file (<code>csv</code>, <code>json</code>, or{' '}
+        <code>api</code>). Available values are <code>csv</code>,{' '}
+        <code>json</code>, or <code>api</code>. Only applicable if the{' '}
+        <code>data</code> object is not present in this object.
+      </td>
+    </tr>
+    <tr>
+      <td>delimiter</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>,</code>
+      </td>
+      <td>
+        Defines the delimiter for the data file. Only applicable if the{' '}
+        <code>data</code> object is not present in this object, and{' '}
+        <code>fileType</code> is either not present or is defined as{' '}
+        <code>csv</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>columnsToArray</td>
+      <td>no</td>
+      <td>
+        <code>Array&lt;{`{column: string; delimiter?: string;}`}&gt;</code>
+      </td>
+      <td></td>
+      <td>
+        Use this option to convert specific columns in a CSV file into arrays.
+        For example, if your CSV file has a column named tags with entries like{' '}
+        <code>"tag 1, tag 2, tag 3"</code>, this feature allows you to split the
+        text into an array: <code>["tag 1", "tag 2", "tag 3"]</code>. Default
+        delimiter is <code>,</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>no</td>
+      <td>
+        <code>Array&lt;object&gt;</code>
+      </td>
+      <td></td>
+      <td>
+        If you want to use data as an object, specify it here. If{' '}
+        <code>data</code> is provided, then <code>dataURL</code>,{' '}
+        <code>fileType</code>, and <code>delimiter</code> are ignored. This is
+        not required if <code>dataURL</code> is present in this object. The user
+        must provide either <code>data</code> or <code>dataURL</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>apiHeaders</td>
+      <td>no</td>
+      <td>
+        <code>object</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the headers for the API call. Only applicable if the{' '}
+        <code>data</code> object is not present in this object and{' '}
+        <code>fileType</code> is defined as <code>api</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>idColumnTitle</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>~id</code>
+      </td>
+      <td>
+        Defines the name of the common ID column in the merged file if data from
+        multiple sources is requested and merged. Only applicable if the{' '}
+        <code>data</code> object is not present in this object and{' '}
+        <code>dataURL</code> is defined as an <code>array</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>dataTransformation</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        Defines how the data is transformed. Based on{' '}
+        <a href='https://handlebarsjs.com/'>Handlebars template</a>. Can be used
+        to fetch the correct data object from an API response.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+dataSettings={{
+  dataURL: '/data/data.csv',
+  keyColumn: 'Column 1',
+  fileType: 'csv',
+  columnsToArray: [
+    {
+      column: 'Column 2',
+      delimiter: ','
+    },
+  ],
+}}
+```
+
+#### dataURL object
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dataURL</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>Defines the URL of the data sheet.</td>
+    </tr>
+    <tr>
+      <td>idColumnName</td>
+      <td>yes</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the name of the common key used to merge different data sources.
+      </td>
+    </tr>
+    <tr>
+      <td>fileType</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>csv</code>
+      </td>
+      <td>
+        Defines the type of the file (<code>csv</code>, <code>json</code>, or{' '}
+        <code>api</code>). Only applicable if the <code>data</code> object is
+        not present in this object.
+      </td>
+    </tr>
+    <tr>
+      <td>delimiter</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>,</code>
+      </td>
+      <td>
+        Defines the delimiter for the data file. Only applicable if the{' '}
+        <code>data</code> object is not present in this object, and{' '}
+        <code>fileType</code> is either not present or is defined as{' '}
+        <code>csv</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>columnsToArray</td>
+      <td>no</td>
+      <td>
+        <code>Array&lt;{`{column: string; delimiter?: string;}`}&gt;</code>
+      </td>
+      <td></td>
+      <td>
+        Use this option to convert specific columns in a CSV file into arrays.
+        For example, if a CSV file has a column named tags with entries like{' '}
+        <code>"tag 1, tag 2, tag 3"</code>, this feature allows you to split the
+        text into an array: <code>["tag 1", "tag 2", "tag 3"]</code>. Default
+        delimiter is <code>,</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>apiHeaders</td>
+      <td>no</td>
+      <td>
+        <code>object</code>
+      </td>
+      <td></td>
+      <td>
+        Defines the headers for the API call. Only applicable if the{' '}
+        <code>data</code> object is not present in this object and{' '}
+        <code>fileType</code> is defined as <code>api</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>dataTransformation</td>
+      <td>no</td>
+      <td>
+        <code>string</code>
+      </td>
+      <td></td>
+      <td>
+        Defines how the data is transformed. Based on{' '}
+        <a href='https://handlebarsjs.com/'>Handlebars template</a>. Can be used
+        to fetch the correct data object from an API response.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### What is 'columnsToArray'
+
+Suppose you have data like this and you need to visualize the number of tags:
+
+```
+Country, Tags
+Country A, 'tag 1, tag 2, tag 3'
+Country B, 'tag 1, tag 2'
+Country C, 'tag 1, tag 3'
+Country D, 'tag 1'
+Country E, 'tag 1, tag 2, tag 3'
+```
+
+To break up the tags into individual items, you can use the `columnsToArray` setting, which splits the tags based on a delimiter (in this case, a comma):
+
+```tsx
+dataSettings={{
+  dataURL: '/data/data.csv',
+  fileType: 'csv',
+  columnsToArray: [
+    {
+      column: 'Tags',
+      delimiter: ','
+    },
+  ],
+}}
+```
+
+After this, the data will look like this:
+
+```json
+[
+  { Country: 'Country A', Tags: ["tag 1", "tag 2", "tag 3"] },
+  { Country: 'Country B', Tags: ["tag 1", "tag 2"] },
+  ...
+]
+```

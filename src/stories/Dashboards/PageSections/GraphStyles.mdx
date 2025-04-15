@@ -1,0 +1,126 @@
+### graphStyles
+
+You can apply custom CSS styles to various parts of the chart using the StyleObject. Each key accepts a React.CSSProperties object (inline CSS style).
+
+#### Style Targets
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>title</code>
+      </td>
+      <td>Style for the chart title.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>footnote</code>
+      </td>
+      <td>Style for the chart footnote text.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>source</code>
+      </td>
+      <td>Style for the data source label.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>description</code>
+      </td>
+      <td>Style for the chart description block.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>graphBackground</code>
+      </td>
+      <td>Style for the background of the graph container.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>tooltip</code>
+      </td>
+      <td>Style for tooltip popups.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>xAxis</code>
+      </td>
+      <td>
+        Style object for the X axis, including <code>gridLines</code>,{' '}
+        <code>labels</code>, <code>title</code>, and <code>axis</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>yAxis</code>
+      </td>
+      <td>
+        Style object for the Y axis, including <code>gridLines</code>,{' '}
+        <code>labels</code>, <code>title</code>, and <code>axis</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>graphObjectValues</code>
+      </td>
+      <td>Style for labels or data values rendered on the chart itself.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dataConnectors</code>
+      </td>
+      <td>
+        Style for any connector lines between data elements (e.g., in flow
+        diagrams).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>mouseOverLine</code>
+      </td>
+      <td>
+        Style for the line shown on mouse hover (e.g., vertical guide line).
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>regLine</code>
+      </td>
+      <td>Style for a regression line if applicable.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dataCards</code>
+      </td>
+      <td>Style for data cards shown in card-based visualizations.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+StyleObject={{
+  title: { fontSize: '20px', fontWeight: 'bold' },
+  description: { color: '#666', fontStyle: 'italic' },
+  xAxis: {
+    labels: { color: '#333', fontSize: '12px' },
+    gridLines: { stroke: '#ddd' },
+    title: { fontWeight: '600', fontSize: '14px' },
+    axis: { stroke: '#222' },
+  },
+  yAxis: {
+    labels: { color: '#444' },
+    gridLines: { strokeDasharray: '4' },
+    title: { color: '#000', fontSize: '13px' },
+    axis: { strokeWidth: 1 },
+  },
+}}
+```

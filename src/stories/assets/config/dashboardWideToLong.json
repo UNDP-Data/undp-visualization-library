@@ -1,0 +1,139 @@
+{
+  "dataSettings": {
+    "dataURL": "/data/data-sample-05.csv",
+    "fileType": "csv",
+    "keyColumn": "Region"
+  },
+  "filters": [
+    {
+      "column": "Continent",
+      "label": "Filter by continent",
+      "excludeValues": ["N/A"]
+    },
+    {
+      "column": "Income Group",
+      "label": "Filter by income group",
+      "excludeValues": ["N/A"]
+    }
+  ],
+  "dashboardLayout": {
+    "language": "en",
+    "rows": [
+      {
+        "columns": [
+          {
+            "graphType": "statCard",
+            "dataFilters": [
+              {
+                "column": "Indicator-01",
+                "excludeValues": [null]
+              }
+            ],
+            "columnWidth": 1,
+            "graphDataConfiguration": [
+              {
+                "columnId": "Country Code",
+                "chartConfigId": "value"
+              }
+            ],
+            "settings": {
+              "aggregationMethod": "count",
+              "graphTitle": "Stat Card with Data Filter and Count",
+              "backgroundColor": true,
+              "padding": "1.25rem 1.25rem 0.25rem 1.25rem",
+              "mode": "light"
+            }
+          },
+          {
+            "graphType": "statCard",
+            "columnWidth": 1,
+            "dataTransform": { "keyColumn": "Continent" },
+            "graphDataConfiguration": [
+              {
+                "columnId": "Continent",
+                "chartConfigId": "value"
+              }
+            ],
+            "settings": {
+              "aggregationMethod": "count",
+              "graphTitle": "Stat Card with Data Transformation and Count",
+              "backgroundColor": true,
+              "padding": "1.25rem",
+              "mode": "light",
+              "language": "en",
+              "rtl": true
+            }
+          }
+        ]
+      },
+      {
+        "height": 600,
+        "columns": [
+          {
+            "graphType": "barChart",
+            "columnWidth": 1,
+            "dataTransform": {
+              "keyColumn": "Continent",
+              "aggregationColumnsSetting": [
+                {
+                  "column": "Indicator-01",
+                  "aggregationMethod": "average"
+                }
+              ]
+            },
+            "graphDataConfiguration": [
+              {
+                "columnId": "Continent",
+                "chartConfigId": "label"
+              },
+              {
+                "columnId": "Indicator-01",
+                "chartConfigId": "size"
+              }
+            ],
+            "settings": {
+              "backgroundColor": true,
+              "orientation": "vertical",
+              "leftMargin": 64,
+              "rightMargin": 64,
+              "maxBarThickness": 200,
+              "topMargin": 32,
+              "tooltip": "{{data.label}} <strong>{{data.data.count}}</strong>",
+              "padding": "1.25rem",
+              "graphTitle": "Vertical Bar Chart with Data Transformation",
+              "mode": "light"
+            }
+          },
+          {
+            "graphType": "donutChart",
+            "columnWidth": 1,
+            "dataTransform": {
+              "keyColumn": "Continent"
+            },
+            "graphDataConfiguration": [
+              {
+                "columnId": "Continent",
+                "chartConfigId": "label"
+              },
+              {
+                "columnId": "count",
+                "chartConfigId": "size"
+              }
+            ],
+            "settings": {
+              "backgroundColor": true,
+              "leftMargin": 64,
+              "rightMargin": 64,
+              "maxBarThickness": 200,
+              "topMargin": 32,
+              "tooltip": "{{label}} <strong>{{count}}</strong>",
+              "padding": "1.25rem",
+              "graphTitle": "Vertical Bar Chart with Data Transformation",
+              "mode": "light"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

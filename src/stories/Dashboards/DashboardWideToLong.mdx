@@ -5,7 +5,7 @@ import { GraphSettingsSelector } from '../assets/GraphSettingsSelector';
 import { GraphDataConfigSelector } from '../assets/GraphDataConfigSelector';
 import DashboardId from './PageSections/DashboardId.mdx';
 import DashboardLayout from './PageSections/DashboardLayout.mdx';
-import DataSettings from './PageSections/DataSettings.mdx';
+import DataSettingsWideToLong from './PageSections/DataSettingsWideToLong.mdx';
 import DataFilters from './PageSections/DataFilters.mdx';
 import Filters from './PageSections/Filters.mdx';
 import NoOfFiltersPerRow from './PageSections/NoOfFiltersPerRow.mdx';
@@ -17,94 +17,147 @@ import Mode from './PageSections/Mode.mdx';
 import GraphStyles from './PageSections/GraphStyles.mdx';
 import GraphClassNames from './PageSections/GraphClassNames.mdx';
 
-<Meta title='Dashboard/Multi graph dashboard' />
+<Meta title='Dashboard/Wide to long dashboard' />
 
-# Multi graph dashboard
+# Multi graph dashboard (wide to long)
 
-This allows you to create a an interactive dashboard with multiple graphs and filters.
+This component is designed for scenarios where your data is in wide format, and you want to convert it to long format to visualize only one row at a time in a dashboard. Unlike `MultiGraphDashboard`, which renders the entire dataset, this component allows users to select a single key (e.g., Region) from a dropdown and view charts based on the corresponding values from that row.
 
 ```tsx
-import { MultiGraphDashboard } from '@undp-data/undp-visualization-library';
+import { MultiGraphDashboardWideToLongFormat } from '@undp-data/undp-visualization-library';
 import '@undp-data/undp-visualization-library/dist/style.css';
 
 function Graph() {
   return (
-    <MultiGraphDashboard
+    <MultiGraphDashboardWideToLongFormat
       dataSettings={{
         data: [
-          {
-            Region: 'Region A',
-            Country: 'Country A',
-            Value: 103,
-            Category: 'Category A',
-          },
-          {
-            Region: 'Region B',
-            Country: 'Country B',
-            Value: 97,
-            Category: 'Category B',
-          },
-          {
-            Region: 'Region C',
-            Country: 'Country C',
-            Value: 95,
-            Category: 'Category B',
-          },
+          { Region: 'Region A', 'Indicator 1': 133, 'Indicator 2': 77, 'Indicator 3': 124 },
+          { Region: 'Region B', 'Indicator 1': 59, 'Indicator 2': 85, 'Indicator 3': 74 },
+          { Region: 'Region C', 'Indicator 1': 70, 'Indicator 2': 88, 'Indicator 3': 68 },
+          { Region: 'Region D', 'Indicator 1': 68, 'Indicator 2': 111, 'Indicator 3': 60 },
+          { Region: 'Region E', 'Indicator 1': 139, 'Indicator 2': 81, 'Indicator 3': 117 },
+          { Region: 'Region F', 'Indicator 1': 135, 'Indicator 2': 61, 'Indicator 3': 124 },
+          { Region: 'Region G', 'Indicator 1': 137, 'Indicator 2': 129, 'Indicator 3': 85 },
+          { Region: 'Region J', 'Indicator 1': 95, 'Indicator 2': 105, 'Indicator 3': 143 },
+          { Region: 'Region K', 'Indicator 1': 130, 'Indicator 2': 81, 'Indicator 3': 100 },
         ],
         fileType: 'csv',
+        keyColumn: 'Region',
       }}
       dashboardLayout={{
         backgroundColor: true,
-        title: 'Sample Dashboard',
-        description: 'Graph Description',
         rows: [
           {
             height: 700,
             columns: [
               {
-                graphType: 'horizontalBarChart',
-                graphDataConfiguration: [
-                  { columnId: 'Country', chartConfigId: 'label' },
-                  { columnId: 'Value', chartConfigId: 'size' },
-                ],
-                settings: {
-                  graphTitle: 'Horizontal Bar Chart',
-                },
-              },
-              {
                 graphType: 'donutChart',
+                dataFilters: [
+                  {
+                    column: 'indicator',
+                    includeValues: ['Indicator 1', 'Indicator 2', 'Indicator 3'],
+                  },
+                ],
                 graphDataConfiguration: [
-                  { columnId: 'Region', chartConfigId: 'label' },
-                  { columnId: 'Value', chartConfigId: 'size' },
+                  { columnId: 'indicator', chartConfigId: 'label' },
+                  { columnId: 'value', chartConfigId: 'size' },
                 ],
                 settings: {
-                  graphTitle: 'Donut Chart',
-                },
-                dataTransform: {
-                  keyColumn: 'Region',
-                  aggregationColumnsSetting: [
-                    { column: 'Value', aggregationMethod: 'sum' },
-                  ],
+                  height: 600,
+                  padding: "1rem',
                 },
               },
             ],
           },
         ],
       }}
-      filters={[
-        {
-          column: 'Region',
-          singleSelect: false,
-          clearable: true,
-          label: 'Filter by column name',
-        },
-      ]}
     />
   );
 }
 ```
 
-**NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#dashboard-config) to learn more about that.**
+## How the component transforms the data
+
+Suppose your input data looks like this:
+
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Indicator 1</th>
+      <th>Indicator 2</th>
+      <th>Indicator 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Region 1</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+
+If you want to build a dashboard where the user selects a region and sees a bar chart of its indicators (Indicator 1, 2, 3), this isn’t directly possible with MultiGraphDashboard. That’s where this component comes in.
+
+It automatically:
+
+- Converts the wide format into long format using the specified keyColumn (e.g., Region)
+- Adds a dropdown to filter the dashboard by a single key value (e.g., show data for “Region 1”)
+
+The transformed data looks like this:
+
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Indicator</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 1</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 2</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 3</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 1</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 2</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 3</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+
+**NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#dashboard-wide-to-long-config) to learn more about that.**
 
 ## Props
 
@@ -168,6 +221,7 @@ interface Props {
           apiHeaders?: any;
           dataTransformation?: string;
         }[];
+    keyColumn: string;
     fileType?: 'csv' | 'json' | 'api';
     delimiter?: string;
     columnsToArray?: {
@@ -267,7 +321,7 @@ interface Props {
 
 ---
 
-<DataSettings />
+<DataSettingsWideToLong />
 
 ---
 

@@ -1,0 +1,131 @@
+### graphClassNames
+
+You can use the graphClassNames object to assign custom CSS class names to specific parts of a chart.
+This allows you to style those elements via external stylesheets instead of inline styles.
+
+#### ClassNames Targets
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>title</code>
+      </td>
+      <td>CSS class for the chart title element.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>footnote</code>
+      </td>
+      <td>CSS class for the chart footnote text.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>source</code>
+      </td>
+      <td>CSS class for the data source label.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>description</code>
+      </td>
+      <td>CSS class for the chart description section.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>tooltip</code>
+      </td>
+      <td>CSS class for the chart tooltip.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>xAxis</code>
+      </td>
+      <td>
+        Class names for the X axis. Supports <code>gridLines</code>,{' '}
+        <code>labels</code>, <code>title</code>, and <code>axis</code> keys.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>yAxis</code>
+      </td>
+      <td>
+        Class names for the Y axis. Supports <code>gridLines</code>,{' '}
+        <code>labels</code>, <code>title</code>, and <code>axis</code> keys.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>legend</code>
+      </td>
+      <td>CSS class for the chart legend container.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>graph</code>
+      </td>
+      <td>CSS class for the main chart SVG/graph container.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>graphObjectValues</code>
+      </td>
+      <td>CSS class for values or labels rendered on top of the chart.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dataConnectors</code>
+      </td>
+      <td>CSS class for data connector lines.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>mouseOverLine</code>
+      </td>
+      <td>CSS class for the line that appears on mouse hover.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>regLine</code>
+      </td>
+      <td>CSS class for a regression line, if used in the chart.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dataCards</code>
+      </td>
+      <td>CSS class for data cards in card-based layouts.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+graphClassNames={{
+  title: 'custom-title',
+  description: 'custom-description',
+  tooltip: 'custom-tooltip',
+  xAxis: {
+    labels: 'custom-x-axis-labels',
+    gridLines: 'custom-x-axis-grid',
+    title: 'custom-x-axis-title',
+    axis: 'custom-x-axis-line',
+  },
+  yAxis: {
+    labels: 'custom-y-axis-labels',
+    gridLines: custom-y-axis-grid',
+    title: 'custom-y-axis-title',
+    axis: 'custom-y-axis-line',
+  },
+  mouseOverLine: 'custom-hover-line',
+  regLine: 'custom-regression-line',
+}}
+```
