@@ -49,7 +49,6 @@ const preview: Preview = {
           ],
           'Utilities',
           ['Data fetching', 'Data transformation', 'Colors', 'Downloads', '*'],
-          'Data types',
           '*',
         ],
       },
