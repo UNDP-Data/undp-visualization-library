@@ -409,15 +409,20 @@ export interface AdvancedDataSelectionDataType {
   label?: string;
   options: {
     label: string;
-    value: string[];
+    dataConfiguration: {
+      columnId: string[] | string;
+      chartConfigId: string;
+    }[];
     graphSettings?: GraphSettingsDataType;
   }[];
-  chartConfigId: string;
   ui?: 'select' | 'radio';
   width?: string;
   defaultValue?: {
     label: string;
-    value: string[];
+    dataConfiguration: {
+      columnId: string[] | string;
+      chartConfigId: string;
+    }[];
     graphSettings?: GraphSettingsDataType;
   };
 }
@@ -440,7 +445,7 @@ export type DashboardColumnDataType = {
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  settings?: any;
+  settings?: GraphSettingsDataType;
 };
 
 export type StatCardsFromDataSheetDataType = {
@@ -726,7 +731,7 @@ export interface GraphSettingsDataType {
   mapProperty?: string;
   showAntarctica?: boolean;
   categorical?: boolean;
-  mapStyles: [string, string];
+  mapStyles?: [string, string];
   center?: [number, number];
   zoomLevel?: number;
   mapStyle?: string | { style: string; name: string }[];
@@ -832,10 +837,10 @@ export interface GraphSettingsDataType {
   labelColor?: string;
   noOfYTicks?: number;
   noOfTicks?: number;
-  minDate: string | number;
-  maxDate: string | number;
-  colorLegendColors: string[];
-  colorLegendDomain: string[];
+  minDate?: string | number;
+  maxDate?: string | number;
+  colorLegendColors?: string[];
+  colorLegendDomain?: string[];
   barAxisTitle?: string;
   barSuffix?: string;
   barPrefix?: string;

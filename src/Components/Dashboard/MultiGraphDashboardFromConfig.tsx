@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { P, Spinner } from '@undp-data/undp-design-system-react';
 import {
-  BackgroundStyleDataType,
   ClassNameObject,
   DashboardLayoutDataType,
   DataFilterDataType,
@@ -27,12 +26,9 @@ interface ConfigObject {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
-  styles?: StyleObject;
   graphStyles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphClassNames?: ClassNameObject;
 }
 
 interface Props {
@@ -87,11 +83,9 @@ export function MultiGraphDashboardFromConfig(props: Props) {
       dataFilters={configSettings.dataFilters}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       filterPosition={configSettings.filterPosition}
-      graphBackgroundColor={configSettings.graphBackgroundColor}
       uiMode={configSettings.uiMode}
-      styles={configSettings.styles}
       graphStyles={configSettings.graphStyles}
-      classNames={configSettings.classNames}
+      graphClassNames={configSettings.graphClassNames}
     />
   );
 }

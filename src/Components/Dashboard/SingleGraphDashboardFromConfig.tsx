@@ -8,6 +8,7 @@ import {
   DataSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
+  GraphSettingsDataType,
   GraphType,
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
@@ -15,7 +16,7 @@ import { SingleGraphDashboard } from './SingleGraphDashboard';
 import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
-  graphSettings?: any;
+  graphSettings?: GraphSettingsDataType;
   dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: GraphType;

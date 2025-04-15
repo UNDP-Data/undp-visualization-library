@@ -15,32 +15,44 @@ import DebugMode from './PageSections/DebugMode.mdx';
 import UIMode from './PageSections/UIMode.mdx';
 import Mode from './PageSections/Mode.mdx';
 
-<Meta title="Dashboard/Single graphs with filters" />
+<Meta title="Dashboard/Small multiples or gridded graph" />
 
-# Single graphs with filters
+# Small multiples or gridded graph
 
-This allows you to create a graph with filters, data selection and different kind of data sources.
+This allows you to create a gridded graphs (small multiples) with filters, data selection and different kind of data sources.
 
 ```tsx
-import { SingleGraphDashboard } from '@undp-data/undp-visualization-library';
-import '@undp-data/undp-design-system-react/dist/style.css';
+import { GriddedGraphs } from '@undp-data/undp-visualization-library';
+import '@undp-data/undp-visualization-library/dist/style.css';
 
 function Graph() {
   return (
-    <SingleGraphDashboard
+    <GriddedGraphs
+      graphSettings={{
+        graphTitle: 'Sample Graph',
+        graphDescription: 'This is a sample graph description.',
+        padding: '1rem',
+      }}
       dataSettings={{
         data: [
-          { Country: 'Country A', Value: 8, Region: 'Region A', Category: 'Category A' },
-          { Country: 'Country C', Value: 42, Region: 'Region C', Category: 'Category B' },
-          { Country: 'Country D', Value: 10, Region: 'Region D', Category: 'Category C' },
+          { Region: 'Region A', Country: 'Country A', Value: 103, Category: 'Category A' },
+          { Region: 'Region A', Country: 'Country B', Value: 97, Category: 'Category B' },
+          { Region: 'Region A', Country: 'Country C', Value: 95, Category: 'Category B' },
+          { Region: 'Region A', Country: 'Country D', Value: 123, Category: 'Category A' },
+          { Region: 'Region A', Country: 'Country E', Value: 99, Category: 'Category C' },
+          { Region: 'Region B', Country: 'Country F', Value: 96, Category: 'Category A' },
+          { Region: 'Region B', Country: 'Country G', Value: 71, Category: 'Category B' },
+          { Region: 'Region B', Country: 'Country H', Value: 61, Category: 'Category B' },
+          { Region: 'Region B', Country: 'Country I', Value: 128, Category: 'Category A' },
+          { Region: 'Region B', Country: 'Country J', Value: 75, Category: 'Category C' },
+          { Region: 'Region C', Country: 'Country K', Value: 148, Category: 'Category C' },
+          { Region: 'Region C', Country: 'Country L', Value: 124, Category: 'Category B' },
+          { Region: 'Region C', Country: 'Country M', Value: 130, Category: 'Category A' },
+          { Region: 'Region C', Country: 'Country N', Value: 60, Category: 'Category A' },
+          { Region: 'Region C', Country: 'Country O', Value: 67, Category: 'Category B' },
         ],
-        fileType: 'json',
+        fileType: 'csv' as const,
       }}
-      graphType="verticalBarChart"
-      graphDataConfiguration={[
-        { columnId: 'Country', chartConfigId: 'label' },
-        { columnId: 'Value', chartConfigId: 'size' },
-      ]}
       filters={[
         {
           column: 'Region',
@@ -48,32 +60,40 @@ function Graph() {
           clearable: true,
           label: 'Filter by column name'
         },
+        {
+          column: 'Category',
+          singleSelect: false,
+          clearable: true,
+          label: 'Filter by column name'
+        },
       ]}
-       graphSettings={{
-        graphTitle: 'Title of the graph',
-        graphDescription: 'Description of the graph',
-        sources: [
-          {
-            source: 'Organization ABC',
-            link: 'www.example.com',
-          }
-        ],
-        footNote: 'Footnote of the graph',
-        padding: '16px 32px 16px 16px',
-      }}
+      graphType="verticalBarChart"
+      graphDataConfiguration={[
+        { columnId: 'Country', chartConfigId: 'label' },
+        { columnId: 'Value', chartConfigId: 'size' },
+      ]}
+      columnGridBy="Region"
+      relativeHeightForGraph={0.6}
+      minGraphWidth={320}
+      minGraphHeight={320}
     />
   );
 }
 
 ```
 
-__NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#single-graph-config) to learn more about that.__
+__NOTE: You can also use json config to create gridded graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#gridded-graph-config) to learn more about that.__
 
 
 ## Props
 
 #### Parameters
 
+- [columnGridBy](#columngridby) -  Defines the column in the dataset by which the graph should be split into a grid layout.
+- [noOfColumns](#noofcolumns) - Specifies the number of columns to use when rendering grid-based graph layouts.
+- [showCommonColorScale](#showcommoncolorscale) - Determines whether all graph facets should share the same color scale.
+- [minGraphHeight](#mingraphheight) - Sets the minimum height (in pixels) for each graph or graph facet.
+- [minGraphWidth](#mingraphwidth) - Sets the minimum width (in pixels) for each graph or graph facet.
 - [graphType](#graphtype) - Defines the type of graph
 - [graphSettings](#graphsettings) - Graph rendering settings 
 - [dataSettings](#datasettings) - Configuration for the data source
@@ -94,6 +114,11 @@ __NOTE: You can also use json config to create single graph with filters. [Click
 
 ```tsx
 interface Props {
+  noOfColumns?: number;
+  columnGridBy: string;  
+  minGraphHeight?: number;
+  minGraphWidth?: number;
+  showCommonColorScale?: boolean;
   graphType: GraphType;
   graphSettings?: GraphSettingsDataType;
   dataSettings?: {
@@ -149,7 +174,7 @@ interface Props {
     excludeValues?: string[];
     allowSelectAll?: boolean;
     width?: string;
-  }[];
+  };[];
   noOfFiltersPerRow?: number;
   dataSelectionOptions?: {
     label?: string;
@@ -188,6 +213,52 @@ interface Props {
   mode?: 'light' | 'dark';
 }
 ```
+
+---
+
+### columnGridBy
+
+`required`
+
+Type - `string`
+
+Defines the column in the dataset by which the graph should be split into a grid layout.
+
+---
+
+### noOfColumns
+
+Type - `number`
+
+Default - `4`
+
+Specifies the number of columns to use when rendering grid-based graph layouts.
+
+---
+
+### showCommonColorScale
+
+Type - `boolean`
+
+Default - `true`
+
+Determines whether all graph facets should share the same color scale.
+
+---
+
+### minGraphHeight
+
+Type - `number`
+
+Sets the minimum height (in pixels) for each graph or graph facet. Useful for maintaining visual clarity, especially in responsive layouts.
+
+---
+
+### minGraphWidth
+
+Type - `number`
+
+Sets the minimum width (in pixels) for each graph or graph facet. Useful for maintaining visual clarity, especially in responsive layouts.
 
 ---
 
@@ -244,4 +315,3 @@ interface Props {
 ---
 
 <Mode />
-

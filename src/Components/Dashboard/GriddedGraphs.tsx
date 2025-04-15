@@ -23,8 +23,6 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
-  StyleObject,
-  ClassNameObject,
 } from '@/Types';
 import {
   fetchAndParseCSV,
@@ -49,7 +47,7 @@ import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 interface Props {
   noOfColumns?: number;
   columnGridBy: string;
-  graphSettings?: any;
+  graphSettings?: GraphSettingsDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
@@ -57,7 +55,6 @@ interface Props {
     GraphType,
     'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
   >;
-  relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -70,13 +67,12 @@ interface Props {
   minGraphHeight?: number;
   minGraphWidth?: number;
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
-  styles?: StyleObject;
-  classNames?: ClassNameObject;
+  uiMode?: 'light' | 'normal';
+  mode?: 'dark' | 'light';
 }
 
 export function GriddedGraphs(props: Props) {
@@ -87,7 +83,6 @@ export function GriddedGraphs(props: Props) {
     graphType,
     dataTransform,
     graphDataConfiguration,
-    relativeHeightForGraph,
     noOfColumns,
     columnGridBy,
     dataFilters,
@@ -97,11 +92,10 @@ export function GriddedGraphs(props: Props) {
     debugMode,
     dataSelectionOptions,
     advancedDataSelectionOptions,
-    mode = 'light',
     readableHeader,
     noOfFiltersPerRow = 4,
-    styles,
-    classNames,
+    uiMode = 'normal',
+    mode = 'light',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -220,7 +214,7 @@ export function GriddedGraphs(props: Props) {
   }, []);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${mode || graphSettings?.mode || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
@@ -245,7 +239,7 @@ export function GriddedGraphs(props: Props) {
             ? { backgroundColor: graphSettings?.backgroundColor }
             : {}),
         }}
-        id={graphSettings?.graphId}
+        id={graphSettings?.graphID}
         ref={graphParentDiv}
         aria-label={
           graphSettings?.ariaLabel ||
@@ -276,12 +270,12 @@ export function GriddedGraphs(props: Props) {
             graphSettings?.dataDownload ? (
               <GraphHeader
                 styles={{
-                  title: styles?.title,
-                  description: styles?.description,
+                  title: graphSettings?.styles?.title,
+                  description: graphSettings?.styles?.description,
                 }}
                 classNames={{
-                  title: classNames?.title,
-                  description: classNames?.description,
+                  title: graphSettings?.classNames?.title,
+                  description: graphSettings?.classNames?.description,
                 }}
                 graphTitle={graphSettings?.graphTitle}
                 graphDescription={graphSettings?.graphDescription}
@@ -328,29 +322,31 @@ export function GriddedGraphs(props: Props) {
                         }}
                         key={i}
                       >
-                        <Label className='mb-2'>
-                          {d.label || `Visualize ${d.chartConfigId} by`}
-                        </Label>
+                        <Label className='mb-2'>{d.label || 'Graph by'}</Label>
                         {d.ui !== 'radio' ? (
                           <DropdownSelect
-                            options={d.options}
+                            options={d.options.map(opt => ({
+                              ...opt,
+                              value: opt.label,
+                            }))}
                             isClearable={false}
                             isSearchable
+                            variant={uiMode}
                             controlShouldRenderValue
-                            defaultValue={d.defaultValue || d.options[0]}
+                            defaultValue={
+                              d.defaultValue
+                                ? {
+                                    ...d.defaultValue,
+                                    value: d.defaultValue?.label,
+                                  }
+                                : {
+                                    ...d.options[0],
+                                    value: d.options[0].label,
+                                  }
+                            }
                             onChange={(el: any) => {
-                              const newGraphConfig = {
-                                columnId: el?.value as string[],
-                                chartConfigId: d.chartConfigId,
-                              };
-                              const updatedConfig = graphConfig?.map(item =>
-                                item.chartConfigId ===
-                                newGraphConfig.chartConfigId
-                                  ? newGraphConfig
-                                  : item,
-                              );
                               setAdvancedGraphSettings(el?.graphSettings || {});
-                              setGraphConfig(updatedConfig);
+                              setGraphConfig(el?.dataConfiguration);
                             }}
                           />
                         ) : (
@@ -358,25 +354,16 @@ export function GriddedGraphs(props: Props) {
                             defaultValue={
                               d.defaultValue?.label || d.options[0].label
                             }
+                            variant={uiMode}
                             onValueChange={el => {
                               const selectedOption =
                                 d.options[
                                   d.options.findIndex(opt => opt.label === el)
                                 ];
-                              const newGraphConfig = {
-                                columnId: selectedOption.value as string[],
-                                chartConfigId: d.chartConfigId,
-                              };
-                              const updatedConfig = graphConfig?.map(item =>
-                                item.chartConfigId ===
-                                newGraphConfig.chartConfigId
-                                  ? newGraphConfig
-                                  : item,
-                              );
                               setAdvancedGraphSettings(
                                 selectedOption.graphSettings || {},
                               );
-                              setGraphConfig(updatedConfig);
+                              setGraphConfig(selectedOption.dataConfiguration);
                             }}
                           >
                             {d.options.map((el, j) => (
@@ -416,6 +403,7 @@ export function GriddedGraphs(props: Props) {
                               options={d.allowedColumnIds}
                               isClearable={false}
                               isSearchable
+                              variant={uiMode}
                               defaultValue={
                                 graphDataConfiguration
                                   ? d.allowedColumnIds[
@@ -453,6 +441,7 @@ export function GriddedGraphs(props: Props) {
                             />
                           ) : (
                             <RadioGroup
+                              variant={uiMode}
                               defaultValue={
                                 graphDataConfiguration
                                   ? d.allowedColumnIds[
@@ -506,6 +495,7 @@ export function GriddedGraphs(props: Props) {
                           <DropdownSelect
                             options={d.allowedColumnIds}
                             isMulti
+                            variant={uiMode}
                             isSearchable
                             controlShouldRenderValue
                             defaultValue={
@@ -543,10 +533,14 @@ export function GriddedGraphs(props: Props) {
                               );
                               setGraphConfig(updatedConfig);
                             }}
-                            isRtl={graphSettings?.rtl}
+                            isRtl={
+                              graphSettings?.language === 'ar' ||
+                              graphSettings?.language === 'he'
+                            }
                           />
                         ) : (
                           <CheckboxGroup
+                            variant={uiMode}
                             defaultValue={
                               graphDataConfiguration
                                 ? (
@@ -610,11 +604,15 @@ export function GriddedGraphs(props: Props) {
                         <Label className='mb-2'>{d.label}</Label>
                         {d.singleSelect ? (
                           <DropdownSelect
+                            variant={uiMode}
                             options={d.availableValues}
                             isClearable={
                               d.clearable === undefined ? true : d.clearable
                             }
-                            isRtl={graphSettings?.rtl}
+                            isRtl={
+                              graphSettings?.language === 'ar' ||
+                              graphSettings?.language === 'he'
+                            }
                             isSearchable
                             controlShouldRenderValue
                             filterOption={createFilter(filterConfig)}
@@ -626,6 +624,7 @@ export function GriddedGraphs(props: Props) {
                         ) : (
                           <>
                             <DropdownSelect
+                              variant={uiMode}
                               options={d.availableValues}
                               isMulti
                               isClearable={
@@ -638,7 +637,10 @@ export function GriddedGraphs(props: Props) {
                                 handleFilterChange(d.filter, el);
                               }}
                               defaultValue={d.defaultValue}
-                              isRtl={graphSettings?.rtl}
+                              isRtl={
+                                graphSettings?.language === 'ar' ||
+                                graphSettings?.language === 'he'
+                              }
                             />
                             {d.allowSelectAll ? (
                               <button
@@ -668,7 +670,10 @@ export function GriddedGraphs(props: Props) {
                     colorLegendTitle={graphSettings?.colorLegendTitle}
                     colors={
                       (graphSettings?.colors as string[] | undefined) ||
-                      Colors[mode].categoricalColors.colors
+                      Colors[
+                        (graphSettings?.mode as 'light' | 'dark' | undefined) ||
+                          'light'
+                      ].categoricalColors.colors
                     }
                     colorDomain={graphSettings?.colorDomain}
                     showNAColor={
@@ -677,7 +682,7 @@ export function GriddedGraphs(props: Props) {
                         ? true
                         : graphSettings?.showNAColor
                     }
-                    mode={mode}
+                    mode={graphSettings?.mode || 'light'}
                   />
                 ) : null}
                 <div
@@ -685,7 +690,11 @@ export function GriddedGraphs(props: Props) {
                     display: 'flex',
                     flexWrap: 'wrap',
                     gap: '1rem',
-                    flexDirection: graphSettings?.rtl ? 'row-reverse' : 'row',
+                    flexDirection:
+                      graphSettings?.language === 'ar' ||
+                      graphSettings?.language === 'he'
+                        ? 'row-reverse'
+                        : 'row',
                     justifyContent: 'center',
                   }}
                 >
@@ -733,9 +742,10 @@ export function GriddedGraphs(props: Props) {
                         settings={{
                           ...graphSettings,
                           ...advancedGraphSettings,
+                          mode: graphSettings?.mode || mode,
                           width: undefined,
                           height: undefined,
-                          relativeHeight: relativeHeightForGraph || 0.67,
+                          relativeHeight: graphSettings?.relativeHeight || 0.67,
                           minHeight: minGraphHeight,
                           graphTitle: `${el}`,
                           graphDescription: undefined,
@@ -749,7 +759,6 @@ export function GriddedGraphs(props: Props) {
                             graphSettings?.showColorScale === false
                               ? false
                               : showCommonColorScale === false,
-                          styles,
                         }}
                         readableHeader={readableHeader || []}
                       />
@@ -762,12 +771,15 @@ export function GriddedGraphs(props: Props) {
                 <Spinner />
               </div>
             )}
-            {graphSettings?.source || graphSettings?.footNote ? (
+            {graphSettings?.sources || graphSettings?.footNote ? (
               <GraphFooter
-                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                styles={{
+                  footnote: graphSettings?.styles?.footnote,
+                  source: graphSettings?.styles?.source,
+                }}
                 classNames={{
-                  footnote: classNames?.footnote,
-                  source: classNames?.source,
+                  footnote: graphSettings?.classNames?.footnote,
+                  source: graphSettings?.classNames?.source,
                 }}
                 sources={graphSettings?.sources}
                 footNote={graphSettings?.footNote}

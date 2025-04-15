@@ -1,0 +1,83 @@
+### filters
+
+Type - `Array<object>`
+
+Defines the interactive filters of dynamically filter the graph
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the name of the column in the data that will be used for filtering.</td>
+    </tr>
+    <tr>
+      <td>singleSelect</td>
+      <td>no</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Determines if the filter allows only a single selection. If true, only one option can be selected at a time.</td>
+    </tr>
+    <tr>
+      <td>clearable</td>
+      <td>no</td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>Indicates if the filter can be cleared. If true, the user can clear the filter selection.</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>no</td>
+      <td><code>string | string[]</code></td>
+      <td></td>
+      <td>Sets the default value(s) for the filter when the graph is first rendered. If singleSelect is true, this should be a single string. If singleSelect is false, this can be an array of strings representing multiple selections.</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the label for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>excludeValues</td>
+      <td>no</td>
+      <td><code>string[]</code></td>
+      <td></td>
+      <td>Defines the values excluded for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the width of the filter in the top settings as a css property.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+filters={[
+  {
+    column: 'Column 1',
+    singleSelect: false,
+    clearable: true,
+    defaultValue: 'Value 1',
+    label: 'Filter by column name',
+    excludeValues: ['Value 2']
+  }
+]}
+```

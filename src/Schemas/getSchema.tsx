@@ -589,60 +589,6 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
   },
 });
 
-export const getAdvancedDataSelectionSchema = (columnList?: string[]) => ({
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      chartConfigId: { type: 'string' },
-      label: {
-        type: 'string',
-      },
-      width: {
-        type: 'string',
-      },
-      options: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            value: {
-              type: 'array',
-              items: { type: 'string', ...getColumnEnum(columnList) },
-            },
-            label: {
-              type: 'string',
-            },
-            graphSettings: SettingsSchema,
-          },
-          required: ['value', 'label'],
-        },
-        minItems: 1,
-      },
-      defaultValue: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            value: {
-              type: 'array',
-              items: { type: 'string', ...getColumnEnum(columnList) },
-            },
-            label: {
-              type: 'string',
-            },
-            graphSettings: SettingsSchema,
-          },
-          required: ['value', 'label'],
-        },
-        minItems: 1,
-      },
-      ui: { type: 'string', enum: ['select', 'radio'] },
-    },
-    required: ['chartConfigId', 'options'],
-  },
-});
-
 export const getDataFiltersSchema = (columnList?: string[]) => ({
   type: 'array',
   items: {
@@ -724,6 +670,63 @@ export const getGraphDataConfigurationSchema = (
   },
 });
 
+export const getAdvancedDataSelectionSchema = (
+  columnList?: string[],
+  graphType?: GraphType,
+) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      chartConfigId: { type: 'string' },
+      label: {
+        type: 'string',
+      },
+      width: {
+        type: 'string',
+      },
+      options: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            dataConfiguration: getGraphDataConfigurationSchema(
+              columnList,
+              graphType,
+            ),
+            label: {
+              type: 'string',
+            },
+            graphSettings: SettingsSchema,
+          },
+          required: ['dataConfiguration', 'label'],
+        },
+        minItems: 1,
+      },
+      defaultValue: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            dataConfiguration: getGraphDataConfigurationSchema(
+              columnList,
+              graphType,
+            ),
+            label: {
+              type: 'string',
+            },
+            graphSettings: SettingsSchema,
+          },
+          required: ['dataConfiguration', 'label'],
+        },
+        minItems: 1,
+      },
+      ui: { type: 'string', enum: ['select', 'radio'] },
+    },
+    required: ['chartConfigId', 'options'],
+  },
+});
+
 export const getSingleGraphJSONSchema = (
   columnList?: string[],
   graphType?: GraphType,
@@ -744,6 +747,12 @@ export const getSingleGraphJSONSchema = (
           },
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
         },
         required: ['graphType'],
       }
@@ -763,14 +772,18 @@ export const getSingleGraphJSONSchema = (
           dataFilters: getDataFiltersSchema(columnList),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
           },
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
         },
         required: ['dataSettings', 'graphType'],
       }
@@ -782,6 +795,8 @@ export const getSingleGraphJSONSchema = (
             : getSettingsSchema('allGraphs'),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
           graphType: {
             type: 'string',
             enum: GraphList.map(el => el.graphID),
@@ -795,8 +810,10 @@ export const getSingleGraphJSONSchema = (
           ),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
@@ -820,24 +837,30 @@ export const getGriddedGraphJSONSchema = (
           graphSettings: getSettingsSchema(graphType),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
           noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
             enum: ['dataTable', 'dataCards'],
           },
-          styles: { type: 'object' },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
           noOfColumns: { type: 'number' },
           columnGridBy: { type: 'string' },
-          relativeHeightForGraph: { type: 'number' },
           showCommonColorScale: { type: 'boolean' },
           minGraphHeight: { type: 'number' },
           minGraphWidth: { type: 'number' },
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -851,6 +874,8 @@ export const getGriddedGraphJSONSchema = (
             : getSettingsSchema('allGraphs'),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
           noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
@@ -858,7 +883,10 @@ export const getGriddedGraphJSONSchema = (
               el => el.availableInGriddedGraph !== false,
             ).map(el => el.graphID),
           },
-          styles: { type: 'object' },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
           dataTransform: getDataTransformSchema(columnList),
           dataFilters: getDataFiltersSchema(columnList),
           graphDataConfiguration: getGraphDataConfigurationSchema(
@@ -867,14 +895,15 @@ export const getGriddedGraphJSONSchema = (
           ),
           noOfColumns: { type: 'number' },
           columnGridBy: { type: 'string' },
-          relativeHeightForGraph: { type: 'number' },
           showCommonColorScale: { type: 'boolean' },
           minGraphHeight: { type: 'number' },
           minGraphWidth: { type: 'number' },
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
           mode: { type: 'string', enum: ['dark', 'light'] },
         },
@@ -893,7 +922,7 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     dashboardId: {
       type: 'string',
     },
-    styles: { type: 'object' },
+    graphClassNames: { type: 'object' },
     graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {
@@ -984,7 +1013,7 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     dashboardId: {
       type: 'string',
     },
-    styles: { type: 'object' },
+    graphClassNames: { type: 'object' },
     graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {

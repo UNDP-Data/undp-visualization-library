@@ -44,11 +44,9 @@ interface Props {
     value: string;
     label: string;
   }[];
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
-  styles?: StyleObject;
   graphStyles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphClassNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: DashboardColumnDataType[]) => {
@@ -77,11 +75,9 @@ export function MultiGraphDashboard(props: Props) {
     dataFilters,
     noOfFiltersPerRow = 4,
     filterPosition,
-    graphBackgroundColor,
     uiMode = 'normal',
-    styles,
     graphStyles,
-    classNames,
+    graphClassNames,
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -224,14 +220,6 @@ export function MultiGraphDashboard(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {dashboardLayout.title || dashboardLayout.description ? (
               <GraphHeader
-                styles={{
-                  title: styles?.title,
-                  description: styles?.description,
-                }}
-                classNames={{
-                  title: classNames?.title,
-                  description: classNames?.description,
-                }}
                 graphTitle={dashboardLayout.title}
                 graphDescription={dashboardLayout.description}
                 isDashboard
@@ -383,18 +371,16 @@ export function MultiGraphDashboard(props: Props) {
                             resetSelectionOnDoubleClick: el.attachedFilter
                               ? false
                               : el.settings?.resetSelectionOnDoubleClick,
-                            backgroundColor:
-                              el.settings?.backgroundColor ||
-                              graphBackgroundColor,
                             styles: el.settings?.styles || graphStyles,
-                            classNames: el.settings?.classNames || classNames,
+                            classNames:
+                              el.settings?.classNames || graphClassNames,
                             radius:
                               el.graphType === 'donutChart'
                                 ? undefined
                                 : el.settings?.radius,
                             size:
                               el.graphType === 'unitChart'
-                                ? el.settings.size
+                                ? el.settings?.size
                                 : undefined,
                             language:
                               el.settings?.language || dashboardLayout.language,

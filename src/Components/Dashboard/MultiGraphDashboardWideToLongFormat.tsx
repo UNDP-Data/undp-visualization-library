@@ -36,11 +36,9 @@ interface Props {
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
-  styles?: StyleObject;
   graphStyles?: StyleObject;
-  classNames?: ClassNameObject;
+  graphClassNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -58,11 +56,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     mode = 'light',
     readableHeader,
     dataFilters,
-    graphBackgroundColor,
     uiMode = 'normal',
-    styles,
     graphStyles,
-    classNames,
+    graphClassNames,
   } = props;
 
   const filterConfig = useMemo(
@@ -182,14 +178,6 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {dashboardLayout.title || dashboardLayout.description ? (
               <GraphHeader
-                styles={{
-                  title: styles?.title,
-                  description: styles?.description,
-                }}
-                classNames={{
-                  title: classNames?.title,
-                  description: classNames?.description,
-                }}
                 graphTitle={dashboardLayout.title}
                 graphDescription={dashboardLayout.description}
                 isDashboard
@@ -287,10 +275,8 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                               el.settings?.language || dashboardLayout.language,
                             mode: el.settings?.mode || mode,
                             styles: el.settings?.styles || graphStyles,
-                            classNames: el.settings?.classNames || classNames,
-                            backgroundColor:
-                              el.settings?.backgroundColor ||
-                              graphBackgroundColor,
+                            classNames:
+                              el.settings?.classNames || graphClassNames,
                           }}
                           dataSettings={{
                             data,

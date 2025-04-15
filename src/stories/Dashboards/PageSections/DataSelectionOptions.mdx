@@ -1,0 +1,84 @@
+import { ChartConfigDropdown } from '../Elements/ChartConfigDropdown';
+
+### dataSelectionOptions
+
+Type - `Array<object>`
+
+Options for selecting specific columns to visualize
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>allowedColumnIds</td>
+      <td>yes</td>
+      <td><code>Array{`<{value: string; label: string; graphSettings: GraphSettingsDataType;}>`}</code></td>
+      <td></td>
+      <td>Defines the header of the column which can be selected to be visualized. value must match the header in the data, label can be more human-readable description, graphSettings lets you overwrite the default graph settings (this depends on the graph). </td>
+    </tr>
+    <tr>
+      <td>chartConfigId</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Sets which <code>chartConfigId</code> in the graphConfiguration is affected ny this selection.</td>
+    </tr>
+    <tr>
+      <td>ui</td>
+      <td>no</td>
+      <td><code>'select' | 'radio'</code></td>
+      <td><code>select</code></td>
+      <td>Sets which what UI element is used, a dropdown select or radio (or checkbox depending on if its multi-select or single select).</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the label for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the width of the filter in the top settings as a css property.</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+__The `graphSettings` for various graphs can be found below__
+
+<ChartConfigDropdown type='graphSettings'/>
+
+#### Example
+
+```tsx
+dataSelectionOptions={[
+  {
+    label: 'Visualize',
+    allowedColumnIds: [
+      {
+        value: 'Column 1',
+        label: 'Column 1',
+      },
+      {
+        value: 'Column 2',
+        label: 'Column 2',
+      }      
+    ],
+    chartConfigId: 'size',
+    ui: 'select'
+  }
+]}
+```

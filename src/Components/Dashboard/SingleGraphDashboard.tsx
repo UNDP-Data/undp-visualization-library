@@ -42,41 +42,27 @@ import { GraphList } from '@/Utils/getGraphList';
 import { transformDefaultValue } from '@/Utils/transformDataForSelect';
 
 interface Props {
-  /** 	Graph rendering settings */
-  graphSettings?: any;
-
-  /** Human-readable labels for data columns */
+  graphSettings?: GraphSettingsDataType;
   readableHeader?: {
     value: string;
     label: string;
   }[];
-  /** Configuration for the data source */
   dataSettings?: DataSettingsDataType;
-  /** UI filter definitions */
   filters?: FilterUiSettingsDataType[];
-  /** Number of filters to show per row in the UI */
   noOfFiltersPerRow?: number;
-  /** Defines the type of graph */
   graphType: GraphType;
-  /** Data transformation config */
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
   };
-  /** Filters to apply to raw data */
   dataFilters?: DataFilterDataType[];
-  /** Defines how the graph should interpret the data */
   graphDataConfiguration?: GraphConfigurationDataType[];
-  /** Options for selecting specific columns to visualize */
   dataSelectionOptions?: DataSelectionDataType[];
-  /** Advanced Options for selecting specific columns to visualize */
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  /** Enables debugging logs */
   debugMode?: boolean;
-  /** Controls UI theme mode */
   uiMode?: 'light' | 'normal';
-  /** Callback to update filters */
   updateFilters?: (_d: string) => void;
+  mode?: 'dark' | 'light';
 }
 
 const addMinAndMax = (config: GraphConfigurationDataType[]) => {
@@ -121,6 +107,7 @@ export function SingleGraphDashboard(props: Props) {
     noOfFiltersPerRow = 4,
     updateFilters,
     uiMode = 'normal',
+    mode = 'light',
   } = props;
   const [data, setData] = useState<any>(undefined);
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
@@ -290,11 +277,11 @@ export function SingleGraphDashboard(props: Props) {
     );
   return (
     <div
-      className={`${graphSettings?.mode || 'light'} flex  ${
+      className={`${mode || graphSettings?.mode || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
-        graphSettings.language === 'he' || graphSettings.language === 'ar'
+        graphSettings?.language === 'he' || graphSettings?.language === 'ar'
           ? 'rtl'
           : undefined
       }
@@ -310,13 +297,13 @@ export function SingleGraphDashboard(props: Props) {
           graphSettings?.language || 'en'
         }`}
         style={{
-          ...(graphSettings?.backgroundStyle || {}),
+          ...(graphSettings?.styles?.graphBackground || {}),
           ...(graphSettings?.backgroundColor &&
           graphSettings?.backgroundColor !== true
             ? { backgroundColor: graphSettings?.backgroundColor }
             : {}),
         }}
-        id={graphSettings?.graphId}
+        id={graphSettings?.graphID}
         ref={graphParentDiv}
       >
         <div
@@ -390,31 +377,32 @@ export function SingleGraphDashboard(props: Props) {
                         }}
                         key={i}
                       >
-                        <Label className='mb-2'>
-                          {d.label || `Visualize ${d.chartConfigId} by`}
-                        </Label>
+                        <Label className='mb-2'>{d.label || 'Graph by'}</Label>
                         {d.ui !== 'radio' ? (
                           <DropdownSelect
-                            options={d.options}
+                            options={d.options.map(opt => ({
+                              ...opt,
+                              value: opt.label,
+                            }))}
                             size='sm'
                             isClearable={false}
                             isSearchable
                             variant={uiMode}
                             controlShouldRenderValue
-                            defaultValue={d.defaultValue || d.options[0]}
+                            defaultValue={
+                              d.defaultValue
+                                ? {
+                                    ...d.defaultValue,
+                                    value: d.defaultValue?.label,
+                                  }
+                                : {
+                                    ...d.options[0],
+                                    value: d.options[0].label,
+                                  }
+                            }
                             onChange={(el: any) => {
-                              const newGraphConfig = {
-                                columnId: el?.value as string[],
-                                chartConfigId: d.chartConfigId,
-                              };
-                              const updatedConfig = graphConfig?.map(item =>
-                                item.chartConfigId ===
-                                newGraphConfig.chartConfigId
-                                  ? newGraphConfig
-                                  : item,
-                              );
                               setAdvancedGraphSettings(el?.graphSettings || {});
-                              setGraphConfig(updatedConfig);
+                              setGraphConfig(el?.dataConfiguration);
                             }}
                           />
                         ) : (
@@ -428,20 +416,10 @@ export function SingleGraphDashboard(props: Props) {
                                 d.options[
                                   d.options.findIndex(opt => opt.label === el)
                                 ];
-                              const newGraphConfig = {
-                                columnId: selectedOption.value as string[],
-                                chartConfigId: d.chartConfigId,
-                              };
-                              const updatedConfig = graphConfig?.map(item =>
-                                item.chartConfigId ===
-                                newGraphConfig.chartConfigId
-                                  ? newGraphConfig
-                                  : item,
-                              );
                               setAdvancedGraphSettings(
                                 selectedOption.graphSettings || {},
                               );
-                              setGraphConfig(updatedConfig);
+                              setGraphConfig(selectedOption.dataConfiguration);
                             }}
                           >
                             {d.options.map((el, j) => (
@@ -745,23 +723,23 @@ export function SingleGraphDashboard(props: Props) {
                       ? {
                           ...graphSettings,
                           ...advancedGraphSettings,
-                          backgroundStyle: undefined,
                           graphTitle: undefined,
                           graphDescription: undefined,
                           graphDownload: false,
                           dataDownload: false,
                           backgroundColor: undefined,
                           padding: '0',
+                          mode: graphSettings.mode || mode,
                         }
                       : ({
                           ...advancedGraphSettings,
                           graphTitle: undefined,
-                          backgroundStyle: undefined,
                           graphDescription: undefined,
                           graphDownload: false,
                           dataDownload: false,
                           backgroundColor: undefined,
                           padding: '0',
+                          mode,
                         } as GraphSettingsDataType)
                   }
                 />
