@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Papa } from 'papaparse';
+import Papa from 'papaparse';
 import Handlebars from 'handlebars';
 
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
