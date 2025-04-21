@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
-import React, { memo, useCallback, useMemo, useEffect, useState } from 'react';
-
+ 
+import { memo, useCallback, useMemo, useEffect, useState } from 'react';
 import {
   forceCollide,
   forceManyBody,
@@ -11,17 +10,16 @@ import {
 import orderBy from 'lodash.orderby';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
-
-// Assuming these are imported from correct paths
 import { extent } from 'd3-array';
-import { Modal, Spinner } from '@undp-data/undp-design-system-react';
-import { CSSObject, TreeMapDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '../../ColorPalette';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { cn, Modal, Spinner } from '@undp/design-system-react';
+
+import { ClassNameObject, StyleObject, TreeMapDataType } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { Colors } from '@/Components/ColorPalette';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: TreeMapDataType[];
@@ -39,15 +37,18 @@ interface Props {
   prefix: string;
   selectedColor?: string;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
-  mode: 'light' | 'dark';
+  theme: 'light' | 'dark';
   maxRadiusValue?: number;
   radius: number;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 interface TreeMapDataTypeForBubbleChart extends TreeMapDataType {
@@ -77,15 +78,17 @@ export const Graph = memo((props: Props) => {
     prefix,
     highlightedDataPoints,
     onSeriesMouseClick,
-    mode,
     maxRadiusValue,
     radius,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [viewPortDimensions, setViewPortDimensions] = useState<
     [number, number, number, number] | undefined
@@ -116,24 +119,24 @@ export const Graph = memo((props: Props) => {
       data.filter(d => !checkIfNullOrUndefined(d.size)).length === 0
         ? data
         : orderBy(
-            data.filter(d => !checkIfNullOrUndefined(d.size)),
-            'radius',
-            'asc',
-          ),
+          data.filter(d => !checkIfNullOrUndefined(d.size)),
+          'radius',
+          'asc',
+        ),
     [data],
   );
 
   const radiusScale = useMemo(() => {
     return data.filter(d => d.size === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([
-            0,
-            checkIfNullOrUndefined(maxRadiusValue)
-              ? (maxBy(data, 'size')?.size as number)
-              : (maxRadiusValue as number),
-          ])
-          .range([0.25, radius])
-          .nice()
+        .domain([
+          0,
+          checkIfNullOrUndefined(maxRadiusValue)
+            ? (maxBy(data, 'size')?.size as number)
+            : (maxRadiusValue as number),
+        ])
+        .range([0.25, radius])
+        .nice()
       : undefined;
   }, [data, maxRadiusValue, radius]);
 
@@ -141,11 +144,13 @@ export const Graph = memo((props: Props) => {
   useEffect(() => {
     const setupSimulation = () => {
       const dataTemp = [...dataOrdered];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const simulation = forceSimulation(dataTemp as any)
         .force('y', forceY(_d => graphHeight / 2).strength(1))
         .force('x', forceX(_d => graphWidth / 2).strength(1))
         .force(
           'collide',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           forceCollide((d: any) =>
             radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1,
           ),
@@ -206,6 +211,7 @@ export const Graph = memo((props: Props) => {
 
   // Memoize event handlers to prevent unnecessary re-renders
   const handleMouseEnter = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: any, d: any) => {
       setMouseOverData(d);
       setEventY(event.clientY);
@@ -217,6 +223,7 @@ export const Graph = memo((props: Props) => {
     [onSeriesMouseOver],
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleMouseMove = useCallback((event: any, d: any) => {
     setMouseOverData(d);
     setEventY(event.clientY);
@@ -224,6 +231,7 @@ export const Graph = memo((props: Props) => {
   }, []);
 
   const handleClick = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (d: any) => {
       if (onSeriesMouseClick || detailsOnClick) {
         if (mouseClickData === d.label && resetSelectionOnDoubleClick) {
@@ -235,7 +243,7 @@ export const Graph = memo((props: Props) => {
         }
       }
     },
-    [onSeriesMouseClick, mouseClickData, resetSelectionOnDoubleClick],
+    [onSeriesMouseClick, detailsOnClick, mouseClickData, resetSelectionOnDoubleClick],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -249,16 +257,18 @@ export const Graph = memo((props: Props) => {
 
   // Memoize color and opacity calculations
   const getCircleColor = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (d: any) =>
       data.filter(el => el.color).length === 0
         ? colors[0]
         : !d.color
-        ? UNDPColorModule.gray
-        : colors[colorDomain.indexOf(d.color)],
-    [data, colors, mode, colorDomain],
+          ? Colors.gray
+          : colors[colorDomain.indexOf(d.color)],
+    [data, colors, colorDomain],
   );
 
   const getOpacity = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (d: any) =>
       selectedColor
         ? d.color
@@ -267,10 +277,10 @@ export const Graph = memo((props: Props) => {
             : 0.3
           : 0.3
         : highlightedDataPoints.length !== 0
-        ? highlightedDataPoints.indexOf(d.label) !== -1
-          ? 0.85
-          : 0.3
-        : 0.85,
+          ? highlightedDataPoints.indexOf(d.label) !== -1
+            ? 0.85
+            : 0.3
+          : 0.85,
     [selectedColor, colors, colorDomain, highlightedDataPoints],
   );
 
@@ -333,7 +343,10 @@ export const Graph = memo((props: Props) => {
                       <div className='flex flex-col justify-center items-center h-full py-0 px-3'>
                         {showLabels && (
                           <p
-                            className='text-center leading-tight overflow-hidden m-0'
+                            className={cn(
+                              'text-center leading-tight overflow-hidden m-0 circle-packing-label',
+                              classNames?.graphObjectValues,
+                            )}
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
@@ -349,14 +362,15 @@ export const Graph = memo((props: Props) => {
                                 bubbleRadius * 2 < 60
                                   ? 1
                                   : bubbleRadius * 2 < 75
-                                  ? 2
-                                  : bubbleRadius * 2 < 100
-                                  ? 3
-                                  : undefined,
+                                    ? 2
+                                    : bubbleRadius * 2 < 100
+                                      ? 3
+                                      : undefined,
                               display: '-webkit-box',
                               WebkitBoxOrient: 'vertical',
                               color: getTextColorBasedOnBgColor(circleColor),
                               hyphens: 'auto',
+                              ...(styles?.graphObjectValues || {}),
                             }}
                           >
                             {d.label}
@@ -364,7 +378,7 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className='text-center font-bold leading-tight w-full m-0'
+                            className='text-center font-bold leading-tight w-full m-0 circle-packing-value'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),
@@ -390,7 +404,8 @@ export const Graph = memo((props: Props) => {
             body={tooltip}
             xPos={eventX}
             yPos={eventY}
-            backgroundStyle={tooltipBackgroundStyle}
+            backgroundStyle={styles?.tooltip}
+            className={classNames?.tooltip}
           />
         )}
         {detailsOnClick ? (
@@ -401,11 +416,8 @@ export const Graph = memo((props: Props) => {
             }}
           >
             <div
-              className='m-0'
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: string2HTML(detailsOnClick, mouseClickData),
-              }}
+              className='graph-modal-content m-0'
+              dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
             />
           </Modal>
         ) : null}

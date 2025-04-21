@@ -1,0 +1,65 @@
+{
+  "graphType": "groupedBarChart",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "Country"
+    },
+    {
+      "chartConfigId": "size",
+      "columnId": ["Indicator-01", "Indicator-02"]
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GraphID",
+    "orientation": "vertical",
+    "graphTitle": "Horizontal Grouped Bar Chart ",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 24,
+    "bottomMargin": 20,
+    "leftMargin": 64,
+    "rightMargin": 40,
+    "maxBarThickness": 100,
+    "maxNumberOfBars": 10,
+    "minBarThickness": 24,
+    "barPadding": 0.2,
+    "suffix": "",
+    "prefix": "",
+    "theme": "light",
+    "backgroundColor": true,
+    "colors": ["#006eb5", "#5DD4F0"],
+    "colorDomain": ["Indicator 1", "Indicator 2"],
+    "colorLegendTitle": "Indicators",
+    "showColorScale": true,
+    "labelOrder": ["A", "B", "C", "D", "E", "F"],
+    "sortParameter": 0,
+    "showLabels": true,
+    "showValues": false,
+    "showTicks": false,
+    "maxValue": 50,
+    "minValue": 0,
+    "refValues": [{ "value": 16, "text": "Reference", "color": "#000" }],
+    "tooltip": "Indicator-01: {{data.data['Indicator-01']}}<br>Indicator-02: {{data.data['Indicator-02']}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "rtl": false,
+    "language": "en"
+  }
+}

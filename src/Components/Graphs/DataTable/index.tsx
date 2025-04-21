@@ -1,44 +1,79 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import isEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
-import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
-import { P } from '@undp-data/undp-design-system-react';
+import { P } from '@undp/design-system-react';
+
 import {
-  BackgroundStyleDataType,
   DataTableColumnDataType,
   Languages,
   SourcesDataType,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
+  StyleObject,
+  ClassNameObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   FilterIcon,
   FilterIconApplied,
   SortingIcon,
   SortingIconAscending,
   SortingIconDescending,
-} from '../../Icons/Icons';
+} from '@/Components/Icons';
 
 interface Props {
+  // Data
+  /** Array of data objects */
+  data: object[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  graphID?: string;
-  width?: number;
-  height?: number;
-  columnData: DataTableColumnDataType[];
-  onSeriesMouseClick?: (_d: any) => void;
-  data: any;
-  language?: Languages;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
+
+  // Colors and Styling
+  /** Background color of the graph */
   backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Padding around the graph */
   padding?: string;
+
+  // Graph Parameters
+  /** Column settings for each column shown in the table. */
+  columnData: DataTableColumnDataType[];
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Callback for mouse click event */
+   
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 const TotalWidth = (columns: (number | undefined)[]) => {
@@ -60,16 +95,18 @@ export function DataTable(props: Props) {
     columnData,
     onSeriesMouseClick,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
-    backgroundStyle = {},
     backgroundColor = false,
     padding,
     resetSelectionOnDoubleClick = true,
+    styles,
+    classNames,
   } = props;
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
   );
+   
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [popupVisible, setPopupVisible] = useState<string | undefined>(
@@ -83,7 +120,9 @@ export function DataTable(props: Props) {
   );
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
+     
     const dataFiltered: any = [];
+     
     data.forEach((d: any) => {
       let filter = true;
       filterOption.forEach(el => {
@@ -115,10 +154,10 @@ export function DataTable(props: Props) {
     } else {
       setSortedData(dataFiltered);
     }
-  }, [columnSortBy, sortDirection, data, filterOption]);
+  }, [columnSortBy, sortDirection, data, filterOption, columnData]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -128,11 +167,11 @@ export function DataTable(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -149,13 +188,19 @@ export function DataTable(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-3 w-full justify-between grow'>
             {graphTitle || graphDescription ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -257,9 +302,9 @@ export function DataTable(props: Props) {
                                   ].option.length ===
                                   d.filterOptions?.length ? (
                                     <FilterIcon />
-                                  ) : (
-                                    <FilterIconApplied />
-                                  )}
+                                    ) : (
+                                      <FilterIconApplied />
+                                    )}
                                 </button>
                               ) : null}
                             </div>
@@ -313,8 +358,8 @@ export function DataTable(props: Props) {
                                   el.align === 'right'
                                     ? 'justify-end'
                                     : el.align === 'center'
-                                    ? 'justify-center'
-                                    : 'justify-start'
+                                      ? 'justify-center'
+                                      : 'justify-start'
                                 }`}
                               >
                                 {typeof d[el.columnId] === 'number' ? (
@@ -335,14 +380,14 @@ export function DataTable(props: Props) {
                                     style={{
                                       ...(el.chip && el.chipColors
                                         ? {
-                                            backgroundColor:
+                                          backgroundColor:
                                               el.chipColors[
                                                 el.chipColors.findIndex(
                                                   c =>
                                                     c.value === d[el.columnId],
                                                 )
                                               ].color,
-                                          }
+                                        }
                                         : {}),
                                     }}
                                   >
@@ -377,7 +422,7 @@ export function DataTable(props: Props) {
                                               style={{
                                                 ...(el.chip && el.chipColors
                                                   ? {
-                                                      backgroundColor:
+                                                    backgroundColor:
                                                         el.chipColors[
                                                           el.chipColors.findIndex(
                                                             c =>
@@ -385,7 +430,7 @@ export function DataTable(props: Props) {
                                                               d[el.columnId],
                                                           )
                                                         ].color,
-                                                    }
+                                                  }
                                                   : {}),
                                               }}
                                             >{`${el.prefix || ''}${element}${
@@ -412,7 +457,7 @@ export function DataTable(props: Props) {
                                       style={{
                                         ...(el.chip && el.chipColors
                                           ? {
-                                              backgroundColor:
+                                            backgroundColor:
                                                 el.chipColors[
                                                   el.chipColors.findIndex(
                                                     c =>
@@ -420,7 +465,7 @@ export function DataTable(props: Props) {
                                                       d[el.columnId],
                                                   )
                                                 ].color,
-                                            }
+                                          }
                                           : {}),
                                       }}
                                     >{`${el.prefix || ''}${d[el.columnId]}${
@@ -442,6 +487,11 @@ export function DataTable(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

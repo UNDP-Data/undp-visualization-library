@@ -1,0 +1,369 @@
+import { useState } from 'react';
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+import { GraphNames } from '../assets/constants';
+import { GraphSettingsSelector } from '../assets/GraphSettingsSelector';
+import { GraphDataConfigSelector } from '../assets/GraphDataConfigSelector';
+import DataTransform from './PageSections/ComplexDataTypes/DataTransform.mdx';
+import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
+import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
+import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
+import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
+import DashboardID from './PageSections/SimpleDataTypes/DashboardID.mdx';
+import DataSettingsWideToLong from './PageSections/ComplexDataTypes/DataSettingsWideToLong.mdx';
+import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
+import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
+import DebugMode from './PageSections/SimpleDataTypes/DebugMode.mdx';
+import UIMode from './PageSections/SimpleDataTypes/UIMode.mdx';
+import Theme from './PageSections/SimpleDataTypes/Theme.mdx';
+import FilterPosition from './PageSections/SimpleDataTypes/FilterPosition.mdx';
+import GraphStyles from './PageSections/ComplexDataTypes/GraphStyles.mdx';
+import GraphClassNames from './PageSections/ComplexDataTypes/GraphClassNames.mdx';
+import DashboardLayout from './PageSections/ComplexDataTypes/DashboardLayoutWideToLong.mdx';
+
+
+<Meta title='Dashboard/Multi graph dashboard (wide to long)' />
+
+# Multi graph dashboard (wide to long)
+
+This component is designed for scenarios where your data is in wide format, and you want to convert it to long format to visualize only one row at a time in a dashboard. Unlike `MultiGraphDashboard`, which renders the entire dataset, this component allows users to select a single key (e.g., Region) from a dropdown and view charts based on the corresponding values from that row.
+
+```tsx
+import { MultiGraphDashboardWideToLongFormat } from '@undp/data-viz';
+import '@undp/data-viz/dist/style.css';
+
+function Graph() {
+  return (
+    <MultiGraphDashboardWideToLongFormat
+      dataSettings={{
+        data: [
+          { Region: 'Region A', 'Indicator 1': 133, 'Indicator 2': 77, 'Indicator 3': 124 },
+          { Region: 'Region B', 'Indicator 1': 59, 'Indicator 2': 85, 'Indicator 3': 74 },
+          { Region: 'Region C', 'Indicator 1': 70, 'Indicator 2': 88, 'Indicator 3': 68 },
+          { Region: 'Region D', 'Indicator 1': 68, 'Indicator 2': 111, 'Indicator 3': 60 },
+          { Region: 'Region E', 'Indicator 1': 139, 'Indicator 2': 81, 'Indicator 3': 117 },
+          { Region: 'Region F', 'Indicator 1': 135, 'Indicator 2': 61, 'Indicator 3': 124 },
+          { Region: 'Region G', 'Indicator 1': 137, 'Indicator 2': 129, 'Indicator 3': 85 },
+          { Region: 'Region J', 'Indicator 1': 95, 'Indicator 2': 105, 'Indicator 3': 143 },
+          { Region: 'Region K', 'Indicator 1': 130, 'Indicator 2': 81, 'Indicator 3': 100 },
+        ],
+        fileType: 'csv',
+        keyColumn: 'Region',
+      }}
+      dashboardLayout={{
+        backgroundColor: true,
+        rows: [
+          {
+            height: 700,
+            columns: [
+              {
+                graphType: 'donutChart',
+                dataFilters: [
+                  {
+                    column: 'indicator',
+                    includeValues: ['Indicator 1', 'Indicator 2', 'Indicator 3'],
+                  },
+                ],
+                graphDataConfiguration: [
+                  { columnId: 'indicator', chartConfigId: 'label' },
+                  { columnId: 'value', chartConfigId: 'size' },
+                ],
+                settings: {
+                  height: 600,
+                  padding: "1rem',
+                },
+              },
+            ],
+          },
+        ],
+      }}
+    />
+  );
+}
+```
+
+## How the component transforms the data
+
+Suppose your input data looks like this:
+
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Indicator 1</th>
+      <th>Indicator 2</th>
+      <th>Indicator 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Region 1</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+
+If you want to build a dashboard where the user selects a region and sees a bar chart of its indicators (Indicator 1, 2, 3), this isn’t directly possible with MultiGraphDashboard. That’s where this component comes in.
+
+It automatically:
+
+- Converts the wide format into long format using the specified keyColumn (e.g., Region)
+- Adds a dropdown to filter the dashboard by a single key value (e.g., show data for “Region 1”)
+
+The transformed data looks like this:
+
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Indicator</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 1</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 2</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 1</td>
+      <td>Indicator 3</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 1</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 2</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Region 2</td>
+      <td>Indicator 3</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+
+**NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#multi-graph-dashboard-wide-to-long-config) to learn more about that.**
+
+## Props
+
+#### Parameters
+
+- [dashboardID](#dashboardid) - Defines the id for the dashboard.
+- [dashboardLayout](#dashboardlayout) - Dashboard layout settings.
+- [dataSettings](#datasettings) - Configuration for the data source.
+- [dataFilters](#datafilters) - Filters to apply to raw data.
+- [filters](#filters) - UI filter definitions.
+- [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI.
+- [filterPosition](#filterposition) - Defines if the filters are on the top or on the side.
+- [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels.
+- [debugMode](#debugmode) - Enables debugging logs.
+- [uiMode](#uimode) - Controls UI theme mode.
+- [mode](#mode) - Controls color theme mode.
+- [graphStyles](#graphstyles) - Defines the styles of all the graphs.
+- [graphClassNames](#graphclassnames) - Defines classes of different elements in all the graphs.
+
+#### Props interface
+
+```tsx
+interface Props {
+  dashboardID?: string;
+  dashboardLayout: {
+    title?: string;
+    description?: string;
+    padding?: string;
+    backgroundColor?: string | boolean;
+    language?: Languages;
+    rows: {
+      columns: {
+        graphType: 'donutChart' | 'barChart' | 'unitChart' | 'treeMap' | 'circlePacking';
+        attachedFilter?: string;
+        columnWidth?: number;
+        dataTransform?: {
+          keyColumn: string;
+          aggregationColumnsSetting?: AggregationSettingsDataType[];
+        };
+        dataFilters?: DataFilterDataType[];
+        graphDataConfiguration?: GraphConfigurationDataType[];
+        dataSelectionOptions?: DataSelectionDataType[];
+        advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
+        settings?: any;
+      }[];
+      height?: number;
+    }[];
+  };
+  dataSettings?: {
+    dataURL?:
+      | string
+      | {
+          dataURL: string;
+          idColumnName: string;
+          fileType?: 'csv' | 'json' | 'api';
+          delimiter?: string;
+          columnsToArray?: {
+            column: string;
+            delimiter?: string;
+          }[];
+          apiHeaders?: any;
+          dataTransformation?: string;
+        }[];
+    keyColumn: string;
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: {
+      column: string;
+      delimiter?: string;
+    }[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+    idColumnTitle?: string;
+    data?: any;
+  };
+  filters?: {
+    column: string;
+    label?: string;
+    singleSelect?: boolean;
+    clearable?: boolean;
+    defaultValue?: string[] | string | number | number[];
+    excludeValues?: string[];
+    allowSelectAll?: boolean;
+    width?: string;
+  }[];
+  noOfFiltersPerRow?: number;
+  dataFilters?: {
+    column: string;
+    includeValues?: (string | number | boolean | null | undefined)[];
+    excludeValues?: (string | number | boolean | null | undefined)[];
+  }[];
+  debugMode?: boolean;
+  mode?: 'dark' | 'light';
+  filterPosition?: 'top' | 'side';
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
+  graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
+  graphStyles?: {
+    title?: React.CSSProperties;
+    footnote?: React.CSSProperties;
+    source?: React.CSSProperties;
+    description?: React.CSSProperties;
+    graphBackground?: React.CSSProperties;
+    tooltip?: React.CSSProperties;
+    xAxis?: {
+      gridLines?: React.CSSProperties;
+      labels?: React.CSSProperties;
+      title?: React.CSSProperties;
+      axis?: React.CSSProperties;
+    };
+    yAxis?: {
+      gridLines?: React.CSSProperties;
+      labels?: React.CSSProperties;
+      title?: React.CSSProperties;
+      axis?: React.CSSProperties;
+    };
+    graphObjectValues?: React.CSSProperties;
+    dataConnectors?: React.CSSProperties;
+    mouseOverLine?: React.CSSProperties;
+    regLine?: React.CSSProperties;
+    dataCard?: React.CSSProperties;
+  };
+  graphClassNames?: {
+    title?: string;
+    footnote?: string;
+    source?: string;
+    description?: string;
+    graphBackground?: string;
+    tooltip?: string;
+    xAxis?: {
+      gridLines?: string;
+      labels?: string;
+      title?: string;
+      axis?: string;
+    };
+    yAxis?: {
+      gridLines?: string;
+      labels?: string;
+      title?: string;
+      axis?: string;
+    };
+    graphObjectValues?: string;
+    dataConnectors?: string;
+    mouseOverLine?: string;
+    regLine?: string;
+    dataCard?: string;
+  };
+}
+```
+
+---
+
+<DashboardID />
+
+---
+
+<DashboardLayout />
+
+---
+
+<DataSettingsWideToLong />
+
+---
+
+<DataFilters />
+
+---
+
+<Filters />
+
+---
+
+<NoOfFiltersPerRow />
+
+---
+
+<FilterPosition />
+
+---
+
+<ReadableHeader />
+
+---
+
+<DebugMode />
+
+---
+
+<UIMode />
+
+---
+
+<Theme />
+
+---
+
+<GraphStyles />
+
+---
+
+<GraphClassNames />

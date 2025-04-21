@@ -1,14 +1,17 @@
+import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
-import isEqual from 'lodash.isequal';
-import { Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, SlopeChartDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { UNDPColorModule } from '../../ColorPalette';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { cn, Modal } from '@undp/design-system-react';
+
+import { ClassNameObject, SlopeChartDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { Colors } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
 
 interface Props {
   data: SlopeChartDataType[];
@@ -23,16 +26,19 @@ interface Props {
   rightMargin: number;
   topMargin: number;
   bottomMargin: number;
-  axisTitle: [string, string];
+  axisTitles: [string, string];
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   maxValue?: number;
   minValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -50,17 +56,20 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     onSeriesMouseOver,
-    axisTitle,
+    axisTitles,
     highlightedDataPoints,
     selectedColor,
     minValue,
     maxValue,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -106,44 +115,52 @@ export function Graph(props: Props) {
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g>
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
-              x1={radius + 5}
-              x2={radius + 5}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
-            />
-            <text
-              x={radius + 5}
-              y={graphHeight}
-              style={{
-                textAnchor: 'middle',
+              x1={radius}
+              x2={radius}
+              classNames={{
+                axis: cn(
+                  'stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550',
+                  classNames?.yAxis?.axis,
+                ),
               }}
-              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-              dy={15}
-            >
-              {axisTitle[0]}
-            </text>
+            />
+            <AxisTitle
+              x={radius}
+              y={graphHeight + 15}
+              style={styles?.yAxis?.title}
+              className={cn(
+                'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
+                classNames?.yAxis?.title,
+              )}
+              text={axisTitles[0]}
+            />
           </g>
           <g>
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
-              x1={graphWidth - (radius + 5)}
-              x2={graphWidth - (radius + 5)}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
-            />
-            <text
-              x={graphWidth - (radius + 5)}
-              y={graphHeight}
-              style={{
-                textAnchor: 'middle',
+              x1={graphWidth - radius}
+              x2={graphWidth - radius}
+              classNames={{
+                axis: cn(
+                  'stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550',
+                  classNames?.yAxis?.axis,
+                ),
               }}
-              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-              dy={15}
-            >
-              {axisTitle[1]}
-            </text>
+            />
+            <AxisTitle
+              x={graphWidth - radius}
+              y={graphHeight + 15}
+              style={styles?.yAxis?.title}
+              className={cn(
+                'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
+                classNames?.yAxis?.title,
+              )}
+              text={axisTitles[1]}
+            />
           </g>
           {data.map((d, i) => {
             return (
@@ -158,14 +175,14 @@ export function Graph(props: Props) {
                         : 0.3
                       : 0.3
                     : mouseOverData
-                    ? mouseOverData.label === d.label
-                      ? 1
-                      : 0.3
-                    : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf(d.label) !== -1
-                      ? 1
-                      : 0.3
-                    : 1
+                      ? mouseOverData.label === d.label
+                        ? 1
+                        : 0.3
+                      : highlightedDataPoints.length !== 0
+                        ? highlightedDataPoints.indexOf(d.label) !== -1
+                          ? 1
+                          : 0.5
+                        : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -204,7 +221,7 @@ export function Graph(props: Props) {
                 }}
               >
                 <circle
-                  cx={radius + 5}
+                  cx={radius}
                   cy={y(d.y1)}
                   r={radius}
                   style={{
@@ -212,14 +229,14 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
                 />
@@ -230,14 +247,15 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
+                      ...(styles?.yAxis?.labels || {}),
                     }}
-                    className='text-[10px]'
+                    className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y1)}
                     x={5}
-                    dy={4}
+                    dy='0.33em'
                     dx={-3}
                   >
                     {d.label}
@@ -250,14 +268,15 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
+                        ...(styles?.yAxis?.labels || {}),
                       }}
-                      className='text-[10px]'
+                      className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y1)}
                       x={5}
-                      dy={4}
+                      dy='0.33em'
                       dx={-3}
                     >
                       {d.label}
@@ -265,7 +284,7 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <circle
-                  cx={graphWidth - (radius + 5)}
+                  cx={graphWidth - radius}
                   cy={y(d.y2)}
                   r={radius}
                   style={{
@@ -273,14 +292,14 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
                 />
@@ -291,14 +310,15 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? UNDPColorModule.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
+                      ...(styles?.yAxis?.labels || {}),
                     }}
-                    className='text-[10px]'
+                    className={cn('text-xs', classNames?.yAxis?.labels)}
                     y={y(d.y2)}
                     x={graphWidth - 5}
-                    dy={4}
+                    dy='0.33em'
                     dx={3}
                   >
                     {d.label}
@@ -311,14 +331,15 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? UNDPColorModule.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
+                        ...(styles?.yAxis?.labels || {}),
                       }}
-                      className='text-[10px]'
+                      className={cn('text-xs', classNames?.yAxis?.labels)}
                       y={y(d.y2)}
                       x={graphWidth - 5}
-                      dy={4}
+                      dy='0.33em'
                       dx={3}
                     >
                       {d.label}
@@ -326,19 +347,21 @@ export function Graph(props: Props) {
                   ) : null
                 ) : null}
                 <line
-                  x1={radius + 5}
-                  x2={graphWidth - (radius + 5)}
+                  x1={radius}
+                  x2={graphWidth - radius}
                   y1={y(d.y1)}
                   y2={y(d.y2)}
+                  className={classNames?.dataConnectors}
                   style={{
                     fill: 'none',
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? UNDPColorModule.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
+                    ...styles?.dataConnectors,
                   }}
                 />
               </g>
@@ -352,7 +375,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (
@@ -363,11 +387,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

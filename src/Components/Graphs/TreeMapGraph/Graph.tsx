@@ -1,12 +1,18 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
-import { P, Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, TreeMapDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
-import { UNDPColorModule } from '../../ColorPalette';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { P, Modal, cn } from '@undp/design-system-react';
+
+import {
+  ClassNameObject,
+  Languages,
+  StyleObject,
+  TreeMapDataType,
+} from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { Colors } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: TreeMapDataType[];
@@ -24,12 +30,16 @@ interface Props {
   prefix: string;
   selectedColor?: string;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+  language?: Languages;
 }
 
 export function Graph(props: Props) {
@@ -53,10 +63,14 @@ export function Graph(props: Props) {
     highlightedDataPoints,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    language,
+    styles,
+    classNames,
   } = props;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -84,8 +98,11 @@ export function Graph(props: Props) {
     })),
   ];
   const treeData = stratify()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .id((d: any) => d.id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .parentId((d: any) => d.parent)(treeMapData);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   treeData.sum((d: any) => d.value);
   const treeMapVizData = treemap().size([graphWidth, graphHeight]).padding(2)(
     treeData,
@@ -107,44 +124,52 @@ export function Graph(props: Props) {
                 key={i}
                 opacity={
                   selectedColor
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     ? (d.data as any).data.color
                       ? colors[
-                          colorDomain.indexOf((d.data as any).data.color)
-                        ] === selectedColor
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        colorDomain.indexOf((d.data as any).data.color)
+                      ] === selectedColor
                         ? 1
                         : 0.3
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
-                      ? 0.85
-                      : 0.3
-                    : 0.85
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                        ? 0.85
+                        : 0.3
+                      : 0.85
                 }
                 transform={`translate(${d.x0},${d.y0})`}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseEnter={(event: any) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   setMouseOverData((d.data as any).data);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
-                  if (onSeriesMouseOver) {
-                    onSeriesMouseOver((d.data as any).data);
-                  }
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onSeriesMouseOver?.((d.data as any).data);
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
                     if (
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       mouseClickData === (d.data as any).id &&
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       setMouseClickData((d.data as any).id);
-                      if (onSeriesMouseClick)
-                        onSeriesMouseClick((d.data as any).data);
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      onSeriesMouseClick?.((d.data as any).data);
                     }
                   }
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseMove={(event: any) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   setMouseOverData((d.data as any).data);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -168,9 +193,11 @@ export function Graph(props: Props) {
                     fill:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         : !(d.data as any).data.color
-                        ? UNDPColorModule.gray
-                        : colors[
+                          ? Colors.gray
+                          : colors[
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             colorDomain.indexOf((d.data as any).data.color)
                           ],
                   }}
@@ -190,9 +217,11 @@ export function Graph(props: Props) {
                         color: getTextColorBasedOnBgColor(
                           data.filter(el => el.color).length === 0
                             ? colors[0]
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             : !(d.data as any).data.color
-                            ? UNDPColorModule.gray
-                            : colors[
+                              ? Colors.gray
+                              : colors[
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 colorDomain.indexOf((d.data as any).data.color)
                               ],
                         ),
@@ -203,7 +232,13 @@ export function Graph(props: Props) {
                           marginBottom='none'
                           size='sm'
                           leading='none'
-                          className='w-full'
+                          className={cn(
+                            'w-full treemap-label',
+                            language === 'ar' || language === 'he'
+                              ? 'text-right'
+                              : 'text-left',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             WebkitLineClamp:
                               d.y1 - d.y0 > 50
@@ -219,17 +254,23 @@ export function Graph(props: Props) {
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.gray
-                                : colors[
+                                  ? Colors.gray
+                                  : colors[
                                     colorDomain.indexOf(
+                                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                       (d.data as any).data.color,
                                     )
                                   ],
                             ),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
-                          {(d.data as any).id}
+                          {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (d.data as any).id
+                          }
                         </P>
                       ) : null}
                       {showValues ? (
@@ -237,22 +278,32 @@ export function Graph(props: Props) {
                           marginBottom='none'
                           size='sm'
                           leading='none'
-                          className='font-bold w-full'
+                          className={cn(
+                            'w-full font-bold treemap-value',
+                            language === 'ar' || language === 'he'
+                              ? 'text-right'
+                              : 'text-left',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 : !(d.data as any).data.color
-                                ? UNDPColorModule.gray
-                                : colors[
+                                  ? Colors.gray
+                                  : colors[
                                     colorDomain.indexOf(
+                                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                       (d.data as any).data.color,
                                     )
                                   ],
                             ),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
                           {numberFormattingFunction(
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             (d.data as any).value,
                             prefix,
                             suffix,
@@ -261,7 +312,7 @@ export function Graph(props: Props) {
                       ) : null}
                     </div>
                   </foreignObject>
-                ) : null}
+                  ) : null}
               </g>
             );
           })}
@@ -273,7 +324,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (
@@ -284,11 +336,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/getTextColorBasedOnBgColor" />
+
+# getTextColorBasedOnBgColor
+
+Returns a contrasting text color (`#000` or `#fff`) based on the given background color.
+```ts
+function getTextColorBasedOnBgColor(bgColor: string): '#000' | '#fff'
+```
+
+## Parameters
+
+- `bgColor` - A background color string in either hex (e.g., `#ffffff`) or RGB format (e.g., `rgb(255,255,255)`).
+
+## Returns
+
+`'#000'` for light backgrounds, `'#fff'` for dark backgrounds.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+getTextColorBasedOnBgColor('#000000');
+// Result: "#fff"
+getTextColorBasedOnBgColor('rgb(255,255,255)');
+// Result: "#000"

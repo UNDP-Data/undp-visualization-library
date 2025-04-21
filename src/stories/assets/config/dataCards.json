@@ -1,0 +1,46 @@
+{
+  "graphType": "dataCards",
+  "dataSettings": {
+    "data": [
+      {
+        "label": "Project A",
+        "category": "Category 1",
+        "description": "Lorem ipsum dolor sit amet <...>"
+      },
+      {
+        "label": "Project B",
+        "category": "Category 2",
+        "description": "Lorem ipsum dolor sit amet <...>"
+      },
+      {
+        "label": "Project C",
+        "category": "Category 3",
+        "description": "Lorem ipsum dolor sit amet <...>"
+      }
+    ]
+  },
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "cardTemplate": "<div style='padding: 24px;'><b>{{label}}</b><br>{{category}}<br>{{description}}</div>",
+    "graphTitle": "Data Table",
+    "graphDescription": "Description",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "theme": "light",
+    "backgroundColor": true,
+    "cardBackgroundColor": "#fff",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "detailsOnClick": "<div style='padding: 24px;'>Modal Content</div>",
+    "allowDataDownloadOnDetail": "Button Label",
+    "noOfItemsInAPage": 8,
+    "cardSearchColumns": ["label"],
+    "uiMode": "light"
+  }
+}

@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import isEqual from 'fast-deep-equal';
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
-import isEqual from 'lodash.isequal';
-import { H2, Modal, P } from '@undp-data/undp-design-system-react';
-import { CSSObject, DonutChartDataType } from '../../../Types';
-import { Tooltip } from '../../Elements/Tooltip';
-import { UNDPColorModule } from '../../ColorPalette';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { H2, Modal, P } from '@undp/design-system-react';
+
+import { ClassNameObject, DonutChartDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { Colors } from '@/Components/ColorPalette';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   mainText?: string | { label: string; suffix?: string; prefix?: string };
@@ -16,12 +18,15 @@ interface Props {
   strokeWidth: number;
   data: DonutChartDataType[];
   tooltip?: string;
+   
   onSeriesMouseOver?: (_d: any) => void;
+   
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -37,14 +42,19 @@ export function Graph(props: Props) {
     onSeriesMouseClick,
     colorDomain,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const pieData = pie()
     .sort(null)
     .startAngle(0)
+     
     .value((d: any) => d.size);
+    
+   
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+   
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -68,18 +78,18 @@ export function Graph(props: Props) {
                 {mainText ? (
                   <H2
                     marginBottom='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 leading-none text-center'
+                    className='donut-main-text text-primary-gray-700 dark:text-primary-gray-100 leading-none text-center'
                   >
                     {typeof mainText === 'string'
                       ? mainText
                       : data.findIndex(d => d.label === mainText.label) !== -1
-                      ? numberFormattingFunction(
+                        ? numberFormattingFunction(
                           data[data.findIndex(d => d.label === mainText.label)]
                             .size,
                           mainText.prefix,
                           mainText.suffix,
                         )
-                      : 'NA'}
+                        : 'NA'}
                   </H2>
                 ) : null}
                 {subNote ? (
@@ -87,7 +97,7 @@ export function Graph(props: Props) {
                     marginBottom='none'
                     size='base'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
+                    className='donut-sub-note text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {subNote}
                   </P>
@@ -96,7 +106,7 @@ export function Graph(props: Props) {
                     size='base'
                     marginBottom='none'
                     leading='none'
-                    className='text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
+                    className='donut-label text-primary-gray-700 dark:text-primary-gray-100 text-center font-bold'
                   >
                     {mainText.label}
                   </P>
@@ -119,10 +129,10 @@ export function Graph(props: Props) {
                 fill:
                   colorDomain.indexOf((d.data as any).label) !== -1
                     ? colors[
-                        colorDomain.indexOf((d.data as any).label) %
+                      colorDomain.indexOf((d.data as any).label) %
                           colors.length
-                      ]
-                    : UNDPColorModule.gray,
+                    ]
+                    : Colors.gray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
                     ? 1
@@ -174,7 +184,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (
@@ -185,11 +196,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

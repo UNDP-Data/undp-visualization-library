@@ -1,66 +1,122 @@
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
-import { P } from '@undp-data/undp-design-system-react';
+import { P } from '@undp/design-system-react';
+
 import { Graph } from './Graph';
+
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   DonutChartDataType,
   Languages,
   SourcesDataType,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+  StyleObject,
+  ClassNameObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { Colors } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
-  mainText?: string | { label: string; suffix?: string; prefix?: string };
+  // Data
+  /** Array of data objects */
   data: DonutChartDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  suffix?: string;
-  prefix?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  sources?: SourcesDataType[];
+  /** Description of the graph */
   graphDescription?: string;
-  subNote?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  radius?: number;
-  strokeWidth?: number;
-  graphLegend?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  colorDomain?: string[];
-  sortData?: 'asc' | 'desc';
-  language?: Languages;
-  mode?: 'light' | 'dark';
-  width?: number;
-  height?: number;
-  minHeight?: number;
-  relativeHeight?: number;
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
+
+  // Colors and Styling
+  /** Array of colors for each segment */
+  colors?: string[];
+  /** Domain of colors for the graph */
+  colorDomain?: string[];
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Radius of the donut chart */
+  radius?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+
+  // Graph Parameters
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Max width of the color scale as a css property */
+  colorScaleMaxWidth?: string;
+  /** Stroke width of the arcs and circle of the donut  */
+  strokeWidth?: number;
+  /** Sorting order for data. This is overwritten by labelOrder prop */
+  sortData?: 'asc' | 'desc';
+  /** Large text at the center of the donut chart. If the type is an object then the text is the value in the data for the label mentioned in the object */
+  mainText?: string | { label: string; suffix?: string; prefix?: string };
+  /** Small text at the center of the donut chart */
+  subNote?: string;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
-  legendMaxWidth?: string;
-  tooltipBackgroundStyle?: CSSObject;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function DonutChart(props: Props) {
   const {
     mainText,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     suffix = '',
     sources,
     prefix = '',
@@ -70,7 +126,7 @@ export function DonutChart(props: Props) {
     footNote,
     radius,
     data,
-    graphLegend = true,
+    showColorScale = true,
     padding,
     backgroundColor = false,
     tooltip,
@@ -84,17 +140,17 @@ export function DonutChart(props: Props) {
     colorDomain,
     sortData,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     width,
     height,
     minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    legendMaxWidth,
+    colorScaleMaxWidth,
     detailsOnClick,
-    tooltipBackgroundStyle,
+    styles,
+    classNames,
   } = props;
 
   const [donutRadius, setDonutRadius] = useState(0);
@@ -124,18 +180,18 @@ export function DonutChart(props: Props) {
       if (!width || !radius) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [width, height]);
+  }, [width, height, radius]);
 
   const sortedData =
     sortData === 'asc'
       ? sortBy(data, d => d.size)
       : sortData === 'desc'
-      ? sortBy(data, d => d.size).reverse()
-      : data;
+        ? sortBy(data, d => d.size).reverse()
+        : data;
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -145,11 +201,11 @@ export function DonutChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
@@ -168,13 +224,19 @@ export function DonutChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-2 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -182,9 +244,10 @@ export function DonutChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -200,13 +263,11 @@ export function DonutChart(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {graphLegend ? (
+                  {showColorScale ? (
                     <div className='leading-0' aria-label='Color legend'>
                       <div
                         className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
-                        style={{
-                          maxWidth: legendMaxWidth,
-                        }}
+                        style={{ maxWidth: colorScaleMaxWidth }}
                       >
                         {sortedData.map((d, i) => (
                           <div className='flex gap-2 items-center' key={i}>
@@ -219,19 +280,18 @@ export function DonutChart(props: Props) {
                                     sortedData.map(el => el.label)
                                   ).indexOf(d.label) !== -1
                                     ? (colors ||
-                                        UNDPColorModule[mode].categoricalColors
-                                          .colors)[
-                                        (
-                                          colorDomain ||
+                                        Colors[theme].categoricalColors.colors)[
+                                      (
+                                        colorDomain ||
                                           sortedData.map(el => el.label)
-                                        ).indexOf(d.label) %
+                                      ).indexOf(d.label) %
                                           (
                                             colors ||
-                                            UNDPColorModule[mode]
-                                              .categoricalColors.colors
+                                            Colors[theme].categoricalColors
+                                              .colors
                                           ).length
-                                      ]
-                                    : UNDPColorModule.gray,
+                                    ]
+                                    : Colors.gray,
                               }}
                             />
                             <P
@@ -264,8 +324,8 @@ export function DonutChart(props: Props) {
                       width: width ? `${width}px` : '100%',
                       height: height
                         ? `${Math.max(
-                            minHeight,
-                            height ||
+                          minHeight,
+                          height ||
                               (relativeHeight
                                 ? minHeight
                                   ? (width || svgWidth) * relativeHeight >
@@ -274,7 +334,7 @@ export function DonutChart(props: Props) {
                                     : minHeight
                                   : (width || svgWidth) * relativeHeight
                                 : svgHeight),
-                          )}px`
+                        )}px`
                         : 'auto',
                     }}
                     ref={graphDiv}
@@ -288,8 +348,8 @@ export function DonutChart(props: Props) {
                             sortData === 'asc'
                               ? sortBy(data, d => d.size)
                               : sortData === 'desc'
-                              ? sortBy(data, d => d.size).reverse()
-                              : data
+                                ? sortBy(data, d => d.size).reverse()
+                                : data
                           }
                           colors={colors}
                           radius={radius || donutRadius}
@@ -304,7 +364,7 @@ export function DonutChart(props: Props) {
                           resetSelectionOnDoubleClick={
                             resetSelectionOnDoubleClick
                           }
-                          tooltipBackgroundStyle={tooltipBackgroundStyle}
+                          styles={styles}
                           detailsOnClick={detailsOnClick}
                         />
                       ) : null}
@@ -315,6 +375,11 @@ export function DonutChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

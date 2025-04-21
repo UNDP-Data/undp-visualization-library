@@ -1,71 +1,132 @@
 import { useState, useRef, useEffect } from 'react';
+
 import { Graph } from './Graph';
+
 import {
   AnnotationSettingsDataType,
   AreaChartDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   CustomHighlightAreaSettingsDataType,
   Languages,
   ReferenceDataType,
   SourcesDataType,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { ColorLegend } from '../../Elements/ColorLegend';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+  StyleObject,
+  ClassNameObject,
+  HighlightAreaSettingsDataType,
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
+import { Colors } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: AreaChartDataType[];
-  colors?: string[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  noOfXTicks?: number;
-  dateFormat?: string;
-  colorDomain: string[];
-  backgroundColor?: string | boolean;
-  padding?: string;
-  colorLegendTitle?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  relativeHeight?: number;
-  bottomMargin?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  highlightAreaSettings?: [number | string | null, number | string | null];
-  graphID?: string;
-  maxValue?: number;
-  minValue?: number;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  highlightAreaColor?: string;
-  showColorScale?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  annotations?: AnnotationSettingsDataType[];
-  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
-  yAxisTitle?: string;
-  noOfYTicks?: number;
+
+  // Colors and Styling
+  /** array of colors for different lines and areas */
+  colors?: string[];
+  /** Domain of colors for the graph */
+  colorDomain: string[];
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
   prefix?: string;
+  /** Suffix for values */
   suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** No. of ticks on the x-axis  */
+  noOfXTicks?: number;
+  /** No. of ticks on the y-axis  */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Title for the Y-axis */
+  yAxisTitle?: string;
+  /** Annotations on the chart */
+  annotations?: AnnotationSettingsDataType[];
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsDataType[];
+  /** Highlighted area(custom shape) on the chart  */
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function AreaChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     sources,
     graphDescription,
     height,
@@ -81,7 +142,7 @@ export function AreaChart(props: Props) {
     rightMargin = 20,
     topMargin = 20,
     bottomMargin = 25,
-    highlightAreaSettings = [null, null],
+    highlightAreaSettings = [],
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
@@ -91,20 +152,20 @@ export function AreaChart(props: Props) {
     maxValue,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     showColorScale = true,
     language = 'en',
     minHeight = 0,
     annotations = [],
     customHighlightAreaSettings = [],
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
-    backgroundStyle = {},
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
     prefix = '',
     suffix = '',
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -127,7 +188,7 @@ export function AreaChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -137,11 +198,11 @@ export function AreaChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -159,13 +220,19 @@ export function AreaChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -173,9 +240,10 @@ export function AreaChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -191,7 +259,7 @@ export function AreaChart(props: Props) {
                       colors={colors}
                       colorLegendTitle={colorLegendTitle}
                       showNAColor={false}
-                      mode={mode}
+                      theme={theme}
                     />
                   ) : null}
                   <div
@@ -228,17 +296,18 @@ export function AreaChart(props: Props) {
                         refValues={refValues}
                         minValue={minValue}
                         maxValue={maxValue}
-                        highlightAreaColor={highlightAreaColor}
                         rtl={language === 'he' || language === 'ar'}
                         annotations={annotations}
                         customHighlightAreaSettings={
                           customHighlightAreaSettings
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         yAxisTitle={yAxisTitle}
                         noOfYTicks={noOfYTicks}
                         prefix={prefix}
                         suffix={suffix}
+                        curveType={curveType}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -247,6 +316,11 @@ export function AreaChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

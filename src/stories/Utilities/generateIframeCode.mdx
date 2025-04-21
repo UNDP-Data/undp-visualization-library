@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/generateIframeCode" />
+
+# generateIframeCode
+
+Generates an iframe HTML string using a base link and parameters.
+```ts
+function generateIframeCode(
+  baseUrl: string, 
+  parameters: {
+    id: string;
+    value: string | boolean | number | string[] | number[];
+  }[]): string
+```
+
+## Parameters
+
+- `link` - The base URL.
+- `params` - An array of parameters to append.
+
+## Returns
+
+A string of iframe HTML.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const baseUrl = "https://example.com/embed";
+const parameters = [{
+    id: 'param_1'
+    value: true
+}];
+const embedUrl = generateIframeCode(baseUrl, parameters);
+// Result: <iframe src="https://example.com/embed?param_1=true" loading="lazy" style="width: 100%; border: 0px none"></iframe>

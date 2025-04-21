@@ -16,12 +16,9 @@ export type Languages =
   | 'custom';
 
 export type GraphTypeForGriddedGraph =
-  | 'horizontalBarChart'
-  | 'horizontalStackedBarChart'
-  | 'horizontalGroupedBarChart'
-  | 'verticalBarChart'
-  | 'verticalStackedBarChart'
-  | 'verticalGroupedBarChart'
+  | 'barChart'
+  | 'stackedBarChart'
+  | 'groupedBarChart'
   | 'lineChart'
   | 'dualAxisLineChart'
   | 'multiLineChart'
@@ -33,15 +30,12 @@ export type GraphTypeForGriddedGraph =
   | 'donutChart'
   | 'slopeChart'
   | 'scatterPlot'
-  | 'horizontalDumbbellChart'
-  | 'verticalDumbbellChart'
+  | 'dumbbellChart'
   | 'treeMap'
   | 'circlePacking'
   | 'heatMap'
-  | 'horizontalStripChart'
-  | 'verticalStripChart'
-  | 'horizontalBeeSwarmChart'
-  | 'verticalBeeSwarmChart'
+  | 'stripChart'
+  | 'beeSwarmChart'
   | 'butterflyChart'
   | 'histogram'
   | 'sparkLine'
@@ -50,17 +44,13 @@ export type GraphTypeForGriddedGraph =
   | 'statCard'
   | 'unitChart'
   | 'animatedScatterPlot'
-  | 'animatedHorizontalBarChart'
-  | 'animatedHorizontalStackedBarChart'
-  | 'animatedHorizontalGroupedBarChart'
-  | 'animatedVerticalBarChart'
-  | 'animatedVerticalStackedBarChart'
-  | 'animatedVerticalGroupedBarChart'
+  | 'animatedBarChart'
+  | 'animatedStackedBarChart'
+  | 'animatedGroupedBarChart'
   | 'animatedChoroplethMap'
   | 'animatedBiVariateChoroplethMap'
   | 'animatedDotDensityMap'
-  | 'animatedHorizontalDumbbellChart'
-  | 'animatedVerticalDumbbellChart'
+  | 'animatedDumbbellChart'
   | 'animatedButterflyChart'
   | 'sankeyChart'
   | 'lineChartWithConfidenceInterval'
@@ -72,10 +62,6 @@ export type GeoHubGraphType =
   | 'geoHubMapWithLayerSelection';
 
 export type GraphType = GraphTypeForGriddedGraph | GeoHubGraphType;
-
-export type CSSObject = {
-  [property: string]: string | number;
-};
 
 export interface SourcesDataType {
   source: string;
@@ -110,6 +96,52 @@ export interface ButterflyChartDataType {
 
 export interface ButterflyChartWithDateDataType extends ButterflyChartDataType {
   date: string | number;
+}
+
+export interface AxesStyleObject {
+  gridLines?: React.CSSProperties;
+  labels?: React.CSSProperties;
+  title?: React.CSSProperties;
+  axis?: React.CSSProperties;
+}
+
+export interface StyleObject {
+  title?: React.CSSProperties;
+  footnote?: React.CSSProperties;
+  source?: React.CSSProperties;
+  description?: React.CSSProperties;
+  graphBackground?: React.CSSProperties;
+  tooltip?: React.CSSProperties;
+  xAxis?: AxesStyleObject;
+  yAxis?: AxesStyleObject;
+  graphObjectValues?: React.CSSProperties;
+  dataConnectors?: React.CSSProperties;
+  mouseOverLine?: React.CSSProperties;
+  regLine?: React.CSSProperties;
+  dataCards?: React.CSSProperties;
+}
+
+export interface AxesClassNameObject {
+  gridLines?: string;
+  labels?: string;
+  title?: string;
+  axis?: string;
+}
+export interface ClassNameObject {
+  title?: string;
+  footnote?: string;
+  source?: string;
+  description?: string;
+  tooltip?: string;
+  xAxis?: AxesClassNameObject;
+  yAxis?: AxesClassNameObject;
+  legend?: string;
+  graph?: string;
+  graphObjectValues?: string;
+  dataConnectors?: string;
+  mouseOverLine?: string;
+  regLine?: string;
+  dataCards?: string;
 }
 
 export interface BarGraphDataType {
@@ -160,13 +192,13 @@ export interface HistogramDataType {
 
 export interface ChoroplethMapDataType {
   x?: number | string | null;
-  countryCode: string;
+  id: string;
   data?: object;
 }
 
 export interface ChoroplethMapWithDateDataType {
   x?: number | string | null;
-  countryCode: string;
+  id: string;
   date: string | number;
   data?: object;
 }
@@ -174,14 +206,14 @@ export interface ChoroplethMapWithDateDataType {
 export interface BivariateMapDataType {
   x?: number | null;
   y?: number | null;
-  countryCode: string;
+  id: string;
   data?: object;
 }
 
 export interface BivariateMapWithDateDataType {
   x?: number | null;
   y?: number | null;
-  countryCode: string;
+  id: string;
   date: string | number;
   data?: object;
 }
@@ -347,8 +379,15 @@ export interface ReferenceDataType {
   value: number | null;
   text: string;
   color?: string;
+  styles?: {
+    line?: React.CSSProperties;
+    text?: React.CSSProperties;
+  };
+  classNames?: {
+    line?: string;
+    text?: string;
+  };
 }
-
 export interface GraphConfigurationDataType {
   columnId: string | string[];
   chartConfigId: string;
@@ -370,15 +409,20 @@ export interface AdvancedDataSelectionDataType {
   label?: string;
   options: {
     label: string;
-    value: string[];
+    dataConfiguration: {
+      columnId: string[] | string;
+      chartConfigId: string;
+    }[];
     graphSettings?: GraphSettingsDataType;
   }[];
-  chartConfigId: string;
   ui?: 'select' | 'radio';
   width?: string;
   defaultValue?: {
     label: string;
-    value: string[];
+    dataConfiguration: {
+      columnId: string[] | string;
+      chartConfigId: string;
+    }[];
     graphSettings?: GraphSettingsDataType;
   };
 }
@@ -401,7 +445,7 @@ export type DashboardColumnDataType = {
   graphDataConfiguration?: GraphConfigurationDataType[];
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  settings?: any;
+  settings?: GraphSettingsDataType;
 };
 
 export type StatCardsFromDataSheetDataType = {
@@ -435,8 +479,7 @@ export type DashboardLayoutDataType = {
 export type DashboardFromWideToLongFormatColumnDataType = {
   graphType:
     | 'donutChart'
-    | 'verticalBarChart'
-    | 'horizontalBarChart'
+    | 'barChart'
     | 'unitChart'
     | 'treeMap'
     | 'circlePacking';
@@ -551,13 +594,48 @@ export interface AnnotationSettingsDataType {
   fontWeight?: 'regular' | 'bold' | 'medium';
   showConnector?: boolean | number;
   connectorRadius?: number;
+  classNames?: {
+    connector?: string;
+    text?: string;
+  };
+  styles?: {
+    connector?: React.CSSProperties;
+    text?: React.CSSProperties;
+  };
+}
+
+export interface HighlightAreaSettingsDataType {
+  coordinates: [number | string | null, number | string | null];
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
 }
 
 export interface CustomHighlightAreaSettingsDataType {
   coordinates: (number | string)[];
+  closePath?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
   color?: string;
   strokeWidth?: number;
-  dashedStroke?: boolean;
+}
+
+export interface HighlightAreaSettingsForScatterPlotDataType {
+  coordinates: [number | null, number | null, number | null, number | null];
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
+}
+
+export interface CustomHighlightAreaSettingsForScatterPlotDataType {
+  coordinates: number[];
+  closePath?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  color?: string;
+  strokeWidth?: number;
 }
 
 export interface BackgroundStyleDataType {
@@ -568,6 +646,8 @@ export interface BackgroundStyleDataType {
 
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
+  orientation?: 'horizontal' | 'vertical';
+  axisTitles?: [string, string];
   graphTitle?: string;
   labelOrder?: string[];
   graphDescription?: string;
@@ -611,15 +691,12 @@ export interface GraphSettingsDataType {
   subNote?: string;
   radius?: number;
   strokeWidth?: number;
-  graphLegend?: boolean;
   showValues?: boolean;
   scaleType?: ScaleDataType;
-  domain?: number[] | string[];
   showColumnLabels?: boolean;
   showRowLabels?: boolean;
   noDataColor?: string;
   fillContainer?: boolean;
-  color?: string[] | string;
   numberOfBins?: number;
   donutStrokeWidth?: number;
   barGraphLayout?: 'horizontal' | 'vertical';
@@ -631,9 +708,8 @@ export interface GraphSettingsDataType {
   lineColors?: [string, string];
   sameAxes?: boolean;
   highlightAreaSettings?:
-    | [number | string | null, number | string | null]
-    | [number | null, number | null, number | null, number | null];
-  highlightAreaColor?: string;
+    | HighlightAreaSettingsDataType[]
+    | HighlightAreaSettingsForScatterPlotDataType[];
   labels?: string[];
   showColorLegendAtTop?: boolean;
   highlightedLines?: string[];
@@ -651,11 +727,11 @@ export interface GraphSettingsDataType {
   isWorldMap?: boolean;
   zoomScaleExtend?: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
-  highlightedCountryCodes?: string[];
+  highlightedIds?: string[];
   mapProperty?: string;
   showAntarctica?: boolean;
   categorical?: boolean;
-  mapStyles: [string, string];
+  mapStyles?: [string, string];
   center?: [number, number];
   zoomLevel?: number;
   mapStyle?: string | { style: string; name: string }[];
@@ -700,7 +776,7 @@ export interface GraphSettingsDataType {
   showOnlyActiveDate?: boolean;
   showDots?: boolean;
   diffAreaColors?: [string, string];
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   uiMode?: 'light' | 'normal';
   maxBarThickness?: number;
   minBarThickness?: number;
@@ -754,20 +830,17 @@ export interface GraphSettingsDataType {
   headingFontSize?: string;
   centerAlign?: boolean;
   verticalAlign?: 'center' | 'top' | 'bottom';
-  backgroundStyle?: BackgroundStyleDataType;
-  cardBackgroundStyle?: BackgroundStyleDataType;
   resetSelectionOnDoubleClick?: boolean;
   intervalAreaOpacity?: number;
   detailsOnClick?: string;
-  tooltipBackgroundStyle?: CSSObject;
   valueColor?: string;
   labelColor?: string;
   noOfYTicks?: number;
   noOfTicks?: number;
-  minDate: string | number;
-  maxDate: string | number;
-  colorLegendColors: string[];
-  colorLegendDomains: string[];
+  minDate?: string | number;
+  maxDate?: string | number;
+  colorLegendColors?: string[];
+  colorLegendDomain?: string[];
   barAxisTitle?: string;
   barSuffix?: string;
   barPrefix?: string;
@@ -781,4 +854,7 @@ export interface GraphSettingsDataType {
   linePrefixes?: [string, string];
   allowDataDownloadOnDetail?: string | boolean;
   noOfItemsInAPage?: number;
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }

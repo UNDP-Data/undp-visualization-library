@@ -1,0 +1,46 @@
+{
+  "graphType": "unitChart",
+  "dataSettings": {
+    "data": [
+      { "label": "Male", "value": 3 },
+      { "label": "Female", "value": 8 }
+    ]
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "label",
+      "columnId": "label"
+    },
+    {
+      "chartConfigId": "value",
+      "columnId": "value"
+    }
+  ],
+  "graphSettings": {
+    "colors": ["#006eb5", "#5DD4F0"],
+    "graphTitle": "Unit Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 300,
+    "size": 270,
+    "suffix": "",
+    "prefix": "",
+    "leftMargin": 50,
+    "rightMargin": 50,
+    "colorLegendTitle": "",
+    "backgroundColor": true,
+    "padding": "1rem",
+    "showColorScale": true,
+    "graphID": "treeMap01",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "theme": "light"
+  }
+}

@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Data fetching/fetchAndParseCSVFromTextBlob" />
+
+# fetchAndParseCSVFromTextBlob
+
+Parses CSV data from a string, applying optional transformations.
+
+```ts
+function fetchAndParseCSVFromTextBlob(
+  dataURL: string,
+  dataTransformation?: string,
+  columnsToArray?: {
+    column: string;
+    delimiter?: string;
+  }[],
+  debugMode?: boolean,
+  delimiter?: string,
+  header?: boolean,
+): Promise
+```
+
+## Parameters
+
+- `data` - The CSV data as a string.
+- `dataTransformation` - Optional Handlebars template for data transformation.
+- `columnsToArray` - Optional columns configuration to transform certain columns to arrays.
+- `debugMode` - Optional flag to log data to the console for debugging.
+- `delimiter` - Optional delimiter used in the CSV file (default is comma).
+- `header` - Optional flag to specify whether the CSV file contains headers (default is true).
+
+## Returns
+
+A promise that resolves to the parsed and transformed data.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+fetchAndParseCSVFromTextBlob(csvString)
+    .then(parsedData => console.log(parsedData))
+    .catch(error => console.error('Error:', error));

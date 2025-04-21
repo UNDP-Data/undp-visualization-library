@@ -1,0 +1,62 @@
+{
+  "graphType": "differenceLineChart",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-03.csv",
+    "fileType": "csv",
+    "delimiter": ";"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    },
+    {
+      "chartConfigId": "y1",
+      "columnId": "Indicator 01"
+    },
+    {
+      "chartConfigId": "y2",
+      "columnId": "Indicator 02"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GrpahID",
+    "graphTitle": "Difference Line Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 64,
+    "bottomMargin": 20,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "labels": ["Indicator 01", "Indicator 02"],
+    "diffAreaColors": ["#ffcccc", "#e5f6df"],
+    "showColorLegendAtTop": true,
+    "barPadding": 0.1,
+    "suffix": "",
+    "prefix": "",
+    "theme": "light",
+    "backgroundColor": true,
+    "colorLegendTitle": "Indicators",
+    "showColorScale": true,
+    "showLabels": true,
+    "showValues": false,
+    "showDots": false,
+    "showTicks": false,
+    "tooltip": "Indicator-01: {{y1}}<br>Indicator-02: {{y2}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

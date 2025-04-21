@@ -1,0 +1,82 @@
+import { Meta, Source, Canvas, Story } from '@storybook/blocks';
+import { H3, H4, P, Code, H6, Separator, Spacer } from '@undp/design-system-react';
+import githubLogo from "./assets/Github-logo.svg";
+import '@undp/design-system-react/dist/style.css';
+
+<Meta
+  title="Getting started/Intro"
+  parameters={{
+    layout: "fullscreen",
+    viewMode: "docs",
+    previewTabs: {
+      canvas: { hidden: false },
+      story: { hidden: false },
+    },
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: "100%",
+      },
+    },
+  }}
+/>
+
+# UNDP Data Viz Library
+
+##### Here you can find documentation, and resources using UNDP's Data vis Library. This resource is build and maintained by UNDP's BPPS team.
+
+<br />
+
+## Getting started
+
+#### Using the library in React projects
+
+Before starting, it is recommended to correctly install and configure [Node.js](https://nodejs.org/en/download) v16 or above.
+
+We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
+      
+#### Installing with NPM
+
+Start by installing UNDP Visualization Library as a node module and save it as a dependency in your package.json:
+```
+npm install @undp/data-viz `--save`
+```
+
+#### Import
+
+It is recommended to import what you need and the use it.
+
+It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this:
+```
+import '@undp/data-viz/dist/style.css';
+```
+
+#### Recommendation
+
+You might also want to install UNDP Design system and import the style from the design system is the graph or UI doesn't look proper.
+
+Installing UNDP Design system with NPM
+```
+npm install @undp/design-system-react `--save`
+```
+Import CSS
+```
+import '@undp/design-system-react/dist/style.css';
+```
+
+## TypeScript
+
+UNDP Data Viz library provides a built-in ts definition, you don't need to install any type definitions.
+
+<br />
+
+## Resources
+
+<br />
+
+<div className="flex github">
+  <a href="https://github.com/UNDP-Data/undp-visualization-library" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+    <img width={'32px'} src={githubLogo} alt="" />
+    <P className='m-0 md:m-0'>View Github repository</P>
+  </a>
+</div>

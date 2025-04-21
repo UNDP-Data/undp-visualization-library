@@ -4,40 +4,43 @@ import {
   DropdownSelect,
   Label,
   Spinner,
-} from '@undp-data/undp-design-system-react';
+} from '@undp/design-system-react';
+
+import { SingleGraphDashboard } from './SingleGraphDashboard';
+
 import {
-  BackgroundStyleDataType,
+  ClassNameObject,
   DashboardFromWideToLongFormatColumnDataType,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
-} from '../../Types';
+  StyleObject,
+} from '@/Types';
 import {
   fetchAndParseCSV,
   fetchAndParseJSON,
   fetchAndParseMultipleDataSources,
   fetchAndTransformDataFromAPI,
-} from '../../Utils/fetchAndParseData';
-import { GraphHeader } from '../Elements/GraphHeader';
-import { SingleGraphDashboard } from './SingleGraphDashboard';
-import { wideToLongTransformation } from '../../Utils/wideToLongTranformation';
-import { filterData } from '../../Utils/transformData/filterData';
-import { transformColumnsToArray } from '../../Utils/transformData/transformColumnsToArray';
+} from '@/Utils/fetchAndParseData';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { wideToLongTransformation } from '@/Utils/wideToLongTranformation';
+import { filterData } from '@/Utils/transformData/filterData';
+import { transformColumnsToArray } from '@/Utils/transformData/transformColumnsToArray';
 
 interface Props {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardFromWideToLongFormatLayoutDataType;
   dataSettings: DataSettingsWideToLongDataType;
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  graphStyles?: StyleObject;
+  graphClassNames?: ClassNameObject;
 }
 
 const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
@@ -48,16 +51,16 @@ const TotalWidth = (columns: DashboardFromWideToLongFormatColumnDataType[]) => {
 
 export function MultiGraphDashboardWideToLongFormat(props: Props) {
   const {
-    dashboardId,
+    dashboardID,
     dashboardLayout,
     dataSettings,
     debugMode,
-    mode = 'light',
+    theme = 'light',
     readableHeader,
     dataFilters,
-    graphBackgroundStyle,
-    graphBackgroundColor,
     uiMode = 'normal',
+    graphStyles,
+    graphClassNames,
   } = props;
 
   const filterConfig = useMemo(
@@ -68,16 +71,19 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     }),
     [],
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>(undefined);
   const [filterValues, setFilterValues] = useState<string[]>([]);
   const [selectedFilterValues, setSelectedFilterValues] = useState<
     string | undefined
   >(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
 
   useEffect(() => {
     if (dataFromFile) {
       const filteredData = dataFromFile.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item: any) => item[dataSettings.keyColumn] === selectedFilterValues,
       );
       setData(filteredData);
@@ -90,20 +96,20 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           ? typeof dataSettings.dataURL === 'string'
             ? dataSettings.fileType === 'json'
               ? fetchAndParseJSON(
-                  dataSettings.dataURL,
-                  undefined,
-                  dataSettings.dataTransformation,
-                  debugMode,
-                )
+                dataSettings.dataURL,
+                undefined,
+                dataSettings.dataTransformation,
+                debugMode,
+              )
               : dataSettings.fileType === 'api'
-              ? fetchAndTransformDataFromAPI(
+                ? fetchAndTransformDataFromAPI(
                   dataSettings.dataURL,
                   dataSettings.apiHeaders,
                   undefined,
                   dataSettings.dataTransformation,
                   debugMode,
                 )
-              : fetchAndParseCSV(
+                : fetchAndParseCSV(
                   dataSettings.dataURL,
                   dataSettings.dataTransformation,
                   undefined,
@@ -112,14 +118,15 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                   true,
                 )
             : fetchAndParseMultipleDataSources(
-                dataSettings.dataURL,
-                dataSettings.idColumnTitle,
-              )
+              dataSettings.dataURL,
+              dataSettings.idColumnTitle,
+            )
           : transformColumnsToArray(dataSettings.data, undefined);
 
         const d = await fetchData;
         const filteredData = filterData(d, dataFilters || []);
         setFilterValues(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           filteredData.map((el: any) => el[dataSettings.keyColumn]),
         );
         setSelectedFilterValues(filteredData[0][dataSettings.keyColumn]);
@@ -134,13 +141,13 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         console.error('Data fetching error:', error);
       }
     }
-  }, [dataSettings, dataFilters, debugMode]);
+  }, [dataSettings, debugMode, dataFilters, readableHeader]);
   useEffect(() => {
     fetchDataHandler();
   }, [fetchDataHandler]);
   return (
     <div
-      className={`${mode || 'light'} flex grow`}
+      className={`${theme || 'light'} flex grow`}
       dir={
         dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
           ? 'rtl'
@@ -152,8 +159,8 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           !dashboardLayout?.backgroundColor
             ? 'bg-transparent '
             : dashboardLayout?.backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }flex flex-col h-inherit w-full ml-auto mr-auto grow gap-4 ${
           dashboardLayout?.language || 'en'
         }`}
@@ -163,7 +170,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
             ? { backgroundColor: dashboardLayout?.backgroundColor }
             : {}),
         }}
-        id={dashboardId}
+        id={dashboardID}
       >
         <div
           style={{
@@ -217,6 +224,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                       isSearchable
                       controlShouldRenderValue
                       filterOption={createFilter(filterConfig)}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onChange={(el: any) => {
                         setSelectedFilterValues(el?.value);
                       }}
@@ -259,7 +267,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                           graphType={el.graphType}
                           dataFilters={el.dataFilters}
                           graphSettings={{
-                            ...el.settings,
+                            ...(el.settings || {}),
                             width: undefined,
                             height: undefined,
                             radius:
@@ -270,30 +278,26 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                               el.graphType === 'unitChart'
                                 ? el.settings.size
                                 : undefined,
-                            language: dashboardLayout.language,
-                            mode: mode || el.settings?.mode,
-                            backgroundStyle:
-                              el.settings?.backgroundStyle ||
-                              graphBackgroundStyle,
-                            backgroundColor:
-                              el.settings?.backgroundColor ||
-                              graphBackgroundColor,
+                            language:
+                              el.settings?.language || dashboardLayout.language,
+                            theme: el.settings?.theme || theme,
+                            styles: el.settings?.styles || graphStyles,
+                            classNames:
+                              el.settings?.classNames || graphClassNames,
                           }}
-                          dataSettings={{
-                            data,
-                          }}
+                          dataSettings={{ data }}
                           graphDataConfiguration={
                             el.graphDataConfiguration
                               ? el.graphDataConfiguration
                               : el.graphType === 'unitChart'
-                              ? [
+                                ? [
                                   {
                                     columnId: 'indicator',
                                     chartConfigId: 'label',
                                   },
                                   { columnId: 'value', chartConfigId: 'value' },
                                 ]
-                              : [
+                                : [
                                   {
                                     columnId: 'indicator',
                                     chartConfigId: 'label',

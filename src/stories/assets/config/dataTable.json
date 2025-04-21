@@ -1,0 +1,48 @@
+{
+  "graphType": "dataTable",
+  "dataSettings": {
+    "data": [
+      { "label": "2020 Q1", "value1": 3, "value2": 3, "value3": 3 },
+      { "label": "2020 Q2", "value1": 8, "value2": 3, "value3": 3 },
+      { "label": "2020 Q3", "value1": 11, "value2": 3, "value3": 3 },
+      { "label": "2020 Q4", "value1": 19, "value2": 3, "value3": 3 }
+    ]
+  },
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "columnData": [
+      {
+        "columnTitle": "Label",
+        "columnId": "label"
+      },
+      {
+        "columnTitle": "Value #1",
+        "columnId": "value1"
+      },
+      {
+        "columnTitle": "Value #3",
+        "columnId": "value2"
+      },
+      {
+        "columnTitle": "Value #3",
+        "columnId": "value3",
+        "prefix": "US $ "
+      }
+    ],
+    "graphTitle": "Data Table",
+    "graphDescription": "Description",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "theme": "light",
+    "backgroundColor": true,
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "dateFormat": "yyyy"
+  }
+}

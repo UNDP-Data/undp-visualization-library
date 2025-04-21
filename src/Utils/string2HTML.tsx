@@ -2,12 +2,13 @@ import xss from 'xss';
 import Handlebars from 'handlebars';
 import Mexp from 'math-expression-evaluator';
 import { marked } from 'marked';
+
 import { numberFormattingFunction } from './numberFormattingFunction';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getDescendantProp(data: any, desc: string) {
   const renderer = new marked.Renderer();
   const mexp = new Mexp();
-
   renderer.link = ({ href, title, text }) => {
     const target = href.startsWith('/') ? '_self' : '_blank';
     return `<a href="${href}" target="${target}" title="${
@@ -40,6 +41,7 @@ function getDescendantProp(data: any, desc: string) {
   return template(data);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function string2HTML(htmlString: string, data?: any) {
   // Custom XSS filter configuration
   const options = {
@@ -187,5 +189,6 @@ export function string2HTML(htmlString: string, data?: any) {
   };
   if (!data) return xss(htmlString, options);
   const replacedString = xss(getDescendantProp(data, htmlString), options);
-  return replacedString;
+  const decoded = new DOMParser().parseFromString(replacedString, 'text/html').documentElement.textContent || '';
+  return decoded;
 }

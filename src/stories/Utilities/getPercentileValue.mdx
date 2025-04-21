@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/getPercentileValue" />
+
+# getPercentileValue
+
+Returns the value at the given percentile from a numeric dataset.
+```ts
+function getPercentileValue(data: number[], outlierThreshold?: number): number
+```
+
+## Parameters
+
+- `data` - An array of numbers to compute the percentile from.
+- `percentile` - The desired percentile (0-100).
+
+## Returns
+
+The value at the specified percentile.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+getPercentileValue([1, 3, 5, 7, 9], 50);
+// Result: 5

@@ -1,0 +1,74 @@
+{
+  "graphType": "scatterPlot",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-01.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "columnId": "Indicator-01",
+      "chartConfigId": "x"
+    },
+    {
+      "columnId": "Indicator-02",
+      "chartConfigId": "y"
+    },
+    {
+      "columnId": "Region",
+      "chartConfigId": "color"
+    },
+    {
+      "columnId": "Indicator-03",
+      "chartConfigId": "radius"
+    },
+    {
+      "columnId": "Country",
+      "chartConfigId": "label"
+    }
+  ],
+  "graphSettings": {
+    "graphTitle": "Scatter Plot",
+    "graphDescription": "Sample Data",
+    "padding": "1rem",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "showLabels": false,
+    "colors": ["#006eb5", "#5DD4F0", "#02A38A"],
+    "colorDomain": ["Region A", "Region B", "Region C"],
+    "colorLegendTitle": "Regions",
+    "radius": 40,
+    "maxRadiusValue": 40,
+    "xAxisTitle": "X Axis Label",
+    "yAxisTitle": "Y Axis Label",
+    "backgroundColor": true,
+    "leftMargin": 50,
+    "rightMargin": 50,
+    "topMargin": 24,
+    "bottomMargin": 40,
+    "relativeHeight": 0.7,
+    "tooltip": "{{label}}<br>x: {{x}}<br>y: {{y}}",
+    "refXValues": [{ "value": 20, "text": "Label", "color": "#000" }],
+    "refYValues": [{ "value": 4, "text": "Label", "color": "#000" }],
+    "highlightedDataPoints": [],
+    "highlightAreaSettings": [{ "coordinates": [0, 10, 0, 10] }],
+    "highlightAreaColor": "#EDEFF0",
+    "showColorScale": true,
+    "graphID": "GraphID",
+    "maxXValue": 50,
+    "minXValue": 0,
+    "maxYValue": 50,
+    "minYValue": 0,
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "theme": "light",
+    "showNAColor": false
+  }
+}

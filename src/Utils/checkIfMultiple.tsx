@@ -1,4 +1,4 @@
-import { GraphConfigurationDataType } from '../Types';
+import { GraphConfigurationDataType } from '@/Types';
 
 export function checkIfMultiple(
   id: string,
@@ -7,5 +7,5 @@ export function checkIfMultiple(
   return graphConfig.findIndex(el => el.chartConfigId === id) === -1
     ? false
     : typeof graphConfig[graphConfig.findIndex(el => el.chartConfigId === id)]
-        .columnId !== 'string';
+      .columnId !== 'string';
 }

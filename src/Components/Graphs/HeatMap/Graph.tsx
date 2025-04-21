@@ -1,18 +1,26 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
-import isEqual from 'lodash.isequal';
-import { Modal } from '@undp-data/undp-design-system-react';
-import { CSSObject, HeatMapDataType, ScaleDataType } from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../Elements/Tooltip';
-import { getTextColorBasedOnBgColor } from '../../../Utils/getTextColorBasedOnBgColor';
-import { checkIfNullOrUndefined } from '../../../Utils/checkIfNullOrUndefined';
-import { string2HTML } from '../../../Utils/string2HTML';
+import { cn, Modal } from '@undp/design-system-react';
+
+import {
+  ClassNameObject,
+  HeatMapDataType,
+  ScaleDataType,
+  StyleObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { string2HTML } from '@/Utils/string2HTML';
+import { XAxesLabels } from '@/Components/Elements/Axes/XAxesLabels';
+import { YAxesLabels } from '@/Components/Elements/Axes/YAxesLabels';
 
 interface Props {
   data: HeatMapDataType[];
-  domain: string[] | number[];
+  colorDomain: string[] | number[];
   colors: string[];
   noDataColor: string;
   scaleType: ScaleDataType;
@@ -29,12 +37,15 @@ interface Props {
   prefix: string;
   showValues?: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -53,7 +64,7 @@ export function Graph(props: Props) {
     suffix,
     prefix,
     showValues,
-    domain,
+    colorDomain,
     colors,
     noDataColor,
     scaleType,
@@ -61,8 +72,9 @@ export function Graph(props: Props) {
     selectedColor,
     onSeriesMouseClick,
     resetSelectionOnDoubleClick,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
   const margin = {
     top: topMargin,
@@ -70,6 +82,7 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [mouseOverData, setMouseOverData] = useState<
     HeatMapDataType | undefined
@@ -86,13 +99,15 @@ export function Graph(props: Props) {
   const barWidth = x.bandwidth();
   const colorScale =
     scaleType === 'categorical'
-      ? scaleOrdinal<number | string, string>().domain(domain).range(colors)
+      ? scaleOrdinal<number | string, string>()
+        .domain(colorDomain)
+        .range(colors)
       : scaleType === 'threshold'
-      ? scaleThreshold<number, string>()
-          .domain(domain as number[])
+        ? scaleThreshold<number, string>()
+          .domain(colorDomain as number[])
           .range(colors)
-      : scaleLinear<string, string>()
-          .domain(domain as number[])
+        : scaleLinear<string, string>()
+          .domain(colorDomain as number[])
           .range(colors);
   return (
     <>
@@ -106,43 +121,43 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
             ? columns.map((d, i) => (
-                <foreignObject
-                  key={i}
-                  y={0}
-                  x={x(d)}
-                  width={barWidth}
-                  height={margin.top}
-                >
-                  <div className='flex flex-col gap-0.5 justify-center items-center h-inherit p-1'>
-                    <p className='text-base text-center leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
-                      {`${d}`.length < truncateBy
-                        ? `${d}`
-                        : `${`${d}`.substring(0, truncateBy)}...`}
-                    </p>
-                  </div>
-                </foreignObject>
-              ))
+              <XAxesLabels
+                key={i}
+                y={0}
+                x={x(d) as number}
+                width={barWidth}
+                height={margin.top - 5}
+                value={
+                    `${d}`.length < truncateBy
+                      ? `${d}`
+                      : `${`${d}`.substring(0, truncateBy)}...`
+                  }
+                style={styles?.xAxis?.labels}
+                className={classNames?.xAxis?.labels}
+                alignment='bottom'
+              />
+            ))
             : null}
         </g>
         <g transform={`translate(${0},${margin.top})`}>
           {showRowLabels
             ? rows.map((d, i) => (
-                <foreignObject
-                  key={i}
-                  y={y(d)}
-                  x={0}
-                  width={margin.left}
-                  height={barHeight}
-                >
-                  <div className='flex flex-col gap-0.5 justify-center items-end h-inherit py-1 pr-2 pl-1'>
-                    <p className='text-base text-right leading-tight m-0 text-primary-gray-600 dark:text-primary-gray-300'>
-                      {`${d}`.length < truncateBy
-                        ? `${d}`
-                        : `${`${d}`.substring(0, truncateBy)}...`}
-                    </p>
-                  </div>
-                </foreignObject>
-              ))
+              <YAxesLabels
+                value={
+                    `${d}`.length < truncateBy
+                      ? `${d}`
+                      : `${`${d}`.substring(0, truncateBy)}...`
+                  }
+                key={i}
+                y={y(d) as number}
+                x={0}
+                width={margin.left}
+                height={barHeight}
+                alignment='right'
+                style={styles?.yAxis?.labels}
+                className={classNames?.yAxis?.labels}
+              />
+            ))
             : null}
         </g>
         <g transform={`translate(${margin.left},${margin.top})`}>
@@ -155,9 +170,7 @@ export function Graph(props: Props) {
                   y={0}
                   width={barWidth}
                   height={barHeight}
-                  style={{
-                    fill: noDataColor,
-                  }}
+                  style={{ fill: noDataColor }}
                   className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                 />
               ))}
@@ -167,12 +180,14 @@ export function Graph(props: Props) {
             .filter(d => !checkIfNullOrUndefined(d.value))
             .map((d, i) => {
               const color = !checkIfNullOrUndefined(d.value)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ? colorScale(d.value as any)
                 : noDataColor;
               return (
                 <g
                   key={i}
                   transform={`translate(${x(d.column)},${y(d.row)})`}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseEnter={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -195,6 +210,7 @@ export function Graph(props: Props) {
                       }
                     }
                   }}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseMove={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -217,9 +233,7 @@ export function Graph(props: Props) {
                     y={0}
                     width={barWidth}
                     height={barHeight}
-                    style={{
-                      fill: color,
-                    }}
+                    style={{ fill: color }}
                     className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
@@ -230,11 +244,15 @@ export function Graph(props: Props) {
                       width={barWidth}
                       height={barHeight}
                     >
-                      <div className='flex flex-col justify-center items-center h-inherit p-0.2'>
+                      <div className='flex flex-col justify-center items-center h-inherit p-1'>
                         <p
-                          className='text-xs text-center m-0 leading-tight'
+                          className={cn(
+                            'text-xs text-center m-0 leading-tight graph-value',
+                            classNames?.graphObjectValues,
+                          )}
                           style={{
                             color: getTextColorBasedOnBgColor(color),
+                            ...(styles?.graphObjectValues || {}),
                           }}
                         >
                           {typeof d.value === 'string'
@@ -269,7 +287,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
       {detailsOnClick ? (
@@ -280,11 +299,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

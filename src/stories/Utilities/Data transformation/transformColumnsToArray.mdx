@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Data transformation/transformColumnsToArray" />
+
+# transformColumnsToArray
+
+Transforms specified columns of the CSV data into arrays, splitting the string values based on a delimiter.
+
+This function is useful for handling columns that contain multiple values separated by a delimiter, and it converts them into arrays for further processing.
+
+```ts
+function transformColumnsToArray(
+  csvData: any,
+  columnConfig?: {
+    column: string;
+    delimiter?: string;
+  }[],
+): object[] 
+```
+
+## Parameters
+
+- `csvData`- The input CSV data, typically an array of objects where each object represents a row.
+- `columnConfig`- An optional array of column configuration objects specifying the columns to be transformed, along with the delimiter used to split the values (defaults to ',' if not provided).
+
+## Returns
+
+An array of objects where each object contains the aggregated values for each unique value in the key column.
+
+Each object includes the key column value, count of occurrences, and the aggregated values for each specified column.
+
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const data = [
+  { category: 'A', value: 10, amount: 5 },
+  { category: 'A', value: 20, amount: 10 },
+  { category: 'B', value: 15, amount: 7 },
+];
+const aggregationSettings = [
+  { column: 'value', aggregationMethod: 'average' },
+  { column: 'amount', aggregationMethod: 'sum' },
+];
+const transformedData = transformDataForAggregation(data, 'category', aggregationSettings);
+console.log(transformedData);
+// Result
+// [
+//   { category: 'A', count: 2, value: 15, amount: 15 },
+//   { category: 'B', count: 1, value: 15, amount: 7 },
+// ]

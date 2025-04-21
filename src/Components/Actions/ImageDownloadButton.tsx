@@ -1,6 +1,7 @@
-import { Button } from '@undp-data/undp-design-system-react';
-import { imageDownload } from '../../Utils/imageDownload';
-import { ImageDown } from '../Icons/Icons';
+import { Button } from '@undp/design-system-react';
+
+import { imageDownload } from '@/Utils/imageDownload';
+import { ImageDown } from '@/Components/Icons';
 
 interface Props {
   buttonContent?: string | JSX.Element;

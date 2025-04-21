@@ -1,6 +1,8 @@
 import flattenDeep from 'lodash.flattendeep';
-import { GraphConfigurationDataType, GraphType } from '../Types';
+
 import ChartConfiguration from './transformData/graphConfig.json';
+
+import { GraphConfigurationDataType, GraphType } from '@/Types';
 
 function missingValuesInArray(superset: string[], subset: string[]): string[] {
   return subset.filter(value => !superset.includes(value));
@@ -33,7 +35,7 @@ export function checkDataConfigValidity(
       ifRequiredIdsPresent.length === 0
         ? undefined
         : `Missing required ID(s) in configuration: ${ifRequiredIdsPresent.join(
-            ', ',
-          )}`,
+          ', ',
+        )}`,
   };
 }

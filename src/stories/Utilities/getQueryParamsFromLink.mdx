@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/getQueryParamsFromLink" />
+
+# getQueryParamsFromLink
+
+Parses query parameters from the current browser URL.
+```ts
+function getQueryParamsFromLink(): {
+  param: string;
+  value: string | string[];
+}[]
+```
+
+## Returns
+
+An array of objects containing each query parameter and its value.
+- If a value contains the `~` delimiter, it will be returned as a string array.
+- Replaces `+` with spaces and `_` with `'`.
+- Splits values by `~` to support array-style data.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+getPercentileValue();

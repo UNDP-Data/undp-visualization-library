@@ -2,70 +2,137 @@ import { useState, useRef, useEffect } from 'react';
 import uniqBy from 'lodash.uniqby';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
+
 import { Graph } from './Graph';
-import { GraphHeader } from '../../Elements/GraphHeader';
+
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
+  ClassNameObject,
   Languages,
   NodesLinkDataType,
   SankeyDataType,
   SourcesDataType,
-} from '../../../Types';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { UNDPColorModule } from '../../ColorPalette';
-import { generateRandomString } from '../../../Utils/generateRandomString';
-import { EmptyState } from '../../Elements/EmptyState';
+  StyleObject,
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { Colors } from '@/Components/ColorPalette';
+import { generateRandomString } from '@/Utils/generateRandomString';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: SankeyDataType[];
-  sourceColors?: string[] | string;
-  targetColors?: string[] | string;
-  sourceColorDomain?: (string | number)[];
-  targetColorDomain?: (string | number)[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  showLabels?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  truncateBy?: number;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  suffix?: string;
-  prefix?: string;
-  showValues?: boolean;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  fillContainer?: boolean;
-  language?: Languages;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
+
+  // Colors and Styling
+  /** Color or array of colors for source */
+  sourceColors?: string[] | string;
+  /** Color or array of colors for targets */
+  targetColors?: string[] | string;
+  /** Domain of colors for the source */
+  sourceColorDomain?: (string | number)[];
+  /** Domain of colors for the target */
+  targetColorDomain?: (string | number)[];
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Toggles the background to fill the container. This only works if the width of the graph is defined. */
+  fillContainer?: boolean;
+  /** Padding between nodes */
   nodePadding?: number;
+  /** Thickness of each node */
   nodeWidth?: number;
-  highlightedSourceDataPoints?: (string | number)[];
-  highlightedTargetDataPoints?: (string | number)[];
-  defaultLinkOpacity?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+
+  // Graph Parameters
+  /** Title of the source */
   sourceTitle?: string;
+  /** Title of the targets */
   targetTitle?: string;
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Source to highlight. Use the label value from data to highlight the data point */
+  highlightedSourceDataPoints?: (string | number)[];
+  /** Targets to highlight. Use the label value from data to highlight the data point */
+  highlightedTargetDataPoints?: (string | number)[];
+  /** Opacity of the links */
+  defaultLinkOpacity?: number;
+  /** Toggle the initial animation of the links between nodes */
   animateLinks?: boolean | number;
+  /** Sorting order of the nodes */
   sortNodes?: 'asc' | 'desc' | 'mostReadable' | 'none';
-  backgroundStyle?: BackgroundStyleDataType;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
   resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
+
+  // Interactions and Callbacks
+  /** Tooltip content whn user mouseover on the links. This uses the handlebar template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
+
 export function SankeyChart(props: Props) {
   const {
     data,
@@ -96,7 +163,7 @@ export function SankeyChart(props: Props) {
     fillContainer = true,
     language = 'en',
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     sourceColors,
     targetColors,
@@ -111,10 +178,10 @@ export function SankeyChart(props: Props) {
     targetTitle,
     animateLinks,
     sortNodes = 'mostReadable',
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -133,18 +200,18 @@ export function SankeyChart(props: Props) {
       label: `${d.source}`,
       color:
         typeof sourceColors === 'string' || !sourceColors
-          ? sourceColors || UNDPColorModule.graphMainColor
+          ? sourceColors || Colors.graphMainColor
           : sourceColors[
-              (
-                sourceColorDomain ||
+            (
+              sourceColorDomain ||
                 uniqBy(data, 'source').map(el => `${el.source}`)
-              ).findIndex(el => `${el}` === `${d.source}`) > sourceColors.length
-                ? sourceColors.length - 1
-                : (
-                    sourceColorDomain ||
+            ).findIndex(el => `${el}` === `${d.source}`) > sourceColors.length
+              ? sourceColors.length - 1
+              : (
+                sourceColorDomain ||
                     uniqBy(data, 'source').map(el => `${el.source}`)
-                  ).findIndex(el => `${el}` === `${d.source}`)
-            ],
+              ).findIndex(el => `${el}` === `${d.source}`)
+          ],
       totalValue: sum(
         data.filter(el => `${el.source}` === `${d.source}`).map(el => el.value),
       ),
@@ -153,26 +220,26 @@ export function SankeyChart(props: Props) {
       sortNodes === 'asc'
         ? sortBy(sourceNodes, d => d.totalValue)
         : sortNodes === 'desc'
-        ? sortBy(sourceNodes, d => d.totalValue).reverse()
-        : sourceNodes;
+          ? sortBy(sourceNodes, d => d.totalValue).reverse()
+          : sourceNodes;
     const targetNodes = uniqBy(data, 'target').map(d => ({
       name: `target_${d.target}`,
       type: 'target' as const,
       label: `${d.target}`,
       color:
         typeof targetColors === 'string' || !targetColors
-          ? targetColors || UNDPColorModule.graphMainColor
+          ? targetColors || Colors.graphMainColor
           : targetColors[
-              (
-                targetColorDomain ||
+            (
+              targetColorDomain ||
                 uniqBy(data, 'target').map(el => `${el.target}`)
-              ).findIndex(el => `${el}` === `${d.target}`) > targetColors.length
-                ? targetColors.length - 1
-                : (
-                    targetColorDomain ||
+            ).findIndex(el => `${el}` === `${d.target}`) > targetColors.length
+              ? targetColors.length - 1
+              : (
+                targetColorDomain ||
                     uniqBy(data, 'target').map(el => `${el.target}`)
-                  ).findIndex(el => `${el}` === `${d.target}`)
-            ],
+              ).findIndex(el => `${el}` === `${d.target}`)
+          ],
       totalValue: sum(
         data.filter(el => `${el.target}` === `${d.target}`).map(el => el.value),
       ),
@@ -181,8 +248,8 @@ export function SankeyChart(props: Props) {
       sortNodes === 'asc'
         ? sortBy(targetNodes, d => d.totalValue)
         : sortNodes === 'desc'
-        ? sortBy(targetNodes, d => d.totalValue).reverse()
-        : targetNodes;
+          ? sortBy(targetNodes, d => d.totalValue).reverse()
+          : targetNodes;
 
     const nodes = [...sourceNodesSorted, ...targetNodesSorted];
     setSankeyData({
@@ -194,7 +261,7 @@ export function SankeyChart(props: Props) {
         data: { ...d },
       })),
     });
-  }, [data]);
+  }, [data, sortNodes, sourceColorDomain, sourceColors, targetColorDomain, targetColors]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
@@ -211,7 +278,7 @@ export function SankeyChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
+      className={`${theme || 'light'} flex ${width ? 'grow-0' : 'grow'} ${
         !fillContainer ? 'w-fit' : 'w-full'
       } `}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -221,11 +288,11 @@ export function SankeyChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -243,13 +310,19 @@ export function SankeyChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-4 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -257,9 +330,10 @@ export function SankeyChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -317,15 +391,21 @@ export function SankeyChart(props: Props) {
                       animateLinks={animateLinks}
                       sortNodes={sortNodes}
                       resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
-                      tooltipBackgroundStyle={tooltipBackgroundStyle}
+                      styles={styles}
+                      classNames={classNames}
                       detailsOnClick={detailsOnClick}
                     />
-                  ) : null}
+                    ) : null}
                 </div>
               )}
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

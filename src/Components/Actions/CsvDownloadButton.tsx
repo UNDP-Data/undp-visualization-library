@@ -1,6 +1,7 @@
 import { CSVLink } from 'react-csv';
-import { Button } from '@undp-data/undp-design-system-react';
-import { FileDown } from '../Icons/Icons';
+import { Button } from '@undp/design-system-react';
+
+import { FileDown } from '@/Components/Icons';
 
 interface HeaderProps {
   label: string;
@@ -24,8 +25,10 @@ interface Props {
   className?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const transformDataForCsv = (data: any) => {
   if (!data) return {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return data.map((obj: any) => {
     const newObj = { ...obj };
 

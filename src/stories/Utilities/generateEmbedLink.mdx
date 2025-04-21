@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/generateEmbedLink" />
+
+# generateEmbedLink
+
+Generates an embed link with custom query parameters.
+```ts
+function generateEmbedLink(
+  baseUrl: string, 
+  parameters: {
+    id: string;
+    value: string | boolean | number | string[] | number[];
+  }[]): string
+```
+
+## Parameters
+
+- `link` - The base URL.
+- `params` - An array of parameters to append.
+
+## Returns
+
+A URL string with encoded query parameters.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const baseUrl = "https://example.com/embed";
+const parameters = [{
+    id: 'param_1'
+    value: true
+}];
+const embedUrl = generateEmbedLink(baseUrl, parameters);
+// Result: https://example.com/embed?param_1=true

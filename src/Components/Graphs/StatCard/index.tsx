@@ -1,33 +1,63 @@
-import { H3 } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+import { H3 } from '@undp/design-system-react';
+
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {
-  BackgroundStyleDataType,
+  ClassNameObject,
   Languages,
   SourcesDataType,
-} from '../../../Types';
+  StyleObject,
+} from '@/Types';
 
 interface Props {
-  year?: number | string;
-  value: number | string;
-  graphTitle: string;
+  // Titles, Labels, and Sources
+  /** Title of the graph */
+  graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  suffix?: string;
-  prefix?: string;
-  sources?: SourcesDataType[];
+  /** Footnote for the graph */
   footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  graphID?: string;
-  language?: Languages;
-  mode?: 'light' | 'dark';
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  textBackground?: boolean;
-  backgroundStyle?: BackgroundStyleDataType;
+
+  // Colors and Styling
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Font size of the main text */
   headingFontSize?: string;
+  /** Padding around the graph */
+  padding?: string;
+  /** Toggle the fill color of the main text. */
+  textBackground?: boolean;
+  /** Toggle is the text is center aligned. */
   centerAlign?: boolean;
+  /** Vertical alignment of the main text */
   verticalAlign?: 'center' | 'top' | 'bottom';
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Main text */
+  value: number | string;
+  /** Sub text next to main text */
+  year?: number | string;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function BasicStatCard(props: Props) {
@@ -44,17 +74,18 @@ export function BasicStatCard(props: Props) {
     backgroundColor = false,
     graphID,
     language = 'en',
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
     textBackground = false,
-    backgroundStyle = {},
     headingFontSize = '4.375rem',
     centerAlign = false,
     verticalAlign = 'center',
+    styles,
+    classNames,
   } = props;
   return (
     <div
-      className={`${mode || 'light'} flex w-full`}
+      className={`${theme || 'light'} flex w-full`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -62,11 +93,11 @@ export function BasicStatCard(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -83,13 +114,19 @@ export function BasicStatCard(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-12 justify-between grow'>
             {graphTitle || graphDescription ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
               />
@@ -99,8 +136,8 @@ export function BasicStatCard(props: Props) {
                 verticalAlign === 'top'
                   ? 'justify-start'
                   : verticalAlign === 'bottom'
-                  ? 'justify-end'
-                  : 'justify-center'
+                    ? 'justify-end'
+                    : 'justify-center'
               }`}
             >
               <H3
@@ -109,8 +146,8 @@ export function BasicStatCard(props: Props) {
                   centerAlign
                     ? 'text-center'
                     : language === 'he' || language === 'ar'
-                    ? 'text-right'
-                    : 'text-left'
+                      ? 'text-right'
+                      : 'text-left'
                 } ${
                   textBackground
                     ? 'text-primary-black dark:text-primary-white'
@@ -140,7 +177,15 @@ export function BasicStatCard(props: Props) {
               </H3>
             </div>
             {sources || footNote ? (
-              <GraphFooter sources={sources} footNote={footNote} />
+              <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
+                sources={sources}
+                footNote={footNote}
+              />
             ) : null}
           </div>
         </div>

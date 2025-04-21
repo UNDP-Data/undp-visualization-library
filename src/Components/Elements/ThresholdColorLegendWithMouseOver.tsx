@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { P } from '@undp-data/undp-design-system-react';
-import { numberFormattingFunction } from '../../Utils/numberFormattingFunction';
+import { cn, P } from '@undp/design-system-react';
+
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
   colors: string[];
@@ -9,6 +10,7 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   naColor?: string;
+  className?: string;
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
@@ -19,6 +21,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
     setSelectedColor,
     width,
     naColor,
+    className,
   } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(
@@ -27,10 +30,8 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
-      className='flex flex-wrap gap-0 justify-center leading-0'
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      className={cn('flex flex-wrap gap-0 justify-center leading-0', className)}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
@@ -77,9 +78,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 x={((i + 1) * mainColorWidth) / colors.length}
                 y={25}
                 className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
-                style={{
-                  textAnchor: 'middle',
-                }}
+                style={{ textAnchor: 'middle' }}
               >
                 {numberFormattingFunction(d as number, '', '')}
               </text>
@@ -144,9 +143,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
                 x={337.5}
                 y={25}
                 className='fill-primary-gray-700 dark:fill-primary-gray-300 text-sm'
-                style={{
-                  textAnchor: 'start',
-                }}
+                style={{ textAnchor: 'start' }}
               >
                 NA
               </text>

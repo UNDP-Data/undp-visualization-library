@@ -1,0 +1,56 @@
+{
+  "graphType": "stackedAreaChart",
+  "debugMode": true,
+  "dataSettings": {
+    "dataURL": "/data/data-sample-03.csv",
+    "fileType": "csv",
+    "delimiter": ";"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    },
+    {
+      "chartConfigId": "y",
+      "columnId": ["Indicator 01", "Indicator 02"]
+    }
+  ],
+  "graphSettings": {
+    "graphID": "GrpahID",
+    "graphTitle": "Stacked Area Chart",
+    "graphDescription": "Sample Data",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "TBA",
+        "link": "https://www.undp.org/"
+      }
+    ],
+    "truncateBy": 10,
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 64,
+    "bottomMargin": 20,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "colorDomain": ["Indicator 01", "Indicator 02"],
+    "barPadding": 0.1,
+    "suffix": "",
+    "prefix": "",
+    "theme": "light",
+    "backgroundColor": true,
+    "colorLegendTitle": "Indicators",
+    "showColorScale": true,
+    "showLabels": true,
+    "showValues": false,
+    "showTicks": false,
+    "tooltip": "Indicator-01: {{y.[0]}}<br>Indicator-02: {{y.[1]}}",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en"
+  }
+}

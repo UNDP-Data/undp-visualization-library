@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ChartConfigDropdown } from '../../Elements/ChartConfigDropdown';
+
+<Meta title="Dashboard/Data types/advancedDataSelectionOptions" />
+
+### advancedDataSelectionOptions
+
+Type - `Array<object>`
+
+Advanced Options for selecting specific `dataConfiguration` to visualize.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>options</td>
+      <td>yes</td>
+      <td><code>Array{`<{label: string; dataConfiguration: {columnId: string[] | string; chartConfigId: string;}[]; graphSettings: GraphSettingsDataType;}>`}</code></td>
+      <td></td>
+      <td>Defines dataConfiguration to be visualized. dataConfiguration and graphSettings lets you overwrite the default graph settings and configuration (these depends on the graph). </td>
+    </tr>
+    <tr>
+      <td>ui</td>
+      <td>no</td>
+      <td><code>'select' | 'radio'</code></td>
+      <td><code>select</code></td>
+      <td>Sets which what UI element is used, a dropdown select or radio (or checkbox depending on if its multi-select or single select).</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the label for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the width of the filter in the top settings as a css property.</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+__The `dataConfiguration` for various graphs can be found below__
+
+<ChartConfigDropdown type='dataSettings'/>
+
+
+__The `graphSettings` for various graphs can be found below__
+
+<ChartConfigDropdown type='graphSettings'/>
+
+#### Example
+
+```tsx
+// this is an example for stacked or grouped bar chart 
+advancedDataSelectionOptions={[
+  {
+    label: 'Visualize',
+    options: [
+      {
+        label: 'Disaggregate by sex',
+        dataConfiguration: [
+          {
+            columnId: ['male', 'female'],
+            chartConfigId: 'size',
+          },
+          {
+            columnId: 'year',
+            chartConfigId: 'label',
+          },
+        ],
+      },  
+      {
+        label: 'Disaggregate by Age',
+        dataConfiguration: [
+          {
+            columnId: ['< 16', '16-60', '60+'],
+            chartConfigId: 'size',
+          },
+          {
+            columnId: 'year',
+            chartConfigId: 'label',
+          },
+        ],
+      },     
+    ],
+    ui: 'select'
+  }
+]}
+```

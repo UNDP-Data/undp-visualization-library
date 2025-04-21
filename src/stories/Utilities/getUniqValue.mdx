@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/getUniqValue" />
+
+# getUniqValue
+
+Extracts unique values from a specified column in a CSV dataset.
+
+If the column contains non-object values, it extracts the unique values from that column, sorts them, and returns them.
+
+If the column contains object values (e.g., arrays), it flattens the values before extracting and returning the unique values.
+
+```ts
+function getUniqValue(csvData: any, column: string): (string | number | boolean)[]
+```
+
+## Parameters
+
+- `csvData` - The CSV dataset, represented as an array of objects.
+- `column` - The column name from which to extract unique values.
+
+## Returns
+
+An array of unique values from the specified column, sorted in ascending order.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const csvData = [{ name: 'Alice' }, { name: 'Bob' }, { name: 'Alice' }];
+getUniqValue(csvData, 'name');
+// Result: ['Alice', 'Bob']

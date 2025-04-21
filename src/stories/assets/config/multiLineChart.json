@@ -1,0 +1,62 @@
+{
+  "graphType": "multiLineChart",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-04.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "y",
+      "columnId": ["AFG", "ARM", "ARG", "KHM", "COG"]
+    },
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "graphTitle": "Multi-line Chart",
+    "graphDescription": "Human Development Index, 2020",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "minHeight": 400,
+    "relativeHeight": 1.2,
+    "padding": "16px",
+    "topMargin": 24,
+    "bottomMargin": 24,
+    "noOfXTicks": 5,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "suffix": "",
+    "prefix": "",
+    "theme": "light",
+    "backgroundColor": true,
+    "colors": ["#006eb5", "#5DD4F0", "#02A38A", "#E78625", "#E0529E"],
+    "labels": ["AFG", "ARM", "ARG", "KHM", "COG"],
+    "showColorLegendAtTop": true,
+    "colorLegendTitle": "Countries",
+    "highlightedLines": ["AFG", "ARM", "ARG", "KHM", "COG"],
+    "showValues": false,
+    "maxValue": 1,
+    "minValue": 0,
+    "refValues": [{ "value": 16, "text": "Reference", "color": "#000" }],
+    "highlightAreaSettings": [{ "coordinates": [2012, 2022] }],
+    "highlightAreaColor": "#EDEFF0",
+    "animateLine": false,
+    "strokeWidth": 2,
+    "showDots": false,
+    "tooltip": "Country A: {{y.[0]}}<br>Country B: {{y.[1]}}<br><...>",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "dateFormat": "yyyy"
+  }
+}

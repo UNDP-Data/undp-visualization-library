@@ -1,0 +1,386 @@
+import isEqual from 'fast-deep-equal';
+import { useEffect, useRef, useState } from 'react';
+import { geoEqualEarth, geoMercator } from 'd3-geo';
+import { zoom } from 'd3-zoom';
+import { select } from 'd3-selection';
+import { scaleSqrt } from 'd3-scale';
+import maxBy from 'lodash.maxby';
+import { Modal } from '@undp/design-system-react';
+
+import { ClassNameObject, DotDensityMapDataType, StyleObject } from '@/Types';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { Colors } from '@/Components/ColorPalette';
+import { string2HTML } from '@/Utils/string2HTML';
+
+interface Props {
+  data: DotDensityMapDataType[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mapData: any;
+  colorDomain: string[];
+  width: number;
+  height: number;
+  scale: number;
+  centerPoint: [number, number];
+  colors: string[];
+  colorLegendTitle?: string;
+  radius: number;
+  mapBorderWidth: number;
+  mapNoDataColor: string;
+  showLabels: boolean;
+  mapBorderColor: string;
+  tooltip?: string;   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+  isWorldMap: boolean;
+  showColorScale: boolean;
+  zoomScaleExtend: [number, number];
+  zoomTranslateExtend?: [[number, number], [number, number]];
+  highlightedDataPoints: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any   
+  onSeriesMouseClick?: (_d: any) => void;
+  showAntarctica: boolean;
+  resetSelectionOnDoubleClick: boolean;
+  detailsOnClick?: string;
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
+}
+
+export function Graph(props: Props) {
+  const {
+    data,
+    colors,
+    mapData,
+    colorLegendTitle,
+    colorDomain,
+    radius,
+    height,
+    width,
+    scale,
+    centerPoint,
+    tooltip,
+    showLabels,
+    mapBorderWidth,
+    mapBorderColor,
+    mapNoDataColor,
+    onSeriesMouseOver,
+    isWorldMap,
+    showColorScale,
+    zoomScaleExtend,
+    zoomTranslateExtend,
+    highlightedDataPoints,
+    onSeriesMouseClick,
+    showAntarctica,
+    resetSelectionOnDoubleClick,
+    detailsOnClick,
+    styles,
+    classNames,
+  } = props;
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined,
+  );
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  const [eventX, setEventX] = useState<number | undefined>(undefined);
+  const [eventY, setEventY] = useState<number | undefined>(undefined);
+  const svgWidth = 960;
+  const svgHeight = 678;
+  const mapSvg = useRef<SVGSVGElement>(null);
+  const mapG = useRef<SVGGElement>(null);
+  const projection = isWorldMap
+    ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
+    : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
+  const radiusScale =
+    data.filter(d => d.radius === undefined).length !== data.length
+      ? scaleSqrt()
+        .domain([0, maxBy(data, 'radius')?.radius as number])
+        .range([0.25, radius])
+        .nice()
+      : undefined;
+
+  useEffect(() => {
+    const mapGSelect = select(mapG.current);
+    const mapSvgSelect = select(mapSvg.current);
+    const zoomBehaviour = zoom()
+      .scaleExtent(zoomScaleExtend || [0.8, 6])
+      .translateExtent(
+        zoomTranslateExtend || [
+          [-20, -20],
+          [svgWidth + 20, svgHeight + 20],
+        ],
+      )
+      .on('zoom', ({ transform }) => {
+        mapGSelect.attr('transform', transform);
+      });
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mapSvgSelect.call(zoomBehaviour as any);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [svgHeight, svgWidth]);
+  return (
+    <>
+      <svg
+        width={`${width}px`}
+        height={`${height}px`}
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        ref={mapSvg}
+        direction='ltr'
+      >
+        <g ref={mapG}>
+          {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            mapData.features.map((d: any, i: number) => {
+              if (d.properties.NAME === 'Antarctica' && !showAntarctica)
+                return null;
+              return (
+                <g key={i}>
+                  {d.geometry.type === 'MultiPolygon' 
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any                
+                    ? d.geometry.coordinates.map((el: any, j: any) => {
+                      let masterPath = '';
+                      el.forEach((geo: number[][]) => {
+                        let path = ' M';
+                        geo.forEach((c: number[], k: number) => {
+                          const point = projection([c[0], c[1]]) as [
+                            number,
+                            number,
+                          ];
+                          if (k !== geo.length - 1)
+                            path = `${path}${point[0]} ${point[1]}L`;
+                          else path = `${path}${point[0]} ${point[1]}`;
+                        });
+                        masterPath += path;
+                      });
+                      return (
+                        <path
+                          key={j}
+                          d={masterPath}
+                          style={{
+                            stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
+                          }}
+                        />
+                      );
+                    })
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    : d.geometry.coordinates.map((el: any, j: number) => {
+                      let path = 'M';
+                      el.forEach((c: number[], k: number) => {
+                        const point = projection([c[0], c[1]]) as [
+                          number,
+                          number,
+                        ];
+                        if (k !== el.length - 1)
+                          path = `${path}${point[0]} ${point[1]}L`;
+                        else path = `${path}${point[0]} ${point[1]}`;
+                      });
+                      return (
+                        <path
+                          key={j}
+                          d={path}
+                          style={{
+                            stroke: mapBorderColor,
+                            strokeWidth: mapBorderWidth,
+                            fill: mapNoDataColor,
+                          }}
+                        />
+                      );
+                    })}
+                </g>
+              );
+            })}
+          {data.map((d, i) => {
+            const color =
+              data.filter(el => el.color).length === 0
+                ? colors[0]
+                : !d.color
+                  ? Colors.gray
+                  : colors[colorDomain.indexOf(`${d.color}`)];
+            return (
+              <g
+                key={i}
+                opacity={
+                  selectedColor
+                    ? selectedColor === color
+                      ? 1
+                      : 0.3
+                    : highlightedDataPoints.length !== 0
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                        ? 1
+                        : 0.3
+                      : 1
+                }
+                onMouseEnter={event => {
+                  setMouseOverData(d);
+                  setEventY(event.clientY);
+                  setEventX(event.clientX);
+                  if (onSeriesMouseOver) {
+                    onSeriesMouseOver(d);
+                  }
+                }}
+                onMouseMove={event => {
+                  setMouseOverData(d);
+                  setEventY(event.clientY);
+                  setEventX(event.clientX);
+                }}
+                onMouseLeave={() => {
+                  setMouseOverData(undefined);
+                  setEventX(undefined);
+                  setEventY(undefined);
+                  if (onSeriesMouseOver) {
+                    onSeriesMouseOver(undefined);
+                  }
+                }}
+                onClick={() => {
+                  if (onSeriesMouseClick || detailsOnClick) {
+                    if (
+                      isEqual(mouseClickData, d) &&
+                      resetSelectionOnDoubleClick
+                    ) {
+                      setMouseClickData(undefined);
+                      onSeriesMouseClick?.(undefined);
+                    } else {
+                      setMouseClickData(d);
+                      onSeriesMouseClick?.(d);
+                    }
+                  }
+                }}
+                transform={`translate(${
+                  (projection([d.long, d.lat]) as [number, number])[0]
+                },${(projection([d.long, d.lat]) as [number, number])[1]})`}
+              >
+                <circle
+                  cx={0}
+                  cy={0}
+                  r={!radiusScale ? radius : radiusScale(d.radius || 0)}
+                  style={{
+                    fill:
+                      data.filter(el => el.color).length === 0
+                        ? colors[0]
+                        : !d.color
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
+                    stroke:
+                      data.filter(el => el.color).length === 0
+                        ? colors[0]
+                        : !d.color
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
+                    fillOpacity: 0.8,
+                  }}
+                />
+                {showLabels && d.label ? (
+                  <text
+                    x={!radiusScale ? radius : radiusScale(d.radius || 0)}
+                    y={0}
+                    className='fill-primary-gray-600 dark:fill-primary-gray-300 text-sm'
+                    style={{ textAnchor: 'start' }}
+                    dx={4}
+                    dy={5}
+                  >
+                    {d.label}
+                  </text>
+                ) : null}
+              </g>
+            );
+          })}
+        </g>
+      </svg>
+      {data.filter(el => el.color).length === 0 ||
+      showColorScale === false ? null : (
+        <div className='undp-viz-bivariate-legend-container sticky bottom-0'>
+          <div className='flex items-end mb-3 p-4 undp-viz-bivariate-legend'>
+            <div className='relative p-0 z-[5]'>
+              <div>
+                {colorLegendTitle ? (
+                  <div
+                    className='leading-normal text-sm mb-2 overflow-hidden'
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: '1',
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
+                    {colorLegendTitle}
+                  </div>
+                ) : null}
+                <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                  <g>
+                    {colorDomain.map((d, i) => (
+                      <g
+                        className='cursor-pointer'
+                        key={i}
+                        onMouseOver={() => {
+                          setSelectedColor(colors[i]);
+                        }}
+                        onMouseLeave={() => {
+                          setSelectedColor(undefined);
+                        }}
+                      >
+                        <rect
+                          x={(i * 320) / colorDomain.length + 1}
+                          y={1}
+                          width={320 / colorDomain.length - 2}
+                          height={8}
+                          className={
+                            selectedColor === colors[i]
+                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }
+                          style={{
+                            fill: colors[i],
+                            ...(selectedColor === colors[i]
+                              ? {}
+                              : { stroke: colors[i] }),
+                          }}
+                        />
+                        <text
+                          x={
+                            (i * 320) / colorDomain.length +
+                            160 / colorDomain.length
+                          }
+                          y={25}
+                          className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                          style={{ textAnchor: 'middle' }}
+                        >
+                          {d}
+                        </text>
+                      </g>
+                    ))}
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+      {detailsOnClick ? (
+        <Modal
+          open={mouseClickData !== undefined}
+          onClose={() => {
+            setMouseClickData(undefined);
+          }}
+        >
+          <div
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
+          />
+        </Modal>
+      ) : null}
+      {mouseOverData && tooltip && eventX && eventY ? (
+        <Tooltip
+          data={mouseOverData}
+          body={tooltip}
+          xPos={eventX}
+          yPos={eventY}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
+        />
+      ) : null}
+    </>
+  );
+}

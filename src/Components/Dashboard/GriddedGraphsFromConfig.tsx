@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { P, Spinner } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp/design-system-react';
+
+import { GriddedGraphs } from './GriddedGraphs';
+
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -8,16 +11,16 @@ import {
   DataSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
+  GraphSettingsDataType,
   GraphType,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
-import { GriddedGraphs } from './GriddedGraphs';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
   noOfColumns?: number;
   columnGridBy: string;
-  graphSettings?: any;
+  graphSettings?: GraphSettingsDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
@@ -25,7 +28,6 @@ interface ConfigObject {
     GraphType,
     'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
   >;
-  relativeHeightForGraph?: number;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -38,11 +40,11 @@ interface ConfigObject {
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
+  theme?: 'dark' | 'light';
 }
 
 interface Props {
@@ -92,7 +94,6 @@ export function GriddedGraphsFromConfig(props: Props) {
       dataSettings={configSettings.dataSettings}
       filters={configSettings.filters}
       graphType={configSettings.graphType}
-      relativeHeightForGraph={configSettings.relativeHeightForGraph}
       minGraphHeight={configSettings.minGraphHeight}
       minGraphWidth={configSettings.minGraphWidth}
       dataTransform={configSettings.dataTransform}
@@ -102,9 +103,9 @@ export function GriddedGraphsFromConfig(props: Props) {
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
       advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
-      mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
+      theme={configSettings.theme}
     />
   );
 }

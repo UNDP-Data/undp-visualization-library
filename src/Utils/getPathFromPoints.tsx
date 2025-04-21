@@ -1,4 +1,4 @@
-export function getPathFromPoints(pointsArray: number[]) {
+export function getPathFromPoints(pointsArray: number[], closePath?: boolean) {
   if (pointsArray.length < 4 || pointsArray.length % 2 !== 0) {
     return ''; // Need at least two points (4 numbers) and an even number of coordinates
   }
@@ -7,6 +7,8 @@ export function getPathFromPoints(pointsArray: number[]) {
   for (let i = 2; i < pointsArray.length; i += 2) {
     path += ` L ${pointsArray[i]} ${pointsArray[i + 1]}`; // Draw lines to subsequent points
   }
+  if (closePath === false) return path;
+
   path += ' Z'; // Close the path
 
   return path;

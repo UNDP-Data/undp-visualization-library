@@ -1,61 +1,126 @@
 import { useState, useRef, useEffect } from 'react';
+
 import { Graph } from './Graph';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { ColorLegend } from '../../Elements/ColorLegend';
+
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { ColorLegend } from '@/Components/Elements/ColorLegend';
 import {
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
   ParetoChartDataType,
   SourcesDataType,
-} from '../../../Types';
-import { UNDPColorModule } from '../../ColorPalette';
-import { EmptyState } from '../../Elements/EmptyState';
+  StyleObject,
+  ClassNameObject,
+} from '@/Types';
+import { Colors } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: ParetoChartDataType[];
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
-  barTitle?: string;
-  lineTitle?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  barColor?: string;
-  lineColor?: string;
-  sameAxes?: boolean;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  barPadding?: number;
-  truncateBy?: number;
-  showLabels?: boolean;
-  onSeriesMouseClick?: (_d: any) => void;
-  language?: Languages;
-  colorLegendTitle?: string;
-  minHeight?: number;
-  mode?: 'light' | 'dark';
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  resetSelectionOnDoubleClick?: boolean;
-  tooltipBackgroundStyle?: CSSObject;
-  detailsOnClick?: string;
-  noOfYTicks?: number;
+
+  // Colors and Styling
+  /** Color of the bars */
+  barColor?: string;
+  /** Color of the line */
+  lineColor?: string;
+  /** Title for the color legend */
+  colorLegendTitle?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+
+  // Values and Ticks
+  /** Suffix for values of the lines */
   lineSuffix?: string;
+  /** Suffix for values of the bars */
   barSuffix?: string;
+  /** Prefix for values of the lines */
   linePrefix?: string;
+  /** Prefix for values of the bars */
   barPrefix?: string;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Number of ticks on the axis */
+  noOfTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enables same axis for bars and line */
+  sameAxes?: boolean;
+  /** Title for the bar axis */
+  barAxisTitle?: string;
+  /** Title for the line axis */
+  lineAxisTitle?: string;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+  /** Reset selection on double-click. Only applicable when used in a dashboard context with filters. */
+  resetSelectionOnDoubleClick?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
+  detailsOnClick?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function ParetoChart(props: Props) {
@@ -68,16 +133,16 @@ export function ParetoChart(props: Props) {
     width,
     footNote,
     padding,
-    lineColor = UNDPColorModule.light.categoricalColors.colors[1],
-    barColor = UNDPColorModule.light.categoricalColors.colors[0],
+    lineColor = Colors.light.categoricalColors.colors[1],
+    barColor = Colors.light.categoricalColors.colors[0],
     sameAxes = false,
     backgroundColor = false,
     leftMargin = 80,
     rightMargin = 80,
     topMargin = 20,
     bottomMargin = 25,
-    lineTitle = 'Line chart',
-    barTitle = 'Bar graph',
+    lineAxisTitle = 'Line chart',
+    barAxisTitle = 'Bar graph',
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
@@ -91,17 +156,19 @@ export function ParetoChart(props: Props) {
     language = 'en',
     colorLegendTitle,
     minHeight = 0,
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
-    backgroundStyle = {},
     resetSelectionOnDoubleClick = true,
-    tooltipBackgroundStyle,
     detailsOnClick,
-    noOfYTicks = 5,
+    showValues = true,
+    noOfTicks = 5,
     lineSuffix = '',
     barSuffix = '',
     linePrefix = '',
     barPrefix = '',
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -124,7 +191,7 @@ export function ParetoChart(props: Props) {
 
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -134,11 +201,11 @@ export function ParetoChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -156,13 +223,19 @@ export function ParetoChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -170,9 +243,10 @@ export function ParetoChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -183,16 +257,14 @@ export function ParetoChart(props: Props) {
               ) : (
                 <>
                   <ColorLegend
-                    colorDomain={[barTitle, lineTitle]}
+                    colorDomain={[barAxisTitle, lineAxisTitle]}
                     colors={[
-                      barColor ||
-                        UNDPColorModule[mode].categoricalColors.colors[0],
-                      lineColor ||
-                        UNDPColorModule[mode].categoricalColors.colors[1],
+                      barColor || Colors[theme].categoricalColors.colors[0],
+                      lineColor || Colors[theme].categoricalColors.colors[1],
                     ]}
                     colorLegendTitle={colorLegendTitle}
                     showNAColor={false}
-                    mode={mode}
+                    theme={theme}
                   />
                   <div
                     className='flex flex-col grow justify-center leading-0'
@@ -223,7 +295,7 @@ export function ParetoChart(props: Props) {
                         rightMargin={rightMargin}
                         topMargin={topMargin}
                         bottomMargin={bottomMargin}
-                        axisTitles={[barTitle, lineTitle]}
+                        axisTitles={[barAxisTitle, lineAxisTitle]}
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
                         barPadding={barPadding}
@@ -232,13 +304,16 @@ export function ParetoChart(props: Props) {
                         resetSelectionOnDoubleClick={
                           resetSelectionOnDoubleClick
                         }
-                        tooltipBackgroundStyle={tooltipBackgroundStyle}
                         detailsOnClick={detailsOnClick}
-                        noOfYTicks={noOfYTicks}
+                        noOfTicks={noOfTicks}
                         lineSuffix={lineSuffix}
                         barSuffix={barSuffix}
                         linePrefix={linePrefix}
                         barPrefix={barPrefix}
+                        curveType={curveType}
+                        showValues={showValues}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
@@ -247,6 +322,11 @@ export function ParetoChart(props: Props) {
             </div>
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

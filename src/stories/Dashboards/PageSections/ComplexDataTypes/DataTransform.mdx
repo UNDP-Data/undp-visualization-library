@@ -1,0 +1,124 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Dashboard/Data types/dataTransform" />
+
+### dataTransform
+
+Type - `Array<object>`
+
+#### Data format
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>keyColumn</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the specifics key column whose unique value are then used transformation of other columns.</td>
+    </tr>
+    <tr>
+      <td>aggregationColumnsSetting</td>
+      <td>no</td>
+      <td><code>Array&lt;{`{column: string; aggregationMethod?: string}`}&gt;</code></td>
+      <td></td>
+      <td>Defines the columns that are transformed based on aggregationMethod specified. Available values for <code>aggregationMethod</code> are <code>sum</code>, <code>average</code>, <code>min</code>, and <code>max</code>. If <code>aggregationMethod</code> is not defined it defaults to <code>sum</code>. Also make sure the <code>column</code> have the data type of <code>number</code> as mathematical operation are not possible with other data types. If not present it count the frequency of unique values in <code>keyColumn</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example 1
+
+Suppose you have data like this and you need to visualize the number of regions:
+
+```csv
+Region, Country
+Region A, Country 1
+Region A, Country 2
+Region B, Country 3
+Region B, Country 4
+```
+
+If you set the `dataTransform` key as:
+
+```tsx
+ dataTransform={{
+    "keyColumn": "Region",
+  }},
+```
+
+The data will be transformed for visualization into:
+
+```json
+[
+  {
+    Region: 'Region A',
+    count: 2
+  },
+  {
+    Region: 'Region B',
+    count: 2
+  }
+]
+```
+
+Now, you can use this transformed data to configure your chart. For example, if you're creating a donut chart to visualize the number of regions, the `graphDataConfiguration` would look like this:
+
+```
+graphDataConfiguration={[
+  { columnId: 'Region', chartConfigId: 'label' },
+  { columnId: 'count', chartConfigId: 'size' },
+]}
+```
+
+#### Example 2
+
+Suppose you have data like this and you need to visualize the total number of `Indicator` for each region:
+
+```csv
+Region, Country, Indicator
+Region A, Country 1, 10
+Region A, Country 2, 20
+Region B, Country 3, 30
+Region B, Country 4, 10
+```
+
+If you set the `dataTransform` key as:
+
+```tsx
+ dataTransform={{
+    "keyColumn": "Region",
+    "aggregationColumnsSetting": [
+      {
+        "column": "Indicator",
+        "aggregationMethod": "sum"
+      }
+    ]
+  }},
+```
+
+The data will be transformed for visualization into:
+
+```json
+[
+  {
+    Region: 'Region A',
+    count: 2,
+    'Indicator': 30,
+  },
+  {
+    Region: 'Region B',
+    count: 2,
+     'Indicator': 40,
+  }
+]
+```

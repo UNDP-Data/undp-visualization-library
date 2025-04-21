@@ -1,74 +1,139 @@
 import { useState, useRef, useEffect } from 'react';
+
 import { Graph } from './Graph';
+
 import {
   AnnotationSettingsDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   CustomHighlightAreaSettingsDataType,
   Languages,
   LineChartDataType,
   ReferenceDataType,
   SourcesDataType,
-} from '../../../../Types';
-import { GraphFooter } from '../../../Elements/GraphFooter';
-import { GraphHeader } from '../../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../../ColorPalette';
-import { EmptyState } from '../../../Elements/EmptyState';
+  StyleObject,
+  ClassNameObject,
+  HighlightAreaSettingsDataType,
+} from '@/Types';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { Colors } from '@/Components/ColorPalette';
+import { EmptyState } from '@/Components/Elements/EmptyState';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: LineChartDataType[];
-  graphID?: string;
-  color?: string;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
+  /** Description of the graph */
   graphDescription?: string;
+  /** Footnote for the graph */
   footNote?: string;
-  width?: number;
-  height?: number;
-  suffix?: string;
-  prefix?: string;
+  /** Source data for the graph */
   sources?: SourcesDataType[];
-  noOfXTicks?: number;
-  dateFormat?: string;
-  showValues?: boolean;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  leftMargin?: number;
-  rightMargin?: number;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  highlightAreaSettings?: [number | string | null, number | string | null];
-  maxValue?: number;
-  minValue?: number;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  highlightAreaColor?: string;
-  animateLine?: boolean | number;
-  language?: Languages;
-  minHeight?: number;
-  strokeWidth?: number;
-  showDots?: boolean;
-  annotations?: AnnotationSettingsDataType[];
-  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
-  mode?: 'light' | 'dark';
-  regressionLine?: boolean | string;
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
-  yAxisTitle?: string;
-  noOfYTicks?: number;
-  minDate?: string | number;
+
+  // Colors and Styling
+  /** Colors of the lines */
+  lineColor?: string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+
+  // Values and Ticks
+  /** Prefix for values */
+  prefix?: string;
+  /** Suffix for values */
+  suffix?: string;
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Minimum value for the chart */
+  minValue?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+  /** Maximum value of the date for the chart */
   maxDate?: string | number;
+  /** Minimum value of the date for the chart */
+  minDate?: string | number;
+  /** No. of ticks on the x-axis  */
+  noOfXTicks?: number;
+  /** No. of ticks on the y-axis  */
+  noOfYTicks?: number;
+
+  // Graph Parameters
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of dots on the line */
+  showDots?: boolean;
+  /** Stroke width of the line */
+  strokeWidth?: number;
+  /** Toggle the initial animation of the line. If the type is number then it uses the number as the time in seconds for animation. */
+  animateLine?: boolean | number;
+  /** Format of the date in the data object  */
+  dateFormat?: string;
+  /** Title for the Y-axis */
+  yAxisTitle?: string;
+  /** Annotations on the chart */
+  annotations?: AnnotationSettingsDataType[];
+  /** Highlighted area(square) on the chart  */
+  highlightAreaSettings?: HighlightAreaSettingsDataType[];
+  /** Highlighted area(custom shape) on the chart  */
+  customHighlightAreaSettings?: CustomHighlightAreaSettingsDataType[];
+  /** Toggles the visibility of the regression line for the data. If the type is string then string is use to define the color of the line. */
+  regressionLine?: boolean | string;
+  /** Curve type for the line */
+  curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
+  tooltip?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function SimpleLineChart(props: Props) {
   const {
     data,
     graphTitle,
-    color,
+    lineColor,
     suffix = '',
     sources,
     prefix = '',
@@ -81,14 +146,14 @@ export function SimpleLineChart(props: Props) {
     showValues = false,
     padding,
     backgroundColor = false,
-    leftMargin = 70,
+    leftMargin = 30,
     rightMargin = 30,
     topMargin = 20,
     bottomMargin = 25,
     relativeHeight,
     tooltip,
     onSeriesMouseOver,
-    highlightAreaSettings = [null, null],
+    highlightAreaSettings = [],
     graphID,
     minValue,
     maxValue,
@@ -96,7 +161,6 @@ export function SimpleLineChart(props: Props) {
     minDate,
     graphDownload = false,
     dataDownload = false,
-    highlightAreaColor = UNDPColorModule.light.grays['gray-300'],
     animateLine = false,
     language = 'en',
     refValues = [],
@@ -105,13 +169,14 @@ export function SimpleLineChart(props: Props) {
     showDots = true,
     annotations = [],
     customHighlightAreaSettings = [],
-    mode = 'light',
+    theme = 'light',
     ariaLabel,
-    backgroundStyle = {},
     regressionLine = false,
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks = 5,
+    curveType = 'curve',
+    styles,
+    classNames,
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
@@ -132,7 +197,7 @@ export function SimpleLineChart(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -142,11 +207,11 @@ export function SimpleLineChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
             : {}),
@@ -164,13 +229,19 @@ export function SimpleLineChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -178,9 +249,10 @@ export function SimpleLineChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -198,9 +270,7 @@ export function SimpleLineChart(props: Props) {
                 {(width || svgWidth) && (height || svgHeight) ? (
                   <Graph
                     data={data}
-                    color={
-                      color || UNDPColorModule[mode].primaryColors['blue-600']
-                    }
+                    lineColor={lineColor || Colors.primaryColors['blue-600']}
                     width={width || svgWidth}
                     height={Math.max(
                       minHeight,
@@ -228,7 +298,6 @@ export function SimpleLineChart(props: Props) {
                     refValues={refValues}
                     minValue={minValue}
                     maxValue={maxValue}
-                    highlightAreaColor={highlightAreaColor}
                     animateLine={animateLine}
                     rtl={language === 'he' || language === 'ar'}
                     strokeWidth={strokeWidth}
@@ -236,17 +305,24 @@ export function SimpleLineChart(props: Props) {
                     annotations={annotations}
                     customHighlightAreaSettings={customHighlightAreaSettings}
                     regressionLine={regressionLine}
-                    tooltipBackgroundStyle={tooltipBackgroundStyle}
                     yAxisTitle={yAxisTitle}
                     noOfYTicks={noOfYTicks}
                     maxDate={maxDate}
                     minDate={minDate}
+                    curveType={curveType}
+                    styles={styles}
+                    classNames={classNames}
                   />
                 ) : null}
               </div>
             )}
             {sources || footNote ? (
               <GraphFooter
+                styles={{ footnote: styles?.footnote, source: styles?.source }}
+                classNames={{
+                  footnote: classNames?.footnote,
+                  source: classNames?.source,
+                }}
                 sources={sources}
                 footNote={footNote}
                 width={width}

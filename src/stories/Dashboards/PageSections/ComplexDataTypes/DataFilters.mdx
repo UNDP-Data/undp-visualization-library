@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Dashboard/Data types/dataFilters" />
+
+### dataFilters
+
+Type - `Array<object>`
+
+Filters the data that is then visualized
+
+#### Data formats
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the specifics key column whose unique value are then used to filter the data.</td>
+    </tr>
+    <tr>
+      <td>excludeValues</td>
+      <td>no</td>
+      <td><code>Array&lt;string | number | boolean&gt;</code></td>
+      <td></td>
+      <td>Defines the value which are excluded for the column mentioned above.</td>
+    </tr>
+    <tr>
+      <td>includeValues</td>
+      <td>no</td>
+      <td><code>Array&lt;string | number | boolean&gt;</code></td>
+      <td></td>
+      <td>Defines the value which are included for the column mentioned above.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+dataFilters={[
+  {
+    column: 'Column 1',
+    includeValues: ['Value 1'],
+    excludeValues: ['Value 2'],
+  },
+]},
+```

@@ -9,25 +9,25 @@ Detailed documentation can be found [here](https://orange-bay-04736e710.4.azures
 ### Installation
 __Using npm__
 ```
-npm i @undp-data/undp-visualization-library
+npm i @undp/data-viz
 ```
 
 
 __Using yarn__
 ```
-yarn add @undp-data/undp-visualization-library
+yarn add @undp/data-viz
 ```
 
 ### Import
 It is recommended to import what you need and the use it. For example, import the `HorizontalBarGraph` like this:
 ```
-import { HorizontalBarGraph } from '@undp-data/undp-visualization-library'
+import { HorizontalBarGraph } from '@undp/data-viz'
 ```
 
 
 It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this: 
 ```
-import '@undp-data/undp-visualization-library/dist/style.css';
+import '@undp/data-viz/dist/style.css';
 ```
 
 ### TypeScript
@@ -49,7 +49,6 @@ The dependencies that are pre-installed wit the library:
 * Various Lodash libraries - For array and data manipulation
     * lodash.flattendeep
     * lodash.intersection
-    * lodash.isequal
     * lodash.max
     * lodash.maxby
     * lodash.min
@@ -62,8 +61,8 @@ The dependencies that are pre-installed wit the library:
 * maplibre-gl - For Maplibre maps
 * pmtiles - For adding pmtiles to Maplibre maps
 * papaparse - For loading and parsing csv from links
-* framer-motion - For creating animations in the animated graphs
-* react-draggable - For creating comparison maps
+* motion - For creating animations in the animated graphs
+* dnd-kit - For creating comparison maps
 * simple-statistics - For statistical functions
 * xss - For cleaning up cross scripting from user-submitted HTML
 * ajv - For schema validation

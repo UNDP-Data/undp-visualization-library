@@ -1,44 +1,85 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
-import { H2, P } from '@undp-data/undp-design-system-react';
-import { GraphFooter } from '../../Elements/GraphFooter';
-import { GraphHeader } from '../../Elements/GraphHeader';
-import { UNDPColorModule } from '../../ColorPalette';
+import { H2, P } from '@undp/design-system-react';
+
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { Colors } from '@/Components/ColorPalette';
 import {
   UnitChartDataType,
   SourcesDataType,
-  BackgroundStyleDataType,
   Languages,
-} from '../../../Types';
-import { numberFormattingFunction } from '../../../Utils/numberFormattingFunction';
+  StyleObject,
+  ClassNameObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: UnitChartDataType[];
-  totalNoOfDots?: number;
-  gridSize?: number;
-  unitPadding?: number;
-  size?: number;
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
   graphTitle?: string;
-  sources?: SourcesDataType[];
-  colors?: string[];
+  /** Description of the graph */
   graphDescription?: string;
-  footNote?: string;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  graphID?: string;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  language?: Languages;
-  graphLegend?: boolean;
-  showStrokeForWhiteDots?: boolean;
+  /** Note with h2 tag just above the graph. Can be used to highlight text */
   note?: string;
-  mode?: 'light' | 'dark';
-  width?: number;
-  height?: number;
-  minHeight?: number;
-  relativeHeight?: number;
+  /** Footnote for the graph */
+  footNote?: string;
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
+
+  // Colors and Styling
+  /** Colors of the highlighted circles */
+  colors?: string[];
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+
+  // Graph Parameters
+  /** Size of the visualization */
+  size?: number;
+  /** No. of dots in a single row */
+  gridSize?: number;
+  /** Spacing between 2 dots */
+  unitPadding?: number;
+  /** Total no. of dot that are rendered in the chart */
+  totalNoOfDots?: number;
+  /** Toggle visibility of stroke for the unfilled dots */
+  showStrokeForWhiteDots?: boolean;
+  /** Toggle visibility of color scale */
+  showColorScale?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function UnitChart(props: Props) {
@@ -47,7 +88,7 @@ export function UnitChart(props: Props) {
     size = 200,
     graphTitle,
     sources,
-    colors = UNDPColorModule.light.categoricalColors.colors,
+    colors = Colors.light.categoricalColors.colors,
     graphDescription,
     totalNoOfDots = 100,
     unitPadding = 3,
@@ -58,17 +99,18 @@ export function UnitChart(props: Props) {
     graphID,
     graphDownload = false,
     language = 'en',
-    graphLegend = true,
+    showColorScale = true,
     showStrokeForWhiteDots = true,
     note,
     dataDownload = false,
-    mode = 'light',
+    theme = 'light',
     width,
     height,
     minHeight = 0,
     relativeHeight,
     ariaLabel,
-    backgroundStyle = {},
+    styles,
+    classNames,
   } = props;
   const totalValue = sum(data.map(d => d.value));
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -85,14 +127,12 @@ export function UnitChart(props: Props) {
   data.forEach((item, index) => {
     const count = Math.round((item.value / totalValue) * totalNoOfDots);
     for (let i = 0; i < count; i += 1) {
-      cellsData.push({
-        color: colors[index],
-      });
+      cellsData.push({ color: colors[index] });
     }
   });
   return (
     <div
-      className={`${mode || 'light'} flex  ${
+      className={`${theme || 'light'} flex  ${
         width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
@@ -102,11 +142,11 @@ export function UnitChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
-          ...backgroundStyle,
+          ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
           ...(backgroundColor && backgroundColor !== true
             ? { backgroundColor }
@@ -123,13 +163,19 @@ export function UnitChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-3 w-full grow'>
             {graphTitle || graphDescription || graphDownload ? (
               <GraphHeader
+                styles={{
+                  title: styles?.title,
+                  description: styles?.description,
+                }}
+                classNames={{
+                  title: classNames?.title,
+                  description: classNames?.description,
+                }}
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
@@ -137,9 +183,10 @@ export function UnitChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -148,21 +195,17 @@ export function UnitChart(props: Props) {
               <H2
                 marginBottom='2xs'
                 className='text-primary-gray-700 dark:text-primary-gray-100 font-bold'
-                style={{
-                  width: width ? `${width}px` : '100%',
-                }}
+                style={{ width: width ? `${width}px` : '100%' }}
               >
                 {note}
               </H2>
             ) : null}
-            <div className='flex grow flex-col justify-between'>
+            <div className='flex grow flex-col gap-4 justify-between'>
               <div>
-                {graphLegend ? (
+                {showColorScale ? (
                   <div
                     className='mb-4 leading-0'
-                    style={{
-                      width: width ? `${width}px` : '100%',
-                    }}
+                    style={{ width: width ? `${width}px` : '100%' }}
                     aria-label='Color legend'
                   >
                     <div className='flex mb-0 flex-wrap gap-x-1 gap-y-4'>
@@ -170,9 +213,7 @@ export function UnitChart(props: Props) {
                         <div className='flex gap-2 items-center' key={i}>
                           <div
                             className='w-3 h-3 rounded-full'
-                            style={{
-                              backgroundColor: colors[i],
-                            }}
+                            style={{ backgroundColor: colors[i] }}
                           />
                           <P
                             marginBottom='none'
@@ -261,6 +302,10 @@ export function UnitChart(props: Props) {
               </div>
               {sources || footNote ? (
                 <GraphFooter
+                  styles={{
+                    footnote: styles?.footnote,
+                    source: styles?.source,
+                  }}
                   sources={sources}
                   footNote={footNote}
                   width={width}

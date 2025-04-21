@@ -1,0 +1,60 @@
+{
+  "graphType": "sparkline",
+  "dataSettings": {
+    "dataURL": "/data/data-sample-04.csv",
+    "fileType": "csv"
+  },
+  "graphDataConfiguration": [
+    {
+      "chartConfigId": "y",
+      "columnId": "AFG"
+    },
+    {
+      "chartConfigId": "date",
+      "columnId": "Year"
+    }
+  ],
+  "graphSettings": {
+    "graphID": "Graph-ID",
+    "graphTitle": "Sparkline",
+    "graphDescription": "Human Development Index, 2020",
+    "footNote": "Footnote",
+    "sources": [
+      {
+        "source": "UNDP",
+        "link": "https://hdr.undp.org/"
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "padding": "16px",
+    "topMargin": 24,
+    "bottomMargin": 24,
+    "leftMargin": 24,
+    "rightMargin": 40,
+    "noOfXTicks": 5,
+    "suffix": "",
+    "prefix": "",
+    "theme": "light",
+    "backgroundColor": true,
+    "color": "#006eb5",
+    "showLabels": true,
+    "showValues": false,
+    "maxValue": 0.6,
+    "minValue": 0,
+    "refValues": [{ "value": 0.4, "text": "Reference", "color": "#000" }],
+    "highlightAreaSettings": [{ "coordinates": [2012, 2022] }],
+    "highlightAreaColor": "#EDEFF0",
+    "animateLine": true,
+    "strokeWidth": 2,
+    "showDots": false,
+    "tooltip": "HDI: <b>{{y}}</b>",
+    "graphDownload": true,
+    "dataDownload": true,
+    "language": "en",
+    "ariaLabel": "Line chart",
+    "yAxisTitle": "Human Development Index",
+    "yAxisTitleregressionLine": true,
+    "curveType": "curve"
+  }
+}

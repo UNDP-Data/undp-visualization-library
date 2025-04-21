@@ -1,0 +1,35 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Data fetching/fetchAndParseMultipleDataSources" />
+
+# fetchAndParseMultipleDataSources
+
+Fetches and parses data from multiple sources (CSV, JSON, API), and merges the results.
+
+```ts
+function fetchAndParseCSV(
+  dataURL: {
+    dataURL: string;
+    idColumnName: string;
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: {
+      column: string;
+      delimiter?: string;
+    }[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+  }[],
+  idColumnTitle?: string,
+): Promise
+```
+
+## Parameters
+
+- `dataURL` - An array of file settings containing URLs, column configurations, and other settings.
+- `idColumnTitle` - Optional title of the ID column to merge data sources by.
+
+
+## Returns
+
+A promise that resolves to the merged data from all sources.

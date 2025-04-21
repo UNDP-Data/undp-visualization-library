@@ -1,0 +1,247 @@
+import { useState } from 'react';
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+import GraphType from './PageSections/ComplexDataTypes/GraphType.mdx';
+import DataSettings from './PageSections/ComplexDataTypes/DataSettings.mdx';
+import GraphSettings from './PageSections/ComplexDataTypes/GraphSettings.mdx';
+import DataTransform from './PageSections/ComplexDataTypes/DataTransform.mdx';
+import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
+import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
+import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
+import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
+import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
+import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
+import DebugMode from './PageSections/SimpleDataTypes/DebugMode.mdx';
+import UIMode from './PageSections/SimpleDataTypes/UIMode.mdx';
+import Theme from './PageSections/SimpleDataTypes/Theme.mdx';
+
+<Meta title="Dashboard/Single graphs with filters" />
+
+# Single graphs with filters
+
+This allows you to create a graph with filters, data selection and different kind of data sources.
+
+```tsx
+import { SingleGraphDashboard } from '@undp/data-viz';
+import '@undp/design-system-react/dist/style.css';
+
+function Graph() {
+  return (
+    <SingleGraphDashboard
+      dataSettings={{
+        data: [
+          { Country: 'Country A', Value: 8, Region: 'Region A', Category: 'Category A' },
+          { Country: 'Country C', Value: 42, Region: 'Region C', Category: 'Category B' },
+          { Country: 'Country D', Value: 10, Region: 'Region D', Category: 'Category C' },
+        ],
+        fileType: 'json',
+      }}
+      graphType="verticalBarChart"
+      graphDataConfiguration={[
+        { columnId: 'Country', chartConfigId: 'label' },
+        { columnId: 'Value', chartConfigId: 'size' },
+      ]}
+      filters={[
+        {
+          column: 'Region',
+          singleSelect: false,
+          clearable: true,
+          label: 'Filter by column name'
+        },
+      ]}
+       graphSettings={{
+        graphTitle: 'Title of the graph',
+        graphDescription: 'Description of the graph',
+        sources: [
+          {
+            source: 'Organization ABC',
+            link: 'www.example.com',
+          }
+        ],
+        footNote: 'Footnote of the graph',
+        padding: '16px 32px 16px 16px',
+      }}
+    />
+  );
+}
+
+```
+
+__NOTE: You can also use json config to create single graph with filters. [Click here](?path=/docs/dashboard-from-json-config--docs#single-graph-with-filters-config) to learn more about that.__
+
+
+## Props
+
+#### Parameters
+
+- [graphType](#graphtype) - Defines the type of graph
+- [graphSettings](#graphsettings) - Graph rendering settings 
+- [dataSettings](#datasettings) - Configuration for the data source
+- [dataTransform](#datatransform) - Data transformation config
+- [dataFilters](#datafilters) - Filters to apply to raw data
+- [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels
+- [graphDataConfiguration](#graphdataconfiguration) - Defines how the graph should interpret the data
+- [filters](#filters) - UI filter definitions
+- [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI
+- [dataSelectionOptions](#dataselectionoptions) - Options for selecting specific columns to visualize
+- [advancedDataSelectionOptions](#advanceddataselectionoptions) - Advanced options for selecting specific groups of columns to visualize
+- [debugMode](#debugmode) - Enables debugging logs
+- [uiMode](#uimode) - Controls UI theme
+- [theme](#theme) - Controls color theme
+
+
+#### Props interface
+
+```tsx
+interface Props {
+  graphType: GraphType;
+  graphSettings?: GraphSettingsDataType;
+  dataSettings?: {
+    dataURL?: string | {
+      dataURL: string;
+      idColumnName: string;
+      fileType?: 'csv' | 'json' | 'api';
+      delimiter?: string;
+      columnsToArray?: {
+        column: string;
+        delimiter?: string;
+      }[];
+      apiHeaders?: any;
+      dataTransformation?: string;
+    }[];
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: {
+      column: string;
+      delimiter?: string;
+    }[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+    idColumnTitle?: string;
+    data?: any;
+  };
+  dataTransform?: {
+    keyColumn: string;
+    aggregationColumnsSetting?: {
+      column: string;
+      aggregationMethod?: 'sum' | 'average' | 'min' | 'max';
+    }[];
+  };
+  dataFilters?: {
+    column: string;
+    includeValues?: (string | number | boolean | null | undefined)[];
+    excludeValues?: (string | number | boolean | null | undefined)[];
+  }[];
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
+  graphDataConfiguration?: {
+    columnId: string | string[];
+    chartConfigId: string;
+  }[];
+  filters?: {
+    column: string;
+    label?: string;
+    singleSelect?: boolean;
+    clearable?: boolean;
+    defaultValue?: string[] | string | number | number[];
+    excludeValues?: string[];
+    allowSelectAll?: boolean;
+    width?: string;
+  }[];
+  noOfFiltersPerRow?: number;
+  dataSelectionOptions?: {
+    label?: string;
+    allowedColumnIds: {
+      value: string;
+      label: string;
+      graphSettings: GraphSettingsDataType;
+    }[];
+    chartConfigId: string;
+    ui?: 'select' | 'radio';
+    width?: string;
+  }[];
+  advancedDataSelectionOptions?: {
+    label?: string;
+    options: {
+      label: string;
+      dataConfiguration: {
+        columnId: string[] | string;
+        chartConfigId: string;
+      }[];
+      graphSettings?: GraphSettingsDataType;
+    }[];
+    ui?: 'select' | 'radio';
+    width?: string;
+    defaultValue?: {
+      label: string;
+      dataConfiguration: {
+        columnId: string[] | string;
+        chartConfigId: string;
+      }[];
+      graphSettings?: GraphSettingsDataType;
+    };
+  }[];
+  debugMode?: boolean;
+  uiMode?: 'light' | 'normal';
+  theme?: 'light' | 'dark';
+}
+```
+
+---
+
+<GraphType />
+
+---
+
+<GraphSettings />
+
+---
+
+<DataSettings />
+
+---
+
+<DataTransform />
+
+---
+
+<DataFilters />
+
+---
+
+<ReadableHeader />
+
+---
+
+<GraphDataConfig />
+
+---
+
+<Filters />
+
+---
+
+<NoOfFiltersPerRow />
+
+---
+
+<DataSelectionOptions />
+
+---
+
+<AdvancedDataSelectionOptions />
+
+---
+
+<DebugMode />
+
+---
+
+<UIMode />
+
+---
+
+<Theme />
+

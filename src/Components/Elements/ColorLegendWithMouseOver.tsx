@@ -1,5 +1,6 @@
-import { P } from '@undp-data/undp-design-system-react';
-import { UNDPColorModule } from '../ColorPalette';
+import { cn, P } from '@undp/design-system-react';
+
+import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   colors: string[];
@@ -9,6 +10,7 @@ interface Props {
   setSelectedColor: (_d?: string) => void;
   width?: number;
   isCenter?: boolean;
+  className?: string;
 }
 
 export function ColorLegendWithMouseOver(props: Props) {
@@ -20,14 +22,13 @@ export function ColorLegendWithMouseOver(props: Props) {
     showNAColor,
     width,
     isCenter,
+    className,
   } = props;
 
   return (
     <div
-      className={`flex ${isCenter ? 'justify-center' : ''} leading-0`}
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      className={cn('flex leading-0', isCenter && 'justify-center', className)}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Color legend'
     >
       <div>
@@ -54,9 +55,7 @@ export function ColorLegendWithMouseOver(props: Props) {
             >
               <div
                 className='w-3 h-3 rounded-full'
-                style={{
-                  backgroundColor: colors[i % colors.length],
-                }}
+                style={{ backgroundColor: colors[i % colors.length] }}
               />
               {d === '' ? null : (
                 <P size='sm' marginBottom='none'>
@@ -68,7 +67,7 @@ export function ColorLegendWithMouseOver(props: Props) {
           {showNAColor ? (
             <div
               onMouseEnter={() => {
-                setSelectedColor(UNDPColorModule.gray);
+                setSelectedColor(Colors.gray);
               }}
               onMouseLeave={() => {
                 setSelectedColor(undefined);
@@ -77,11 +76,9 @@ export function ColorLegendWithMouseOver(props: Props) {
             >
               <div
                 className='w-3 h-3 rounded-full'
-                style={{
-                  backgroundColor: UNDPColorModule.gray,
-                }}
+                style={{ backgroundColor: Colors.gray }}
               />
-              <P size='sm' marginBottom='2xs'>
+              <P size='sm' marginBottom='none'>
                 NA
               </P>
             </div>

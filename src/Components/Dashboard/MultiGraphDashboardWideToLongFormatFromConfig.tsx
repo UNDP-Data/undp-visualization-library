@@ -1,29 +1,32 @@
 import { useEffect, useState } from 'react';
-import { P, Spinner } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp/design-system-react';
+
+import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
+
 import {
-  BackgroundStyleDataType,
+  ClassNameObject,
   DashboardFromWideToLongFormatLayoutDataType,
   DataFilterDataType,
   DataSettingsWideToLongDataType,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
-import { validateConfigSchema } from '../../Utils/validateSchema';
-import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
+  StyleObject,
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardFromWideToLongFormatLayoutDataType;
   dataSettings: DataSettingsWideToLongDataType;
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  graphStyles?: StyleObject;
+  graphClassNames?: ClassNameObject;
 }
 
 interface Props {
@@ -73,16 +76,16 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
     );
   return (
     <MultiGraphDashboardWideToLongFormat
-      dashboardId={configSettings.dashboardId}
+      dashboardID={configSettings.dashboardID}
       dashboardLayout={configSettings.dashboardLayout}
       dataSettings={configSettings.dataSettings}
       debugMode={configSettings.debugMode}
-      mode={configSettings.mode}
+      theme={configSettings.theme}
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
-      graphBackgroundColor={configSettings.graphBackgroundColor}
-      graphBackgroundStyle={configSettings.graphBackgroundStyle}
       uiMode={configSettings.uiMode}
+      graphStyles={configSettings.graphStyles}
+      graphClassNames={configSettings.graphClassNames}
     />
   );
 }

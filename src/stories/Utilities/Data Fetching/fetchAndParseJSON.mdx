@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Data fetching/fetchAndParseJSON" />
+
+# fetchAndParseJSON
+
+Fetches and parses a JSON file from a URL, and applies optional transformations.
+
+```ts
+function fetchAndParseJSON(
+  dataURL: string,
+  columnsToArray?: {
+    column: string;
+    delimiter?: string;
+  }[],
+  dataTransformation?: string,
+  debugMode?: boolean,
+): Promise
+```
+
+## Parameters
+
+- `dataURL` - The URL of the JSON file to fetch.
+- `columnsToArray` - Optional columns configuration to transform certain columns to arrays.
+- `dataTransformation` - Optional Handlebars template for data transformation.
+- `debugMode` - Optional flag to log data to the console for debugging.
+
+## Returns
+
+A promise that resolves to the parsed and transformed data.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+fetchAndParseJSON('https://example.com/data.json')
+    .then(parsedData => console.log(parsedData))
+    .catch(error => console.error('Error:', error));

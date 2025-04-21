@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Downloads/imageDownload" />
+
+# imageDownload
+
+Downloads an image of a specified HTML element as a PNG file.
+
+Uses `html2canvas` to capture the content of the `node` and converts it to a downloadable PNG image.
+
+It removes elements with the class `undp-viz-download-button` from the clone to prevent them from appearing in the screenshot.
+
+```ts
+function imageDownload(node: HTMLElement, filename: string)
+```
+
+## Parameters
+
+- `node` - The HTMLElement to capture and convert into an image.
+- `filename` - The desired filename for the downloaded image (without extension).
+
+## Example Usage
+
+```js
+// Example of how to use the function
+const element = document.getElementById('myElement');
+imageDownload(element, 'screenshot');

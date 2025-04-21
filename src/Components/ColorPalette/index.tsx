@@ -1,6 +1,56 @@
-export const UNDPColorModule = {
+export const Colors = {
   gray: '#D4D6D8',
   graphMainColor: '#006EB5',
+  primaryColors: {
+    'blue-100': '#B5D5F5',
+    'blue-200': '#94C4F5',
+    'blue-300': '#6BABEB',
+    'blue-400': '#4F95DD',
+    'blue-500': '#3288CE',
+    'blue-600': '#006EB5',
+    'blue-700': '#1F5A95',
+  },
+  genderColors: {
+    male: '#02A38A',
+    female: '#757AF0',
+  },
+  locationColors: {
+    urban: '#006eb5',
+    rural: '#5DD4F0',
+  },
+  alerts: {
+    lightYellow: '#FFE17E',
+    yellow: '#FFEB00',
+    darkYellow: '#FBC412',
+    lightRed: '#FFBCB7',
+    red: '#EE402D',
+    darkRed: '#D12800',
+    lightGreen: '#B8ECB6',
+    green: '#6DE354',
+    darkGreen: '#59BA47',
+    lightAzure: '#A2DAF3',
+    azure: '#60D4F2',
+    darkAzure: '#00C1FF',
+  },
+  sdgColors: {
+    sdg1: '#E5243B',
+    sdg2: '#DDA63A',
+    sdg3: '#4C9F38',
+    sdg4: '#C5192D',
+    sdg5: '#FF3A21',
+    sdg6: '#26BDE2',
+    sdg7: '#FCC30B',
+    sdg8: '#A21942',
+    sdg9: '#FD6925',
+    sdg10: '#DD1367',
+    sdg11: '#FD9D24',
+    sdg12: '#BF8B2E',
+    sdg13: '#3F7E44',
+    sdg14: '#0A97D9',
+    sdg15: '#56C02B',
+    sdg16: '#00689D',
+    sdg17: '#19486A',
+  },
   light: {
     graphBackgroundColor: '#F7F7F7',
     graphNoData: '#FFFFFF',
@@ -16,29 +66,6 @@ export const UNDPColorModule = {
       'gray-700': '#232E3D',
       black: '#000000',
     },
-    primaryColors: {
-      'blue-100': '#B5D5F5',
-      'blue-200': '#94C4F5',
-      'blue-300': '#6BABEB',
-      'blue-400': '#4F95DD',
-      'blue-500': '#3288CE',
-      'blue-600': '#006EB5',
-      'blue-700': '#1F5A95',
-    },
-    alerts: {
-      lightYellow: '#FFE17E',
-      yellow: '#FFEB00',
-      darkYellow: '#FBC412',
-      lightRed: '#FFBCB7',
-      red: '#EE402D',
-      darkRed: '#D12800',
-      lightGreen: '#B8ECB6',
-      green: '#6DE354',
-      darkGreen: '#59BA47',
-      lightAzure: '#A2DAF3',
-      azure: '#60D4F2',
-      darkAzure: '#00C1FF',
-    },
     categoricalColors: {
       colors: [
         '#006eb5',
@@ -52,14 +79,6 @@ export const UNDPColorModule = {
         '#BF8B2E',
         '#A9B1B7',
       ],
-      genderColors: {
-        male: '#02A38A',
-        female: '#757AF0',
-      },
-      locationColors: {
-        urban: '#006eb5',
-        rural: '#5DD4F0',
-      },
     },
     sequentialColors: {
       negativeColorsx04: ['#F6B666', '#EB8033', '#D64513', '#A71C04'],
@@ -233,7 +252,6 @@ export const UNDPColorModule = {
         '#003F80',
       ],
     },
-
     divergentColors: {
       colorsx04: ['#d9382d', '#eea57d', '#89bfdc', '#347cbc'],
       colorsx05: ['#d9382d', '#eea57d', '#ffffbf', '#89bfdc', '#347cbc'],
@@ -301,7 +319,6 @@ export const UNDPColorModule = {
         '#095aab',
       ],
     },
-
     bivariateColors: {
       colors03x03: [
         ['#e5e5e5', '#7FDCF9', '#0BC6FF'],
@@ -335,26 +352,6 @@ export const UNDPColorModule = {
         ['#F4618D', '#D2619F', '#A961B3', '#8061C8', '#5C61DA'],
       ],
     },
-
-    sdgColors: {
-      sdg1: '#E5243B',
-      sdg2: '#DDA63A',
-      sdg3: '#4C9F38',
-      sdg4: '#C5192D',
-      sdg5: '#FF3A21',
-      sdg6: '#26BDE2',
-      sdg7: '#FCC30B',
-      sdg8: '#A21942',
-      sdg9: '#FD6925',
-      sdg10: '#DD1367',
-      sdg11: '#FD9D24',
-      sdg12: '#BF8B2E',
-      sdg13: '#3F7E44',
-      sdg14: '#0A97D9',
-      sdg15: '#56C02B',
-      sdg16: '#00689D',
-      sdg17: '#19486A',
-    },
   },
   dark: {
     graphBackgroundColor: '#232E3D',
@@ -371,29 +368,6 @@ export const UNDPColorModule = {
       'gray-700': '#EAEBEC',
       black: '#FFFFFF',
     },
-    primaryColors: {
-      'blue-100': '#B5D5F5',
-      'blue-200': '#94C4F5',
-      'blue-300': '#6BABEB',
-      'blue-400': '#4F95DD',
-      'blue-500': '#3288CE',
-      'blue-600': '#006EB5',
-      'blue-700': '#1F5A95',
-    },
-    alerts: {
-      lightYellow: '#FFE17E',
-      yellow: '#FFEB00',
-      darkYellow: '#FBC412',
-      lightRed: '#FFBCB7',
-      red: '#EE402D',
-      darkRed: '#D12800',
-      lightGreen: '#B8ECB6',
-      green: '#6DE354',
-      darkGreen: '#59BA47',
-      lightAzure: '#A2DAF3',
-      azure: '#60D4F2',
-      darkAzure: '#00C1FF',
-    },
     categoricalColors: {
       colors: [
         '#006eb5',
@@ -407,14 +381,6 @@ export const UNDPColorModule = {
         '#BF8B2E',
         '#A9B1B7',
       ],
-      genderColors: {
-        male: '#02A38A',
-        female: '#757AF0',
-      },
-      locationColors: {
-        urban: '#006eb5',
-        rural: '#5DD4F0',
-      },
     },
     sequentialColors: {
       negativeColorsx04: ['#A71C04', '#D64513', '#EB8033', '#F6B666'],
@@ -588,7 +554,6 @@ export const UNDPColorModule = {
         '#FFF4AC',
       ],
     },
-
     divergentColors: {
       colorsx04: ['#347cbc', '#89bfdc', '#eea57d', '#d9382d'],
       colorsx05: ['#347cbc', '#89bfdc', '#ffffbf', '#eea57d', '#d9382d'],
@@ -656,7 +621,6 @@ export const UNDPColorModule = {
         '#aa1d09',
       ],
     },
-
     bivariateColors: {
       colors03x03: [
         ['#e5e5e5', '#7FDCF9', '#0BC6FF'],
@@ -689,26 +653,6 @@ export const UNDPColorModule = {
         ['#F782A5', '#D180B3', '#9F7DC5', '#727AD4', '#4978E3'],
         ['#F4618D', '#D2619F', '#A961B3', '#8061C8', '#5C61DA'],
       ],
-    },
-
-    sdgColors: {
-      sdg1: '#E5243B',
-      sdg2: '#DDA63A',
-      sdg3: '#4C9F38',
-      sdg4: '#C5192D',
-      sdg5: '#FF3A21',
-      sdg6: '#26BDE2',
-      sdg7: '#FCC30B',
-      sdg8: '#A21942',
-      sdg9: '#FD6925',
-      sdg10: '#DD1367',
-      sdg11: '#FD9D24',
-      sdg12: '#BF8B2E',
-      sdg13: '#3F7E44',
-      sdg14: '#0A97D9',
-      sdg15: '#56C02B',
-      sdg16: '#00689D',
-      sdg17: '#19486A',
     },
   },
 };

@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { line, curveMonotoneX, area } from 'd3-shape';
+import {
+  line,
+  curveMonotoneX,
+  area,
+  curveLinear,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+} from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
@@ -7,19 +15,30 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
-import { useAnimate, useInView } from 'framer-motion';
+import { useAnimate, useInView } from 'motion/react';
+import { cn } from '@undp/design-system-react';
+
 import {
   AnnotationSettingsDataType,
-  CSSObject,
+  ClassNameObject,
   CustomHighlightAreaSettingsDataType,
   DifferenceLineChartDataType,
+  HighlightAreaSettingsDataType,
   ReferenceDataType,
-} from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
-import { getLineEndPoint } from '../../../../Utils/getLineEndPoint';
-import { getPathFromPoints } from '../../../../Utils/getPathFromPoints';
+  StyleObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { getLineEndPoint } from '@/Utils/getLineEndPoint';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { RefLineY } from '@/Components/Elements/ReferenceLine';
+import { Annotation } from '@/Components/Elements/Annotations';
+import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
+import { HighlightArea } from '@/Components/Elements/HighlightArea';
+import { CustomArea } from '@/Components/Elements/HighlightArea/customArea';
 
 interface Props {
   data: DifferenceLineChartDataType[];
@@ -36,9 +55,9 @@ interface Props {
   leftMargin: number;
   topMargin: number;
   bottomMargin: number;
-  highlightAreaSettings: [number | string | null, number | string | null];
-  highlightAreaColor: string;
+  highlightAreaSettings: HighlightAreaSettingsDataType[];
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   animateLine: boolean | number;
   rtl: boolean;
@@ -52,11 +71,13 @@ interface Props {
   minValue?: number;
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
-  tooltipBackgroundStyle?: CSSObject;
   yAxisTitle?: string;
   noOfYTicks: number;
   minDate?: string | number;
   maxDate?: string | number;
+  curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -76,7 +97,6 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     highlightAreaSettings,
-    highlightAreaColor,
     onSeriesMouseOver,
     animateLine,
     rtl,
@@ -91,23 +111,36 @@ export function Graph(props: Props) {
     maxValue,
     annotations,
     customHighlightAreaSettings,
-    tooltipBackgroundStyle,
     yAxisTitle,
     noOfYTicks,
     minDate,
     maxDate,
+    curveType,
+    styles,
+    classNames,
   } = props;
+  const curve =
+    curveType === 'linear'
+      ? curveLinear
+      : curveType === 'step'
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
   const [scope, animate] = useAnimate();
   const [areaScope, areaAnimate] = useAnimate();
   const [annotationsScope, annotationsAnimate] = useAnimate();
   const isInView = useInView(scope);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
+    left: yAxisTitle ? leftMargin + 30 : leftMargin,
     right: rightMargin,
   };
   const MouseoverRectRef = useRef(null);
@@ -120,14 +153,25 @@ export function Graph(props: Props) {
     })),
     'date',
   );
-  const highlightAreaSettingsFormatted = [
-    highlightAreaSettings[0] === null
-      ? null
-      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
-    highlightAreaSettings[1] === null
-      ? null
-      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
-  ];
+  const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: [
+      d.coordinates[0] === null
+        ? null
+        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null
+        ? null
+        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+    ],
+  }));
+  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(
+    d => ({
+      ...d,
+      coordinates: d.coordinates.map((el, j) =>
+        j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
+      ),
+    }),
+  );
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = minDate
@@ -174,33 +218,45 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape1 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.y1))
-    .curve(curveMonotoneX);
+    .curve(curve);
 
   const lineShape2 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.y2))
-    .curve(curveMonotoneX);
+    .curve(curve);
 
   const mainGraphArea = area()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y1((d: any) => y(d.y1))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y0((d: any) => y(d.y2))
-    .curve(curveMonotoneX);
+    .curve(curve);
   const mainGraphArea1 = area()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y1((d: any) => y(d.y1))
     .y0(0)
-    .curve(curveMonotoneX);
+    .curve(curve);
   const mainGraphArea2 = area()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y1((d: any) => y(d.y2))
     .y0(0)
-    .curve(curveMonotoneX);
+    .curve(curve);
   const yTicks = y.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
@@ -230,16 +286,14 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [x, dataFormatted]);
+  }, [x, dataFormatted, onSeriesMouseOver]);
 
   useEffect(() => {
     if (isInView && data.length > 0) {
       animate(
         'path',
         { pathLength: [0, 1] },
-        {
-          duration: animateLine === true ? 5 : animateLine || 0,
-        },
+        { duration: animateLine === true ? 5 : animateLine || 0 },
       );
       if (showDots) {
         animate(
@@ -278,7 +332,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView, showColorLegendAtTop, data]);
+  }, [isInView, showColorLegendAtTop, data, animate, animateLine, showDots, areaAnimate, areaScope, annotationsAnimate, annotationsScope]);
   return (
     <>
       <svg
@@ -290,199 +344,123 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <clipPath id={`above${idSuffix}`}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={mainGraphArea2(dataFormatted as any) as string}
-              style={{
-                fill: 'none',
-              }}
+              style={{ fill: 'none' }}
             />
           </clipPath>
           <clipPath id={`below${idSuffix}`}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={mainGraphArea1(dataFormatted as any) as string}
-              style={{
-                fill: 'none',
-              }}
+              style={{ fill: 'none' }}
             />
           </clipPath>
-          {highlightAreaSettingsFormatted[0] === null &&
-          highlightAreaSettingsFormatted[1] === null ? null : (
-            <g>
-              <rect
-                style={{
-                  fill: highlightAreaColor,
-                }}
-                x={
-                  highlightAreaSettingsFormatted[0]
-                    ? x(highlightAreaSettingsFormatted[0])
-                    : 0
-                }
-                width={
-                  highlightAreaSettingsFormatted[1]
-                    ? x(highlightAreaSettingsFormatted[1]) -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                    : graphWidth -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                }
-                y={0}
-                height={graphHeight}
-              />
-            </g>
-          )}
-          {customHighlightAreaSettings.map((d, i) => (
-            <g key={i}>
-              {d.coordinates.length !== 4 ? (
-                <path
-                  d={getPathFromPoints(
-                    d.coordinates.map((el, j) =>
-                      j % 2 === 0
-                        ? x(parse(`${el}`, dateFormat, new Date()))
-                        : y(el as number),
-                    ),
-                  )}
-                  style={{
-                    strokeWidth: d.strokeWidth || 0,
-                    ...(d.coordinates.length > 4
-                      ? d.color && { fill: d.color }
-                      : { fill: 'none' }),
-                    ...(d.color && { stroke: d.color }),
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                  }}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550 fill-primary-gray-300 dark:fill-primary-gray-550'
-                      : ''
-                  }
-                />
-              ) : (
-                <line
-                  x1={x(parse(`${d.coordinates[0]}`, dateFormat, new Date()))}
-                  y1={y(d.coordinates[1] as number)}
-                  x2={x(parse(`${d.coordinates[2]}`, dateFormat, new Date()))}
-                  y2={y(d.coordinates[3] as number)}
-                  className={
-                    !d.color
-                      ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
-                      : ''
-                  }
-                  style={{
-                    fill: 'none',
-                    strokeWidth: d.strokeWidth || 1,
-                    strokeDasharray: d.dashedStroke ? '4,4' : 'none',
-                    ...(d.color ? { stroke: d.color } : {}),
-                  }}
-                />
-              )}
-            </g>
-          ))}
+          <HighlightArea
+            areaSettings={highlightAreaSettingsFormatted}
+            width={graphWidth}
+            height={graphHeight}
+            scale={x}
+          />
+          <CustomArea
+            areaSettings={customHighlightAreaSettingsFormatted}
+            scaleX={x}
+            scaleY={y}
+          />
           <g>
             <g>
-              {yTicks.map((d, i) =>
-                d !== 0 ? (
-                  <g key={i}>
-                    <line
-                      y1={y(d)}
-                      y2={y(d)}
-                      x1={width}
-                      x2={-20}
-                      className='undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550'
-                    />
-                    <text
-                      x={-25}
-                      y={y(d)}
-                      style={{
-                        textAnchor: 'end',
-                      }}
-                      className='text-xs fill-primary-gray-500 dark:fill-primary-gray-550'
-                      dy={3}
-                    >
-                      {numberFormattingFunction(d, prefix, suffix)}
-                    </text>
-                  </g>
-                ) : null,
-              )}
-              <line
+              <YTicksAndGridLines
+                values={yTicks.filter(d => d !== 0)}
+                y={yTicks.filter(d => d !== 0).map(d => y(d))}
+                x1={0 - leftMargin}
+                x2={graphWidth + margin.right}
+                styles={{
+                  gridLines: styles?.yAxis?.gridLines,
+                  labels: styles?.yAxis?.labels,
+                }}
+                classNames={{
+                  gridLines: classNames?.yAxis?.gridLines,
+                  labels: classNames?.yAxis?.labels,
+                }}
+                suffix={suffix}
+                prefix={prefix}
+                labelType='secondary'
+                showGridLines
+                labelPos='vertical'
+              />
+              <Axis
                 y1={y(minParam < 0 ? 0 : minParam)}
                 y2={y(minParam < 0 ? 0 : minParam)}
-                x1={-20}
-                x2={width}
-                className='stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
-              />
-              {yAxisTitle ? (
-                <text
-                  transform={`translate(${20 - leftMargin}, ${
-                    graphHeight / 2
-                  }) rotate(-90)`}
-                  style={{
-                    textAnchor: 'middle',
-                  }}
-                  className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                >
-                  {yAxisTitle}
-                </text>
-              ) : null}
-              <text
-                x={-25}
-                y={y(minParam < 0 ? 0 : minParam)}
-                style={{
-                  textAnchor: 'end',
-                }}
-                className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                dy={3}
-              >
-                {numberFormattingFunction(
+                x1={0 - leftMargin}
+                x2={graphWidth + margin.right}
+                label={numberFormattingFunction(
                   minParam < 0 ? 0 : minParam,
                   prefix,
                   suffix,
                 )}
-              </text>
+                labelPos={{
+                  x: 0 - leftMargin,
+                  y: y(minParam < 0 ? 0 : minParam),
+                  dx: 0,
+                  dy: maxParam < 0 ? '1rem' : -5,
+                }}
+                classNames={{
+                  axis: classNames?.xAxis?.axis,
+                  label: classNames?.yAxis?.labels,
+                }}
+                styles={{
+                  axis: styles?.xAxis?.axis,
+                  label: styles?.yAxis?.labels,
+                }}
+              />
+              <AxisTitle
+                x={0 - leftMargin - 15}
+                y={graphHeight / 2}
+                style={styles?.yAxis?.title}
+                className={classNames?.yAxis?.title}
+                text={yAxisTitle}
+                rotate90
+              />
             </g>
           </g>
-          <g>
-            <line
-              y1={y(0)}
-              y2={y(0)}
-              x1={-15}
-              x2={graphWidth + 15}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-400'
-            />
-            {xTicks.map((d, i) => (
-              <g key={i}>
-                <text
-                  y={y(0)}
-                  x={x(d)}
-                  style={{
-                    textAnchor: 'middle',
-                  }}
-                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
-                  dy={15}
-                >
-                  {format(d, dateFormat)}
-                </text>
-              </g>
-            ))}
-          </g>
+          <XTicksAndGridLines
+            values={xTicks.map(d => format(d, dateFormat))}
+            x={xTicks.map(d => x(d))}
+            y1={0}
+            y2={graphHeight}
+            styles={{
+              gridLines: styles?.xAxis?.gridLines,
+              labels: styles?.xAxis?.labels,
+            }}
+            classNames={{
+              gridLines: cn('opacity-0', classNames?.xAxis?.gridLines),
+              labels: cn(
+                'fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
+                classNames?.xAxis?.labels,
+              ),
+            }}
+            suffix={suffix}
+            prefix={prefix}
+            labelType='primary'
+            showGridLines
+          />
           <g ref={areaScope}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={mainGraphArea(dataFormatted as any) as string}
               clipPath={`url(#below${idSuffix})`}
-              style={{
-                fill: diffAreaColors[1],
-              }}
+              style={{ fill: diffAreaColors[1] }}
             />
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={mainGraphArea(dataFormatted as any) as string}
               clipPath={`url(#above${idSuffix})`}
-              style={{
-                fill: diffAreaColors[0],
-              }}
+              style={{ fill: diffAreaColors[0] }}
             />
           </g>
           <g ref={scope}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape1(dataFormatted as any) as string}
               style={{
                 fill: 'none',
@@ -491,6 +469,7 @@ export function Graph(props: Props) {
               }}
             />
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape2(dataFormatted as any) as string}
               style={{
                 fill: 'none',
@@ -501,9 +480,7 @@ export function Graph(props: Props) {
             {showColorLegendAtTop ? null : (
               <g>
                 <text
-                  style={{
-                    fill: lineColors[0],
-                  }}
+                  style={{ fill: lineColors[0] }}
                   className='text-xs'
                   x={x(dataFormatted[dataFormatted.length - 1].date)}
                   y={y(dataFormatted[dataFormatted.length - 1].y1 as number)}
@@ -513,9 +490,7 @@ export function Graph(props: Props) {
                   {colorDomain[0]}
                 </text>
                 <text
-                  style={{
-                    fill: lineColors[1],
-                  }}
+                  style={{ fill: lineColors[1] }}
                   className='text-xs'
                   x={x(dataFormatted[dataFormatted.length - 1].date)}
                   y={y(dataFormatted[dataFormatted.length - 1].y2 as number)}
@@ -532,7 +507,11 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                className='undp-tick-line stroke-primary-gray-500 dark:stroke-primary-gray-550'
+                className={cn(
+                  'undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100',
+                  classNames?.mouseOverLine,
+                )}
+                style={styles?.mouseOverLine}
               />
             ) : null}
             {dataFormatted.map((d, i) => (
@@ -547,24 +526,26 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[0],
-                        }}
+                        style={{ fill: lineColors[0] }}
                       />
                     ) : null}
                     {showValues ? (
                       <text
                         x={x(d.date)}
                         y={y(d.y1)}
-                        dy={d.y2 < d.y1 ? -8 : 15}
+                        dy={d.y2 < d.y1 ? -8 : '1em'}
                         style={{
                           fill: lineColors[0],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-1 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
                         {numberFormattingFunction(d.y1, prefix, suffix)}
                       </text>
@@ -581,24 +562,26 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[1],
-                        }}
+                        style={{ fill: lineColors[1] }}
                       />
                     ) : null}
                     {showValues ? (
                       <text
                         x={x(d.date)}
                         y={y(d.y2)}
-                        dy={d.y2 > d.y1 ? -8 : 15}
+                        dy={d.y2 > d.y1 ? -8 : '1em'}
                         style={{
                           fill: lineColors[1],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-2 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
                         {numberFormattingFunction(d.y2, prefix, suffix)}
                       </text>
@@ -608,40 +591,22 @@ export function Graph(props: Props) {
               </g>
             ))}
           </g>
-          {refValues.map((el, i) => (
-            <g key={i}>
-              <line
-                className={`undp-ref-line ${
-                  !el.color
-                    ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                    : ''
-                }`}
-                style={{
-                  ...(el.color && { stroke: el.color }),
-                }}
-                y1={y(el.value as number)}
-                y2={y(el.value as number)}
-                x1={0 - 20}
-                x2={graphWidth + margin.right}
-              />
-              <text
-                x={graphWidth + margin.right}
-                y={y(el.value as number)}
-                style={{
-                  ...(el.color && { fill: el.color }),
-                  textAnchor: 'end',
-                }}
-                className={`text-xs font-bold${
-                  !el.color
-                    ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
-                    : ''
-                }`}
-                dy={-5}
-              >
-                {el.text}
-              </text>
-            </g>
-          ))}
+          {refValues ? (
+            <>
+              {refValues.map((el, i) => (
+                <RefLineY
+                  key={i}
+                  text={el.text}
+                  color={el.color}
+                  y={y(el.value as number)}
+                  x1={0 - leftMargin}
+                  x2={graphWidth + margin.right}
+                  classNames={el.classNames}
+                  styles={el.styles}
+                />
+              ))}
+            </>
+          ) : null}
           <g ref={annotationsScope}>
             {annotations.map((d, i) => {
               const endPoints = getLineEndPoint(
@@ -664,132 +629,64 @@ export function Graph(props: Props) {
                   ? 3.5
                   : (d.connectorRadius as number),
               );
+              const connectorSettings = d.showConnector
+                ? {
+                  y1: endPoints.y,
+                  x1: endPoints.x,
+                  y2: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                    : 0 + (d.yOffset || 0),
+                  x2: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                        (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
+                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                  cx: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
+                    : 0,
+                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                    ? 3.5
+                    : (d.connectorRadius as number),
+                  strokeWidth:
+                      d.showConnector === true
+                        ? 2
+                        : Math.min(d.showConnector || 0, 1),
+                }
+                : undefined;
+              const labelSettings = {
+                y: d.yCoordinate
+                  ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
+                  : 0 + (d.yOffset || 0) - 8,
+                x: rtl
+                  ? 0
+                  : d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                    (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
+                width: rtl
+                  ? d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                      (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0)
+                  : graphWidth -
+                    (d.xCoordinate
+                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                        (d.xOffset || 0)
+                      : 0 + (d.xOffset || 0)),
+                maxWidth: d.maxWidth,
+                fontWeight: d.fontWeight,
+                align: d.align,
+              };
               return (
-                <g key={i}>
-                  {d.showConnector ? (
-                    <>
-                      <circle
-                        cy={d.yCoordinate ? y(d.yCoordinate as number) : 0}
-                        cx={
-                          d.xCoordinate
-                            ? x(
-                                parse(
-                                  `${d.xCoordinate}`,
-                                  dateFormat,
-                                  new Date(),
-                                ),
-                              )
-                            : 0
-                        }
-                        r={
-                          checkIfNullOrUndefined(d.connectorRadius)
-                            ? 3.5
-                            : (d.connectorRadius as number)
-                        }
-                        className={
-                          !d.color
-                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                            : ''
-                        }
-                        style={{
-                          fill: 'none',
-                          strokeWidth:
-                            d.showConnector === true
-                              ? 2
-                              : Math.min(d.showConnector, 1),
-                          ...(d.color ? { stroke: d.color } : {}),
-                        }}
-                      />
-                      <line
-                        y1={endPoints.y}
-                        x1={endPoints.x}
-                        y2={
-                          d.yCoordinate
-                            ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                            : 0 + (d.yOffset || 0)
-                        }
-                        x2={
-                          d.xCoordinate
-                            ? x(
-                                parse(
-                                  `${d.xCoordinate}`,
-                                  dateFormat,
-                                  new Date(),
-                                ),
-                              ) + (d.xOffset || 0)
-                            : 0 + (d.xOffset || 0)
-                        }
-                        className={
-                          !d.color
-                            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                            : ''
-                        }
-                        style={{
-                          fill: 'none',
-                          strokeWidth:
-                            d.showConnector === true
-                              ? 2
-                              : Math.min(d.showConnector, 1),
-                          ...(d.color ? { stroke: d.color } : {}),
-                        }}
-                      />
-                    </>
-                  ) : null}
-                  <foreignObject
-                    key={i}
-                    y={
-                      d.yCoordinate
-                        ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
-                        : 0 + (d.yOffset || 0) - 8
-                    }
-                    x={
-                      rtl
-                        ? 0
-                        : d.xCoordinate
-                        ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                          (d.xOffset || 0)
-                        : 0 + (d.xOffset || 0)
-                    }
-                    width={
-                      rtl
-                        ? d.xCoordinate
-                          ? x(
-                              parse(`${d.xCoordinate}`, dateFormat, new Date()),
-                            ) + (d.xOffset || 0)
-                          : 0 + (d.xOffset || 0)
-                        : graphWidth -
-                          (d.xCoordinate
-                            ? x(
-                                parse(
-                                  `${d.xCoordinate}`,
-                                  dateFormat,
-                                  new Date(),
-                                ),
-                              ) + (d.xOffset || 0)
-                            : 0 + (d.xOffset || 0))
-                    }
-                    height={1}
-                    style={{
-                      overflow: 'visible',
-                    }}
-                  >
-                    <p
-                      className={`text-sm font-${
-                        d.fontWeight || 'normal'
-                      } leading-tight m-0 whitespace-normal ${
-                        !d.color
-                          ? 'text-primary-gray-700 dark:text-primary-gray-300'
-                          : ''
-                      }`}
-                      style={{
-                        maxWidth: d.maxWidth || 'auto',
-                        ...(d.color ? { color: d.color } : {}),
-                      }}
-                    >
-                      {d.text}
-                    </p>
-                  </foreignObject>
-                </g>
+                <Annotation
+                  key={i}
+                  color={d.color}
+                  connectorsSettings={connectorSettings}
+                  labelSettings={labelSettings}
+                  text={d.text}
+                  classNames={d.classNames}
+                  styles={d.styles}
+                />
               );
             })}
           </g>
@@ -810,7 +707,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
     </>

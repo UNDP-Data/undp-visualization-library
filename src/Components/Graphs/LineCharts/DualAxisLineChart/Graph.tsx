@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { line, curveMonotoneX } from 'd3-shape';
+import {
+  line,
+  curveMonotoneX,
+  curveLinear,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore,
+} from 'd3-shape';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
@@ -7,20 +14,29 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
-import { useAnimate, useInView } from 'framer-motion';
-import { CSSObject, DualAxisLineChartDataType } from '../../../../Types';
-import { numberFormattingFunction } from '../../../../Utils/numberFormattingFunction';
-import { Tooltip } from '../../../Elements/Tooltip';
-import { checkIfNullOrUndefined } from '../../../../Utils/checkIfNullOrUndefined';
+import { useAnimate, useInView } from 'motion/react';
+import { cn } from '@undp/design-system-react';
+
+import {
+  ClassNameObject,
+  DualAxisLineChartDataType,
+  HighlightAreaSettingsDataType,
+  StyleObject,
+} from '@/Types';
+import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
+import { Tooltip } from '@/Components/Elements/Tooltip';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { XTicksAndGridLines } from '@/Components/Elements/Axes/XTicksAndGridLines';
+import { Axis } from '@/Components/Elements/Axes/Axis';
+import { AxisTitle } from '@/Components/Elements/Axes/AxisTitle';
+import { HighlightArea } from '@/Components/Elements/HighlightArea';
 
 interface Props {
   data: DualAxisLineChartDataType[];
   lineColors: [string, string];
-  lineTitles: [string, string];
+  labels: [string, string];
   width: number;
   height: number;
-  suffix: string;
-  prefix: string;
   dateFormat: string;
   showValues: boolean;
   noOfXTicks: number;
@@ -29,19 +45,21 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   sameAxes: boolean;
-  highlightAreaSettings: [number | string | null, number | string | null];
-  highlightAreaColor: string;
+  highlightAreaSettings: HighlightAreaSettingsDataType[];
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   animateLine: boolean | number;
   strokeWidth: number;
   showDots: boolean;
-  tooltipBackgroundStyle?: CSSObject;
   noOfYTicks: number;
   lineSuffixes: [string, string];
   linePrefixes: [string, string];
   minDate?: string | number;
   maxDate?: string | number;
+  curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
+  styles?: StyleObject;
+  classNames?: ClassNameObject;
 }
 
 export function Graph(props: Props) {
@@ -50,10 +68,8 @@ export function Graph(props: Props) {
     width,
     height,
     lineColors,
-    lineTitles,
+    labels,
     sameAxes,
-    suffix,
-    prefix,
     dateFormat,
     showValues,
     noOfXTicks,
@@ -63,29 +79,41 @@ export function Graph(props: Props) {
     bottomMargin,
     tooltip,
     highlightAreaSettings,
-    highlightAreaColor,
     onSeriesMouseOver,
     animateLine,
     strokeWidth,
     showDots,
-    tooltipBackgroundStyle,
     noOfYTicks,
     lineSuffixes,
     linePrefixes,
     minDate,
     maxDate,
+    curveType,
+    styles,
+    classNames,
   } = props;
+  const curve =
+    curveType === 'linear'
+      ? curveLinear
+      : curveType === 'step'
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
   const isInView = useInView(scope);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
     top: topMargin,
     bottom: bottomMargin,
-    left: leftMargin,
-    right: rightMargin,
+    left: leftMargin + 50,
+    right: rightMargin + 65,
   };
   const MouseoverRectRef = useRef(null);
   const dataFormatted = sortBy(
@@ -97,14 +125,17 @@ export function Graph(props: Props) {
     })),
     'date',
   );
-  const highlightAreaSettingsFormatted = [
-    highlightAreaSettings[0] === null
-      ? null
-      : parse(`${highlightAreaSettings[0]}`, dateFormat, new Date()),
-    highlightAreaSettings[1] === null
-      ? null
-      : parse(`${highlightAreaSettings[1]}`, dateFormat, new Date()),
-  ];
+  const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: [
+      d.coordinates[0] === null
+        ? null
+        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null
+        ? null
+        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+    ],
+  }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   const minYear = minDate
@@ -150,20 +181,27 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape1 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .defined((d: any) => !checkIfNullOrUndefined(d.y1))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y1(d.y1))
-    .curve(curveMonotoneX);
+    .curve(curve);
 
   const lineShape2 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .defined((d: any) => !checkIfNullOrUndefined(d.y2))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y2(d.y2))
-    .curve(curveMonotoneX);
+    .curve(curve);
   const y1Ticks = y1.ticks(noOfYTicks);
   const y2Ticks = y2.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
@@ -193,16 +231,14 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [x, dataFormatted]);
+  }, [x, dataFormatted, onSeriesMouseOver]);
 
   useEffect(() => {
     if (isInView && data.length > 0) {
       animate(
         'path',
         { pathLength: [0, 1] },
-        {
-          duration: animateLine === true ? 5 : animateLine || 0,
-        },
+        { duration: animateLine === true ? 5 : animateLine || 0 },
       );
       labelAnimate(
         labelScope.current,
@@ -213,7 +249,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView, data]);
+  }, [isInView, data, animate, animateLine, labelAnimate, labelScope]);
   return (
     <>
       <svg
@@ -223,34 +259,12 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
-          {highlightAreaSettingsFormatted[0] === null &&
-          highlightAreaSettingsFormatted[1] === null ? null : (
-            <g>
-              <rect
-                style={{
-                  fill: highlightAreaColor,
-                }}
-                x={
-                  highlightAreaSettingsFormatted[0]
-                    ? x(highlightAreaSettingsFormatted[0])
-                    : 0
-                }
-                width={
-                  highlightAreaSettingsFormatted[1]
-                    ? x(highlightAreaSettingsFormatted[1]) -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                    : graphWidth -
-                      (highlightAreaSettingsFormatted[0]
-                        ? x(highlightAreaSettingsFormatted[0])
-                        : 0)
-                }
-                y={0}
-                height={graphHeight}
-              />
-            </g>
-          )}
+          <HighlightArea
+            areaSettings={highlightAreaSettingsFormatted}
+            width={graphWidth}
+            height={graphHeight}
+            scale={x}
+          />
           <g>
             {y1Ticks.map((d, i) => (
               <g key={i}>
@@ -262,16 +276,19 @@ export function Graph(props: Props) {
                   style={{
                     stroke: lineColors[0],
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
-                  x={-25}
+                  x={0 - 25}
                   y={y1(d)}
-                  dy={3}
-                  className='text-xs'
+                  dy='0.33em'
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                   style={{
                     textAnchor: 'end',
                     fill: lineColors[0],
+                    ...(styles?.yAxis?.labels || {}),
                   }}
                 >
                   {numberFormattingFunction(
@@ -282,30 +299,26 @@ export function Graph(props: Props) {
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              style={{
-                stroke: lineColors[0],
-                strokeWidth: 1,
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: lineColors[0], ...(styles?.xAxis?.axis || {}) } }}
             />
-            <text
-              transform={`translate(${20 - leftMargin}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              className='text-xs'
-              style={{
-                textAnchor: 'middle',
-                fill: lineColors[0],
-              }}
-            >
-              {lineTitles[0].length > 100
-                ? `${lineTitles[0].substring(0, 100)}...`
-                : lineTitles[0]}
-            </text>
+            <AxisTitle
+              x={10 - margin.left}
+              y={graphHeight / 2}
+              style={{ fill: lineColors[0], ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                labels[0].length > 100
+                  ? `${labels[0].substring(0, 100)}...`
+                  : labels[0]
+              }
+              rotate90
+            />
           </g>
           <g>
             {y2Ticks.map((d, i) => (
@@ -318,18 +331,21 @@ export function Graph(props: Props) {
                   style={{
                     stroke: lineColors[1],
                     strokeWidth: 1,
+                    ...(styles?.yAxis?.gridLines || {}),
                   }}
+                  className={classNames?.yAxis?.gridLines}
                 />
                 <text
                   x={graphWidth + 25}
                   y={y2(d)}
-                  dy={3}
+                  dy='0.33em'
                   dx={-2}
-                  className='text-xs'
                   style={{
                     textAnchor: 'start',
                     fill: lineColors[1],
+                    ...(styles?.yAxis?.labels || {}),
                   }}
+                  className={cn('text-xs', classNames?.yAxis?.labels)}
                 >
                   {numberFormattingFunction(
                     d,
@@ -339,57 +355,59 @@ export function Graph(props: Props) {
                 </text>
               </g>
             ))}
-            <line
+            <Axis
               y1={0}
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              style={{
-                stroke: lineColors[1],
-                strokeWidth: 1,
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: lineColors[1], ...(styles?.xAxis?.axis || {}) } }}
             />
-            <text
-              transform={`translate(${graphWidth + rightMargin - 15}, ${
-                graphHeight / 2
-              }) rotate(-90)`}
-              className='text-xs'
-              style={{
-                textAnchor: 'middle',
-                fill: lineColors[1],
-              }}
-            >
-              {lineTitles[1].length > 100
-                ? `${lineTitles[1].substring(0, 100)}...`
-                : lineTitles[1]}
-            </text>
+            <AxisTitle
+              x={graphWidth + margin.right - 15}
+              y={graphHeight / 2}
+              style={{ fill: lineColors[1], ...(styles?.yAxis?.title || {}) }}
+              className={classNames?.yAxis?.title}
+              text={
+                labels[1].length > 100
+                  ? `${labels[1].substring(0, 100)}...`
+                  : labels[1]
+              }
+              rotate90
+            />
           </g>
           <g>
-            <line
+            <Axis
               y1={graphHeight}
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              className='stroke-1 stroke-primary-gray-500 dark:stroke-primary-gray-550'
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: styles?.xAxis?.axis }}
             />
-            {xTicks.map((d, i) => (
-              <g key={i}>
-                <text
-                  y={graphHeight}
-                  x={x(d)}
-                  style={{
-                    textAnchor: 'middle',
-                  }}
-                  className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
-                  dy={15}
-                >
-                  {format(d, dateFormat)}
-                </text>
-              </g>
-            ))}
+            <XTicksAndGridLines
+              values={xTicks.map(d => format(d, dateFormat))}
+              x={xTicks.map(d => x(d))}
+              y1={0}
+              y2={graphHeight}
+              styles={{
+                gridLines: styles?.xAxis?.gridLines,
+                labels: styles?.xAxis?.labels,
+              }}
+              classNames={{
+                gridLines: cn('opacity-0', classNames?.xAxis?.gridLines),
+                labels: cn(
+                  'fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs',
+                  classNames?.xAxis?.labels,
+                ),
+              }}
+              labelType='primary'
+              showGridLines
+            />
           </g>
           <g ref={scope}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape1(dataFormatted as any) as string}
               style={{
                 stroke: lineColors[0],
@@ -398,6 +416,7 @@ export function Graph(props: Props) {
               }}
             />
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape2(dataFormatted as any) as string}
               style={{
                 stroke: lineColors[1],
@@ -411,7 +430,11 @@ export function Graph(props: Props) {
                 y2={graphHeight}
                 x1={x(mouseOverData.date)}
                 x2={x(mouseOverData.date)}
-                className='undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100 '
+                className={cn(
+                  'undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100',
+                  classNames?.mouseOverLine,
+                )}
+                style={styles?.mouseOverLine}
               />
             ) : null}
           </g>
@@ -428,12 +451,10 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[0],
-                        }}
+                        style={{ fill: lineColors[0] }}
                       />
                     ) : null}
                     {showValues ? (
@@ -444,16 +465,24 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y2)
                             ? -8
                             : (d.y2 as number) < (d.y1 as number)
-                            ? -8
-                            : 15
+                              ? -8
+                              : '1em'
                         }
                         style={{
                           fill: lineColors[0],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-1 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
-                        {numberFormattingFunction(d.y1, prefix, suffix)}
+                        {numberFormattingFunction(
+                          d.y1,
+                          linePrefixes[0],
+                          lineSuffixes[0],
+                        )}
                       </text>
                     ) : null}
                   </g>
@@ -468,12 +497,10 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[1],
-                        }}
+                        style={{ fill: lineColors[1] }}
                       />
                     ) : null}
                     {showValues ? (
@@ -484,16 +511,24 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y1)
                             ? -8
                             : (d.y1 as number) < (d.y2 as number)
-                            ? -8
-                            : 15
+                              ? -8
+                              : '1em'
                         }
                         style={{
                           fill: lineColors[1],
                           textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
                         }}
-                        className='text-xs font-bold'
+                        className={cn(
+                          'graph-value graph-value-line-2 text-xs font-bold',
+                          classNames?.graphObjectValues,
+                        )}
                       >
-                        {numberFormattingFunction(d.y2, prefix, suffix)}
+                        {numberFormattingFunction(
+                          d.y2,
+                          linePrefixes[1],
+                          lineSuffixes[1],
+                        )}
                       </text>
                     ) : null}
                   </g>
@@ -518,7 +553,8 @@ export function Graph(props: Props) {
           body={tooltip}
           xPos={eventX}
           yPos={eventY}
-          backgroundStyle={tooltipBackgroundStyle}
+          backgroundStyle={styles?.tooltip}
+          className={classNames?.tooltip}
         />
       ) : null}
     </>

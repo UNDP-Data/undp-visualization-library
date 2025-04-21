@@ -1,5 +1,3 @@
-import { GraphType } from '../Types';
-import { GraphList } from '../Utils/getGraphList';
 import {
   barGraphDataSchema,
   stackedBarGraphDataSchema,
@@ -82,6 +80,9 @@ import {
   dataCardListSettingsSchema,
 } from './schemaList';
 
+import { GraphType } from '@/Types';
+import { GraphList } from '@/Utils/getGraphList';
+
 export function getDataSchema(graph: GraphType) {
   if (
     GraphList.filter(el => el.geoHubMapPresentation)
@@ -107,29 +108,17 @@ export function getDataSchema(graph: GraphType) {
           additionalProperties: true,
         },
       };
-    case 'horizontalBarChart':
+    case 'barChart':
       return barGraphDataSchema;
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return stackedBarGraphDataSchema;
-    case 'horizontalGroupedBarChart':
+    case 'groupedBarChart':
       return groupedBarGraphDataSchema;
-    case 'verticalBarChart':
-      return barGraphDataSchema;
-    case 'verticalStackedBarChart':
-      return stackedBarGraphDataSchema;
-    case 'verticalGroupedBarChart':
-      return groupedBarGraphDataSchema;
-    case 'animatedHorizontalBarChart':
+    case 'animatedBarChart':
       return animatedBarGraphDataSchema;
-    case 'animatedHorizontalStackedBarChart':
+    case 'animatedStackedBarChart':
       return animatedStackedBarGraphDataSchema;
-    case 'animatedHorizontalGroupedBarChart':
-      return animatedGroupedBarGraphDataSchema;
-    case 'animatedVerticalBarChart':
-      return animatedBarGraphDataSchema;
-    case 'animatedVerticalStackedBarChart':
-      return animatedStackedBarGraphDataSchema;
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return animatedGroupedBarGraphDataSchema;
     case 'lineChart':
       return lineChartDataSchema;
@@ -161,13 +150,9 @@ export function getDataSchema(graph: GraphType) {
       return scatterPlotDataSchema;
     case 'animatedScatterPlot':
       return animatedScatterPlotDataSchema;
-    case 'horizontalDumbbellChart':
+    case 'dumbbellChart':
       return dumbbellChartDataSchema;
-    case 'verticalDumbbellChart':
-      return dumbbellChartDataSchema;
-    case 'animatedHorizontalDumbbellChart':
-      return animatedDumbbellChartDataSchema;
-    case 'animatedVerticalDumbbellChart':
+    case 'animatedDumbbellChart':
       return animatedDumbbellChartDataSchema;
     case 'treeMap':
       return treeMapDataSchema;
@@ -175,13 +160,9 @@ export function getDataSchema(graph: GraphType) {
       return circlePackingDataSchema;
     case 'heatMap':
       return heatMapDataSchema;
-    case 'horizontalStripChart':
+    case 'stripChart':
       return stripChartDataSchema;
-    case 'verticalStripChart':
-      return stripChartDataSchema;
-    case 'horizontalBeeSwarmChart':
-      return beeSwarmChartDataSchema;
-    case 'verticalBeeSwarmChart':
+    case 'beeSwarmChart':
       return beeSwarmChartDataSchema;
     case 'butterflyChart':
       return butterflyChartDataSchema;
@@ -209,29 +190,17 @@ export function getDataSchema(graph: GraphType) {
 
 export function getSettingsSchema(graph: GraphType | 'allGraphs') {
   switch (graph) {
-    case 'horizontalBarChart':
+    case 'barChart':
       return simpleBarChartSettingsSchema;
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return stackedBarChartSettingsSchema;
-    case 'horizontalGroupedBarChart':
+    case 'groupedBarChart':
       return groupedBarChartSettingsSchema;
-    case 'verticalBarChart':
-      return simpleBarChartSettingsSchema;
-    case 'verticalStackedBarChart':
-      return stackedBarChartSettingsSchema;
-    case 'verticalGroupedBarChart':
-      return groupedBarChartSettingsSchema;
-    case 'animatedHorizontalBarChart':
+    case 'animatedBarChart':
       return animatedSimpleBarChartSettingsSchema;
-    case 'animatedHorizontalStackedBarChart':
+    case 'animatedStackedBarChart':
       return animatedStackedBarChartSettingsSchema;
-    case 'animatedHorizontalGroupedBarChart':
-      return animatedGroupedBarChartSettingsSchema;
-    case 'animatedVerticalBarChart':
-      return animatedSimpleBarChartSettingsSchema;
-    case 'animatedVerticalStackedBarChart':
-      return animatedStackedBarChartSettingsSchema;
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return animatedGroupedBarChartSettingsSchema;
     case 'lineChart':
       return lineChartSettingsSchema;
@@ -263,13 +232,9 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return scatterPlotSettingsSchema;
     case 'animatedScatterPlot':
       return animatedScatterPlotSettingsSchema;
-    case 'horizontalDumbbellChart':
+    case 'dumbbellChart':
       return dumbbellChartSettingsSchema;
-    case 'verticalDumbbellChart':
-      return dumbbellChartSettingsSchema;
-    case 'animatedHorizontalDumbbellChart':
-      return animatedDumbbellChartSettingsSchema;
-    case 'animatedVerticalDumbbellChart':
+    case 'animatedDumbbellChart':
       return animatedDumbbellChartSettingsSchema;
     case 'treeMap':
       return treeMapSettingsSchema;
@@ -277,13 +242,9 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return circlePackingSettingsSchema;
     case 'heatMap':
       return heatMapSettingsSchema;
-    case 'horizontalStripChart':
+    case 'stripChart':
       return stripChartSettingsSchema;
-    case 'verticalStripChart':
-      return stripChartSettingsSchema;
-    case 'horizontalBeeSwarmChart':
-      return beeSwarmChartSettingsSchema;
-    case 'verticalBeeSwarmChart':
+    case 'beeSwarmChart':
       return beeSwarmChartSettingsSchema;
     case 'butterflyChart':
       return butterflyChartSettingsSchema;
@@ -325,13 +286,9 @@ export function getGraphConfigChartConfigIdEnum(
   chartType?: GraphType | 'dashboardWideToLong' | 'dashboard',
 ) {
   switch (chartType) {
-    case 'horizontalBarChart':
+    case 'barChart':
       return ['label', 'size', 'color'];
-    case 'verticalBarChart':
-      return ['label', 'size', 'color'];
-    case 'animatedHorizontalBarChart':
-      return ['label', 'size', 'color', 'date'];
-    case 'animatedVerticalBarChart':
+    case 'animatedBarChart':
       return ['label', 'size', 'color', 'date'];
     case 'treeMap':
       return ['label', 'size', 'color'];
@@ -339,44 +296,32 @@ export function getGraphConfigChartConfigIdEnum(
       return ['label', 'size', 'color'];
     case 'butterflyChart':
       return ['label', 'leftBar', 'rightBar'];
-    case 'verticalGroupedBarChart':
+    case 'groupedBarChart':
       return ['label', 'size'];
-    case 'verticalStackedBarChart':
-      return ['label', 'size'];
-    case 'horizontalGroupedBarChart':
-      return ['label', 'size'];
-    case 'horizontalStackedBarChart':
+    case 'stackedBarChart':
       return ['label', 'size'];
     case 'animatedButterflyChart':
       return ['label', 'leftBar', 'rightBar', 'date'];
-    case 'animatedVerticalGroupedBarChart':
+    case 'animatedGroupedBarChart':
       return ['label', 'size', 'date'];
-    case 'animatedVerticalStackedBarChart':
+    case 'animatedStackedBarChart':
       return ['label', 'size', 'date'];
-    case 'animatedHorizontalGroupedBarChart':
-      return ['label', 'size', 'date'];
-    case 'animatedHorizontalStackedBarChart':
-      return ['label', 'size', 'date'];
-    case 'verticalDumbbellChart':
+    case 'dumbbellChart':
       return ['x', 'label'];
-    case 'horizontalDumbbellChart':
-      return ['x', 'label'];
-    case 'animatedVerticalDumbbellChart':
-      return ['x', 'label', 'date'];
-    case 'animatedHorizontalDumbbellChart':
+    case 'animatedDumbbellChart':
       return ['x', 'label', 'date'];
     case 'donutChart':
       return ['size', 'label'];
     case 'histogram':
       return ['value'];
     case 'choroplethMap':
-      return ['x', 'countryCode'];
+      return ['x', 'id'];
     case 'biVariateChoroplethMap':
-      return ['x', 'y', 'countryCode'];
+      return ['x', 'y', 'id'];
     case 'animatedChoroplethMap':
-      return ['x', 'countryCode', 'date'];
+      return ['x', 'id', 'date'];
     case 'animatedBiVariateChoroplethMap':
-      return ['x', 'y', 'countryCode', 'date'];
+      return ['x', 'y', 'id', 'date'];
     case 'lineChart':
       return ['date', 'y'];
     case 'multiLineChart':
@@ -399,13 +344,9 @@ export function getGraphConfigChartConfigIdEnum(
       return ['y1', 'y2', 'color', 'label'];
     case 'heatMap':
       return ['row', 'column', 'value'];
-    case 'horizontalBeeSwarmChart':
+    case 'beeSwarmChart':
       return ['label', 'position', 'radius', 'color'];
-    case 'verticalBeeSwarmChart':
-      return ['label', 'position', 'radius', 'color'];
-    case 'verticalStripChart':
-      return ['label', 'position', 'color'];
-    case 'horizontalStripChart':
+    case 'stripChart':
       return ['label', 'position', 'color'];
     case 'statCard':
       return ['value'];
@@ -442,7 +383,7 @@ export function getGraphConfigChartConfigIdEnum(
         'color',
         'long',
         'lat',
-        'countryCode',
+        'id',
         'source',
         'target',
         'yMin',
@@ -469,7 +410,7 @@ export function getGraphConfigChartConfigIdEnum(
         'color',
         'long',
         'lat',
-        'countryCode',
+        'id',
         'source',
         'target',
         'yMin',
@@ -489,9 +430,7 @@ export const getColumnsToArraySchema = (columnList?: string[]) => ({
         type: 'string',
         ...getColumnEnum(columnList),
       },
-      delimiter: {
-        type: 'string',
-      },
+      delimiter: { type: 'string' },
     },
     type: 'object',
     required: ['column'],
@@ -516,16 +455,10 @@ export const getDataSettingsSchema = (columnList?: string[]) => ({
                 type: 'string',
               },
               apiHeaders: {},
-              dataTransformation: {
-                type: 'string',
-              },
-              idColumnName: {
-                type: 'string',
-              },
+              dataTransformation: { type: 'string' },
+              idColumnName: { type: 'string' },
               dataURL: { type: 'string' },
-              delimiter: {
-                type: 'string',
-              },
+              delimiter: { type: 'string' },
               columnsToArray: getColumnsToArraySchema(),
             },
             required: ['dataURL', 'idColumnName'],
@@ -533,20 +466,14 @@ export const getDataSettingsSchema = (columnList?: string[]) => ({
         },
       ],
     },
-    delimiter: {
-      type: 'string',
-    },
+    delimiter: { type: 'string' },
     fileType: {
       enum: ['csv', 'json', 'api'],
       type: 'string',
     },
     apiHeaders: {},
-    dataTransformation: {
-      type: 'string',
-    },
-    idColumnTitle: {
-      type: 'string',
-    },
+    dataTransformation: { type: 'string' },
+    idColumnTitle: { type: 'string' },
   },
   type: 'object',
 });
@@ -557,9 +484,7 @@ export const getReadableHeaderSchema = (columnList?: string[]) => ({
     type: 'object',
     properties: {
       value: { type: 'string', ...getColumnEnum(columnList) },
-      label: {
-        type: 'string',
-      },
+      label: { type: 'string' },
     },
     required: ['value', 'label'],
   },
@@ -568,19 +493,11 @@ export const getReadableHeaderSchema = (columnList?: string[]) => ({
 export const getFiltersSchema = (columnList?: string[]) => ({
   items: {
     properties: {
-      clearable: {
-        type: 'boolean',
-      },
-      allowSelectAll: {
-        type: 'boolean',
-      },
-      width: {
-        type: 'string',
-      },
+      clearable: { type: 'boolean' },
+      allowSelectAll: { type: 'boolean' },
+      width: { type: 'string' },
       excludeValues: {
-        items: {
-          type: 'string',
-        },
+        items: { type: 'string' },
         type: 'array',
       },
       column: {
@@ -590,25 +507,15 @@ export const getFiltersSchema = (columnList?: string[]) => ({
       defaultValue: {
         anyOf: [
           {
-            items: {
-              oneOf: [{ type: 'string' }, { type: 'number' }],
-            },
+            items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
             type: 'array',
           },
-          {
-            type: 'string',
-          },
-          {
-            type: 'number',
-          },
+          { type: 'string' },
+          { type: 'number' },
         ],
       },
-      label: {
-        type: 'string',
-      },
-      singleSelect: {
-        type: 'boolean',
-      },
+      label: { type: 'string' },
+      singleSelect: { type: 'boolean' },
     },
     required: ['column'],
     type: 'object',
@@ -622,21 +529,15 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
     type: 'object',
     properties: {
       chartConfigId: { type: 'string' },
-      label: {
-        type: 'string',
-      },
-      width: {
-        type: 'string',
-      },
+      label: { type: 'string' },
+      width: { type: 'string' },
       allowedColumnIds: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
             value: { type: 'string', ...getColumnEnum(columnList) },
-            label: {
-              type: 'string',
-            },
+            label: { type: 'string' },
             graphSettings: SettingsSchema,
           },
           required: ['value', 'label'],
@@ -646,60 +547,6 @@ export const getDataSelectionSchema = (columnList?: string[]) => ({
       ui: { type: 'string', enum: ['select', 'radio'] },
     },
     required: ['chartConfigId', 'allowedColumnIds'],
-  },
-});
-
-export const getAdvancedDataSelectionSchema = (columnList?: string[]) => ({
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      chartConfigId: { type: 'string' },
-      label: {
-        type: 'string',
-      },
-      width: {
-        type: 'string',
-      },
-      options: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            value: {
-              type: 'array',
-              items: { type: 'string', ...getColumnEnum(columnList) },
-            },
-            label: {
-              type: 'string',
-            },
-            graphSettings: SettingsSchema,
-          },
-          required: ['value', 'label'],
-        },
-        minItems: 1,
-      },
-      defaultValue: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            value: {
-              type: 'array',
-              items: { type: 'string', ...getColumnEnum(columnList) },
-            },
-            label: {
-              type: 'string',
-            },
-            graphSettings: SettingsSchema,
-          },
-          required: ['value', 'label'],
-        },
-        minItems: 1,
-      },
-      ui: { type: 'string', enum: ['select', 'radio'] },
-    },
-    required: ['chartConfigId', 'options'],
   },
 });
 
@@ -784,6 +631,55 @@ export const getGraphDataConfigurationSchema = (
   },
 });
 
+export const getAdvancedDataSelectionSchema = (
+  columnList?: string[],
+  graphType?: GraphType,
+) => ({
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      chartConfigId: { type: 'string' },
+      label: { type: 'string' },
+      width: { type: 'string' },
+      options: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            dataConfiguration: getGraphDataConfigurationSchema(
+              columnList,
+              graphType,
+            ),
+            label: { type: 'string' },
+            graphSettings: SettingsSchema,
+          },
+          required: ['dataConfiguration', 'label'],
+        },
+        minItems: 1,
+      },
+      defaultValue: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            dataConfiguration: getGraphDataConfigurationSchema(
+              columnList,
+              graphType,
+            ),
+            label: { type: 'string' },
+            graphSettings: SettingsSchema,
+          },
+          required: ['dataConfiguration', 'label'],
+        },
+        minItems: 1,
+      },
+      ui: { type: 'string', enum: ['select', 'radio'] },
+    },
+    required: ['chartConfigId', 'options'],
+  },
+});
+
 export const getSingleGraphJSONSchema = (
   columnList?: string[],
   graphType?: GraphType,
@@ -793,22 +689,28 @@ export const getSingleGraphJSONSchema = (
     .map(el => el.graphID)
     .indexOf(graphType) !== -1
     ? {
-        type: 'object',
-        properties: {
-          graphSettings: getSettingsSchema(graphType),
-          graphType: {
-            type: 'string',
-            enum: GraphList.filter(el => el.geoHubMapPresentation).map(
-              el => el.graphID,
-            ),
-          },
-          debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+      type: 'object',
+      properties: {
+        graphSettings: getSettingsSchema(graphType),
+        graphType: {
+          type: 'string',
+          enum: GraphList.filter(el => el.geoHubMapPresentation).map(
+            el => el.graphID,
+          ),
         },
-        required: ['graphType'],
-      }
+        debugMode: { type: 'boolean' },
+        theme: { type: 'string', enum: ['dark', 'light'] },
+        uiMode: {
+          type: 'string',
+          enum: ['light', 'normal'],
+        },
+        classNames: { type: 'object' },
+        styles: { type: 'object' },
+      },
+      required: ['graphType'],
+    }
     : graphType === 'dataTable' || graphType === 'dataCards'
-    ? {
+      ? {
         type: 'object',
         properties: {
           graphSettings: getSettingsSchema(graphType),
@@ -823,18 +725,22 @@ export const getSingleGraphJSONSchema = (
           dataFilters: getDataFiltersSchema(columnList),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
           },
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
         },
         required: ['dataSettings', 'graphType'],
       }
-    : {
+      : {
         type: 'object',
         properties: {
           graphSettings: graphType
@@ -842,6 +748,8 @@ export const getSingleGraphJSONSchema = (
             : getSettingsSchema('allGraphs'),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
           graphType: {
             type: 'string',
             enum: GraphList.map(el => el.graphID),
@@ -855,10 +763,12 @@ export const getSingleGraphJSONSchema = (
           ),
           readableHeader: getReadableHeaderSchema(columnList),
           dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+            columnList,
+            graphType,
+          ),
           debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
@@ -875,109 +785,113 @@ export const getGriddedGraphJSONSchema = (
 ) =>
   graphType === 'dataTable' || graphType === 'dataCards'
     ? {
-        type: 'object',
-        properties: {
-          graphSettings: getSettingsSchema(graphType),
-          dataSettings: getDataSettingsSchema(columnList),
-          filters: getFiltersSchema(columnList),
-          noOfFiltersPerRow: { type: 'number' },
-          graphType: {
-            type: 'string',
-            enum: ['dataTable', 'dataCards'],
-          },
-          dataTransform: getDataTransformSchema(columnList),
-          dataFilters: getDataFiltersSchema(columnList),
-          noOfColumns: { type: 'number' },
-          columnGridBy: { type: 'string' },
-          relativeHeightForGraph: { type: 'number' },
-          showCommonColorScale: { type: 'boolean' },
-          minGraphHeight: { type: 'number' },
-          minGraphWidth: { type: 'number' },
-          readableHeader: getReadableHeaderSchema(columnList),
-          dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
-          debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+      type: 'object',
+      properties: {
+        graphSettings: getSettingsSchema(graphType),
+        dataSettings: getDataSettingsSchema(columnList),
+        filters: getFiltersSchema(columnList),
+        classNames: { type: 'object' },
+        styles: { type: 'object' },
+        noOfFiltersPerRow: { type: 'number' },
+        graphType: {
+          type: 'string',
+          enum: ['dataTable', 'dataCards'],
         },
-        required: ['columnGridBy', 'dataSettings', 'graphType'],
-      }
+        uiMode: {
+          type: 'string',
+          enum: ['light', 'normal'],
+        },
+        dataTransform: getDataTransformSchema(columnList),
+        dataFilters: getDataFiltersSchema(columnList),
+        noOfColumns: { type: 'number' },
+        columnGridBy: { type: 'string' },
+        showCommonColorScale: { type: 'boolean' },
+        minGraphHeight: { type: 'number' },
+        minGraphWidth: { type: 'number' },
+        readableHeader: getReadableHeaderSchema(columnList),
+        dataSelectionOptions: getDataSelectionSchema(columnList),
+        advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+          columnList,
+          graphType,
+        ),
+        debugMode: { type: 'boolean' },
+        theme: { type: 'string', enum: ['dark', 'light'] },
+      },
+      required: ['columnGridBy', 'dataSettings', 'graphType'],
+    }
     : {
-        type: 'object',
-        properties: {
-          graphSettings: graphType
-            ? getSettingsSchema(graphType)
-            : getSettingsSchema('allGraphs'),
-          dataSettings: getDataSettingsSchema(columnList),
-          filters: getFiltersSchema(columnList),
-          noOfFiltersPerRow: { type: 'number' },
-          graphType: {
-            type: 'string',
-            enum: GraphList.filter(
-              el => el.availableInGriddedGraph !== false,
-            ).map(el => el.graphID),
-          },
-          dataTransform: getDataTransformSchema(columnList),
-          dataFilters: getDataFiltersSchema(columnList),
-          graphDataConfiguration: getGraphDataConfigurationSchema(
-            columnList,
-            graphType,
-          ),
-          noOfColumns: { type: 'number' },
-          columnGridBy: { type: 'string' },
-          relativeHeightForGraph: { type: 'number' },
-          showCommonColorScale: { type: 'boolean' },
-          minGraphHeight: { type: 'number' },
-          minGraphWidth: { type: 'number' },
-          readableHeader: getReadableHeaderSchema(columnList),
-          dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions:
-            getAdvancedDataSelectionSchema(columnList),
-          debugMode: { type: 'boolean' },
-          mode: { type: 'string', enum: ['dark', 'light'] },
+      type: 'object',
+      properties: {
+        graphSettings: graphType
+          ? getSettingsSchema(graphType)
+          : getSettingsSchema('allGraphs'),
+        dataSettings: getDataSettingsSchema(columnList),
+        filters: getFiltersSchema(columnList),
+        classNames: { type: 'object' },
+        styles: { type: 'object' },
+        noOfFiltersPerRow: { type: 'number' },
+        graphType: {
+          type: 'string',
+          enum: GraphList.filter(
+            el => el.availableInGriddedGraph !== false,
+          ).map(el => el.graphID),
         },
-        required: !graphType
-          ? ['columnGridBy', 'dataSettings', 'graphType']
-          : [
-              'columnGridBy',
-              'dataSettings',
-              'graphType',
-              'graphDataConfiguration',
-            ],
-      };
+        uiMode: {
+          type: 'string',
+          enum: ['light', 'normal'],
+        },
+        dataTransform: getDataTransformSchema(columnList),
+        dataFilters: getDataFiltersSchema(columnList),
+        graphDataConfiguration: getGraphDataConfigurationSchema(
+          columnList,
+          graphType,
+        ),
+        noOfColumns: { type: 'number' },
+        columnGridBy: { type: 'string' },
+        showCommonColorScale: { type: 'boolean' },
+        minGraphHeight: { type: 'number' },
+        minGraphWidth: { type: 'number' },
+        readableHeader: getReadableHeaderSchema(columnList),
+        dataSelectionOptions: getDataSelectionSchema(columnList),
+        advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
+          columnList,
+          graphType,
+        ),
+        debugMode: { type: 'boolean' },
+        theme: { type: 'string', enum: ['dark', 'light'] },
+      },
+      required: !graphType
+        ? ['columnGridBy', 'dataSettings', 'graphType']
+        : [
+          'columnGridBy',
+          'dataSettings',
+          'graphType',
+          'graphDataConfiguration',
+        ],
+    };
 
 export const getDashboardJSONSchema = (columnList?: string[]) => ({
   properties: {
-    dashboardId: {
-      type: 'string',
-    },
+    dashboardID: { type: 'string' },
+    graphClassNames: { type: 'object' },
+    graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {
-        backgroundColor: {
-          type: ['string', 'boolean'],
-        },
-        description: {
-          type: 'string',
-        },
+        backgroundColor: { type: ['string', 'boolean'] },
+        description: { type: 'string' },
         language: {
           enum: ['ar', 'en', 'he'],
           type: 'string',
         },
-        padding: {
-          type: 'string',
-        },
-        title: {
-          type: 'string',
-        },
+        padding: { type: 'string' },
+        title: { type: 'string' },
         rows: {
           items: {
             properties: {
               columns: {
                 items: {
                   properties: {
-                    columnWidth: {
-                      type: 'number',
-                    },
+                    columnWidth: { type: 'number' },
                     dataFilters: getDataFiltersSchema(),
                     dataTransform: getDataTransformSchema(),
                     graphDataConfiguration: getGraphDataConfigurationSchema(
@@ -1002,9 +916,7 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
                 },
                 type: 'array',
               },
-              height: {
-                type: 'number',
-              },
+              height: { type: 'number' },
             },
             type: 'object',
             required: ['columns'],
@@ -1026,18 +938,8 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
     readableHeader: getReadableHeaderSchema(columnList),
     dataFilters: getDataFiltersSchema(columnList),
     debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
-    graphBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
-    graphBackgroundColor: {
-      oneOf: [{ type: 'string' }, { type: 'boolean' }],
-    },
+    theme: { type: 'string', enum: ['dark', 'light'] },
+    graphBackgroundColor: { oneOf: [{ type: 'string' }, { type: 'boolean' }] },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],
@@ -1045,39 +947,27 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
 
 export const getDashboardWideToLongFormatJSONSchema = () => ({
   properties: {
-    dashboardId: {
-      type: 'string',
-    },
+    dashboardID: { type: 'string' },
+    graphClassNames: { type: 'object' },
+    graphStyles: { type: 'object' },
     dashboardLayout: {
       properties: {
-        backgroundColor: {
-          type: ['string', 'boolean'],
-        },
-        description: {
-          type: 'string',
-        },
+        backgroundColor: { type: ['string', 'boolean'] },
+        description: { type: 'string' },
         language: {
           enum: ['ar', 'en', 'he'],
           type: 'string',
         },
-        padding: {
-          type: 'string',
-        },
-        dropdownLabel: {
-          type: 'string',
-        },
-        title: {
-          type: 'string',
-        },
+        padding: { type: 'string' },
+        dropdownLabel: { type: 'string' },
+        title: { type: 'string' },
         rows: {
           items: {
             properties: {
               columns: {
                 items: {
                   properties: {
-                    columnWidth: {
-                      type: 'number',
-                    },
+                    columnWidth: { type: 'number' },
                     dataFilters: getDataFiltersSchema(),
                     graphDataConfiguration: getGraphDataConfigurationSchema(
                       undefined,
@@ -1096,9 +986,7 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
                 },
                 type: 'array',
               },
-              height: {
-                type: 'number',
-              },
+              height: { type: 'number' },
             },
             type: 'object',
             required: ['columns'],
@@ -1112,9 +1000,7 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     dataSettings: {
       properties: {
         ...getDataSettingsSchema().properties,
-        keyColumn: {
-          type: 'string',
-        },
+        keyColumn: { type: 'string' },
       },
       required: ['keyColumn'],
       type: 'object',
@@ -1126,18 +1012,8 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
     dataFilters: getDataFiltersSchema(),
     readableHeader: getReadableHeaderSchema(),
     debugMode: { type: 'boolean' },
-    mode: { type: 'string', enum: ['dark', 'light'] },
-    graphBackgroundStyle: {
-      type: 'object',
-      properties: {
-        borderRadius: { type: 'string' },
-        boxShadow: { type: 'string' },
-        border: { type: 'string' },
-      },
-    },
-    graphBackgroundColor: {
-      oneOf: [{ type: 'string' }, { type: 'boolean' }],
-    },
+    theme: { type: 'string', enum: ['dark', 'light'] },
+    graphBackgroundColor: { oneOf: [{ type: 'string' }, { type: 'boolean' }] },
   },
   type: 'object',
   required: ['dashboardLayout', 'dataSettings'],

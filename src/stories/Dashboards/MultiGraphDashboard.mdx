@@ -1,0 +1,312 @@
+import { useState } from 'react';
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+import GraphType from './PageSections/ComplexDataTypes/GraphType.mdx';
+import DataSettings from './PageSections/ComplexDataTypes/DataSettings.mdx';
+import DataTransform from './PageSections/ComplexDataTypes/DataTransform.mdx';
+import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
+import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
+import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
+import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
+import DashboardID from './PageSections/SimpleDataTypes/DashboardID.mdx';
+import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
+import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
+import DebugMode from './PageSections/SimpleDataTypes/DebugMode.mdx';
+import UIMode from './PageSections/SimpleDataTypes/UIMode.mdx';
+import Theme from './PageSections/SimpleDataTypes/Theme.mdx';
+import FilterPosition from './PageSections/SimpleDataTypes/FilterPosition.mdx';
+import GraphStyles from './PageSections/ComplexDataTypes/GraphStyles.mdx';
+import GraphClassNames from './PageSections/ComplexDataTypes/GraphClassNames.mdx';
+import DashboardLayout from './PageSections/ComplexDataTypes/DashboardLayout.mdx';
+
+<Meta title='Dashboard/Multi graph dashboard' />
+
+# Multi graph dashboard
+
+This allows you to create a an interactive dashboard with multiple graphs and filters.
+
+```tsx
+import { MultiGraphDashboard } from '@undp/data-viz';
+import '@undp/data-viz/dist/style.css';
+
+function Graph() {
+  return (
+    <MultiGraphDashboard
+      dataSettings={{
+        data: [
+          {
+            Region: 'Region A',
+            Country: 'Country A',
+            Value: 103,
+            Category: 'Category A',
+          },
+          {
+            Region: 'Region B',
+            Country: 'Country B',
+            Value: 97,
+            Category: 'Category B',
+          },
+          {
+            Region: 'Region C',
+            Country: 'Country C',
+            Value: 95,
+            Category: 'Category B',
+          },
+        ],
+        fileType: 'csv',
+      }}
+      dashboardLayout={{
+        backgroundColor: true,
+        title: 'Sample Dashboard',
+        description: 'Graph Description',
+        rows: [
+          {
+            height: 700,
+            columns: [
+              {
+                graphType: 'horizontalBarChart',
+                graphDataConfiguration: [
+                  { columnId: 'Country', chartConfigId: 'label' },
+                  { columnId: 'Value', chartConfigId: 'size' },
+                ],
+                settings: {
+                  graphTitle: 'Horizontal Bar Chart',
+                },
+              },
+              {
+                graphType: 'donutChart',
+                graphDataConfiguration: [
+                  { columnId: 'Region', chartConfigId: 'label' },
+                  { columnId: 'Value', chartConfigId: 'size' },
+                ],
+                settings: {
+                  graphTitle: 'Donut Chart',
+                },
+                dataTransform: {
+                  keyColumn: 'Region',
+                  aggregationColumnsSetting: [
+                    { column: 'Value', aggregationMethod: 'sum' },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      }}
+      filters={[
+        {
+          column: 'Region',
+          singleSelect: false,
+          clearable: true,
+          label: 'Filter by column name',
+        },
+      ]}
+    />
+  );
+}
+```
+
+**NOTE: You can also use json config to create multi-graph dashboard. [Click here](?path=/docs/dashboard-from-json-config--docs#multi-graph-dashboard-config) to learn more about that.**
+
+## Props
+
+#### Parameters
+
+- [dashboardID](#dashboardid) - Defines the id for the dashboard.
+- [dashboardLayout](#dashboardlayout) - Dashboard layout settings.
+- [dataSettings](#datasettings) - Configuration for the data source.
+- [dataFilters](#datafilters) - Filters to apply to raw data.
+- [filters](#filters) - UI filter definitions.
+- [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI.
+- [filterPosition](#filterposition) - Defines if the filters are on the top or on the side.
+- [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels.
+- [debugMode](#debugmode) - Enables debugging logs.
+- [uiMode](#uimode) - Controls UI theme mode.
+- [mode](#mode) - Controls color theme mode.
+- [graphStyles](#graphstyles) - Defines the styles of all the graphs.
+- [graphClassNames](#graphclassnames) - Defines classes of different elements in all the graphs.
+
+#### Props interface
+
+```tsx
+interface Props {
+  dashboardID?: string;
+  dashboardLayout: {
+    title?: string;
+    description?: string;
+    padding?: string;
+    backgroundColor?: string | boolean;
+    language?: Languages;
+    rows: {
+      columns: {
+        graphType: GraphType;
+        attachedFilter?: string;
+        columnWidth?: number;
+        dataTransform?: {
+          keyColumn: string;
+          aggregationColumnsSetting?: AggregationSettingsDataType[];
+        };
+        dataFilters?: DataFilterDataType[];
+        graphDataConfiguration?: GraphConfigurationDataType[];
+        dataSelectionOptions?: DataSelectionDataType[];
+        advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
+        settings?: any;
+      }[];
+      height?: number;
+    }[];
+  };
+  dataSettings?: {
+    dataURL?:
+      | string
+      | {
+          dataURL: string;
+          idColumnName: string;
+          fileType?: 'csv' | 'json' | 'api';
+          delimiter?: string;
+          columnsToArray?: {
+            column: string;
+            delimiter?: string;
+          }[];
+          apiHeaders?: any;
+          dataTransformation?: string;
+        }[];
+    fileType?: 'csv' | 'json' | 'api';
+    delimiter?: string;
+    columnsToArray?: {
+      column: string;
+      delimiter?: string;
+    }[];
+    apiHeaders?: any;
+    dataTransformation?: string;
+    idColumnTitle?: string;
+    data?: any;
+  };
+  filters?: {
+    column: string;
+    label?: string;
+    singleSelect?: boolean;
+    clearable?: boolean;
+    defaultValue?: string[] | string | number | number[];
+    excludeValues?: string[];
+    allowSelectAll?: boolean;
+    width?: string;
+  }[];
+  noOfFiltersPerRow?: number;
+  dataFilters?: {
+    column: string;
+    includeValues?: (string | number | boolean | null | undefined)[];
+    excludeValues?: (string | number | boolean | null | undefined)[];
+  }[];
+  debugMode?: boolean;
+  mode?: 'dark' | 'light';
+  filterPosition?: 'top' | 'side';
+  readableHeader?: {
+    value: string;
+    label: string;
+  }[];
+  graphBackgroundColor?: string | boolean;
+  uiMode?: 'light' | 'normal';
+  graphStyles?: {
+    title?: React.CSSProperties;
+    footnote?: React.CSSProperties;
+    source?: React.CSSProperties;
+    description?: React.CSSProperties;
+    graphBackground?: React.CSSProperties;
+    tooltip?: React.CSSProperties;
+    xAxis?: {
+      gridLines?: React.CSSProperties;
+      labels?: React.CSSProperties;
+      title?: React.CSSProperties;
+      axis?: React.CSSProperties;
+    };
+    yAxis?: {
+      gridLines?: React.CSSProperties;
+      labels?: React.CSSProperties;
+      title?: React.CSSProperties;
+      axis?: React.CSSProperties;
+    };
+    graphObjectValues?: React.CSSProperties;
+    dataConnectors?: React.CSSProperties;
+    mouseOverLine?: React.CSSProperties;
+    regLine?: React.CSSProperties;
+    dataCard?: React.CSSProperties;
+  };
+  graphClassNames?: {
+    title?: string;
+    footnote?: string;
+    source?: string;
+    description?: string;
+    graphBackground?: string;
+    tooltip?: string;
+    xAxis?: {
+      gridLines?: string;
+      labels?: string;
+      title?: string;
+      axis?: string;
+    };
+    yAxis?: {
+      gridLines?: string;
+      labels?: string;
+      title?: string;
+      axis?: string;
+    };
+    graphObjectValues?: string;
+    dataConnectors?: string;
+    mouseOverLine?: string;
+    regLine?: string;
+    dataCard?: string;
+  };
+}
+```
+
+---
+
+<DashboardID />
+
+---
+
+<DashboardLayout />
+
+---
+
+<DataSettings />
+
+---
+
+<DataFilters />
+
+---
+
+<Filters />
+
+---
+
+<NoOfFiltersPerRow />
+
+---
+
+<FilterPosition />
+
+---
+
+<ReadableHeader />
+
+---
+
+<DebugMode />
+
+---
+
+<UIMode />
+
+---
+
+<Theme />
+
+---
+
+<GraphStyles />
+
+---
+
+<GraphClassNames />

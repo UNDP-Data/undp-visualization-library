@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { P, Spinner } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp/design-system-react';
+
+import { SingleGraphDashboard } from './SingleGraphDashboard';
+
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -8,14 +11,14 @@ import {
   DataSettingsDataType,
   FilterUiSettingsDataType,
   GraphConfigurationDataType,
+  GraphSettingsDataType,
   GraphType,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
-import { SingleGraphDashboard } from './SingleGraphDashboard';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
-  graphSettings?: any;
+  graphSettings?: GraphSettingsDataType;
   dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   graphType: GraphType;
@@ -29,7 +32,6 @@ interface ConfigObject {
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
-  mode?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
@@ -89,7 +91,6 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       debugMode={configSettings.debugMode}
       dataSelectionOptions={configSettings.dataSelectionOptions}
       advancedDataSelectionOptions={configSettings.advancedDataSelectionOptions}
-      mode={configSettings.mode}
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       uiMode={configSettings.uiMode}

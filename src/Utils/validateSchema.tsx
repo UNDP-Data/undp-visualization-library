@@ -1,5 +1,8 @@
 import Ajv from 'ajv';
-import { GraphType } from '../Types';
+
+import { GraphList } from './getGraphList';
+
+import { GraphType } from '@/Types';
 import {
   getDashboardJSONSchema,
   getDashboardWideToLongFormatJSONSchema,
@@ -7,11 +10,25 @@ import {
   getGriddedGraphJSONSchema,
   getSettingsSchema,
   getSingleGraphJSONSchema,
-} from '../Schemas/getSchema';
-import { GraphList } from './getGraphList';
+} from '@/Schemas/getSchema';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
+/**
+ * Validates the data against the appropriate schema for the given graph type.
+ *
+ * @param data - The data to validate.
+ * @param graph - The graph type for which the data validation is performed.
+ *
+ * @returns An object with `isValid` indicating the validation result and `err` containing any error messages if the validation fails.
+ *
+ * @example
+ * const result = validateDataSchema(data, 'barChart');
+ * if (!result.isValid) {
+ *   console.error(result.err);
+ * }
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateDataSchema(data: any, graph: GraphType) {
   if (
     GraphList.filter(el => el.geoHubMapPresentation)
@@ -58,7 +75,21 @@ export function validateDataSchema(data: any, graph: GraphType) {
     err: undefined,
   };
 }
-
+/**
+ * Validates the settings against the appropriate schema for the given graph type.
+ *
+ * @param settings - The settings to validate.
+ * @param graph - The graph type for which the settings validation is performed.
+ *
+ * @returns An object with `isValid` indicating the validation result and `err` containing any error messages if the validation fails.
+ *
+ * @example
+ * const result = validateSettingsSchema(settings, 'barChart');
+ * if (!result.isValid) {
+ *   console.error(result.err);
+ * }
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateSettingsSchema(settings: any, graph: GraphType) {
   const schema = getSettingsSchema(graph);
 
@@ -84,8 +115,23 @@ export function validateSettingsSchema(settings: any, graph: GraphType) {
     err: undefined,
   };
 }
-
+/**
+ * Validates the configuration against the appropriate schema for the given graph type.
+ *
+ * @param config - The configuration to validate.
+ * @param graph - The graph type for which the configuration validation is performed. Can be one of:
+ *                'singleGraphDashboard', 'multiGraphDashboard', 'griddedGraph', or 'multiGraphDashboardWideToLongFormat'.
+ *
+ * @returns An object with `isValid` indicating the validation result and `err` containing any error messages if the validation fails.
+ *
+ * @example
+ * const result = validateConfigSchema(config, 'griddedGraph');
+ * if (!result.isValid) {
+ *   console.error(result.err);
+ * }
+ */
 export function validateConfigSchema(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: any,
   graph:
     | 'singleGraphDashboard'
@@ -93,6 +139,7 @@ export function validateConfigSchema(
     | 'griddedGraph'
     | 'multiGraphDashboardWideToLongFormat',
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let schema: any;
   switch (graph) {
     case 'griddedGraph':

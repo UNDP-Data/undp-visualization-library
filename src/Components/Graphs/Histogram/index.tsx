@@ -1,65 +1,125 @@
 import { useState, useEffect } from 'react';
 import { bin } from 'd3-array';
-import { Spinner } from '@undp-data/undp-design-system-react';
+import { Spinner } from '@undp/design-system-react';
+
+import { CirclePackingGraph } from '../CirclePackingGraph';
+import { TreeMapGraph } from '../TreeMapGraph';
+import { DonutChart } from '../DonutChart';
+import { SimpleBarGraph } from '../BarGraph';
+
+import { Colors } from '@/Components/ColorPalette';
 import {
   TreeMapDataType,
   ReferenceDataType,
   HistogramDataType,
   DonutChartDataType,
   SourcesDataType,
-  BackgroundStyleDataType,
-  CSSObject,
   Languages,
-} from '../../../Types';
-import { UNDPColorModule } from '../../ColorPalette';
-import { CirclePackingGraph } from '../CirclePackingGraph';
-import { TreeMapGraph } from '../TreeMapGraph';
-import { VerticalBarGraph } from '../BarGraph/VerticalBarGraph/SimpleBarGraph';
-import { DonutChart } from '../DonutChart';
-import { HorizontalBarGraph } from '../BarGraph/HorizontalBarGraph/SimpleBarGraph';
+  StyleObject,
+  ClassNameObject,
+} from '@/Types';
 
 interface Props {
+  // Data
+  /** Array of data objects */
   data: HistogramDataType[];
-  color?: string[] | string;
-  graphTitle?: string;
-  graphDescription?: string;
-  footNote?: string;
-  width?: number;
-  height?: number;
-  sources?: SourcesDataType[];
-  barPadding?: number;
-  showValues?: boolean;
-  showTicks?: boolean;
-  leftMargin?: number;
-  rightMargin?: number;
-  backgroundColor?: string | boolean;
-  padding?: string;
-  topMargin?: number;
-  bottomMargin?: number;
-  relativeHeight?: number;
-  showLabels?: boolean;
-  maxValue?: number;
-  tooltip?: string;
-  onSeriesMouseOver?: (_d: any) => void;
-  refValues?: ReferenceDataType[];
-  graphID?: string;
-  onSeriesMouseClick?: (_d: any) => void;
-  graphDownload?: boolean;
-  dataDownload?: boolean;
-  numberOfBins?: number;
-  truncateBy?: number;
-  donutStrokeWidth?: number;
-  sortData?: 'asc' | 'desc';
-  barGraphLayout?: 'horizontal' | 'vertical';
+
+  /** Type of the graph for histogram */
   graphType?: 'circlePacking' | 'treeMap' | 'barGraph' | 'donutChart';
-  language?: Languages;
-  minHeight?: number;
-  maxBarThickness?: number;
-  mode?: 'light' | 'dark';
+
+  // Titles, Labels, and Sources
+  /** Title of the graph */
+  graphTitle?: string;
+  /** Description of the graph */
+  graphDescription?: string;
+  /** Footnote for the graph */
+  footNote?: string;
+  /** Source data for the graph */
+  sources?: SourcesDataType[];
+  /** Accessibility label */
   ariaLabel?: string;
-  backgroundStyle?: BackgroundStyleDataType;
-  tooltipBackgroundStyle?: CSSObject;
+
+  // Colors and Styling
+  /** Colors for visualization */
+  colors?: string[] | string;
+  /** Background color of the graph */
+  backgroundColor?: string | boolean;
+  /** Custom styles for the graph. Each object should be a valid React CSS style object. */
+  styles?: StyleObject;
+  /** Custom class names */
+  classNames?: ClassNameObject;
+
+  // Size and Spacing
+  /** Width of the graph */
+  width?: number;
+  /** Height of the graph */
+  height?: number;
+  /** Minimum height of the graph */
+  minHeight?: number;
+  /** Relative height scaling factor. This overwrites the height props */
+  relativeHeight?: number;
+  /** Padding around the graph */
+  padding?: string;
+  /** Left margin of the graph */
+  leftMargin?: number;
+  /** Right margin of the graph */
+  rightMargin?: number;
+  /** Top margin of the graph */
+  topMargin?: number;
+  /** Bottom margin of the graph */
+  bottomMargin?: number;
+  /** Padding between bars */
+  barPadding?: number;
+  /** Maximum thickness of bars */
+  maxBarThickness?: number;
+
+  // Values and Ticks
+  /** Maximum value for the chart */
+  maxValue?: number;
+  /** Truncate labels by specified length */
+  truncateBy?: number;
+  /** Reference values for comparison */
+  refValues?: ReferenceDataType[];
+
+  // Graph Parameters
+  /** Number of bins for the histogram */
+  numberOfBins?: number;
+  /** Orientation of the bar graph. Only applicable if graphType is barGraph. */
+  barGraphLayout?: 'vertical' | 'horizontal';
+  /** Stroke width of the arcs and circle of the donut. Only applicable if graphType is donutChart.  */
+  donutStrokeWidth?: number;
+  /** Sorting order for data. This is overwritten by labelOrder prop */
+  sortData?: 'asc' | 'desc';
+  /** Toggle visibility of labels */
+  showLabels?: boolean;
+  /** Toggle visibility of values */
+  showValues?: boolean;
+  /** Toggle visibility of axis ticks */
+  showTicks?: boolean;
+  /** Enable graph download option as png */
+  graphDownload?: boolean;
+  /** Enable data download option as a csv */
+  dataDownload?: boolean;
+
+  // Interactions and Callbacks
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
+  tooltip?: string;
+  /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
+  /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseOver?: (_d: any) => void;
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSeriesMouseClick?: (_d: any) => void;
+
+  // Configuration and Options
+  /** Language setting  */
+  language?: Languages;
+  /** Color theme */
+  theme?: 'light' | 'dark';
+  /** Unique ID for the graph */
+  graphID?: string;
 }
 
 export function Histogram(props: Props) {
@@ -76,7 +136,7 @@ export function Histogram(props: Props) {
     height,
     width,
     footNote,
-    color,
+    colors,
     padding,
     backgroundColor,
     topMargin,
@@ -99,18 +159,19 @@ export function Histogram(props: Props) {
     sortData,
     language,
     minHeight,
-    mode = 'light',
+    theme = 'light',
     maxBarThickness,
     ariaLabel,
-    backgroundStyle,
-    tooltipBackgroundStyle,
     detailsOnClick,
+    styles,
+    classNames,
   } = props;
 
   const [dataFormatted, setDataFormatted] = useState<TreeMapDataType[]>([]);
   useEffect(() => {
     const bins = bin()
       .thresholds(numberOfBins || 10)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .value((d: any) => d.value)(data as any);
     const dataUpdates = bins.map(d => ({
       label: `${d.x0}-${d.x1}`,
@@ -135,7 +196,7 @@ export function Histogram(props: Props) {
   if (graphType === 'circlePacking')
     return (
       <CirclePackingGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={colors || Colors.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -161,17 +222,17 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   if (graphType === 'treeMap')
     return (
       <TreeMapGraph
-        colors={color || UNDPColorModule.graphMainColor}
+        colors={colors || Colors.graphMainColor}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
@@ -197,19 +258,19 @@ export function Histogram(props: Props) {
         data={dataFormatted}
         language={language}
         minHeight={minHeight}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   if (graphType === 'donutChart')
     return (
       <DonutChart
         colors={
-          (color as string[] | undefined) ||
-          UNDPColorModule[mode].categoricalColors.colors
+          (colors as string[] | undefined) ||
+          Colors[theme].categoricalColors.colors
         }
         graphTitle={graphTitle}
         graphDescription={graphDescription}
@@ -232,62 +293,19 @@ export function Histogram(props: Props) {
         dataDownload={dataDownload}
         data={dataFormatted as DonutChartDataType[]}
         strokeWidth={donutStrokeWidth}
-        graphLegend
+        showColorScale
         sortData={sortData}
         language={language}
-        mode={mode}
+        theme={theme}
         ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
         detailsOnClick={detailsOnClick}
-      />
-    );
-  if (barGraphLayout === 'horizontal')
-    return (
-      <HorizontalBarGraph
-        colors={color || UNDPColorModule.graphMainColor}
-        graphTitle={graphTitle}
-        graphDescription={graphDescription}
-        footNote={footNote}
-        width={width}
-        height={height}
-        sources={sources}
-        leftMargin={leftMargin}
-        rightMargin={rightMargin}
-        backgroundColor={backgroundColor}
-        padding={padding}
-        topMargin={topMargin}
-        bottomMargin={bottomMargin}
-        relativeHeight={relativeHeight}
-        showLabels={showLabels}
-        tooltip={tooltip}
-        onSeriesMouseOver={onSeriesMouseOver}
-        showColorScale={false}
-        showValues={showValues}
-        graphID={graphID}
-        onSeriesMouseClick={onSeriesMouseClick}
-        graphDownload={graphDownload}
-        dataDownload={dataDownload}
-        data={dataFormatted}
-        barPadding={barPadding}
-        refValues={refValues}
-        truncateBy={truncateBy}
-        maxValue={maxValue}
-        showTicks={showTicks}
-        sortData={sortData}
-        language={language}
-        minHeight={minHeight}
-        mode={mode}
-        maxBarThickness={maxBarThickness}
-        ariaLabel={ariaLabel}
-        backgroundStyle={backgroundStyle}
-        tooltipBackgroundStyle={tooltipBackgroundStyle}
-        detailsOnClick={detailsOnClick}
+        styles={styles}
+        classNames={classNames}
       />
     );
   return (
-    <VerticalBarGraph
-      colors={color || UNDPColorModule.graphMainColor}
+    <SimpleBarGraph
+      colors={colors || Colors.graphMainColor}
       graphTitle={graphTitle}
       graphDescription={graphDescription}
       footNote={footNote}
@@ -319,12 +337,13 @@ export function Histogram(props: Props) {
       sortData={sortData}
       language={language}
       minHeight={minHeight}
-      mode={mode}
+      theme={theme}
       maxBarThickness={maxBarThickness}
       ariaLabel={ariaLabel}
-      backgroundStyle={backgroundStyle}
-      tooltipBackgroundStyle={tooltipBackgroundStyle}
+      orientation={barGraphLayout}
       detailsOnClick={detailsOnClick}
+      styles={styles}
+      classNames={classNames}
     />
   );
 }

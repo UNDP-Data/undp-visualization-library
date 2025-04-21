@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/removeOutliers" />
+
+# removeOutliers
+
+Removes statistical outliers from a numeric dataset based on standard deviation.
+
+```ts
+function removeOutliers(data: number[], outlierThreshold?: number): string
+```
+
+## Parameters
+
+- `data` - An array of numbers to filter.
+- `outlierThreshold` - Optional multiplier for standard deviation (default: 2).
+
+Values further than `threshold * stdDev` from the mean are considered outliers.
+
+## Returns
+
+A filtered array with outliers removed.
+
+## Example Usage
+
+```js
+// Example of how to use the function
+removeOutliers([1, 2, 3, 100]);
+// Result: [1, 2, 3]
+removeOutliers([10, 12, 11, 13, 300], 1.5);
+// Result: [10, 12, 11, 13]

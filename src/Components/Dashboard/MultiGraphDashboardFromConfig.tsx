@@ -1,33 +1,36 @@
 import { useEffect, useState } from 'react';
-import { P, Spinner } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp/design-system-react';
+
+import { MultiGraphDashboard } from './MultiGraphDashboard';
+
 import {
-  BackgroundStyleDataType,
+  ClassNameObject,
   DashboardLayoutDataType,
   DataFilterDataType,
   DataSettingsDataType,
   FilterUiSettingsDataType,
-} from '../../Types';
-import { fetchAndParseJSON } from '../../Utils/fetchAndParseData';
-import { MultiGraphDashboard } from './MultiGraphDashboard';
-import { validateConfigSchema } from '../../Utils/validateSchema';
+  StyleObject,
+} from '@/Types';
+import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {
-  dashboardId?: string;
+  dashboardID?: string;
   dashboardLayout: DashboardLayoutDataType;
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
   filterPosition?: 'top' | 'side';
   debugMode?: boolean;
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   readableHeader?: {
     value: string;
     label: string;
   }[];
   dataFilters?: DataFilterDataType[];
-  graphBackgroundStyle?: BackgroundStyleDataType;
-  graphBackgroundColor?: string | boolean;
   uiMode?: 'light' | 'normal';
+  graphStyles?: StyleObject;
+  graphClassNames?: ClassNameObject;
 }
 
 interface Props {
@@ -72,19 +75,19 @@ export function MultiGraphDashboardFromConfig(props: Props) {
     );
   return (
     <MultiGraphDashboard
-      dashboardId={configSettings.dashboardId}
+      dashboardID={configSettings.dashboardID}
       dashboardLayout={configSettings.dashboardLayout}
       dataSettings={configSettings.dataSettings}
       filters={configSettings.filters}
       debugMode={configSettings.debugMode}
-      mode={configSettings.mode}
+      theme={configSettings.theme}
       readableHeader={configSettings.readableHeader}
       dataFilters={configSettings.dataFilters}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       filterPosition={configSettings.filterPosition}
-      graphBackgroundColor={configSettings.graphBackgroundColor}
-      graphBackgroundStyle={configSettings.graphBackgroundStyle}
       uiMode={configSettings.uiMode}
+      graphStyles={configSettings.graphStyles}
+      graphClassNames={configSettings.graphClassNames}
     />
   );
 }

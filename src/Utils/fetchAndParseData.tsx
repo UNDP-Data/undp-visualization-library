@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
 import Papa from 'papaparse';
 import Handlebars from 'handlebars';
-import { ColumnConfigurationDataType, FileSettingsDataType } from '../Types';
+
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
 import { mergeMultipleData } from './transformData/mergeMultipleData';
 
+import { ColumnConfigurationDataType, FileSettingsDataType } from '@/Types';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function reFormatData(data: any, dataTransformation?: string) {
   if (!dataTransformation) return data;
   Handlebars.registerHelper(
@@ -14,7 +17,23 @@ function reFormatData(data: any, dataTransformation?: string) {
   const template = Handlebars.compile(dataTransformation);
   return JSON.parse(template(data));
 }
-
+/**
+ * Fetches a CSV file from a URL, parses it, and applies transformations based on the provided configuration.
+ *
+ * @param dataURL - The URL of the CSV file to fetch.
+ * @param dataTransformation - Optional Handlebars template for data transformation.
+ * @param columnsToArray - Optional columns configuration to transform certain columns to arrays.
+ * @param debugMode - Optional flag to log data to the console for debugging.
+ * @param delimiter - Optional delimiter used in the CSV file (default is comma).
+ * @param header - Optional flag to specify whether the CSV file contains headers (default is true).
+ *
+ * @returns A promise that resolves to the parsed and transformed data.
+ *
+ * @example
+ * fetchAndParseCSV('https://example.com/data.csv', '{{data}}', [], true)
+ *   .then(parsedData => console.log(parsedData))
+ *   .catch(error => console.error('Error:', error));
+ */
 export async function fetchAndParseCSV(
   dataURL: string,
   dataTransformation?: string,
@@ -47,14 +66,25 @@ export async function fetchAndParseCSV(
           }
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
-      },
-      error(error: any) {
+      },       
+      error(error) {
         reject(error);
       },
     });
   });
 }
-
+/**
+ * Parses CSV data from a string, applying optional transformations.
+ *
+ * @param data - The CSV data as a string.
+ * @param dataTransformation - Optional Handlebars template for data transformation.
+ * @param columnsToArray - Optional columns configuration to transform certain columns to arrays.
+ * @param debugMode - Optional flag to log data to the console for debugging.
+ * @param delimiter - Optional delimiter used in the CSV file (default is comma).
+ * @param header - Optional flag to specify whether the CSV file contains headers (default is true).
+ *
+ * @returns A promise that resolves to the parsed and transformed data.
+ */
 export async function fetchAndParseCSVFromTextBlob(
   data: string,
   dataTransformation?: string,
@@ -86,13 +116,22 @@ export async function fetchAndParseCSVFromTextBlob(
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
       },
-      error(error: any) {
+      error(error: Error) {
         reject(error);
       },
     });
   });
 }
-
+/**
+ * Fetches and parses a JSON file from a URL, and applies optional transformations.
+ *
+ * @param dataURL - The URL of the JSON file to fetch.
+ * @param columnsToArray - Optional columns configuration to transform certain columns to arrays.
+ * @param dataTransformation - Optional Handlebars template for data transformation.
+ * @param debugMode - Optional flag to log data to the console for debugging.
+ *
+ * @returns A promise that resolves to the parsed and transformed data.
+ */
 export async function fetchAndParseJSON(
   dataURL: string,
   columnsToArray?: ColumnConfigurationDataType[],
@@ -128,9 +167,20 @@ export async function fetchAndParseJSON(
     return error;
   }
 }
-
+/**
+ * Fetches and transforms data from an API, and applies optional transformations.
+ *
+ * @param requestURL - The URL of the API to fetch data from.
+ * @param headers - Optional headers to include in the API request.
+ * @param columnsToArray - Optional columns configuration to transform certain columns to arrays.
+ * @param dataTransformation - Optional Handlebars template for data transformation.
+ * @param debugMode - Optional flag to log data to the console for debugging.
+ *
+ * @returns A promise that resolves to the transformed data.
+ */
 export async function fetchAndTransformDataFromAPI(
   requestURL: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   headers?: any,
   columnsToArray?: ColumnConfigurationDataType[],
   dataTransformation?: string,
@@ -164,7 +214,14 @@ export async function fetchAndTransformDataFromAPI(
   }
   return reFormatedJson;
 }
-
+/**
+ * Fetches and parses data from multiple sources (CSV, JSON, API), and merges the results.
+ *
+ * @param dataURL - An array of file settings containing URLs, column configurations, and other settings.
+ * @param idColumnTitle - Optional title of the ID column to merge data sources by.
+ *
+ * @returns A promise that resolves to the merged data from all sources.
+ */
 export async function fetchAndParseMultipleDataSources(
   dataURL: FileSettingsDataType[],
   idColumnTitle?: string,
@@ -177,16 +234,16 @@ export async function fetchAndParseMultipleDataSources(
             d.columnsToArray,
             d.dataTransformation,
             false,
-          )
+        )
         : d.fileType === 'api'
-        ? fetchAndTransformDataFromAPI(
+          ? fetchAndTransformDataFromAPI(
             d.dataURL as string,
             d.apiHeaders,
             d.columnsToArray,
             d.dataTransformation,
             false,
           )
-        : fetchAndParseCSV(
+          : fetchAndParseCSV(
             d.dataURL as string,
             d.dataTransformation,
             d.columnsToArray,
@@ -197,6 +254,7 @@ export async function fetchAndParseMultipleDataSources(
     ),
   );
   const mergedData = mergeMultipleData(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any, i: number) => ({
       data: d,
       idColumn: dataURL[i].idColumnName,
