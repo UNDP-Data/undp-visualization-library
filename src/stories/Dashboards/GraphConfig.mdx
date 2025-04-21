@@ -20,7 +20,7 @@ Below are full JSON configuration examples for each type.
 ## Single graph with filters config
 
 ```tsx
-import { SingleGraphDashboardFromConfig } from '@undp-data/undp-visualization-library';
+import { SingleGraphDashboardFromConfig } from '@undp/data-viz';
 import '@undp/design-system-react/dist/style.css';
 
 function Graph() {
@@ -35,7 +35,7 @@ Below is the full config example for the `SingleGraphDashboardFromConfig`. Selec
 ## Small multiples or gridded graph config
 
 ```tsx
-import { GriddedGraphDashboardFromConfig } from '@undp-data/undp-visualization-library';
+import { GriddedGraphDashboardFromConfig } from '@undp/data-viz';
 import '@undp/design-system-react/dist/style.css';
 
 function Graph() {
@@ -50,7 +50,7 @@ Below is the full config example for the `GriddedGraphDashboardFromConfig`. Sele
 ## Multi graph dashboard config
 
 ```tsx
-import { MultiGraphDashboardFromConfig } from '@undp-data/undp-visualization-library';
+import { MultiGraphDashboardFromConfig } from '@undp/data-viz';
 import '@undp/design-system-react/dist/style.css';
 
 function Graph() {
@@ -65,7 +65,7 @@ Below is the full config example for the `MultiGraphDashboardFromConfig`.
 ## Multi graph dashboard wide to long config
 
 ```tsx
-import { MultiGraphDashboardWideToLongFormatFromConfig } from '@undp-data/undp-visualization-library';
+import { MultiGraphDashboardWideToLongFormatFromConfig } from '@undp/data-viz';
 import '@undp/design-system-react/dist/style.css';
 
 function Graph() {
@@ -145,7 +145,7 @@ export const ChartFromConfigCode = () => {
         }
       </select>
       <Source
-        code={`import { ${selected} } from '@undp-data/undp-visualization-library';
+        code={`import { ${selected} } from '@undp/data-viz';
 import '@undp/design-system-react/dist/style.css';
 
 function Graph() {
