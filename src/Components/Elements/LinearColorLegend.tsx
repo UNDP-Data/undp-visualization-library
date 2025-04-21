@@ -1,4 +1,4 @@
-import { cn, P } from '@undp-data/undp-design-system-react';
+import { cn, P } from '@undp/design-system-react';
 
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 

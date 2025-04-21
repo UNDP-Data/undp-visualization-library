@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { P, Spinner } from '@undp-data/undp-design-system-react';
+import { P, Spinner } from '@undp/design-system-react';
 
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 

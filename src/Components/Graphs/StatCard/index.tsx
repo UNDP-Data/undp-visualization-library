@@ -1,4 +1,4 @@
-import { H3 } from '@undp-data/undp-design-system-react';
+import { H3 } from '@undp/design-system-react';
 
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';

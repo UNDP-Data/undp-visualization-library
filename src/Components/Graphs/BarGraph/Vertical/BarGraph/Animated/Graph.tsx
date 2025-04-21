@@ -7,7 +7,7 @@ import uniqBy from 'lodash.uniqby';
 import { group } from 'd3-array';
 import orderBy from 'lodash.orderby';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   BarGraphWithDateDataType,

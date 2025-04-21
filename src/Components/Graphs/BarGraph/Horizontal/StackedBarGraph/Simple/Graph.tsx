@@ -2,7 +2,7 @@ import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   ClassNameObject,

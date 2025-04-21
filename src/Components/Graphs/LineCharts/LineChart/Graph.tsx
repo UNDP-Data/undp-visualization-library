@@ -16,7 +16,7 @@ import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import { useAnimate, useInView } from 'motion/react';
 import { linearRegression } from 'simple-statistics';
-import { cn } from '@undp-data/undp-design-system-react';
+import { cn } from '@undp/design-system-react';
 
 import {
   AnnotationSettingsDataType,

@@ -5,7 +5,7 @@ import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
-import { Modal, P } from '@undp-data/undp-design-system-react';
+import { Modal, P } from '@undp/design-system-react';
 
 import { ChoroplethMapDataType, ClassNameObject, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';

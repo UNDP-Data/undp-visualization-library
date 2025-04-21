@@ -3,7 +3,7 @@ import flattenDeep from 'lodash.flattendeep';
 import {
   createFilter,
   DropdownSelect,
-} from '@undp-data/undp-design-system-react';
+} from '@undp/design-system-react';
 
 import { MapEl } from './MapEl';
 

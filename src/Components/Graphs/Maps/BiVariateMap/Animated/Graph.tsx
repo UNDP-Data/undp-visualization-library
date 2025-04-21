@@ -7,7 +7,7 @@ import { scaleThreshold } from 'd3-scale';
 import sortBy from 'lodash.sortby';
 import { parse } from 'date-fns';
 import { group } from 'd3-array';
-import { Modal } from '@undp-data/undp-design-system-react';
+import { Modal } from '@undp/design-system-react';
 
 import {
   BivariateMapWithDateDataType,

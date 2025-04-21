@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
-import { cn, Modal, Spinner } from '@undp-data/undp-design-system-react';
+import { cn, Modal, Spinner } from '@undp/design-system-react';
 
 import {
   BeeSwarmChartDataType,

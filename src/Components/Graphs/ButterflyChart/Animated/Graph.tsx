@@ -6,7 +6,7 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   ButterflyChartWithDateDataType,

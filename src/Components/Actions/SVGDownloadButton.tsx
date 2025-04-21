@@ -1,4 +1,4 @@
-import { Button } from '@undp-data/undp-design-system-react';
+import { Button } from '@undp/design-system-react';
 
 import { svgDownload } from '@/Utils/svgDownload';
 import { ImageDown } from '@/Components/Icons';

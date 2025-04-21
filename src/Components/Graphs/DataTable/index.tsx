@@ -3,7 +3,7 @@ import isEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import intersection from 'lodash.intersection';
-import { P } from '@undp-data/undp-design-system-react';
+import { P } from '@undp/design-system-react';
 
 import {
   DataTableColumnDataType,

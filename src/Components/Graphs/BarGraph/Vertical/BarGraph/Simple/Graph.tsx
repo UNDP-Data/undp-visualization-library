@@ -1,7 +1,7 @@
 import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { useState } from 'react';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import {

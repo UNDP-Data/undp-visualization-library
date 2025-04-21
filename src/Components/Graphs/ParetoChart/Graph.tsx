@@ -11,7 +11,7 @@ import {
 import { scaleBand, scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import { ClassNameObject, ParetoChartDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';

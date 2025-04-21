@@ -15,7 +15,7 @@ import sortBy from 'lodash.sortby';
 import min from 'lodash.min';
 import max from 'lodash.max';
 import { useAnimate, useInView } from 'motion/react';
-import { cn } from '@undp-data/undp-design-system-react';
+import { cn } from '@undp/design-system-react';
 
 import {
   AnnotationSettingsDataType,

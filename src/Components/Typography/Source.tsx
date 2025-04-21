@@ -1,4 +1,4 @@
-import { A, cn, P } from '@undp-data/undp-design-system-react';
+import { A, cn, P } from '@undp/design-system-react';
 
 import { SourcesDataType } from '@/Types';
 

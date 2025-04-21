@@ -2,7 +2,7 @@ import isEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'motion/react';
-import { cn, Modal, P } from '@undp-data/undp-design-system-react';
+import { cn, Modal, P } from '@undp/design-system-react';
 
 import {
   ClassNameObject,

@@ -1,4 +1,4 @@
-import { P } from '@undp-data/undp-design-system-react';
+import { P } from '@undp/design-system-react';
 
 import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/Animated';
 import { ButterflyChart } from '../Graphs/ButterflyChart/Simple';

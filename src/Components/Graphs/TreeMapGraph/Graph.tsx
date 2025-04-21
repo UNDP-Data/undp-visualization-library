@@ -1,6 +1,6 @@
 import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
-import { P, Modal, cn } from '@undp-data/undp-design-system-react';
+import { P, Modal, cn } from '@undp/design-system-react';
 
 import {
   ClassNameObject,

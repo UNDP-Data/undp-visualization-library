@@ -2,7 +2,7 @@ import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
 import sortBy from 'lodash.sortby';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import { ClassNameObject, StripChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';

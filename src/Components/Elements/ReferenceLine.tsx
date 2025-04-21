@@ -1,4 +1,4 @@
-import { cn } from '@undp-data/undp-design-system-react';
+import { cn } from '@undp/design-system-react';
 
 interface RefLineYProps {
   text?: string;

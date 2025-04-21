@@ -3,7 +3,7 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
 import { useState } from 'react';
 import min from 'lodash.min';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   ClassNameObject,

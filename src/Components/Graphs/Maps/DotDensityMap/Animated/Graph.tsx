@@ -9,7 +9,7 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { AnimatePresence, motion } from 'motion/react';
-import { Modal } from '@undp-data/undp-design-system-react';
+import { Modal } from '@undp/design-system-react';
 
 import {
   ClassNameObject,

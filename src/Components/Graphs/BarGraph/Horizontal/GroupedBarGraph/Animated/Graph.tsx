@@ -7,7 +7,7 @@ import uniqBy from 'lodash.uniqby';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 
 import {

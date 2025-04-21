@@ -4,7 +4,7 @@ import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold } from 'd3-scale';
-import { Modal } from '@undp-data/undp-design-system-react';
+import { Modal } from '@undp/design-system-react';
 
 import { BivariateMapDataType, ClassNameObject, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';

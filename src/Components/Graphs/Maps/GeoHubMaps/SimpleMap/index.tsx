@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   DropdownSelect,
   createFilter,
-} from '@undp-data/undp-design-system-react';
+} from '@undp/design-system-react';
 
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';

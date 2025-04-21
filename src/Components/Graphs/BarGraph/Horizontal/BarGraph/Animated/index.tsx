@@ -3,7 +3,7 @@ import uniqBy from 'lodash.uniqby';
 import { useState, useRef, useEffect } from 'react';
 import { format, parse } from 'date-fns';
 import { ascending, sort } from 'd3-array';
-import { SliderUI } from '@undp-data/undp-design-system-react';
+import { SliderUI } from '@undp/design-system-react';
 
 import { Graph } from './Graph';
 

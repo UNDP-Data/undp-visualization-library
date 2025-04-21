@@ -6,7 +6,7 @@ import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
 import { linearRegression } from 'simple-statistics';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   ScatterPlotDataType,

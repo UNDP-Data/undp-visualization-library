@@ -5,7 +5,7 @@ import {
   createFilter,
   DropdownSelect,
   Label,
-} from '@undp-data/undp-design-system-react';
+} from '@undp/design-system-react';
 
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 

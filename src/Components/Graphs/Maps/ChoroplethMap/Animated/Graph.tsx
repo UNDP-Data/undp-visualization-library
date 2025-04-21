@@ -8,7 +8,7 @@ import { scaleThreshold, scaleOrdinal } from 'd3-scale';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
-import { Modal, P } from '@undp-data/undp-design-system-react';
+import { Modal, P } from '@undp/design-system-react';
 
 import {
   ChoroplethMapWithDateDataType,

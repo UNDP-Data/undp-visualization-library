@@ -5,7 +5,7 @@ import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
-import { Modal } from '@undp-data/undp-design-system-react';
+import { Modal } from '@undp/design-system-react';
 
 import { ClassNameObject, DotDensityMapDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';

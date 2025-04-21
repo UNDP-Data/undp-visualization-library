@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
-import { H2, P } from '@undp-data/undp-design-system-react';
+import { H2, P } from '@undp/design-system-react';
 
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';

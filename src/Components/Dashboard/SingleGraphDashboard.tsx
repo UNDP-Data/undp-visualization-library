@@ -11,7 +11,7 @@ import {
   RadioGroup,
   RadioGroupItem,
   Spinner,
-} from '@undp-data/undp-design-system-react';
+} from '@undp/design-system-react';
 
 import GraphEl from './GraphEl';
 

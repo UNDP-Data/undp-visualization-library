@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import dts from 'vite-plugin-dts';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [dts({ rollupTypes: true }), react(), eslint()],
   define: { 'process.env.NODE_ENV': JSON.stringify('production') },
@@ -23,7 +22,6 @@ export default defineConfig({
       formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {
-      // Externalize deps that shouldn't be bundled into the library.
       external: ['react', 'react-dom', 'maplibre-gl', 'xlsx'],
       output: {
         globals: {
@@ -31,6 +29,12 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'maplibre-gl': 'maplibreGl',
           xlsx: 'XLSX',
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.names && assetInfo.names.includes('data-viz.css')) {
+            return 'style.css';
+          }
+          return 'assets/[name][extname]';
         },
       },
     },

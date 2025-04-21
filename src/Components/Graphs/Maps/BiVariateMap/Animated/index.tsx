@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ascending, sort } from 'd3-array';
 import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
-import { SliderUI } from '@undp-data/undp-design-system-react';
+import { SliderUI } from '@undp/design-system-react';
 
 import WorldMapData from '../../WorldMapData/data.json';
 

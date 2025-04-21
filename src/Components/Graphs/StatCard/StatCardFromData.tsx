@@ -1,7 +1,7 @@
 import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
-import { H3 } from '@undp-data/undp-design-system-react';
+import { H3 } from '@undp/design-system-react';
 
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';

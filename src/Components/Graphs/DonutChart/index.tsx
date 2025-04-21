@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
-import { P } from '@undp-data/undp-design-system-react';
+import { P } from '@undp/design-system-react';
 
 import { Graph } from './Graph';
 

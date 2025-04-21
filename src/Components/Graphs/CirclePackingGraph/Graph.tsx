@@ -11,7 +11,7 @@ import orderBy from 'lodash.orderby';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import { extent } from 'd3-array';
-import { cn, Modal, Spinner } from '@undp-data/undp-design-system-react';
+import { cn, Modal, Spinner } from '@undp/design-system-react';
 
 import { ClassNameObject, StyleObject, TreeMapDataType } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';

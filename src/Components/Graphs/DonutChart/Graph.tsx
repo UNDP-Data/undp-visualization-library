@@ -2,7 +2,7 @@
 import isEqual from 'fast-deep-equal';
 import { pie, arc } from 'd3-shape';
 import { useState } from 'react';
-import { H2, Modal, P } from '@undp-data/undp-design-system-react';
+import { H2, Modal, P } from '@undp/design-system-react';
 
 import { ClassNameObject, DonutChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';

@@ -1,7 +1,7 @@
 import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
-import { cn, Modal } from '@undp-data/undp-design-system-react';
+import { cn, Modal } from '@undp/design-system-react';
 
 import {
   ButterflyChartDataType,
