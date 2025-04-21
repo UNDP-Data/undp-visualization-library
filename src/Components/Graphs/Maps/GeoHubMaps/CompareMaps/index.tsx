@@ -61,6 +61,7 @@ interface Props {
   graphID?: string;
 }
 
+/** For using these maps you will have to install [`maplibre`](https://maplibre.org/maplibre-gl-js/docs/#npm) package to your project */
 export function GeoHubCompareMaps(props: Props) {
   const {
     graphTitle,
