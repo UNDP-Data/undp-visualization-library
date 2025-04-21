@@ -32,7 +32,7 @@ import unitChart from './config/unitChart.json';
 import choroplethMap from './config/choroplethMap.json';
 import animatedChoroplethMap from './config/animatedChoroplethMap.json';
 import biVariateChoroplethMap from './config/biVariateChoroplethMap.json';
-import animatedBiVariateChoroplethMap from './config/animatedBiVariateChoroplethMap.json';
+import animatedBiVariateChoroplethMap from './config/animatedBivariateChoroplethMap.json';
 import dotDensityMap from './config/dotDensityMap.json';
 import animatedDotDensityMap from './config/animatedDotDensityMap.json';
 import griddedChartExtraParam from './config/griddedChartExtraParam.json';
