@@ -11,6 +11,7 @@ node_modules
 build
 public
 dist
+storybook-static
 dist-ssr
 *.local
 src/*.test.js

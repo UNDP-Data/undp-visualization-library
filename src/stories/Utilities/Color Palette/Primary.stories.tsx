@@ -1,4 +1,5 @@
 import type { Meta } from '@storybook/react';
+
 import { Colors } from '@/Components/ColorPalette';
 
 const ColorsList = {
@@ -258,9 +259,7 @@ const ColorsList = {
   },
 };
 
-function ColorGrid({
-  colors,
-}: {
+function ColorGrid({ colors }: {
   colors: Record<string, { color: string; name: string }>;
 }) {
   return (

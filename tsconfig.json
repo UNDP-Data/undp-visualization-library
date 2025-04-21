@@ -19,6 +19,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -27,7 +30,6 @@
   "include": [
     "eslint.config.js",
     "src",
-    "tailwind.config.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
