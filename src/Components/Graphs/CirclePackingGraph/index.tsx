@@ -1,9 +1,10 @@
 import uniqBy from 'lodash.uniqby';
-
 import { useState, useRef, useEffect } from 'react';
 import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
+
 import { Graph } from './Graph';
+
 import {
   Languages,
   SourcesDataType,
@@ -98,13 +99,15 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -190,8 +193,8 @@ export function CirclePackingGraph(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -212,9 +215,7 @@ export function CirclePackingGraph(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -234,9 +235,10 @@ export function CirclePackingGraph(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -270,7 +272,7 @@ export function CirclePackingGraph(props: Props) {
                       }
                       isCenter
                     />
-                  ) : null}
+                    ) : null}
                   <div
                     className='flex flex-col grow justify-center w-full leading-0'
                     ref={graphDiv}
@@ -330,8 +332,8 @@ export function CirclePackingGraph(props: Props) {
                         radius={
                           !radius
                             ? (Math.min(
-                                width || svgWidth,
-                                height ||
+                              width || svgWidth,
+                              height ||
                                   (relativeHeight
                                     ? minHeight
                                       ? (width || svgWidth) * relativeHeight >
@@ -340,18 +342,19 @@ export function CirclePackingGraph(props: Props) {
                                         : minHeight
                                       : (width || svgWidth) * relativeHeight
                                     : svgHeight),
-                              ) *
+                            ) *
                                 (data.filter(
                                   d => !checkIfNullOrUndefined(d.size),
                                 ).length === 0
                                   ? 1
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                   : (maxBy(data, 'size') as any).size)) /
                               (data.filter(d => !checkIfNullOrUndefined(d.size))
                                 .length === 0
                                 ? data.length
                                 : sum(
-                                    data.filter(d => d.size).map(d => d.size),
-                                  ) * 1.25)
+                                  data.filter(d => d.size).map(d => d.size),
+                                ) * 1.25)
                             : radius
                         }
                         maxRadiusValue={maxRadiusValue}

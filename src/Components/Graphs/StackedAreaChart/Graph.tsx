@@ -14,6 +14,7 @@ import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
 import { cn } from '@undp-data/undp-design-system-react';
+
 import {
   AnnotationSettingsDataType,
   ClassNameObject,
@@ -49,6 +50,7 @@ interface Props {
   bottomMargin: number;
   yAxisTitle?: string;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   highlightAreaSettings: HighlightAreaSettingsDataType[];
@@ -98,12 +100,13 @@ export function Graph(props: Props) {
     curveType === 'linear'
       ? curveLinear
       : curveType === 'step'
-      ? curveStep
-      : curveType === 'stepAfter'
-      ? curveStepAfter
-      : curveType === 'stepBefore'
-      ? curveStepBefore
-      : curveMonotoneX;
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -164,13 +167,17 @@ export function Graph(props: Props) {
     .nice();
 
   const areaShape = area()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y0((d: any) => y(d.y0))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y1((d: any) => y(d.y1))
     .curve(curve);
   const yTicks = y.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
@@ -200,7 +207,7 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [x, dataFormatted]);
+  }, [x, dataFormatted, onSeriesMouseOver]);
   return (
     <>
       <svg
@@ -301,6 +308,7 @@ export function Graph(props: Props) {
               return (
                 <path
                   key={i}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   d={areaShape(d as any) as string}
                   style={{
                     fill: colors[i],
@@ -363,27 +371,27 @@ export function Graph(props: Props) {
               );
               const connectorSettings = d.showConnector
                 ? {
-                    y1: endPoints.y,
-                    x1: endPoints.x,
-                    y2: d.yCoordinate
-                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                      : 0 + (d.yOffset || 0),
-                    x2: d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                  y1: endPoints.y,
+                  x1: endPoints.x,
+                  y2: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                    : 0 + (d.yOffset || 0),
+                  x2: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
                         (d.xOffset || 0)
-                      : 0 + (d.xOffset || 0),
-                    cx: d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                      : 0,
-                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                      ? 3.5
-                      : (d.connectorRadius as number),
-                    strokeWidth:
+                    : 0 + (d.xOffset || 0),
+                  cx: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
+                    : 0,
+                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                    ? 3.5
+                    : (d.connectorRadius as number),
+                  strokeWidth:
                       d.showConnector === true
                         ? 2
                         : Math.min(d.showConnector || 0, 1),
-                  }
+                }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -392,9 +400,9 @@ export function Graph(props: Props) {
                 x: rtl
                   ? 0
                   : d.xCoordinate
-                  ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
                     (d.xOffset || 0)
-                  : 0 + (d.xOffset || 0),
+                    : 0 + (d.xOffset || 0),
                 width: rtl
                   ? d.xCoordinate
                     ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +

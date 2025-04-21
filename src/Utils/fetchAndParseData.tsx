@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
-import Papa from 'papaparse';
+import { Papa } from 'papaparse';
 import Handlebars from 'handlebars';
-import { ColumnConfigurationDataType, FileSettingsDataType } from '@/Types';
+
 import { transformColumnsToArray } from './transformData/transformColumnsToArray';
 import { mergeMultipleData } from './transformData/mergeMultipleData';
 
+import { ColumnConfigurationDataType, FileSettingsDataType } from '@/Types';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function reFormatData(data: any, dataTransformation?: string) {
   if (!dataTransformation) return data;
   Handlebars.registerHelper(
@@ -63,8 +66,8 @@ export async function fetchAndParseCSV(
           }
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
-      },
-      error(error: any) {
+      },       
+      error(error) {
         reject(error);
       },
     });
@@ -113,7 +116,7 @@ export async function fetchAndParseCSVFromTextBlob(
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
       },
-      error(error: any) {
+      error(error: Error) {
         reject(error);
       },
     });
@@ -177,6 +180,7 @@ export async function fetchAndParseJSON(
  */
 export async function fetchAndTransformDataFromAPI(
   requestURL: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   headers?: any,
   columnsToArray?: ColumnConfigurationDataType[],
   dataTransformation?: string,
@@ -230,16 +234,16 @@ export async function fetchAndParseMultipleDataSources(
             d.columnsToArray,
             d.dataTransformation,
             false,
-          )
+        )
         : d.fileType === 'api'
-        ? fetchAndTransformDataFromAPI(
+          ? fetchAndTransformDataFromAPI(
             d.dataURL as string,
             d.apiHeaders,
             d.columnsToArray,
             d.dataTransformation,
             false,
           )
-        : fetchAndParseCSV(
+          : fetchAndParseCSV(
             d.dataURL as string,
             d.dataTransformation,
             d.columnsToArray,
@@ -250,6 +254,7 @@ export async function fetchAndParseMultipleDataSources(
     ),
   );
   const mergedData = mergeMultipleData(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any, i: number) => ({
       data: d,
       idColumn: dataURL[i].idColumnName,

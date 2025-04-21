@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-
 /**
  * Checks whether a given value is `null` or `undefined`.
  *
@@ -12,6 +10,7 @@
  * checkIfNullOrUndefined(0); // false
  * checkIfNullOrUndefined(''); // false
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function checkIfNullOrUndefined(value: any) {
   if (value === undefined || value === null) return true;
   return false;

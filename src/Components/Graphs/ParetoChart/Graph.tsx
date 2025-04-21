@@ -1,3 +1,4 @@
+import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import {
   line,
@@ -10,8 +11,8 @@ import {
 import { scaleBand, scaleLinear } from 'd3-scale';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
-import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import { ClassNameObject, ParetoChartDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
@@ -34,10 +35,12 @@ interface Props {
   bottomMargin: number;
   sameAxes: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   barPadding: number;
   truncateBy: number;
   showLabels: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -87,13 +90,15 @@ export function Graph(props: Props) {
     curveType === 'linear'
       ? curveLinear
       : curveType === 'step'
-      ? curveStep
-      : curveType === 'stepAfter'
-      ? curveStepAfter
-      : curveType === 'stepBefore'
-      ? curveStepBefore
-      : curveMonotoneX;
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -147,8 +152,11 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .defined((d: any) => !checkIfNullOrUndefined(d.line))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y2(d.line))
     .curve(curve);
   const y1Ticks = y1.ticks(noOfTicks);
@@ -197,12 +205,8 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              classNames={{
-                axis: classNames?.xAxis?.axis,
-              }}
-              styles={{
-                axis: { stroke: barColor, ...(styles?.xAxis?.axis || {}) },
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: barColor, ...(styles?.xAxis?.axis || {}) } }}
             />
             <AxisTitle
               x={10 - margin.left}
@@ -253,12 +257,8 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              classNames={{
-                axis: classNames?.xAxis?.axis,
-              }}
-              styles={{
-                axis: { stroke: lineColor, ...(styles?.xAxis?.axis || {}) },
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: lineColor, ...(styles?.xAxis?.axis || {}) } }}
             />
             <AxisTitle
               x={graphWidth + margin.right - 15}
@@ -278,12 +278,8 @@ export function Graph(props: Props) {
             y2={sameAxes ? y1(0) : graphHeight}
             x1={-15}
             x2={graphWidth + 15}
-            classNames={{
-              axis: classNames?.xAxis?.axis,
-            }}
-            styles={{
-              axis: styles?.xAxis?.axis,
-            }}
+            classNames={{ axis: classNames?.xAxis?.axis }}
+            styles={{ axis: styles?.xAxis?.axis }}
           />
           {dataWithId.map((d, i) => {
             return (
@@ -291,6 +287,7 @@ export function Graph(props: Props) {
                 className='undp-viz-g-with-hover'
                 key={i}
                 opacity={0.85}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -313,6 +310,7 @@ export function Graph(props: Props) {
                     }
                   }
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseMove={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -331,9 +329,7 @@ export function Graph(props: Props) {
                   x={x(`${i}`)}
                   y={d.bar ? (d.bar > 0 ? y1(d.bar) : y1(0)) : 0}
                   width={x.bandwidth()}
-                  style={{
-                    fill: barColor,
-                  }}
+                  style={{ fill: barColor }}
                   height={d.bar ? Math.abs(y1(d.bar) - y1(0)) : 0}
                 />
                 {showValues && !checkIfNullOrUndefined(d.bar) ? (
@@ -374,6 +370,7 @@ export function Graph(props: Props) {
             );
           })}
           <path
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             d={lineShape(dataWithId as any) as string}
             style={{
               stroke: lineColor,
@@ -385,6 +382,7 @@ export function Graph(props: Props) {
             <g key={i}>
               {!checkIfNullOrUndefined(d.line) ? (
                 <g
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseEnter={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -407,6 +405,7 @@ export function Graph(props: Props) {
                       }
                     }
                   }}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseMove={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -428,12 +427,10 @@ export function Graph(props: Props) {
                       graphWidth / dataWithId.length < 5
                         ? 0
                         : graphWidth / dataWithId.length < 20
-                        ? 2
-                        : 4
+                          ? 2
+                          : 4
                     }
-                    style={{
-                      fill: lineColor,
-                    }}
+                    style={{ fill: lineColor }}
                   />
                   {showValues ? (
                     <text
@@ -477,11 +474,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

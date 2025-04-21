@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DotDensityMap } from '@/index';
+
 import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -9,6 +9,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { DotDensityMap } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DotDensityMap>;
 
@@ -27,25 +29,16 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   radius?: number;
   color?: string | number;
   label?: string | number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
-    mapNoDataColor: {
-      control: 'color',
-    },
-    mapBorderColor: {
-      control: 'color',
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
+    mapNoDataColor: { control: 'color' },
+    mapBorderColor: { control: 'color' },
 
     // Colors and Styling
     colors: {
@@ -58,9 +51,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    colorDomain: {
-      control: 'text',
-    },
+    colorDomain: { control: 'text' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -70,89 +61,43 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Values and Ticks
-    mapData: {
-      control: 'object',
-    },
+    mapData: { control: 'object' },
     centerPoint: {
       control: 'text',
-      table: {
-        type: {
-          summary: '[number, number]',
-        },
-      },
+      table: { type: { summary: '[number, number]' } },
     },
     zoomTranslateExtend: {
       control: 'text',
-      table: {
-        type: {
-          summary: '[[number, number], [number, number]]',
-        },
-      },
+      table: { type: { summary: '[[number, number], [number, number]]' } },
     },
     zoomScaleExtend: {
       control: 'text',
-      table: {
-        type: {
-          summary: '[number, number]',
-        },
-      },
+      table: { type: { summary: '[number, number]' } },
     },
 
     // Graph parameters
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showColorScale: { table: { defaultValue: { summary: 'true' } } },
     highlightedDataPoints: {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
     resetSelectionOnDoubleClick: {
       control: 'boolean',
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+      table: { defaultValue: { summary: 'true' } },
     },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     language: {
@@ -206,8 +151,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

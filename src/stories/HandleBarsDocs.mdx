@@ -1,0 +1,66 @@
+import { Meta, Source, Canvas, Story } from '@storybook/blocks';
+import { H3, H4, P, Code, H6, Separator, Spacer } from '@undp-data/undp-design-system-react';
+import githubLogo from "./assets/Github-logo.svg";
+import '@undp-data/undp-design-system-react/dist/style.css';
+
+<Meta
+  title="Misc./Handlebars templates and custom helpers"
+  parameters={{
+    layout: "fullscreen",
+    viewMode: "docs",
+    previewTabs: {
+      canvas: { hidden: false },
+      story: { hidden: false },
+    },
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: "100%",
+      },
+    },
+  }}
+/>
+
+# Handlebars templates and custom helpers
+
+You can find the complete documentation for how to use handlebar template [here](https://handlebarsjs.com/guide/expressions.html#basic-usage).
+
+Apart from this there are some custom helper mentioned below
+
+<br />
+
+## formatNumber
+
+Formats a number into a human readable format using a custom [numberFormattingFunction](../?path=/docs/utilities-numberformattingfunction--docs).
+
+```handlebars
+{{formatNumber value}}
+```
+
+## mathExpression
+
+Evaluates a math expression using the [Mexp](https://github.com/bugwheels94/math-expression-evaluator#readme) library after resolving Handlebars placeholders from the data context.
+
+```handlebars
+{{mathExpression "{{a}} * {{b}} / {{c}}"}}
+```
+
+In the above example if data = `{ a: 2, b: 3, c: 4 }`, the result will be 20.
+
+## mathExpressionWithFormatting
+
+Similar to mathExpression, but formats the result using [numberFormattingFunction](../?path=/docs/utilities-numberformattingfunction--docs).
+
+```handlebars
+{{mathExpressionWithFormatting "{{a}} * {{b}} / {{c}}"}}
+```
+
+In the above example if data = `{ a: 2000, b: 30000, c: 4000 }`, the result will be 60K.
+
+## markdown
+
+Parses markdown text and returns HTML using the [marked](https://marked.js.org/) library.
+
+```handlebars
+{{markdown  "**Bold Text** [Internal](/home) [External](https://example.com)"}}
+```

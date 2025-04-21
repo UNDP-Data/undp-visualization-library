@@ -1,16 +1,18 @@
 import {
-  ColumnConfigurationDataType,
-  FileSettingsDataType,
-  GraphConfigurationDataType,
-  GraphType,
-} from '@/Types';
-import {
   fetchAndParseJSON,
   fetchAndParseCSV,
   fetchAndTransformDataFromAPI,
   fetchAndParseMultipleDataSources,
 } from '../fetchAndParseData';
+
 import { transformDataForGraph } from './transformDataForGraph';
+
+import {
+  ColumnConfigurationDataType,
+  FileSettingsDataType,
+  GraphConfigurationDataType,
+  GraphType,
+} from '@/Types';
 /**
  * Fetches data from a given URL or multiple data sources, processes it according to the specified graph configuration,
  * and formats it for use in a graph.
@@ -55,9 +57,11 @@ export async function transformDataForGraphFromFile(
   fileType?: 'csv' | 'json' | 'api',
   delimiter?: string,
   columnsToArray?: ColumnConfigurationDataType[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apiHeaders?: any,
   dataTransformation?: string,
   idColumnTitle?: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   // Ensure the function returns a Promise
   try {
@@ -65,14 +69,14 @@ export async function transformDataForGraphFromFile(
       ? fileType === 'json'
         ? fetchAndParseJSON(dataURL, columnsToArray, dataTransformation, false)
         : fileType === 'api'
-        ? fetchAndTransformDataFromAPI(
+          ? fetchAndTransformDataFromAPI(
             dataURL,
             apiHeaders,
             columnsToArray,
             dataTransformation,
             false,
           )
-        : fetchAndParseCSV(
+          : fetchAndParseCSV(
             dataURL,
             dataTransformation,
             columnsToArray,

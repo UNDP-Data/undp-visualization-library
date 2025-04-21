@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import groupBy from 'lodash.groupby';
 
 function standardizeId(data: any, idColumnName: string) {

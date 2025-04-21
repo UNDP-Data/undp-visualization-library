@@ -11,7 +11,9 @@ interface Props {
 }
 
 export function RegressionLine(props: Props) {
-  const { color, x1, x2, y1, y2, className, style } = props;
+  const {
+    color, x1, x2, y1, y2, className, style, 
+  } = props;
   return (
     <g>
       <line

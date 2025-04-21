@@ -1,4 +1,5 @@
 import { A, cn, P } from '@undp-data/undp-design-system-react';
+
 import { SourcesDataType } from '@/Types';
 
 interface SourceProps {
@@ -28,9 +29,7 @@ export function Source(props: SourceProps) {
             'text-primary-gray-550 dark:text-primary-gray-400',
             className,
           )}
-          style={{
-            fontFamily: 'inherit',
-          }}
+          style={{ fontFamily: 'inherit' }}
         >
           {d.link ? (
             <A

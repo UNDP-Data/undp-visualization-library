@@ -1,7 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+ 
 import { useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Source } from '@storybook/blocks';
+
 import { GraphNames } from '@/stories/assets/constants';
 import { GraphDataConfigSelector } from '@/stories/assets/GraphDataConfigSelector';
 import { GraphSettingsSelector } from '@/stories/assets/GraphSettingsSelector';
@@ -17,13 +17,13 @@ export function ChartConfigDropdown(props: Props) {
   const codeBlock =
     type === 'graphType'
       ? `graphType='${
-          GraphNames[GraphNames.findIndex(d => d.name === selected)].id
-        }'`
+        GraphNames[GraphNames.findIndex(d => d.name === selected)].id
+      }'`
       : type === 'graphSettings'
-      ? `graphSettings={${GraphSettingsSelector(selected, true, false)}}`
-      : type === 'dataSettings'
-      ? `dataSettings={${GraphDataConfigSelector(selected)}}`
-      : ``;
+        ? `graphSettings={${GraphSettingsSelector(selected, true, false)}}`
+        : type === 'dataSettings'
+          ? `dataSettings={${GraphDataConfigSelector(selected)}}`
+          : ``;
 
   return (
     <div style={{ marginTop: '1rem' }}>

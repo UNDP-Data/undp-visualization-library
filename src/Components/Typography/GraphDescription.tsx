@@ -1,4 +1,5 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
+
 import { extractInnerString } from '@/Utils/extractInnerString';
 
 interface Props {
@@ -12,10 +13,8 @@ export function GraphDescription(props: Props) {
   if (extractInnerString(text)) {
     return (
       <div
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: extractInnerString(text) as string,
-        }}
+         
+        dangerouslySetInnerHTML={{ __html: extractInnerString(text) as string }}
         className={className}
         style={style}
       />

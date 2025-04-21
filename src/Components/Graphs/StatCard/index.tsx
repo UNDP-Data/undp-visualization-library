@@ -1,4 +1,5 @@
 import { H3 } from '@undp-data/undp-design-system-react';
+
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
@@ -92,8 +93,8 @@ export function BasicStatCard(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -113,9 +114,7 @@ export function BasicStatCard(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-12 justify-between grow'>
             {graphTitle || graphDescription ? (
@@ -137,8 +136,8 @@ export function BasicStatCard(props: Props) {
                 verticalAlign === 'top'
                   ? 'justify-start'
                   : verticalAlign === 'bottom'
-                  ? 'justify-end'
-                  : 'justify-center'
+                    ? 'justify-end'
+                    : 'justify-center'
               }`}
             >
               <H3
@@ -147,8 +146,8 @@ export function BasicStatCard(props: Props) {
                   centerAlign
                     ? 'text-center'
                     : language === 'he' || language === 'ar'
-                    ? 'text-right'
-                    : 'text-left'
+                      ? 'text-right'
+                      : 'text-left'
                 } ${
                   textBackground
                     ? 'text-primary-black dark:text-primary-white'

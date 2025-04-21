@@ -1,5 +1,6 @@
 import { NumberValue } from 'd3-scale';
 import { cn } from '@undp-data/undp-design-system-react';
+
 import { getPathFromPoints } from '@/Utils/getPathFromPoints';
 
 interface Props {

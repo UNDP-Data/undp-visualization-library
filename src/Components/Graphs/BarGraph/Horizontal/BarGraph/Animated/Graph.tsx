@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { useState } from 'react';
 import { parse } from 'date-fns';
@@ -5,9 +7,9 @@ import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { group } from 'd3-array';
 import orderBy from 'lodash.orderby';
-import { AnimatePresence, motion } from 'framer-motion';
-import isEqual from 'lodash.isequal';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   BarGraphWithDateDataType,
   ClassNameObject,
@@ -135,32 +137,32 @@ export function Graph(props: Props) {
       date,
       values: autoSort
         ? orderBy(
-            values,
-            [item => item.size === undefined, 'size'],
-            ['asc', 'desc'],
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          }))
+          values,
+          [item => item.size === undefined, 'size'],
+          ['asc', 'desc'],
+        ).map((el, i) => ({
+          ...el,
+          id: `${i}`,
+        }))
         : (
             uniqLabels.map(label =>
               values.find(o => o.label === label),
             ) as BarGraphWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+        ).map((el, i) => ({
+          ...el,
+          id: `${i}`,
+        })),
     }),
   );
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      ) < 0
-    ? 0
-    : Math.max(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.size))
+        .map(d => d.size as number),
+    ) < 0
+      ? 0
+      : Math.max(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.size))
           .map(d => d.size as number),
@@ -168,12 +170,12 @@ export function Graph(props: Props) {
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      ) >= 0
-    ? 0
-    : Math.min(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.size))
+        .map(d => d.size as number),
+    ) >= 0
+      ? 0
+      : Math.min(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.size))
           .map(d => d.size as number),
@@ -189,8 +191,8 @@ export function Graph(props: Props) {
       minBarThickness
         ? Math.max(graphHeight, minBarThickness * uniqLabels.length)
         : maxBarThickness
-        ? Math.min(graphHeight, maxBarThickness * uniqLabels.length)
-        : graphHeight,
+          ? Math.min(graphHeight, maxBarThickness * uniqLabels.length)
+          : graphHeight,
     ])
     .paddingInner(barPadding);
   const xTicks = x.ticks(noOfTicks);
@@ -245,10 +247,10 @@ export function Graph(props: Props) {
                         : 0.3
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf(d.label) !== -1
-                      ? 0.85
-                      : 0.3
-                    : 0.85
+                      ? highlightedDataPoints.indexOf(d.label) !== -1
+                        ? 0.85
+                        : 0.3
+                      : 0.85
                 }
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
@@ -292,8 +294,8 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
                         : !d.color
-                        ? Colors.gray
-                        : barColor[colorDomain.indexOf(d.color)],
+                          ? Colors.gray
+                          : barColor[colorDomain.indexOf(d.color)],
                   }}
                   height={y.bandwidth()}
                   animate={{
@@ -308,8 +310,8 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? barColor[0]
                         : !d.color
-                        ? Colors.gray
-                        : barColor[colorDomain.indexOf(d.color)],
+                          ? Colors.gray
+                          : barColor[colorDomain.indexOf(d.color)],
                   }}
                   transition={{ duration: 0.5 }}
                 />
@@ -349,8 +351,8 @@ export function Graph(props: Props) {
                       ...(valueColor
                         ? { fill: valueColor }
                         : barColor.length > 1
-                        ? {}
-                        : { fill: barColor[0] }),
+                          ? {}
+                          : { fill: barColor[0] }),
                       textAnchor: d.size
                         ? d.size < 0
                           ? 'end'
@@ -428,11 +430,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'             
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

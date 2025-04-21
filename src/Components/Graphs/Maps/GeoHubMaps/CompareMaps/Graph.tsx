@@ -1,10 +1,19 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+ 
 import { useRef, useEffect, useState } from 'react';
 import * as maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
-import Draggable, { DraggableData } from 'react-draggable';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
+import {
+  DndContext,
+  useDraggable,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  DragMoveEvent,
+} from '@dnd-kit/core';
+import { restrictToHorizontalAxis  } from '@dnd-kit/modifiers';
+
 import { ChevronLeftRight } from '@/Components/Icons';
 
 interface Props {
@@ -46,8 +55,51 @@ function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
 }
 
 export function Graph(props: Props) {
-  const { height, width, mapStyles, center, zoomLevel } = props;
-  const [sliderPosition, setSliderPosition] = useState(width / 2);
+  const {
+    height, width, mapStyles, center, zoomLevel, 
+  } = props;
+  const [position, setPosition] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragStartPositionRef = useRef(50);
+  const sliderWidthRef = useRef(0);
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 0 } }),
+  );
+  
+  const handleDragStart = () => {
+    setIsDragging(true);
+    dragStartPositionRef.current = position;
+      
+    if (containerRef.current) {
+      sliderWidthRef.current = containerRef.current.getBoundingClientRect().width;
+    }
+  };
+  
+  const handleDragMove = (event: DragMoveEvent) => {
+    if (!containerRef.current || sliderWidthRef.current === 0) return;
+      
+    // Calculate position change as percentage of width
+    const deltaPercentage = (event.delta.x / sliderWidthRef.current) * 100;
+    const newPosition = Math.max(0, Math.min(100, dragStartPositionRef.current + deltaPercentage));
+      
+    setPosition(newPosition);
+  };
+  
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+  
+  const handleClick = (e: React.MouseEvent) => {
+    if (isDragging || !containerRef.current) return;
+      
+    const rect = containerRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newPosition = (clickX / rect.width) * 100;
+      
+    setPosition(Math.max(0, Math.min(100, newPosition)));
+  };
   const graphDiv = useRef<HTMLDivElement>(null);
   const leftMapRef = useRef<HTMLDivElement>(null);
   const rightMapRef = useRef<HTMLDivElement>(null);
@@ -100,15 +152,7 @@ export function Graph(props: Props) {
       rightMap.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       synchronizeMap(leftMap, rightMap);
     }
-  }, [
-    mapContainer.current,
-    leftMapRef.current,
-    rightMapRef.current,
-    width,
-    mapStyles,
-    center,
-    zoomLevel,
-  ]);
+  }, [width, mapStyles, center, zoomLevel]);
   return (
     <div
       className='flex flex-col grow justify-center leading-0'
@@ -124,60 +168,104 @@ export function Graph(props: Props) {
         <div
           ref={mapContainer}
           className='map maplibre-show-control relative w-full h-full'
-          style={{
-            inset: 0,
-          }}
+          style={{ inset: 0 }}
         >
-          <div
-            ref={leftMapRef}
-            className='absolute leftMap'
-            style={{
-              inset: 0,
-              clipPath: `polygon(0% 0%, ${sliderPosition}px 0%, ${sliderPosition}px 100%, 0% 100%)`,
-            }}
-          />
-          <div
-            ref={rightMapRef}
-            className='absolute rightMap'
-            style={{
-              inset: 0,
-              clipPath: `polygon(${sliderPosition}px 0%, ${sliderPosition}px 100%, 100% 100%, 100% 0%)`,
-            }}
-          />
-          <Draggable
-            axis='x'
-            bounds='parent'
-            offsetParent={mapContainer.current as HTMLElement}
-            defaultPosition={{ x: (width || width) / 2 - 1, y: 0 }}
-            onDrag={(_e: any, d: DraggableData) => {
-              setSliderPosition(d.x);
-            }}
+          <DndContext
+            sensors={sensors}
+            modifiers={[restrictToHorizontalAxis]}
+            onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
+            onDragEnd={handleDragEnd}
           >
             <div
-              className='flex bg-primary-white items-center justify-center h-full'
+              ref={containerRef}
               style={{
-                width: '2px',
-                cursor: 'ew-resize',
+                position: 'relative',
+                width,
+                height,
+                overflow: 'hidden',
+                cursor: isDragging ? 'grabbing' : 'col-resize',
+                userSelect: 'none', // Prevent text selection during drag
               }}
+              onClick={handleClick}
             >
               <div
-                className='flex bg-primary-blue-600 dark:bg-primary-blue-400 rounded-full absolute items-center justify-center text-primary-white'
+                ref={rightMapRef}
+                className='absolute h-full rightMap w-full'
                 style={{
-                  boxShadow: 'inset 0 0 0 1px #fff',
-                  width: '42px',
-                  height: '42px',
-                  top: '50%',
-                  left: '-21px',
-                  margin: '-21px 1px 0',
-                  cursor: 'ew-resize',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  clipPath: `polygon(${position}% 0%, ${position}% 100%, 100% 100%, 100% 0%)`,
                 }}
-              >
-                <ChevronLeftRight />
-              </div>
+              />
+              <div
+                ref={leftMapRef}
+                className='absolute h-full leftMap w-full'
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  inset: 0,
+                  clipPath: `polygon(0% 0%, ${position}% 0%, ${position}% 100%, 0% 100%)`,
+                }}
+              />
+        
+              <SliderHandle position={position} />
             </div>
-          </Draggable>
+          </DndContext>
         </div>
       </div>
     </div>
   );
 }
+
+interface HandleProps {
+  position: number;
+}
+
+function SliderHandle(props: HandleProps) {
+  const { position } = props;
+  const { attributes, listeners, setNodeRef } = useDraggable({ id: 'slider-handle' });
+
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        position: 'absolute',
+        left: `${position}%`,
+        top: 0,
+        bottom: 0,
+        width: '40px',
+        transform: 'translateX(-50%)',
+        cursor: 'col-resize',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 10,
+        touchAction: 'none',
+      }}
+      {...listeners}
+      {...attributes}
+    >
+      <div
+        className='h-full bg-primary-blue-600 dark:bg-primary-blue-400'
+        style={{ width: '2px' }}
+      />
+      <div
+        className='flex bg-primary-blue-600 dark:bg-primary-blue-400 rounded-full absolute items-center justify-center text-primary-white font-primary-white'
+        style={{
+          boxShadow: 'inset 0 0 0 1px #fff',
+          width: '42px',
+          height: '42px',
+          top: 'calc(50% - 21px)',
+          left: '0',
+          cursor: 'col-resize',
+        }}
+      >
+        <ChevronLeftRight />
+      </div>
+    </div>
+  );
+};

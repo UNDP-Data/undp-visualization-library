@@ -3,6 +3,7 @@ import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
 import flattenDeep from 'lodash.flattendeep';
+
 import { AggregationSettingsDataType } from '@/Types';
 /**
  * Transforms the data for aggregation based on a key column and specified aggregation settings.
@@ -42,10 +43,13 @@ export function transformDataForAggregation(
 ) {
   if (data.length === 0) return [];
   if (typeof data[0][keyColumn] !== 'object') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uniqValues = uniqBy(data, (d: any) => d[keyColumn]).map(d => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataObj: any = {};
       dataObj[keyColumn] = d[keyColumn];
       const filteredData = data.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (j: any) => j[keyColumn] === d[keyColumn],
       );
       dataObj.count = filteredData.length;
@@ -54,29 +58,36 @@ export function transformDataForAggregation(
         dataObj[el.column] =
           el.aggregationMethod === 'average'
             ? parseFloat(
-                (
-                  sum(filteredData.map((j: any) => j[el.column])) /
+              (
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                sum(filteredData.map((j: any) => j[el.column])) /
                   filteredData.length
-                ).toFixed(2),
-              )
+              ).toFixed(2),
+            )
             : el.aggregationMethod === 'max'
-            ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
-            : el.aggregationMethod === 'min'
-            ? minBy(filteredData, (j: any) => j[el.column])[el.column]
-            : sum(filteredData.map((j: any) => j[el.column]));
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
+              : el.aggregationMethod === 'min'
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ? minBy(filteredData, (j: any) => j[el.column])[el.column]
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                : sum(filteredData.map((j: any) => j[el.column]));
       });
       return dataObj;
     });
     return uniqValues;
   }
   const values = uniqBy(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     flattenDeep(data.map((d: any) => d[keyColumn])),
     el => el,
   );
   const uniqValues = values.map(d => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataObj: any = {};
     dataObj[keyColumn] = d;
     const filteredData = data.filter(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (j: any) => j[keyColumn].indexOf(d) !== -1,
     );
     dataObj.rollUpData = filteredData;
@@ -85,16 +96,20 @@ export function transformDataForAggregation(
       dataObj[el.column] =
         el.aggregationMethod === 'average'
           ? parseFloat(
-              (
-                sum(filteredData.map((j: any) => j[el.column])) /
+            (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              sum(filteredData.map((j: any) => j[el.column])) /
                 filteredData.length
-              ).toFixed(2),
-            )
+            ).toFixed(2),
+          )
           : el.aggregationMethod === 'max'
-          ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
-          : el.aggregationMethod === 'min'
-          ? minBy(filteredData, (j: any) => j[el.column])[el.column]
-          : sum(filteredData.map((j: any) => j[el.column]));
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
+            : el.aggregationMethod === 'min'
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ? minBy(filteredData, (j: any) => j[el.column])[el.column]
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              : sum(filteredData.map((j: any) => j[el.column]));
     });
     return dataObj;
   });

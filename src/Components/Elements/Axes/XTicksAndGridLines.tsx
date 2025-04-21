@@ -1,4 +1,5 @@
 import { cn } from '@undp-data/undp-design-system-react';
+
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
@@ -58,8 +59,8 @@ export function XTicksAndGridLines(props: Props) {
                   labelType === 'primary'
                     ? 'middle'
                     : d < 0 || leftLabel
-                    ? 'end'
-                    : 'start',
+                      ? 'end'
+                      : 'start',
                 ...(styles?.labels || {}),
               }}
               className={cn(

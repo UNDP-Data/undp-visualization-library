@@ -1,3 +1,4 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import {
   forceCollide,
@@ -9,8 +10,8 @@ import {
 import { useEffect, useState } from 'react';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
-import isEqual from 'lodash.isequal';
 import { cn, Modal, Spinner } from '@undp-data/undp-design-system-react';
+
 import {
   BeeSwarmChartDataType,
   ClassNameObject,
@@ -49,6 +50,7 @@ interface Props {
   suffix: string;
   prefix: string;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   selectedColor?: string;
@@ -58,6 +60,7 @@ interface Props {
   maxPositionValue?: number;
   minPositionValue?: number;
   highlightedDataPoints: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -98,7 +101,9 @@ export function Graph(props: Props) {
     classNames,
     noOfTicks,
   } = props;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [finalData, setFinalData] = useState<
     BeeSwarmChartDataTypeForBubbleChart[] | null
@@ -118,19 +123,19 @@ export function Graph(props: Props) {
     data.filter(d => !checkIfNullOrUndefined(d.radius)).length === 0
       ? data
       : orderBy(
-          data.filter(d => !checkIfNullOrUndefined(d.radius)),
-          'radius',
-          'desc',
-        );
+        data.filter(d => !checkIfNullOrUndefined(d.radius)),
+        'radius',
+        'desc',
+      );
   const yMaxValue = !checkIfNullOrUndefined(maxPositionValue)
     ? (maxPositionValue as number)
     : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      ) < 0 && !startFromZero
-    ? 0
-    : Math.max(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.position))
+        .map(d => d.position),
+    ) < 0 && !startFromZero
+      ? 0
+      : Math.max(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.position))
           .map(d => d.position),
@@ -138,12 +143,12 @@ export function Graph(props: Props) {
   const yMinValue = !checkIfNullOrUndefined(minPositionValue)
     ? (minPositionValue as number)
     : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      ) >= 0 && !startFromZero
-    ? 0
-    : Math.min(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.position))
+        .map(d => d.position),
+    ) >= 0 && !startFromZero
+      ? 0
+      : Math.min(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.position))
           .map(d => d.position),
@@ -152,14 +157,14 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([
-            0,
-            checkIfNullOrUndefined(maxRadiusValue)
-              ? (maxBy(data, 'radius')?.radius as number)
-              : (maxRadiusValue as number),
-          ])
-          .range([0.25, radius])
-          .nice()
+        .domain([
+          0,
+          checkIfNullOrUndefined(maxRadiusValue)
+            ? (maxBy(data, 'radius')?.radius as number)
+            : (maxRadiusValue as number),
+        ])
+        .range([0.25, radius])
+        .nice()
       : undefined;
   const y = scaleLinear()
     .domain([yMinValue, yMaxValue])
@@ -172,11 +177,14 @@ export function Graph(props: Props) {
     const dataTemp = (dataOrdered as BeeSwarmChartDataType[]).filter(
       d => d.position,
     );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     forceSimulation(dataTemp as any)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .force('y', forceY((d: any) => y(d.position as number)).strength(5))
       .force('x', forceX(_d => graphWidth / 2).strength(1))
       .force(
         'collide',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         forceCollide((d: any) =>
           radiusScale ? radiusScale(d.radius || 0) + 1 : radius + 1,
         ),
@@ -190,7 +198,7 @@ export function Graph(props: Props) {
       .on('end', () => {
         setFinalData(dataTemp as BeeSwarmChartDataTypeForBubbleChart[]);
       });
-  }, [data, radius, graphHeight, graphWidth, yMinValue, yMaxValue]);
+  }, [data, radius, graphHeight, graphWidth, yMinValue, yMaxValue, dataOrdered, y, radiusScale]);
 
   return (
     <>
@@ -263,12 +271,13 @@ export function Graph(props: Props) {
                         : 0.3
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf(d.label) !== -1
-                      ? 0.85
-                      : 0.3
-                    : 0.85
+                      ? highlightedDataPoints.indexOf(d.label) !== -1
+                        ? 0.85
+                        : 0.3
+                      : 0.85
                 }
                 transform={`translate(${d.x},${d.y})`}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -277,6 +286,7 @@ export function Graph(props: Props) {
                     onSeriesMouseOver(d);
                   }
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseMove={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -314,8 +324,8 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? circleColors[0]
                         : !d.color
-                        ? Colors.gray
-                        : circleColors[colorDomain.indexOf(d.color)],
+                          ? Colors.gray
+                          : circleColors[colorDomain.indexOf(d.color)],
                   }}
                 />
                 {(radiusScale ? radiusScale(d.radius || 0) : radius) > 10 &&
@@ -364,8 +374,8 @@ export function Graph(props: Props) {
                               data.filter(el => el.color).length === 0
                                 ? circleColors[0]
                                 : !d.color
-                                ? Colors.gray
-                                : circleColors[colorDomain.indexOf(d.color)],
+                                  ? Colors.gray
+                                  : circleColors[colorDomain.indexOf(d.color)],
                             ),
                             ...(styles?.graphObjectValues || {}),
                           }}
@@ -375,7 +385,7 @@ export function Graph(props: Props) {
                       ) : null}
                     </div>
                   </foreignObject>
-                ) : null}
+                  ) : null}
               </g>
             ))}
             {refValues ? (
@@ -421,11 +431,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

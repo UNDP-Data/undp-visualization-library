@@ -35,6 +35,7 @@ export function transformColumnsToArray(
   columnConfig?: ColumnConfigurationDataType[],
 ) {
   if (!columnConfig || columnConfig.length === 0) return csvData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dataFormatted = csvData.map((el: any) => {
     const temp = { ...el };
     columnConfig.forEach(d => {

@@ -10,7 +10,9 @@ interface Props {
 }
 
 export function AxisTitle(props: Props) {
-  const { text, x, y, className, style, rotate90 } = props;
+  const {
+    text, x, y, className, style, rotate90, 
+  } = props;
   if (!text) return null;
   return (
     <text

@@ -32,7 +32,9 @@ interface Props {
 }
 
 export function Annotation(props: Props) {
-  const { connectorsSettings, text, color, labelSettings, classNames, styles } =
+  const {
+    connectorsSettings, text, color, labelSettings, classNames, styles, 
+  } =
     props;
   return (
     <g>
@@ -80,9 +82,7 @@ export function Annotation(props: Props) {
         x={labelSettings.x}
         width={labelSettings.width}
         height={1}
-        style={{
-          overflow: 'visible',
-        }}
+        style={{ overflow: 'visible' }}
       >
         <p
           className={cn(
@@ -90,13 +90,13 @@ export function Annotation(props: Props) {
             labelSettings.fontWeight === 'bold'
               ? 'font-bold'
               : labelSettings.fontWeight === 'medium'
-              ? 'font-medium'
-              : 'font-normal',
+                ? 'font-medium'
+                : 'font-normal',
             labelSettings.align === 'right'
               ? 'text-right'
               : labelSettings.align === 'center'
-              ? 'text-center'
-              : 'text-left',
+                ? 'text-center'
+                : 'text-left',
             !color
               ? 'text-primary-gray-700 dark:text-primary-gray-300'
               : undefined,

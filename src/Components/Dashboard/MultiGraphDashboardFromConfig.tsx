@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { P, Spinner } from '@undp-data/undp-design-system-react';
+
+import { MultiGraphDashboard } from './MultiGraphDashboard';
+
 import {
   ClassNameObject,
   DashboardLayoutDataType,
@@ -9,7 +12,6 @@ import {
   StyleObject,
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
-import { MultiGraphDashboard } from './MultiGraphDashboard';
 import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {

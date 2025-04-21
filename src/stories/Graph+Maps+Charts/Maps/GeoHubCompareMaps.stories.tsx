@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GeoHubCompareMaps } from '@/index';
+
 import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -9,6 +9,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { GeoHubCompareMaps } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof GeoHubCompareMaps>;
 
@@ -18,51 +20,23 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   tags: ['autodocs'],
   argTypes: {
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     mapStyles: {
       control: 'text',
-      table: {
-        type: {
-          summary: '[string, string]',
-        },
-      },
+      table: { type: { summary: '[string, string]' } },
     },
 
     // Values and Ticks
     center: {
       control: 'text',
-      table: {
-        type: {
-          summary: '[number, number]',
-        },
-      },
+      table: { type: { summary: '[number, number]' } },
     },
     // Configuration and Options
     language: {
@@ -91,7 +65,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       'https://api.maptiler.com/maps/streets/style.json?key=YbCPLULzWdf1NplssEIc#0.8/-14.45028/20.54042',
     ],
   },
-  render: ({ center, backgroundColor, mapStyles, ...args }) => {
+  render: ({
+    center, backgroundColor, mapStyles, ...args 
+  }) => {
     return (
       <GeoHubCompareMaps
         mapStyles={parseValue(mapStyles, [
@@ -103,8 +79,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

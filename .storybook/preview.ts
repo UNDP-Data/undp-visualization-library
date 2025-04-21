@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react'
+import type { Preview } from '@storybook/react';
 import '@undp-data/undp-design-system-react/dist/style.css';
 import '../src/styles/styles.css';
 
@@ -11,9 +11,7 @@ const preview: Preview = {
       },
     },
     // Add the docs configuration
-    docs: {
-      controls: { sort: 'none' },
-    },
+    docs: { controls: { sort: 'none' } },
     options: {
       storySort: {
         order: [
@@ -43,9 +41,9 @@ const preview: Preview = {
               'advancedDataSelectionOptions',
               'dashboardLayout',
               'dashboardLayout (wide to long)',
-              '*'
+              '*',
             ],
-            '*'
+            '*',
           ],
           'Utilities',
           ['Data fetching', 'Data transformation', 'Colors', 'Downloads', '*'],

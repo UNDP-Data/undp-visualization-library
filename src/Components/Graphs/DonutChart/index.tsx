@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import min from 'lodash.min';
 import sortBy from 'lodash.sortby';
 import { P } from '@undp-data/undp-design-system-react';
+
 import { Graph } from './Graph';
+
 import {
   DonutChartDataType,
   Languages,
@@ -90,13 +92,15 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -176,14 +180,14 @@ export function DonutChart(props: Props) {
       if (!width || !radius) resizeObserver.observe(graphDiv.current);
     }
     return () => resizeObserver.disconnect();
-  }, [width, height]);
+  }, [width, height, radius]);
 
   const sortedData =
     sortData === 'asc'
       ? sortBy(data, d => d.size)
       : sortData === 'desc'
-      ? sortBy(data, d => d.size).reverse()
-      : data;
+        ? sortBy(data, d => d.size).reverse()
+        : data;
 
   return (
     <div
@@ -197,8 +201,8 @@ export function DonutChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -220,9 +224,7 @@ export function DonutChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-2 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -242,9 +244,10 @@ export function DonutChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -264,9 +267,7 @@ export function DonutChart(props: Props) {
                     <div className='leading-0' aria-label='Color legend'>
                       <div
                         className='flex mb-0 ml-auto mr-auto justify-center gap-3.5 flex-wrap'
-                        style={{
-                          maxWidth: colorScaleMaxWidth,
-                        }}
+                        style={{ maxWidth: colorScaleMaxWidth }}
                       >
                         {sortedData.map((d, i) => (
                           <div className='flex gap-2 items-center' key={i}>
@@ -280,16 +281,16 @@ export function DonutChart(props: Props) {
                                   ).indexOf(d.label) !== -1
                                     ? (colors ||
                                         Colors[theme].categoricalColors.colors)[
-                                        (
-                                          colorDomain ||
+                                      (
+                                        colorDomain ||
                                           sortedData.map(el => el.label)
-                                        ).indexOf(d.label) %
+                                      ).indexOf(d.label) %
                                           (
                                             colors ||
                                             Colors[theme].categoricalColors
                                               .colors
                                           ).length
-                                      ]
+                                    ]
                                     : Colors.gray,
                               }}
                             />
@@ -323,8 +324,8 @@ export function DonutChart(props: Props) {
                       width: width ? `${width}px` : '100%',
                       height: height
                         ? `${Math.max(
-                            minHeight,
-                            height ||
+                          minHeight,
+                          height ||
                               (relativeHeight
                                 ? minHeight
                                   ? (width || svgWidth) * relativeHeight >
@@ -333,7 +334,7 @@ export function DonutChart(props: Props) {
                                     : minHeight
                                   : (width || svgWidth) * relativeHeight
                                 : svgHeight),
-                          )}px`
+                        )}px`
                         : 'auto',
                     }}
                     ref={graphDiv}
@@ -347,8 +348,8 @@ export function DonutChart(props: Props) {
                             sortData === 'asc'
                               ? sortBy(data, d => d.size)
                               : sortData === 'desc'
-                              ? sortBy(data, d => d.size).reverse()
-                              : data
+                                ? sortBy(data, d => d.size).reverse()
+                                : data
                           }
                           colors={colors}
                           radius={radius || donutRadius}

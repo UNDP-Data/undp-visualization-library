@@ -14,8 +14,9 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
-import { useAnimate, useInView } from 'framer-motion';
+import { useAnimate, useInView } from 'motion/react';
 import { cn } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   DualAxisLineChartDataType,
@@ -46,6 +47,7 @@ interface Props {
   sameAxes: boolean;
   highlightAreaSettings: HighlightAreaSettingsDataType[];
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   animateLine: boolean | number;
   strokeWidth: number;
@@ -94,15 +96,16 @@ export function Graph(props: Props) {
     curveType === 'linear'
       ? curveLinear
       : curveType === 'step'
-      ? curveStep
-      : curveType === 'stepAfter'
-      ? curveStepAfter
-      : curveType === 'stepBefore'
-      ? curveStepBefore
-      : curveMonotoneX;
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
   const [scope, animate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
   const isInView = useInView(scope);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -178,20 +181,27 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape1 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .defined((d: any) => !checkIfNullOrUndefined(d.y1))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y1(d.y1))
     .curve(curve);
 
   const lineShape2 = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .defined((d: any) => !checkIfNullOrUndefined(d.y2))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y2(d.y2))
     .curve(curve);
   const y1Ticks = y1.ticks(noOfYTicks);
   const y2Ticks = y2.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
@@ -221,16 +231,14 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [x, dataFormatted]);
+  }, [x, dataFormatted, onSeriesMouseOver]);
 
   useEffect(() => {
     if (isInView && data.length > 0) {
       animate(
         'path',
         { pathLength: [0, 1] },
-        {
-          duration: animateLine === true ? 5 : animateLine || 0,
-        },
+        { duration: animateLine === true ? 5 : animateLine || 0 },
       );
       labelAnimate(
         labelScope.current,
@@ -241,7 +249,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView, data]);
+  }, [isInView, data, animate, animateLine, labelAnimate, labelScope]);
   return (
     <>
       <svg
@@ -296,12 +304,8 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={-15}
-              classNames={{
-                axis: classNames?.xAxis?.axis,
-              }}
-              styles={{
-                axis: { stroke: lineColors[0], ...(styles?.xAxis?.axis || {}) },
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: lineColors[0], ...(styles?.xAxis?.axis || {}) } }}
             />
             <AxisTitle
               x={10 - margin.left}
@@ -356,12 +360,8 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={graphWidth + 15}
               x2={graphWidth + 15}
-              classNames={{
-                axis: classNames?.xAxis?.axis,
-              }}
-              styles={{
-                axis: { stroke: lineColors[1], ...(styles?.xAxis?.axis || {}) },
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: { stroke: lineColors[1], ...(styles?.xAxis?.axis || {}) } }}
             />
             <AxisTitle
               x={graphWidth + margin.right - 15}
@@ -382,12 +382,8 @@ export function Graph(props: Props) {
               y2={graphHeight}
               x1={-15}
               x2={graphWidth + 15}
-              classNames={{
-                axis: classNames?.xAxis?.axis,
-              }}
-              styles={{
-                axis: styles?.xAxis?.axis,
-              }}
+              classNames={{ axis: classNames?.xAxis?.axis }}
+              styles={{ axis: styles?.xAxis?.axis }}
             />
             <XTicksAndGridLines
               values={xTicks.map(d => format(d, dateFormat))}
@@ -411,6 +407,7 @@ export function Graph(props: Props) {
           </g>
           <g ref={scope}>
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape1(dataFormatted as any) as string}
               style={{
                 stroke: lineColors[0],
@@ -419,6 +416,7 @@ export function Graph(props: Props) {
               }}
             />
             <path
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               d={lineShape2(dataFormatted as any) as string}
               style={{
                 stroke: lineColors[1],
@@ -453,12 +451,10 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[0],
-                        }}
+                        style={{ fill: lineColors[0] }}
                       />
                     ) : null}
                     {showValues ? (
@@ -469,8 +465,8 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y2)
                             ? -8
                             : (d.y2 as number) < (d.y1 as number)
-                            ? -8
-                            : '1em'
+                              ? -8
+                              : '1em'
                         }
                         style={{
                           fill: lineColors[0],
@@ -501,12 +497,10 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColors[1],
-                        }}
+                        style={{ fill: lineColors[1] }}
                       />
                     ) : null}
                     {showValues ? (
@@ -517,8 +511,8 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y1)
                             ? -8
                             : (d.y1 as number) < (d.y2 as number)
-                            ? -8
-                            : '1em'
+                              ? -8
+                              : '1em'
                         }
                         style={{
                           fill: lineColors[1],

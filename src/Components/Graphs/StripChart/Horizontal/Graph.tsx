@@ -1,8 +1,9 @@
+import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import { scaleLinear } from 'd3-scale';
-import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import { ClassNameObject, StripChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -23,10 +24,12 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   maxValue?: number;
   minValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   showAxis: boolean;
   prefix: string;
@@ -72,7 +75,9 @@ export function Graph(props: Props) {
     classNames,
     valueColor,
   } = props;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -94,12 +99,12 @@ export function Graph(props: Props) {
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      ) < 0
-    ? 0
-    : Math.max(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.position))
+        .map(d => d.position),
+    ) < 0
+      ? 0
+      : Math.max(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.position))
           .map(d => d.position),
@@ -107,12 +112,12 @@ export function Graph(props: Props) {
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      ) >= 0
-    ? 0
-    : Math.min(
+      ...data
+        .filter(d => !checkIfNullOrUndefined(d.position))
+        .map(d => d.position),
+    ) >= 0
+      ? 0
+      : Math.min(
         ...data
           .filter(d => !checkIfNullOrUndefined(d.position))
           .map(d => d.position),
@@ -144,11 +149,12 @@ export function Graph(props: Props) {
                         : dotOpacity
                       : dotOpacity
                     : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf(d.label) !== -1
-                      ? 0.85
+                      ? highlightedDataPoints.indexOf(d.label) !== -1
+                        ? 0.85
+                        : dotOpacity
                       : dotOpacity
-                    : dotOpacity
                 }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseEnter={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -171,6 +177,7 @@ export function Graph(props: Props) {
                     }
                   }
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseMove={(event: any) => {
                   setMouseOverData(d);
                   setEventY(event.clientY);
@@ -195,15 +202,15 @@ export function Graph(props: Props) {
                           ? highlightedDataPoints.indexOf(d.label) !== -1
                             ? highlightColor
                             : data.filter(el => el.color).length === 0
+                              ? colors[0]
+                              : !d.color
+                                ? Colors.gray
+                                : colors[colorDomain.indexOf(d.color)]
+                          : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(d.color)]
-                          : data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(d.color)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(d.color)],
                     }}
                     r={radius}
                   />
@@ -219,15 +226,15 @@ export function Graph(props: Props) {
                           ? highlightedDataPoints.indexOf(d.label) !== -1
                             ? highlightColor
                             : data.filter(el => el.color).length === 0
+                              ? colors[0]
+                              : !d.color
+                                ? Colors.gray
+                                : colors[colorDomain.indexOf(d.color)]
+                          : data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(d.color)]
-                          : data.filter(el => el.color).length === 0
-                          ? colors[0]
-                          : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(d.color)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(d.color)],
                     }}
                   />
                 )}
@@ -243,15 +250,15 @@ export function Graph(props: Props) {
                             ? highlightedDataPoints.indexOf(d.label) !== -1
                               ? highlightColor
                               : data.filter(el => el.color).length === 0
+                                ? colors[0]
+                                : !d.color
+                                  ? Colors.gray
+                                  : colors[colorDomain.indexOf(d.color)]
+                            : data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? Colors.gray
-                              : colors[colorDomain.indexOf(d.color)]
-                            : data.filter(el => el.color).length === 0
-                            ? colors[0]
-                            : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(d.color)]),
+                                ? Colors.gray
+                                : colors[colorDomain.indexOf(d.color)]),
                         textAnchor: 'middle',
                         ...(styles?.graphObjectValues || {}),
                       }}
@@ -321,11 +328,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

@@ -2,6 +2,7 @@ import * as ss from 'simple-statistics';
 import { format } from 'd3-format';
 import uniq from 'lodash.uniq';
 import sortBy from 'lodash.sortby';
+
 import { padNumberArray } from './padArray';
 
 /**

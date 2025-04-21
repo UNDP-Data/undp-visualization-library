@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScatterPlot } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,6 +10,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { ScatterPlot } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof ScatterPlot>;
 
@@ -26,19 +28,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   label: string; 
   size: number;
   color?: string;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     colors: {
@@ -51,9 +48,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    colorDomain: {
-      control: 'text',
-    },
+    colorDomain: { control: 'text' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -63,64 +58,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Values and Ticks
-    refXValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    refYValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    refXValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    refYValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    noOfXTicks: { table: { defaultValue: { summary: '5' } } },
+    noOfYTicks: { table: { defaultValue: { summary: '5' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'false' } } },
+    showColorScale: { table: { defaultValue: { summary: 'true' } } },
+    showNAColor: { table: { defaultValue: { summary: 'true' } } },
     highlightedDataPoints: {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
@@ -182,14 +135,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    labelColor: {
-      control: 'color',
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    labelColor: { control: 'color' },
     regressionLine: {
       control: 'text',
       table: {
@@ -200,25 +147,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
     resetSelectionOnDoubleClick: {
       control: 'boolean',
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+      table: { defaultValue: { summary: 'true' } },
     },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
 
@@ -269,8 +206,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           regressionLine === 'false'
             ? false
             : regressionLine === 'true'
-            ? true
-            : regressionLine
+              ? true
+              : regressionLine
         }
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
@@ -278,8 +215,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

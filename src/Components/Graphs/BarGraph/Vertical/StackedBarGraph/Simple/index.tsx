@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
+
 import { Graph } from './Graph';
+
 import {
   ReferenceDataType,
   GroupedBarGraphDataType,
@@ -44,10 +46,12 @@ interface Props {
   prefix?: string;
   relativeHeight?: number;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
   maxValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
@@ -152,8 +156,8 @@ export function VerticalStackedBarGraph(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -173,9 +177,7 @@ export function VerticalStackedBarGraph(props: Props) {
         }
       >
         <div
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -195,9 +197,10 @@ export function VerticalStackedBarGraph(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -226,24 +229,24 @@ export function VerticalStackedBarGraph(props: Props) {
                           sortParameter !== undefined
                             ? sortParameter === 'total'
                               ? sortBy(data, d =>
-                                  sum(
-                                    d.size.filter(
-                                      el => !checkIfNullOrUndefined(el),
-                                    ),
+                                sum(
+                                  d.size.filter(
+                                    el => !checkIfNullOrUndefined(el),
                                   ),
-                                ).filter((_d, i) =>
-                                  maxNumberOfBars ? i < maxNumberOfBars : true,
-                                )
-                              : sortBy(data, d =>
-                                  checkIfNullOrUndefined(d.size[sortParameter])
-                                    ? -Infinity
-                                    : d.size[sortParameter],
-                                ).filter((_d, i) =>
-                                  maxNumberOfBars ? i < maxNumberOfBars : true,
-                                )
-                            : data.filter((_d, i) =>
+                                ),
+                              ).filter((_d, i) =>
                                 maxNumberOfBars ? i < maxNumberOfBars : true,
                               )
+                              : sortBy(data, d =>
+                                checkIfNullOrUndefined(d.size[sortParameter])
+                                  ? -Infinity
+                                  : d.size[sortParameter],
+                              ).filter((_d, i) =>
+                                maxNumberOfBars ? i < maxNumberOfBars : true,
+                              )
+                            : data.filter((_d, i) =>
+                              maxNumberOfBars ? i < maxNumberOfBars : true,
+                            )
                         }
                         barColors={colors}
                         width={width || svgWidth}

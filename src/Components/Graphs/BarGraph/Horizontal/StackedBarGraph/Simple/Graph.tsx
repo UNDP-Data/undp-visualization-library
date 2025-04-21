@@ -1,8 +1,9 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import sum from 'lodash.sum';
 import { useState } from 'react';
-import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   GroupedBarGraphDataType,
@@ -37,9 +38,11 @@ interface Props {
   prefix: string;
   showValues?: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   maxValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
   rtl: boolean;
@@ -96,7 +99,9 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -106,10 +111,10 @@ export function Graph(props: Props) {
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data.map(
-          d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      ...data.map(
+        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+      ),
+    );
 
   const dataWithId = data.map((d, i) => ({
     ...d,
@@ -125,8 +130,8 @@ export function Graph(props: Props) {
       minBarThickness
         ? Math.max(graphHeight, minBarThickness * barOrder.length)
         : maxBarThickness
-        ? Math.min(graphHeight, maxBarThickness * barOrder.length)
-        : graphHeight,
+          ? Math.min(graphHeight, maxBarThickness * barOrder.length)
+          : graphHeight,
     ])
     .paddingInner(barPadding);
   const xTicks = x.ticks(noOfTicks);
@@ -184,6 +189,7 @@ export function Graph(props: Props) {
                           : 0.3
                         : 1
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, sizeIndex: j });
                       setEventY(event.clientY);
@@ -192,6 +198,7 @@ export function Graph(props: Props) {
                         onSeriesMouseOver({ ...d, sizeIndex: j });
                       }
                     }}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseMove={(event: any) => {
                       setMouseOverData({ ...d, sizeIndex: j });
                       setEventY(event.clientY);
@@ -228,14 +235,12 @@ export function Graph(props: Props) {
                           j === 0
                             ? 0
                             : sum(
-                                d.size.filter((element, k) => k < j && element),
-                              ),
+                              d.size.filter((element, k) => k < j && element),
+                            ),
                         )}
                         y={0}
                         width={x(el)}
-                        style={{
-                          fill: barColors[j],
-                        }}
+                        style={{ fill: barColors[j] }}
                         height={y.bandwidth()}
                       />
                     ) : null}
@@ -244,34 +249,34 @@ export function Graph(props: Props) {
                     x(el) /
                       numberFormattingFunction(el, prefix, suffix).length >
                       12 ? (
-                      <text
-                        x={
+                        <text
+                          x={
                           x(
                             j === 0
                               ? 0
                               : sum(
-                                  d.size.filter(
-                                    (element, k) => k < j && element,
-                                  ),
+                                d.size.filter(
+                                  (element, k) => k < j && element,
                                 ),
+                              ),
                           ) +
                           x(el) / 2
                         }
-                        y={y.bandwidth() / 2}
-                        style={{
-                          fill: getTextColorBasedOnBgColor(barColors[j]),
-                          textAnchor: 'middle',
-                          ...(styles?.graphObjectValues || {}),
-                        }}
-                        dy='0.33em'
-                        className={cn(
-                          'graph-value text-sm',
-                          classNames?.graphObjectValues,
-                        )}
-                      >
-                        {numberFormattingFunction(el, prefix, suffix)}
-                      </text>
-                    ) : null}
+                          y={y.bandwidth() / 2}
+                          style={{
+                            fill: getTextColorBasedOnBgColor(barColors[j]),
+                            textAnchor: 'middle',
+                            ...(styles?.graphObjectValues || {}),
+                          }}
+                          dy='0.33em'
+                          className={cn(
+                            'graph-value text-sm',
+                            classNames?.graphObjectValues,
+                          )}
+                        >
+                          {numberFormattingFunction(el, prefix, suffix)}
+                        </text>
+                      ) : null}
                   </g>
                 ))}
                 {showLabels ? (
@@ -367,11 +372,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

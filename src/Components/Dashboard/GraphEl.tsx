@@ -1,16 +1,5 @@
 import { P } from '@undp-data/undp-design-system-react';
-import {
-  DataTableColumnDataType,
-  GraphConfigurationDataType,
-  GraphSettingsDataType,
-  GraphType,
-  HighlightAreaSettingsDataType,
-  HighlightAreaSettingsForScatterPlotDataType,
-} from '@/Types';
-import {
-  validateDataSchema,
-  validateSettingsSchema,
-} from '@/Utils/validateSchema';
+
 import { AnimatedButterflyChart } from '../Graphs/ButterflyChart/Animated';
 import { ButterflyChart } from '../Graphs/ButterflyChart/Simple';
 import { CirclePackingGraph } from '../Graphs/CirclePackingGraph';
@@ -38,7 +27,6 @@ import { AreaChart } from '../Graphs/StackedAreaChart';
 import { StatCardFromData } from '../Graphs/StatCard/StatCardFromData';
 import { TreeMapGraph } from '../Graphs/TreeMapGraph';
 import { UnitChart } from '../Graphs/UnitChart';
-import { getValues } from '@/Utils/getValues';
 import { DifferenceLineChart } from '../Graphs/LineCharts/DifferenceLineChart';
 import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMaps/MapWithLayerSelection';
 import { SankeyChart } from '../Graphs/SankeyChart';
@@ -59,8 +47,23 @@ import {
 import { StripChart } from '../Graphs/StripChart';
 import { BeeSwarmChart } from '../Graphs/BeeSwarmChart';
 
+import { getValues } from '@/Utils/getValues';
+import {
+  validateDataSchema,
+  validateSettingsSchema,
+} from '@/Utils/validateSchema';
+import {
+  DataTableColumnDataType,
+  GraphConfigurationDataType,
+  GraphSettingsDataType,
+  GraphType,
+  HighlightAreaSettingsDataType,
+  HighlightAreaSettingsForScatterPlotDataType,
+} from '@/Types';
+
 interface Props {
   graph: GraphType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   graphData: any;
   settings?: GraphSettingsDataType;
   debugMode?: boolean;
@@ -96,9 +99,7 @@ function GraphEl(props: Props) {
         className={`flex my-0 mx-auto grow flex-col justify-center ${
           settings?.width ? 'w-fit' : 'w-full'
         }`}
-        style={{
-          height: 'inherit',
-        }}
+        style={{ height: 'inherit' }}
       >
         <P
           size='sm'
@@ -180,10 +181,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -208,6 +209,7 @@ function GraphEl(props: Props) {
           minBarThickness: settings?.minBarThickness,
           maxNumberOfBars: settings?.maxNumberOfBars,
           ariaLabel: settings?.ariaLabel,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.label);
           },
@@ -355,10 +357,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -849,10 +851,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'x',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'x',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -877,6 +879,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.id);
           },
@@ -900,18 +903,18 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
               : getValues(
-                  'x',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'x',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
               : getValues(
-                  'y',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'y',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -936,6 +939,7 @@ function GraphEl(props: Props) {
           language: settings?.language,
           minHeight: settings?.minHeight,
           ariaLabel: settings?.ariaLabel,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.id);
           },
@@ -961,10 +965,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1026,6 +1030,7 @@ function GraphEl(props: Props) {
           bottomMargin: settings?.bottomMargin,
           ariaLabel: settings?.ariaLabel,
           legendMaxWidth: settings?.legendMaxWidth,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.label);
           },
@@ -1051,10 +1056,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           radius: settings?.radius,
           axisTitles: settings?.axisTitles,
           backgroundColor: settings?.backgroundColor,
@@ -1098,10 +1103,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           radius: settings?.radius,
           xAxisTitle: settings?.xAxisTitle,
           yAxisTitle: settings?.yAxisTitle,
@@ -1227,10 +1232,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1248,6 +1253,7 @@ function GraphEl(props: Props) {
           minHeight: settings?.minHeight,
           showNAColor: settings?.showNAColor,
           ariaLabel: settings?.ariaLabel,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.label);
           },
@@ -1276,10 +1282,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1299,6 +1305,7 @@ function GraphEl(props: Props) {
           ariaLabel: settings?.ariaLabel,
           radius: settings?.radius,
           maxRadiusValue: settings?.maxRadiusValue,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSeriesMouseClick: (el: any) => {
             updateFilters?.(el.label);
           },
@@ -1328,10 +1335,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1374,10 +1381,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           radius: settings?.radius,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1429,10 +1436,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1470,18 +1477,18 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
               : getValues(
-                  'leftBar',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'leftBar',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
               : getValues(
-                  'rightBar',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'rightBar',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -1603,18 +1610,18 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('barTitle') !== -1
               ? settings?.barTitle
               : getValues(
-                  'barTitle',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'barTitle',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           lineTitle:
             Object.keys(settings || {}).indexOf('lineTitle') !== -1
               ? settings?.lineTitle
               : getValues(
-                  'lineTitle',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'lineTitle',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -1811,18 +1818,18 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
               : getValues(
-                  'x',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'x',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
               : getValues(
-                  'y',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'y',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -1871,10 +1878,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'x',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'x',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -1924,10 +1931,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1969,18 +1976,18 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
               : getValues(
-                  'leftBar',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'leftBar',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
               : getValues(
-                  'rightBar',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'rightBar',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -2097,10 +2104,10 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues(
-                  'color',
-                  graphDataConfiguration || [],
-                  readableHeader || [],
-                ),
+                'color',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           radius: settings?.radius,
           xAxisTitle: settings?.xAxisTitle,
           yAxisTitle: settings?.yAxisTitle,
@@ -2239,30 +2246,28 @@ function GraphEl(props: Props) {
           ? 'justify-center'
           : 'justify-start'
       } ${settings?.theme || 'light'}`}
-      style={{
-        minHeight: 'inherit',
-      }}
+      style={{ minHeight: 'inherit' }}
     >
       {validateSettingsSchema(getGraphProps(graph) || {}, graph).isValid &&
       validateDataSchema(graphData, graph).isValid &&
       GraphComponent ? (
-        // eslint-disable-next-line react/jsx-props-no-spreading
+         
         <GraphComponent {...graphProps} />
-      ) : (
-        <P
-          size='sm'
-          marginBottom='none'
-          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
-        >
-          {GraphComponent
-            ? validateSettingsSchema(settings || {}, graph).isValid
-              ? `Error in data: ${validateDataSchema(graphData, graph).err}`
-              : `Error in settings: ${
+        ) : (
+          <P
+            size='sm'
+            marginBottom='none'
+            className='p-2 text-center text-accent-dark-red dark:text-accent-red'
+          >
+            {GraphComponent
+              ? validateSettingsSchema(settings || {}, graph).isValid
+                ? `Error in data: ${validateDataSchema(graphData, graph).err}`
+                : `Error in settings: ${
                   validateSettingsSchema(settings || {}, graph).err
                 }`
-            : `Invalid chart type: ${graph}`}
-        </P>
-      )}
+              : `Invalid chart type: ${graph}`}
+          </P>
+        )}
     </div>
   );
 }

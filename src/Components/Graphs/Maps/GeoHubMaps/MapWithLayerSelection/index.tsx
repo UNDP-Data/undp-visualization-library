@@ -4,9 +4,11 @@ import {
   createFilter,
   DropdownSelect,
 } from '@undp-data/undp-design-system-react';
+
+import { MapEl } from './MapEl';
+
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
-import { MapEl } from './MapEl';
 import {
   ClassNameObject,
   Languages,
@@ -122,8 +124,8 @@ export function GeoHubMapWithLayerSelection(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -141,9 +143,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription ? (
@@ -177,6 +177,7 @@ export function GeoHubMapWithLayerSelection(props: Props) {
                 value: layerSelection[0].layerID,
               }}
               controlShouldRenderValue
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(el: any) => {
                 if (el) setSelectedLayer(el.value);
               }}

@@ -8,6 +8,7 @@ interface Props {
   graphDescription?: string;
   width?: number;
   graphDownload?: HTMLDivElement | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataDownload?: any;
   isDashboard?: boolean;
   styles?: { title?: React.CSSProperties; description?: React.CSSProperties };
@@ -30,9 +31,7 @@ export function GraphHeader(props: Props) {
       className={`flex gap-2 justify-between ${
         graphDescription && graphTitle ? 'items-start' : 'items-center'
       }`}
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Graph header'
     >
       <div className='flex-col flex gap-1'>
@@ -57,7 +56,7 @@ export function GraphHeader(props: Props) {
           {graphDownload ? (
             <ImageDownloadButton nodeID={graphDownload} buttonSmall />
           ) : null}
-          {dataDownload ? (
+          {dataDownload && dataDownload.length > 0 ? (
             <CsvDownloadButton
               csvData={dataDownload}
               buttonSmall

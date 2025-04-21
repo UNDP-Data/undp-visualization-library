@@ -27,7 +27,7 @@ export function imageDownload(node: HTMLElement, filename: string) {
         'undp-viz-download-button',
       );
       Array.from(elementsToRemove).forEach(el => el.remove());
-      // eslint-disable-next-line no-param-reassign
+       
       clonedNode.style.margin = '0';
     },
   }).then((canvas: HTMLCanvasElement) => {

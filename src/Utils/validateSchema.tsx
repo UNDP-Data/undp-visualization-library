@@ -1,4 +1,7 @@
 import Ajv from 'ajv';
+
+import { GraphList } from './getGraphList';
+
 import { GraphType } from '@/Types';
 import {
   getDashboardJSONSchema,
@@ -8,7 +11,6 @@ import {
   getSettingsSchema,
   getSingleGraphJSONSchema,
 } from '@/Schemas/getSchema';
-import { GraphList } from './getGraphList';
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
@@ -26,6 +28,7 @@ const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
  *   console.error(result.err);
  * }
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateDataSchema(data: any, graph: GraphType) {
   if (
     GraphList.filter(el => el.geoHubMapPresentation)
@@ -86,6 +89,7 @@ export function validateDataSchema(data: any, graph: GraphType) {
  *   console.error(result.err);
  * }
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateSettingsSchema(settings: any, graph: GraphType) {
   const schema = getSettingsSchema(graph);
 
@@ -127,6 +131,7 @@ export function validateSettingsSchema(settings: any, graph: GraphType) {
  * }
  */
 export function validateConfigSchema(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: any,
   graph:
     | 'singleGraphDashboard'
@@ -134,6 +139,7 @@ export function validateConfigSchema(
     | 'griddedGraph'
     | 'multiGraphDashboardWideToLongFormat',
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let schema: any;
   switch (graph) {
     case 'griddedGraph':

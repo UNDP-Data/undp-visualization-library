@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-
 import {
   DropdownSelect,
   createFilter,
 } from '@undp-data/undp-design-system-react';
-import { GraphHeader } from '@/Components/Elements/GraphHeader';
-import { GraphFooter } from '@/Components/Elements/GraphFooter';
+
 import { GeoHubMultipleMap } from './GeoHubMultipleMap';
 import { GeoHubSingleMap } from './GeoHubSingleMap';
+
+import { GraphHeader } from '@/Components/Elements/GraphHeader';
+import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import {
   ClassNameObject,
   Languages,
@@ -127,8 +128,8 @@ export function GeoHubMap(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -146,9 +147,7 @@ export function GeoHubMap(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription ? (
@@ -180,6 +179,7 @@ export function GeoHubMap(props: Props) {
                   value: mapStyle[0].style,
                 }}
                 controlShouldRenderValue
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(el: any) => {
                   if (el) setSelectedMapStyle(el.value);
                 }}

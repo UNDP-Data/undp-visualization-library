@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { P, Spinner } from '@undp-data/undp-design-system-react';
+
+import { GriddedGraphs } from './GriddedGraphs';
+
 import {
   AdvancedDataSelectionDataType,
   AggregationSettingsDataType,
@@ -12,7 +15,6 @@ import {
   GraphType,
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
-import { GriddedGraphs } from './GriddedGraphs';
 import { validateConfigSchema } from '@/Utils/validateSchema';
 
 interface ConfigObject {

@@ -13,9 +13,10 @@ import { format, parse } from 'date-fns';
 import { bisectCenter } from 'd3-array';
 import { pointer, select } from 'd3-selection';
 import sortBy from 'lodash.sortby';
-import { useAnimate, useInView } from 'framer-motion';
+import { useAnimate, useInView } from 'motion/react';
 import { linearRegression } from 'simple-statistics';
 import { cn } from '@undp-data/undp-design-system-react';
+
 import {
   AnnotationSettingsDataType,
   ClassNameObject,
@@ -53,6 +54,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues: ReferenceDataType[];
   highlightAreaSettings: HighlightAreaSettingsDataType[];
@@ -126,18 +128,19 @@ export function Graph(props: Props) {
     curveType === 'linear'
       ? curveLinear
       : curveType === 'step'
-      ? curveStep
-      : curveType === 'stepAfter'
-      ? curveStepAfter
-      : curveType === 'stepBefore'
-      ? curveStepBefore
-      : curveMonotoneX;
+        ? curveStep
+        : curveType === 'stepAfter'
+          ? curveStepAfter
+          : curveType === 'stepBefore'
+            ? curveStepBefore
+            : curveMonotoneX;
   const [scope, animate] = useAnimate();
   const [intervalAreaScope, intervalAreaAnimate] = useAnimate();
   const [labelScope, labelAnimate] = useAnimate();
   const [annotationsScope, annotationsAnimate] = useAnimate();
   const [regLineScope, regLineAnimate] = useAnimate();
   const isInView = useInView(scope);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -200,10 +203,10 @@ export function Graph(props: Props) {
   const minParam: number = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin)))
-    ? Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin))) > 0
-      ? 0
-      : Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin)))
-    : 0;
+      ? Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin))) > 0
+        ? 0
+        : Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin)))
+      : 0;
   const maxParam: number = Math.max(
     ...dataFormatted.map(d => Math.max(d.y, d.yMax, d.yMin)),
   )
@@ -223,23 +226,32 @@ export function Graph(props: Props) {
     .nice();
 
   const lineShape = line()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.y))
     .curve(curve);
 
   const lineShapeMin = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.yMin))
     .curve(curve);
 
   const lineShapeMax = line()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.yMax))
     .curve(curve);
 
   const areaShape = area()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y0((d: any) => y(d.yMin))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y1((d: any) => y(d.yMax))
     .curve(curve);
 
@@ -248,6 +260,7 @@ export function Graph(props: Props) {
   const xTicks = x.ticks(noOfXTicks);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousemove = (event: any) => {
       const selectedData =
         dataFormatted[
@@ -277,15 +290,13 @@ export function Graph(props: Props) {
     select(MouseoverRectRef.current)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [x, dataFormatted]);
+  }, [x, dataFormatted, onSeriesMouseOver]);
   useEffect(() => {
     if (isInView && data.length > 0) {
       animate(
         'path',
         { pathLength: [0, 1] },
-        {
-          duration: animateLine === true ? 5 : animateLine || 0,
-        },
+        { duration: animateLine === true ? 5 : animateLine || 0 },
       );
       intervalAreaAnimate(
         intervalAreaScope.current,
@@ -320,7 +331,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView, data]);
+  }, [isInView, data, animate, animateLine, intervalAreaAnimate, intervalAreaScope, labelAnimate, labelScope, annotationsAnimate, annotationsScope, regLineAnimate, regLineScope]);
   const regressionLineParam = linearRegression(
     dataFormatted
       .filter(
@@ -408,9 +419,7 @@ export function Graph(props: Props) {
                 <text
                   y={graphHeight}
                   x={x(d)}
-                  style={{
-                    textAnchor: 'middle',
-                  }}
+                  style={{ textAnchor: 'middle' }}
                   className='fill-primary-gray-700 dark:fill-primary-gray-300 xs:max-[360px]:hidden text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs'
                   dy={15}
                 >
@@ -422,6 +431,7 @@ export function Graph(props: Props) {
           <g>
             <g ref={scope}>
               <path
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 d={areaShape(dataFormatted as any) as string}
                 style={{
                   fill: intervalAreaColor,
@@ -432,6 +442,7 @@ export function Graph(props: Props) {
               {intervalLineStrokeWidth ? (
                 <g>
                   <path
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     d={lineShapeMin(dataFormatted as any) as string}
                     style={{
                       stroke: intervalLineColors[0],
@@ -440,6 +451,7 @@ export function Graph(props: Props) {
                     }}
                   />
                   <path
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     d={lineShapeMax(dataFormatted as any) as string}
                     style={{
                       stroke: intervalLineColors[1],
@@ -450,6 +462,7 @@ export function Graph(props: Props) {
                 </g>
               ) : null}
               <path
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 d={lineShape(dataFormatted as any) as string}
                 style={{
                   stroke: lineColor,
@@ -485,12 +498,10 @@ export function Graph(props: Props) {
                           graphWidth / dataFormatted.length < 5
                             ? 0
                             : graphWidth / dataFormatted.length < 20
-                            ? 2
-                            : 4
+                              ? 2
+                              : 4
                         }
-                        style={{
-                          fill: lineColor,
-                        }}
+                        style={{ fill: lineColor }}
                       />
                     ) : null}
                     {showIntervalDots ? (
@@ -502,12 +513,10 @@ export function Graph(props: Props) {
                             graphWidth / dataFormatted.length < 5
                               ? 0
                               : graphWidth / dataFormatted.length < 20
-                              ? 2
-                              : 4
+                                ? 2
+                                : 4
                           }
-                          style={{
-                            fill: intervalLineColors[0],
-                          }}
+                          style={{ fill: intervalLineColors[0] }}
                         />
                         <circle
                           cx={x(d.date)}
@@ -516,12 +525,10 @@ export function Graph(props: Props) {
                             graphWidth / dataFormatted.length < 5
                               ? 0
                               : graphWidth / dataFormatted.length < 20
-                              ? 2
-                              : 4
+                                ? 2
+                                : 4
                           }
-                          style={{
-                            fill: intervalLineColors[1],
-                          }}
+                          style={{ fill: intervalLineColors[1] }}
                         />
                       </g>
                     ) : null}
@@ -624,27 +631,27 @@ export function Graph(props: Props) {
               );
               const connectorSettings = d.showConnector
                 ? {
-                    y1: endPoints.y,
-                    x1: endPoints.x,
-                    y2: d.yCoordinate
-                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                      : 0 + (d.yOffset || 0),
-                    x2: d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                  y1: endPoints.y,
+                  x1: endPoints.x,
+                  y2: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                    : 0 + (d.yOffset || 0),
+                  x2: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
                         (d.xOffset || 0)
-                      : 0 + (d.xOffset || 0),
-                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                    cx: d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                      : 0,
-                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                      ? 3.5
-                      : (d.connectorRadius as number),
-                    strokeWidth:
+                    : 0 + (d.xOffset || 0),
+                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                  cx: d.xCoordinate
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
+                    : 0,
+                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                    ? 3.5
+                    : (d.connectorRadius as number),
+                  strokeWidth:
                       d.showConnector === true
                         ? 2
                         : Math.min(d.showConnector || 0, 1),
-                  }
+                }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -653,9 +660,9 @@ export function Graph(props: Props) {
                 x: rtl
                   ? 0
                   : d.xCoordinate
-                  ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
                     (d.xOffset || 0)
-                  : 0 + (d.xOffset || 0),
+                    : 0 + (d.xOffset || 0),
                 width: rtl
                   ? d.xCoordinate
                     ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +

@@ -1,3 +1,6 @@
+import { AnimatedHorizontalDumbbellChart } from './Horizontal/Animated';
+import { AnimatedVerticalDumbbellChart } from './Vertical/Animated';
+
 import {
   SourcesDataType,
   Languages,
@@ -6,8 +9,6 @@ import {
   ClassNameObject,
   ReferenceDataType,
 } from '@/Types';
-import { AnimatedHorizontalDumbbellChart } from './Horizontal/Animated';
-import { AnimatedVerticalDumbbellChart } from './Vertical/Animated';
 
 interface Props {
   // Data
@@ -112,13 +113,15 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Slider features

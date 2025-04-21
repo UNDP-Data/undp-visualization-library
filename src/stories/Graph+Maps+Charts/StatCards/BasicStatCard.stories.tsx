@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { BasicStatCard } from '@/index';
+
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { BasicStatCard } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof BasicStatCard>;
 
@@ -17,13 +19,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   tags: ['autodocs'],
   argTypes: {
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     backgroundColor: {
@@ -36,13 +32,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
     verticalAlign: {
       control: 'inline-radio',
       options: ['center', 'top', 'bottom'],
@@ -51,42 +41,18 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'center' },
       },
     },
-    headingFontSize: {
-      table: { defaultValue: { summary: '4.375rem' } },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    headingFontSize: { table: { defaultValue: { summary: '4.375rem' } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
     // Graph parameters
-    centerAlign: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    textBackground: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    centerAlign: { table: { defaultValue: { summary: 'false' } } },
+    textBackground: { table: { defaultValue: { summary: 'false' } } },
     value: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'number | string',
-        },
-      },
+      table: { type: { summary: 'number | string' } },
     },
     year: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'number | string',
-        },
-      },
+      table: { type: { summary: 'number | string' } },
     },
     // Configuration and Options
     language: {
@@ -109,9 +75,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
   },
-  args: {
-    value: 20,
-  },
+  args: { value: 20 },
   render: ({ backgroundColor, ...args }) => {
     return (
       <BasicStatCard
@@ -119,8 +83,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import uniqBy from 'lodash.uniqby';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
+
 import { Graph } from './Graph';
+
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import {
   ClassNameObject,
@@ -116,8 +118,10 @@ interface Props {
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -198,16 +202,16 @@ export function SankeyChart(props: Props) {
         typeof sourceColors === 'string' || !sourceColors
           ? sourceColors || Colors.graphMainColor
           : sourceColors[
-              (
-                sourceColorDomain ||
+            (
+              sourceColorDomain ||
                 uniqBy(data, 'source').map(el => `${el.source}`)
-              ).findIndex(el => `${el}` === `${d.source}`) > sourceColors.length
-                ? sourceColors.length - 1
-                : (
-                    sourceColorDomain ||
+            ).findIndex(el => `${el}` === `${d.source}`) > sourceColors.length
+              ? sourceColors.length - 1
+              : (
+                sourceColorDomain ||
                     uniqBy(data, 'source').map(el => `${el.source}`)
-                  ).findIndex(el => `${el}` === `${d.source}`)
-            ],
+              ).findIndex(el => `${el}` === `${d.source}`)
+          ],
       totalValue: sum(
         data.filter(el => `${el.source}` === `${d.source}`).map(el => el.value),
       ),
@@ -216,8 +220,8 @@ export function SankeyChart(props: Props) {
       sortNodes === 'asc'
         ? sortBy(sourceNodes, d => d.totalValue)
         : sortNodes === 'desc'
-        ? sortBy(sourceNodes, d => d.totalValue).reverse()
-        : sourceNodes;
+          ? sortBy(sourceNodes, d => d.totalValue).reverse()
+          : sourceNodes;
     const targetNodes = uniqBy(data, 'target').map(d => ({
       name: `target_${d.target}`,
       type: 'target' as const,
@@ -226,16 +230,16 @@ export function SankeyChart(props: Props) {
         typeof targetColors === 'string' || !targetColors
           ? targetColors || Colors.graphMainColor
           : targetColors[
-              (
-                targetColorDomain ||
+            (
+              targetColorDomain ||
                 uniqBy(data, 'target').map(el => `${el.target}`)
-              ).findIndex(el => `${el}` === `${d.target}`) > targetColors.length
-                ? targetColors.length - 1
-                : (
-                    targetColorDomain ||
+            ).findIndex(el => `${el}` === `${d.target}`) > targetColors.length
+              ? targetColors.length - 1
+              : (
+                targetColorDomain ||
                     uniqBy(data, 'target').map(el => `${el.target}`)
-                  ).findIndex(el => `${el}` === `${d.target}`)
-            ],
+              ).findIndex(el => `${el}` === `${d.target}`)
+          ],
       totalValue: sum(
         data.filter(el => `${el.target}` === `${d.target}`).map(el => el.value),
       ),
@@ -244,8 +248,8 @@ export function SankeyChart(props: Props) {
       sortNodes === 'asc'
         ? sortBy(targetNodes, d => d.totalValue)
         : sortNodes === 'desc'
-        ? sortBy(targetNodes, d => d.totalValue).reverse()
-        : targetNodes;
+          ? sortBy(targetNodes, d => d.totalValue).reverse()
+          : targetNodes;
 
     const nodes = [...sourceNodesSorted, ...targetNodesSorted];
     setSankeyData({
@@ -257,7 +261,7 @@ export function SankeyChart(props: Props) {
         data: { ...d },
       })),
     });
-  }, [data]);
+  }, [data, sortNodes, sourceColorDomain, sourceColors, targetColorDomain, targetColors]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
@@ -284,8 +288,8 @@ export function SankeyChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -306,9 +310,7 @@ export function SankeyChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-4 w-full grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -328,9 +330,10 @@ export function SankeyChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -392,7 +395,7 @@ export function SankeyChart(props: Props) {
                       classNames={classNames}
                       detailsOnClick={detailsOnClick}
                     />
-                  ) : null}
+                    ) : null}
                 </div>
               )}
             </div>

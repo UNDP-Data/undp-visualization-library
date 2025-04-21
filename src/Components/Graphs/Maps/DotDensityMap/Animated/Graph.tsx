@@ -1,15 +1,16 @@
+import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
-import isEqual from 'lodash.isequal';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   DotDensityMapWithDateDataType,
@@ -21,6 +22,7 @@ import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: DotDensityMapWithDateDataType[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData: any;
   colorDomain: string[];
   width: number;
@@ -35,12 +37,14 @@ interface Props {
   showLabels: boolean;
   mapBorderColor: string;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
   showColorScale: boolean;
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedDataPoints: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   showAntarctica: boolean;
   indx: number;
@@ -96,7 +100,9 @@ export function Graph(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -110,9 +116,9 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([0, maxBy(data, 'radius')?.radius as number])
-          .range([0.25, radius])
-          .nice()
+        .domain([0, maxBy(data, 'radius')?.radius as number])
+        .range([0.25, radius])
+        .nice()
       : undefined;
 
   useEffect(() => {
@@ -131,6 +137,7 @@ export function Graph(props: Props) {
       });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapSvgSelect.call(zoomBehaviour as any);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgHeight, svgWidth]);
   return (
     <>
@@ -142,13 +149,16 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g ref={mapG}>
-          {mapData.features.map((d: any, i: number) => {
-            if (d.properties.NAME === 'Antarctica' && !showAntarctica)
-              return null;
-            return (
-              <g key={i}>
-                {d.geometry.type === 'MultiPolygon'
-                  ? d.geometry.coordinates.map((el: any, j: any) => {
+          {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            mapData.features.map((d: any, i: number) => {
+              if (d.properties.NAME === 'Antarctica' && !showAntarctica)
+                return null;
+              return (
+                <g key={i}>
+                  {d.geometry.type === 'MultiPolygon'
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    ? d.geometry.coordinates.map((el: any, j: any) => {
                       let masterPath = '';
                       el.forEach((geo: number[][]) => {
                         let path = ' M';
@@ -175,7 +185,8 @@ export function Graph(props: Props) {
                         />
                       );
                     })
-                  : d.geometry.coordinates.map((el: any, j: number) => {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    : d.geometry.coordinates.map((el: any, j: number) => {
                       let path = 'M';
                       el.forEach((c: number[], k: number) => {
                         const point = projection([c[0], c[1]]) as [
@@ -198,17 +209,17 @@ export function Graph(props: Props) {
                         />
                       );
                     })}
-              </g>
-            );
-          })}
+                </g>
+              );
+            })}
           <AnimatePresence>
             {groupedData[indx].values.map((d, i) => {
               const color =
                 data.filter(el => el.color).length === 0
                   ? colors[0]
                   : !d.color
-                  ? Colors.gray
-                  : colors[colorDomain.indexOf(`${d.color}`)];
+                    ? Colors.gray
+                    : colors[colorDomain.indexOf(`${d.color}`)];
               return (
                 <g
                   key={i}
@@ -218,10 +229,11 @@ export function Graph(props: Props) {
                         ? 1
                         : 0.3
                       : highlightedDataPoints.length !== 0
-                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
-                        ? 1
-                        : 0.3
-                      : 1
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                          ? 1
+                          : 0.3
+                        : 1
                   }
                   onMouseEnter={event => {
                     setMouseOverData(d);
@@ -262,23 +274,21 @@ export function Graph(props: Props) {
                   <motion.circle
                     cx={(projection([d.long, d.lat]) as [number, number])[0]}
                     cy={(projection([d.long, d.lat]) as [number, number])[1]}
-                    style={{
-                      fillOpacity: 0.8,
-                    }}
+                    style={{ fillOpacity: 0.8 }}
                     animate={{
                       r: !radiusScale ? radius : radiusScale(d.radius || 0),
                       fill:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       stroke:
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                     }}
                     transition={{ duration: 0.5 }}
                   />
@@ -288,21 +298,17 @@ export function Graph(props: Props) {
                         !radiusScale
                           ? (
                               projection([d.long, d.lat]) as [number, number]
-                            )[0] + radius
+                          )[0] + radius
                           : (
                               projection([d.long, d.lat]) as [number, number]
-                            )[0] + radiusScale(d.radius || 0)
+                          )[0] + radiusScale(d.radius || 0)
                       }
                       y={(projection([d.long, d.lat]) as [number, number])[1]}
                       className='fill-primary-gray-600 dark:fill-primary-gray-300 text-sm'
-                      style={{
-                        textAnchor: 'start',
-                      }}
+                      style={{ textAnchor: 'start' }}
                       dx={4}
                       dy={5}
-                      animate={{
-                        opacity: 1,
-                      }}
+                      animate={{ opacity: 1 }}
                       transition={{ duration: 0.5 }}
                     >
                       {d.label}
@@ -351,10 +357,10 @@ export function Graph(props: Props) {
                           width={320 / colorDomain.length - 2}
                           height={8}
                           className={
-                            selectedColor === colors[i]
-                              ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                              : ''
-                          }
+                              selectedColor === colors[i]
+                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                : ''
+                            }
                           style={{
                             fill: colors[i],
                             ...(selectedColor === colors[i]
@@ -364,14 +370,12 @@ export function Graph(props: Props) {
                         />
                         <text
                           x={
-                            (i * 320) / colorDomain.length +
+                              (i * 320) / colorDomain.length +
                             160 / colorDomain.length
-                          }
+                            }
                           y={25}
                           className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                          style={{
-                            textAnchor: 'middle',
-                          }}
+                          style={{ textAnchor: 'middle' }}
                         >
                           {d}
                         </text>
@@ -383,7 +387,7 @@ export function Graph(props: Props) {
             </div>
           </div>
         </div>
-      )}
+        )}
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
           data={mouseOverData}
@@ -402,11 +406,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

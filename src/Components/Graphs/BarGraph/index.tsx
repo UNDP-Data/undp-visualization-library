@@ -1,3 +1,10 @@
+import { HorizontalBarGraph } from './Horizontal/BarGraph/Simple';
+import { HorizontalGroupedBarGraph } from './Horizontal/GroupedBarGraph/Simple';
+import { HorizontalStackedBarGraph } from './Horizontal/StackedBarGraph/Simple';
+import { VerticalBarGraph } from './Vertical/BarGraph/Simple';
+import { VerticalGroupedBarGraph } from './Vertical/GroupedBarGraph/Simple';
+import { VerticalStackedBarGraph } from './Vertical/StackedBarGraph/Simple';
+
 import {
   ReferenceDataType,
   BarGraphDataType,
@@ -7,12 +14,6 @@ import {
   ClassNameObject,
   GroupedBarGraphDataType,
 } from '@/Types';
-import { HorizontalBarGraph } from './Horizontal/BarGraph/Simple';
-import { HorizontalGroupedBarGraph } from './Horizontal/GroupedBarGraph/Simple';
-import { HorizontalStackedBarGraph } from './Horizontal/StackedBarGraph/Simple';
-import { VerticalBarGraph } from './Vertical/BarGraph/Simple';
-import { VerticalGroupedBarGraph } from './Vertical/GroupedBarGraph/Simple';
-import { VerticalStackedBarGraph } from './Vertical/StackedBarGraph/Simple';
 
 interface Props {
   // Data
@@ -121,13 +122,15 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -406,13 +409,15 @@ interface GroupedBarChartProps {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -677,13 +682,15 @@ interface StackedBarChartProps {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options

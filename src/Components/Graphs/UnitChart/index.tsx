@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import sum from 'lodash.sum';
 import { H2, P } from '@undp-data/undp-design-system-react';
+
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { Colors } from '@/Components/ColorPalette';
@@ -126,9 +127,7 @@ export function UnitChart(props: Props) {
   data.forEach((item, index) => {
     const count = Math.round((item.value / totalValue) * totalNoOfDots);
     for (let i = 0; i < count; i += 1) {
-      cellsData.push({
-        color: colors[index],
-      });
+      cellsData.push({ color: colors[index] });
     }
   });
   return (
@@ -143,8 +142,8 @@ export function UnitChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -164,9 +163,7 @@ export function UnitChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-3 w-full grow'>
             {graphTitle || graphDescription || graphDownload ? (
@@ -186,9 +183,10 @@ export function UnitChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -197,9 +195,7 @@ export function UnitChart(props: Props) {
               <H2
                 marginBottom='2xs'
                 className='text-primary-gray-700 dark:text-primary-gray-100 font-bold'
-                style={{
-                  width: width ? `${width}px` : '100%',
-                }}
+                style={{ width: width ? `${width}px` : '100%' }}
               >
                 {note}
               </H2>
@@ -209,9 +205,7 @@ export function UnitChart(props: Props) {
                 {showColorScale ? (
                   <div
                     className='mb-4 leading-0'
-                    style={{
-                      width: width ? `${width}px` : '100%',
-                    }}
+                    style={{ width: width ? `${width}px` : '100%' }}
                     aria-label='Color legend'
                   >
                     <div className='flex mb-0 flex-wrap gap-x-1 gap-y-4'>
@@ -219,9 +213,7 @@ export function UnitChart(props: Props) {
                         <div className='flex gap-2 items-center' key={i}>
                           <div
                             className='w-3 h-3 rounded-full'
-                            style={{
-                              backgroundColor: colors[i],
-                            }}
+                            style={{ backgroundColor: colors[i] }}
                           />
                           <P
                             marginBottom='none'

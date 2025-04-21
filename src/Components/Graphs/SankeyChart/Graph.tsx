@@ -1,8 +1,9 @@
+import isEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
-import isEqual from 'lodash.isequal';
 import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
-import { useAnimate, useInView } from 'framer-motion';
+import { useAnimate, useInView } from 'motion/react';
 import { cn, Modal, P } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   NodeDataType,
@@ -30,7 +31,9 @@ interface Props {
   prefix: string;
   showValues?: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   id: string;
   highlightedSourceDataPoints: string[];
@@ -84,14 +87,15 @@ export function Graph(props: Props) {
       animate(
         'path',
         { pathLength: [0, 1] },
-        {
-          duration: animateLinks === true ? 5 : animateLinks || 0,
-        },
+        { duration: animateLinks === true ? 5 : animateLinks || 0 },
       );
     }
-  }, [isInView, data]);
+  }, [isInView, data, animate, animateLinks]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedNode, setSelectedNode] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -106,19 +110,19 @@ export function Graph(props: Props) {
   const sankeyGenerator =
     sortNodes === 'mostReadable'
       ? sankey()
-          .nodeWidth(nodeWidth)
-          .nodePadding(nodePadding)
-          .size([graphWidth, graphHeight])
-          .nodeAlign(sankeyCenter)
+        .nodeWidth(nodeWidth)
+        .nodePadding(nodePadding)
+        .size([graphWidth, graphHeight])
+        .nodeAlign(sankeyCenter)
       : sortNodes === 'none'
-      ? sankey()
+        ? sankey()
           .nodeWidth(nodeWidth)
           .nodePadding(nodePadding)
           .size([graphWidth, graphHeight])
           .nodeAlign(sankeyCenter)
           .nodeSort(() => null)
           .linkSort(() => null)
-      : sankey()
+        : sankey()
           .nodeWidth(nodeWidth)
           .nodePadding(nodePadding)
           .size([graphWidth, graphHeight])
@@ -128,6 +132,7 @@ export function Graph(props: Props) {
               ? (a, b) => (b.value || 0) - (a.value || 0)
               : (a, b) => (a.value || 0) - (b.value || 0),
           );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { nodes, links } = sankeyGenerator(data as any);
   const linkPathGenerator = sankeyLinkHorizontal();
   return (
@@ -144,9 +149,7 @@ export function Graph(props: Props) {
             x={margin.left}
             y={margin.top - 10}
             className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
-            style={{
-              textAnchor: 'start',
-            }}
+            style={{ textAnchor: 'start' }}
           >
             {sourceTitle}
           </text>
@@ -156,15 +159,14 @@ export function Graph(props: Props) {
             x={width - margin.right}
             y={margin.top - 10}
             className='text-base font-bold fill-primary-gray-700 dark:fill-primary-gray-100'
-            style={{
-              textAnchor: 'end',
-            }}
+            style={{ textAnchor: 'end' }}
           >
             {targetTitle}
           </text>
         ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>
           {nodes
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((d: any) => d.type === 'source')
             .map((d, i) => (
               <g
@@ -182,9 +184,7 @@ export function Graph(props: Props) {
                     y={0}
                     width={(d.x1 || 0) - (d.x0 || 0)}
                     height={(d.y1 || 0) - (d.y0 || 0)}
-                    style={{
-                      fill: (d as NodeDataType).color,
-                    }}
+                    style={{ fill: (d as NodeDataType).color }}
                   />
                   {showLabels || showValues ? (
                     <foreignObject
@@ -220,9 +220,9 @@ export function Graph(props: Props) {
                             {`${(d as NodeDataType).label}`.length < truncateBy
                               ? `${(d as NodeDataType).label}`
                               : `${`${(d as NodeDataType).label}`.substring(
-                                  0,
-                                  truncateBy,
-                                )}...`}
+                                0,
+                                truncateBy,
+                              )}...`}
                           </P>
                         ) : null}
                         {showValues ? (
@@ -250,6 +250,7 @@ export function Graph(props: Props) {
               </g>
             ))}
           {nodes
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((d: any) => d.type === 'target')
             .map((d, i) => (
               <g
@@ -267,9 +268,7 @@ export function Graph(props: Props) {
                     y={0}
                     width={(d.x1 || 0) - (d.x0 || 0)}
                     height={(d.y1 || 0) - (d.y0 || 0)}
-                    style={{
-                      fill: (d as NodeDataType).color,
-                    }}
+                    style={{ fill: (d as NodeDataType).color }}
                   />
                   {showLabels || showValues ? (
                     <foreignObject
@@ -304,9 +303,9 @@ export function Graph(props: Props) {
                             {`${(d as NodeDataType).label}`.length < truncateBy
                               ? `${(d as NodeDataType).label}`
                               : `${`${(d as NodeDataType).label}`.substring(
-                                  0,
-                                  truncateBy,
-                                )}...`}
+                                0,
+                                truncateBy,
+                              )}...`}
                           </P>
                         ) : null}
                         {showValues ? (
@@ -366,15 +365,18 @@ export function Graph(props: Props) {
               <g
                 className='undp-viz-g-with-hover'
                 key={i}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseEnter={(event: any) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   setMouseOverData((d as any).data);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
-                  if (onSeriesMouseOver) {
-                    onSeriesMouseOver((d as any).data);
-                  }
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onSeriesMouseOver?.((d as any).data);
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onMouseMove={(event: any) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   setMouseOverData((d as any).data);
                   setEventY(event.clientY);
                   setEventX(event.clientX);
@@ -382,15 +384,17 @@ export function Graph(props: Props) {
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
                     if (
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       isEqual(mouseClickData, (d as any).data) &&
                       resetSelectionOnDoubleClick
                     ) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       setMouseClickData((d as any).data);
-                      if (onSeriesMouseClick)
-                        onSeriesMouseClick((d as any).data);
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      onSeriesMouseClick?.((d as any).data);
                     }
                   }
                 }}
@@ -404,21 +408,25 @@ export function Graph(props: Props) {
                 }}
                 opacity={
                   selectedNode
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     ? (d.source as any).name === selectedNode.name ||
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       (d.target as any).name === selectedNode.name
                       ? 0.85
                       : defaultLinkOpacity
                     : highlightedSourceDataPoints.length !== 0 ||
                       highlightedTargetDataPoints.length !== 0
-                    ? highlightedSourceDataPoints.indexOf(
+                      ? highlightedSourceDataPoints.indexOf(
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         (d.source as any).label,
                       ) !== -1 ||
                       highlightedTargetDataPoints.indexOf(
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         (d.target as any).label,
                       ) !== -1
-                      ? 0.85
+                        ? 0.85
+                        : defaultLinkOpacity
                       : defaultLinkOpacity
-                    : defaultLinkOpacity
                 }
               >
                 <path
@@ -452,11 +460,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

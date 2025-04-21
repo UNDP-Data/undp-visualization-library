@@ -3,6 +3,7 @@ import maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
+
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { filterData } from '@/Utils/transformData/filterData';
 
@@ -53,21 +54,23 @@ export function GeoHubSingleMap(props: Props) {
         mapDiv.selectAll('div').remove();
         const protocol = new pmtiles.Protocol();
         maplibreGl.addProtocol('pmtiles', protocol.tile);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapObj: any = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           container: mapContainer.current as any,
           style:
             includeLayers.length === 0 && excludeLayers.length === 0
               ? d
               : {
-                  ...d,
-                  layers: filterData(d.layers, [
-                    {
-                      column: 'id',
-                      includeValues: includeLayers,
-                      excludeValues: excludeLayers,
-                    },
-                  ]),
-                },
+                ...d,
+                layers: filterData(d.layers, [
+                  {
+                    column: 'id',
+                    includeValues: includeLayers,
+                    excludeValues: excludeLayers,
+                  },
+                ]),
+              },
         };
         if (center) {
           mapObj.center = center;
@@ -87,15 +90,7 @@ export function GeoHubSingleMap(props: Props) {
         map.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       });
     }
-  }, [
-    mapContainer.current,
-    svgWidth,
-    mapStyle,
-    center,
-    zoomLevel,
-    includeLayers,
-    excludeLayers,
-  ]);
+  }, [svgWidth, mapStyle, center, zoomLevel, includeLayers, excludeLayers]);
   return (
     <div
       className='flex flex-col grow justify-center leading-0'

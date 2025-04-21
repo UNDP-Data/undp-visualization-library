@@ -1,4 +1,5 @@
 import { cn, H5, P } from '@undp-data/undp-design-system-react';
+
 import { extractInnerString } from '@/Utils/extractInnerString';
 
 interface Props {
@@ -9,14 +10,14 @@ interface Props {
 }
 
 export function GraphTitle(props: Props) {
-  const { text, isDashboard, style, className } = props;
+  const {
+    text, isDashboard, style, className, 
+  } = props;
   if (extractInnerString(text)) {
     return (
       <div
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: extractInnerString(text) as string,
-        }}
+         
+        dangerouslySetInnerHTML={{ __html: extractInnerString(text) as string }}
         className={className}
       />
     );

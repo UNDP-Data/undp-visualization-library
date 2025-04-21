@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SankeyChart } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -9,6 +9,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { SankeyChart } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof SankeyChart>;
 
@@ -26,19 +28,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   source: string | number;
   target: string | number;
   value: number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     sourceColors: {
@@ -61,19 +58,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     sourceColorDomain: {
       control: 'text',
-      table: {
-        type: {
-          summary: '(string | number)[]',
-        },
-      },
+      table: { type: { summary: '(string | number)[]' } },
     },
     targetColorDomain: {
       control: 'text',
-      table: {
-        type: {
-          summary: '(string | number)[]',
-        },
-      },
+      table: { type: { summary: '(string | number)[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -84,37 +73,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'true' } } },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
     sortNodes: {
       control: 'inline-radio',
       options: ['asc', 'desc', 'mostReadable', 'none'],
@@ -138,29 +105,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
+    resetSelectionOnDoubleClick: { table: { defaultValue: { summary: 'true' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     language: {
@@ -220,8 +171,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

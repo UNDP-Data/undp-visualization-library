@@ -1,11 +1,12 @@
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+ 
+import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
-import isEqual from 'lodash.isequal';
 import { Modal, P } from '@undp-data/undp-design-system-react';
+
 import { ChoroplethMapDataType, ClassNameObject, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
@@ -14,6 +15,7 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   colorDomain: number[] | string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData: any;
   width: number;
   height: number;
@@ -28,11 +30,13 @@ interface Props {
   mapBorderColor: string;
   isWorldMap: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   showColorScale: boolean;
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedIds: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
   showAntarctica: boolean;
@@ -75,7 +79,9 @@ export function Graph(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -89,8 +95,8 @@ export function Graph(props: Props) {
   const colorScale = categorical
     ? scaleOrdinal<number | string, string>().domain(colorDomain).range(colors)
     : scaleThreshold<number, string>()
-        .domain(colorDomain as number[])
-        .range(colors);
+      .domain(colorDomain as number[])
+      .range(colors);
 
   useEffect(() => {
     const mapGSelect = select(mapG.current);
@@ -108,6 +114,7 @@ export function Graph(props: Props) {
       });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapSvgSelect.call(zoomBehaviour as any);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgHeight, svgWidth]);
   return (
     <>
@@ -119,28 +126,31 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g ref={mapG}>
-          {mapData.features.map((d: any, i: number) => {
-            const index = data.findIndex(
-              el => el.id === d.properties[mapProperty],
-            );
-            if (!showAntarctica && d.properties.NAME === 'Antarctica')
-              return null;
-            if (index !== -1) return null;
-            return (
-              <g
-                key={i}
-                opacity={
-                  selectedColor
-                    ? 0.3
-                    : highlightedIds.length !== 0
-                    ? highlightedIds.indexOf(d.properties[mapProperty]) !== -1
-                      ? 1
-                      : 0.3
-                    : 1
-                }
-              >
-                {d.geometry.type === 'MultiPolygon'
-                  ? d.geometry.coordinates.map((el: any, j: any) => {
+          {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            mapData.features.map((d: any, i: number) => {
+              const index = data.findIndex(
+                el => el.id === d.properties[mapProperty],
+              );
+              if (!showAntarctica && d.properties.NAME === 'Antarctica')
+                return null;
+              if (index !== -1) return null;
+              return (
+                <g
+                  key={i}
+                  opacity={
+                    selectedColor
+                      ? 0.3
+                      : highlightedIds.length !== 0
+                        ? highlightedIds.indexOf(d.properties[mapProperty]) !== -1
+                          ? 1
+                          : 0.3
+                        : 1
+                  }
+                >
+                  {d.geometry.type === 'MultiPolygon'
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    ? d.geometry.coordinates.map((el: any, j: any) => {
                       let masterPath = '';
                       el.forEach((geo: number[][]) => {
                         let path = ' M';
@@ -167,7 +177,8 @@ export function Graph(props: Props) {
                         />
                       );
                     })
-                  : d.geometry.coordinates.map((el: any, j: number) => {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    : d.geometry.coordinates.map((el: any, j: number) => {
                       let path = 'M';
                       el.forEach((c: number[], k: number) => {
                         const point = projection([c[0], c[1]]) as [
@@ -190,14 +201,16 @@ export function Graph(props: Props) {
                         />
                       );
                     })}
-              </g>
-            );
-          })}
+                </g>
+              );
+            })}
           {data.map((d, i) => {
             const index = mapData.features.findIndex(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (el: any) => d.id === el.properties[mapProperty],
             );
             const color = !checkIfNullOrUndefined(d.x)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? colorScale(d.x as any)
               : mapNoDataColor;
             return (
@@ -209,10 +222,10 @@ export function Graph(props: Props) {
                       ? 1
                       : 0.3
                     : highlightedIds.length !== 0
-                    ? highlightedIds.indexOf(d.id) !== -1
-                      ? 1
-                      : 0.3
-                    : 1
+                      ? highlightedIds.indexOf(d.id) !== -1
+                        ? 1
+                        : 0.3
+                      : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -253,7 +266,8 @@ export function Graph(props: Props) {
                 {index === -1
                   ? null
                   : mapData.features[index].geometry.type === 'MultiPolygon'
-                  ? mapData.features[index].geometry.coordinates.map(
+                    ? mapData.features[index].geometry.coordinates.map(
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       (el: any, j: any) => {
                         let masterPath = '';
                         el.forEach((geo: number[][]) => {
@@ -282,7 +296,8 @@ export function Graph(props: Props) {
                         );
                       },
                     )
-                  : mapData.features[index].geometry.coordinates.map(
+                    : mapData.features[index].geometry.coordinates.map(
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       (el: any, j: number) => {
                         let path = 'M';
                         el.forEach((c: number[], k: number) => {
@@ -312,69 +327,73 @@ export function Graph(props: Props) {
           })}
           {mouseOverData
             ? mapData.features
-                .filter(
-                  (d: { properties: any }) =>
-                    d.properties[mapProperty] === mouseOverData.id,
-                )
-                .map((d: any, i: number) => {
-                  return (
-                    <g key={i}>
-                      {d.geometry.type === 'MultiPolygon'
-                        ? d.geometry.coordinates.map((el: any, j: any) => {
-                            let masterPath = '';
-                            el.forEach((geo: number[][]) => {
-                              let path = ' M';
-                              geo.forEach((c: number[], k: number) => {
-                                const point = projection([c[0], c[1]]) as [
+              .filter(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (d: { properties: any }) =>
+                  d.properties[mapProperty] === mouseOverData.id,
+              )
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .map((d: any, i: number) => {
+                return (
+                  <g key={i}>
+                    {d.geometry.type === 'MultiPolygon'
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      ? d.geometry.coordinates.map((el: any, j: any) => {
+                        let masterPath = '';
+                        el.forEach((geo: number[][]) => {
+                          let path = ' M';
+                          geo.forEach((c: number[], k: number) => {
+                            const point = projection([c[0], c[1]]) as [
                                   number,
                                   number,
                                 ];
-                                if (k !== geo.length - 1)
-                                  path = `${path}${point[0]} ${point[1]}L`;
-                                else path = `${path}${point[0]} ${point[1]}`;
-                              });
-                              masterPath += path;
-                            });
-                            return (
-                              <path
-                                key={j}
-                                d={masterPath}
-                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                                style={{
-                                  fill: 'none',
-                                  fillOpacity: 0,
-                                  strokeWidth: '0.5',
-                                }}
-                              />
-                            );
-                          })
-                        : d.geometry.coordinates.map((el: any, j: number) => {
-                            let path = 'M';
-                            el.forEach((c: number[], k: number) => {
-                              const point = projection([c[0], c[1]]) as [
+                            if (k !== geo.length - 1)
+                              path = `${path}${point[0]} ${point[1]}L`;
+                            else path = `${path}${point[0]} ${point[1]}`;
+                          });
+                          masterPath += path;
+                        });
+                        return (
+                          <path
+                            key={j}
+                            d={masterPath}
+                            className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            style={{
+                              fill: 'none',
+                              fillOpacity: 0,
+                              strokeWidth: '0.5',
+                            }}
+                          />
+                        );
+                      })
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      : d.geometry.coordinates.map((el: any, j: number) => {
+                        let path = 'M';
+                        el.forEach((c: number[], k: number) => {
+                          const point = projection([c[0], c[1]]) as [
                                 number,
                                 number,
                               ];
-                              if (k !== el.length - 1)
-                                path = `${path}${point[0]} ${point[1]}L`;
-                              else path = `${path}${point[0]} ${point[1]}`;
-                            });
-                            return (
-                              <path
-                                key={j}
-                                d={path}
-                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                                style={{
-                                  fill: 'none',
-                                  fillOpacity: 0,
-                                  strokeWidth: '0.5',
-                                }}
-                              />
-                            );
-                          })}
-                    </g>
-                  );
-                })
+                          if (k !== el.length - 1)
+                            path = `${path}${point[0]} ${point[1]}L`;
+                          else path = `${path}${point[0]} ${point[1]}`;
+                        });
+                        return (
+                          <path
+                            key={j}
+                            d={path}
+                            className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            style={{
+                              fill: 'none',
+                              fillOpacity: 0,
+                              strokeWidth: '0.5',
+                            }}
+                          />
+                        );
+                      })}
+                  </g>
+                );
+              })
             : null}
         </g>
       </svg>
@@ -432,9 +451,7 @@ export function Graph(props: Props) {
                             x={((i + 1) * 320) / colors.length}
                             y={25}
                             className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                            style={{
-                              textAnchor: 'middle',
-                            }}
+                            style={{ textAnchor: 'middle' }}
                           >
                             {numberFormattingFunction(d as number, '', '')}
                           </text>
@@ -482,9 +499,7 @@ export function Graph(props: Props) {
                       >
                         <div
                           className='w-3 h-3 rounded-full'
-                          style={{
-                            backgroundColor: colors[i % colors.length],
-                          }}
+                          style={{ backgroundColor: colors[i % colors.length] }}
                         />
                         <P size='sm' marginBottom='none'>
                           {d}
@@ -506,11 +521,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

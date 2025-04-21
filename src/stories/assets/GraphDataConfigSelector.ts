@@ -592,5 +592,6 @@ export function GraphDataConfigSelector(graph: string) {
     'GeoHub maps with layer selection': `// No configuration required`,
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (chartExamples as any)[graph];
 }

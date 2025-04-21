@@ -3,7 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { format, parse } from 'date-fns';
 import { ascending, sort } from 'd3-array';
 import { SliderUI } from '@undp-data/undp-design-system-react';
+
 import { Graph } from './Graph';
+
 import {
   BarGraphWithDateDataType,
   Languages,
@@ -47,10 +49,12 @@ interface Props {
   maxValue?: number;
   minValue?: number;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   graphID?: string;
   highlightedDataPoints?: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   graphDownload?: boolean;
   dataDownload?: boolean;
@@ -160,6 +164,7 @@ export function AnimatedVerticalBarChart(props: Props) {
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const markObj: any = {};
 
   uniqDatesSorted.forEach((d, i) => {
@@ -191,8 +196,8 @@ export function AnimatedVerticalBarChart(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -213,9 +218,7 @@ export function AnimatedVerticalBarChart(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -235,9 +238,10 @@ export function AnimatedVerticalBarChart(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
@@ -291,7 +295,7 @@ export function AnimatedVerticalBarChart(props: Props) {
                   setSelectedColor={setSelectedColor}
                   showNAColor={showNAColor}
                 />
-              ) : null}
+                ) : null}
               <div
                 className='flex grow flex-col justify-center w-full leading-0'
                 ref={graphDiv}

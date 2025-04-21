@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SparkLine } from '@/index';
+
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { SparkLine } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof SparkLine>;
 
@@ -23,24 +25,17 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: `{
   date: number | string;
   y: number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    lineColor: {
-      control: 'color',
-    },
+    lineColor: { control: 'color' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -50,54 +45,24 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Graph parameters
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
+    dateFormat: { table: { defaultValue: { summary: 'yyyy' } } },
     curveType: {
       control: 'radio',
       options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
-      table: {
-        defaultValue: { summary: 'curve' },
-      },
+      table: { defaultValue: { summary: 'curve' } },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
 
     // Configuration and Options
     language: {
@@ -139,8 +104,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

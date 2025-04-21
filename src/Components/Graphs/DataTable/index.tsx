@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import isEqual from 'fast-deep-equal';
 import { useEffect, useState } from 'react';
 import sortBy from 'lodash.sortby';
-import isEqual from 'lodash.isequal';
 import intersection from 'lodash.intersection';
 import { P } from '@undp-data/undp-design-system-react';
+
 import {
   DataTableColumnDataType,
   Languages,
@@ -62,7 +63,8 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+   
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -104,6 +106,7 @@ export function DataTable(props: Props) {
   const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
     undefined,
   );
+   
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [popupVisible, setPopupVisible] = useState<string | undefined>(
@@ -117,7 +120,9 @@ export function DataTable(props: Props) {
   );
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
+     
     const dataFiltered: any = [];
+     
     data.forEach((d: any) => {
       let filter = true;
       filterOption.forEach(el => {
@@ -149,7 +154,7 @@ export function DataTable(props: Props) {
     } else {
       setSortedData(dataFiltered);
     }
-  }, [columnSortBy, sortDirection, data, filterOption]);
+  }, [columnSortBy, sortDirection, data, filterOption, columnData]);
   return (
     <div
       className={`${theme || 'light'} flex  ${
@@ -162,8 +167,8 @@ export function DataTable(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -183,9 +188,7 @@ export function DataTable(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col gap-3 w-full justify-between grow'>
             {graphTitle || graphDescription ? (
@@ -299,9 +302,9 @@ export function DataTable(props: Props) {
                                   ].option.length ===
                                   d.filterOptions?.length ? (
                                     <FilterIcon />
-                                  ) : (
-                                    <FilterIconApplied />
-                                  )}
+                                    ) : (
+                                      <FilterIconApplied />
+                                    )}
                                 </button>
                               ) : null}
                             </div>
@@ -355,8 +358,8 @@ export function DataTable(props: Props) {
                                   el.align === 'right'
                                     ? 'justify-end'
                                     : el.align === 'center'
-                                    ? 'justify-center'
-                                    : 'justify-start'
+                                      ? 'justify-center'
+                                      : 'justify-start'
                                 }`}
                               >
                                 {typeof d[el.columnId] === 'number' ? (
@@ -377,14 +380,14 @@ export function DataTable(props: Props) {
                                     style={{
                                       ...(el.chip && el.chipColors
                                         ? {
-                                            backgroundColor:
+                                          backgroundColor:
                                               el.chipColors[
                                                 el.chipColors.findIndex(
                                                   c =>
                                                     c.value === d[el.columnId],
                                                 )
                                               ].color,
-                                          }
+                                        }
                                         : {}),
                                     }}
                                   >
@@ -419,7 +422,7 @@ export function DataTable(props: Props) {
                                               style={{
                                                 ...(el.chip && el.chipColors
                                                   ? {
-                                                      backgroundColor:
+                                                    backgroundColor:
                                                         el.chipColors[
                                                           el.chipColors.findIndex(
                                                             c =>
@@ -427,7 +430,7 @@ export function DataTable(props: Props) {
                                                               d[el.columnId],
                                                           )
                                                         ].color,
-                                                    }
+                                                  }
                                                   : {}),
                                               }}
                                             >{`${el.prefix || ''}${element}${
@@ -454,7 +457,7 @@ export function DataTable(props: Props) {
                                       style={{
                                         ...(el.chip && el.chipColors
                                           ? {
-                                              backgroundColor:
+                                            backgroundColor:
                                                 el.chipColors[
                                                   el.chipColors.findIndex(
                                                     c =>
@@ -462,7 +465,7 @@ export function DataTable(props: Props) {
                                                       d[el.columnId],
                                                   )
                                                 ].color,
-                                            }
+                                          }
                                           : {}),
                                       }}
                                     >{`${el.prefix || ''}${d[el.columnId]}${

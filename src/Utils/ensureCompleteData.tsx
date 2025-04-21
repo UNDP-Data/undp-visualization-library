@@ -1,5 +1,6 @@
 import sortBy from 'lodash.sortby';
 import { parse } from 'date-fns';
+
 import {
   BarGraphWithDateDataType,
   ButterflyChartWithDateDataType,
@@ -18,9 +19,11 @@ export function ensureCompleteDataForBarChart(
 
   // Create a set of existing label-date combinations
   const existingCombinations = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any) => `${d.label}-${d.date}`),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const colors = data.reduce((acc: any, curr: any) => {
     if (!acc[curr.label]) {
       acc[curr.label] = curr.color;
@@ -59,6 +62,7 @@ export function ensureCompleteDataForStackedBarChart(
 
   // Create a set of existing label-date combinations
   const existingCombinations = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any) => `${d.label}-${d.date}`),
   );
 
@@ -92,6 +96,7 @@ export function ensureCompleteDataForButterFlyChart(
 
   // Create a set of existing label-date combinations
   const existingCombinations = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any) => `${d.label}-${d.date}`),
   );
 
@@ -126,9 +131,11 @@ export function ensureCompleteDataForScatterPlot(
 
   // Create a set of existing label-date combinations
   const existingCombinations = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any) => `${d.label}-${d.date}`),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const colors = data.reduce((acc: any, curr: any) => {
     if (!acc[curr.label]) {
       acc[curr.label] = curr.color;
@@ -169,6 +176,7 @@ export function ensureCompleteDataForDumbbellChart(
 
   // Create a set of existing label-date combinations
   const existingCombinations = new Set(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data.map((d: any) => `${d.label}-${d.date}`),
   );
 

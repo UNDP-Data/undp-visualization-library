@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ParetoChart } from '@/index';
+
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { ParetoChart } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof ParetoChart>;
 
@@ -24,27 +26,18 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   label: number | string;
   bar?: number;
   line?: number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    barColor: {
-      control: 'color',
-    },
-    lineColor: {
-      control: 'color',
-    },
+    barColor: { control: 'color' },
+    lineColor: { control: 'color' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -54,79 +47,39 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+      control: {
+        type: 'range', min: 0, max: 1, step: 0.1, 
+      },
     },
 
     // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    truncateBy: { table: { defaultValue: { summary: '999' } } },
+    noOfTicks: { table: { defaultValue: { summary: '5' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'true' } } },
     curveType: {
       control: 'radio',
       options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
-      table: {
-        defaultValue: { summary: 'curve' },
-      },
+      table: { defaultValue: { summary: 'curve' } },
     },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
     resetSelectionOnDoubleClick: {
       control: 'boolean',
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+      table: { defaultValue: { summary: 'true' } },
     },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     language: {
@@ -168,8 +121,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

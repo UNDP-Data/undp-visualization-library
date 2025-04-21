@@ -1,4 +1,5 @@
 import { cn } from '@undp-data/undp-design-system-react';
+
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
@@ -13,7 +14,9 @@ interface Props {
 }
 
 export function Axis(props: Props) {
-  const { label, x2, y2, x1, y1, classNames, styles, labelPos } = props;
+  const {
+    label, x2, y2, x1, y1, classNames, styles, labelPos, 
+  } = props;
   return (
     <>
       <line

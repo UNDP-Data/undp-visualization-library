@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { UnitChart } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -9,6 +9,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { UnitChart } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof UnitChart>;
 
@@ -25,28 +27,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   label: number | string;
   value: number;
   color?: string;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     colors: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'string[]',
-        },
-      },
+      table: { type: { summary: 'string[]' } },
     },
     backgroundColor: {
       control: 'text',
@@ -57,63 +50,21 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     // Values and Ticks
 
     // Graph parameters
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    size: {
-      table: {
-        defaultValue: { summary: '200' },
-      },
-    },
-    totalNoOfDots: {
-      table: {
-        defaultValue: { summary: '100' },
-      },
-    },
-    unitPadding: {
-      table: {
-        defaultValue: { summary: '3' },
-      },
-    },
-    gridSize: {
-      table: {
-        defaultValue: { summary: '10' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    showColorScale: { table: { defaultValue: { summary: 'true' } } },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    size: { table: { defaultValue: { summary: '200' } } },
+    totalNoOfDots: { table: { defaultValue: { summary: '100' } } },
+    unitPadding: { table: { defaultValue: { summary: '3' } } },
+    gridSize: { table: { defaultValue: { summary: '10' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
 
     // Configuration and Options
     language: {
@@ -150,8 +101,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

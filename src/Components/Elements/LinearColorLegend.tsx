@@ -1,4 +1,5 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
+
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 
 interface Props {
@@ -10,13 +11,13 @@ interface Props {
 }
 
 export function LinearColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, width, className } = props;
+  const {
+    colorLegendTitle, colorDomain, colors, width, className, 
+  } = props;
   return (
     <div
       className={cn('flex gap-0 flex-wrap justify-center leading-0', className)}
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Color legend'
     >
       {colorLegendTitle && colorLegendTitle !== '' ? (
@@ -28,9 +29,7 @@ export function LinearColorLegend(props: Props) {
       <div className='flex gap-0 flex-wrap justify-center w-full min-w-[360px] leading-0'>
         <div
           className='h-4 mb-1 w-full min-w-[360px]'
-          style={{
-            background: `linear-gradient(90deg, ${colors[0]} 0%, ${colors[1]} 100%)`,
-          }}
+          style={{ background: `linear-gradient(90deg, ${colors[0]} 0%, ${colors[1]} 100%)` }}
         />
         <div className='flex justify-between w-full min-w-[360px]'>
           <P marginBottom='none' size='sm'>

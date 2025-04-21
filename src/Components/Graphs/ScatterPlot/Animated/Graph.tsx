@@ -1,15 +1,16 @@
+import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import maxBy from 'lodash.maxby';
 import { Delaunay } from 'd3-delaunay';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
 import minBy from 'lodash.minby';
-import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import { parse } from 'date-fns';
 import uniqBy from 'lodash.uniqby';
 import { group } from 'd3-array';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ScatterPlotWithDateDataType,
   ReferenceDataType,
@@ -50,6 +51,7 @@ interface Props {
   topMargin: number;
   bottomMargin: number;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refXValues: ReferenceDataType[];
   refYValues: ReferenceDataType[];
@@ -60,6 +62,7 @@ interface Props {
   minXValue?: number;
   maxYValue?: number;
   minYValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   dateFormat: string;
   indx: number;
@@ -152,7 +155,9 @@ export function Graph(props: Props) {
     }),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -167,14 +172,14 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([
-            0,
-            checkIfNullOrUndefined(maxRadiusValue)
-              ? (maxBy(data, 'radius')?.radius as number)
-              : (maxRadiusValue as number),
-          ])
-          .range([0.25, radius])
-          .nice()
+        .domain([
+          0,
+          checkIfNullOrUndefined(maxRadiusValue)
+            ? (maxBy(data, 'radius')?.radius as number)
+            : (maxRadiusValue as number),
+        ])
+        .range([0.25, radius])
+        .nice()
       : undefined;
 
   const xMinVal = checkIfNullOrUndefined(minXValue)
@@ -363,14 +368,14 @@ export function Graph(props: Props) {
                             : 0.3
                           : 0.3
                         : mouseOverData
-                        ? mouseOverData.label === d.label
-                          ? 1
-                          : 0.3
-                        : highlightedDataPoints.length !== 0
-                        ? highlightedDataPoints.indexOf(d.label || '') !== -1
-                          ? 1
-                          : 0.5
-                        : 1
+                          ? mouseOverData.label === d.label
+                            ? 1
+                            : 0.3
+                          : highlightedDataPoints.length !== 0
+                            ? highlightedDataPoints.indexOf(d.label || '') !== -1
+                              ? 1
+                              : 0.5
+                            : 1
                     }
                   >
                     <motion.circle
@@ -381,14 +386,14 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         stroke:
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         fillOpacity: 0.6,
                       }}
                       animate={{
@@ -399,8 +404,8 @@ export function Graph(props: Props) {
                           checkIfNullOrUndefined(d.y)
                             ? 0
                             : !radiusScale
-                            ? radius
-                            : radiusScale(d.radius || 0),
+                              ? radius
+                              : radiusScale(d.radius || 0),
                       }}
                       transition={{ duration: 0.5 }}
                     />
@@ -416,8 +421,8 @@ export function Graph(props: Props) {
                             (data.filter(el => el.color).length === 0
                               ? colors[0]
                               : !d.color
-                              ? Colors.gray
-                              : colors[colorDomain.indexOf(`${d.color}`)]),
+                                ? Colors.gray
+                                : colors[colorDomain.indexOf(`${d.color}`)]),
                           ...(styles?.graphObjectValues || {}),
                         }}
                         dy='0.33em'
@@ -439,49 +444,47 @@ export function Graph(props: Props) {
                       </motion.text>
                     ) : highlightedDataPoints.length !== 0 &&
                       !checkIfNullOrUndefined(d.label) ? (
-                      highlightedDataPoints.indexOf(
+                        highlightedDataPoints.indexOf(
                         d.label as string | number,
-                      ) !== -1 ? (
-                        <motion.text
-                          className={cn(
-                            'graph-value text-sm',
-                            classNames?.graphObjectValues,
-                          )}
-                          style={{
-                            fill:
+                        ) !== -1 ? (
+                          <motion.text
+                            className={cn(
+                              'graph-value text-sm',
+                              classNames?.graphObjectValues,
+                            )}
+                            style={{
+                              fill:
                               labelColor ||
                               (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
-                                ? Colors.gray
-                                : colors[colorDomain.indexOf(`${d.color}`)]),
-                            ...(styles?.graphObjectValues || {}),
-                          }}
-                          dy='0.33em'
-                          dx={3}
-                          animate={{
-                            attrY: y(d.y || 0),
-                            attrX: !radiusScale
-                              ? x(d.x || 0) + radius
-                              : x(d.x || 0) + radiusScale(d.radius || 0),
-                            opacity:
+                                  ? Colors.gray
+                                  : colors[colorDomain.indexOf(`${d.color}`)]),
+                              ...(styles?.graphObjectValues || {}),
+                            }}
+                            dy='0.33em'
+                            dx={3}
+                            animate={{
+                              attrY: y(d.y || 0),
+                              attrX: !radiusScale
+                                ? x(d.x || 0) + radius
+                                : x(d.x || 0) + radiusScale(d.radius || 0),
+                              opacity:
                               checkIfNullOrUndefined(d.x) ||
                               checkIfNullOrUndefined(d.y)
                                 ? 0
                                 : 1,
-                          }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          {d.label}
-                        </motion.text>
-                      ) : null
-                    ) : null}
+                            }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            {d.label}
+                          </motion.text>
+                          ) : null
+                      ) : null}
                   </motion.g>
                   <path
                     d={voronoiDiagram.renderCell(i)}
-                    style={{
-                      fill: '#fff',
-                    }}
+                    style={{ fill: '#fff' }}
                     className='opacity-0'
                     onMouseEnter={event => {
                       setMouseOverData(d);
@@ -573,24 +576,24 @@ export function Graph(props: Props) {
               );
               const connectorSettings = d.showConnector
                 ? {
-                    y1: endPoints.y,
-                    x1: endPoints.x,
-                    y2: d.yCoordinate
-                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                      : 0 + (d.yOffset || 0),
-                    x2: d.xCoordinate
-                      ? x(d.xCoordinate as number) + (d.xOffset || 0)
-                      : 0 + (d.xOffset || 0),
-                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                    cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
-                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                      ? 3.5
-                      : (d.connectorRadius as number),
-                    strokeWidth:
+                  y1: endPoints.y,
+                  x1: endPoints.x,
+                  y2: d.yCoordinate
+                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                    : 0 + (d.yOffset || 0),
+                  x2: d.xCoordinate
+                    ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
+                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                  cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
+                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                    ? 3.5
+                    : (d.connectorRadius as number),
+                  strokeWidth:
                       d.showConnector === true
                         ? 2
                         : Math.min(d.showConnector || 0, 1),
-                  }
+                }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -599,8 +602,8 @@ export function Graph(props: Props) {
                 x: rtl
                   ? 0
                   : d.xCoordinate
-                  ? x(d.xCoordinate as number) + (d.xOffset || 0)
-                  : 0 + (d.xOffset || 0),
+                    ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                    : 0 + (d.xOffset || 0),
                 width: rtl
                   ? d.xCoordinate
                     ? x(d.xCoordinate as number) + (d.xOffset || 0)
@@ -646,11 +649,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

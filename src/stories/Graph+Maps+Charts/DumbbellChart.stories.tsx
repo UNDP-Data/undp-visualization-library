@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { DumbbellChart } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,6 +10,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { DumbbellChart } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof DumbbellChart>;
 
@@ -27,27 +29,18 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: `{
   label: string; 
   x: (number | undefined | null)[];
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    colors: {
-      control: 'text',
-    },
-    colorDomain: {
-      control: 'text',
-    },
+    colors: { control: 'text' },
+    colorDomain: { control: 'text' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -57,27 +50,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+      control: {
+        type: 'range', min: 0, max: 1, step: 0.1, 
+      },
     },
 
     // Values and Ticks
@@ -85,70 +66,26 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    refValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    noOfTicks: { table: { defaultValue: { summary: '5' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'true' } } },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
     labelOrder: {
       control: 'text',
       table: { type: { summary: 'string[]' } },
     },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    arrowConnector: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    connectorStrokeWidth: {
-      table: {
-        defaultValue: { summary: '2' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showTicks: { table: { defaultValue: { summary: 'true' } } },
+    arrowConnector: { table: { defaultValue: { summary: 'false' } } },
+    connectorStrokeWidth: { table: { defaultValue: { summary: '2' } } },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
+    resetSelectionOnDoubleClick: { table: { defaultValue: { summary: 'true' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     sortParameter: {
@@ -211,17 +148,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           !sortParameter
             ? undefined
             : sortParameter === 'diff'
-            ? 'diff'
-            : /^\d+$/.test(sortParameter as any)
-            ? parseInt(sortParameter as any, 10)
-            : undefined
+              ? 'diff'
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              : /^\d+$/.test(sortParameter as any)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ? parseInt(sortParameter as any, 10)
+                : undefined
         }
         backgroundColor={
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

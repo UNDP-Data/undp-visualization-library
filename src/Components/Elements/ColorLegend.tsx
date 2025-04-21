@@ -1,4 +1,5 @@
 import { cn, P } from '@undp-data/undp-design-system-react';
+
 import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
@@ -27,9 +28,7 @@ export function ColorLegend(props: Props) {
   return (
     <div
       className={cn('flex leading-0', isCenter && 'justify-center', className)}
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Color legend'
     >
       <div className={theme || 'light'}>
@@ -47,9 +46,7 @@ export function ColorLegend(props: Props) {
             <div key={i} className='flex items-center gap-1'>
               <div
                 className='w-3 h-3 rounded-full'
-                style={{
-                  backgroundColor: colors[i % colors.length],
-                }}
+                style={{ backgroundColor: colors[i % colors.length] }}
               />
               {d === '' ? null : (
                 <P size='sm' marginBottom='none'>
@@ -62,9 +59,7 @@ export function ColorLegend(props: Props) {
             <div className='flex items-center gap-1'>
               <div
                 className='w-3 h-3 rounded-full'
-                style={{
-                  backgroundColor: Colors.gray,
-                }}
+                style={{ backgroundColor: Colors.gray }}
               />
               <P size='sm' marginBottom='none'>
                 NA

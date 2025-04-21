@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Histogram } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,6 +10,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { Histogram } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof Histogram>;
 
@@ -24,19 +26,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   value: number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     colors: {
@@ -58,33 +55,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+      control: {
+        type: 'range', min: 0, max: 1, step: 0.1, 
+      },
     },
 
     // Values and Ticks
-    truncateBy: {
-      table: { defaultValue: { summary: '999' } },
-    },
+    truncateBy: { table: { defaultValue: { summary: '999' } } },
     refValues: {
       table: {
         type: {
@@ -95,39 +78,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'true' } } },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
+    showTicks: { table: { defaultValue: { summary: 'true' } } },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     sortData: {
@@ -139,9 +98,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'select',
       options: ['barGraph', 'donutChart', 'circlePacking', 'treeMap'],
       table: {
-        type: {
-          summary: "'barGraph' | 'donutChart' | 'circlePacking' | 'treeMap'",
-        },
+        type: { summary: "'barGraph' | 'donutChart' | 'circlePacking' | 'treeMap'" },
         defaultValue: { summary: 'barGraph' },
       },
     },
@@ -197,8 +154,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

@@ -1,3 +1,4 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { useState } from 'react';
 import { parse } from 'date-fns';
@@ -5,9 +6,9 @@ import sortBy from 'lodash.sortby';
 import uniqBy from 'lodash.uniqby';
 import { group } from 'd3-array';
 import sum from 'lodash.sum';
-import { AnimatePresence, motion } from 'framer-motion';
-import isEqual from 'lodash.isequal';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   GroupedBarGraphWithDateDataType,
@@ -42,9 +43,11 @@ interface Props {
   prefix: string;
   showValues?: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   refValues?: ReferenceDataType[];
   maxValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   selectedColor?: string;
   indx: number;
@@ -100,6 +103,7 @@ export function Graph(props: Props) {
     classNames,
   } = props;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const dataFormatted = sortBy(
     data.map(d => ({
@@ -121,30 +125,30 @@ export function Graph(props: Props) {
         sortParameter !== undefined || autoSort
           ? sortParameter === 'total' || sortParameter === undefined
             ? sortBy(
-                data.filter(d => d.date === date),
-                d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
-              ).map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+              data.filter(d => d.date === date),
+              d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            }))
             : sortBy(
-                data.filter(d => d.date === date),
-                d =>
-                  checkIfNullOrUndefined(d.size[sortParameter])
-                    ? -Infinity
-                    : d.size[sortParameter],
-              ).map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+              data.filter(d => d.date === date),
+              d =>
+                checkIfNullOrUndefined(d.size[sortParameter])
+                  ? -Infinity
+                  : d.size[sortParameter],
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as GroupedBarGraphWithDateDataType[]
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            })),
+          ).map((el, i) => ({
+            ...el,
+            id: `${i}`,
+          })),
     }),
   );
   const margin = {
@@ -153,6 +157,7 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -162,10 +167,10 @@ export function Graph(props: Props) {
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-        ...data.map(
-          d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      ...data.map(
+        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
+      ),
+    );
 
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
@@ -175,8 +180,8 @@ export function Graph(props: Props) {
       minBarThickness
         ? Math.max(graphWidth, minBarThickness * uniqLabels.length)
         : maxBarThickness
-        ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
-        : graphWidth,
+          ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
+          : graphWidth,
     ])
     .paddingInner(barPadding);
   const yTicks = y.ticks(noOfTicks);
@@ -255,6 +260,7 @@ export function Graph(props: Props) {
                             : 0.3
                           : 1
                       }
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onMouseEnter={(event: any) => {
                         setMouseOverData({ ...d, sizeIndex: j });
                         setEventY(event.clientY);
@@ -263,6 +269,7 @@ export function Graph(props: Props) {
                           onSeriesMouseOver({ ...d, sizeIndex: j });
                         }
                       }}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onMouseMove={(event: any) => {
                         setMouseOverData({ ...d, sizeIndex: j });
                         setEventY(event.clientY);
@@ -295,9 +302,7 @@ export function Graph(props: Props) {
                     >
                       <motion.rect
                         key={j}
-                        style={{
-                          fill: barColors[j],
-                        }}
+                        style={{ fill: barColors[j] }}
                         width={x.bandwidth()}
                         animate={{
                           height: Math.abs(
@@ -404,7 +409,7 @@ export function Graph(props: Props) {
                       )}
                       dy='1em'
                       animate={{
-                        attrY: y(0),
+                        attrY: y(0) + 5,
                         attrX: (x(d.id) || 0) + x.bandwidth() / 2,
                       }}
                       transition={{ duration: 0.5 }}
@@ -482,11 +487,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

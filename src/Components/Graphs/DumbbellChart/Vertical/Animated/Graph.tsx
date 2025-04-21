@@ -1,14 +1,15 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import max from 'lodash.max';
 import min from 'lodash.min';
 import { useState } from 'react';
-import isEqual from 'lodash.isequal';
 import uniqBy from 'lodash.uniqby';
 import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   DumbbellChartWithDateDataType,
@@ -40,6 +41,7 @@ interface Props {
   radius: number;
   showLabels: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   maxPositionValue?: number;
   minPositionValue?: number;
@@ -47,6 +49,7 @@ interface Props {
   prefix: string;
   showValues: boolean;
   selectedColor?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   dateFormat: string;
   indx: number;
@@ -125,30 +128,30 @@ export function Graph(props: Props) {
         sortParameter !== undefined
           ? sortParameter === 'diff'
             ? sortBy(values, d =>
-                checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+              checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
                 checkIfNullOrUndefined(d.x[0])
-                  ? -Infinity
-                  : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
-              ).map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+                ? -Infinity
+                : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            }))
             : sortBy(values, d =>
-                checkIfNullOrUndefined(d.x[sortParameter])
-                  ? -Infinity
-                  : d.x[sortParameter],
-              ).map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+              checkIfNullOrUndefined(d.x[sortParameter])
+                ? -Infinity
+                : d.x[sortParameter],
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as DumbbellChartWithDateDataType[]
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            })),
+          ).map((el, i) => ({
+            ...el,
+            id: `${i}`,
+          })),
     }),
   );
 
@@ -160,7 +163,9 @@ export function Graph(props: Props) {
   };
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -168,13 +173,13 @@ export function Graph(props: Props) {
   const yMaxValue = !checkIfNullOrUndefined(maxPositionValue)
     ? (maxPositionValue as number)
     : Math.max(...data.map(d => max(d.x) || 0)) < 0
-    ? 0
-    : Math.max(...data.map(d => max(d.x) || 0));
+      ? 0
+      : Math.max(...data.map(d => max(d.x) || 0));
   const yMinValue = !checkIfNullOrUndefined(minPositionValue)
     ? (minPositionValue as number)
     : Math.min(...data.map(d => min(d.x) || 0)) > 0
-    ? 0
-    : Math.min(...data.map(d => min(d.x) || 0));
+      ? 0
+      : Math.min(...data.map(d => min(d.x) || 0));
 
   const y = scaleLinear()
     .domain([yMinValue, yMaxValue])
@@ -187,8 +192,8 @@ export function Graph(props: Props) {
       minBarThickness
         ? Math.max(graphWidth, minBarThickness * uniqLabels.length)
         : maxBarThickness
-        ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
-        : graphWidth,
+          ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
+          : graphWidth,
     ])
     .paddingInner(barPadding);
   const yTicks = y.ticks(noOfTicks);
@@ -283,11 +288,9 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       ...(styles?.xAxis?.labels || {}),
                     }}
-                    y={graphHeight}
+                    y={graphHeight + 5}
                     dy='1em'
-                    animate={{
-                      attrX: (x(`${i}`) as number) + x.bandwidth() / 2,
-                    }}
+                    animate={{ attrX: (x(`${i}`) as number) + x.bandwidth() / 2 }}
                     transition={{ duration: 0.5 }}
                     className={cn(
                       'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
@@ -338,6 +341,7 @@ export function Graph(props: Props) {
                           : 0.3
                         : 1
                     }
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, xIndex: j });
                       setEventY(event.clientY);
@@ -361,6 +365,7 @@ export function Graph(props: Props) {
                         }
                       }
                     }}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseMove={(event: any) => {
                       setMouseOverData({ ...d, xIndex: j });
                       setEventY(event.clientY);
@@ -454,11 +459,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

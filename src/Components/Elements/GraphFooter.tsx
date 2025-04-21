@@ -11,7 +11,9 @@ interface Props {
 }
 
 export function GraphFooter(props: Props) {
-  const { sources, footNote, width, styles, classNames } = props;
+  const {
+    sources, footNote, width, styles, classNames, 
+  } = props;
   if (
     (sources === undefined || (sources || []).length === 0) &&
     footNote === undefined
@@ -20,9 +22,7 @@ export function GraphFooter(props: Props) {
   return (
     <div
       className='flex gap-2 flex-col'
-      style={{
-        maxWidth: width ? `${width}px` : 'none',
-      }}
+      style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Graph footer'
     >
       {sources ? (

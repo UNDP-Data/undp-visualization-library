@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AnimatedScatterPlot } from '@/index';
+
 import { parseValue } from '../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,6 +10,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../assets/constants';
+
+import { AnimatedScatterPlot } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedScatterPlot>;
 
@@ -27,19 +29,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   size: number;
   color?: string;
   date: string | number;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     colors: {
@@ -52,9 +49,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    colorDomain: {
-      control: 'text',
-    },
+    colorDomain: { control: 'text' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -64,64 +59,22 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Values and Ticks
-    refXValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    refYValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    refXValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    refYValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    noOfXTicks: { table: { defaultValue: { summary: '5' } } },
+    noOfYTicks: { table: { defaultValue: { summary: '5' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    showColorScale: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showNAColor: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'false' } } },
+    showColorScale: { table: { defaultValue: { summary: 'true' } } },
+    showNAColor: { table: { defaultValue: { summary: 'true' } } },
     highlightedDataPoints: {
       control: 'text',
       table: { type: { summary: '(string | number)[]' } },
@@ -183,33 +136,17 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    labelColor: {
-      control: 'color',
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    labelColor: { control: 'color' },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
     resetSelectionOnDoubleClick: {
       control: 'boolean',
-      table: {
-        defaultValue: { summary: 'true' },
-      },
+      table: { defaultValue: { summary: 'true' } },
     },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
 
@@ -232,31 +169,57 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'light' },
       },
     },
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
+    dateFormat: { table: { defaultValue: { summary: 'yyyy' } } },
   },
   args: {
     data: [
-      { label: 'Item 1', x: 1, y: 3, date: '2020' },
-      { label: 'Item 2', x: 2, y: 8, date: '2020' },
-      { label: 'Item 3', x: 3, y: 11, date: '2020' },
-      { label: 'Item 4', x: 4, y: 19, date: '2020' },
-      { label: 'Item 5', x: 5, y: 3, date: '2020' },
+      {
+        label: 'Item 1', x: 1, y: 3, date: '2020', 
+      },
+      {
+        label: 'Item 2', x: 2, y: 8, date: '2020', 
+      },
+      {
+        label: 'Item 3', x: 3, y: 11, date: '2020', 
+      },
+      {
+        label: 'Item 4', x: 4, y: 19, date: '2020', 
+      },
+      {
+        label: 'Item 5', x: 5, y: 3, date: '2020', 
+      },
 
-      { label: 'Item 1', x: 6, y: 8, date: '2021' },
-      { label: 'Item 2', x: 7, y: 11, date: '2021' },
-      { label: 'Item 3', x: 8, y: 19, date: '2021' },
-      { label: 'Item 4', x: 9, y: 7, date: '2021' },
-      { label: 'Item 5', x: 10, y: 12, date: '2021' },
+      {
+        label: 'Item 1', x: 6, y: 8, date: '2021', 
+      },
+      {
+        label: 'Item 2', x: 7, y: 11, date: '2021', 
+      },
+      {
+        label: 'Item 3', x: 8, y: 19, date: '2021', 
+      },
+      {
+        label: 'Item 4', x: 9, y: 7, date: '2021', 
+      },
+      {
+        label: 'Item 5', x: 10, y: 12, date: '2021', 
+      },
 
-      { label: 'Item 1', x: 11, y: 14, date: '2022' },
-      { label: 'Item 2', x: 12, y: 9, date: '2022' },
-      { label: 'Item 3', x: 13, y: 16, date: '2022' },
-      { label: 'Item 4', x: 14, y: 18, date: '2022' },
-      { label: 'Item 5', x: 15, y: 5, date: '2022' },
+      {
+        label: 'Item 1', x: 11, y: 14, date: '2022', 
+      },
+      {
+        label: 'Item 2', x: 12, y: 9, date: '2022', 
+      },
+      {
+        label: 'Item 3', x: 13, y: 16, date: '2022', 
+      },
+      {
+        label: 'Item 4', x: 14, y: 18, date: '2022', 
+      },
+      {
+        label: 'Item 5', x: 15, y: 5, date: '2022', 
+      },
     ],
   },
   render: ({
@@ -275,8 +238,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

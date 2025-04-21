@@ -1,11 +1,12 @@
+import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
 import { geoEqualEarth, geoMercator } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
-import isEqual from 'lodash.isequal';
 import { Modal } from '@undp-data/undp-design-system-react';
+
 import { ClassNameObject, DotDensityMapDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { Colors } from '@/Components/ColorPalette';
@@ -13,6 +14,7 @@ import { string2HTML } from '@/Utils/string2HTML';
 
 interface Props {
   data: DotDensityMapDataType[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData: any;
   colorDomain: string[];
   width: number;
@@ -26,13 +28,15 @@ interface Props {
   mapNoDataColor: string;
   showLabels: boolean;
   mapBorderColor: string;
-  tooltip?: string;
+  tooltip?: string;   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
   showColorScale: boolean;
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedDataPoints: (string | number)[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any   
   onSeriesMouseClick?: (_d: any) => void;
   showAntarctica: boolean;
   resetSelectionOnDoubleClick: boolean;
@@ -74,7 +78,10 @@ export function Graph(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -88,9 +95,9 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-          .domain([0, maxBy(data, 'radius')?.radius as number])
-          .range([0.25, radius])
-          .nice()
+        .domain([0, maxBy(data, 'radius')?.radius as number])
+        .range([0.25, radius])
+        .nice()
       : undefined;
 
   useEffect(() => {
@@ -107,8 +114,10 @@ export function Graph(props: Props) {
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
+     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapSvgSelect.call(zoomBehaviour as any);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svgHeight, svgWidth]);
   return (
     <>
@@ -120,13 +129,16 @@ export function Graph(props: Props) {
         direction='ltr'
       >
         <g ref={mapG}>
-          {mapData.features.map((d: any, i: number) => {
-            if (d.properties.NAME === 'Antarctica' && !showAntarctica)
-              return null;
-            return (
-              <g key={i}>
-                {d.geometry.type === 'MultiPolygon'
-                  ? d.geometry.coordinates.map((el: any, j: any) => {
+          {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            mapData.features.map((d: any, i: number) => {
+              if (d.properties.NAME === 'Antarctica' && !showAntarctica)
+                return null;
+              return (
+                <g key={i}>
+                  {d.geometry.type === 'MultiPolygon' 
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any                
+                    ? d.geometry.coordinates.map((el: any, j: any) => {
                       let masterPath = '';
                       el.forEach((geo: number[][]) => {
                         let path = ' M';
@@ -153,7 +165,8 @@ export function Graph(props: Props) {
                         />
                       );
                     })
-                  : d.geometry.coordinates.map((el: any, j: number) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    : d.geometry.coordinates.map((el: any, j: number) => {
                       let path = 'M';
                       el.forEach((c: number[], k: number) => {
                         const point = projection([c[0], c[1]]) as [
@@ -176,16 +189,16 @@ export function Graph(props: Props) {
                         />
                       );
                     })}
-              </g>
-            );
-          })}
+                </g>
+              );
+            })}
           {data.map((d, i) => {
             const color =
               data.filter(el => el.color).length === 0
                 ? colors[0]
                 : !d.color
-                ? Colors.gray
-                : colors[colorDomain.indexOf(`${d.color}`)];
+                  ? Colors.gray
+                  : colors[colorDomain.indexOf(`${d.color}`)];
             return (
               <g
                 key={i}
@@ -195,10 +208,11 @@ export function Graph(props: Props) {
                       ? 1
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
-                      ? 1
-                      : 0.3
-                    : 1
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                        ? 1
+                        : 0.3
+                      : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -248,14 +262,14 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.8,
                   }}
                 />
@@ -264,9 +278,7 @@ export function Graph(props: Props) {
                     x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                     y={0}
                     className='fill-primary-gray-600 dark:fill-primary-gray-300 text-sm'
-                    style={{
-                      textAnchor: 'start',
-                    }}
+                    style={{ textAnchor: 'start' }}
                     dx={4}
                     dy={5}
                   >
@@ -333,9 +345,7 @@ export function Graph(props: Props) {
                           }
                           y={25}
                           className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                          style={{
-                            textAnchor: 'middle',
-                          }}
+                          style={{ textAnchor: 'middle' }}
                         >
                           {d}
                         </text>
@@ -347,7 +357,7 @@ export function Graph(props: Props) {
             </div>
           </div>
         </div>
-      )}
+        )}
       {detailsOnClick ? (
         <Modal
           open={mouseClickData !== undefined}
@@ -356,11 +366,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

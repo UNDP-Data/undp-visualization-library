@@ -1,9 +1,10 @@
+import isEqual from 'fast-deep-equal';
 import { useState } from 'react';
 import maxBy from 'lodash.maxby';
 import { scaleLinear } from 'd3-scale';
 import minBy from 'lodash.minby';
-import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import { ClassNameObject, SlopeChartDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -27,10 +28,12 @@ interface Props {
   bottomMargin: number;
   axisTitles: [string, string];
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   highlightedDataPoints: (string | number)[];
   maxValue?: number;
   minValue?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -64,7 +67,9 @@ export function Graph(props: Props) {
     styles,
     classNames,
   } = props;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -170,14 +175,14 @@ export function Graph(props: Props) {
                         : 0.3
                       : 0.3
                     : mouseOverData
-                    ? mouseOverData.label === d.label
-                      ? 1
-                      : 0.3
-                    : highlightedDataPoints.length !== 0
-                    ? highlightedDataPoints.indexOf(d.label) !== -1
-                      ? 1
-                      : 0.5
-                    : 1
+                      ? mouseOverData.label === d.label
+                        ? 1
+                        : 0.3
+                      : highlightedDataPoints.length !== 0
+                        ? highlightedDataPoints.indexOf(d.label) !== -1
+                          ? 1
+                          : 0.5
+                        : 1
                 }
                 onMouseEnter={event => {
                   setMouseOverData(d);
@@ -224,14 +229,14 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
                 />
@@ -242,8 +247,8 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'end',
                       ...(styles?.yAxis?.labels || {}),
                     }}
@@ -263,8 +268,8 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'end',
                         ...(styles?.yAxis?.labels || {}),
                       }}
@@ -287,14 +292,14 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     stroke:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     fillOpacity: 0.6,
                   }}
                 />
@@ -305,8 +310,8 @@ export function Graph(props: Props) {
                         data.filter(el => el.color).length === 0
                           ? colors[0]
                           : !d.color
-                          ? Colors.gray
-                          : colors[colorDomain.indexOf(`${d.color}`)],
+                            ? Colors.gray
+                            : colors[colorDomain.indexOf(`${d.color}`)],
                       textAnchor: 'start',
                       ...(styles?.yAxis?.labels || {}),
                     }}
@@ -326,8 +331,8 @@ export function Graph(props: Props) {
                           data.filter(el => el.color).length === 0
                             ? colors[0]
                             : !d.color
-                            ? Colors.gray
-                            : colors[colorDomain.indexOf(`${d.color}`)],
+                              ? Colors.gray
+                              : colors[colorDomain.indexOf(`${d.color}`)],
                         textAnchor: 'start',
                         ...(styles?.yAxis?.labels || {}),
                       }}
@@ -353,8 +358,8 @@ export function Graph(props: Props) {
                       data.filter(el => el.color).length === 0
                         ? colors[0]
                         : !d.color
-                        ? Colors.gray
-                        : colors[colorDomain.indexOf(`${d.color}`)],
+                          ? Colors.gray
+                          : colors[colorDomain.indexOf(`${d.color}`)],
                     strokeWidth: 1,
                     ...styles?.dataConnectors,
                   }}
@@ -382,11 +387,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

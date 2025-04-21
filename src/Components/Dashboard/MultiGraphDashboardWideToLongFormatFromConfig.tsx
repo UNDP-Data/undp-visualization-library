@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { P, Spinner } from '@undp-data/undp-design-system-react';
+
+import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
+
 import {
   ClassNameObject,
   DashboardFromWideToLongFormatLayoutDataType,
@@ -9,7 +12,6 @@ import {
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { validateConfigSchema } from '@/Utils/validateSchema';
-import { MultiGraphDashboardWideToLongFormat } from './MultiGraphDashboardWideToLongFormat';
 
 interface ConfigObject {
   dashboardID?: string;

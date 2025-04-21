@@ -1,4 +1,5 @@
 import { NumberValue } from 'd3-scale';
+
 import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
@@ -15,7 +16,9 @@ interface Props {
 }
 
 export function HighlightArea(props: Props) {
-  const { areaSettings, width, height, scale } = props;
+  const {
+    areaSettings, width, height, scale, 
+  } = props;
   return (
     <>
       {areaSettings.map((d, i) => (
@@ -62,7 +65,9 @@ interface ScatterPlotProps {
 }
 
 export function HighlightAreaForScatterPlot(props: ScatterPlotProps) {
-  const { areaSettings, width, height, scaleX, scaleY } = props;
+  const {
+    areaSettings, width, height, scaleX, scaleY, 
+  } = props;
   return (
     <>
       {areaSettings.map((d, i) => (

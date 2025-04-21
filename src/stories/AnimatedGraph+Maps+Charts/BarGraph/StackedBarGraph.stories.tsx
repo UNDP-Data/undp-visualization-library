@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { AnimatedStackedBarGraph } from '@/index';
+
 import { parseValue } from '../../assets/parseValue';
 import {
   CLASS_NAME_OBJECT,
@@ -10,6 +10,8 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { AnimatedStackedBarGraph } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<
   typeof AnimatedStackedBarGraph
@@ -27,33 +29,20 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: `{
   label: string; 
   size: (number | undefined | null)[];
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
+    dateFormat: { table: { defaultValue: { summary: 'yyyy' } } },
 
     // Colors and Styling
     colors: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'string[]',
-        },
-      },
+      table: { type: { summary: 'string[]' } },
     },
     colorDomain: {
       control: 'text',
@@ -68,27 +57,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
-      control: { type: 'range', min: 0, max: 1, step: 0.1 },
+      control: {
+        type: 'range', min: 0, max: 1, step: 0.1, 
+      },
     },
 
     // Values and Ticks
@@ -96,63 +73,25 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'number',
       table: { defaultValue: { summary: '999' } },
     },
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    refValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    noOfTicks: { table: { defaultValue: { summary: '5' } } },
 
     // Graph parameters
-    showLabels: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    showTicks: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    resetSelectionOnDoubleClick: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    showLabels: { table: { defaultValue: { summary: 'true' } } },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
+    showTicks: { table: { defaultValue: { summary: 'true' } } },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
+    resetSelectionOnDoubleClick: { table: { defaultValue: { summary: 'true' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
-    onSeriesMouseClick: {
-      action: 'seriesMouseClick',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
+    onSeriesMouseClick: { action: 'seriesMouseClick' },
 
     // Configuration and Options
     sortParameter: {
       control: 'number',
-      table: {
-        type: { summary: "number | 'total'" },
-      },
+      table: { type: { summary: "number | 'total'" } },
     },
     language: {
       control: 'select',
@@ -204,7 +143,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({ colors, backgroundColor, colorDomain, ...args }) => {
+  render: ({
+    colors, backgroundColor, colorDomain, ...args 
+  }) => {
     return (
       <AnimatedStackedBarGraph
         colors={parseValue(colors)}
@@ -213,8 +154,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

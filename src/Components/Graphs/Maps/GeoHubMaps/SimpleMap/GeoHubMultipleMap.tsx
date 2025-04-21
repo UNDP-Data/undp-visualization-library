@@ -3,6 +3,7 @@ import maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
+
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { filterData } from '@/Utils/transformData/filterData';
 
@@ -35,6 +36,7 @@ export function GeoHubMultipleMap(props: Props) {
   const [svgHeight, setSvgHeight] = useState(0);
   const graphDiv = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
@@ -55,21 +57,23 @@ export function GeoHubMultipleMap(props: Props) {
         mapDiv.selectAll('div').remove();
         const protocol = new pmtiles.Protocol();
         maplibreGl.addProtocol('pmtiles', protocol.tile);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapObj: any = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           container: mapContainer.current as any,
           style:
             includeLayers.length === 0 && excludeLayers.length === 0
               ? d
               : {
-                  ...d,
-                  layers: filterData(d.layers, [
-                    {
-                      column: 'id',
-                      includeValues: includeLayers,
-                      excludeValues: excludeLayers,
-                    },
-                  ]),
-                },
+                ...d,
+                layers: filterData(d.layers, [
+                  {
+                    column: 'id',
+                    includeValues: includeLayers,
+                    excludeValues: excludeLayers,
+                  },
+                ]),
+              },
         };
         if (center) {
           mapObj.center = center;
@@ -89,17 +93,11 @@ export function GeoHubMultipleMap(props: Props) {
         mapRef.current.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       });
     }
-  }, [
-    mapContainer.current,
-    svgWidth,
-    center,
-    zoomLevel,
-    includeLayers,
-    excludeLayers,
-  ]);
+  }, [svgWidth, center, zoomLevel, includeLayers, excludeLayers, mapStyle]);
   useEffect(() => {
     if (mapRef.current) {
       fetchAndParseJSON(mapStyle).then(d => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapStyleObj: any = {
           ...d,
           layers: filterData(d.layers, [
@@ -113,7 +111,7 @@ export function GeoHubMultipleMap(props: Props) {
         mapRef.current.setStyle(mapStyleObj);
       });
     }
-  }, [mapStyle]);
+  }, [excludeLayers, includeLayers, mapStyle]);
   return (
     <div
       className='flex flex-col grow justify-center leading-0'

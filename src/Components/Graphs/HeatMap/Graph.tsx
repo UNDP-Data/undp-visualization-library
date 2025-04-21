@@ -1,8 +1,9 @@
+import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleBand, scaleOrdinal, scaleThreshold } from 'd3-scale';
 import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
-import isEqual from 'lodash.isequal';
 import { cn, Modal } from '@undp-data/undp-design-system-react';
+
 import {
   ClassNameObject,
   HeatMapDataType,
@@ -36,8 +37,10 @@ interface Props {
   prefix: string;
   showValues?: boolean;
   tooltip?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   selectedColor?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -79,6 +82,7 @@ export function Graph(props: Props) {
     left: leftMargin,
     right: rightMargin,
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [mouseOverData, setMouseOverData] = useState<
     HeatMapDataType | undefined
@@ -96,13 +100,13 @@ export function Graph(props: Props) {
   const colorScale =
     scaleType === 'categorical'
       ? scaleOrdinal<number | string, string>()
-          .domain(colorDomain)
-          .range(colors)
+        .domain(colorDomain)
+        .range(colors)
       : scaleType === 'threshold'
-      ? scaleThreshold<number, string>()
+        ? scaleThreshold<number, string>()
           .domain(colorDomain as number[])
           .range(colors)
-      : scaleLinear<string, string>()
+        : scaleLinear<string, string>()
           .domain(colorDomain as number[])
           .range(colors);
   return (
@@ -117,43 +121,43 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
             ? columns.map((d, i) => (
-                <XAxesLabels
-                  key={i}
-                  y={0}
-                  x={x(d) as number}
-                  width={barWidth}
-                  height={margin.top - 5}
-                  value={
+              <XAxesLabels
+                key={i}
+                y={0}
+                x={x(d) as number}
+                width={barWidth}
+                height={margin.top - 5}
+                value={
                     `${d}`.length < truncateBy
                       ? `${d}`
                       : `${`${d}`.substring(0, truncateBy)}...`
                   }
-                  style={styles?.xAxis?.labels}
-                  className={classNames?.xAxis?.labels}
-                  alignment='bottom'
-                />
-              ))
+                style={styles?.xAxis?.labels}
+                className={classNames?.xAxis?.labels}
+                alignment='bottom'
+              />
+            ))
             : null}
         </g>
         <g transform={`translate(${0},${margin.top})`}>
           {showRowLabels
             ? rows.map((d, i) => (
-                <YAxesLabels
-                  value={
+              <YAxesLabels
+                value={
                     `${d}`.length < truncateBy
                       ? `${d}`
                       : `${`${d}`.substring(0, truncateBy)}...`
                   }
-                  key={i}
-                  y={y(d) as number}
-                  x={0}
-                  width={margin.left}
-                  height={barHeight}
-                  alignment='right'
-                  style={styles?.yAxis?.labels}
-                  className={classNames?.yAxis?.labels}
-                />
-              ))
+                key={i}
+                y={y(d) as number}
+                x={0}
+                width={margin.left}
+                height={barHeight}
+                alignment='right'
+                style={styles?.yAxis?.labels}
+                className={classNames?.yAxis?.labels}
+              />
+            ))
             : null}
         </g>
         <g transform={`translate(${margin.left},${margin.top})`}>
@@ -166,9 +170,7 @@ export function Graph(props: Props) {
                   y={0}
                   width={barWidth}
                   height={barHeight}
-                  style={{
-                    fill: noDataColor,
-                  }}
+                  style={{ fill: noDataColor }}
                   className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                 />
               ))}
@@ -178,12 +180,14 @@ export function Graph(props: Props) {
             .filter(d => !checkIfNullOrUndefined(d.value))
             .map((d, i) => {
               const color = !checkIfNullOrUndefined(d.value)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ? colorScale(d.value as any)
                 : noDataColor;
               return (
                 <g
                   key={i}
                   transform={`translate(${x(d.column)},${y(d.row)})`}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseEnter={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -206,6 +210,7 @@ export function Graph(props: Props) {
                       }
                     }
                   }}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseMove={(event: any) => {
                     setMouseOverData(d);
                     setEventY(event.clientY);
@@ -228,9 +233,7 @@ export function Graph(props: Props) {
                     y={0}
                     width={barWidth}
                     height={barHeight}
-                    style={{
-                      fill: color,
-                    }}
+                    style={{ fill: color }}
                     className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
@@ -296,11 +299,8 @@ export function Graph(props: Props) {
           }}
         >
           <div
-            className='m-0'
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: string2HTML(detailsOnClick, mouseClickData),
-            }}
+            className='graph-modal-content m-0'
+            dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>
       ) : null}

@@ -32,7 +32,6 @@ export const excelDownload = (
   csvData: any,
   fileName: string,
   headers: string[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   xlsxHeader: {
     [key: string]: string;
   },

@@ -25,12 +25,16 @@ export function getUniqValue(
   if (csvData.length === 0) return [];
   if (typeof csvData[0][column] !== 'object') {
     const uniqValues = sortBy(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       uniqBy(csvData, (d: any) => d[column]),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (d: any) => d[column],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ).map((d: any) => d[column]);
     return uniqValues;
   }
   const values = sortBy(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     uniqBy(flattenDeep(csvData.map((d: any) => d[column])), el => el),
     (d: string | number) => d,
   );

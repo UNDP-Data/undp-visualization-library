@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MultiLineChart } from '@/index';
+
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
@@ -10,6 +10,8 @@ import {
   STYLE_OBJECT,
 } from '../../assets/constants';
 import { parseValue } from '../../assets/parseValue';
+
+import { MultiLineChart } from '@/index';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof MultiLineChart>;
 
@@ -25,24 +27,17 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           detail: `{
   date: number | string;
   y: (number | undefined | null)[];
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
 
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    lineColors: {
-      control: 'text',
-    },
+    lineColors: { control: 'text' },
     backgroundColor: {
       control: 'text',
       table: {
@@ -52,40 +47,16 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
 
     // Size and Spacing
-    minHeight: {
-      table: { defaultValue: { summary: '0' } },
-    },
+    minHeight: { table: { defaultValue: { summary: '0' } } },
 
     // Values and Ticks
-    refValues: {
-      table: {
-        type: {
-          detail: REF_VALUE_OBJECT,
-        },
-      },
-    },
-    noOfXTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
-    noOfYTicks: {
-      table: { defaultValue: { summary: '5' } },
-    },
+    refValues: { table: { type: { detail: REF_VALUE_OBJECT } } },
+    noOfXTicks: { table: { defaultValue: { summary: '5' } } },
+    noOfYTicks: { table: { defaultValue: { summary: '5' } } },
     minDate: { control: 'text' },
     maxDate: { control: 'text' },
 
@@ -100,22 +71,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    dateFormat: {
-      table: {
-        defaultValue: { summary: 'yyyy' },
-      },
-    },
-    showValues: {
-      table: {
-        defaultValue: { summary: 'true' },
-      },
-    },
+    dateFormat: { table: { defaultValue: { summary: 'yyyy' } } },
+    showValues: { table: { defaultValue: { summary: 'true' } } },
     curveType: {
       control: 'radio',
       options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
-      table: {
-        defaultValue: { summary: 'curve' },
-      },
+      table: { defaultValue: { summary: 'curve' } },
     },
     annotations: {
       control: 'object',
@@ -174,27 +135,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         },
       },
     },
-    graphDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    highlightedLines: {
-      control: 'text',
-    },
-    labels: {
-      control: 'text',
-    },
-    dataDownload: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    graphDownload: { table: { defaultValue: { summary: 'false' } } },
+    highlightedLines: { control: 'text' },
+    labels: { control: 'text' },
+    dataDownload: { table: { defaultValue: { summary: 'false' } } },
 
     // Interactions and Callbacks
-    onSeriesMouseOver: {
-      action: 'seriesMouseOver',
-    },
+    onSeriesMouseOver: { action: 'seriesMouseOver' },
 
     // Configuration and Options
     language: {
@@ -241,11 +188,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     return (
       <MultiLineChart
         animateLine={
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false'
             ? false
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             : (animateLine as any) === 'true'
-            ? true
-            : Number(animateLine)
+              ? true
+              : Number(animateLine)
         }
         lineColors={parseValue(lineColors)}
         labels={parseValue(labels, ['Apples', 'Oranges'])}
@@ -254,8 +203,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

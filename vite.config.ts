@@ -1,16 +1,15 @@
-/* eslint-disable import/no-extraneous-dependencies */
+ 
+import path from 'path';
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import dts from 'vite-plugin-dts';
-import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [dts({ rollupTypes: true }), react(), eslint()],
-  define: {
-    'process.env.NODE_ENV': JSON.stringify('production'),
-  },
+  define: { 'process.env.NODE_ENV': JSON.stringify('production') },
   build: {
     cssCodeSplit: false,
     lib: {
@@ -25,11 +24,13 @@ export default defineConfig({
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled into the library.
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'maplibre-gl', 'xlsx'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          'maplibre-gl': 'maplibreGl',
+          xlsx: 'XLSX',
         },
       },
     },
@@ -44,9 +45,5 @@ export default defineConfig({
       optionsSuccessStatus: 204,
     },
   },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
+  resolve: { alias: { '@': path.resolve(__dirname, './src') } },
 });

@@ -3,6 +3,7 @@ import maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { select } from 'd3-selection';
+
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { filterData } from '@/Utils/transformData/filterData';
 
@@ -35,9 +36,11 @@ export function MapEl(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mapStyleData, setMapStyleData] = useState<any>(undefined);
   const graphDiv = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
@@ -59,7 +62,9 @@ export function MapEl(props: Props) {
         mapDiv.selectAll('div').remove();
         const protocol = new pmtiles.Protocol();
         maplibreGl.addProtocol('pmtiles', protocol.tile);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapObj: any = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           container: mapContainer.current as any,
           style: {
             ...d,
@@ -92,10 +97,11 @@ export function MapEl(props: Props) {
         mapRef.current.addControl(new maplibreGl.ScaleControl(), 'bottom-left');
       });
     }
-  }, [mapContainer.current, svgWidth, center, zoomLevel, layerIdList]);
+  }, [svgWidth, center, zoomLevel, layerIdList, mapStyle, excludeLayers, selectedLayer]);
   useEffect(() => {
     if (mapRef.current) {
       if (mapStyleData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapStyleObj: any = {
           ...mapStyleData,
           layers: filterData(mapStyleData.layers, [
@@ -111,6 +117,7 @@ export function MapEl(props: Props) {
         mapRef.current.setStyle(mapStyleObj);
       } else
         fetchAndParseJSON(mapStyle).then(d => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const mapStyleObj: any = {
             ...d,
             layers: filterData(d.layers, [
@@ -126,7 +133,7 @@ export function MapEl(props: Props) {
           mapRef.current.setStyle(mapStyleObj);
         });
     }
-  }, [selectedLayer]);
+  }, [excludeLayers, layerIdList, mapStyle, mapStyleData, selectedLayer]);
   return (
     <div
       className='flex flex-col grow justify-center leading-0'

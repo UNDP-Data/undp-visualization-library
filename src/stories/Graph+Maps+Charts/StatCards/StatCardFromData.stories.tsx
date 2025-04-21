@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { StatCardFromData } from '@/index';
+
 import {
   CLASS_NAME_OBJECT,
   LANGUAGE_OPTIONS,
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+
+import { StatCardFromData } from '@/index';
 import { parseValue } from '@/stories/assets/parseValue';
 
 type PagePropsAndCustomArgs = React.ComponentProps<typeof StatCardFromData>;
@@ -23,18 +25,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   value: number | string;
+  data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
       },
     },
     // Titles and Labels and Sources
-    sources: {
-      table: {
-        type: {
-          detail: SOURCE_OBJECT,
-        },
-      },
-    },
+    sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
     backgroundColor: {
@@ -47,13 +44,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    styles: {
-      table: {
-        type: {
-          detail: STYLE_OBJECT,
-        },
-      },
-    },
+    styles: { table: { type: { detail: STYLE_OBJECT } } },
     verticalAlign: {
       control: 'inline-radio',
       options: ['center', 'top', 'bottom'],
@@ -64,9 +55,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
     countOnly: {
       control: 'text',
-      table: {
-        type: { summary: '(string | number)[]' },
-      },
+      table: { type: { summary: '(string | number)[]' } },
     },
     aggregationMethod: {
       control: 'inline-radio',
@@ -80,34 +69,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         defaultValue: { summary: 'count' },
       },
     },
-    headingFontSize: {
-      table: { defaultValue: { summary: '4.375rem' } },
-    },
-    classNames: {
-      table: {
-        type: {
-          detail: CLASS_NAME_OBJECT,
-        },
-      },
-    },
+    headingFontSize: { table: { defaultValue: { summary: '4.375rem' } } },
+    classNames: { table: { type: { detail: CLASS_NAME_OBJECT } } },
     // Graph parameters
-    centerAlign: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    textBackground: {
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    centerAlign: { table: { defaultValue: { summary: 'false' } } },
+    textBackground: { table: { defaultValue: { summary: 'false' } } },
     year: {
       control: 'text',
-      table: {
-        type: {
-          summary: 'number | string',
-        },
-      },
+      table: { type: { summary: 'number | string' } },
     },
     // Configuration and Options
     language: {
@@ -150,8 +119,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           backgroundColor === 'false'
             ? false
             : backgroundColor === 'true'
-            ? true
-            : backgroundColor
+              ? true
+              : backgroundColor
         }
         {...args}
       />

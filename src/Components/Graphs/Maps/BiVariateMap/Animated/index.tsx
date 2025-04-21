@@ -3,7 +3,11 @@ import { ascending, sort } from 'd3-array';
 import uniqBy from 'lodash.uniqby';
 import { format, parse } from 'date-fns';
 import { SliderUI } from '@undp-data/undp-design-system-react';
+
+import WorldMapData from '../../WorldMapData/data.json';
+
 import { Graph } from './Graph';
+
 import {
   BivariateMapWithDateDataType,
   Languages,
@@ -14,7 +18,6 @@ import {
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import WorldMapData from '../../WorldMapData/data.json';
 import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
@@ -68,6 +71,7 @@ interface Props {
 
   // Graph Parameters
   /** Map data as an object in geoJson format */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData?: any;
   /** Scale of the map */
   scale?: number;
@@ -99,13 +103,15 @@ interface Props {
   resetSelectionOnDoubleClick?: boolean;
 
   // Interactions and Callbacks
-  /** Tooltip content. This uses the handlebar template to display the data */
+  /** Tooltip content. This uses the [handlebar](../?path=/docs/misc-handlebars-templates-and-custom-helpers--docs) template to display the data */
   tooltip?: string;
   /** Details displayed on the modal when user clicks of a data point */
   detailsOnClick?: string;
   /** Callback for mouse over event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  /** Callback for mouse click even */
+  /** Callback for mouse click event */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
 
   // Slider features
@@ -176,6 +182,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mapShape, setMapShape] = useState<any>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
@@ -202,6 +209,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const markObj: any = {};
 
   uniqDatesSorted.forEach((d, i) => {
@@ -232,6 +240,15 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     }
   }, [mapData]);
 
+  if (
+    xDomain.length !== colors[0].length - 1 ||
+    yDomain.length !== colors.length - 1
+  ) {
+    console.error(
+      "the xDomain and yDomain array length don't match to the color array length",
+    );
+    return null;
+  }
   return (
     <div
       className={`${theme || 'light'} flex  ${
@@ -244,8 +261,8 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
           !backgroundColor
             ? 'bg-transparent '
             : backgroundColor === true
-            ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-            : ''
+              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+              : ''
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
@@ -266,9 +283,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
       >
         <div
           className='flex grow'
-          style={{
-            padding: backgroundColor ? padding || '1rem' : padding || 0,
-          }}
+          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
@@ -288,9 +303,10 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   graphDownload ? graphParentDiv.current : undefined
                 }
                 dataDownload={
-                  dataDownload &&
-                  data.map(d => d.data).filter(d => d !== undefined).length > 0
-                    ? data.map(d => d.data).filter(d => d !== undefined)
+                  dataDownload ?
+                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                      ? data.map(d => d.data).filter(d => d !== undefined)
+                      : data.filter(d => d !== undefined) 
                     : null
                 }
               />
