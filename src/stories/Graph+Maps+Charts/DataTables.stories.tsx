@@ -114,7 +114,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         align: 'right',
       },
       {
-        columnTitle: 'Value #3',
+        columnTitle: 'Value #2',
         columnId: 'value2',
         align: 'center',
       },

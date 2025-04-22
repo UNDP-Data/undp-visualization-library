@@ -41,6 +41,15 @@ function getDescendantProp(data: any, desc: string) {
   return template(data);
 }
 
+function decodeHTMLEntities(input: string) {
+  return input
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function string2HTML(htmlString: string, data?: any) {
   // Custom XSS filter configuration
@@ -189,6 +198,5 @@ export function string2HTML(htmlString: string, data?: any) {
   };
   if (!data) return xss(htmlString, options);
   const replacedString = xss(getDescendantProp(data, htmlString), options);
-  const decoded = new DOMParser().parseFromString(replacedString, 'text/html').documentElement.textContent || '';
-  return decoded;
+  return decodeHTMLEntities(replacedString);
 }

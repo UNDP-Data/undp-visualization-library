@@ -342,7 +342,7 @@ export function DataTable(props: Props) {
                             <td
                               key={j}
                               className={`text-primary-gray-700 dark:text-primary-gray-100 text-sm text-${
-                                d.align || 'left'
+                                el.align || 'left'
                               }`}
                               style={{
                                 width: `calc(${
@@ -370,7 +370,7 @@ export function DataTable(props: Props) {
                                       el.chip
                                         ? 'grow-0 rounded-sm p-2'
                                         : 'grow rounded-none p-0'
-                                    } text-${d.align || 'left'} ${
+                                    } text-${el.align || 'left'} ${
                                       el.chip
                                         ? !el.chipColors
                                           ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
@@ -412,7 +412,7 @@ export function DataTable(props: Props) {
                                                 el.chip
                                                   ? 'grow-0 rounded-sm p-2'
                                                   : 'grow rounded-none p-0'
-                                              } text-${d.align || 'left'} ${
+                                              } text-${el.align || 'left'} ${
                                                 el.chip
                                                   ? !el.chipColors
                                                     ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
