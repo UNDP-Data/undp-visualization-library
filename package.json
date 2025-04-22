@@ -30,14 +30,14 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UNDP-Data/dv-visualization-starter-kit.git"
+    "url": "git+https://github.com/UNDP-Data/undp-visualization-library.git"
   },
   "author": "United Nations Development Programme",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/UNDP-Data/dv-visualization-starter-kit/issues"
+    "url": "https://github.com/UNDP-Data/undp-visualization-library/issues"
   },
-  "homepage": "https://orange-bay-04736e710.4.azurestaticapps.net/",
+  "homepage": "https://jolly-field-038560703.6.azurestaticapps.net/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
