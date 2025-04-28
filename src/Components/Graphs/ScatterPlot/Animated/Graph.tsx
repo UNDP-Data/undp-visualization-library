@@ -358,6 +358,50 @@ export function Graph(props: Props) {
             {groupedData[indx].values.map((d, i) => {
               return (
                 <g key={i}>
+                  <path
+                    d={voronoiDiagram.renderCell(groupedData[indx].values.findIndex(el => el.id === d.id))}
+                    className='opacity-0'
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
+                      }
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick || detailsOnClick) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                        resetSelectionOnDoubleClick
+                        ) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick?.(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick?.(d);
+                        }
+                      }
+                    }}
+                  />
+                </g>
+              );})}
+            {groupedData[indx].values.map((d, i) => {
+              return (
+                <g key={i}>
                   <motion.g
                     opacity={
                       selectedColor
@@ -377,6 +421,41 @@ export function Graph(props: Props) {
                               : 0.5
                             : 1
                     }
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
+                      }
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick || detailsOnClick) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                          resetSelectionOnDoubleClick
+                        ) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick?.(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick?.(d);
+                        }
+                      }
+                    }}
                   >
                     <motion.circle
                       cx={0}
@@ -482,46 +561,6 @@ export function Graph(props: Props) {
                           ) : null
                       ) : null}
                   </motion.g>
-                  <path
-                    d={voronoiDiagram.renderCell(i)}
-                    style={{ fill: '#fff' }}
-                    className='opacity-0'
-                    onMouseEnter={event => {
-                      setMouseOverData(d);
-                      setEventY(event.clientY);
-                      setEventX(event.clientX);
-                      if (onSeriesMouseOver) {
-                        onSeriesMouseOver(d);
-                      }
-                    }}
-                    onMouseMove={event => {
-                      setMouseOverData(d);
-                      setEventY(event.clientY);
-                      setEventX(event.clientX);
-                    }}
-                    onMouseLeave={() => {
-                      setMouseOverData(undefined);
-                      setEventX(undefined);
-                      setEventY(undefined);
-                      if (onSeriesMouseOver) {
-                        onSeriesMouseOver(undefined);
-                      }
-                    }}
-                    onClick={() => {
-                      if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                          resetSelectionOnDoubleClick
-                        ) {
-                          setMouseClickData(undefined);
-                          onSeriesMouseClick?.(undefined);
-                        } else {
-                          setMouseClickData(d);
-                          onSeriesMouseClick?.(d);
-                        }
-                      }
-                    }}
-                  />
                 </g>
               );
             })}

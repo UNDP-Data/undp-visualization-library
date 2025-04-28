@@ -1108,8 +1108,22 @@ function GraphEl(props: Props) {
                 readableHeader || [],
               ),
           radius: settings?.radius,
-          xAxisTitle: settings?.xAxisTitle,
-          yAxisTitle: settings?.yAxisTitle,
+          xAxisTitle: 
+            Object.keys(settings || {}).indexOf('xAxisTitle') !== -1
+              ? settings?.xAxisTitle
+              : getValues(
+                'x',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
+          yAxisTitle: 
+            Object.keys(settings || {}).indexOf('yAxisTitle') !== -1
+              ? settings?.yAxisTitle
+              : getValues(
+                'y',
+                graphDataConfiguration || [],
+                readableHeader || [],
+              ),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,

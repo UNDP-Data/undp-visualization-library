@@ -340,6 +340,55 @@ export function Graph(props: Props) {
             .map((d, i) => {
               return (
                 <g key={i}>
+                  <path
+                    d={voronoiDiagram.renderCell(dataOrdered.findIndex(el => el.id === d.id))}
+                    opacity={0}
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
+                      }
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick || detailsOnClick) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                          resetSelectionOnDoubleClick
+                        ) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick?.(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick?.(d);
+                        }
+                      }
+                    }}
+                  />
+                </g>
+              );
+            })}
+          {dataOrdered
+            .filter(
+              d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
+            )
+            .map((d, i) => {
+              return (
+                <g key={i}>
                   <g
                     opacity={
                       selectedColor
@@ -362,6 +411,41 @@ export function Graph(props: Props) {
                     transform={`translate(${x(d.x as number)},${y(
                       d.y as number,
                     )})`}
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
+                      }
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                    onClick={() => {
+                      if (onSeriesMouseClick || detailsOnClick) {
+                        if (
+                          isEqual(mouseClickData, d) &&
+                          resetSelectionOnDoubleClick
+                        ) {
+                          setMouseClickData(undefined);
+                          onSeriesMouseClick?.(undefined);
+                        } else {
+                          setMouseClickData(d);
+                          onSeriesMouseClick?.(d);
+                        }
+                      }
+                    }}
                   >
                     <circle
                       cx={0}
@@ -436,45 +520,6 @@ export function Graph(props: Props) {
                           ) : null
                       ) : null}
                   </g>
-                  <path
-                    d={voronoiDiagram.renderCell(i)}
-                    opacity={0}
-                    onMouseEnter={event => {
-                      setMouseOverData(d);
-                      setEventY(event.clientY);
-                      setEventX(event.clientX);
-                      if (onSeriesMouseOver) {
-                        onSeriesMouseOver(d);
-                      }
-                    }}
-                    onMouseMove={event => {
-                      setMouseOverData(d);
-                      setEventY(event.clientY);
-                      setEventX(event.clientX);
-                    }}
-                    onMouseLeave={() => {
-                      setMouseOverData(undefined);
-                      setEventX(undefined);
-                      setEventY(undefined);
-                      if (onSeriesMouseOver) {
-                        onSeriesMouseOver(undefined);
-                      }
-                    }}
-                    onClick={() => {
-                      if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                          resetSelectionOnDoubleClick
-                        ) {
-                          setMouseClickData(undefined);
-                          onSeriesMouseClick?.(undefined);
-                        } else {
-                          setMouseClickData(d);
-                          onSeriesMouseClick?.(d);
-                        }
-                      }
-                    }}
-                  />
                 </g>
               );
             })}

@@ -93,6 +93,17 @@ const addMinAndMax = (config: GraphConfigurationDataType[]) => {
   return configTemp;
 };
 
+const getGraphSettings = (dataSelectionOptions: DataSelectionDataType[], updatedConfig?: GraphConfigurationDataType[]) => {
+  const updatedSettings = updatedConfig?.map(c => {
+    const indx = dataSelectionOptions?.findIndex(opt => opt.chartConfigId === c.chartConfigId);
+    if (indx === -1) return {};
+    const allowedValIndx = dataSelectionOptions[indx]?.allowedColumnIds?.findIndex(col => col.value === c.columnId);
+    if (allowedValIndx === -1) return {};
+    return dataSelectionOptions[indx].allowedColumnIds[allowedValIndx].graphSettings || {};
+  }) || []; 
+  return Object.assign({}, ...updatedSettings);  
+};
+
 export function SingleGraphDashboard(props: Props) {
   const {
     graphSettings,
@@ -118,9 +129,7 @@ export function SingleGraphDashboard(props: Props) {
   const [graphConfig, setGraphConfig] = useState<
     GraphConfigurationDataType[] | undefined
   >(graphDataConfiguration);
-  const [advancedGraphSettings, setAdvancedGraphSettings] = useState<
-    GraphSettingsDataType | object
-  >({});
+  const [advancedGraphSettings, setAdvancedGraphSettings] = useState<GraphSettingsDataType>({});
   const graphParentDiv = useRef<HTMLDivElement>(null);
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
@@ -219,6 +228,11 @@ export function SingleGraphDashboard(props: Props) {
     );
     return result;
   }, [filterSettings, dataFromFile]);
+
+  useEffect(() => {
+    if(dataSelectionOptions)
+      setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, graphDataConfiguration));
+  }, [dataSelectionOptions, graphDataConfiguration]);
 
   useEffect(() => {
     if (
@@ -493,14 +507,11 @@ export function SingleGraphDashboard(props: Props) {
                                     chartConfigId: d.chartConfigId,
                                   };
                                   const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId ===
-                                  newGraphConfig.chartConfigId
+                                    item.chartConfigId === newGraphConfig.chartConfigId
                                       ? newGraphConfig
                                       : item,
                                   );
-                                  setAdvancedGraphSettings(
-                                    el?.graphSettings || {},
-                                  );
+                                  setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
                                   setGraphConfig(updatedConfig);
                                 }}
                               />
@@ -536,14 +547,11 @@ export function SingleGraphDashboard(props: Props) {
                                     chartConfigId: d.chartConfigId,
                                   };
                                   const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId ===
-                                  newGraphConfig.chartConfigId
+                                    item.chartConfigId === newGraphConfig.chartConfigId
                                       ? newGraphConfig
                                       : item,
                                   );
-                                  setAdvancedGraphSettings(
-                                    selectedOption.graphSettings || {},
-                                  );
+                                  setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
                                   setGraphConfig(updatedConfig);
                                 }}
                               >
@@ -594,8 +602,7 @@ export function SingleGraphDashboard(props: Props) {
                                   chartConfigId: d.chartConfigId,
                                 };
                                 const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId ===
-                                newGraphConfig.chartConfigId
+                                  item.chartConfigId === newGraphConfig.chartConfigId
                                     ? newGraphConfig
                                     : item,
                                 );
@@ -632,8 +639,7 @@ export function SingleGraphDashboard(props: Props) {
                                   chartConfigId: d.chartConfigId,
                                 };
                                 const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId ===
-                                newGraphConfig.chartConfigId
+                                  item.chartConfigId === newGraphConfig.chartConfigId
                                     ? newGraphConfig
                                     : item,
                                 );
