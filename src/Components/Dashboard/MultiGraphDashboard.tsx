@@ -370,6 +370,7 @@ export function MultiGraphDashboard(props: Props) {
                         <SingleGraphDashboard
                           graphType={el.graphType}
                           dataFilters={el.dataFilters}
+                          uiMode={uiMode}
                           graphSettings={{
                             ...(el.settings || {}),
                             width: undefined,

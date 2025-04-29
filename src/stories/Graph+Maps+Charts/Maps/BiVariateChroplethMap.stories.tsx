@@ -82,6 +82,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
     // Values and Ticks
     mapData: { control: 'object' },
+    mapProjection: {
+      control: 'select',
+      options: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      table: { type: { summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'" } },
+    },
     centerPoint: {
       control: 'text',
       table: { type: { summary: '[number, number]' } },

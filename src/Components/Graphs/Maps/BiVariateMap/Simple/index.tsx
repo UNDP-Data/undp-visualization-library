@@ -69,7 +69,7 @@ interface Props {
   /** Map data as an object in geoJson format */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData?: any;
-  /** Scale of the map */
+  /** Scaling factor for the map. Multiplies the scale number to scale. */
   scale?: number;
   /** Center point of the map */
   centerPoint?: [number, number];
@@ -79,6 +79,8 @@ interface Props {
   mapBorderColor?: string;
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
+  /** Map projection type */
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -135,8 +137,8 @@ export function BiVariateChoroplethMap(props: Props) {
     xColorLegendTitle = 'X Color key',
     yColorLegendTitle = 'Y Color key',
     tooltip,
-    scale = 190,
-    centerPoint = [10, 10],
+    scale = 0.95,
+    centerPoint,
     padding,
     mapBorderWidth = 0.5,
     mapNoDataColor = Colors.light.graphNoData,
@@ -163,6 +165,7 @@ export function BiVariateChoroplethMap(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    mapProjection,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -174,7 +177,7 @@ export function BiVariateChoroplethMap(props: Props) {
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
-      setSvgWidth(width || entries[0].target.clientWidth || 760);
+      setSvgWidth(width || entries[0].contentRect.width  || 760);
       setSvgHeight(height || entries[0].target.clientHeight || 480);
     });
     if (graphDiv.current) {
@@ -274,7 +277,8 @@ export function BiVariateChoroplethMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  mapData={mapShape}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
                   xDomain={xDomain}
                   yDomain={yDomain}
                   width={width || svgWidth}
@@ -304,12 +308,12 @@ export function BiVariateChoroplethMap(props: Props) {
                   zoomTranslateExtend={zoomTranslateExtend}
                   onSeriesMouseClick={onSeriesMouseClick}
                   mapProperty={mapProperty}
-                  showAntarctica={showAntarctica}
                   highlightedIds={highlightedIds}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   styles={styles}
                   showColorScale={showColorScale}
                   classNames={classNames}
+                  mapProjection={mapProjection || (isWorldMap ? 'naturalEarth' : 'mercator')}
                   detailsOnClick={detailsOnClick}
                 />
               ) : null}

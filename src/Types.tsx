@@ -663,7 +663,7 @@ export interface GraphSettingsDataType {
   leftMargin?: number;
   rightMargin?: number;
   truncateBy?: number;
-  colorDomain?: string[];
+  colorDomain?: string[] | number[];
   colorLegendTitle?: string;
   backgroundColor?: string | boolean;
   padding?: string;
@@ -858,4 +858,5 @@ export interface GraphSettingsDataType {
   curveType?: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
 }

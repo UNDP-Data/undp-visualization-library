@@ -208,7 +208,7 @@ export function DataTable(props: Props) {
             ) : null}
             <div className='grow flex flex-col justify-center'>
               <div
-                className='undp-viz-scrollbar'
+                className='undp-scrollbar'
                 style={{
                   width: width ? `${width}px` : '100%',
                   height: height ? `${height}px` : 'auto',

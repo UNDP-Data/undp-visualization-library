@@ -73,7 +73,7 @@ interface Props {
   /** Map data as an object in geoJson format */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData?: any;
-  /** Scale of the map */
+  /** Scaling factor for the map. Multiplies the scale number to scale. */
   scale?: number;
   /** Center point of the map */
   centerPoint?: [number, number];
@@ -83,6 +83,8 @@ interface Props {
   mapBorderColor?: string;
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
+  /** Map projection type */
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -147,8 +149,8 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     xColorLegendTitle = 'X Color key',
     yColorLegendTitle = 'Y Color key',
     tooltip,
-    scale = 190,
-    centerPoint = [10, 10],
+    scale = 0.95,
+    centerPoint,
     padding,
     mapBorderWidth = 0.5,
     showColorScale = true,
@@ -178,6 +180,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    mapProjection,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -348,7 +351,8 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  mapData={mapShape}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
                   xDomain={xDomain}
                   yDomain={yDomain}
                   width={width || svgWidth}
@@ -383,9 +387,6 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   zoomTranslateExtend={zoomTranslateExtend}
                   onSeriesMouseClick={onSeriesMouseClick}
                   mapProperty={mapProperty}
-                  showAntarctica={
-                    showAntarctica === undefined ? false : showAntarctica
-                  }
                   highlightedIds={highlightedIds}
                   dateFormat={dateFormat}
                   indx={index}
@@ -393,6 +394,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   styles={styles}
                   classNames={classNames}
                   detailsOnClick={detailsOnClick}
+                  mapProjection={mapProjection || (isWorldMap ? 'naturalEarth' : 'mercator')}
                 />
               ) : null}
             </div>

@@ -62,10 +62,10 @@ export function X() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
+      width='16'
+      height='16'
       viewBox='0 0 24 24'
-      className='stroke-primary-black dark:stroke-primary-white'
+      className='stroke-primary-gray-600 dark:stroke-primary-white'
       fill='none'
       strokeWidth='2'
       strokeLinecap='round'

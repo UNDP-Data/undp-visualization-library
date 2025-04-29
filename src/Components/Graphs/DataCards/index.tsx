@@ -414,7 +414,7 @@ export function DataCards(props: Props) {
               />
             ) : null}
             <div
-              className='undp-viz-scrollbar w-full my-0 mx-auto grid gap-4 undp-viz-data-cards-container'
+              className='undp-scrollbar w-full my-0 mx-auto grid gap-4 undp-viz-data-cards-container'
               style={{
                 width: width ? `${width}px` : '100%',
                 height: height ? `${height}px` : 'auto',

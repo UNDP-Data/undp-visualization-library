@@ -73,7 +73,7 @@ interface Props {
   /** Map data as an object in geoJson format */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mapData?: any;
-  /** Scale of the map */
+  /** Scaling factor for the map. Multiplies the scale number to scale. */
   scale?: number;
   /** Center point of the map */
   centerPoint?: [number, number];
@@ -83,6 +83,8 @@ interface Props {
   mapBorderColor?: string;
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
+  /** Map projection type */
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -145,8 +147,8 @@ export function AnimatedDotDensityMap(props: Props) {
     colorLegendTitle,
     colorDomain,
     radius = 5,
-    scale = 190,
-    centerPoint = [10, 10],
+    scale = 0.95,
+    centerPoint,
     padding,
     mapBorderWidth = 0.5,
     mapNoDataColor = Colors.light.graphNoData,
@@ -177,6 +179,7 @@ export function AnimatedDotDensityMap(props: Props) {
     detailsOnClick,
     styles,
     classNames,
+    mapProjection,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -338,7 +341,8 @@ export function AnimatedDotDensityMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  mapData={mapShape}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
                   colorDomain={
                     data.filter(el => el.color).length === 0
                       ? []
@@ -384,13 +388,13 @@ export function AnimatedDotDensityMap(props: Props) {
                   zoomTranslateExtend={zoomTranslateExtend}
                   onSeriesMouseClick={onSeriesMouseClick}
                   highlightedDataPoints={highlightedDataPoints}
-                  showAntarctica={showAntarctica}
                   dateFormat={dateFormat}
                   indx={index}
                   resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                   styles={styles}
                   classNames={classNames}
                   detailsOnClick={detailsOnClick}
+                  mapProjection={mapProjection || (isWorldMap ? 'naturalEarth' : 'mercator')}
                 />
               ) : null}
             </div>

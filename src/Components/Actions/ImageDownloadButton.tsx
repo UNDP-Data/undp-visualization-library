@@ -29,7 +29,7 @@ export function ImageDownloadButton(props: Props) {
   return (
     <Button
       variant={buttonType}
-      className={`${
+      className={`undp-viz-download-button ${
         buttonSmall ? 'p-2' : 'py-4 px-6'
       } ${className} border border-primary-gray-400 dark:border-primary-gray-550`}
       onClick={() => {

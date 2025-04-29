@@ -29,7 +29,7 @@ export function SVGDownloadButton(props: Props) {
   return (
     <Button
       variant={buttonType}
-      className={`${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
+      className={`undp-viz-download-button ${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {

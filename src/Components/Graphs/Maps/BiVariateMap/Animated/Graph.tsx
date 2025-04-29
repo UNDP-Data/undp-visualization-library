@@ -1,13 +1,15 @@
 import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
-import { geoEqualEarth, geoMercator } from 'd3-geo';
+import { geoAlbersUsa, geoEqualEarth, geoMercator, geoNaturalEarth1, geoOrthographic } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold } from 'd3-scale';
 import sortBy from 'lodash.sortby';
 import { parse } from 'date-fns';
 import { group } from 'd3-array';
-import { Modal } from '@undp/design-system-react';
+import { Modal, P } from '@undp/design-system-react';
+import bbox from '@turf/bbox';
+import { centroid } from '@turf/centroid';
 
 import {
   BivariateMapWithDateDataType,
@@ -34,7 +36,7 @@ interface Props {
   mapBorderWidth: number;
   mapNoDataColor: string;
   scale: number;
-  centerPoint: [number, number];
+  centerPoint?: [number, number];
   mapBorderColor: string;
   tooltip?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +48,6 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
-  showAntarctica: boolean;
   indx: number;
   dateFormat: string;
   resetSelectionOnDoubleClick: boolean;
@@ -54,6 +55,7 @@ interface Props {
   showColorScale: boolean;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  mapProjection: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
 }
 
 export function Graph(props: Props) {
@@ -74,13 +76,11 @@ export function Graph(props: Props) {
     mapBorderColor,
     tooltip,
     onSeriesMouseOver,
-    isWorldMap,
     zoomScaleExtend,
     zoomTranslateExtend,
     highlightedIds,
     onSeriesMouseClick,
     mapProperty,
-    showAntarctica,
     dateFormat,
     indx,
     resetSelectionOnDoubleClick,
@@ -88,6 +88,7 @@ export function Graph(props: Props) {
     showColorScale,
     styles,
     classNames,
+    mapProjection,
   } = props;
   const groupedData = Array.from(
     group(
@@ -100,6 +101,8 @@ export function Graph(props: Props) {
     }),
   );
   const [showLegend, setShowLegend] = useState(!(width < 680));
+  const legendContentRef = useRef(null);
+  const [legendHeight, setLegendHeight] = useState(50); 
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
@@ -109,13 +112,8 @@ export function Graph(props: Props) {
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
-  const svgWidth = 960;
-  const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
-  const projection = isWorldMap
-    ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
-    : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
 
   const xRange = Array.from({ length: xDomain.length }, (_, i) => i);
 
@@ -127,25 +125,58 @@ export function Graph(props: Props) {
   useEffect(() => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
-    const zoomBehaviour = zoom()
-      .scaleExtent(zoomScaleExtend || [0.8, 6])
+    const zoomBehavior = zoom()
+      .scaleExtent(zoomScaleExtend)
       .translateExtent(
         zoomTranslateExtend || [
           [-20, -20],
-          [svgWidth + 20, svgHeight + 20],
+          [width + 20, height + 20],
         ],
       )
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
+     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mapSvgSelect.call(zoomBehaviour as any);
+    mapSvgSelect.call(zoomBehavior as any);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [svgHeight, svgWidth]);
+  }, [height, width]);
+    
+  useEffect(() => {
+    const updateHeight = () => {
+      if (legendContentRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const contentHeight = (legendContentRef.current as any).getBoundingClientRect().height;
+        setLegendHeight(contentHeight + 16);
+      }
+    };
+        
+    updateHeight(); // Initial calculation
+  }, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const bounds = bbox(mapData as any);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const center = centroid(mapData as any);
+  const lonDiff = bounds[2] - bounds[0];
+  const latDiff = bounds[3] - bounds[1];
+  const scaleX = (width * 190 / 960) * 360 / lonDiff;
+  const scaleY = (height * 190 / 678) * 180 / latDiff;
+  const scaleVar = scale * Math.min(scaleX, scaleY);
+
+  const projection = mapProjection === 'mercator' 
+    ? geoMercator().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar) 
+    : mapProjection === 'equalEarth' 
+      ? geoEqualEarth().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+      : mapProjection === 'naturalEarth'
+        ? geoNaturalEarth1().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+        : mapProjection === 'orthographic'
+          ? geoOrthographic().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+          : geoAlbersUsa().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar);
+  
   return (
     <>
       <svg
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        viewBox={`0 0 ${width} ${height}`}
         width={`${width}px`}
         height={`${height}px`}
         ref={mapSvg}
@@ -158,8 +189,6 @@ export function Graph(props: Props) {
               const index = groupedData[indx].values.findIndex(
                 el => el.id === d.properties[mapProperty],
               );
-              if (!showAntarctica && d.properties.NAME === 'Antarctica')
-                return null;
               if (index !== -1) return null;
               return (
                 <g
@@ -437,145 +466,147 @@ export function Graph(props: Props) {
               })
             : null}
         </g>
-      </svg>
-      {showColorScale ? (
-        showLegend ? (
-          <div className='undp-viz-bivariate-legend-container relative'>
-            <div className='undp-viz-bivariate-legend'>
-              <button
-                className='mt-2 mr-2 ml-0 mb-0 cursor-pointer border-0 h-6 p-0'
-                type='button'
-                onClick={() => {
-                  setShowLegend(false);
-                }}
-              >
-                <X />
-              </button>
-              <div className='items-end flex'>
-                <div className='relative z-10 my-3 mr-14 ml-3'>
-                  <div className='flex pointer-events-auto'>
-                    <div>
-                      <svg width='135px' viewBox='0 0 135 135'>
-                        <g>
-                          {colors.map((d, i) => (
-                            <g
-                              key={i}
-                              transform={`translate(0,${100 - i * 25})`}
-                            >
-                              {d.map((el, j) => (
-                                <rect
-                                  key={j}
-                                  y={1}
-                                  x={j * 25 + 1}
-                                  fill={el}
-                                  width={23}
-                                  height={23}
-                                  strokeWidth={selectedColor === el ? 2 : 0.25}
-                                  style={{ cursor: 'pointer' }}
-                                  onMouseOver={() => {
-                                    setSelectedColor(el);
-                                  }}
-                                  onMouseLeave={() => {
-                                    setSelectedColor(undefined);
-                                  }}
-                                />
-                              ))}
-                            </g>
-                          ))}
-                          <g transform='translate(0,125)'>
-                            {xDomain.map((el, j) => (
-                              <text
+        <foreignObject x={10} y={showLegend ?  height - legendHeight - 5 : height - 46} width={showLegend ? 189 : 101} height={showLegend ? legendHeight : 36}>
+          {showColorScale ? (
+            showLegend ? (
+              <div ref={legendContentRef}>
+                <div
+                  style={{
+                    marginBottom: '-0.75rem',
+                    marginLeft: '164px',
+                    backgroundColor: 'rgba(240,240,240, 0.7)',
+                    border: '1px solid var(--gray-400)',
+                    borderRadius: '999px',
+                    width: '24px',
+                    height: '24px',
+                    padding: '3px',
+                    cursor: 'pointer',
+                    zIndex: 10,
+                    position: 'relative',
+                  }}
+                  onClick={() => {
+                    setShowLegend(false);
+                  }}
+                >
+                  <X />
+                </div>
+                <div className='p-2' style={{ backgroundColor: 'rgba(240,240,240, 0.5', width: '175px' }}>
+                  <div className='flex gap-1 items-center'>
+                    <svg width='136px' viewBox='0 0 136 136' className='shrink-0'>
+                      <g>
+                        {colors.map((d, i) => (
+                          <g
+                            key={i}
+                            transform={`translate(0,${100 - i * 25})`}
+                          >
+                            {d.map((el, j) => (
+                              <rect
                                 key={j}
-                                y={10}
-                                x={(j + 1) * 25}
-                                fontSize={10}
-                                textAnchor='middle'
-                              >
-                                {typeof el === 'string' || el < 1
-                                  ? el
-                                  : numberFormattingFunction(el, '', '')}
-                              </text>
+                                y={1}
+                                x={j * 25 + 1}
+                                fill={el}
+                                width={23}
+                                height={23}
+                                strokeWidth={selectedColor === el ? 2 : 0.25}
+                                style={{ cursor: 'pointer' }}
+                                onMouseOver={() => {
+                                  setSelectedColor(el);
+                                }}
+                                onMouseLeave={() => {
+                                  setSelectedColor(undefined);
+                                }}
+                              />
                             ))}
                           </g>
-                          {yDomain.map((el, j) => (
-                            <g
+                        ))}
+                        <g transform='translate(0,125)'>
+                          {xDomain.map((el, j) => (
+                            <text
                               key={j}
-                              transform={`translate(${
-                                Math.max(Math.min(xDomain.length + 1, 5), 4) *
-                                  25 +
-                                10
-                              },${100 - j * 25})`}
+                              y={10}
+                              x={(j + 1) * 25}
+                              fontSize={10}
+                              textAnchor='middle'
                             >
-                              <text
-                                x={0}
-                                transform='rotate(-90)'
-                                y={0}
-                                fontSize={10}
-                                textAnchor='middle'
-                              >
-                                {typeof el === 'string' || el < 1
-                                  ? el
-                                  : numberFormattingFunction(el, '', '')}
-                              </text>
-                            </g>
+                              {typeof el === 'string' || el < 1
+                                ? el
+                                : numberFormattingFunction(el, '', '')}
+                            </text>
                           ))}
                         </g>
-                      </svg>
-                      <div
-                        style={{
-                          lineHeight: 'normal',
-                          marginTop: '0.5rem',
-                          textAlign: 'center',
-                          fontStyle: 'normal',
-                          fontSize: '0.75rem',
-                          display: '-webkit-box',
-                          WebkitLineClamp: '2',
-                          width: '8.125rem',
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {xColorLegendTitle}
-                      </div>
-                    </div>
-                    <div
+                        {yDomain.map((el, j) => (
+                          <g
+                            key={j}
+                            transform={`translate(${
+                              Math.max(Math.min(xDomain.length + 1, 5), 4) *
+                                          25 +
+                                        10
+                            },${100 - j * 25})`}
+                          >
+                            <text
+                              x={0}
+                              transform='rotate(-90)'
+                              y={0}
+                              fontSize={10}
+                              textAnchor='middle'
+                            >
+                              {typeof el === 'string' || el < 1
+                                ? el
+                                : numberFormattingFunction(el, '', '')}
+                            </text>
+                          </g>
+                        ))}
+                      </g>
+                    </svg>
+                    <P
+                      marginBottom={'none'}
+                      size={'xs'}
+                      className='leading-normal text-center shrink-0'
                       style={{
-                        lineHeight: 'normal',
-                        textAlign: 'center',
-                        fontStyle: 'normal',
-                        fontSize: '0.75rem',
-                        width: '8.125rem',
                         display: '-webkit-box',
-                        position: 'absolute',
-                        top: '80px',
-                        translate: '75% -50%',
-                        rotate: '90deg',
-                        WebkitLineClamp: '2',
+                        WebkitLineClamp: '1',
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
+                        writingMode: 'vertical-rl',
+                        height: '8.5rem',
+                        transform: 'rotate(180deg)',
                       }}
                     >
                       {yColorLegendTitle}
-                    </div>
+                    </P>
                   </div>
+                  <P
+                    marginBottom={'none'}
+                    size={'xs'}
+                    className='mt-1 leading-normal text-center'
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: '1',
+                      width: '8.5rem',
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {xColorLegendTitle}
+                  </P>
                 </div>
               </div>
-            </div>
-          </div>
-        ) : (
-          <button
-            type='button'
-            className='undp-viz-bivariate-legend-container border-0 bg-transparent p-0 self-start'
-            onClick={() => {
-              setShowLegend(true);
-            }}
-          >
-            <div className='items-start text-sm font-medium cursor-pointer p-2 mb-3 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
-              Show Legend
-            </div>
-          </button>
-        )
-      ) : null}
+            ) : (
+              <button
+                type='button'
+                className='mb-0 border-0 bg-transparent p-0 self-start'
+                onClick={() => {
+                  setShowLegend(true);
+                }}
+              >
+                <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
+                  Show Legend
+                </div>
+              </button>
+            )
+          ) : null}
+        </foreignObject>
+      </svg>
       {mouseOverData && tooltip && eventX && eventY ? (
         <Tooltip
           data={mouseOverData}

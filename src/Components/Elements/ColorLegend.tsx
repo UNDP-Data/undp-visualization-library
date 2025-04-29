@@ -4,7 +4,7 @@ import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   colors: string[];
-  colorDomain: string[];
+  colorDomain: string[] | number[];
   colorLegendTitle?: string;
   showNAColor: boolean;
   width?: number;

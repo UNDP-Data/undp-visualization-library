@@ -1,7 +1,7 @@
  
 import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
-import { geoEqualEarth, geoMercator } from 'd3-geo';
+import { geoAlbersUsa, geoEqualEarth, geoMercator, geoNaturalEarth1, geoOrthographic } from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
@@ -9,6 +9,8 @@ import { parse } from 'date-fns';
 import sortBy from 'lodash.sortby';
 import { group } from 'd3-array';
 import { Modal, P } from '@undp/design-system-react';
+import bbox from '@turf/bbox';
+import centroid from '@turf/centroid';
 
 import {
   ChoroplethMapWithDateDataType,
@@ -19,6 +21,7 @@ import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { string2HTML } from '@/Utils/string2HTML';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
+import { X } from '@/Components/Icons';
 
 interface Props {
   colorDomain: number[] | string[];
@@ -31,7 +34,7 @@ interface Props {
   categorical: boolean;
   data: ChoroplethMapWithDateDataType[];
   scale: number;
-  centerPoint: [number, number];
+  centerPoint?: [number, number];
   mapBorderWidth: number;
   mapNoDataColor: string;
   mapBorderColor: string;
@@ -46,13 +49,13 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   mapProperty: string;
-  showAntarctica: boolean;
   indx: number;
   dateFormat: string;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  mapProjection: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
 }
 
 export function Graph(props: Props) {
@@ -72,20 +75,19 @@ export function Graph(props: Props) {
     mapBorderColor,
     mapNoDataColor,
     onSeriesMouseOver,
-    isWorldMap,
     showColorScale,
     zoomScaleExtend,
     zoomTranslateExtend,
     highlightedIds,
     onSeriesMouseClick,
     mapProperty,
-    showAntarctica,
     dateFormat,
     indx,
     resetSelectionOnDoubleClick,
     detailsOnClick,
     styles,
     classNames,
+    mapProjection,
   } = props;
   const groupedData = Array.from(
     group(
@@ -100,19 +102,17 @@ export function Graph(props: Props) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
+  const [showLegend, setShowLegend] = useState(!(width < 680));
+  const legendContentRef = useRef(null);
+  const [legendHeight, setLegendHeight] = useState(50); 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
-  const svgWidth = 960;
-  const svgHeight = 678;
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
-  const projection = isWorldMap
-    ? geoEqualEarth().rotate([0, 0]).scale(scale).center(centerPoint)
-    : geoMercator().rotate([0, 0]).scale(scale).center(centerPoint);
   const colorScale = categorical
     ? scaleOrdinal<number | string, string>().domain(colorDomain).range(colors)
     : scaleThreshold<number, string>()
@@ -122,27 +122,60 @@ export function Graph(props: Props) {
   useEffect(() => {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
-    const zoomBehaviour = zoom()
-      .scaleExtent(zoomScaleExtend || [0.8, 6])
+    const zoomBehavior = zoom()
+      .scaleExtent(zoomScaleExtend)
       .translateExtent(
         zoomTranslateExtend || [
           [-20, -20],
-          [svgWidth + 20, svgHeight + 20],
+          [width + 20, height + 20],
         ],
       )
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
+         
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mapSvgSelect.call(zoomBehaviour as any);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [svgHeight, svgWidth]);
+    mapSvgSelect.call(zoomBehavior as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [height, width]);
+      
+  useEffect(() => {
+    const updateHeight = () => {
+      if (legendContentRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const contentHeight = (legendContentRef.current as any).getBoundingClientRect().height;
+        setLegendHeight(contentHeight + 16);
+      }
+    };
+        
+    updateHeight(); // Initial calculation
+  }, []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const bounds = bbox(mapData as any);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const center = centroid(mapData as any);
+  const lonDiff = bounds[2] - bounds[0];
+  const latDiff = bounds[3] - bounds[1];
+  const scaleX = (width * 190 / 960) * 360 / lonDiff;
+  const scaleY = (height * 190 / 678) * 180 / latDiff;
+  const scaleVar = scale * Math.min(scaleX, scaleY);
+    
+  const projection = mapProjection === 'mercator' 
+    ? geoMercator().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar) 
+    : mapProjection === 'equalEarth' 
+      ? geoEqualEarth().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+      : mapProjection === 'naturalEarth'
+        ? geoNaturalEarth1().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+        : mapProjection === 'orthographic'
+          ? geoOrthographic().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
+          : geoAlbersUsa().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar);
+      
   return (
     <>
       <svg
         width={`${width}px`}
         height={`${height}px`}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+        viewBox={`0 0 ${width} ${height}`}
         ref={mapSvg}
         direction='ltr'
       >
@@ -153,8 +186,6 @@ export function Graph(props: Props) {
               const index = groupedData[indx].values.findIndex(
                 el => el.id === d.properties[mapProperty],
               );
-              if (!showAntarctica && d.properties.NAME === 'Antarctica')
-                return null;
               if (index !== -1) return null;
               return (
                 <g
@@ -417,6 +448,151 @@ export function Graph(props: Props) {
               })
             : null}
         </g>
+        <foreignObject x={10} y={showLegend ? height - legendHeight - 5 : height - 46} width={showLegend ? categorical ? 150 : 352 : 101} height={showLegend ? legendHeight : 36}>
+          {showColorScale === false ? null : showLegend ? (
+            <div ref={legendContentRef}>
+              <div
+                style={{
+                  marginBottom: '-0.75rem',
+                  marginLeft: categorical ? '126px' : '328px',
+                  backgroundColor: 'rgba(240,240,240, 0.7)',
+                  border: '1px solid var(--gray-400)',
+                  borderRadius: '999px',
+                  width: '24px',
+                  height: '24px',
+                  padding: '3px',
+                  cursor: 'pointer',
+                  zIndex: 10,
+                  position: 'relative',
+                }}
+                onClick={() => {
+                  setShowLegend(false);
+                }}
+              >
+                <X />
+              </div>
+              <div className='p-2' style={{ backgroundColor: 'rgba(240,240,240, 0.5', width: categorical ? '138px' : '340px' }}>
+                {colorLegendTitle && colorLegendTitle !== '' ? (
+                  <P
+                    size='xs'
+                    marginBottom='xs'
+                    className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: '1',
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
+                    {colorLegendTitle}
+                  </P>
+                ) : null}
+                {!categorical ? (
+                  <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                    <g>
+                      {colorDomain.map((d, i) => (
+                        <g
+                          key={i}
+                          onMouseOver={() => {
+                            setSelectedColor(colors[i]);
+                          }}
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
+                          }}
+                          className='cursor-pointer'
+                        >
+                          <rect
+                            x={(i * 320) / colors.length + 1}
+                            y={1}
+                            width={320 / colors.length - 2}
+                            height={8}
+                            className={
+                                      selectedColor === colors[i]
+                                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                        : ''
+                                    }
+                            style={{
+                              fill: colors[i],
+                              ...(selectedColor === colors[i]
+                                ? {}
+                                : { stroke: colors[i] }),
+                            }}
+                          />
+                          <text
+                            x={((i + 1) * 320) / colors.length}
+                            y={25}
+                            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                            style={{ textAnchor: 'middle' }}
+                          >
+                            {numberFormattingFunction(d as number, '', '')}
+                          </text>
+                        </g>
+                      ))}
+                      <g>
+                        <rect
+                          onMouseOver={() => {
+                            setSelectedColor(colors[colorDomain.length]);
+                          }}
+                          onMouseLeave={() => {
+                            setSelectedColor(undefined);
+                          }}
+                          x={(colorDomain.length * 320) / colors.length + 1}
+                          y={1}
+                          width={320 / colors.length - 2}
+                          height={8}
+                          className={`cursor-pointer ${
+                            selectedColor === colors[colorDomain.length]
+                              ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                              : ''
+                          }`}
+                          style={{
+                            fill: colors[colorDomain.length],
+                            ...(selectedColor === colors[colorDomain.length]
+                              ? {}
+                              : { stroke: colors[colorDomain.length] }),
+                          }}
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                ) : (
+                  <div className='flex flex-col gap-3'>
+                    {colorDomain.map((d, i) => (
+                      <div
+                        key={i}
+                        className='flex gap-2 items-center'
+                        onMouseOver={() => {
+                          setSelectedColor(colors[i % colors.length]);
+                        }}
+                        onMouseLeave={() => {
+                          setSelectedColor(undefined);
+                        }}
+                      >
+                        <div
+                          className='w-2 h-2 rounded-full'
+                          style={{ backgroundColor: colors[i % colors.length] }}
+                        />
+                        <P size='sm' marginBottom='none' leading={'none'}>
+                          {d}
+                        </P>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) :
+            <button
+              type='button'
+              className='mb-0 border-0 bg-transparent p-0 self-start'
+              onClick={() => {
+                setShowLegend(true);
+              }}
+            >
+              <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
+                Show Legend
+              </div>
+            </button> }
+        </foreignObject>
       </svg>
       {showColorScale === false ? null : (
         <div className='undp-viz-bivariate-legend-container relative'>

@@ -173,12 +173,11 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
         id={dashboardID}
       >
         <div
+          className='flex grow' 
           style={{
             padding: dashboardLayout.backgroundColor
               ? dashboardLayout.padding || '1rem'
               : dashboardLayout.padding || 0,
-            flexGrow: 1,
-            display: 'flex',
           }}
         >
           <div className='flex flex-col w-full gap-4 grow justify-between'>
@@ -266,6 +265,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                         <SingleGraphDashboard
                           graphType={el.graphType}
                           dataFilters={el.dataFilters}
+                          uiMode={uiMode}
                           graphSettings={{
                             ...(el.settings || {}),
                             width: undefined,

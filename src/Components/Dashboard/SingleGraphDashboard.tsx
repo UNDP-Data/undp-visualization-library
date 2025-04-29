@@ -297,7 +297,7 @@ export function SingleGraphDashboard(props: Props) {
     );
   return (
     <div
-      className={`${theme || graphSettings?.theme || 'light'} flex  ${
+      className={`${theme || graphSettings?.theme || 'light'} flex ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
       dir={
@@ -671,7 +671,7 @@ export function SingleGraphDashboard(props: Props) {
                         }}
                         key={i}
                       >
-                        <Label>{d.label}</Label>
+                        <Label className='mb-2'>{d.label}</Label>
                         {d.singleSelect ? (
                           <DropdownSelect
                             options={d.availableValues}

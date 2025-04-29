@@ -3514,6 +3514,10 @@ export const choroplethMapSettingsSchema = {
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -3629,6 +3633,10 @@ export const biVariateChoroplethMapSettingsSchema = {
     detailsOnClick: { type: 'string' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
@@ -3749,6 +3757,10 @@ export const dotDensityMapSettingsSchema = {
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -3859,6 +3871,10 @@ export const animatedChoroplethMapSettingsSchema = {
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -3976,6 +3992,10 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     classNames: { type: 'object' },
     detailsOnClick: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     ariaLabel: { type: 'string' },
     graphTitle: { type: 'string' },
     graphDescription: { type: 'string' },
@@ -4100,6 +4120,10 @@ export const animatedDotDensityMapSettingsSchema = {
     graphTitle: { type: 'string' },
     ariaLabel: { type: 'string' },
     mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     width: { type: 'number' },
@@ -5640,6 +5664,10 @@ export const SettingsSchema = {
       enum: ['average', 'count', 'max', 'min', 'sum'],
       type: 'string',
     },
+    mapProjection: {
+      enum: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
+      type: 'string',
+    },
     animateLine: { oneOf: [{ type: 'number' }, { type: 'boolean' }] },
     annotations: {
       type: 'array',
@@ -5729,10 +5757,16 @@ export const SettingsSchema = {
         { type: 'string' },
       ],
     },
-    colorDomain: {
-      items: { type: 'string' },
-      type: 'array',
-    },
+    oneOf: [
+      {
+        type: 'array',
+        items: { type: 'number' },
+      },
+      {
+        type: 'array',
+        items: { type: 'string' },
+      },
+    ],
     colorLegendTitle: { type: 'string' },
     colors: {
       anyOf: [
@@ -5912,7 +5946,7 @@ export const SettingsSchema = {
     },
     mapBorderColor: { type: 'string' },
     mapBorderWidth: { type: 'number' },
-    mapData: {},
+    mapData: { oneOf: [{ type: 'object' }, { type: 'string' }] },
     mapNoDataColor: { type: 'string' },
     mapProperty: { type: 'string' },
     mapStyle: {
