@@ -171,7 +171,7 @@ export const dumbbellChartDataSchema = {
     properties: {
       x: {
         type: 'array',
-        items: { type: 'number' },
+        items: { oneOf: [{ type: 'null' }, { type: 'number' }] },
       },
       label: { oneOf: [{ type: 'string' }, { type: 'number' }] },
       data: { type: 'object' },

@@ -6,7 +6,7 @@ We also assumes that you have intermediate knowledge about HTML, CSS, and JavaSc
 
 __Note: The library uses react v19__
 
-Detailed documentation can be found [here](https://jolly-field-038560703.6.azurestaticapps.net/).
+Detailed documentation can be found [here](https://dataviz.design.undp.org).
 
 ### Installation
 __Using npm__
@@ -60,6 +60,7 @@ The dependencies that are pre-installed wit the library:
     * lodash.sum
     * lodash.uniq
     * lodash.uniqby
+* @undp/design-system-react - For UI elements
 * maplibre-gl - For Maplibre maps (Peer dependency)
 * pmtiles - For adding pmtiles to Maplibre maps
 * papaparse - For loading and parsing csv from links
@@ -69,7 +70,7 @@ The dependencies that are pre-installed wit the library:
 * xss - For cleaning up cross scripting from user-submitted HTML
 * ajv - For schema validation
 * date-fns - For date formatting
-* dom-to-image - For downloading div as images
+* html-to-image - For downloading div as images
 * dom-to-svg - For downloading div as svg
 * file-saver - For downloading files
 * react-csv - For generating a csv file

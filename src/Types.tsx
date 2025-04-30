@@ -155,7 +155,7 @@ export interface BarGraphWithDateDataType extends BarGraphDataType {
 
 export interface GroupedBarGraphDataType {
   label: string | number;
-  size: (number | undefined | null)[];
+  size: (number | null)[];
   data?: object;
 }
 
@@ -164,13 +164,13 @@ export interface GroupedBarGraphWithDateDataType extends GroupedBarGraphDataType
 }
 
 export interface DumbbellChartDataType {
-  x: (number | undefined | null)[];
+  x: (number | null)[];
   label: string;
   data?: object;
 }
 
 export interface DumbbellChartWithDateDataType {
-  x: (number | undefined | null)[];
+  x: (number | null)[];
   date: string | number;
   label: string;
   data?: object;
@@ -231,7 +231,7 @@ export interface LineChartWithConfidenceIntervalDataType {
 
 export interface MultiLineChartDataType {
   date: number | string;
-  y: (number | undefined | null)[];
+  y: (number | null)[];
   data?: object;
 }
 
