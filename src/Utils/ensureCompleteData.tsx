@@ -72,7 +72,7 @@ export function ensureCompleteDataForStackedBarChart(
       if (!existingCombinations.has(`${label}-${date}`)) {
         completeData.push({
           label,
-          size: data[0].size.map(_d => undefined),
+          size: data[0].size.map(_d => null),
           date,
         });
       }
@@ -180,7 +180,7 @@ export function ensureCompleteDataForDumbbellChart(
       if (!existingCombinations.has(`${label}-${date}`)) {
         completeData.push({
           label,
-          x: data[0].x.map(_d => undefined),
+          x: data[0].x.map(_d => null),
           date,
         });
       }
