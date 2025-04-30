@@ -20,7 +20,7 @@ import { padNumberArray } from './padArray';
  * getJenks([1, 2, 3, 10, 20, 30], 3); // e.g., [3, 10]
  */
 
-export function getJenks(data: number[], noOfSteps: number) {
+export function getJenks(data: (number | null | undefined)[], noOfSteps: number) {
   const d1 = sortBy(
     data.filter(d => d !== undefined && d !== null),
     d => d,
@@ -29,8 +29,17 @@ export function getJenks(data: number[], noOfSteps: number) {
     uniq(d1).length < noOfSteps
       ? padNumberArray(d1, noOfSteps).slice(1, -1)
       : ss.jenks(d1, noOfSteps).slice(1, -1);
-  const valueArray = bins.map(d =>
-    d < 1 ? parseFloat(format('.2r')(d)) : parseInt(format('.2r')(d), 10),
-  );
+  const valueArray = bins.map(d => {
+    const formattedValue = parseFloat(format('.2r')(d));
+    if (isNaN(formattedValue)) {
+      if (d < -1) return Math.round(d);
+      return d;
+    }
+    if (d !== 0 && Math.abs(d) < 1) {
+      return formattedValue;
+    } else {
+      return Math.round(formattedValue);
+    }
+  });
   return valueArray;
 }

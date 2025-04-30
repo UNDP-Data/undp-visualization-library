@@ -218,7 +218,7 @@ export function AnimatedChoroplethMap(props: Props) {
     (categorical
       ? getUniqValue(data, 'x')
       : getJenks(
-          getUniqValue(data, 'x').filter(d => d !== undefined && d !== null),
+          data.map(d => d.x as number | null | undefined),
           colors?.length || 4,
         ));
 

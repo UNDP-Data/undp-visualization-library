@@ -21,7 +21,6 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
-import { getUniqValue } from '@/Utils/getUniqValue';
 import { getJenks } from '@/Utils/getJenks';
 
 interface Props {
@@ -353,14 +352,14 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   xDomain={
                     xDomain ||
                     getJenks(
-                      getUniqValue(data, 'x').filter(d => d !== undefined && d !== null),
+                      data.map(d => d.x as number | null | undefined),
                       colors[0].length,
                     )
                   }
                   yDomain={
                     yDomain ||
                     getJenks(
-                      getUniqValue(data, 'y').filter(d => d !== undefined && d !== null),
+                      data.map(d => d.y as number | null | undefined),
                       colors.length,
                     )
                   }

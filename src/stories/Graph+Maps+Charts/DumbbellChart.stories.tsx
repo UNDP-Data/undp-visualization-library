@@ -27,7 +27,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           summary: 'DumbbellChartDataType[]',
           detail: `{
   label: string; 
-  x: (number | undefined | null)[];
+  x: (number | null)[];
   data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },

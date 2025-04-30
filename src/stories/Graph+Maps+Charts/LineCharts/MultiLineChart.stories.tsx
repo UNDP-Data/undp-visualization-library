@@ -25,7 +25,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y: (number | undefined | null)[];
+  y: (number | null)[];
   data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },

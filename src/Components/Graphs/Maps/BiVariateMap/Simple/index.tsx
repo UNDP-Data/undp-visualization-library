@@ -16,7 +16,6 @@ import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { Colors } from '@/Components/ColorPalette';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { getJenks } from '@/Utils/getJenks';
-import { getUniqValue } from '@/Utils/getUniqValue';
 
 interface Props {
   // Data
@@ -283,14 +282,14 @@ export function BiVariateChoroplethMap(props: Props) {
                   xDomain={
                     xDomain ||
                     getJenks(
-                      getUniqValue(data, 'x').filter(d => d !== undefined && d !== null),
+                      data.map(d => d.x as number | null | undefined),
                       colors[0].length,
                     )
                   }
                   yDomain={
                     yDomain ||
                     getJenks(
-                      getUniqValue(data, 'y').filter(d => d !== undefined && d !== null),
+                      data.map(d => d.y as number | null | undefined),
                       colors.length,
                     )
                   }
