@@ -34,8 +34,6 @@ export function checkDataConfigValidity(
     err:
       ifRequiredIdsPresent.length === 0
         ? undefined
-        : `Missing required ID(s) in configuration: ${ifRequiredIdsPresent.join(
-          ', ',
-        )}`,
+        : `Missing required ID(s) in configuration: ${ifRequiredIdsPresent.join(', ')}`,
   };
 }

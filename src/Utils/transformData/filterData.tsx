@@ -14,10 +14,7 @@ export function filterData(
     filters.every(filter => {
       return filter.includeValues
         ? filter.includeValues.length > 0
-          ? intersection(
-            flattenDeep([item[filter.column]]),
-            filter.includeValues,
-          ).length > 0
+          ? intersection(flattenDeep([item[filter.column]]), filter.includeValues).length > 0
           : true
         : true;
     }),
@@ -28,10 +25,7 @@ export function filterData(
       filters.every(filter => {
         return filter.excludeValues
           ? filter.excludeValues.length > 0
-            ? intersection(
-              flattenDeep([item[filter.column]]),
-              filter.excludeValues,
-            ).length === 0
+            ? intersection(flattenDeep([item[filter.column]]), filter.excludeValues).length === 0
             : true
           : true;
       }),

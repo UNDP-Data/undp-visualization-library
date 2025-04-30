@@ -21,6 +21,8 @@ import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { getJenks } from '@/Utils/getJenks';
 
 interface Props {
   data: BivariateMapWithDateDataType[];
@@ -45,9 +47,9 @@ interface Props {
   /** Title for the second color legend */
   yColorLegendTitle?: string;
   /** Domain of x-colors for the map */
-  xDomain: number[];
+  xDomain?: number[];
   /** Domain of y-colors for the map */
-  yDomain: number[];
+  yDomain?: number[];
   /** Color for the areas where data is no available */
   mapNoDataColor?: string;
   /** Background color of the graph */
@@ -84,7 +86,7 @@ interface Props {
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
   /** Map projection type */
-  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -205,9 +207,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
 
   const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
-    uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat, new Date()).getTime(),
-    ),
+    uniqBy(data, d => d.date).map(d => parse(`${d.date}`, dateFormat, new Date()).getTime()),
     (a, b) => ascending(a, b),
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
@@ -243,20 +243,14 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
     }
   }, [mapData]);
 
-  if (
-    xDomain.length !== colors[0].length - 1 ||
-    yDomain.length !== colors.length - 1
-  ) {
-    console.error(
-      "the xDomain and yDomain array length don't match to the color array length",
-    );
-    return null;
-  }
+  if (xDomain && yDomain)
+    if (xDomain.length !== colors[0].length - 1 || yDomain.length !== colors.length - 1) {
+      console.error("the xDomain and yDomain array length don't match to the color array length");
+      return null;
+    }
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -269,9 +263,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -302,14 +294,12 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -321,9 +311,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   setPlay(!play);
                 }}
                 className='p-0 border-0 cursor-pointer bg-transparent'
-                aria-label={
-                  play ? 'Click to pause animation' : 'Click to play animation'
-                }
+                aria-label={play ? 'Click to pause animation' : 'Click to play animation'}
               >
                 {play ? <Pause /> : <Play />}
               </button>
@@ -351,10 +339,31 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
-                  xDomain={xDomain}
-                  yDomain={yDomain}
+                  mapData={
+                    showAntarctica
+                      ? mapShape
+                      : {
+                          ...mapShape,
+                          features: mapShape.features.filter(
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (el: any) => el.properties.NAME !== 'Antarctica',
+                          ),
+                        }
+                  }
+                  xDomain={
+                    xDomain ||
+                    getJenks(
+                      getUniqValue(data, 'x').filter(d => d !== undefined && d !== null),
+                      colors[0].length,
+                    )
+                  }
+                  yDomain={
+                    yDomain ||
+                    getJenks(
+                      getUniqValue(data, 'y').filter(d => d !== undefined && d !== null),
+                      colors.length,
+                    )
+                  }
                   width={width || svgWidth}
                   height={Math.max(
                     minHeight,
@@ -373,9 +382,7 @@ export function AnimatedBiVariateChoroplethMap(props: Props) {
                   xColorLegendTitle={xColorLegendTitle}
                   yColorLegendTitle={yColorLegendTitle}
                   mapBorderWidth={
-                    checkIfNullOrUndefined(mapBorderWidth)
-                      ? 0.5
-                      : (mapBorderWidth as number)
+                    checkIfNullOrUndefined(mapBorderWidth) ? 0.5 : (mapBorderWidth as number)
                   }
                   mapNoDataColor={mapNoDataColor}
                   mapBorderColor={mapBorderColor}

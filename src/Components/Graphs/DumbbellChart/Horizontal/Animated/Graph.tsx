@@ -118,44 +118,38 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForDumbbellChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForDumbbellChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values:
         sortParameter !== undefined
           ? sortParameter === 'diff'
             ? sortBy(values, d =>
-              checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
-                checkIfNullOrUndefined(d.x[0])
-                ? -Infinity
-                : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
-            )
-              .reverse()
-              .map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+                checkIfNullOrUndefined(d.x[d.x.length - 1]) || checkIfNullOrUndefined(d.x[0])
+                  ? -Infinity
+                  : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
+              )
+                .reverse()
+                .map((el, i) => ({
+                  ...el,
+                  id: `${i}`,
+                }))
             : sortBy(values, d =>
-              checkIfNullOrUndefined(d.x[sortParameter])
-                ? -Infinity
-                : d.x[sortParameter],
-            )
-              .reverse()
-              .map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+                checkIfNullOrUndefined(d.x[sortParameter]) ? -Infinity : d.x[sortParameter],
+              )
+                .reverse()
+                .map((el, i) => ({
+                  ...el,
+                  id: `${i}`,
+                }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as DumbbellChartWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            })),
     }),
   );
 
@@ -185,10 +179,7 @@ export function Graph(props: Props) {
       ? 0
       : Math.min(...data.map(d => min(d.x) || 0));
 
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
 
   const y = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
@@ -259,10 +250,7 @@ export function Graph(props: Props) {
           />
           <AnimatePresence>
             {groupedData[indx].values.map((d, i) => (
-              <motion.g
-                className='undp-viz-low-opacity undp-viz-g-with-hover'
-                key={i}
-              >
+              <motion.g className='undp-viz-low-opacity undp-viz-g-with-hover' key={i}>
                 {showLabels ? (
                   <motion.text
                     style={{
@@ -315,13 +303,10 @@ export function Graph(props: Props) {
                     x2: x(max(d.x) as number) - radius,
                   }}
                   markerEnd={
-                    arrowConnector && d.x.indexOf(min(d.x) as number) === 0
-                      ? 'url(#arrow)'
-                      : ''
+                    arrowConnector && d.x.indexOf(min(d.x) as number) === 0 ? 'url(#arrow)' : ''
                   }
                   markerStart={
-                    arrowConnector &&
-                    d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                    arrowConnector && d.x.indexOf(min(d.x) as number) === d.x.length - 1
                       ? 'url(#arrow)'
                       : ''
                   }
@@ -329,13 +314,7 @@ export function Graph(props: Props) {
                 {d.x.map((el, j) => (
                   <motion.g
                     key={j}
-                    opacity={
-                      selectedColor
-                        ? dotColors[j] === selectedColor
-                          ? 1
-                          : 0.3
-                        : 1
-                    }
+                    opacity={selectedColor ? (dotColors[j] === selectedColor ? 1 : 0.3) : 1}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, xIndex: j });
@@ -355,8 +334,7 @@ export function Graph(props: Props) {
                           onSeriesMouseClick?.(undefined);
                         } else {
                           setMouseClickData({ ...d, xIndex: j });
-                          if (onSeriesMouseClick)
-                            onSeriesMouseClick({ ...d, xIndex: j });
+                          if (onSeriesMouseClick) onSeriesMouseClick({ ...d, xIndex: j });
                         }
                       }
                     }}
@@ -429,11 +407,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

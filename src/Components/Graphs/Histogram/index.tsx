@@ -185,9 +185,7 @@ export function Histogram(props: Props) {
   }, [data, numberOfBins]);
   if (dataFormatted.length === 0)
     return (
-      <div
-        style={{ width: `${width}px`, height: `${height}px`, margin: 'auto' }}
-      >
+      <div style={{ width: `${width}px`, height: `${height}px`, margin: 'auto' }}>
         <div className='flex m-auto items-center justify-center p-0 leading-none text-base h-40'>
           <Spinner />
         </div>
@@ -268,20 +266,11 @@ export function Histogram(props: Props) {
   if (graphType === 'donutChart')
     return (
       <DonutChart
-        colors={
-          (colors as string[] | undefined) ||
-          Colors[theme].categoricalColors.colors
-        }
+        colors={(colors as string[] | undefined) || Colors[theme].categoricalColors.colors}
         graphTitle={graphTitle}
         graphDescription={graphDescription}
         footNote={footNote}
-        radius={
-          width && height
-            ? width < height
-              ? width
-              : height
-            : width || height || undefined
-        }
+        radius={width && height ? (width < height ? width : height) : width || height || undefined}
         sources={sources}
         backgroundColor={backgroundColor}
         padding={padding}

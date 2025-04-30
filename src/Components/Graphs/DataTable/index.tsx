@@ -64,7 +64,7 @@ interface Props {
 
   // Interactions and Callbacks
   /** Callback for mouse click event */
-   
+
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -103,15 +103,11 @@ export function DataTable(props: Props) {
     styles,
     classNames,
   } = props;
-  const [columnSortBy, setColumnSortBy] = useState<string | undefined>(
-    undefined,
-  );
-   
+  const [columnSortBy, setColumnSortBy] = useState<string | undefined>(undefined);
+
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [popupVisible, setPopupVisible] = useState<string | undefined>(
-    undefined,
-  );
+  const [popupVisible, setPopupVisible] = useState<string | undefined>(undefined);
   const [popupStyle, setPopupStyle] = useState({});
   const [filterOption, setFilterOption] = useState(
     columnData
@@ -120,9 +116,8 @@ export function DataTable(props: Props) {
   );
   const [sortedData, setSortedData] = useState(data);
   useEffect(() => {
-     
     const dataFiltered: any = [];
-     
+
     data.forEach((d: any) => {
       let filter = true;
       filterOption.forEach(el => {
@@ -131,13 +126,9 @@ export function DataTable(props: Props) {
           typeof d[el.id] !== 'function' &&
           typeof d[el.id] !== 'symbol'
         ) {
-          if (
-            columnData[columnData.findIndex(cd => cd.columnId === el.id)]
-              .separator
-          ) {
+          if (columnData[columnData.findIndex(cd => cd.columnId === el.id)].separator) {
             const arr = d[el.id].split(
-              columnData[columnData.findIndex(cd => cd.columnId === el.id)]
-                .separator,
+              columnData[columnData.findIndex(cd => cd.columnId === el.id)].separator,
             );
             if (intersection(arr, el.option).length === 0) filter = false;
           } else if (el.option.indexOf(d[el.id]) === -1) filter = false;
@@ -157,9 +148,7 @@ export function DataTable(props: Props) {
   }, [columnSortBy, sortDirection, data, filterOption, columnData]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -172,16 +161,12 @@ export function DataTable(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is an data table. ${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is an data table. ${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -215,10 +200,7 @@ export function DataTable(props: Props) {
                 }}
               >
                 {data ? (
-                  <table
-                    className='w-full'
-                    style={{ borderCollapse: 'collapse' }}
-                  >
+                  <table className='w-full' style={{ borderCollapse: 'collapse' }}>
                     <thead className='text-left bg-primary-gray-300 dark:bg-primary-gray-550'>
                       <tr>
                         {columnData?.map((d, i) => (
@@ -227,9 +209,7 @@ export function DataTable(props: Props) {
                             style={{
                               width: `calc(${
                                 (100 * (d.columnWidth || 1)) /
-                                TotalWidth(
-                                  columnData.map(cd => cd.columnWidth || 1),
-                                )
+                                TotalWidth(columnData.map(cd => cd.columnWidth || 1))
                               }%`,
                             }}
                             key={i}
@@ -238,9 +218,7 @@ export function DataTable(props: Props) {
                               <P
                                 size='sm'
                                 marginBottom='none'
-                                className={`w-fit grow text-${
-                                  d.align || 'left'
-                                } font-bold`}
+                                className={`w-fit grow text-${d.align || 'left'} font-bold`}
                               >
                                 {d.columnTitle || d.columnId}
                               </P>
@@ -282,8 +260,7 @@ export function DataTable(props: Props) {
                                       setPopupVisible(undefined);
                                     } else if (event.currentTarget) {
                                       setPopupVisible(d.columnId);
-                                      const rect =
-                                        event.currentTarget.getBoundingClientRect();
+                                      const rect = event.currentTarget.getBoundingClientRect();
                                       setPopupStyle({
                                         top: rect.bottom + window.scrollY,
                                         left:
@@ -295,16 +272,12 @@ export function DataTable(props: Props) {
                                     }
                                   }}
                                 >
-                                  {filterOption[
-                                    filterOption.findIndex(
-                                      el => el.id === d.columnId,
-                                    )
-                                  ].option.length ===
-                                  d.filterOptions?.length ? (
+                                  {filterOption[filterOption.findIndex(el => el.id === d.columnId)]
+                                    .option.length === d.filterOptions?.length ? (
                                     <FilterIcon />
-                                    ) : (
-                                      <FilterIconApplied />
-                                    )}
+                                  ) : (
+                                    <FilterIconApplied />
+                                  )}
                                 </button>
                               ) : null}
                             </div>
@@ -325,10 +298,7 @@ export function DataTable(props: Props) {
                           }`}
                           onClick={() => {
                             if (onSeriesMouseClick) {
-                              if (
-                                isEqual(mouseClickData, d) &&
-                                resetSelectionOnDoubleClick
-                              ) {
+                              if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                                 setMouseClickData(undefined);
                                 onSeriesMouseClick(undefined);
                               } else {
@@ -347,9 +317,7 @@ export function DataTable(props: Props) {
                               style={{
                                 width: `calc(${
                                   (100 * (d.columnWidth || 1)) /
-                                  TotalWidth(
-                                    columnData.map(cd => cd.columnWidth || 1),
-                                  )
+                                  TotalWidth(columnData.map(cd => cd.columnWidth || 1))
                                 }%`,
                               }}
                             >
@@ -367,9 +335,7 @@ export function DataTable(props: Props) {
                                     marginBottom='none'
                                     size='sm'
                                     className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
-                                      el.chip
-                                        ? 'grow-0 rounded-sm p-2'
-                                        : 'grow rounded-none p-0'
+                                      el.chip ? 'grow-0 rounded-sm p-2' : 'grow rounded-none p-0'
                                     } text-${el.align || 'left'} ${
                                       el.chip
                                         ? !el.chipColors
@@ -380,73 +346,60 @@ export function DataTable(props: Props) {
                                     style={{
                                       ...(el.chip && el.chipColors
                                         ? {
-                                          backgroundColor:
+                                            backgroundColor:
                                               el.chipColors[
                                                 el.chipColors.findIndex(
-                                                  c =>
-                                                    c.value === d[el.columnId],
+                                                  c => c.value === d[el.columnId],
                                                 )
                                               ].color,
-                                        }
+                                          }
                                         : {}),
                                     }}
                                   >
-                                    {numberFormattingFunction(
-                                      d[el.columnId],
-                                      el.prefix,
-                                      el.suffix,
-                                    )}
+                                    {numberFormattingFunction(d[el.columnId], el.prefix, el.suffix)}
                                   </P>
                                 ) : typeof d[el.columnId] === 'string' ? (
                                   el.separator ? (
                                     <div className='text-primary-gray-700 dark:text-primary-gray-100 flex flex-wrap gap-2'>
                                       {d[el.columnId]
                                         .split(el.separator)
-                                        .map(
-                                          (element: string, indx: number) => (
-                                            <P
-                                              key={indx}
-                                              marginBottom='none'
-                                              size='sm'
-                                              className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
-                                                el.chip
-                                                  ? 'grow-0 rounded-sm p-2'
-                                                  : 'grow rounded-none p-0'
-                                              } text-${el.align || 'left'} ${
-                                                el.chip
-                                                  ? !el.chipColors
-                                                    ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
-                                                    : ''
-                                                  : 'bg-transparent'
-                                              }`}
-                                              style={{
-                                                ...(el.chip && el.chipColors
-                                                  ? {
+                                        .map((element: string, indx: number) => (
+                                          <P
+                                            key={indx}
+                                            marginBottom='none'
+                                            size='sm'
+                                            className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
+                                              el.chip
+                                                ? 'grow-0 rounded-sm p-2'
+                                                : 'grow rounded-none p-0'
+                                            } text-${el.align || 'left'} ${
+                                              el.chip
+                                                ? !el.chipColors
+                                                  ? 'bg-primary-gray-300 dark:bg-primary-gray-500'
+                                                  : ''
+                                                : 'bg-transparent'
+                                            }`}
+                                            style={{
+                                              ...(el.chip && el.chipColors
+                                                ? {
                                                     backgroundColor:
-                                                        el.chipColors[
-                                                          el.chipColors.findIndex(
-                                                            c =>
-                                                              c.value ===
-                                                              d[el.columnId],
-                                                          )
-                                                        ].color,
+                                                      el.chipColors[
+                                                        el.chipColors.findIndex(
+                                                          c => c.value === d[el.columnId],
+                                                        )
+                                                      ].color,
                                                   }
-                                                  : {}),
-                                              }}
-                                            >{`${el.prefix || ''}${element}${
-                                              el.suffix || ''
-                                            }`}</P>
-                                          ),
-                                        )}
+                                                : {}),
+                                            }}
+                                          >{`${el.prefix || ''}${element}${el.suffix || ''}`}</P>
+                                        ))}
                                     </div>
                                   ) : (
                                     <P
                                       marginBottom='none'
                                       size='sm'
                                       className={`text-primary-gray-700 dark:text-primary-gray-100 w-fit ${
-                                        el.chip
-                                          ? 'grow-0 rounded-sm p-2'
-                                          : 'grow rounded-none p-0'
+                                        el.chip ? 'grow-0 rounded-sm p-2' : 'grow rounded-none p-0'
                                       } text-${el.align || 'left'} ${
                                         el.chip
                                           ? !el.chipColors
@@ -457,20 +410,16 @@ export function DataTable(props: Props) {
                                       style={{
                                         ...(el.chip && el.chipColors
                                           ? {
-                                            backgroundColor:
+                                              backgroundColor:
                                                 el.chipColors[
                                                   el.chipColors.findIndex(
-                                                    c =>
-                                                      c.value ===
-                                                      d[el.columnId],
+                                                    c => c.value === d[el.columnId],
                                                   )
                                                 ].color,
-                                          }
+                                            }
                                           : {}),
                                       }}
-                                    >{`${el.prefix || ''}${d[el.columnId]}${
-                                      el.suffix || ''
-                                    }`}</P>
+                                    >{`${el.prefix || ''}${d[el.columnId]}${el.suffix || ''}`}</P>
                                   )
                                 ) : (
                                   <div>{d[el.columnId]}</div>
@@ -522,9 +471,7 @@ export function DataTable(props: Props) {
                             ].option.indexOf(el) !== -1
                           }
                           onChange={() => {
-                            const indx = filterOption.findIndex(
-                              d => d.id === popupVisible,
-                            );
+                            const indx = filterOption.findIndex(d => d.id === popupVisible);
                             const opt = [...filterOption[indx].option];
                             if (opt.indexOf(el) !== -1) {
                               opt.splice(opt.indexOf(el), 1);

@@ -2,12 +2,7 @@ import { stratify, treemap } from 'd3-hierarchy';
 import { useState } from 'react';
 import { P, Modal, cn } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  Languages,
-  StyleObject,
-  TreeMapDataType,
-} from '@/Types';
+import { ClassNameObject, Languages, StyleObject, TreeMapDataType } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
@@ -104,9 +99,7 @@ export function Graph(props: Props) {
     .parentId((d: any) => d.parent)(treeMapData);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   treeData.sum((d: any) => d.value);
-  const treeMapVizData = treemap().size([graphWidth, graphHeight]).padding(2)(
-    treeData,
-  );
+  const treeMapVizData = treemap().size([graphWidth, graphHeight]).padding(2)(treeData);
 
   return (
     <>
@@ -124,18 +117,18 @@ export function Graph(props: Props) {
                 key={i}
                 opacity={
                   selectedColor
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    ? (d.data as any).data.color
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (d.data as any).data.color
                       ? colors[
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        colorDomain.indexOf((d.data as any).data.color)
-                      ] === selectedColor
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          colorDomain.indexOf((d.data as any).data.color)
+                        ] === selectedColor
                         ? 1
                         : 0.3
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        highlightedDataPoints.indexOf((d.data as any).id) !== -1
                         ? 0.85
                         : 0.3
                       : 0.85
@@ -193,37 +186,30 @@ export function Graph(props: Props) {
                     fill:
                       data.filter(el => el.color).length === 0
                         ? colors[0]
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        : !(d.data as any).data.color
+                        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          !(d.data as any).data.color
                           ? Colors.gray
                           : colors[
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            colorDomain.indexOf((d.data as any).data.color)
-                          ],
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              colorDomain.indexOf((d.data as any).data.color)
+                            ],
                   }}
                 />
-                {d.x1 - d.x0 > 50 &&
-                d.y1 - d.y0 > 25 &&
-                (showLabels || showValues) ? (
-                  <foreignObject
-                    y={0}
-                    x={0}
-                    width={d.x1 - d.x0}
-                    height={d.y1 - d.y0}
-                  >
+                {d.x1 - d.x0 > 50 && d.y1 - d.y0 > 25 && (showLabels || showValues) ? (
+                  <foreignObject y={0} x={0} width={d.x1 - d.x0} height={d.y1 - d.y0}>
                     <div
                       className='flex flex-col gap-0.5 p-2 w-full'
                       style={{
                         color: getTextColorBasedOnBgColor(
                           data.filter(el => el.color).length === 0
                             ? colors[0]
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            : !(d.data as any).data.color
+                            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              !(d.data as any).data.color
                               ? Colors.gray
                               : colors[
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                colorDomain.indexOf((d.data as any).data.color)
-                              ],
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  colorDomain.indexOf((d.data as any).data.color)
+                                ],
                         ),
                       }}
                     >
@@ -234,9 +220,7 @@ export function Graph(props: Props) {
                           leading='none'
                           className={cn(
                             'w-full treemap-label',
-                            language === 'ar' || language === 'he'
-                              ? 'text-right'
-                              : 'text-left',
+                            language === 'ar' || language === 'he' ? 'text-right' : 'text-left',
                             classNames?.graphObjectValues,
                           )}
                           style={{
@@ -254,15 +238,15 @@ export function Graph(props: Props) {
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                : !(d.data as any).data.color
+                                : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  !(d.data as any).data.color
                                   ? Colors.gray
                                   : colors[
-                                    colorDomain.indexOf(
-                                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                      (d.data as any).data.color,
-                                    )
-                                  ],
+                                      colorDomain.indexOf(
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        (d.data as any).data.color,
+                                      )
+                                    ],
                             ),
                             ...(styles?.graphObjectValues || {}),
                           }}
@@ -280,24 +264,22 @@ export function Graph(props: Props) {
                           leading='none'
                           className={cn(
                             'w-full font-bold treemap-value',
-                            language === 'ar' || language === 'he'
-                              ? 'text-right'
-                              : 'text-left',
+                            language === 'ar' || language === 'he' ? 'text-right' : 'text-left',
                             classNames?.graphObjectValues,
                           )}
                           style={{
                             color: getTextColorBasedOnBgColor(
                               data.filter(el => el.color).length === 0
                                 ? colors[0]
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                : !(d.data as any).data.color
+                                : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  !(d.data as any).data.color
                                   ? Colors.gray
                                   : colors[
-                                    colorDomain.indexOf(
-                                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                      (d.data as any).data.color,
-                                    )
-                                  ],
+                                      colorDomain.indexOf(
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        (d.data as any).data.color,
+                                      )
+                                    ],
                             ),
                             ...(styles?.graphObjectValues || {}),
                           }}
@@ -312,7 +294,7 @@ export function Graph(props: Props) {
                       ) : null}
                     </div>
                   </foreignObject>
-                  ) : null}
+                ) : null}
               </g>
             );
           })}

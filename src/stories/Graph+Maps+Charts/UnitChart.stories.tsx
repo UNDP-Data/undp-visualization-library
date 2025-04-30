@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -98,11 +97,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       <UnitChart
         colors={parseValue(colors, colors)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

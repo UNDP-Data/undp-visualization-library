@@ -1,7 +1,12 @@
- 
 import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
-import { geoAlbersUsa, geoEqualEarth, geoMercator, geoNaturalEarth1, geoOrthographic } from 'd3-geo';
+import {
+  geoAlbersUsa,
+  geoEqualEarth,
+  geoMercator,
+  geoNaturalEarth1,
+  geoOrthographic,
+} from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleThreshold, scaleOrdinal } from 'd3-scale';
@@ -12,11 +17,7 @@ import { Modal, P } from '@undp/design-system-react';
 import bbox from '@turf/bbox';
 import centroid from '@turf/centroid';
 
-import {
-  ChoroplethMapWithDateDataType,
-  ClassNameObject,
-  StyleObject,
-} from '@/Types';
+import { ChoroplethMapWithDateDataType, ClassNameObject, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { string2HTML } from '@/Utils/string2HTML';
@@ -99,12 +100,10 @@ export function Graph(props: Props) {
       values,
     }),
   );
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const legendContentRef = useRef(null);
-  const [legendHeight, setLegendHeight] = useState(50); 
+  const [legendHeight, setLegendHeight] = useState(50);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -116,8 +115,8 @@ export function Graph(props: Props) {
   const colorScale = categorical
     ? scaleOrdinal<number | string, string>().domain(colorDomain).range(colors)
     : scaleThreshold<number, string>()
-      .domain(colorDomain as number[])
-      .range(colors);
+        .domain(colorDomain as number[])
+        .range(colors);
 
   useEffect(() => {
     const mapGSelect = select(mapG.current);
@@ -133,12 +132,12 @@ export function Graph(props: Props) {
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
-         
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapSvgSelect.call(zoomBehavior as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height, width]);
-      
+
   useEffect(() => {
     const updateHeight = () => {
       if (legendContentRef.current) {
@@ -147,7 +146,7 @@ export function Graph(props: Props) {
         setLegendHeight(contentHeight + 16);
       }
     };
-        
+
     updateHeight(); // Initial calculation
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,20 +155,41 @@ export function Graph(props: Props) {
   const center = centroid(mapData as any);
   const lonDiff = bounds[2] - bounds[0];
   const latDiff = bounds[3] - bounds[1];
-  const scaleX = (width * 190 / 960) * 360 / lonDiff;
-  const scaleY = (height * 190 / 678) * 180 / latDiff;
+  const scaleX = (((width * 190) / 960) * 360) / lonDiff;
+  const scaleY = (((height * 190) / 678) * 180) / latDiff;
   const scaleVar = scale * Math.min(scaleX, scaleY);
-    
-  const projection = mapProjection === 'mercator' 
-    ? geoMercator().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar) 
-    : mapProjection === 'equalEarth' 
-      ? geoEqualEarth().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-      : mapProjection === 'naturalEarth'
-        ? geoNaturalEarth1().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-        : mapProjection === 'orthographic'
-          ? geoOrthographic().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-          : geoAlbersUsa().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar);
-      
+
+  const projection =
+    mapProjection === 'mercator'
+      ? geoMercator()
+          .rotate([0, 0])
+          .center(centerPoint || (center.geometry.coordinates as [number, number]))
+          .translate([width / 2, height / 2])
+          .scale(scaleVar)
+      : mapProjection === 'equalEarth'
+        ? geoEqualEarth()
+            .rotate([0, 0])
+            .center(centerPoint || (center.geometry.coordinates as [number, number]))
+            .translate([width / 2, height / 2])
+            .scale(scaleVar)
+        : mapProjection === 'naturalEarth'
+          ? geoNaturalEarth1()
+              .rotate([0, 0])
+              .center(centerPoint || (center.geometry.coordinates as [number, number]))
+              .translate([width / 2, height / 2])
+              .scale(scaleVar)
+          : mapProjection === 'orthographic'
+            ? geoOrthographic()
+                .rotate([0, 0])
+                .center(centerPoint || (center.geometry.coordinates as [number, number]))
+                .translate([width / 2, height / 2])
+                .scale(scaleVar)
+            : geoAlbersUsa()
+                .rotate([0, 0])
+                .center(centerPoint || (center.geometry.coordinates as [number, number]))
+                .translate([width / 2, height / 2])
+                .scale(scaleVar);
+
   return (
     <>
       <svg
@@ -201,69 +221,62 @@ export function Graph(props: Props) {
                   }
                 >
                   {d.geometry.type === 'MultiPolygon'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    ? d.geometry.coordinates.map((el: any, j: any) => {
-                      let masterPath = '';
-                      el.forEach((geo: number[][]) => {
-                        let path = ' M';
-                        geo.forEach((c: number[], k: number) => {
-                          const point = projection([c[0], c[1]]) as [
-                            number,
-                            number,
-                          ];
-                          if (k !== geo.length - 1)
-                            path = `${path}${point[0]} ${point[1]}L`;
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      d.geometry.coordinates.map((el: any, j: any) => {
+                        let masterPath = '';
+                        el.forEach((geo: number[][]) => {
+                          let path = ' M';
+                          geo.forEach((c: number[], k: number) => {
+                            const point = projection([c[0], c[1]]) as [number, number];
+                            if (k !== geo.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                            else path = `${path}${point[0]} ${point[1]}`;
+                          });
+                          masterPath += path;
+                        });
+                        return (
+                          <path
+                            key={j}
+                            d={masterPath}
+                            style={{
+                              stroke: mapBorderColor,
+                              fill: mapNoDataColor,
+                              strokeWidth: mapBorderWidth,
+                            }}
+                          />
+                        );
+                      })
+                    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      d.geometry.coordinates.map((el: any, j: number) => {
+                        let path = 'M';
+                        el.forEach((c: number[], k: number) => {
+                          const point = projection([c[0], c[1]]) as [number, number];
+                          if (k !== el.length - 1) path = `${path}${point[0]} ${point[1]}L`;
                           else path = `${path}${point[0]} ${point[1]}`;
                         });
-                        masterPath += path;
-                      });
-                      return (
-                        <path
-                          key={j}
-                          d={masterPath}
-                          style={{
-                            stroke: mapBorderColor,
-                            fill: mapNoDataColor,
-                            strokeWidth: mapBorderWidth,
-                          }}
-                        />
-                      );
-                    })
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    : d.geometry.coordinates.map((el: any, j: number) => {
-                      let path = 'M';
-                      el.forEach((c: number[], k: number) => {
-                        const point = projection([c[0], c[1]]) as [
-                          number,
-                          number,
-                        ];
-                        if (k !== el.length - 1)
-                          path = `${path}${point[0]} ${point[1]}L`;
-                        else path = `${path}${point[0]} ${point[1]}`;
-                      });
-                      return (
-                        <path
-                          key={j}
-                          d={path}
-                          style={{
-                            stroke: mapBorderColor,
-                            strokeWidth: mapBorderWidth,
-                            fill: mapNoDataColor,
-                          }}
-                        />
-                      );
-                    })}
+                        return (
+                          <path
+                            key={j}
+                            d={path}
+                            style={{
+                              stroke: mapBorderColor,
+                              strokeWidth: mapBorderWidth,
+                              fill: mapNoDataColor,
+                            }}
+                          />
+                        );
+                      })}
                 </g>
               );
-            })}
+            })
+          }
           {groupedData[indx].values.map((d, i) => {
             const index = mapData.features.findIndex(
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (el: any) => d.id === el.properties[mapProperty],
             );
             const color = !checkIfNullOrUndefined(d.x)
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ? colorScale(d.x as any)
+              ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                colorScale(d.x as any)
               : mapNoDataColor;
             return (
               <g
@@ -302,10 +315,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -319,136 +329,124 @@ export function Graph(props: Props) {
                   ? null
                   : mapData.features[index].geometry.type === 'MultiPolygon'
                     ? mapData.features[index].geometry.coordinates.map(
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      (el: any, j: any) => {
-                        let masterPath = '';
-                        el.forEach((geo: number[][]) => {
-                          let path = ' M';
-                          geo.forEach((c: number[], k: number) => {
-                            const point = projection([c[0], c[1]]) as [
-                              number,
-                              number,
-                            ];
-                            if (k !== geo.length - 1)
-                              path = `${path}${point[0]} ${point[1]}L`;
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (el: any, j: any) => {
+                          let masterPath = '';
+                          el.forEach((geo: number[][]) => {
+                            let path = ' M';
+                            geo.forEach((c: number[], k: number) => {
+                              const point = projection([c[0], c[1]]) as [number, number];
+                              if (k !== geo.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                              else path = `${path}${point[0]} ${point[1]}`;
+                            });
+                            masterPath += path;
+                          });
+                          return (
+                            <path
+                              key={j}
+                              d={masterPath}
+                              style={{
+                                stroke: mapBorderColor,
+                                strokeWidth: mapBorderWidth,
+                                fill: color,
+                              }}
+                            />
+                          );
+                        },
+                      )
+                    : mapData.features[index].geometry.coordinates.map(
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (el: any, j: number) => {
+                          let path = 'M';
+                          el.forEach((c: number[], k: number) => {
+                            const point = projection([c[0], c[1]]) as [number, number];
+                            if (k !== el.length - 1) path = `${path}${point[0]} ${point[1]}L`;
                             else path = `${path}${point[0]} ${point[1]}`;
                           });
-                          masterPath += path;
-                        });
-                        return (
-                          <path
-                            key={j}
-                            d={masterPath}
-                            style={{
-                              stroke: mapBorderColor,
-                              strokeWidth: mapBorderWidth,
-                              fill: color,
-                            }}
-                          />
-                        );
-                      },
-                    )
-                    : mapData.features[index].geometry.coordinates.map(
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      (el: any, j: number) => {
-                        let path = 'M';
-                        el.forEach((c: number[], k: number) => {
-                          const point = projection([c[0], c[1]]) as [
-                            number,
-                            number,
-                          ];
-                          if (k !== el.length - 1)
-                            path = `${path}${point[0]} ${point[1]}L`;
-                          else path = `${path}${point[0]} ${point[1]}`;
-                        });
-                        return (
-                          <path
-                            key={j}
-                            d={path}
-                            style={{
-                              stroke: mapBorderColor,
-                              strokeWidth: mapBorderWidth,
-                              fill: color,
-                            }}
-                          />
-                        );
-                      },
-                    )}
+                          return (
+                            <path
+                              key={j}
+                              d={path}
+                              style={{
+                                stroke: mapBorderColor,
+                                strokeWidth: mapBorderWidth,
+                                fill: color,
+                              }}
+                            />
+                          );
+                        },
+                      )}
               </g>
             );
           })}
           {mouseOverData
             ? mapData.features
-              .filter(
+                .filter(
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (d: { properties: any }) => d.properties[mapProperty] === mouseOverData.id,
+                )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (d: { properties: any }) =>
-                  d.properties[mapProperty] === mouseOverData.id,
-              )
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              .map((d: any, i: number) => {
-                return (
-                  <g key={i}>
-                    {d.geometry.type === 'MultiPolygon'
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      ? d.geometry.coordinates.map((el: any, j: any) => {
-                        let masterPath = '';
-                        el.forEach((geo: number[][]) => {
-                          let path = ' M';
-                          geo.forEach((c: number[], k: number) => {
-                            const point = projection([c[0], c[1]]) as [
-                                  number,
-                                  number,
-                                ];
-                            if (k !== geo.length - 1)
-                              path = `${path}${point[0]} ${point[1]}L`;
-                            else path = `${path}${point[0]} ${point[1]}`;
-                          });
-                          masterPath += path;
-                        });
-                        return (
-                          <path
-                            key={j}
-                            d={masterPath}
-                            className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                            style={{
-                              fill: 'none',
-                              fillOpacity: 0,
-                              strokeWidth: '0.5',
-                            }}
-                          />
-                        );
-                      })
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      : d.geometry.coordinates.map((el: any, j: number) => {
-                        let path = 'M';
-                        el.forEach((c: number[], k: number) => {
-                          const point = projection([c[0], c[1]]) as [
-                                number,
-                                number,
-                              ];
-                          if (k !== el.length - 1)
-                            path = `${path}${point[0]} ${point[1]}L`;
-                          else path = `${path}${point[0]} ${point[1]}`;
-                        });
-                        return (
-                          <path
-                            key={j}
-                            d={path}
-                            className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                            style={{
-                              fill: 'none',
-                              fillOpacity: 0,
-                              strokeWidth: '0.5',
-                            }}
-                          />
-                        );
-                      })}
-                  </g>
-                );
-              })
+                .map((d: any, i: number) => {
+                  return (
+                    <g key={i}>
+                      {d.geometry.type === 'MultiPolygon'
+                        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          d.geometry.coordinates.map((el: any, j: any) => {
+                            let masterPath = '';
+                            el.forEach((geo: number[][]) => {
+                              let path = ' M';
+                              geo.forEach((c: number[], k: number) => {
+                                const point = projection([c[0], c[1]]) as [number, number];
+                                if (k !== geo.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                                else path = `${path}${point[0]} ${point[1]}`;
+                              });
+                              masterPath += path;
+                            });
+                            return (
+                              <path
+                                key={j}
+                                d={masterPath}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                style={{
+                                  fill: 'none',
+                                  fillOpacity: 0,
+                                  strokeWidth: '0.5',
+                                }}
+                              />
+                            );
+                          })
+                        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          d.geometry.coordinates.map((el: any, j: number) => {
+                            let path = 'M';
+                            el.forEach((c: number[], k: number) => {
+                              const point = projection([c[0], c[1]]) as [number, number];
+                              if (k !== el.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                              else path = `${path}${point[0]} ${point[1]}`;
+                            });
+                            return (
+                              <path
+                                key={j}
+                                d={path}
+                                className='stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                style={{
+                                  fill: 'none',
+                                  fillOpacity: 0,
+                                  strokeWidth: '0.5',
+                                }}
+                              />
+                            );
+                          })}
+                    </g>
+                  );
+                })
             : null}
         </g>
-        <foreignObject x={10} y={showLegend ? height - legendHeight - 5 : height - 46} width={showLegend ? categorical ? 150 : 352 : 101} height={showLegend ? legendHeight : 36}>
+        <foreignObject
+          x={10}
+          y={showLegend ? height - legendHeight - 5 : height - 46}
+          width={showLegend ? (categorical ? 150 : 352) : 101}
+          height={showLegend ? legendHeight : 36}
+        >
           {showColorScale === false ? null : showLegend ? (
             <div ref={legendContentRef}>
               <div
@@ -471,7 +469,13 @@ export function Graph(props: Props) {
               >
                 <X />
               </div>
-              <div className='p-2' style={{ backgroundColor: 'rgba(240,240,240, 0.5', width: categorical ? '138px' : '340px' }}>
+              <div
+                className='p-2'
+                style={{
+                  backgroundColor: 'rgba(240,240,240, 0.5',
+                  width: categorical ? '138px' : '340px',
+                }}
+              >
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <P
                     size='xs'
@@ -506,15 +510,13 @@ export function Graph(props: Props) {
                             width={320 / colors.length - 2}
                             height={8}
                             className={
-                                      selectedColor === colors[i]
-                                        ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                                        : ''
-                                    }
+                              selectedColor === colors[i]
+                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                : ''
+                            }
                             style={{
                               fill: colors[i],
-                              ...(selectedColor === colors[i]
-                                ? {}
-                                : { stroke: colors[i] }),
+                              ...(selectedColor === colors[i] ? {} : { stroke: colors[i] }),
                             }}
                           />
                           <text
@@ -571,7 +573,7 @@ export function Graph(props: Props) {
                           className='w-2 h-2 rounded-full'
                           style={{ backgroundColor: colors[i % colors.length] }}
                         />
-                        <P size='sm' marginBottom='none' leading={'none'}>
+                        <P size='sm' marginBottom='none' leading='none'>
                           {d}
                         </P>
                       </div>
@@ -580,7 +582,7 @@ export function Graph(props: Props) {
                 )}
               </div>
             </div>
-          ) :
+          ) : (
             <button
               type='button'
               className='mb-0 border-0 bg-transparent p-0 self-start'
@@ -591,7 +593,8 @@ export function Graph(props: Props) {
               <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
                 Show Legend
               </div>
-            </button> }
+            </button>
+          )}
         </foreignObject>
       </svg>
       {showColorScale === false ? null : (
@@ -639,9 +642,7 @@ export function Graph(props: Props) {
                             }
                             style={{
                               fill: colors[i],
-                              ...(selectedColor === colors[i]
-                                ? {}
-                                : { stroke: colors[i] }),
+                              ...(selectedColor === colors[i] ? {} : { stroke: colors[i] }),
                             }}
                           />
                           <text

@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,9 +11,7 @@ import {
 
 import { AnimatedChoroplethMap } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof AnimatedChoroplethMap
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedChoroplethMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Animated maps/Choropleth map',
@@ -77,7 +74,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     mapProjection: {
       control: 'select',
       options: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
-      table: { type: { summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'" } },
+      table: {
+        type: {
+          summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'",
+        },
+      },
     },
     centerPoint: {
       control: 'text',
@@ -165,11 +166,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         zoomScaleExtend={parseValue(zoomScaleExtend)}
         colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

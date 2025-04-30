@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,9 +11,7 @@ import {
 
 import { AnimatedBiVariateChoroplethMap } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof AnimatedBiVariateChoroplethMap
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedBiVariateChoroplethMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Animated maps/Bi-variate choropleth map',
@@ -53,8 +50,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'number[]',
-          detail:
-            'The length of array should be equal to the no. of rows in colors props',
+          detail: 'The length of array should be equal to the no. of rows in colors props',
         },
       },
     },
@@ -63,8 +59,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'number[]',
-          detail:
-            'The length of array should be equal to the no. of columns in colors props',
+          detail: 'The length of array should be equal to the no. of columns in colors props',
         },
       },
     },
@@ -88,7 +83,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     mapProjection: {
       control: 'select',
       options: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
-      table: { type: { summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'" } },
+      table: {
+        type: {
+          summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'",
+        },
+      },
     },
     centerPoint: {
       control: 'text',
@@ -143,33 +142,60 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   args: {
     data: [
       {
-        id: 'IND', x: 1, y: 3, date: '2020', 
+        id: 'IND',
+        x: 1,
+        y: 3,
+        date: '2020',
       },
       {
-        id: 'FIN', x: 2, y: 8, date: '2020', 
+        id: 'FIN',
+        x: 2,
+        y: 8,
+        date: '2020',
       },
       {
-        id: 'IDN', x: 3, y: 11, date: '2020', 
+        id: 'IDN',
+        x: 3,
+        y: 11,
+        date: '2020',
       },
 
       {
-        id: 'ZAF', x: 4, y: 19, date: '2021', 
+        id: 'ZAF',
+        x: 4,
+        y: 19,
+        date: '2021',
       },
       {
-        id: 'PER', x: 5, y: 3, date: '2021', 
+        id: 'PER',
+        x: 5,
+        y: 3,
+        date: '2021',
       },
       {
-        id: 'PAK', x: 6, y: 8, date: '2021', 
+        id: 'PAK',
+        x: 6,
+        y: 8,
+        date: '2021',
       },
 
       {
-        id: 'USA', x: 7, y: 11, date: '2022', 
+        id: 'USA',
+        x: 7,
+        y: 11,
+        date: '2022',
       },
       {
-        id: 'SWE', x: 8, y: 19, date: '2022', 
+        id: 'SWE',
+        x: 8,
+        y: 19,
+        date: '2022',
       },
       {
-        id: 'BRA', x: 9, y: 5, date: '2022', 
+        id: 'BRA',
+        x: 9,
+        y: 5,
+        date: '2022',
       },
     ],
     xDomain: [2, 4, 6, 8],
@@ -196,11 +222,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         xDomain={parseValue(xDomain, [2, 4, 6, 8])}
         yDomain={parseValue(yDomain, [2, 4, 6, 8])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

@@ -84,21 +84,21 @@ export function GraphSettingsSelector(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return typeof (configFiles as any)[graph] === 'string'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? (configFiles as any)[graph]
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (configFiles as any)[graph]
     : JSON.stringify(
-      onlySettings
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (configFiles as any)[graph].graphSettings
-        : forGriddedGraph
-          ? {
-            ...griddedChartExtraParam,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ...(configFiles as any)[graph],
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          : (configFiles as any)[graph],
-      null,
-      2,
-    );
+        onlySettings
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (configFiles as any)[graph].graphSettings
+          : forGriddedGraph
+            ? {
+                ...griddedChartExtraParam,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ...(configFiles as any)[graph],
+              }
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (configFiles as any)[graph],
+        null,
+        2,
+      );
 }

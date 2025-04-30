@@ -132,9 +132,7 @@ export function UnitChart(props: Props) {
   });
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -148,9 +146,7 @@ export function UnitChart(props: Props) {
         style={{
           ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -179,14 +175,12 @@ export function UnitChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -221,9 +215,7 @@ export function UnitChart(props: Props) {
                             className='text-primary-gray-700 dark:text-primary-gray-100'
                           >
                             {d.label}:{' '}
-                            <span className='font-bold'>
-                              {numberFormattingFunction(d.value)}
-                            </span>
+                            <span className='font-bold'>{numberFormattingFunction(d.value)}</span>
                           </P>
                         </div>
                       ))}
@@ -243,8 +235,7 @@ export function UnitChart(props: Props) {
                               : minHeight
                             : width * relativeHeight
                           : height
-                        : Math.floor((totalNoOfDots - 1) / gridSize) *
-                            gridDimension +
+                        : Math.floor((totalNoOfDots - 1) / gridSize) * gridDimension +
                             gridDimension / 2 +
                             radius +
                             5,
@@ -260,8 +251,7 @@ export function UnitChart(props: Props) {
                               : minHeight
                             : width * relativeHeight
                           : height
-                        : Math.floor((totalNoOfDots - 1) / gridSize) *
-                            gridDimension +
+                        : Math.floor((totalNoOfDots - 1) / gridSize) * gridDimension +
                             gridDimension / 2 +
                             radius +
                             5,
@@ -271,18 +261,11 @@ export function UnitChart(props: Props) {
                       {cellsData.map((d, i) => (
                         <circle
                           key={i}
-                          cx={
-                            (i % gridSize) * gridDimension + gridDimension / 2
-                          }
-                          cy={
-                            Math.floor(i / gridSize) * gridDimension +
-                            gridDimension / 2
-                          }
+                          cx={(i % gridSize) * gridDimension + gridDimension / 2}
+                          cy={Math.floor(i / gridSize) * gridDimension + gridDimension / 2}
                           style={{
                             fill: d.color,
-                            ...(!showStrokeForWhiteDots
-                              ? { stroke: d.color }
-                              : {}),
+                            ...(!showStrokeForWhiteDots ? { stroke: d.color } : {}),
                             strokeWidth: 1,
                           }}
                           className={

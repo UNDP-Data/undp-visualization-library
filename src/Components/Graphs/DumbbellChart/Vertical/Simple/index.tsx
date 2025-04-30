@@ -133,9 +133,7 @@ export function VerticalDumbbellChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -154,9 +152,7 @@ export function VerticalDumbbellChart(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -169,9 +165,7 @@ export function VerticalDumbbellChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -202,14 +196,12 @@ export function VerticalDumbbellChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -238,24 +230,17 @@ export function VerticalDumbbellChart(props: Props) {
                           sortParameter !== undefined
                             ? sortParameter === 'diff'
                               ? sortBy(data, d =>
-                                checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+                                  checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
                                   checkIfNullOrUndefined(d.x[0])
-                                  ? -Infinity
-                                  : (d.x[d.x.length - 1] as number) -
-                                      (d.x[0] as number),
-                              ).filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
+                                    ? -Infinity
+                                    : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
+                                ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                               : sortBy(data, d =>
-                                checkIfNullOrUndefined(d.x[sortParameter])
-                                  ? -Infinity
-                                  : d.x[sortParameter],
-                              ).filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
-                            : data.filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
-                            )
+                                  checkIfNullOrUndefined(d.x[sortParameter])
+                                    ? -Infinity
+                                    : d.x[sortParameter],
+                                ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
+                            : data.filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                         }
                         dotColors={colors}
                         width={width || svgWidth}
@@ -264,8 +249,7 @@ export function VerticalDumbbellChart(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -293,9 +277,7 @@ export function VerticalDumbbellChart(props: Props) {
                         connectorStrokeWidth={connectorStrokeWidth}
                         maxBarThickness={maxBarThickness}
                         minBarThickness={minBarThickness}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         axisTitle={axisTitle}
                         noOfTicks={noOfTicks}

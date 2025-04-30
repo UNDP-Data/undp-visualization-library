@@ -180,13 +180,7 @@ export function FilterIcon() {
 
 export function FilterIconApplied() {
   return (
-    <svg
-      width='14'
-      height='14'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
+    <svg width='14' height='14' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
         d='M16.926 9L14 12.46V21L10 19V12.46L2 3H14.5'
         className='stroke-primary-black dark:stroke-primary-white'
@@ -285,18 +279,8 @@ export function MoreHorizontal() {
 
 export function Play() {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='48'
-      height='48'
-      viewBox='0 0 48 48'
-    >
-      <circle
-        cx={24}
-        cy={24}
-        r={24}
-        className='fill-primary-gray-300 dark:fill-primary-gray-600'
-      />
+    <svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'>
+      <circle cx={24} cy={24} r={24} className='fill-primary-gray-300 dark:fill-primary-gray-600' />
       <polygon
         points='6 3 20 12 6 21 6 3'
         className='fill-accent-dark-red dark:fill-accent-red'
@@ -308,18 +292,8 @@ export function Play() {
 
 export function Pause() {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width='48'
-      height='48'
-      viewBox='0 0 48 48'
-    >
-      <circle
-        cx={24}
-        cy={24}
-        r={24}
-        className='fill-primary-gray-300 dark:fill-primary-gray-600'
-      />
+    <svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'>
+      <circle cx={24} cy={24} r={24} className='fill-primary-gray-300 dark:fill-primary-gray-600' />
       <rect
         x='14'
         y='4'

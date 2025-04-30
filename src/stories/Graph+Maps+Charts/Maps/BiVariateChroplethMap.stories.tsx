@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,9 +11,7 @@ import {
 
 import { BiVariateChoroplethMap } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof BiVariateChoroplethMap
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof BiVariateChoroplethMap>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Maps/Bi-variate choropleth map',
@@ -50,8 +47,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'number[]',
-          detail:
-            'The length of array should be equal to the no. of rows in colors props',
+          detail: 'The length of array should be equal to the no. of rows in colors props',
         },
       },
     },
@@ -60,8 +56,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'number[]',
-          detail:
-            'The length of array should be equal to the no. of columns in colors props',
+          detail: 'The length of array should be equal to the no. of columns in colors props',
         },
       },
     },
@@ -85,7 +80,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     mapProjection: {
       control: 'select',
       options: ['mercator', 'equalEarth', 'naturalEarth', 'orthographic', 'albersUSA'],
-      table: { type: { summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'" } },
+      table: {
+        type: {
+          summary: "'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA'",
+        },
+      },
     },
     centerPoint: {
       control: 'text',
@@ -148,8 +147,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { id: 'USA', x: 7, y: 11 },
       { id: 'SWE', x: 8, y: 19 },
     ],
-    xDomain: [2, 4, 6, 8],
-    yDomain: [2, 4, 6, 8],
   },
   render: ({
     colors,
@@ -169,14 +166,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         centerPoint={parseValue(centerPoint)}
         zoomTranslateExtend={parseValue(zoomTranslateExtend)}
         zoomScaleExtend={parseValue(zoomScaleExtend)}
-        xDomain={parseValue(xDomain, [2, 4, 6, 8])}
-        yDomain={parseValue(yDomain, [2, 4, 6, 8])}
+        xDomain={parseValue(xDomain)}
+        yDomain={parseValue(yDomain)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

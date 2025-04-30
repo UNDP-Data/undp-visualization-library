@@ -163,12 +163,8 @@ export function Graph(props: Props) {
       .map(d => ({
         date: parse(`${d.date}`, dateFormat, new Date()),
         y: d.y as number,
-        yMin: checkIfNullOrUndefined(d.yMin)
-          ? (d.y as number)
-          : (d.yMin as number),
-        yMax: checkIfNullOrUndefined(d.yMax)
-          ? (d.y as number)
-          : (d.yMax as number),
+        yMin: checkIfNullOrUndefined(d.yMin) ? (d.y as number) : (d.yMin as number),
+        yMax: checkIfNullOrUndefined(d.yMax) ? (d.y as number) : (d.yMax as number),
         data: d.data,
       })),
     'date',
@@ -176,27 +172,19 @@ export function Graph(props: Props) {
   const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
     ...d,
     coordinates: [
-      d.coordinates[0] === null
-        ? null
-        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
-      d.coordinates[1] === null
-        ? null
-        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+      d.coordinates[0] === null ? null : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null ? null : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
     ],
   }));
-  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(
-    d => ({
-      ...d,
-      coordinates: d.coordinates.map((el, j) =>
-        j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
-      ),
-    }),
-  );
+  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: d.coordinates.map((el, j) =>
+      j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
+    ),
+  }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minYear = minDate
-    ? parse(`${minDate}`, dateFormat, new Date())
-    : dataFormatted[0].date;
+  const minYear = minDate ? parse(`${minDate}`, dateFormat, new Date()) : dataFormatted[0].date;
   const maxYear = maxDate
     ? parse(`${maxDate}`, dateFormat, new Date())
     : dataFormatted[dataFormatted.length - 1].date;
@@ -207,26 +195,20 @@ export function Graph(props: Props) {
         ? 0
         : Math.min(...dataFormatted.map(d => Math.min(d.y, d.yMax, d.yMin)))
       : 0;
-  const maxParam: number = Math.max(
-    ...dataFormatted.map(d => Math.max(d.y, d.yMax, d.yMin)),
-  )
+  const maxParam: number = Math.max(...dataFormatted.map(d => Math.max(d.y, d.yMax, d.yMin)))
     ? Math.max(...dataFormatted.map(d => Math.max(d.y, d.yMax, d.yMin)))
     : 0;
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
   const y = scaleLinear()
     .domain([
       minParam,
-      checkIfNullOrUndefined(maxValue)
-        ? maxParam > 0
-          ? maxParam
-          : 0
-        : (maxValue as number),
+      checkIfNullOrUndefined(maxValue) ? (maxParam > 0 ? maxParam : 0) : (maxValue as number),
     ])
     .range([graphHeight, 0])
     .nice();
 
   const lineShape = line()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .y((d: any) => y(d.y))
@@ -272,9 +254,7 @@ export function Graph(props: Props) {
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
       if (onSeriesMouseOver) {
-        onSeriesMouseOver(
-          selectedData || dataFormatted[dataFormatted.length - 1],
-        );
+        onSeriesMouseOver(selectedData || dataFormatted[dataFormatted.length - 1]);
       }
       setEventY(event.clientY);
       setEventX(event.clientX);
@@ -287,9 +267,7 @@ export function Graph(props: Props) {
         onSeriesMouseOver(undefined);
       }
     };
-    select(MouseoverRectRef.current)
-      .on('mousemove', mousemove)
-      .on('mouseout', mouseout);
+    select(MouseoverRectRef.current).on('mousemove', mousemove).on('mouseout', mouseout);
   }, [x, dataFormatted, onSeriesMouseOver]);
   useEffect(() => {
     if (isInView && data.length > 0) {
@@ -331,12 +309,23 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [isInView, data, animate, animateLine, intervalAreaAnimate, intervalAreaScope, labelAnimate, labelScope, annotationsAnimate, annotationsScope, regLineAnimate, regLineScope]);
+  }, [
+    isInView,
+    data,
+    animate,
+    animateLine,
+    intervalAreaAnimate,
+    intervalAreaScope,
+    labelAnimate,
+    labelScope,
+    annotationsAnimate,
+    annotationsScope,
+    regLineAnimate,
+    regLineScope,
+  ]);
   const regressionLineParam = linearRegression(
     dataFormatted
-      .filter(
-        d => !checkIfNullOrUndefined(d.date) && !checkIfNullOrUndefined(d.y),
-      )
+      .filter(d => !checkIfNullOrUndefined(d.date) && !checkIfNullOrUndefined(d.y))
       .map(d => [x(d.date), y(d.y as number)]),
   );
   return (
@@ -354,11 +343,7 @@ export function Graph(props: Props) {
             height={graphHeight}
             scale={x}
           />
-          <CustomArea
-            areaSettings={customHighlightAreaSettingsFormatted}
-            scaleX={x}
-            scaleY={y}
-          />
+          <CustomArea areaSettings={customHighlightAreaSettingsFormatted} scaleX={x} scaleY={y} />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}
@@ -384,11 +369,7 @@ export function Graph(props: Props) {
               y2={y(minParam < 0 ? 0 : minParam)}
               x1={0 - leftMargin}
               x2={graphWidth + margin.right}
-              label={numberFormattingFunction(
-                minParam < 0 ? 0 : minParam,
-                prefix,
-                suffix,
-              )}
+              label={numberFormattingFunction(minParam < 0 ? 0 : minParam, prefix, suffix)}
               labelPos={{
                 x: 0 - leftMargin,
                 y: y(minParam < 0 ? 0 : minParam),
@@ -561,10 +542,7 @@ export function Graph(props: Props) {
                             textAnchor: 'middle',
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          className={cn(
-                            'text-xs font-bold',
-                            classNames?.graphObjectValues,
-                          )}
+                          className={cn('text-xs font-bold', classNames?.graphObjectValues)}
                         >
                           {numberFormattingFunction(d.yMin, prefix, suffix)}
                         </text>
@@ -577,10 +555,7 @@ export function Graph(props: Props) {
                             textAnchor: 'middle',
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          className={cn(
-                            'text-xs font-bold',
-                            classNames?.graphObjectValues,
-                          )}
+                          className={cn('text-xs font-bold', classNames?.graphObjectValues)}
                         >
                           {numberFormattingFunction(d.yMax, prefix, suffix)}
                         </text>
@@ -612,46 +587,35 @@ export function Graph(props: Props) {
               const endPoints = getLineEndPoint(
                 {
                   x: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                      (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0),
                   y: d.yCoordinate
                     ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
                     : 0 + (d.yOffset || 0) - 8,
                 },
                 {
-                  x: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                    : 0,
+                  x: d.xCoordinate ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) : 0,
                   y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
                 },
-                checkIfNullOrUndefined(d.connectorRadius)
-                  ? 3.5
-                  : (d.connectorRadius as number),
+                checkIfNullOrUndefined(d.connectorRadius) ? 3.5 : (d.connectorRadius as number),
               );
               const connectorSettings = d.showConnector
                 ? {
-                  y1: endPoints.y,
-                  x1: endPoints.x,
-                  y2: d.yCoordinate
-                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                    : 0 + (d.yOffset || 0),
-                  x2: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                        (d.xOffset || 0)
-                    : 0 + (d.xOffset || 0),
-                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                  cx: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                    : 0,
-                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                    ? 3.5
-                    : (d.connectorRadius as number),
-                  strokeWidth:
-                      d.showConnector === true
-                        ? 2
-                        : Math.min(d.showConnector || 0, 1),
-                }
+                    y1: endPoints.y,
+                    x1: endPoints.x,
+                    y2: d.yCoordinate
+                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                      : 0 + (d.yOffset || 0),
+                    x2: d.xCoordinate
+                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
+                      : 0 + (d.xOffset || 0),
+                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                    cx: d.xCoordinate ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) : 0,
+                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                      ? 3.5
+                      : (d.connectorRadius as number),
+                    strokeWidth: d.showConnector === true ? 2 : Math.min(d.showConnector || 0, 1),
+                  }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -660,18 +624,15 @@ export function Graph(props: Props) {
                 x: rtl
                   ? 0
                   : d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                    (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0),
                 width: rtl
                   ? d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                      (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0)
                   : graphWidth -
                     (d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                        (d.xOffset || 0)
+                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                       : 0 + (d.xOffset || 0)),
                 maxWidth: d.maxWidth,
                 fontWeight: d.fontWeight,
@@ -695,24 +656,15 @@ export function Graph(props: Props) {
               <RegressionLine
                 x1={
                   regressionLineParam.b > graphHeight
-                    ? (graphHeight - regressionLineParam.b) /
-                      regressionLineParam.m
+                    ? (graphHeight - regressionLineParam.b) / regressionLineParam.m
                     : 0
                 }
                 x2={graphWidth}
-                y1={
-                  regressionLineParam.b > graphHeight
-                    ? graphHeight
-                    : regressionLineParam.b
-                }
+                y1={regressionLineParam.b > graphHeight ? graphHeight : regressionLineParam.b}
                 y2={regressionLineParam.m * graphWidth + regressionLineParam.b}
                 className={classNames?.regLine}
                 style={styles?.regLine}
-                color={
-                  typeof regressionLine === 'string'
-                    ? regressionLine
-                    : undefined
-                }
+                color={typeof regressionLine === 'string' ? regressionLine : undefined}
               />
             ) : null}
           </g>

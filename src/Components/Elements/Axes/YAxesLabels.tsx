@@ -12,16 +12,7 @@ interface Props {
 }
 
 export function YAxesLabels(props: Props) {
-  const {
-    value,
-    y,
-    x,
-    style,
-    className,
-    width,
-    height,
-    alignment = 'right',
-  } = props;
+  const { value, y, x, style, className, width, height, alignment = 'right' } = props;
   return (
     <foreignObject y={y} x={x} width={width} height={height}>
       <div className='flex flex-col justify-center h-inherit'>

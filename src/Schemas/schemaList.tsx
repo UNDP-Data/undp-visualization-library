@@ -3623,7 +3623,6 @@ export const choroplethMapSettingsSchema = {
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
-  required: ['colorDomain'],
 };
 
 export const biVariateChoroplethMapSettingsSchema = {
@@ -3659,25 +3658,17 @@ export const biVariateChoroplethMapSettingsSchema = {
     xDomain: {
       type: 'array',
       items: { type: 'number' },
-      minItems: 4,
-      maxItems: 4,
     },
     yDomain: {
       type: 'array',
       items: { type: 'number' },
-      minItems: 4,
-      maxItems: 4,
     },
     colors: {
       type: 'array',
       items: {
         type: 'array',
         items: { type: 'string' },
-        minItems: 5,
-        maxItems: 5,
       },
-      minItems: 5,
-      maxItems: 5,
     },
     scale: { type: 'number' },
     centerPoint: {
@@ -3983,7 +3974,6 @@ export const animatedChoroplethMapSettingsSchema = {
     },
     resetSelectionOnDoubleClick: { type: 'boolean' },
   },
-  required: ['colorDomain'],
 };
 
 export const animatedBiVariateChoroplethMapSettingsSchema = {
@@ -4019,25 +4009,17 @@ export const animatedBiVariateChoroplethMapSettingsSchema = {
     xDomain: {
       type: 'array',
       items: { type: 'number' },
-      minItems: 4,
-      maxItems: 4,
     },
     yDomain: {
       type: 'array',
       items: { type: 'number' },
-      minItems: 4,
-      maxItems: 4,
     },
     colors: {
       type: 'array',
       items: {
         type: 'array',
         items: { type: 'string' },
-        minItems: 5,
-        maxItems: 5,
       },
-      minItems: 5,
-      maxItems: 5,
     },
     scale: { type: 'number' },
     centerPoint: {
@@ -5857,11 +5839,7 @@ export const SettingsSchema = {
               coordinates: {
                 type: 'array',
                 items: {
-                  oneOf: [
-                    { type: 'number' },
-                    { type: 'string' },
-                    { type: 'null' },
-                  ],
+                  oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }],
                 },
                 minItems: 2,
                 maxItems: 2,
@@ -6149,16 +6127,12 @@ export const SettingsSchema = {
     xColorLegendTitle: { type: 'string' },
     xDomain: {
       items: { type: 'number' },
-      maxItems: 4,
-      minItems: 4,
       type: 'array',
     },
     yAxisTitle: { type: 'string' },
     yColorLegendTitle: { type: 'string' },
     yDomain: {
       items: { type: 'number' },
-      maxItems: 4,
-      minItems: 4,
       type: 'array',
     },
     year: { oneOf: [{ type: 'string' }, { type: 'number' }] },

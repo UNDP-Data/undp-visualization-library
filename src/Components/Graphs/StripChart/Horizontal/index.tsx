@@ -115,9 +115,7 @@ export function HorizontalStripChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -135,9 +133,7 @@ export function HorizontalStripChart(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -150,9 +146,7 @@ export function HorizontalStripChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -183,14 +177,12 @@ export function HorizontalStripChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -200,14 +192,12 @@ export function HorizontalStripChart(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {showColorScale !== false &&
-                  data.filter(el => el.color).length !== 0 ? (
+                  {showColorScale !== false && data.filter(el => el.color).length !== 0 ? (
                     <ColorLegendWithMouseOver
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={
-                        (colors as string[] | undefined) ||
-                        Colors[theme].categoricalColors.colors
+                        (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -218,12 +208,10 @@ export function HorizontalStripChart(props: Props) {
                       }
                       setSelectedColor={setSelectedColor}
                       showNAColor={
-                        showNAColor === undefined || showNAColor === null
-                          ? true
-                          : showNAColor
+                        showNAColor === undefined || showNAColor === null ? true : showNAColor
                       }
                     />
-                    ) : null}
+                  ) : null}
                   <div
                     className='flex flex-col grow justify-center w-full leading-0'
                     ref={graphDiv}
@@ -238,8 +226,7 @@ export function HorizontalStripChart(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -280,9 +267,7 @@ export function HorizontalStripChart(props: Props) {
                         stripType={stripType}
                         highlightColor={highlightColor}
                         dotOpacity={dotOpacity}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         styles={styles}
                         classNames={classNames}

@@ -24,10 +24,7 @@ interface ConfigObject {
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
-  graphType: Exclude<
-    GraphType,
-    'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
-  >;
+  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'>;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -53,9 +50,7 @@ interface Props {
 
 export function GriddedGraphsFromConfig(props: Props) {
   const { config } = props;
-  const [configSettings, setConfigSettings] = useState<
-    ConfigObject | undefined
-  >(undefined);
+  const [configSettings, setConfigSettings] = useState<ConfigObject | undefined>(undefined);
   useEffect(() => {
     const fetchData = async () => {
       if (typeof config === 'string') {

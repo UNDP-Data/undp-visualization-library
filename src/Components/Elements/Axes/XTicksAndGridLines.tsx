@@ -56,11 +56,7 @@ export function XTicksAndGridLines(props: Props) {
               dx={labelType === 'primary' ? 0 : d < 0 || leftLabel ? -3 : 3}
               style={{
                 textAnchor:
-                  labelType === 'primary'
-                    ? 'middle'
-                    : d < 0 || leftLabel
-                      ? 'end'
-                      : 'start',
+                  labelType === 'primary' ? 'middle' : d < 0 || leftLabel ? 'end' : 'start',
                 ...(styles?.labels || {}),
               }}
               className={cn(

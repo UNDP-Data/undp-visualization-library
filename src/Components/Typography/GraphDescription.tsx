@@ -13,7 +13,6 @@ export function GraphDescription(props: Props) {
   if (extractInnerString(text)) {
     return (
       <div
-         
         dangerouslySetInnerHTML={{ __html: extractInnerString(text) as string }}
         className={className}
         style={style}
@@ -24,10 +23,7 @@ export function GraphDescription(props: Props) {
     <P
       size='sm'
       marginBottom='none'
-      className={cn(
-        'text-primary-gray-550 dark:text-primary-gray-400',
-        className,
-      )}
+      className={cn('text-primary-gray-550 dark:text-primary-gray-400', className)}
       aria-label='Graph description'
       style={style}
     >

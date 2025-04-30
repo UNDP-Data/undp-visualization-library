@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -121,11 +120,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     return (
       <DataCards
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         cardSearchColumns={parseValue(cardSearchColumns)}
         {...args}

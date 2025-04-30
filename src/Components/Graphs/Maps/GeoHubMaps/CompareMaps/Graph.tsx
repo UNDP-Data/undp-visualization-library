@@ -1,4 +1,3 @@
- 
 import { useRef, useEffect, useState } from 'react';
 import * as maplibreGl from 'maplibre-gl';
 import * as pmtiles from 'pmtiles';
@@ -12,7 +11,7 @@ import {
   PointerSensor,
   DragMoveEvent,
 } from '@dnd-kit/core';
-import { restrictToHorizontalAxis  } from '@dnd-kit/modifiers';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 
 import { ChevronLeftRight } from '@/Components/Icons';
 
@@ -55,49 +54,45 @@ function synchronizeMap(map1: maplibreGl.Map, map2: maplibreGl.Map) {
 }
 
 export function Graph(props: Props) {
-  const {
-    height, width, mapStyles, center, zoomLevel, 
-  } = props;
+  const { height, width, mapStyles, center, zoomLevel } = props;
   const [position, setPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragStartPositionRef = useRef(50);
   const sliderWidthRef = useRef(0);
-  
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 0 } }),
-  );
-  
+
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 0 } }));
+
   const handleDragStart = () => {
     setIsDragging(true);
     dragStartPositionRef.current = position;
-      
+
     if (containerRef.current) {
       sliderWidthRef.current = containerRef.current.getBoundingClientRect().width;
     }
   };
-  
+
   const handleDragMove = (event: DragMoveEvent) => {
     if (!containerRef.current || sliderWidthRef.current === 0) return;
-      
+
     // Calculate position change as percentage of width
     const deltaPercentage = (event.delta.x / sliderWidthRef.current) * 100;
     const newPosition = Math.max(0, Math.min(100, dragStartPositionRef.current + deltaPercentage));
-      
+
     setPosition(newPosition);
   };
-  
+
   const handleDragEnd = () => {
     setIsDragging(false);
   };
-  
+
   const handleClick = (e: React.MouseEvent) => {
     if (isDragging || !containerRef.current) return;
-      
+
     const rect = containerRef.current.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const newPosition = (clickX / rect.width) * 100;
-      
+
     setPosition(Math.max(0, Math.min(100, newPosition)));
   };
   const graphDiv = useRef<HTMLDivElement>(null);
@@ -105,12 +100,7 @@ export function Graph(props: Props) {
   const rightMapRef = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (
-      mapContainer.current &&
-      leftMapRef.current &&
-      rightMapRef.current &&
-      width
-    ) {
+    if (mapContainer.current && leftMapRef.current && rightMapRef.current && width) {
       const mapDiv = select(mapContainer.current);
       mapDiv.selectAll('.maplibregl-compare').remove();
       const leftMapDiv = select(leftMapRef.current);
@@ -210,7 +200,7 @@ export function Graph(props: Props) {
                   clipPath: `polygon(0% 0%, ${position}% 0%, ${position}% 100%, 0% 100%)`,
                 }}
               />
-        
+
               <SliderHandle position={position} />
             </div>
           </DndContext>
@@ -227,7 +217,6 @@ interface HandleProps {
 function SliderHandle(props: HandleProps) {
   const { position } = props;
   const { attributes, listeners, setNodeRef } = useDraggable({ id: 'slider-handle' });
-
 
   return (
     <div
@@ -268,4 +257,4 @@ function SliderHandle(props: HandleProps) {
       </div>
     </div>
   );
-};
+}

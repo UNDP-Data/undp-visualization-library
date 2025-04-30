@@ -18,9 +18,9 @@ interface Props {
   strokeWidth: number;
   data: DonutChartDataType[];
   tooltip?: string;
-   
+
   onSeriesMouseOver?: (_d: any) => void;
-   
+
   onSeriesMouseClick?: (_d: any) => void;
   colorDomain: string[];
   resetSelectionOnDoubleClick: boolean;
@@ -49,12 +49,11 @@ export function Graph(props: Props) {
   const pieData = pie()
     .sort(null)
     .startAngle(0)
-     
+
     .value((d: any) => d.size);
-    
-   
+
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
-   
+
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
@@ -84,11 +83,10 @@ export function Graph(props: Props) {
                       ? mainText
                       : data.findIndex(d => d.label === mainText.label) !== -1
                         ? numberFormattingFunction(
-                          data[data.findIndex(d => d.label === mainText.label)]
-                            .size,
-                          mainText.prefix,
-                          mainText.suffix,
-                        )
+                            data[data.findIndex(d => d.label === mainText.label)].size,
+                            mainText.prefix,
+                            mainText.suffix,
+                          )
                         : 'NA'}
                   </H2>
                 ) : null}
@@ -128,10 +126,7 @@ export function Graph(props: Props) {
               style={{
                 fill:
                   colorDomain.indexOf((d.data as any).label) !== -1
-                    ? colors[
-                      colorDomain.indexOf((d.data as any).label) %
-                          colors.length
-                    ]
+                    ? colors[colorDomain.indexOf((d.data as any).label) % colors.length]
                     : Colors.gray,
                 opacity: mouseOverData
                   ? mouseOverData.label === (d.data as any).label
@@ -149,10 +144,7 @@ export function Graph(props: Props) {
               }}
               onClick={() => {
                 if (onSeriesMouseClick || detailsOnClick) {
-                  if (
-                    isEqual(mouseClickData, d.data) &&
-                    resetSelectionOnDoubleClick
-                  ) {
+                  if (isEqual(mouseClickData, d.data) && resetSelectionOnDoubleClick) {
                     setMouseClickData(undefined);
                     onSeriesMouseClick?.(undefined);
                   } else {

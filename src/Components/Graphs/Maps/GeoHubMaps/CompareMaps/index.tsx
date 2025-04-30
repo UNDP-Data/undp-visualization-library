@@ -4,12 +4,7 @@ import { Graph } from './Graph';
 
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
-import {
-  ClassNameObject,
-  Languages,
-  SourcesDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, Languages, SourcesDataType, StyleObject } from '@/Types';
 
 interface Props {
   // Titles, Labels, and Sources
@@ -101,9 +96,7 @@ export function GeoHubCompareMaps(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -116,18 +109,14 @@ export function GeoHubCompareMaps(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         aria-label={
           ariaLabel ||
           `${
             graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a comparison between two maps.${
-            graphDescription ? ` ${graphDescription}` : ''
-          }`
+          }This is a comparison between two maps.${graphDescription ? ` ${graphDescription}` : ''}`
         }
       >
         <div

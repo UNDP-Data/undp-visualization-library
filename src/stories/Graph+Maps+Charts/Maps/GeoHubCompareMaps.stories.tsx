@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -65,9 +64,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       'https://api.maptiler.com/maps/streets/style.json?key=YbCPLULzWdf1NplssEIc#0.8/-14.45028/20.54042',
     ],
   },
-  render: ({
-    center, backgroundColor, mapStyles, ...args 
-  }) => {
+  render: ({ center, backgroundColor, mapStyles, ...args }) => {
     return (
       <GeoHubCompareMaps
         mapStyles={parseValue(mapStyles, [
@@ -76,11 +73,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         ])}
         center={parseValue(center)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

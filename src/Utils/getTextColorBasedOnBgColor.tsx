@@ -24,17 +24,11 @@ function getLuminance(r: number, g: number, b: number) {
   const normalizedB = b / 255;
 
   const adjustedR =
-    normalizedR <= 0.03928
-      ? normalizedR / 12.92
-      : ((normalizedR + 0.055) / 1.055) ** 2.4;
+    normalizedR <= 0.03928 ? normalizedR / 12.92 : ((normalizedR + 0.055) / 1.055) ** 2.4;
   const adjustedG =
-    normalizedG <= 0.03928
-      ? normalizedG / 12.92
-      : ((normalizedG + 0.055) / 1.055) ** 2.4;
+    normalizedG <= 0.03928 ? normalizedG / 12.92 : ((normalizedG + 0.055) / 1.055) ** 2.4;
   const adjustedB =
-    normalizedB <= 0.03928
-      ? normalizedB / 12.92
-      : ((normalizedB + 0.055) / 1.055) ** 2.4;
+    normalizedB <= 0.03928 ? normalizedB / 12.92 : ((normalizedB + 0.055) / 1.055) ** 2.4;
 
   return 0.2126 * adjustedR + 0.7152 * adjustedG + 0.0722 * adjustedB;
 }

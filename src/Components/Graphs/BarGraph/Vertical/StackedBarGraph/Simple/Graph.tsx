@@ -5,12 +5,7 @@ import { useState } from 'react';
 import { cn, Modal } from '@undp/design-system-react';
 
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
-import {
-  ClassNameObject,
-  GroupedBarGraphDataType,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, GroupedBarGraphDataType, ReferenceDataType, StyleObject } from '@/Types';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
@@ -108,11 +103,7 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    );
+    : Math.max(...data.map(d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
   const dataWithId = data.map((d, i) => ({
@@ -198,13 +189,7 @@ export function Graph(props: Props) {
                 {d.size.map((el, j) => (
                   <g
                     key={j}
-                    opacity={
-                      selectedColor
-                        ? barColors[j] === selectedColor
-                          ? 1
-                          : 0.3
-                        : 1
-                    }
+                    opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 1}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, sizeIndex: j });
@@ -238,28 +223,19 @@ export function Graph(props: Props) {
                           onSeriesMouseClick?.(undefined);
                         } else {
                           setMouseClickData({ ...d, sizeIndex: j });
-                          if (onSeriesMouseClick)
-                            onSeriesMouseClick({ ...d, sizeIndex: j });
+                          if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                         }
                       }
                     }}
                   >
                     <rect
                       x={0}
-                      y={y(
-                        sum(d.size.filter((element, k) => k <= j && element)),
-                      )}
+                      y={y(sum(d.size.filter((element, k) => k <= j && element)))}
                       width={x.bandwidth()}
                       style={{ fill: barColors[j] }}
                       height={Math.abs(
-                        y(
-                          sum(d.size.filter((element, k) => k <= j && element)),
-                        ) -
-                          y(
-                            sum(
-                              d.size.filter((element, k) => k < j && element),
-                            ),
-                          ),
+                        y(sum(d.size.filter((element, k) => k <= j && element))) -
+                          y(sum(d.size.filter((element, k) => k < j && element))),
                       )}
                     />
                     {showValues &&
@@ -271,26 +247,10 @@ export function Graph(props: Props) {
                       <text
                         x={x.bandwidth() / 2}
                         y={
-                          y(
-                            sum(
-                              d.size.filter((element, k) => k <= j && element),
-                            ),
-                          ) +
+                          y(sum(d.size.filter((element, k) => k <= j && element))) +
                           Math.abs(
-                            y(
-                              sum(
-                                d.size.filter(
-                                  (element, k) => k <= j && element,
-                                ),
-                              ),
-                            ) -
-                              y(
-                                sum(
-                                  d.size.filter(
-                                    (element, k) => k < j && element,
-                                  ),
-                                ),
-                              ),
+                            y(sum(d.size.filter((element, k) => k <= j && element))) -
+                              y(sum(d.size.filter((element, k) => k < j && element))),
                           ) /
                             2
                         }
@@ -299,15 +259,12 @@ export function Graph(props: Props) {
                           textAnchor: 'middle',
                           ...(styles?.graphObjectValues || {}),
                         }}
-                        className={cn(
-                          'graph-value text-sm',
-                          classNames?.graphObjectValues,
-                        )}
+                        className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                         dy='0.33em'
                       >
                         {numberFormattingFunction(el, prefix, suffix)}
                       </text>
-                      ) : null}
+                    ) : null}
                   </g>
                 ))}
                 {showLabels ? (

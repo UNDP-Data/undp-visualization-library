@@ -559,23 +559,13 @@ export const getDataFiltersSchema = (columnList?: string[]) => ({
       includeValues: {
         type: 'array',
         items: {
-          oneOf: [
-            { type: 'string' },
-            { type: 'number' },
-            { type: 'boolean' },
-            { type: 'null' },
-          ],
+          oneOf: [{ type: 'string' }, { type: 'number' }, { type: 'boolean' }, { type: 'null' }],
         },
       },
       excludeValues: {
         type: 'array',
         items: {
-          oneOf: [
-            { type: 'string' },
-            { type: 'number' },
-            { type: 'boolean' },
-            { type: 'null' },
-          ],
+          oneOf: [{ type: 'string' }, { type: 'number' }, { type: 'boolean' }, { type: 'null' }],
         },
       },
     },
@@ -631,10 +621,7 @@ export const getGraphDataConfigurationSchema = (
   },
 });
 
-export const getAdvancedDataSelectionSchema = (
-  columnList?: string[],
-  graphType?: GraphType,
-) => ({
+export const getAdvancedDataSelectionSchema = (columnList?: string[], graphType?: GraphType) => ({
   type: 'array',
   items: {
     type: 'object',
@@ -647,10 +634,7 @@ export const getAdvancedDataSelectionSchema = (
         items: {
           type: 'object',
           properties: {
-            dataConfiguration: getGraphDataConfigurationSchema(
-              columnList,
-              graphType,
-            ),
+            dataConfiguration: getGraphDataConfigurationSchema(columnList, graphType),
             label: { type: 'string' },
             graphSettings: SettingsSchema,
           },
@@ -663,10 +647,7 @@ export const getAdvancedDataSelectionSchema = (
         items: {
           type: 'object',
           properties: {
-            dataConfiguration: getGraphDataConfigurationSchema(
-              columnList,
-              graphType,
-            ),
+            dataConfiguration: getGraphDataConfigurationSchema(columnList, graphType),
             label: { type: 'string' },
             graphSettings: SettingsSchema,
           },
@@ -680,273 +661,240 @@ export const getAdvancedDataSelectionSchema = (
   },
 });
 
-export const getSingleGraphJSONSchema = (
-  columnList?: string[],
-  graphType?: GraphType,
-) =>
+export const getSingleGraphJSONSchema = (columnList?: string[], graphType?: GraphType) =>
   graphType &&
   GraphList.filter(el => el.geoHubMapPresentation)
     .map(el => el.graphID)
     .indexOf(graphType) !== -1
     ? {
-      type: 'object',
-      properties: {
-        graphSettings: getSettingsSchema(graphType),
-        graphType: {
-          type: 'string',
-          enum: GraphList.filter(el => el.geoHubMapPresentation).map(
-            el => el.graphID,
-          ),
+        type: 'object',
+        properties: {
+          graphSettings: getSettingsSchema(graphType),
+          graphType: {
+            type: 'string',
+            enum: GraphList.filter(el => el.geoHubMapPresentation).map(el => el.graphID),
+          },
+          debugMode: { type: 'boolean' },
+          theme: { type: 'string', enum: ['dark', 'light'] },
+          uiMode: {
+            type: 'string',
+            enum: ['light', 'normal'],
+          },
+          classNames: { type: 'object' },
+          highlightDataPointSettings: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              label: { type: 'string' },
+              defaultValues: {
+                oneOf: [
+                  {
+                    type: 'array',
+                    items: { type: 'string' },
+                  },
+                  {
+                    type: 'array',
+                    items: { type: 'number' },
+                  },
+                ],
+              },
+              excludeValues: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+              allowSelectAll: { type: 'boolean' },
+              width: { type: 'string' },
+            },
+            required: ['column'],
+          },
+          styles: { type: 'object' },
         },
-        debugMode: { type: 'boolean' },
-        theme: { type: 'string', enum: ['dark', 'light'] },
-        uiMode: {
-          type: 'string',
-          enum: ['light', 'normal'],
-        },
-        classNames: { type: 'object' },
-        highlightDataPointSettings: {
+        required: ['graphType'],
+      }
+    : graphType === 'dataTable' || graphType === 'dataCards'
+      ? {
           type: 'object',
           properties: {
-            column: { type: 'string' },
-            label: { type: 'string' },
-            defaultValues: {
-              oneOf: [
-                {
+            graphSettings: getSettingsSchema(graphType),
+            dataSettings: getDataSettingsSchema(columnList),
+            filters: getFiltersSchema(columnList),
+            noOfFiltersPerRow: { type: 'number' },
+            graphType: {
+              type: 'string',
+              enum: ['dataTable', 'dataCards'],
+            },
+            dataTransform: getDataTransformSchema(columnList),
+            dataFilters: getDataFiltersSchema(columnList),
+            readableHeader: getReadableHeaderSchema(columnList),
+            dataSelectionOptions: getDataSelectionSchema(columnList),
+            advancedDataSelectionOptions: getAdvancedDataSelectionSchema(columnList, graphType),
+            debugMode: { type: 'boolean' },
+            theme: { type: 'string', enum: ['dark', 'light'] },
+            uiMode: {
+              type: 'string',
+              enum: ['light', 'normal'],
+            },
+            classNames: { type: 'object' },
+            highlightDataPointSettings: {
+              type: 'object',
+              properties: {
+                column: { type: 'string' },
+                label: { type: 'string' },
+                defaultValues: {
+                  oneOf: [
+                    {
+                      type: 'array',
+                      items: { type: 'string' },
+                    },
+                    {
+                      type: 'array',
+                      items: { type: 'number' },
+                    },
+                  ],
+                },
+                excludeValues: {
                   type: 'array',
                   items: { type: 'string' },
                 },
-                {
-                  type: 'array',
-                  items: { type: 'number' },
-                },
-              ],
+                allowSelectAll: { type: 'boolean' },
+                width: { type: 'string' },
+              },
+              required: ['column'],
             },
-            excludeValues: {
-              type: 'array',
-              items: { type: 'string' },
-            },
-            allowSelectAll: { type: 'boolean' },
-            width: { type: 'string' },
+            styles: { type: 'object' },
           },
-          required: ['column'],
-        },
-        styles: { type: 'object' },
-      },
-      required: ['graphType'],
-    }
-    : graphType === 'dataTable' || graphType === 'dataCards'
-      ? {
+          required: ['dataSettings', 'graphType'],
+        }
+      : {
+          type: 'object',
+          properties: {
+            graphSettings: graphType
+              ? getSettingsSchema(graphType)
+              : getSettingsSchema('allGraphs'),
+            dataSettings: getDataSettingsSchema(columnList),
+            filters: getFiltersSchema(columnList),
+            classNames: { type: 'object' },
+            styles: { type: 'object' },
+            graphType: {
+              type: 'string',
+              enum: GraphList.map(el => el.graphID),
+            },
+            noOfFiltersPerRow: { type: 'number' },
+            dataTransform: getDataTransformSchema(columnList),
+            dataFilters: getDataFiltersSchema(columnList),
+            graphDataConfiguration: getGraphDataConfigurationSchema(columnList, graphType),
+            readableHeader: getReadableHeaderSchema(columnList),
+            dataSelectionOptions: getDataSelectionSchema(columnList),
+            advancedDataSelectionOptions: getAdvancedDataSelectionSchema(columnList, graphType),
+            debugMode: { type: 'boolean' },
+            theme: { type: 'string', enum: ['dark', 'light'] },
+            highlightDataPointSettings: {
+              type: 'object',
+              properties: {
+                column: { type: 'string' },
+                label: { type: 'string' },
+                defaultValues: {
+                  oneOf: [
+                    {
+                      type: 'array',
+                      items: { type: 'string' },
+                    },
+                    {
+                      type: 'array',
+                      items: { type: 'number' },
+                    },
+                  ],
+                },
+                excludeValues: {
+                  type: 'array',
+                  items: { type: 'string' },
+                },
+                allowSelectAll: { type: 'boolean' },
+                width: { type: 'string' },
+              },
+              required: ['column'],
+            },
+            uiMode: {
+              type: 'string',
+              enum: ['light', 'normal'],
+            },
+          },
+          required: !graphType
+            ? ['graphType']
+            : ['dataSettings', 'graphType', 'graphDataConfiguration'],
+        };
+
+export const getGriddedGraphJSONSchema = (columnList?: string[], graphType?: GraphType) =>
+  graphType === 'dataTable' || graphType === 'dataCards'
+    ? {
         type: 'object',
         properties: {
           graphSettings: getSettingsSchema(graphType),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
+          classNames: { type: 'object' },
+          styles: { type: 'object' },
           noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
             enum: ['dataTable', 'dataCards'],
           },
-          dataTransform: getDataTransformSchema(columnList),
-          dataFilters: getDataFiltersSchema(columnList),
-          readableHeader: getReadableHeaderSchema(columnList),
-          dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
-            columnList,
-            graphType,
-          ),
-          debugMode: { type: 'boolean' },
-          theme: { type: 'string', enum: ['dark', 'light'] },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
           },
-          classNames: { type: 'object' },
-          highlightDataPointSettings: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              label: { type: 'string' },
-              defaultValues: {
-                oneOf: [
-                  {
-                    type: 'array',
-                    items: { type: 'string' },
-                  },
-                  {
-                    type: 'array',
-                    items: { type: 'number' },
-                  },
-                ],
-              },
-              excludeValues: {
-                type: 'array',
-                items: { type: 'string' },
-              },
-              allowSelectAll: { type: 'boolean' },
-              width: { type: 'string' },
-            },
-            required: ['column'],
-          },
-          styles: { type: 'object' },
+          dataTransform: getDataTransformSchema(columnList),
+          dataFilters: getDataFiltersSchema(columnList),
+          noOfColumns: { type: 'number' },
+          columnGridBy: { type: 'string' },
+          showCommonColorScale: { type: 'boolean' },
+          minGraphHeight: { type: 'number' },
+          minGraphWidth: { type: 'number' },
+          readableHeader: getReadableHeaderSchema(columnList),
+          dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(columnList, graphType),
+          debugMode: { type: 'boolean' },
+          theme: { type: 'string', enum: ['dark', 'light'] },
         },
-        required: ['dataSettings', 'graphType'],
+        required: ['columnGridBy', 'dataSettings', 'graphType'],
       }
-      : {
+    : {
         type: 'object',
         properties: {
-          graphSettings: graphType
-            ? getSettingsSchema(graphType)
-            : getSettingsSchema('allGraphs'),
+          graphSettings: graphType ? getSettingsSchema(graphType) : getSettingsSchema('allGraphs'),
           dataSettings: getDataSettingsSchema(columnList),
           filters: getFiltersSchema(columnList),
           classNames: { type: 'object' },
           styles: { type: 'object' },
+          noOfFiltersPerRow: { type: 'number' },
           graphType: {
             type: 'string',
-            enum: GraphList.map(el => el.graphID),
-          },
-          noOfFiltersPerRow: { type: 'number' },
-          dataTransform: getDataTransformSchema(columnList),
-          dataFilters: getDataFiltersSchema(columnList),
-          graphDataConfiguration: getGraphDataConfigurationSchema(
-            columnList,
-            graphType,
-          ),
-          readableHeader: getReadableHeaderSchema(columnList),
-          dataSelectionOptions: getDataSelectionSchema(columnList),
-          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
-            columnList,
-            graphType,
-          ),
-          debugMode: { type: 'boolean' },
-          theme: { type: 'string', enum: ['dark', 'light'] },
-          highlightDataPointSettings: {
-            type: 'object',
-            properties: {
-              column: { type: 'string' },
-              label: { type: 'string' },
-              defaultValues: {
-                oneOf: [
-                  {
-                    type: 'array',
-                    items: { type: 'string' },
-                  },
-                  {
-                    type: 'array',
-                    items: { type: 'number' },
-                  },
-                ],
-              },
-              excludeValues: {
-                type: 'array',
-                items: { type: 'string' },
-              },
-              allowSelectAll: { type: 'boolean' },
-              width: { type: 'string' },
-            },
-            required: ['column'],
+            enum: GraphList.filter(el => el.availableInGriddedGraph !== false).map(
+              el => el.graphID,
+            ),
           },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],
           },
+          dataTransform: getDataTransformSchema(columnList),
+          dataFilters: getDataFiltersSchema(columnList),
+          graphDataConfiguration: getGraphDataConfigurationSchema(columnList, graphType),
+          noOfColumns: { type: 'number' },
+          columnGridBy: { type: 'string' },
+          showCommonColorScale: { type: 'boolean' },
+          minGraphHeight: { type: 'number' },
+          minGraphWidth: { type: 'number' },
+          readableHeader: getReadableHeaderSchema(columnList),
+          dataSelectionOptions: getDataSelectionSchema(columnList),
+          advancedDataSelectionOptions: getAdvancedDataSelectionSchema(columnList, graphType),
+          debugMode: { type: 'boolean' },
+          theme: { type: 'string', enum: ['dark', 'light'] },
         },
         required: !graphType
-          ? ['graphType']
-          : ['dataSettings', 'graphType', 'graphDataConfiguration'],
+          ? ['columnGridBy', 'dataSettings', 'graphType']
+          : ['columnGridBy', 'dataSettings', 'graphType', 'graphDataConfiguration'],
       };
-
-export const getGriddedGraphJSONSchema = (
-  columnList?: string[],
-  graphType?: GraphType,
-) =>
-  graphType === 'dataTable' || graphType === 'dataCards'
-    ? {
-      type: 'object',
-      properties: {
-        graphSettings: getSettingsSchema(graphType),
-        dataSettings: getDataSettingsSchema(columnList),
-        filters: getFiltersSchema(columnList),
-        classNames: { type: 'object' },
-        styles: { type: 'object' },
-        noOfFiltersPerRow: { type: 'number' },
-        graphType: {
-          type: 'string',
-          enum: ['dataTable', 'dataCards'],
-        },
-        uiMode: {
-          type: 'string',
-          enum: ['light', 'normal'],
-        },
-        dataTransform: getDataTransformSchema(columnList),
-        dataFilters: getDataFiltersSchema(columnList),
-        noOfColumns: { type: 'number' },
-        columnGridBy: { type: 'string' },
-        showCommonColorScale: { type: 'boolean' },
-        minGraphHeight: { type: 'number' },
-        minGraphWidth: { type: 'number' },
-        readableHeader: getReadableHeaderSchema(columnList),
-        dataSelectionOptions: getDataSelectionSchema(columnList),
-        advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
-          columnList,
-          graphType,
-        ),
-        debugMode: { type: 'boolean' },
-        theme: { type: 'string', enum: ['dark', 'light'] },
-      },
-      required: ['columnGridBy', 'dataSettings', 'graphType'],
-    }
-    : {
-      type: 'object',
-      properties: {
-        graphSettings: graphType
-          ? getSettingsSchema(graphType)
-          : getSettingsSchema('allGraphs'),
-        dataSettings: getDataSettingsSchema(columnList),
-        filters: getFiltersSchema(columnList),
-        classNames: { type: 'object' },
-        styles: { type: 'object' },
-        noOfFiltersPerRow: { type: 'number' },
-        graphType: {
-          type: 'string',
-          enum: GraphList.filter(
-            el => el.availableInGriddedGraph !== false,
-          ).map(el => el.graphID),
-        },
-        uiMode: {
-          type: 'string',
-          enum: ['light', 'normal'],
-        },
-        dataTransform: getDataTransformSchema(columnList),
-        dataFilters: getDataFiltersSchema(columnList),
-        graphDataConfiguration: getGraphDataConfigurationSchema(
-          columnList,
-          graphType,
-        ),
-        noOfColumns: { type: 'number' },
-        columnGridBy: { type: 'string' },
-        showCommonColorScale: { type: 'boolean' },
-        minGraphHeight: { type: 'number' },
-        minGraphWidth: { type: 'number' },
-        readableHeader: getReadableHeaderSchema(columnList),
-        dataSelectionOptions: getDataSelectionSchema(columnList),
-        advancedDataSelectionOptions: getAdvancedDataSelectionSchema(
-          columnList,
-          graphType,
-        ),
-        debugMode: { type: 'boolean' },
-        theme: { type: 'string', enum: ['dark', 'light'] },
-      },
-      required: !graphType
-        ? ['columnGridBy', 'dataSettings', 'graphType']
-        : [
-          'columnGridBy',
-          'dataSettings',
-          'graphType',
-          'graphDataConfiguration',
-        ],
-    };
 
 export const getDashboardJSONSchema = (columnList?: string[]) => ({
   properties: {
@@ -972,18 +920,14 @@ export const getDashboardJSONSchema = (columnList?: string[]) => ({
                     columnWidth: { type: 'number' },
                     dataFilters: getDataFiltersSchema(),
                     dataTransform: getDataTransformSchema(),
-                    graphDataConfiguration: getGraphDataConfigurationSchema(
-                      undefined,
-                      'dashboard',
-                    ),
+                    graphDataConfiguration: getGraphDataConfigurationSchema(undefined, 'dashboard'),
                     graphType: {
                       enum: GraphList.map(el => el.graphID),
                       type: 'string',
                     },
                     settings: getSettingsSchema('allGraphs'),
                     dataSelectionOptions: getDataSelectionSchema(),
-                    advancedDataSelectionOptions:
-                      getAdvancedDataSelectionSchema(),
+                    advancedDataSelectionOptions: getAdvancedDataSelectionSchema(),
                     attachedFilter: {
                       type: 'string',
                       ...getColumnEnum(columnList),
@@ -1052,9 +996,9 @@ export const getDashboardWideToLongFormatJSONSchema = () => ({
                       'dashboardWideToLong',
                     ),
                     graphType: {
-                      enum: GraphList.filter(
-                        el => el.availableInWideToLongFormat,
-                      ).map(el => el.graphID),
+                      enum: GraphList.filter(el => el.availableInWideToLongFormat).map(
+                        el => el.graphID,
+                      ),
                       type: 'string',
                     },
                     settings: getSettingsSchema('allGraphs'),

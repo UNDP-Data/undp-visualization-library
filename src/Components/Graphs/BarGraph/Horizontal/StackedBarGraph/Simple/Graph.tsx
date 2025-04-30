@@ -4,12 +4,7 @@ import sum from 'lodash.sum';
 import { useState } from 'react';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  GroupedBarGraphDataType,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, GroupedBarGraphDataType, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -110,11 +105,7 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    );
+    : Math.max(...data.map(d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
   const dataWithId = data.map((d, i) => ({
     ...d,
@@ -182,13 +173,7 @@ export function Graph(props: Props) {
                 {d.size.map((el, j) => (
                   <g
                     key={j}
-                    opacity={
-                      selectedColor
-                        ? barColors[j] === selectedColor
-                          ? 1
-                          : 0.3
-                        : 1
-                    }
+                    opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 1}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, sizeIndex: j });
@@ -222,8 +207,7 @@ export function Graph(props: Props) {
                           onSeriesMouseClick?.(undefined);
                         } else {
                           setMouseClickData({ ...d, sizeIndex: j });
-                          if (onSeriesMouseClick)
-                            onSeriesMouseClick({ ...d, sizeIndex: j });
+                          if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                         }
                       }
                     }}
@@ -231,13 +215,7 @@ export function Graph(props: Props) {
                     {el ? (
                       <rect
                         key={j}
-                        x={x(
-                          j === 0
-                            ? 0
-                            : sum(
-                              d.size.filter((element, k) => k < j && element),
-                            ),
-                        )}
+                        x={x(j === 0 ? 0 : sum(d.size.filter((element, k) => k < j && element)))}
                         y={0}
                         width={x(el)}
                         style={{ fill: barColors[j] }}
@@ -246,37 +224,24 @@ export function Graph(props: Props) {
                     ) : null}
                     {showValues &&
                     el &&
-                    x(el) /
-                      numberFormattingFunction(el, prefix, suffix).length >
-                      12 ? (
-                        <text
-                          x={
-                          x(
-                            j === 0
-                              ? 0
-                              : sum(
-                                d.size.filter(
-                                  (element, k) => k < j && element,
-                                ),
-                              ),
-                          ) +
+                    x(el) / numberFormattingFunction(el, prefix, suffix).length > 12 ? (
+                      <text
+                        x={
+                          x(j === 0 ? 0 : sum(d.size.filter((element, k) => k < j && element))) +
                           x(el) / 2
                         }
-                          y={y.bandwidth() / 2}
-                          style={{
-                            fill: getTextColorBasedOnBgColor(barColors[j]),
-                            textAnchor: 'middle',
-                            ...(styles?.graphObjectValues || {}),
-                          }}
-                          dy='0.33em'
-                          className={cn(
-                            'graph-value text-sm',
-                            classNames?.graphObjectValues,
-                          )}
-                        >
-                          {numberFormattingFunction(el, prefix, suffix)}
-                        </text>
-                      ) : null}
+                        y={y.bandwidth() / 2}
+                        style={{
+                          fill: getTextColorBasedOnBgColor(barColors[j]),
+                          textAnchor: 'middle',
+                          ...(styles?.graphObjectValues || {}),
+                        }}
+                        dy='0.33em'
+                        className={cn('graph-value text-sm', classNames?.graphObjectValues)}
+                      >
+                        {numberFormattingFunction(el, prefix, suffix)}
+                      </text>
+                    ) : null}
                   </g>
                 ))}
                 {showLabels ? (
@@ -298,9 +263,7 @@ export function Graph(props: Props) {
                   <text
                     className={cn(
                       'graph-value graph-value-total text-sm',
-                      !valueColor
-                        ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
-                        : '',
+                      !valueColor ? ' fill-primary-gray-700 dark:fill-primary-gray-300' : '',
                       classNames?.graphObjectValues,
                     )}
                     style={{
@@ -341,11 +304,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

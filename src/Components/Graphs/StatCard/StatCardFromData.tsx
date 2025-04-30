@@ -113,16 +113,12 @@ export function StatCardFromData(props: Props) {
         }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a statistic card.${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a statistic card.${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -163,11 +159,7 @@ export function StatCardFromData(props: Props) {
                     : language === 'he' || language === 'ar'
                       ? 'text-right'
                       : 'text-left'
-                } ${
-                  textBackground
-                    ? 'text-primary-black dark:text-primary-white'
-                    : 'transparent'
-                }`}
+                } ${textBackground ? 'text-primary-black dark:text-primary-white' : 'transparent'}`}
                 style={{
                   fontSize: headingFontSize,
                   letterSpacing: '0.05rem',
@@ -179,30 +171,24 @@ export function StatCardFromData(props: Props) {
                     ? data.filter(d => countOnly.indexOf(d.value) !== -1).length
                     : data.length
                   : aggregationMethod === 'sum'
-                    ? numberFormattingFunction(
-                      sum(data.map(d => d.value)),
-                      prefix,
-                      suffix,
-                    )
+                    ? numberFormattingFunction(sum(data.map(d => d.value)), prefix, suffix)
                     : aggregationMethod === 'average'
                       ? numberFormattingFunction(
-                        parseFloat(
-                          (sum(data.map(d => d.value)) / data.length).toFixed(2),
-                        ),
-                        prefix,
-                        suffix,
-                      )
+                          parseFloat((sum(data.map(d => d.value)) / data.length).toFixed(2)),
+                          prefix,
+                          suffix,
+                        )
                       : aggregationMethod === 'max'
                         ? numberFormattingFunction(
-                      maxBy(data, d => d.value)?.value as number | undefined,
-                      prefix,
-                      suffix,
-                        )
+                            maxBy(data, d => d.value)?.value as number | undefined,
+                            prefix,
+                            suffix,
+                          )
                         : numberFormattingFunction(
-                      minBy(data, d => d.value)?.value as number | undefined,
-                      prefix,
-                      suffix,
-                        )}{' '}
+                            minBy(data, d => d.value)?.value as number | undefined,
+                            prefix,
+                            suffix,
+                          )}{' '}
                 {year ? (
                   <span
                     className='text-lg font-normal mt-0 mb-4 text-primary-gray-550 dark:text-primary-gray-400'

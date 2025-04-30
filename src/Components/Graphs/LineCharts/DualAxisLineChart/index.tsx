@@ -191,9 +191,7 @@ export function DualAxisLineChart(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -206,9 +204,7 @@ export function DualAxisLineChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -239,14 +235,12 @@ export function DualAxisLineChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -281,8 +275,7 @@ export function DualAxisLineChart(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight

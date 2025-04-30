@@ -5,13 +5,7 @@ import maxBy from 'lodash.maxby';
 
 import { Graph } from './Graph';
 
-import {
-  Languages,
-  SourcesDataType,
-  StyleObject,
-  ClassNameObject,
-  TreeMapDataType,
-} from '@/Types';
+import { Languages, SourcesDataType, StyleObject, ClassNameObject, TreeMapDataType } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
@@ -164,9 +158,7 @@ export function CirclePackingGraph(props: Props) {
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -183,9 +175,7 @@ export function CirclePackingGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -198,9 +188,7 @@ export function CirclePackingGraph(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -231,14 +219,12 @@ export function CirclePackingGraph(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -248,14 +234,12 @@ export function CirclePackingGraph(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {showColorScale &&
-                  data.filter(el => el.color).length !== 0 ? (
+                  {showColorScale && data.filter(el => el.color).length !== 0 ? (
                     <ColorLegendWithMouseOver
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={
-                        (colors as string[] | undefined) ||
-                        Colors[theme].categoricalColors.colors
+                        (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -266,13 +250,11 @@ export function CirclePackingGraph(props: Props) {
                       }
                       setSelectedColor={setSelectedColor}
                       showNAColor={
-                        showNAColor === undefined || showNAColor === null
-                          ? true
-                          : showNAColor
+                        showNAColor === undefined || showNAColor === null ? true : showNAColor
                       }
                       isCenter
                     />
-                    ) : null}
+                  ) : null}
                   <div
                     className='flex flex-col grow justify-center w-full leading-0'
                     ref={graphDiv}
@@ -304,8 +286,7 @@ export function CirclePackingGraph(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -332,35 +313,27 @@ export function CirclePackingGraph(props: Props) {
                         radius={
                           !radius
                             ? (Math.min(
-                              width || svgWidth,
-                              height ||
+                                width || svgWidth,
+                                height ||
                                   (relativeHeight
                                     ? minHeight
-                                      ? (width || svgWidth) * relativeHeight >
-                                        minHeight
+                                      ? (width || svgWidth) * relativeHeight > minHeight
                                         ? (width || svgWidth) * relativeHeight
                                         : minHeight
                                       : (width || svgWidth) * relativeHeight
                                     : svgHeight),
-                            ) *
-                                (data.filter(
-                                  d => !checkIfNullOrUndefined(d.size),
-                                ).length === 0
+                              ) *
+                                (data.filter(d => !checkIfNullOrUndefined(d.size)).length === 0
                                   ? 1
-                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                  : (maxBy(data, 'size') as any).size)) /
-                              (data.filter(d => !checkIfNullOrUndefined(d.size))
-                                .length === 0
+                                  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    (maxBy(data, 'size') as any).size)) /
+                              (data.filter(d => !checkIfNullOrUndefined(d.size)).length === 0
                                 ? data.length
-                                : sum(
-                                  data.filter(d => d.size).map(d => d.size),
-                                ) * 1.25)
+                                : sum(data.filter(d => d.size).map(d => d.size)) * 1.25)
                             : radius
                         }
                         maxRadiusValue={maxRadiusValue}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         styles={styles}
                         classNames={classNames}

@@ -188,9 +188,7 @@ export function AreaChart(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -203,9 +201,7 @@ export function AreaChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -236,14 +232,12 @@ export function AreaChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -262,11 +256,7 @@ export function AreaChart(props: Props) {
                       theme={theme}
                     />
                   ) : null}
-                  <div
-                    className='w-full grow leading-0'
-                    ref={graphDiv}
-                    aria-label='Graph area'
-                  >
+                  <div className='w-full grow leading-0' ref={graphDiv} aria-label='Graph area'>
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
@@ -277,8 +267,7 @@ export function AreaChart(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -298,9 +287,7 @@ export function AreaChart(props: Props) {
                         maxValue={maxValue}
                         rtl={language === 'he' || language === 'ar'}
                         annotations={annotations}
-                        customHighlightAreaSettings={
-                          customHighlightAreaSettings
-                        }
+                        customHighlightAreaSettings={customHighlightAreaSettings}
                         yAxisTitle={yAxisTitle}
                         noOfYTicks={noOfYTicks}
                         prefix={prefix}

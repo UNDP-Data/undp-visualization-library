@@ -35,10 +35,7 @@ export function ImageDownloadButton(props: Props) {
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {
-            imageDownload(
-              document.getElementById(nodeID) as HTMLElement,
-              filename,
-            );
+            imageDownload(document.getElementById(nodeID) as HTMLElement, filename);
           } else {
             console.error('Cannot find the html element');
           }

@@ -115,40 +115,35 @@ export function Graph(props: Props) {
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
 
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values:
         sortParameter !== undefined || autoSort
           ? sortParameter === 'total' || sortParameter === undefined
             ? sortBy(
-              data.filter(d => d.date === date),
-              d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            }))
+                data.filter(d => d.date === date),
+                d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
+              ).map((el, i) => ({
+                ...el,
+                id: `${i}`,
+              }))
             : sortBy(
-              data.filter(d => d.date === date),
-              d =>
-                checkIfNullOrUndefined(d.size[sortParameter])
-                  ? -Infinity
-                  : d.size[sortParameter],
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            }))
+                data.filter(d => d.date === date),
+                d =>
+                  checkIfNullOrUndefined(d.size[sortParameter]) ? -Infinity : d.size[sortParameter],
+              ).map((el, i) => ({
+                ...el,
+                id: `${i}`,
+              }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as GroupedBarGraphWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            })),
     }),
   );
   const margin = {
@@ -166,11 +161,7 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    );
+    : Math.max(...data.map(d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
   const y = scaleLinear().domain([0, xMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
@@ -253,13 +244,7 @@ export function Graph(props: Props) {
                   {d.size.map((el, j) => (
                     <motion.g
                       key={j}
-                      opacity={
-                        selectedColor
-                          ? barColors[j] === selectedColor
-                            ? 1
-                            : 0.3
-                          : 1
-                      }
+                      opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 1}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onMouseEnter={(event: any) => {
                         setMouseOverData({ ...d, sizeIndex: j });
@@ -290,12 +275,10 @@ export function Graph(props: Props) {
                             resetSelectionOnDoubleClick
                           ) {
                             setMouseClickData(undefined);
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick(undefined);
+                            if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                           } else {
                             setMouseClickData({ ...d, sizeIndex: j });
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick({ ...d, sizeIndex: j });
+                            if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                           }
                         }
                       }}
@@ -306,26 +289,10 @@ export function Graph(props: Props) {
                         width={x.bandwidth()}
                         animate={{
                           height: Math.abs(
-                            y(
-                              sum(
-                                d.size.filter(
-                                  (element, k) => k <= j && element,
-                                ),
-                              ),
-                            ) -
-                              y(
-                                sum(
-                                  d.size.filter(
-                                    (element, k) => k < j && element,
-                                  ),
-                                ),
-                              ),
+                            y(sum(d.size.filter((element, k) => k <= j && element))) -
+                              y(sum(d.size.filter((element, k) => k < j && element))),
                           ),
-                          attrY: y(
-                            sum(
-                              d.size.filter((element, k) => k <= j && element),
-                            ),
-                          ),
+                          attrY: y(sum(d.size.filter((element, k) => k <= j && element))),
                           attrX: x(d.id),
                         }}
                         transition={{ duration: 0.5 }}
@@ -337,55 +304,22 @@ export function Graph(props: Props) {
                             textAnchor: 'middle',
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          className={cn(
-                            'graph-value text-sm',
-                            classNames?.graphObjectValues,
-                          )}
+                          className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                           dy='0.33em'
                           animate={{
                             attrY:
-                              y(
-                                sum(
-                                  d.size.filter(
-                                    (element, k) => k <= j && element,
-                                  ),
-                                ),
-                              ) +
+                              y(sum(d.size.filter((element, k) => k <= j && element))) +
                               Math.abs(
-                                y(
-                                  sum(
-                                    d.size.filter(
-                                      (element, k) => k <= j && element,
-                                    ),
-                                  ),
-                                ) -
-                                  y(
-                                    sum(
-                                      d.size.filter(
-                                        (element, k) => k < j && element,
-                                      ),
-                                    ),
-                                  ),
+                                y(sum(d.size.filter((element, k) => k <= j && element))) -
+                                  y(sum(d.size.filter((element, k) => k < j && element))),
                               ) /
                                 2,
                             attrX: (x(d.id) || 0) + x.bandwidth() / 2,
                             opacity:
                               el &&
                               Math.abs(
-                                y(
-                                  sum(
-                                    d.size.filter(
-                                      (element, k) => k <= j && element,
-                                    ),
-                                  ),
-                                ) -
-                                  y(
-                                    sum(
-                                      d.size.filter(
-                                        (element, k) => k < j && element,
-                                      ),
-                                    ),
-                                  ),
+                                y(sum(d.size.filter((element, k) => k <= j && element))) -
+                                  y(sum(d.size.filter((element, k) => k < j && element))),
                               ) > 20
                                 ? 1
                                 : 0,

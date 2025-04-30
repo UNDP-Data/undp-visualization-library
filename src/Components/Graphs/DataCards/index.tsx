@@ -1,6 +1,3 @@
- 
- 
- 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
@@ -137,9 +134,7 @@ const filterByKeys = (jsonArray: any, keys: string[], substring: string) => {
   if (keys.length === 0) return jsonArray;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return jsonArray.filter((item: any) =>
-    keys.some(key =>
-      item[key]?.toLowerCase().includes(substring.toLowerCase()),
-    ),
+    keys.some(key => item[key]?.toLowerCase().includes(substring.toLowerCase())),
   );
 };
 
@@ -180,9 +175,7 @@ export function DataCards(props: Props) {
   const [selectedData, setSelectedData] = useState<any>(undefined);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterSettings, setFilterSettings] = useState<
-    FilterSettingsDataType[]
-  >([]);
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsDataType[]>([]);
   const [sortedBy, setSortedBy] = useState<
     | {
         value: string;
@@ -193,15 +186,12 @@ export function DataCards(props: Props) {
   >(
     cardSortingOptions
       ? !cardSortingOptions.defaultValue ||
-        cardSortingOptions.options.findIndex(
-          el => el.label === cardSortingOptions.defaultValue,
-        ) === -1
+        cardSortingOptions.options.findIndex(el => el.label === cardSortingOptions.defaultValue) ===
+          -1
         ? cardSortingOptions.options[0]
         : cardSortingOptions.options[
-          cardSortingOptions.options.findIndex(
-            el => el.label === cardSortingOptions.defaultValue,
-          )
-        ]
+            cardSortingOptions.options.findIndex(el => el.label === cardSortingOptions.defaultValue)
+          ]
       : undefined,
   );
 
@@ -223,10 +213,10 @@ export function DataCards(props: Props) {
           ) === -1
           ? cardSortingOptions.options[0]
           : cardSortingOptions.options[
-            cardSortingOptions.options.findIndex(
-              el => el.label === cardSortingOptions.defaultValue,
-            )
-          ]
+              cardSortingOptions.options.findIndex(
+                el => el.label === cardSortingOptions.defaultValue,
+              )
+            ]
         : undefined,
     );
   }, [cardSortingOptions]);
@@ -247,9 +237,7 @@ export function DataCards(props: Props) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = useCallback((filter: string, values: any) => {
-    setFilterSettings(prev =>
-      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
-    );
+    setFilterSettings(prev => prev.map(f => (f.filter === filter ? { ...f, value: values } : f)));
   }, []);
 
   useEffect(() => {
@@ -258,9 +246,9 @@ export function DataCards(props: Props) {
       filterSettings.every(filter =>
         filter.value && flattenDeep([filter.value]).length > 0
           ? intersection(
-            flattenDeep([item[filter.filter]]),
-            flattenDeep([filter.value]).map(el => el.value),
-          ).length > 0
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
           : true,
       ),
     );
@@ -277,9 +265,7 @@ export function DataCards(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -292,16 +278,12 @@ export function DataCards(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is an list of cards. ${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is an list of cards. ${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -358,11 +340,10 @@ export function DataCards(props: Props) {
                         ) === -1
                           ? cardSortingOptions.options[0]
                           : cardSortingOptions.options[
-                            cardSortingOptions.options.findIndex(
-                              el =>
-                                el.label === cardSortingOptions.defaultValue,
-                            )
-                          ]
+                              cardSortingOptions.options.findIndex(
+                                el => el.label === cardSortingOptions.defaultValue,
+                              )
+                            ]
                       }
                     />
                   </div>
@@ -382,9 +363,7 @@ export function DataCards(props: Props) {
                     </P>
                     <DropdownSelect
                       options={d.availableValues}
-                      isClearable={
-                        d.clearable === undefined ? true : d.clearable
-                      }
+                      isClearable={d.clearable === undefined ? true : d.clearable}
                       isRtl={language === 'he' || language === 'ar'}
                       isSearchable
                       variant={uiMode}
@@ -422,11 +401,10 @@ export function DataCards(props: Props) {
               }}
             >
               {filterByKeys(cardData, cardSearchColumns, searchQuery)
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .filter((_d: any, i: number) =>
                   noOfItemsInAPage
-                    ? i < page * noOfItemsInAPage &&
-                      i >= (page - 1) * noOfItemsInAPage
+                    ? i < page * noOfItemsInAPage && i >= (page - 1) * noOfItemsInAPage
                     : true,
                 )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -438,13 +416,9 @@ export function DataCards(props: Props) {
                       ...(cardBackgroundColor && { backgroundColor: cardBackgroundColor }),
                     }}
                     className={`w-full flex flex-col ${
-                      onSeriesMouseClick || detailsOnClick
-                        ? 'cursor-pointer'
-                        : 'cursor-auto'
+                      onSeriesMouseClick || detailsOnClick ? 'cursor-pointer' : 'cursor-auto'
                     }${
-                      !cardBackgroundColor
-                        ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
-                        : ''
+                      !cardBackgroundColor ? 'bg-primary-gray-200 dark:bg-primary-gray-600' : ''
                     } ${classNames?.dataCards || ''}`}
                     onClick={() => {
                       onSeriesMouseClick?.(d);
@@ -456,9 +430,7 @@ export function DataCards(props: Props) {
             </div>
             {noOfItemsInAPage ? (
               <Pagination
-                total={
-                  filterByKeys(cardData, cardSearchColumns, searchQuery).length
-                }
+                total={filterByKeys(cardData, cardSearchColumns, searchQuery).length}
                 defaultPage={0}
                 pageSize={noOfItemsInAPage}
                 onChange={setPage}

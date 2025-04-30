@@ -171,9 +171,7 @@ export function HeatMap(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -214,9 +212,7 @@ export function HeatMap(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -245,14 +241,12 @@ export function HeatMap(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -274,22 +268,14 @@ export function HeatMap(props: Props) {
                               ? Colors[theme].categoricalColors.colors
                               : colorDomain.length === 2
                                 ? [
-                                  Colors[theme].sequentialColors
-                                    .neutralColorsx09[0],
-                                  Colors[theme].sequentialColors
-                                    .neutralColorsx09[8],
-                                ]
+                                    Colors[theme].sequentialColors.neutralColorsx09[0],
+                                    Colors[theme].sequentialColors.neutralColorsx09[8],
+                                  ]
                                 : Colors[theme].sequentialColors[
-                                  `neutralColorsx0${
-                                    (colorDomain.length + 1) as
-                                      | 4
-                                      | 5
-                                      | 6
-                                      | 7
-                                      | 8
-                                      | 9
-                                  }`
-                                ])
+                                    `neutralColorsx0${
+                                      (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                    }`
+                                  ])
                           }
                           colorDomain={colorDomain.map(d => `${d}`)}
                           setSelectedColor={setSelectedColor}
@@ -307,22 +293,14 @@ export function HeatMap(props: Props) {
                               ? Colors[theme].categoricalColors.colors
                               : colorDomain.length === 2
                                 ? [
-                                  Colors[theme].sequentialColors
-                                    .neutralColorsx09[0],
-                                  Colors[theme].sequentialColors
-                                    .neutralColorsx09[8],
-                                ]
+                                    Colors[theme].sequentialColors.neutralColorsx09[0],
+                                    Colors[theme].sequentialColors.neutralColorsx09[8],
+                                  ]
                                 : Colors[theme].sequentialColors[
-                                  `neutralColorsx0${
-                                    (colorDomain.length + 1) as
-                                      | 4
-                                      | 5
-                                      | 6
-                                      | 7
-                                      | 8
-                                      | 9
-                                  }`
-                                ])
+                                    `neutralColorsx0${
+                                      (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                    }`
+                                  ])
                           }
                           colorDomain={colorDomain as number[]}
                           setSelectedColor={setSelectedColor}
@@ -336,10 +314,8 @@ export function HeatMap(props: Props) {
                           colorLegendTitle={colorLegendTitle}
                           colors={
                             colors || [
-                              Colors[theme].sequentialColors
-                                .neutralColorsx09[0],
-                              Colors[theme].sequentialColors
-                                .neutralColorsx09[8],
+                              Colors[theme].sequentialColors.neutralColorsx09[0],
+                              Colors[theme].sequentialColors.neutralColorsx09[8],
                             ]
                           }
                           colorDomain={colorDomain as number[]}
@@ -363,22 +339,14 @@ export function HeatMap(props: Props) {
                             ? Colors[theme].categoricalColors.colors
                             : colorDomain.length === 2
                               ? [
-                                Colors[theme].sequentialColors
-                                  .neutralColorsx09[0],
-                                Colors[theme].sequentialColors
-                                  .neutralColorsx09[8],
-                              ]
+                                  Colors[theme].sequentialColors.neutralColorsx09[0],
+                                  Colors[theme].sequentialColors.neutralColorsx09[8],
+                                ]
                               : Colors[theme].sequentialColors[
-                                `neutralColorsx0${
-                                  (colorDomain.length + 1) as
-                                    | 4
-                                    | 5
-                                    | 6
-                                    | 7
-                                    | 8
-                                    | 9
-                                }`
-                              ])
+                                  `neutralColorsx0${
+                                    (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                  }`
+                                ])
                         }
                         noDataColor={noDataColor}
                         scaleType={scale}
@@ -387,8 +355,7 @@ export function HeatMap(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -408,9 +375,7 @@ export function HeatMap(props: Props) {
                         suffix={suffix}
                         prefix={prefix}
                         onSeriesMouseClick={onSeriesMouseClick}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                       />
                     ) : null}

@@ -65,15 +65,15 @@ export function GeoHubMultipleMap(props: Props) {
             includeLayers.length === 0 && excludeLayers.length === 0
               ? d
               : {
-                ...d,
-                layers: filterData(d.layers, [
-                  {
-                    column: 'id',
-                    includeValues: includeLayers,
-                    excludeValues: excludeLayers,
-                  },
-                ]),
-              },
+                  ...d,
+                  layers: filterData(d.layers, [
+                    {
+                      column: 'id',
+                      includeValues: includeLayers,
+                      excludeValues: excludeLayers,
+                    },
+                  ]),
+                },
         };
         if (center) {
           mapObj.center = center;

@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -57,7 +56,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
       control: {
-        type: 'range', min: 0, max: 1, step: 0.1, 
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
       },
     },
 
@@ -133,13 +135,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: ['Apple', 'Oranges'],
   },
-  render: ({
-    labelOrder,
-    backgroundColor,
-    colorDomain,
-    sortParameter,
-    ...args
-  }) => {
+  render: ({ labelOrder, backgroundColor, colorDomain, sortParameter, ...args }) => {
     return (
       <DumbbellChart
         labelOrder={parseValue(labelOrder)}
@@ -149,18 +145,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
             ? undefined
             : sortParameter === 'diff'
               ? 'diff'
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              : /^\d+$/.test(sortParameter as any)
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ? parseInt(sortParameter as any, 10)
+              : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                /^\d+$/.test(sortParameter as any)
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  parseInt(sortParameter as any, 10)
                 : undefined
         }
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

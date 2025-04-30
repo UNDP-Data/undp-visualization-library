@@ -4,12 +4,7 @@ import { useState } from 'react';
 import uniqBy from 'lodash.uniqby';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  HeatMapDataType,
-  ScaleDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, HeatMapDataType, ScaleDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
@@ -84,9 +79,7 @@ export function Graph(props: Props) {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
-  const [mouseOverData, setMouseOverData] = useState<
-    HeatMapDataType | undefined
-  >(undefined);
+  const [mouseOverData, setMouseOverData] = useState<HeatMapDataType | undefined>(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const graphWidth = width - margin.left - margin.right;
@@ -99,16 +92,14 @@ export function Graph(props: Props) {
   const barWidth = x.bandwidth();
   const colorScale =
     scaleType === 'categorical'
-      ? scaleOrdinal<number | string, string>()
-        .domain(colorDomain)
-        .range(colors)
+      ? scaleOrdinal<number | string, string>().domain(colorDomain).range(colors)
       : scaleType === 'threshold'
         ? scaleThreshold<number, string>()
-          .domain(colorDomain as number[])
-          .range(colors)
+            .domain(colorDomain as number[])
+            .range(colors)
         : scaleLinear<string, string>()
-          .domain(colorDomain as number[])
-          .range(colors);
+            .domain(colorDomain as number[])
+            .range(colors);
   return (
     <>
       <svg
@@ -121,43 +112,39 @@ export function Graph(props: Props) {
         <g transform={`translate(${margin.left},${0})`}>
           {showColumnLabels
             ? columns.map((d, i) => (
-              <XAxesLabels
-                key={i}
-                y={0}
-                x={x(d) as number}
-                width={barWidth}
-                height={margin.top - 5}
-                value={
-                    `${d}`.length < truncateBy
-                      ? `${d}`
-                      : `${`${d}`.substring(0, truncateBy)}...`
+                <XAxesLabels
+                  key={i}
+                  y={0}
+                  x={x(d) as number}
+                  width={barWidth}
+                  height={margin.top - 5}
+                  value={
+                    `${d}`.length < truncateBy ? `${d}` : `${`${d}`.substring(0, truncateBy)}...`
                   }
-                style={styles?.xAxis?.labels}
-                className={classNames?.xAxis?.labels}
-                alignment='bottom'
-              />
-            ))
+                  style={styles?.xAxis?.labels}
+                  className={classNames?.xAxis?.labels}
+                  alignment='bottom'
+                />
+              ))
             : null}
         </g>
         <g transform={`translate(${0},${margin.top})`}>
           {showRowLabels
             ? rows.map((d, i) => (
-              <YAxesLabels
-                value={
-                    `${d}`.length < truncateBy
-                      ? `${d}`
-                      : `${`${d}`.substring(0, truncateBy)}...`
+                <YAxesLabels
+                  value={
+                    `${d}`.length < truncateBy ? `${d}` : `${`${d}`.substring(0, truncateBy)}...`
                   }
-                key={i}
-                y={y(d) as number}
-                x={0}
-                width={margin.left}
-                height={barHeight}
-                alignment='right'
-                style={styles?.yAxis?.labels}
-                className={classNames?.yAxis?.labels}
-              />
-            ))
+                  key={i}
+                  y={y(d) as number}
+                  x={0}
+                  width={margin.left}
+                  height={barHeight}
+                  alignment='right'
+                  style={styles?.yAxis?.labels}
+                  className={classNames?.yAxis?.labels}
+                />
+              ))
             : null}
         </g>
         <g transform={`translate(${margin.left},${margin.top})`}>
@@ -180,8 +167,8 @@ export function Graph(props: Props) {
             .filter(d => !checkIfNullOrUndefined(d.value))
             .map((d, i) => {
               const color = !checkIfNullOrUndefined(d.value)
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ? colorScale(d.value as any)
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  colorScale(d.value as any)
                 : noDataColor;
               return (
                 <g
@@ -198,10 +185,7 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick || detailsOnClick) {
-                      if (
-                        isEqual(mouseClickData, d) &&
-                        resetSelectionOnDoubleClick
-                      ) {
+                      if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick?.(undefined);
                       } else {
@@ -224,9 +208,7 @@ export function Graph(props: Props) {
                       onSeriesMouseOver(undefined);
                     }
                   }}
-                  opacity={
-                    selectedColor ? (selectedColor === color ? 1 : 0.3) : 1
-                  }
+                  opacity={selectedColor ? (selectedColor === color ? 1 : 0.3) : 1}
                 >
                   <rect
                     x={0}
@@ -237,13 +219,7 @@ export function Graph(props: Props) {
                     className='stroke-1 stroke-primary-white dark:stroke-primary-gray-700'
                   />
                   {showValues && !checkIfNullOrUndefined(d.value) ? (
-                    <foreignObject
-                      key={i}
-                      y={0}
-                      x={0}
-                      width={barWidth}
-                      height={barHeight}
-                    >
+                    <foreignObject key={i} y={0} x={0} width={barWidth} height={barHeight}>
                       <div className='flex flex-col justify-center items-center h-inherit p-1'>
                         <p
                           className={cn(

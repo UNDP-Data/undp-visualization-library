@@ -82,21 +82,8 @@ export const Colors = {
     },
     sequentialColors: {
       negativeColorsx04: ['#F6B666', '#EB8033', '#D64513', '#A71C04'],
-      negativeColorsx05: [
-        '#FBD68A',
-        '#F39E4B',
-        '#E16424',
-        '#C12705',
-        '#850E02',
-      ],
-      negativeColorsx06: [
-        '#FFF4AC',
-        '#F7BD6D',
-        '#EC8234',
-        '#D54211',
-        '#A01903',
-        '#650000',
-      ],
+      negativeColorsx05: ['#FBD68A', '#F39E4B', '#E16424', '#C12705', '#850E02'],
+      negativeColorsx06: ['#FFF4AC', '#F7BD6D', '#EC8234', '#D54211', '#A01903', '#650000'],
       negativeColorsx07: [
         '#FFF4AC',
         '#F8C678',
@@ -141,21 +128,8 @@ export const Colors = {
       ],
 
       positiveColorsx04: ['#BADA81', '#7FC45F', '#58A85A', '#308C56'],
-      positiveColorsx05: [
-        '#DDE797',
-        '#9FD071',
-        '#6CB65D',
-        '#429858',
-        '#187B54',
-      ],
-      positiveColorsx06: [
-        '#FFF4AC',
-        '#C1DD85',
-        '#81C55F',
-        '#56A75A',
-        '#2C8956',
-        '#006A51',
-      ],
+      positiveColorsx05: ['#DDE797', '#9FD071', '#6CB65D', '#429858', '#187B54'],
+      positiveColorsx06: ['#FFF4AC', '#C1DD85', '#81C55F', '#56A75A', '#2C8956', '#006A51'],
       positiveColorsx07: [
         '#FFF4AC',
         '#CBE18C',
@@ -201,14 +175,7 @@ export const Colors = {
 
       neutralColorsx04: ['#FFF4AC', '#5FCDA1', '#0091A9', '#005396'],
       neutralColorsx05: ['#FFF4AC', '#7BD4A3', '#00A5A1', '#006CB3', '#003F80'],
-      neutralColorsx06: [
-        '#FFF4AC',
-        '#98DBA5',
-        '#16BB9C',
-        '#008FA9',
-        '#0063A8',
-        '#003F80',
-      ],
+      neutralColorsx06: ['#FFF4AC', '#98DBA5', '#16BB9C', '#008FA9', '#0063A8', '#003F80'],
       neutralColorsx07: [
         '#FFF4AC',
         '#AADFA6',
@@ -255,23 +222,8 @@ export const Colors = {
     divergentColors: {
       colorsx04: ['#d9382d', '#eea57d', '#89bfdc', '#347cbc'],
       colorsx05: ['#d9382d', '#eea57d', '#ffffbf', '#89bfdc', '#347cbc'],
-      colorsx06: [
-        '#d9382d',
-        '#e88666',
-        '#f6d39e',
-        '#bae0e1',
-        '#70a8cc',
-        '#347cbc',
-      ],
-      colorsx07: [
-        '#d9382d',
-        '#e88666',
-        '#f6d39e',
-        '#ffffbf',
-        '#bae0e1',
-        '#70a8cc',
-        '#347cbc',
-      ],
+      colorsx06: ['#d9382d', '#e88666', '#f6d39e', '#bae0e1', '#70a8cc', '#347cbc'],
+      colorsx07: ['#d9382d', '#e88666', '#f6d39e', '#ffffbf', '#bae0e1', '#70a8cc', '#347cbc'],
       colorsx08: [
         '#d9382d',
         '#e47559',
@@ -384,21 +336,8 @@ export const Colors = {
     },
     sequentialColors: {
       negativeColorsx04: ['#A71C04', '#D64513', '#EB8033', '#F6B666'],
-      negativeColorsx05: [
-        '#850E02',
-        '#C12705',
-        '#E16424',
-        '#F39E4B',
-        '#FBD68A',
-      ],
-      negativeColorsx06: [
-        '#650000',
-        '#A01903',
-        '#D54211',
-        '#EC8234',
-        '#F7BD6D',
-        '#FFF4AC',
-      ],
+      negativeColorsx05: ['#850E02', '#C12705', '#E16424', '#F39E4B', '#FBD68A'],
+      negativeColorsx06: ['#650000', '#A01903', '#D54211', '#EC8234', '#F7BD6D', '#FFF4AC'],
       negativeColorsx07: [
         '#650000',
         '#961503',
@@ -443,21 +382,8 @@ export const Colors = {
       ],
 
       positiveColorsx04: ['#308C56', '#58A85A', '#7FC45F', '#BADA81'],
-      positiveColorsx05: [
-        '#187B54',
-        '#429858',
-        '#6CB65D',
-        '#9FD071',
-        '#DDE797',
-      ],
-      positiveColorsx06: [
-        '#006A51',
-        '#2C8956',
-        '#56A75A',
-        '#81C55F',
-        '#C1DD85',
-        '#FFF4AC',
-      ],
+      positiveColorsx05: ['#187B54', '#429858', '#6CB65D', '#9FD071', '#DDE797'],
+      positiveColorsx06: ['#006A51', '#2C8956', '#56A75A', '#81C55F', '#C1DD85', '#FFF4AC'],
       positiveColorsx07: [
         '#006A51',
         '#248455',
@@ -503,14 +429,7 @@ export const Colors = {
 
       neutralColorsx04: ['#005396', '#0091A9', '#5FCDA1', '#FFF4AC'],
       neutralColorsx05: ['#003F80', '#006CB3', '#00A5A1', '#7BD4A3', '#FFF4AC'],
-      neutralColorsx06: [
-        '#003F80',
-        '#0063A8',
-        '#008FA9',
-        '#16BB9C',
-        '#98DBA5',
-        '#FFF4AC',
-      ],
+      neutralColorsx06: ['#003F80', '#0063A8', '#008FA9', '#16BB9C', '#98DBA5', '#FFF4AC'],
       neutralColorsx07: [
         '#003F80',
         '#005DA1',
@@ -557,23 +476,8 @@ export const Colors = {
     divergentColors: {
       colorsx04: ['#347cbc', '#89bfdc', '#eea57d', '#d9382d'],
       colorsx05: ['#347cbc', '#89bfdc', '#ffffbf', '#eea57d', '#d9382d'],
-      colorsx06: [
-        '#347cbc',
-        '#70a8cc',
-        '#bae0e1',
-        '#f6d39e',
-        '#e88666',
-        '#d9382d',
-      ],
-      colorsx07: [
-        '#347cbc',
-        '#70a8cc',
-        '#bae0e1',
-        '#ffffbf',
-        '#f6d39e',
-        '#e88666',
-        '#d9382d',
-      ],
+      colorsx06: ['#347cbc', '#70a8cc', '#bae0e1', '#f6d39e', '#e88666', '#d9382d'],
+      colorsx07: ['#347cbc', '#70a8cc', '#bae0e1', '#ffffbf', '#f6d39e', '#e88666', '#d9382d'],
       colorsx08: [
         '#347cbc',
         '#5f9dcc',

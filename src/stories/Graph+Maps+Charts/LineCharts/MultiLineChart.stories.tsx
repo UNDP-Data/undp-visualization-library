@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -177,22 +176,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     labels: ['Apples', 'Oranges'],
   },
-  render: ({
-    animateLine,
-    backgroundColor,
-    labels,
-    highlightedLines,
-    lineColors,
-    ...args
-  }) => {
+  render: ({ animateLine, backgroundColor, labels, highlightedLines, lineColors, ...args }) => {
     return (
       <MultiLineChart
         animateLine={
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false'
             ? false
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            : (animateLine as any) === 'true'
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (animateLine as any) === 'true'
               ? true
               : Number(animateLine)
         }
@@ -200,11 +192,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         labels={parseValue(labels, ['Apples', 'Oranges'])}
         highlightedLines={parseValue(highlightedLines)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

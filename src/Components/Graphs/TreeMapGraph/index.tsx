@@ -4,13 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Graph } from './Graph';
 
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
-import {
-  TreeMapDataType,
-  SourcesDataType,
-  Languages,
-  StyleObject,
-  ClassNameObject,
-} from '@/Types';
+import { TreeMapDataType, SourcesDataType, Languages, StyleObject, ClassNameObject } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
@@ -157,9 +151,7 @@ export function TreeMapGraph(props: Props) {
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -177,9 +169,7 @@ export function TreeMapGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -192,9 +182,7 @@ export function TreeMapGraph(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -225,14 +213,12 @@ export function TreeMapGraph(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -242,14 +228,12 @@ export function TreeMapGraph(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {showColorScale &&
-                  data.filter(el => el.color).length !== 0 ? (
+                  {showColorScale && data.filter(el => el.color).length !== 0 ? (
                     <ColorLegendWithMouseOver
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={
-                        (colors as string[] | undefined) ||
-                        Colors[theme].categoricalColors.colors
+                        (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -261,7 +245,7 @@ export function TreeMapGraph(props: Props) {
                       setSelectedColor={setSelectedColor}
                       showNAColor={showNAColor}
                     />
-                    ) : null}
+                  ) : null}
                   <div
                     className='flex flex-col grow justify-center w-full leading-0'
                     ref={graphDiv}
@@ -293,8 +277,7 @@ export function TreeMapGraph(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -313,9 +296,7 @@ export function TreeMapGraph(props: Props) {
                         onSeriesMouseOver={onSeriesMouseOver}
                         onSeriesMouseClick={onSeriesMouseClick}
                         highlightedDataPoints={highlightedDataPoints}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         styles={styles}
                         classNames={classNames}

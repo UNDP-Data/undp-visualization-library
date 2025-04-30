@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -41,8 +40,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          detail: 'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
@@ -67,8 +65,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       control: 'text',
       table: {
         type: {
-          summary:
-            'string | { label: string; suffix?: string; prefix?: string }',
+          summary: 'string | { label: string; suffix?: string; prefix?: string }',
           detail:
             'If the type is an object then the text is the value in the data for the label mentioned in the object',
         },
@@ -124,20 +121,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: '2024 Q4', size: 19 },
     ],
   },
-  render: ({
-    colors, backgroundColor, colorDomain, mainText, ...args 
-  }) => {
+  render: ({ colors, backgroundColor, colorDomain, mainText, ...args }) => {
     return (
       <DonutChart
         colors={parseValue(colors, colors)}
         colorDomain={parseValue(colorDomain)}
         mainText={parseValue(mainText, mainText)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

@@ -11,9 +11,7 @@ function getDescendantProp(data: any, desc: string) {
   const mexp = new Mexp();
   renderer.link = ({ href, title, text }) => {
     const target = href.startsWith('/') ? '_self' : '_blank';
-    return `<a href="${href}" target="${target}" title="${
-      title || ''
-    }">${text}</a>`;
+    return `<a href="${href}" target="${target}" title="${title || ''}">${text}</a>`;
   };
 
   Handlebars.registerHelper('formatNumber', value => {

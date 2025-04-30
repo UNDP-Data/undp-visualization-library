@@ -84,7 +84,7 @@ interface Props {
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
   /** Map projection type */
-  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -204,9 +204,7 @@ export function AnimatedDotDensityMap(props: Props) {
 
   const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
-    uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat, new Date()).getTime(),
-    ),
+    uniqBy(data, d => d.date).map(d => parse(`${d.date}`, dateFormat, new Date()).getTime()),
     (a, b) => ascending(a, b),
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
@@ -244,9 +242,7 @@ export function AnimatedDotDensityMap(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -259,9 +255,7 @@ export function AnimatedDotDensityMap(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -292,14 +286,12 @@ export function AnimatedDotDensityMap(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -311,9 +303,7 @@ export function AnimatedDotDensityMap(props: Props) {
                   setPlay(!play);
                 }}
                 className='p-0 border-0 cursor-pointer bg-transparent'
-                aria-label={
-                  play ? 'Click to pause animation' : 'Click to play animation'
-                }
+                aria-label={play ? 'Click to pause animation' : 'Click to play animation'}
               >
                 {play ? <Pause /> : <Play />}
               </button>
@@ -341,8 +331,17 @@ export function AnimatedDotDensityMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
+                  mapData={
+                    showAntarctica
+                      ? mapShape
+                      : {
+                          ...mapShape,
+                          features: mapShape.features.filter(
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (el: any) => el.properties.NAME !== 'Antarctica',
+                          ),
+                        }
+                  }
                   colorDomain={
                     data.filter(el => el.color).length === 0
                       ? []
@@ -371,8 +370,7 @@ export function AnimatedDotDensityMap(props: Props) {
                       ? colors
                         ? [colors as string]
                         : [Colors.primaryColors['blue-600']]
-                      : (colors as string[] | undefined) ||
-                        Colors[theme].categoricalColors.colors
+                      : (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                   }
                   colorLegendTitle={colorLegendTitle}
                   radius={radius}

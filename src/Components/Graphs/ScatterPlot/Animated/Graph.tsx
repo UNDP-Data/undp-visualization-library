@@ -138,10 +138,7 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForScatterPlot(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForScatterPlot(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values: (
@@ -172,14 +169,14 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-        .domain([
-          0,
-          checkIfNullOrUndefined(maxRadiusValue)
-            ? (maxBy(data, 'radius')?.radius as number)
-            : (maxRadiusValue as number),
-        ])
-        .range([0.25, radius])
-        .nice()
+          .domain([
+            0,
+            checkIfNullOrUndefined(maxRadiusValue)
+              ? (maxBy(data, 'radius')?.radius as number)
+              : (maxRadiusValue as number),
+          ])
+          .range([0.25, radius])
+          .nice()
       : undefined;
 
   const xMinVal = checkIfNullOrUndefined(minXValue)
@@ -192,10 +189,7 @@ export function Graph(props: Props) {
       ? (maxBy(data, 'x')?.x as number)
       : 0
     : (maxXValue as number);
-  const x = scaleLinear()
-    .domain([xMinVal, xMaxVal])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinVal, xMaxVal]).range([0, graphWidth]).nice();
   const yMinVal = checkIfNullOrUndefined(minYValue)
     ? (minBy(data, 'y')?.y as number) > 0
       ? 0
@@ -206,10 +200,7 @@ export function Graph(props: Props) {
       ? (maxBy(data, 'y')?.y as number)
       : 0
     : (maxYValue as number);
-  const y = scaleLinear()
-    .domain([yMinVal, yMaxVal])
-    .range([graphHeight, 0])
-    .nice();
+  const y = scaleLinear().domain([yMinVal, yMaxVal]).range([graphHeight, 0]).nice();
   const xTicks = x.ticks(noOfXTicks);
   const yTicks = y.ticks(noOfYTicks);
   const voronoiDiagram = Delaunay.from(
@@ -218,12 +209,7 @@ export function Graph(props: Props) {
     ),
     d => x(d.x as number),
     d => y(d.y as number),
-  ).voronoi([
-    0,
-    0,
-    graphWidth < 0 ? 0 : graphWidth,
-    graphHeight < 0 ? 0 : graphHeight,
-  ]);
+  ).voronoi([0, 0, graphWidth < 0 ? 0 : graphWidth, graphHeight < 0 ? 0 : graphHeight]);
   return (
     <>
       <svg
@@ -240,11 +226,7 @@ export function Graph(props: Props) {
             scaleX={x}
             scaleY={y}
           />
-          <CustomArea
-            areaSettings={customHighlightAreaSettings}
-            scaleX={x}
-            scaleY={y}
-          />
+          <CustomArea areaSettings={customHighlightAreaSettings} scaleX={x} scaleY={y} />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}
@@ -270,11 +252,7 @@ export function Graph(props: Props) {
               y2={y(yMinVal < 0 ? 0 : yMinVal)}
               x1={0}
               x2={graphWidth}
-              label={numberFormattingFunction(
-                yMinVal < 0 ? 0 : yMinVal,
-                yPrefix,
-                ySuffix,
-              )}
+              label={numberFormattingFunction(yMinVal < 0 ? 0 : yMinVal, yPrefix, ySuffix)}
               labelPos={{
                 x: 0,
                 y: y(yMinVal < 0 ? 0 : yMinVal),
@@ -323,11 +301,7 @@ export function Graph(props: Props) {
               x2={x(xMinVal < 0 ? 0 : xMinVal)}
               y1={0}
               y2={graphHeight}
-              label={numberFormattingFunction(
-                xMinVal < 0 ? 0 : xMinVal,
-                xPrefix,
-                xSuffix,
-              )}
+              label={numberFormattingFunction(xMinVal < 0 ? 0 : xMinVal, xPrefix, xSuffix)}
               labelPos={{
                 x: x(xMinVal < 0 ? 0 : xMinVal),
                 y: graphHeight,
@@ -359,7 +333,9 @@ export function Graph(props: Props) {
               return (
                 <g key={i}>
                   <path
-                    d={voronoiDiagram.renderCell(groupedData[indx].values.findIndex(el => el.id === d.id))}
+                    d={voronoiDiagram.renderCell(
+                      groupedData[indx].values.findIndex(el => el.id === d.id),
+                    )}
                     className='opacity-0'
                     onMouseEnter={event => {
                       setMouseOverData(d);
@@ -384,10 +360,7 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                        resetSelectionOnDoubleClick
-                        ) {
+                        if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick?.(undefined);
                         } else {
@@ -398,7 +371,8 @@ export function Graph(props: Props) {
                     }}
                   />
                 </g>
-              );})}
+              );
+            })}
             {groupedData[indx].values.map((d, i) => {
               return (
                 <g key={i}>
@@ -406,8 +380,7 @@ export function Graph(props: Props) {
                     opacity={
                       selectedColor
                         ? d.color
-                          ? colors[colorDomain.indexOf(`${d.color}`)] ===
-                            selectedColor
+                          ? colors[colorDomain.indexOf(`${d.color}`)] === selectedColor
                             ? 1
                             : 0.3
                           : 0.3
@@ -444,10 +417,7 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                          resetSelectionOnDoubleClick
-                        ) {
+                        if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick?.(undefined);
                         } else {
@@ -479,8 +449,7 @@ export function Graph(props: Props) {
                         cx: x(d.x || 0),
                         cy: y(d.y || 0),
                         r:
-                          checkIfNullOrUndefined(d.x) ||
-                          checkIfNullOrUndefined(d.y)
+                          checkIfNullOrUndefined(d.x) || checkIfNullOrUndefined(d.y)
                             ? 0
                             : !radiusScale
                               ? radius
@@ -490,10 +459,7 @@ export function Graph(props: Props) {
                     />
                     {showLabels && !checkIfNullOrUndefined(d.label) ? (
                       <motion.text
-                        className={cn(
-                          'graph-value text-sm',
-                          classNames?.graphObjectValues,
-                        )}
+                        className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                         style={{
                           fill:
                             labelColor ||
@@ -512,54 +478,42 @@ export function Graph(props: Props) {
                             ? x(d.x || 0) + radius
                             : x(d.x || 0) + radiusScale(d.radius || 0),
                           opacity:
-                            checkIfNullOrUndefined(d.x) ||
-                            checkIfNullOrUndefined(d.y)
-                              ? 0
-                              : 1,
+                            checkIfNullOrUndefined(d.x) || checkIfNullOrUndefined(d.y) ? 0 : 1,
                         }}
                         transition={{ duration: 0.5 }}
                       >
                         {d.label}
                       </motion.text>
-                    ) : highlightedDataPoints.length !== 0 &&
-                      !checkIfNullOrUndefined(d.label) ? (
-                        highlightedDataPoints.indexOf(
-                        d.label as string | number,
-                        ) !== -1 ? (
-                          <motion.text
-                            className={cn(
-                              'graph-value text-sm',
-                              classNames?.graphObjectValues,
-                            )}
-                            style={{
-                              fill:
+                    ) : highlightedDataPoints.length !== 0 && !checkIfNullOrUndefined(d.label) ? (
+                      highlightedDataPoints.indexOf(d.label as string | number) !== -1 ? (
+                        <motion.text
+                          className={cn('graph-value text-sm', classNames?.graphObjectValues)}
+                          style={{
+                            fill:
                               labelColor ||
                               (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
                                   ? Colors.gray
                                   : colors[colorDomain.indexOf(`${d.color}`)]),
-                              ...(styles?.graphObjectValues || {}),
-                            }}
-                            dy='0.33em'
-                            dx={3}
-                            animate={{
-                              attrY: y(d.y || 0),
-                              attrX: !radiusScale
-                                ? x(d.x || 0) + radius
-                                : x(d.x || 0) + radiusScale(d.radius || 0),
-                              opacity:
-                              checkIfNullOrUndefined(d.x) ||
-                              checkIfNullOrUndefined(d.y)
-                                ? 0
-                                : 1,
-                            }}
-                            transition={{ duration: 0.5 }}
-                          >
-                            {d.label}
-                          </motion.text>
-                          ) : null
-                      ) : null}
+                            ...(styles?.graphObjectValues || {}),
+                          }}
+                          dy='0.33em'
+                          dx={3}
+                          animate={{
+                            attrY: y(d.y || 0),
+                            attrX: !radiusScale
+                              ? x(d.x || 0) + radius
+                              : x(d.x || 0) + radiusScale(d.radius || 0),
+                            opacity:
+                              checkIfNullOrUndefined(d.x) || checkIfNullOrUndefined(d.y) ? 0 : 1,
+                          }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {d.label}
+                        </motion.text>
+                      ) : null
+                    ) : null}
                   </motion.g>
                 </g>
               );
@@ -573,11 +527,7 @@ export function Graph(props: Props) {
               x={x(el.value as number)}
               y1={0}
               y2={graphHeight}
-              textSide={
-                x(el.value as number) > graphWidth * 0.75 || rtl
-                  ? 'left'
-                  : 'right'
-              }
+              textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
               classNames={el.classNames}
               styles={el.styles}
             />
@@ -609,30 +559,25 @@ export function Graph(props: Props) {
                   x: d.xCoordinate ? x(d.xCoordinate as number) : 0,
                   y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
                 },
-                checkIfNullOrUndefined(d.connectorRadius)
-                  ? 3.5
-                  : (d.connectorRadius as number),
+                checkIfNullOrUndefined(d.connectorRadius) ? 3.5 : (d.connectorRadius as number),
               );
               const connectorSettings = d.showConnector
                 ? {
-                  y1: endPoints.y,
-                  x1: endPoints.x,
-                  y2: d.yCoordinate
-                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                    : 0 + (d.yOffset || 0),
-                  x2: d.xCoordinate
-                    ? x(d.xCoordinate as number) + (d.xOffset || 0)
-                    : 0 + (d.xOffset || 0),
-                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                  cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
-                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                    ? 3.5
-                    : (d.connectorRadius as number),
-                  strokeWidth:
-                      d.showConnector === true
-                        ? 2
-                        : Math.min(d.showConnector || 0, 1),
-                }
+                    y1: endPoints.y,
+                    x1: endPoints.x,
+                    y2: d.yCoordinate
+                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                      : 0 + (d.yOffset || 0),
+                    x2: d.xCoordinate
+                      ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                      : 0 + (d.xOffset || 0),
+                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                    cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
+                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                      ? 3.5
+                      : (d.connectorRadius as number),
+                    strokeWidth: d.showConnector === true ? 2 : Math.min(d.showConnector || 0, 1),
+                  }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate

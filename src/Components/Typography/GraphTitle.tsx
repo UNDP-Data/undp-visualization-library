@@ -10,13 +10,10 @@ interface Props {
 }
 
 export function GraphTitle(props: Props) {
-  const {
-    text, isDashboard, style, className, 
-  } = props;
+  const { text, isDashboard, style, className } = props;
   if (extractInnerString(text)) {
     return (
       <div
-         
         dangerouslySetInnerHTML={{ __html: extractInnerString(text) as string }}
         className={className}
       />
@@ -26,10 +23,7 @@ export function GraphTitle(props: Props) {
     return (
       <H5
         marginBottom='base'
-        className={cn(
-          'font-bold pb-3 text-primary-black dark:text-primary-gray-100',
-          className,
-        )}
+        className={cn('font-bold pb-3 text-primary-black dark:text-primary-gray-100', className)}
         aria-label='Dashboard title'
         style={style}
       >

@@ -81,26 +81,12 @@ export function Graph(props: Props) {
   };
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minY = Math.min(
-    minBy(data, 'y1')?.y1 as number,
-    minBy(data, 'y2')?.y2 as number,
-  );
-  const maxY = Math.max(
-    maxBy(data, 'y1')?.y1 as number,
-    maxBy(data, 'y2')?.y2 as number,
-  );
+  const minY = Math.min(minBy(data, 'y1')?.y1 as number, minBy(data, 'y2')?.y2 as number);
+  const maxY = Math.max(maxBy(data, 'y1')?.y1 as number, maxBy(data, 'y2')?.y2 as number);
   const y = scaleLinear()
     .domain([
-      checkIfNullOrUndefined(minValue)
-        ? minY > 0
-          ? 0
-          : minY
-        : (minValue as number),
-      checkIfNullOrUndefined(maxValue)
-        ? maxY > 0
-          ? maxY
-          : 0
-        : (maxValue as number),
+      checkIfNullOrUndefined(minValue) ? (minY > 0 ? 0 : minY) : (minValue as number),
+      checkIfNullOrUndefined(maxValue) ? (maxY > 0 ? maxY : 0) : (maxValue as number),
     ])
     .range([graphHeight, 0])
     .nice();
@@ -169,8 +155,7 @@ export function Graph(props: Props) {
                 opacity={
                   selectedColor
                     ? d.color
-                      ? colors[colorDomain.indexOf(`${d.color}`)] ===
-                        selectedColor
+                      ? colors[colorDomain.indexOf(`${d.color}`)] === selectedColor
                         ? 1
                         : 0.3
                       : 0.3
@@ -207,10 +192,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {

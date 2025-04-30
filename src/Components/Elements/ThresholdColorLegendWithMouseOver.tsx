@@ -14,19 +14,10 @@ interface Props {
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
-  const {
-    colorLegendTitle,
-    colorDomain,
-    colors,
-    setSelectedColor,
-    width,
-    naColor,
-    className,
-  } = props;
+  const { colorLegendTitle, colorDomain, colors, setSelectedColor, width, naColor, className } =
+    props;
 
-  const [hoveredColor, setHoveredColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [hoveredColor, setHoveredColor] = useState<string | undefined>(undefined);
   const mainColorWidth = naColor ? 320 : 360;
   return (
     <div
@@ -39,12 +30,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
           {colorLegendTitle}
         </P>
       ) : null}
-      <svg
-        width='100%'
-        viewBox='0 0 360 30'
-        style={{ maxWidth: '360px' }}
-        direction='ltr'
-      >
+      <svg width='100%' viewBox='0 0 360 30' style={{ maxWidth: '360px' }} direction='ltr'>
         <g>
           {colorDomain.map((d, i) => (
             <g

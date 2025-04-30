@@ -118,40 +118,34 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForDumbbellChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForDumbbellChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values:
         sortParameter !== undefined
           ? sortParameter === 'diff'
             ? sortBy(values, d =>
-              checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
-                checkIfNullOrUndefined(d.x[0])
-                ? -Infinity
-                : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            }))
+                checkIfNullOrUndefined(d.x[d.x.length - 1]) || checkIfNullOrUndefined(d.x[0])
+                  ? -Infinity
+                  : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
+              ).map((el, i) => ({
+                ...el,
+                id: `${i}`,
+              }))
             : sortBy(values, d =>
-              checkIfNullOrUndefined(d.x[sortParameter])
-                ? -Infinity
-                : d.x[sortParameter],
-            ).map((el, i) => ({
-              ...el,
-              id: `${i}`,
-            }))
+                checkIfNullOrUndefined(d.x[sortParameter]) ? -Infinity : d.x[sortParameter],
+              ).map((el, i) => ({
+                ...el,
+                id: `${i}`,
+              }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as DumbbellChartWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            })),
     }),
   );
 
@@ -181,10 +175,7 @@ export function Graph(props: Props) {
       ? 0
       : Math.min(...data.map(d => min(d.x) || 0));
 
-  const y = scaleLinear()
-    .domain([yMinValue, yMaxValue])
-    .range([graphHeight, 0])
-    .nice();
+  const y = scaleLinear().domain([yMinValue, yMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
     .range([
@@ -230,11 +221,7 @@ export function Graph(props: Props) {
             y2={y(yMinValue < 0 ? 0 : yMinValue)}
             x1={0 - leftMargin}
             x2={graphWidth + margin.right}
-            label={numberFormattingFunction(
-              yMinValue < 0 ? 0 : yMinValue,
-              prefix,
-              suffix,
-            )}
+            label={numberFormattingFunction(yMinValue < 0 ? 0 : yMinValue, prefix, suffix)}
             labelPos={{
               x: 0 - leftMargin,
               y: yMaxValue < 0 ? 0 : y(yMinValue < 0 ? 0 : yMinValue),
@@ -278,10 +265,7 @@ export function Graph(props: Props) {
           />
           <AnimatePresence>
             {groupedData[indx].values.map((d, i) => (
-              <motion.g
-                className='undp-viz-low-opacity undp-viz-g-with-hover'
-                key={d.label}
-              >
+              <motion.g className='undp-viz-low-opacity undp-viz-g-with-hover' key={d.label}>
                 {showLabels ? (
                   <motion.text
                     style={{
@@ -313,13 +297,10 @@ export function Graph(props: Props) {
                     classNames?.dataConnectors,
                   )}
                   markerEnd={
-                    arrowConnector && d.x.indexOf(min(d.x) as number) === 0
-                      ? 'url(#arrow)'
-                      : ''
+                    arrowConnector && d.x.indexOf(min(d.x) as number) === 0 ? 'url(#arrow)' : ''
                   }
                   markerStart={
-                    arrowConnector &&
-                    d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                    arrowConnector && d.x.indexOf(min(d.x) as number) === d.x.length - 1
                       ? 'url(#arrow)'
                       : ''
                   }
@@ -334,13 +315,7 @@ export function Graph(props: Props) {
                 {d.x.map((el, j) => (
                   <g
                     key={j}
-                    opacity={
-                      selectedColor
-                        ? dotColors[j] === selectedColor
-                          ? 1
-                          : 0.3
-                        : 1
-                    }
+                    opacity={selectedColor ? (dotColors[j] === selectedColor ? 1 : 0.3) : 1}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, xIndex: j });
@@ -360,8 +335,7 @@ export function Graph(props: Props) {
                           onSeriesMouseClick?.(undefined);
                         } else {
                           setMouseClickData({ ...d, xIndex: j });
-                          if (onSeriesMouseClick)
-                            onSeriesMouseClick({ ...d, xIndex: j });
+                          if (onSeriesMouseClick) onSeriesMouseClick({ ...d, xIndex: j });
                         }
                       }
                     }}

@@ -12,16 +12,7 @@ interface Props {
 }
 
 export function XAxesLabels(props: Props) {
-  const {
-    value,
-    y,
-    x,
-    style,
-    className,
-    width,
-    height,
-    alignment = 'top',
-  } = props;
+  const { value, y, x, style, className, width, height, alignment = 'top' } = props;
   return (
     <foreignObject y={y} x={x} width={width} height={height}>
       <div

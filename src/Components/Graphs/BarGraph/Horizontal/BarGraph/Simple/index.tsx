@@ -135,9 +135,7 @@ export function HorizontalBarGraph(props: Props) {
   } = props;
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -156,9 +154,7 @@ export function HorizontalBarGraph(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -171,17 +167,13 @@ export function HorizontalBarGraph(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a bar chart. ${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a bar chart. ${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -204,14 +196,12 @@ export function HorizontalBarGraph(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -221,14 +211,12 @@ export function HorizontalBarGraph(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {showColorScale &&
-                  data.filter(el => el.color).length !== 0 ? (
+                  {showColorScale && data.filter(el => el.color).length !== 0 ? (
                     <ColorLegendWithMouseOver
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={
-                        (colors as string[] | undefined) ||
-                        Colors[theme].categoricalColors.colors
+                        (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                       }
                       colorDomain={
                         colorDomain ||
@@ -240,7 +228,7 @@ export function HorizontalBarGraph(props: Props) {
                       setSelectedColor={setSelectedColor}
                       showNAColor={showNAColor}
                     />
-                    ) : null}
+                  ) : null}
                   <div
                     className='flex grow flex-col justify-center w-full leading-0'
                     ref={graphDiv}
@@ -250,18 +238,22 @@ export function HorizontalBarGraph(props: Props) {
                       <Graph
                         data={
                           sortData === 'asc'
-                            ? sortBy(data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d), d => d.size).filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
-                            )
+                            ? sortBy(
+                                data.filter(d => (filterNA ? !checkIfNullOrUndefined(d.size) : d)),
+                                d => d.size,
+                              ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                             : sortData === 'desc'
-                              ? sortBy(data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d), d => d.size)
-                                .reverse()
-                                .filter((_d, i) =>
-                                  maxNumberOfBars ? i < maxNumberOfBars : true,
+                              ? sortBy(
+                                  data.filter(d =>
+                                    filterNA ? !checkIfNullOrUndefined(d.size) : d,
+                                  ),
+                                  d => d.size,
                                 )
-                              : data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d).filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
+                                  .reverse()
+                                  .filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
+                              : data
+                                  .filter(d => (filterNA ? !checkIfNullOrUndefined(d.size) : d))
+                                  .filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                         }
                         barColor={
                           data.filter(el => el.color).length === 0
@@ -287,8 +279,7 @@ export function HorizontalBarGraph(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -316,9 +307,7 @@ export function HorizontalBarGraph(props: Props) {
                         rtl={language === 'he' || language === 'ar'}
                         maxBarThickness={maxBarThickness}
                         minBarThickness={minBarThickness}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         barAxisTitle={barAxisTitle}
                         noOfTicks={noOfTicks}

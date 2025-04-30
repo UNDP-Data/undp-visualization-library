@@ -47,9 +47,7 @@ interface Props {
 
 export function SingleGraphDashboardFromConfig(props: Props) {
   const { config } = props;
-  const [configSettings, setConfigSettings] = useState<
-    ConfigObject | undefined
-  >(undefined);
+  const [configSettings, setConfigSettings] = useState<ConfigObject | undefined>(undefined);
 
   useEffect(() => {
     if (typeof config === 'string') {
@@ -67,10 +65,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
         <Spinner />
       </div>
     );
-  const validationResult = validateConfigSchema(
-    configSettings,
-    'singleGraphDashboard',
-  );
+  const validationResult = validateConfigSchema(configSettings, 'singleGraphDashboard');
   if (!validationResult.isValid)
     return (
       <P

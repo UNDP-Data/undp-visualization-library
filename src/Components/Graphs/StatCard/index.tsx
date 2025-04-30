@@ -3,12 +3,7 @@ import { H3 } from '@undp/design-system-react';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
-import {
-  ClassNameObject,
-  Languages,
-  SourcesDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, Languages, SourcesDataType, StyleObject } from '@/Types';
 
 interface Props {
   // Titles, Labels, and Sources
@@ -98,16 +93,12 @@ export function BasicStatCard(props: Props) {
         }flex flex-col w-full h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a statistic card.${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a statistic card.${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -148,11 +139,7 @@ export function BasicStatCard(props: Props) {
                     : language === 'he' || language === 'ar'
                       ? 'text-right'
                       : 'text-left'
-                } ${
-                  textBackground
-                    ? 'text-primary-black dark:text-primary-white'
-                    : 'transparent'
-                }`}
+                } ${textBackground ? 'text-primary-black dark:text-primary-white' : 'transparent'}`}
                 style={{
                   fontSize: headingFontSize,
                   letterSpacing: '0.05rem',

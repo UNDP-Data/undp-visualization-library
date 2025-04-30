@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -132,19 +131,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: [2, 4, 6, 8],
   },
-  render: ({
-    colors, colorDomain, backgroundColor, ...args 
-  }) => {
+  render: ({ colors, colorDomain, backgroundColor, ...args }) => {
     return (
       <HeatMap
         colors={parseValue(colors, colors)}
         colorDomain={parseValue(colorDomain, [2, 4, 6, 8])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

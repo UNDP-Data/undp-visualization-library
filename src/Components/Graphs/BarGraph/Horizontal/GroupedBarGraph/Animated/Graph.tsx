@@ -111,10 +111,7 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values: (
@@ -145,42 +142,21 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    ) < 0
+    : Math.max(...data.map(d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0)) < 0
       ? 0
-      : Math.max(
-        ...data.map(
-          d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      : Math.max(...data.map(d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(
-      ...data.map(
-        d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    ) >= 0
+    : Math.min(...data.map(d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0)) >= 0
       ? 0
-      : Math.min(
-        ...data.map(
-          d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      : Math.min(...data.map(d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
     .range([
       0,
-      maxBarThickness
-        ? Math.min(graphWidth, maxBarThickness * uniqLabels.length)
-        : graphHeight,
+      maxBarThickness ? Math.min(graphWidth, maxBarThickness * uniqLabels.length) : graphHeight,
     ])
     .paddingInner(barPadding);
   const subBarScale = scaleBand()
@@ -232,13 +208,7 @@ export function Graph(props: Props) {
                     <motion.g
                       className='undp-viz-g-with-hover'
                       key={j}
-                      opacity={
-                        selectedColor
-                          ? barColors[j] === selectedColor
-                            ? 1
-                            : 0.3
-                          : 0.85
-                      }
+                      opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 0.85}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onMouseEnter={(event: any) => {
                         setMouseOverData({ ...d, sizeIndex: j });
@@ -269,12 +239,10 @@ export function Graph(props: Props) {
                             resetSelectionOnDoubleClick
                           ) {
                             setMouseClickData(undefined);
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick(undefined);
+                            if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                           } else {
                             setMouseClickData({ ...d, sizeIndex: j });
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick({ ...d, sizeIndex: j });
+                            if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                           }
                         }
                       }}
@@ -296,23 +264,13 @@ export function Graph(props: Props) {
                       />
                       {showValues ? (
                         <motion.text
-                          y={
-                            (subBarScale(`${j}`) as number) +
-                            subBarScale.bandwidth() / 2
-                          }
+                          y={(subBarScale(`${j}`) as number) + subBarScale.bandwidth() / 2}
                           style={{
                             fill: valueColor || barColors[j],
-                            textAnchor: el
-                              ? el < 0
-                                ? 'end'
-                                : 'start'
-                              : 'start',
+                            textAnchor: el ? (el < 0 ? 'end' : 'start') : 'start',
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          className={cn(
-                            'graph-value text-sm',
-                            classNames?.graphObjectValues,
-                          )}
+                          className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                           dx={el ? (el < 0 ? -5 : 5) : 5}
                           dy='0.33em'
                           animate={{ attrX: x(el || 0) }}
@@ -360,11 +318,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

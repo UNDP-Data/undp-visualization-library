@@ -51,21 +51,15 @@ export function transformDataForGraph(
   )
     return data;
   if (!data) return 'Cannot fetch data';
-  if (graph === 'dataTable' || graph === 'dataCards' || data.length === 0)
-    return data;
+  if (graph === 'dataTable' || graph === 'dataCards' || data.length === 0) return data;
   if (!config) {
     console.error('Your data configuration is not accurate');
     return 'No graph configuration is provided';
   }
-  const dataConfigValidity = checkDataConfigValidity(
-    config,
-    graph,
-    Object.keys(data[0]),
-  );
+  const dataConfigValidity = checkDataConfigValidity(config, graph, Object.keys(data[0]));
   if (dataConfigValidity.isValid) {
     const chartConfig =
-      ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)]
-        .configuration;
+      ChartConfiguration[ChartConfiguration.findIndex(d => d.chartID === graph)].configuration;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataFormatted = data.map((d: any) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,30 +67,16 @@ export function transformDataForGraph(
       config
         .filter(el => el.columnId)
         .forEach(el => {
-          if (
-            chartConfig[chartConfig.findIndex(k => k.id === el.chartConfigId)]
-              .multiple
-          ) {
-            obj[
-              chartConfig[
-                chartConfig.findIndex(k => k.id === el.chartConfigId)
-              ].id
-            ] = [];
+          if (chartConfig[chartConfig.findIndex(k => k.id === el.chartConfigId)].multiple) {
+            obj[chartConfig[chartConfig.findIndex(k => k.id === el.chartConfigId)].id] = [];
             (el.columnId as string[]).forEach(l => {
-              obj[
-                chartConfig[
-                  chartConfig.findIndex(k => k.id === el.chartConfigId)
-                ].id
-              ].push(checkIfNullOrUndefined(d[l]) ? null : d[l]);
+              obj[chartConfig[chartConfig.findIndex(k => k.id === el.chartConfigId)].id].push(
+                checkIfNullOrUndefined(d[l]) ? null : d[l],
+              );
             });
           } else {
-            obj[
-              chartConfig[
-                chartConfig.findIndex(k => k.id === el.chartConfigId)
-              ].id
-            ] = checkIfNullOrUndefined(d[el.columnId as string])
-              ? null
-              : d[el.columnId as string];
+            obj[chartConfig[chartConfig.findIndex(k => k.id === el.chartConfigId)].id] =
+              checkIfNullOrUndefined(d[el.columnId as string]) ? null : d[el.columnId as string];
           }
           obj[`${el.chartConfigId}Columns`] = el.columnId;
         });

@@ -1,12 +1,5 @@
- 
 import { memo, useCallback, useMemo, useEffect, useState } from 'react';
-import {
-  forceCollide,
-  forceManyBody,
-  forceSimulation,
-  forceX,
-  forceY,
-} from 'd3-force';
+import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force';
 import orderBy from 'lodash.orderby';
 import { scaleSqrt } from 'd3-scale';
 import maxBy from 'lodash.maxby';
@@ -95,9 +88,7 @@ export const Graph = memo((props: Props) => {
   >(undefined);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
-  const [finalData, setFinalData] = useState<
-    TreeMapDataTypeForBubbleChart[] | null
-  >(null);
+  const [finalData, setFinalData] = useState<TreeMapDataTypeForBubbleChart[] | null>(null);
 
   // Memoize expensive calculations
   const margin = useMemo(
@@ -119,24 +110,24 @@ export const Graph = memo((props: Props) => {
       data.filter(d => !checkIfNullOrUndefined(d.size)).length === 0
         ? data
         : orderBy(
-          data.filter(d => !checkIfNullOrUndefined(d.size)),
-          'radius',
-          'asc',
-        ),
+            data.filter(d => !checkIfNullOrUndefined(d.size)),
+            'radius',
+            'asc',
+          ),
     [data],
   );
 
   const radiusScale = useMemo(() => {
     return data.filter(d => d.size === undefined).length !== data.length
       ? scaleSqrt()
-        .domain([
-          0,
-          checkIfNullOrUndefined(maxRadiusValue)
-            ? (maxBy(data, 'size')?.size as number)
-            : (maxRadiusValue as number),
-        ])
-        .range([0.25, radius])
-        .nice()
+          .domain([
+            0,
+            checkIfNullOrUndefined(maxRadiusValue)
+              ? (maxBy(data, 'size')?.size as number)
+              : (maxRadiusValue as number),
+          ])
+          .range([0.25, radius])
+          .nice()
       : undefined;
   }, [data, maxRadiusValue, radius]);
 
@@ -151,9 +142,7 @@ export const Graph = memo((props: Props) => {
         .force(
           'collide',
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          forceCollide((d: any) =>
-            radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1,
-          ),
+          forceCollide((d: any) => (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1)),
         )
         .force('charge', forceManyBody().strength(-15))
         .alphaDecay(0.05)
@@ -168,26 +157,22 @@ export const Graph = memo((props: Props) => {
           const xMinExtent =
             extent(
               dataTemp as TreeMapDataTypeForBubbleChart[],
-              d =>
-                d.x - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+              d => d.x - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
             )[0] || 0;
           const yMinExtent =
             extent(
               dataTemp as TreeMapDataTypeForBubbleChart[],
-              d =>
-                d.y - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+              d => d.y - (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
             )[0] || 0;
           const xMaxExtent =
             extent(
               dataTemp as TreeMapDataTypeForBubbleChart[],
-              d =>
-                d.x + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+              d => d.x + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
             )[1] || 0;
           const yMaxExtent =
             extent(
               dataTemp as TreeMapDataTypeForBubbleChart[],
-              d =>
-                d.y + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
+              d => d.y + (radiusScale ? radiusScale(d.size || 0) + 1 : radius + 1),
             )[1] || 0;
           setViewPortDimensions([
             xMinExtent,
@@ -199,15 +184,7 @@ export const Graph = memo((props: Props) => {
     };
 
     setupSimulation();
-  }, [
-    data,
-    radius,
-    graphHeight,
-    graphWidth,
-    maxRadiusValue,
-    dataOrdered,
-    radiusScale,
-  ]);
+  }, [data, radius, graphHeight, graphWidth, maxRadiusValue, dataOrdered, radiusScale]);
 
   // Memoize event handlers to prevent unnecessary re-renders
   const handleMouseEnter = useCallback(
@@ -311,9 +288,7 @@ export const Graph = memo((props: Props) => {
             {finalData.map((d, i) => {
               const circleColor = getCircleColor(d);
               const opacity = getOpacity(d);
-              const bubbleRadius = radiusScale
-                ? radiusScale(d.size || 0)
-                : radius;
+              const bubbleRadius = radiusScale ? radiusScale(d.size || 0) : radius;
               const showLabel = bubbleRadius > 20 && (showLabels || showValues);
 
               return (
@@ -327,12 +302,7 @@ export const Graph = memo((props: Props) => {
                   onClick={() => handleClick(d)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <circle
-                    cx={0}
-                    cy={0}
-                    r={bubbleRadius}
-                    style={{ fill: circleColor }}
-                  />
+                  <circle cx={0} cy={0} r={bubbleRadius} style={{ fill: circleColor }} />
                   {showLabel && (
                     <foreignObject
                       y={0 - bubbleRadius}
@@ -350,12 +320,7 @@ export const Graph = memo((props: Props) => {
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 12),
-                                Math.max(
-                                  Math.round(
-                                    (bubbleRadius * 12) / `${d.label}`.length,
-                                  ),
-                                  12,
-                                ),
+                                Math.max(Math.round((bubbleRadius * 12) / `${d.label}`.length), 12),
                                 14,
                               )}px`,
                               WebkitLineClamp:

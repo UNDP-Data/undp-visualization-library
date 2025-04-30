@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -121,24 +120,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: '2024 Q4', position: 19 },
     ],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, highlightedDataPoints, backgroundColor, colorDomain, ...args }) => {
     return (
       <BeeSwarmChart
         colors={parseValue(colors, colors)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

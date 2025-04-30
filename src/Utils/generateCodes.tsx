@@ -42,9 +42,7 @@ export function generateEmbedLink(link: string, params: ParamsProps[]) {
       default:
         paramToString = `${d.value}`;
     }
-    queryParams += `&${d.id}=${paramToString
-      .replace(/ /g, '+')
-      .replaceAll("'", '_')}`;
+    queryParams += `&${d.id}=${paramToString.replace(/ /g, '+').replaceAll("'", '_')}`;
   });
   return `${link}?${queryParams}`;
 }

@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -44,8 +43,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          detail: 'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
@@ -174,72 +172,107 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   args: {
     data: [
       {
-        label: 'Item 1', x: 1, y: 3, date: '2020', 
+        label: 'Item 1',
+        x: 1,
+        y: 3,
+        date: '2020',
       },
       {
-        label: 'Item 2', x: 2, y: 8, date: '2020', 
+        label: 'Item 2',
+        x: 2,
+        y: 8,
+        date: '2020',
       },
       {
-        label: 'Item 3', x: 3, y: 11, date: '2020', 
+        label: 'Item 3',
+        x: 3,
+        y: 11,
+        date: '2020',
       },
       {
-        label: 'Item 4', x: 4, y: 19, date: '2020', 
+        label: 'Item 4',
+        x: 4,
+        y: 19,
+        date: '2020',
       },
       {
-        label: 'Item 5', x: 5, y: 3, date: '2020', 
+        label: 'Item 5',
+        x: 5,
+        y: 3,
+        date: '2020',
       },
 
       {
-        label: 'Item 1', x: 6, y: 8, date: '2021', 
+        label: 'Item 1',
+        x: 6,
+        y: 8,
+        date: '2021',
       },
       {
-        label: 'Item 2', x: 7, y: 11, date: '2021', 
+        label: 'Item 2',
+        x: 7,
+        y: 11,
+        date: '2021',
       },
       {
-        label: 'Item 3', x: 8, y: 19, date: '2021', 
+        label: 'Item 3',
+        x: 8,
+        y: 19,
+        date: '2021',
       },
       {
-        label: 'Item 4', x: 9, y: 7, date: '2021', 
+        label: 'Item 4',
+        x: 9,
+        y: 7,
+        date: '2021',
       },
       {
-        label: 'Item 5', x: 10, y: 12, date: '2021', 
+        label: 'Item 5',
+        x: 10,
+        y: 12,
+        date: '2021',
       },
 
       {
-        label: 'Item 1', x: 11, y: 14, date: '2022', 
+        label: 'Item 1',
+        x: 11,
+        y: 14,
+        date: '2022',
       },
       {
-        label: 'Item 2', x: 12, y: 9, date: '2022', 
+        label: 'Item 2',
+        x: 12,
+        y: 9,
+        date: '2022',
       },
       {
-        label: 'Item 3', x: 13, y: 16, date: '2022', 
+        label: 'Item 3',
+        x: 13,
+        y: 16,
+        date: '2022',
       },
       {
-        label: 'Item 4', x: 14, y: 18, date: '2022', 
+        label: 'Item 4',
+        x: 14,
+        y: 18,
+        date: '2022',
       },
       {
-        label: 'Item 5', x: 15, y: 5, date: '2022', 
+        label: 'Item 5',
+        x: 15,
+        y: 5,
+        date: '2022',
       },
     ],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, highlightedDataPoints, backgroundColor, colorDomain, ...args }) => {
     return (
       <AnimatedScatterPlot
         colors={parseValue(colors, colors)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

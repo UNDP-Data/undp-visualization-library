@@ -58,20 +58,17 @@ export function transformDataForAggregation(
         dataObj[el.column] =
           el.aggregationMethod === 'average'
             ? parseFloat(
-              (
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                sum(filteredData.map((j: any) => j[el.column])) /
-                  filteredData.length
-              ).toFixed(2),
-            )
+                (sum(filteredData.map((j: any) => j[el.column])) / filteredData.length).toFixed(2),
+              )
             : el.aggregationMethod === 'max'
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
+              ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                maxBy(filteredData, (j: any) => j[el.column])[el.column]
               : el.aggregationMethod === 'min'
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ? minBy(filteredData, (j: any) => j[el.column])[el.column]
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                : sum(filteredData.map((j: any) => j[el.column]));
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  minBy(filteredData, (j: any) => j[el.column])[el.column]
+                : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  sum(filteredData.map((j: any) => j[el.column]));
       });
       return dataObj;
     });
@@ -96,20 +93,17 @@ export function transformDataForAggregation(
       dataObj[el.column] =
         el.aggregationMethod === 'average'
           ? parseFloat(
-            (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              sum(filteredData.map((j: any) => j[el.column])) /
-                filteredData.length
-            ).toFixed(2),
-          )
+              (sum(filteredData.map((j: any) => j[el.column])) / filteredData.length).toFixed(2),
+            )
           : el.aggregationMethod === 'max'
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ? maxBy(filteredData, (j: any) => j[el.column])[el.column]
+            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              maxBy(filteredData, (j: any) => j[el.column])[el.column]
             : el.aggregationMethod === 'min'
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ? minBy(filteredData, (j: any) => j[el.column])[el.column]
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              : sum(filteredData.map((j: any) => j[el.column]));
+              ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                minBy(filteredData, (j: any) => j[el.column])[el.column]
+              : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                sum(filteredData.map((j: any) => j[el.column]));
     });
     return dataObj;
   });

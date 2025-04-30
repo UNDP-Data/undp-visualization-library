@@ -1,23 +1,12 @@
 import isEqual from 'fast-deep-equal';
 import { scaleLinear, scaleSqrt } from 'd3-scale';
-import {
-  forceCollide,
-  forceManyBody,
-  forceSimulation,
-  forceX,
-  forceY,
-} from 'd3-force';
+import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force';
 import { useEffect, useState } from 'react';
 import maxBy from 'lodash.maxby';
 import orderBy from 'lodash.orderby';
 import { cn, Modal, Spinner } from '@undp/design-system-react';
 
-import {
-  BeeSwarmChartDataType,
-  ClassNameObject,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { BeeSwarmChartDataType, ClassNameObject, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -107,9 +96,7 @@ export function Graph(props: Props) {
   const [mouseOverData, setMouseOverData] = useState<any>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
-  const [finalData, setFinalData] = useState<
-    BeeSwarmChartDataTypeForBubbleChart[] | null
-  >(null);
+  const [finalData, setFinalData] = useState<BeeSwarmChartDataTypeForBubbleChart[] | null>(null);
   const [eventX, setEventX] = useState<number | undefined>(undefined);
   const [eventY, setEventY] = useState<number | undefined>(undefined);
   const margin = {
@@ -125,71 +112,50 @@ export function Graph(props: Props) {
     data.filter(d => !checkIfNullOrUndefined(d.radius)).length === 0
       ? data
       : orderBy(
-        data.filter(d => !checkIfNullOrUndefined(d.radius)),
-        'radius',
-        'desc',
-      );
+          data.filter(d => !checkIfNullOrUndefined(d.radius)),
+          'radius',
+          'desc',
+        );
   const xMaxValue = !checkIfNullOrUndefined(maxPositionValue)
     ? (maxPositionValue as number)
-    : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.position))
-        .map(d => d.position),
-    ) < 0 && !startFromZero
+    : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position)) < 0 &&
+        !startFromZero
       ? 0
-      : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      );
+      : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position));
   const xMinValue = !checkIfNullOrUndefined(minPositionValue)
     ? (minPositionValue as number)
-    : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.position))
-        .map(d => d.position),
-    ) >= 0 && !startFromZero
+    : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position)) >=
+          0 && !startFromZero
       ? 0
-      : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      );
+      : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position));
 
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-        .domain([
-          0,
-          checkIfNullOrUndefined(maxRadiusValue)
-            ? (maxBy(data, 'radius')?.radius as number)
-            : (maxRadiusValue as number),
-        ])
-        .range([0.25, radius])
-        .nice()
+          .domain([
+            0,
+            checkIfNullOrUndefined(maxRadiusValue)
+              ? (maxBy(data, 'radius')?.radius as number)
+              : (maxRadiusValue as number),
+          ])
+          .range([0.25, radius])
+          .nice()
       : undefined;
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   const xTicks = x.ticks(noOfTicks);
 
   useEffect(() => {
     setFinalData(null);
-    const dataTemp = (dataOrdered as BeeSwarmChartDataType[]).filter(
-      d => d.position,
-    );
+    const dataTemp = (dataOrdered as BeeSwarmChartDataType[]).filter(d => d.position);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     forceSimulation(dataTemp as any)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .force('x', forceX((d: any) => x(d.position as number)).strength(5))
       .force('y', forceY(_d => graphHeight / 2).strength(1))
       .force(
         'collide',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        forceCollide((d: any) =>
-          radiusScale ? radiusScale(d.radius || 0) + 1 : radius + 1,
-        ),
+        forceCollide((d: any) => (radiusScale ? radiusScale(d.radius || 0) + 1 : radius + 1)),
       )
       .force('charge', forceManyBody().strength(-15))
       .alphaDecay(0.05)
@@ -219,11 +185,7 @@ export function Graph(props: Props) {
                   x2={x(xMinValue < 0 ? 0 : xMinValue)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  label={numberFormattingFunction(
-                    xMinValue < 0 ? 0 : xMinValue,
-                    prefix,
-                    suffix,
-                  )}
+                  label={numberFormattingFunction(xMinValue < 0 ? 0 : xMinValue, prefix, suffix)}
                   labelPos={{
                     x: x(xMinValue < 0 ? 0 : xMinValue),
                     y: 0 - topMargin,
@@ -266,8 +228,7 @@ export function Graph(props: Props) {
                 opacity={
                   selectedColor
                     ? d.color
-                      ? circleColors[colorDomain.indexOf(d.color)] ===
-                        selectedColor
+                      ? circleColors[colorDomain.indexOf(d.color)] === selectedColor
                         ? 1
                         : 0.3
                       : 0.3
@@ -295,10 +256,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -329,17 +287,12 @@ export function Graph(props: Props) {
                           : circleColors[colorDomain.indexOf(d.color)],
                   }}
                 />
-                {(radiusScale ? radiusScale(d.radius || 0) : radius) > 10 &&
-                showLabels ? (
+                {(radiusScale ? radiusScale(d.radius || 0) : radius) > 10 && showLabels ? (
                   <foreignObject
                     y={0 - (radiusScale ? radiusScale(d.radius || 0) : radius)}
                     x={0 - (radiusScale ? radiusScale(d.radius || 0) : radius)}
-                    width={
-                      2 * (radiusScale ? radiusScale(d.radius || 0) : radius)
-                    }
-                    height={
-                      2 * (radiusScale ? radiusScale(d.radius || 0) : radius)
-                    }
+                    width={2 * (radiusScale ? radiusScale(d.radius || 0) : radius)}
+                    height={2 * (radiusScale ? radiusScale(d.radius || 0) : radius)}
                   >
                     <div className='flex flex-col gap-0.5 justify-center items-center h-inherit py-0 px-1.5'>
                       {showLabels ? (
@@ -351,19 +304,12 @@ export function Graph(props: Props) {
                           style={{
                             fontSize: `${Math.min(
                               Math.max(
-                                Math.round(
-                                  (radiusScale
-                                    ? radiusScale(d.radius || 0)
-                                    : radius) / 4,
-                                ),
+                                Math.round((radiusScale ? radiusScale(d.radius || 0) : radius) / 4),
                                 10,
                               ),
                               Math.max(
                                 Math.round(
-                                  ((radiusScale
-                                    ? radiusScale(d.radius || 0)
-                                    : radius) *
-                                    12) /
+                                  ((radiusScale ? radiusScale(d.radius || 0) : radius) * 12) /
                                     `${d.label}`.length,
                                 ),
                                 10,
@@ -386,7 +332,7 @@ export function Graph(props: Props) {
                       ) : null}
                     </div>
                   </foreignObject>
-                  ) : null}
+                ) : null}
               </g>
             ))}
             {refValues ? (
@@ -399,11 +345,7 @@ export function Graph(props: Props) {
                     x={x(el.value as number)}
                     y1={0 - margin.top}
                     y2={graphHeight + margin.bottom}
-                    textSide={
-                      x(el.value as number) > graphWidth * 0.75 || rtl
-                        ? 'left'
-                        : 'right'
-                    }
+                    textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                     classNames={el.classNames}
                     styles={el.styles}
                   />

@@ -17,18 +17,14 @@ interface RefLineYProps {
 }
 
 export function RefLineY(props: RefLineYProps) {
-  const {
-    text, x1, x2, y, classNames, styles, color, 
-  } = props;
+  const { text, x1, x2, y, classNames, styles, color } = props;
   if (!text) return null;
   return (
     <g>
       <line
         className={cn(
           'undp-ref-line',
-          !color
-            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-            : undefined,
+          !color ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300' : undefined,
           classNames?.line,
         )}
         style={{
@@ -50,9 +46,7 @@ export function RefLineY(props: RefLineYProps) {
         }}
         className={cn(
           'text-xs font-bold',
-          !color
-            ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
-            : undefined,
+          !color ? ' fill-primary-gray-700 dark:fill-primary-gray-300' : undefined,
           classNames?.text,
         )}
         dy={-5}
@@ -81,18 +75,14 @@ interface RefLineXProps {
 }
 
 export function RefLineX(props: RefLineXProps) {
-  const {
-    text, y1, y2, x, classNames, styles, color, textSide, 
-  } = props;
+  const { text, y1, y2, x, classNames, styles, color, textSide } = props;
   if (!text) return null;
   return (
     <g>
       <line
         className={cn(
           'undp-ref-line',
-          !color
-            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-            : undefined,
+          !color ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300' : undefined,
           classNames?.line,
         )}
         style={{
@@ -114,9 +104,7 @@ export function RefLineX(props: RefLineXProps) {
         }}
         className={cn(
           'text-xs font-bold',
-          !color
-            ? 'fill-primary-gray-700 dark:fill-primary-gray-300'
-            : undefined,
+          !color ? 'fill-primary-gray-700 dark:fill-primary-gray-300' : undefined,
           classNames?.text,
         )}
         dy={12.5}

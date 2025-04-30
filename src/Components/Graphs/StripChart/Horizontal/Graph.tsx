@@ -98,34 +98,15 @@ export function Graph(props: Props) {
   }).reverse();
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.position))
-        .map(d => d.position),
-    ) < 0
+    : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position)) < 0
       ? 0
-      : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      );
+      : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position));
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.position))
-        .map(d => d.position),
-    ) >= 0
+    : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position)) >= 0
       ? 0
-      : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.position))
-          .map(d => d.position),
-      );
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+      : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.position)).map(d => d.position));
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   return (
     <>
       <svg
@@ -165,10 +146,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -262,10 +240,7 @@ export function Graph(props: Props) {
                         textAnchor: 'middle',
                         ...(styles?.graphObjectValues || {}),
                       }}
-                      className={cn(
-                        'graph-value text-sm font-bold',
-                        classNames?.graphObjectValues,
-                      )}
+                      className={cn('graph-value text-sm font-bold', classNames?.graphObjectValues)}
                     >
                       {numberFormattingFunction(d.position, prefix, suffix)}
                     </text>

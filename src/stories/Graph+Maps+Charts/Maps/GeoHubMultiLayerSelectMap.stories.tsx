@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,9 +11,7 @@ import {
 
 import { GeoHubMapWithLayerSelection } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof GeoHubMapWithLayerSelection
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof GeoHubMapWithLayerSelection>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Maps/GeoHub map with layer selection',
@@ -88,13 +85,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     ],
   },
-  render: ({
-    center,
-    backgroundColor,
-    excludeLayers,
-    layerSelection,
-    ...args
-  }) => {
+  render: ({ center, backgroundColor, excludeLayers, layerSelection, ...args }) => {
     return (
       <GeoHubMapWithLayerSelection
         layerSelection={parseValue(layerSelection, [
@@ -110,11 +101,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         center={parseValue(center)}
         excludeLayers={parseValue(excludeLayers)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

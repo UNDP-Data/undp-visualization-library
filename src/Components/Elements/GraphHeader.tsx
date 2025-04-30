@@ -53,9 +53,7 @@ export function GraphHeader(props: Props) {
       </div>
       {graphDownload || dataDownload ? (
         <div className='flex gap-3'>
-          {graphDownload ? (
-            <ImageDownloadButton nodeID={graphDownload} buttonSmall />
-          ) : null}
+          {graphDownload ? <ImageDownloadButton nodeID={graphDownload} buttonSmall /> : null}
           {dataDownload && dataDownload.length > 0 ? (
             <CsvDownloadButton
               csvData={dataDownload}

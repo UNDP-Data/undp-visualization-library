@@ -214,9 +214,7 @@ export function Graph(props: Props) {
               style={{ fill: barColor, ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
               text={
-                axisTitles[0].length > 100
-                  ? `${axisTitles[0].substring(0, 100)}...`
-                  : axisTitles[0]
+                axisTitles[0].length > 100 ? `${axisTitles[0].substring(0, 100)}...` : axisTitles[0]
               }
               rotate90
             />
@@ -266,9 +264,7 @@ export function Graph(props: Props) {
               style={{ fill: lineColor, ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
               text={
-                axisTitles[1].length > 100
-                  ? `${axisTitles[1].substring(0, 100)}...`
-                  : axisTitles[1]
+                axisTitles[1].length > 100 ? `${axisTitles[1].substring(0, 100)}...` : axisTitles[1]
               }
               rotate90
             />
@@ -298,10 +294,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -341,10 +334,7 @@ export function Graph(props: Props) {
                       textAnchor: 'middle',
                       ...(styles?.graphObjectValues || {}),
                     }}
-                    className={cn(
-                      'graph-value text-sm',
-                      classNames?.graphObjectValues,
-                    )}
+                    className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                     dy={d.bar ? (d.bar >= 0 ? '-5px' : '1em') : '-5px'}
                   >
                     {numberFormattingFunction(d.bar, barPrefix, barSuffix)}
@@ -393,10 +383,7 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick || detailsOnClick) {
-                      if (
-                        isEqual(mouseClickData, d) &&
-                        resetSelectionOnDoubleClick
-                      ) {
+                      if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick?.(undefined);
                       } else {
@@ -441,10 +428,7 @@ export function Graph(props: Props) {
                         textAnchor: 'middle',
                         ...(styles?.graphObjectValues || {}),
                       }}
-                      className={cn(
-                        'graph-value text-sm',
-                        classNames?.graphObjectValues,
-                      )}
+                      className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                       dy='-5px'
                     >
                       {numberFormattingFunction(d.line, linePrefix, lineSuffix)}

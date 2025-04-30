@@ -11,17 +11,13 @@ interface Props {
 }
 
 export function RegressionLine(props: Props) {
-  const {
-    color, x1, x2, y1, y2, className, style, 
-  } = props;
+  const { color, x1, x2, y1, y2, className, style } = props;
   return (
     <g>
       <line
         className={cn(
           'undp-ref-line',
-          !color
-            ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-            : undefined,
+          !color ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300' : undefined,
           className,
         )}
         style={{

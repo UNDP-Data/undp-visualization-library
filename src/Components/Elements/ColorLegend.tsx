@@ -14,16 +14,8 @@ interface Props {
 }
 
 export function ColorLegend(props: Props) {
-  const {
-    colorLegendTitle,
-    colorDomain,
-    colors,
-    showNAColor,
-    width,
-    isCenter,
-    theme,
-    className,
-  } = props;
+  const { colorLegendTitle, colorDomain, colors, showNAColor, width, isCenter, theme, className } =
+    props;
 
   return (
     <div
@@ -33,11 +25,7 @@ export function ColorLegend(props: Props) {
     >
       <div className={theme || 'light'}>
         {colorLegendTitle && colorLegendTitle !== '' ? (
-          <P
-            size='sm'
-            marginBottom='2xs'
-            className={isCenter ? 'text-center' : ''}
-          >
+          <P size='sm' marginBottom='2xs' className={isCenter ? 'text-center' : ''}>
             {colorLegendTitle}
           </P>
         ) : null}
@@ -57,10 +45,7 @@ export function ColorLegend(props: Props) {
           ))}
           {showNAColor ? (
             <div className='flex items-center gap-1'>
-              <div
-                className='w-3 h-3 rounded-full'
-                style={{ backgroundColor: Colors.gray }}
-              />
+              <div className='w-3 h-3 rounded-full' style={{ backgroundColor: Colors.gray }} />
               <P size='sm' marginBottom='none'>
                 NA
               </P>

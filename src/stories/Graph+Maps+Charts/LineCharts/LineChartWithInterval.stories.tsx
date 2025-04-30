@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -13,9 +12,7 @@ import { parseValue } from '../../assets/parseValue';
 
 import { LineChartWithConfidenceInterval } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof LineChartWithConfidenceInterval
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof LineChartWithConfidenceInterval>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Graphs/Line chart with interval',
@@ -88,8 +85,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
+          detail: 'If the type is string then string is use to define the color of the line.',
         },
       },
     },
@@ -209,27 +205,19 @@ const meta: Meta<PagePropsAndCustomArgs> = {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false'
             ? false
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            : (animateLine as any) === 'true'
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (animateLine as any) === 'true'
               ? true
               : Number(animateLine)
         }
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         intervalLineColors={parseValue(intervalLineColors)}
         colorLegendColors={parseValue(colorLegendColors)}
         colorLegendDomain={parseValue(colorLegendDomain)}
         regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-              ? true
-              : regressionLine
+          regressionLine === 'false' ? false : regressionLine === 'true' ? true : regressionLine
         }
         {...args}
       />

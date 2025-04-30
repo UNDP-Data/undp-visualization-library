@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -90,16 +89,28 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   args: {
     data: [
       {
-        label: '2020 Q1', value1: 3, value2: 3, value3: 3, 
+        label: '2020 Q1',
+        value1: 3,
+        value2: 3,
+        value3: 3,
       },
       {
-        label: '2020 Q2', value1: 8, value2: 3, value3: 3, 
+        label: '2020 Q2',
+        value1: 8,
+        value2: 3,
+        value3: 3,
       },
       {
-        label: '2020 Q3', value1: 11, value2: 3, value3: 3, 
+        label: '2020 Q3',
+        value1: 11,
+        value2: 3,
+        value3: 3,
       },
       {
-        label: '2020 Q4', value1: 19, value2: 3, value3: 3, 
+        label: '2020 Q4',
+        value1: 19,
+        value2: 3,
+        value3: 3,
       },
     ],
     columnData: [
@@ -129,11 +140,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     return (
       <DataTable
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

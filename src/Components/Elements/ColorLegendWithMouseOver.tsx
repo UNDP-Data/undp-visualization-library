@@ -33,11 +33,7 @@ export function ColorLegendWithMouseOver(props: Props) {
     >
       <div>
         {colorLegendTitle && colorLegendTitle !== '' ? (
-          <P
-            size='sm'
-            marginBottom='2xs'
-            className={isCenter ? 'text-center' : ''}
-          >
+          <P size='sm' marginBottom='2xs' className={isCenter ? 'text-center' : ''}>
             {colorLegendTitle}
           </P>
         ) : null}
@@ -74,10 +70,7 @@ export function ColorLegendWithMouseOver(props: Props) {
               }}
               className='flex items-center gap-1 cursor-pointer'
             >
-              <div
-                className='w-3 h-3 rounded-full'
-                style={{ backgroundColor: Colors.gray }}
-              />
+              <div className='w-3 h-3 rounded-full' style={{ backgroundColor: Colors.gray }} />
               <P size='sm' marginBottom='none'>
                 NA
               </P>

@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -163,19 +162,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: ['Apples', 'Oranges'],
   },
-  render: ({
-    backgroundColor, colorDomain, colors, ...args 
-  }) => {
+  render: ({ backgroundColor, colorDomain, colors, ...args }) => {
     return (
       <AreaChart
         colors={parseValue(colors)}
         colorDomain={parseValue(colorDomain, ['Apples', 'Oranges'])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

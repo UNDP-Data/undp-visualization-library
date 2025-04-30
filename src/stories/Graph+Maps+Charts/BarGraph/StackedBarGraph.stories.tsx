@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -61,7 +60,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
       control: {
-        type: 'range', min: 0, max: 1, step: 0.1, 
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
       },
     },
 
@@ -131,20 +133,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({
-    colors, labelOrder, backgroundColor, colorDomain, ...args 
-  }) => {
+  render: ({ colors, labelOrder, backgroundColor, colorDomain, ...args }) => {
     return (
       <StackedBarGraph
         colors={parseValue(colors)}
         labelOrder={parseValue(labelOrder)}
         colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

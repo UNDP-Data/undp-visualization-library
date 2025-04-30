@@ -3,11 +3,7 @@ interface Coordinates {
   y: number;
 }
 
-export function getLineEndPoint(
-  startPoint: Coordinates,
-  targetPoint: Coordinates,
-  radius: number,
-) {
+export function getLineEndPoint(startPoint: Coordinates, targetPoint: Coordinates, radius: number) {
   const circleCenter = { x: targetPoint.x, y: targetPoint.y };
   const directionVector = {
     x: startPoint.x - circleCenter.x,

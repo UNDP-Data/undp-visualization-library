@@ -11,9 +11,7 @@ interface Props {
 }
 
 export function LinearColorLegend(props: Props) {
-  const {
-    colorLegendTitle, colorDomain, colors, width, className, 
-  } = props;
+  const { colorLegendTitle, colorDomain, colors, width, className } = props;
   return (
     <div
       className={cn('flex gap-0 flex-wrap justify-center leading-0', className)}

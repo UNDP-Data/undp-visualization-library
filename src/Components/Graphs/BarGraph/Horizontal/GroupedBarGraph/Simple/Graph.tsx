@@ -5,12 +5,7 @@ import { useState } from 'react';
 import min from 'lodash.min';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  GroupedBarGraphDataType,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, GroupedBarGraphDataType, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -110,30 +105,14 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    ) < 0
+    : Math.max(...data.map(d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0)) < 0
       ? 0
-      : Math.max(
-        ...data.map(
-          d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      : Math.max(...data.map(d => max(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(
-      ...data.map(
-        d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    ) >= 0
+    : Math.min(...data.map(d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0)) >= 0
       ? 0
-      : Math.min(
-        ...data.map(
-          d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-        ),
-      );
+      : Math.min(...data.map(d => min(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
   const dataWithId = data.map((d, i) => ({
     ...d,
@@ -141,17 +120,12 @@ export function Graph(props: Props) {
   }));
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
 
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
     .domain(barOrder)
     .range([
       0,
-      maxBarThickness
-        ? Math.min(graphHeight, maxBarThickness * barOrder.length)
-        : graphHeight,
+      maxBarThickness ? Math.min(graphHeight, maxBarThickness * barOrder.length) : graphHeight,
     ])
     .paddingInner(barPadding);
   const subBarScale = scaleBand()
@@ -202,13 +176,7 @@ export function Graph(props: Props) {
                   <g
                     className='undp-viz-g-with-hover'
                     key={j}
-                    opacity={
-                      selectedColor
-                        ? barColors[j] === selectedColor
-                          ? 1
-                          : 0.3
-                        : 0.85
-                    }
+                    opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 0.85}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onMouseEnter={(event: any) => {
                       setMouseOverData({ ...d, sizeIndex: j });
@@ -242,8 +210,7 @@ export function Graph(props: Props) {
                           onSeriesMouseClick?.(undefined);
                         } else {
                           setMouseClickData({ ...d, sizeIndex: j });
-                          if (onSeriesMouseClick)
-                            onSeriesMouseClick({ ...d, sizeIndex: j });
+                          if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                         }
                       }
                     }}
@@ -254,9 +221,7 @@ export function Graph(props: Props) {
                         x={(el as number) >= 0 ? x(0) : x(el as number)}
                         y={subBarScale(`${j}`)}
                         width={
-                          (el as number) >= 0
-                            ? x(el as number) - x(0)
-                            : x(0) - x(el as number)
+                          (el as number) >= 0 ? x(el as number) - x(0) : x(0) - x(el as number)
                         }
                         style={{ fill: barColors[j] }}
                         height={subBarScale.bandwidth()}
@@ -265,19 +230,13 @@ export function Graph(props: Props) {
                     {showValues ? (
                       <text
                         x={x(el || 0)}
-                        y={
-                          (subBarScale(`${j}`) as number) +
-                          subBarScale.bandwidth() / 2
-                        }
+                        y={(subBarScale(`${j}`) as number) + subBarScale.bandwidth() / 2}
                         style={{
                           fill: valueColor || barColors[j],
                           textAnchor: el ? (el < 0 ? 'end' : 'start') : 'start',
                           ...(styles?.graphObjectValues || {}),
                         }}
-                        className={cn(
-                          'graph-value text-sm',
-                          classNames?.graphObjectValues,
-                        )}
+                        className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                         dx={el ? (el < 0 ? -5 : 5) : 5}
                         dy='0.33em'
                       >
@@ -322,11 +281,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

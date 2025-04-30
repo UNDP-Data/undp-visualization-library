@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import intersection from 'lodash.intersection';
 import flattenDeep from 'lodash.flattendeep';
-import {
-  createFilter,
-  DropdownSelect,
-  Label,
-} from '@undp/design-system-react';
+import { createFilter, DropdownSelect, Label } from '@undp/design-system-react';
 
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 
@@ -85,9 +81,7 @@ export function MultiGraphDashboard(props: Props) {
   const [data, setData] = useState<any>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
-  const [filterSettings, setFilterSettings] = useState<
-    FilterSettingsDataType[]
-  >([]);
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsDataType[]>([]);
 
   const filterConfig = useMemo(
     () => ({
@@ -105,9 +99,9 @@ export function MultiGraphDashboard(props: Props) {
       filterSettings.every(filter =>
         filter.value && flattenDeep([filter.value]).length > 0
           ? intersection(
-            flattenDeep([item[filter.filter]]),
-            flattenDeep([filter.value]).map(el => el.value),
-          ).length > 0
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
           : true,
       ),
     );
@@ -124,35 +118,29 @@ export function MultiGraphDashboard(props: Props) {
           ? typeof dataSettings.dataURL === 'string'
             ? dataSettings.fileType === 'json'
               ? fetchAndParseJSON(
-                dataSettings.dataURL,
-                dataSettings.columnsToArray,
-                dataSettings.dataTransformation,
-                debugMode,
-              )
+                  dataSettings.dataURL,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
               : dataSettings.fileType === 'api'
                 ? fetchAndTransformDataFromAPI(
-                  dataSettings.dataURL,
-                  dataSettings.apiHeaders,
-                  dataSettings.columnsToArray,
-                  dataSettings.dataTransformation,
-                  debugMode,
-                )
+                    dataSettings.dataURL,
+                    dataSettings.apiHeaders,
+                    dataSettings.columnsToArray,
+                    dataSettings.dataTransformation,
+                    debugMode,
+                  )
                 : fetchAndParseCSV(
-                  dataSettings.dataURL,
-                  dataSettings.dataTransformation,
-                  dataSettings.columnsToArray,
-                  debugMode,
-                  dataSettings.delimiter,
-                  true,
-                )
-            : fetchAndParseMultipleDataSources(
-              dataSettings.dataURL,
-              dataSettings.idColumnTitle,
-            )
-          : transformColumnsToArray(
-            dataSettings.data,
-            dataSettings.columnsToArray,
-          );
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    dataSettings.columnsToArray,
+                    debugMode,
+                    dataSettings.delimiter,
+                    true,
+                  )
+            : fetchAndParseMultipleDataSources(dataSettings.dataURL, dataSettings.idColumnTitle)
+          : transformColumnsToArray(dataSettings.data, dataSettings.columnsToArray);
 
         const d = await fetchData;
         setDataFromFile(d);
@@ -183,17 +171,13 @@ export function MultiGraphDashboard(props: Props) {
   }, [fetchDataHandler]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = useCallback((filter: string, values: any) => {
-    setFilterSettings(prev =>
-      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
-    );
+    setFilterSettings(prev => prev.map(f => (f.filter === filter ? { ...f, value: values } : f)));
   }, []);
   return (
     <div
       className={`${theme || 'light'} flex grow`}
       dir={
-        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
-          ? 'rtl'
-          : undefined
+        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar' ? 'rtl' : undefined
       }
     >
       <div
@@ -207,8 +191,7 @@ export function MultiGraphDashboard(props: Props) {
           dashboardLayout.language || 'en'
         }`}
         style={{
-          ...(dashboardLayout.backgroundColor &&
-          dashboardLayout.backgroundColor !== true
+          ...(dashboardLayout.backgroundColor && dashboardLayout.backgroundColor !== true
             ? { backgroundColor: dashboardLayout.backgroundColor }
             : {}),
         }}
@@ -269,9 +252,7 @@ export function MultiGraphDashboard(props: Props) {
                         {d.singleSelect ? (
                           <DropdownSelect
                             options={d.availableValues}
-                            isClearable={
-                              d.clearable === undefined ? true : d.clearable
-                            }
+                            isClearable={d.clearable === undefined ? true : d.clearable}
                             size='sm'
                             variant={uiMode}
                             isMulti={false}
@@ -289,15 +270,13 @@ export function MultiGraphDashboard(props: Props) {
                               options={d.availableValues}
                               isMulti
                               size='sm'
-                              isClearable={
-                                d.clearable === undefined ? true : d.clearable
-                              }
+                              isClearable={d.clearable === undefined ? true : d.clearable}
                               variant={uiMode}
                               isSearchable
                               controlShouldRenderValue
                               closeMenuOnSelect={false}
                               hideSelectedOptions={false}
-                              filterOption={createFilter(filterConfig)}                               
+                              filterOption={createFilter(filterConfig)}
                               onChange={el => {
                                 handleFilterChange(d.filter, el);
                               }}
@@ -309,10 +288,7 @@ export function MultiGraphDashboard(props: Props) {
                                 type='button'
                                 className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
                                 onClick={() => {
-                                  handleFilterChange(
-                                    d.filter,
-                                    d.availableValues,
-                                  );
+                                  handleFilterChange(d.filter, d.availableValues);
                                 }}
                               >
                                 Select all options
@@ -327,10 +303,7 @@ export function MultiGraphDashboard(props: Props) {
               ) : null}
               <div
                 style={{
-                  width:
-                    filterPosition === 'side'
-                      ? 'calc(100% - 280px - 1rem)'
-                      : '100%',
+                  width: filterPosition === 'side' ? 'calc(100% - 280px - 1rem)' : '100%',
                   minWidth: '280px',
                   flexGrow: 1,
                   display: 'flex',
@@ -358,11 +331,9 @@ export function MultiGraphDashboard(props: Props) {
                         className='flex bg-transparent h-inherit grow min-w-60'
                         style={{
                           width: `calc(${
-                            (100 * (el.columnWidth || 1)) /
-                            TotalWidth(d.columns)
+                            (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
                           }% - ${
-                            (TotalWidth(d.columns) - (el.columnWidth || 1)) /
-                            TotalWidth(d.columns)
+                            (TotalWidth(d.columns) - (el.columnWidth || 1)) / TotalWidth(d.columns)
                           }rem)`,
                           minHeight: 'inherit',
                         }}
@@ -379,53 +350,35 @@ export function MultiGraphDashboard(props: Props) {
                               ? false
                               : el.settings?.resetSelectionOnDoubleClick,
                             styles: el.settings?.styles || graphStyles,
-                            classNames:
-                              el.settings?.classNames || graphClassNames,
-                            radius:
-                              el.graphType === 'donutChart'
-                                ? undefined
-                                : el.settings?.radius,
-                            size:
-                              el.graphType === 'unitChart'
-                                ? el.settings?.size
-                                : undefined,
-                            language:
-                              el.settings?.language || dashboardLayout.language,
+                            classNames: el.settings?.classNames || graphClassNames,
+                            radius: el.graphType === 'donutChart' ? undefined : el.settings?.radius,
+                            size: el.graphType === 'unitChart' ? el.settings?.size : undefined,
+                            language: el.settings?.language || dashboardLayout.language,
                             theme: el.settings?.theme || theme,
                           }}
                           dataSettings={{
-                            data: data
-                              ? filterData(data, dataFilters || [])
-                              : undefined,
+                            data: data ? filterData(data, dataFilters || []) : undefined,
                           }}
                           updateFilters={
                             el.attachedFilter &&
-                            GraphWithAttachedFilter.indexOf(el.graphType) !==
-                              -1 &&
-                            filterSettings.findIndex(
-                              f => f.filter === el.attachedFilter,
-                            ) !== -1
+                            GraphWithAttachedFilter.indexOf(el.graphType) !== -1 &&
+                            filterSettings.findIndex(f => f.filter === el.attachedFilter) !== -1
                               ? dClicked => {
-                                const indx = filterSettings.findIndex(
-                                  f => f.filter === el.attachedFilter,
-                                );
-                                const value = dClicked
-                                  ? filterSettings[indx].singleSelect
-                                    ? { value: dClicked, label: dClicked }
-                                    : [{ value: dClicked, label: dClicked }]
-                                  : undefined;
-                                handleFilterChange(
-                                    el.attachedFilter as string,
-                                    value,
-                                );
-                              }
+                                  const indx = filterSettings.findIndex(
+                                    f => f.filter === el.attachedFilter,
+                                  );
+                                  const value = dClicked
+                                    ? filterSettings[indx].singleSelect
+                                      ? { value: dClicked, label: dClicked }
+                                      : [{ value: dClicked, label: dClicked }]
+                                    : undefined;
+                                  handleFilterChange(el.attachedFilter as string, value);
+                                }
                               : undefined
                           }
                           dataTransform={el.dataTransform}
                           dataSelectionOptions={el.dataSelectionOptions}
-                          advancedDataSelectionOptions={
-                            el.advancedDataSelectionOptions
-                          }
+                          advancedDataSelectionOptions={el.advancedDataSelectionOptions}
                           graphDataConfiguration={el.graphDataConfiguration}
                           debugMode={debugMode}
                           readableHeader={readableHeader || []}

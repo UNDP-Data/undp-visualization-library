@@ -39,9 +39,7 @@ interface Props {
 
 export function MultiGraphDashboardFromConfig(props: Props) {
   const { config } = props;
-  const [configSettings, setConfigSettings] = useState<
-    ConfigObject | undefined
-  >(undefined);
+  const [configSettings, setConfigSettings] = useState<ConfigObject | undefined>(undefined);
   useEffect(() => {
     const fetchData = async () => {
       if (typeof config === 'string') {
@@ -59,10 +57,7 @@ export function MultiGraphDashboardFromConfig(props: Props) {
         <Spinner />
       </div>
     );
-  const validationResult = validateConfigSchema(
-    configSettings,
-    'multiGraphDashboard',
-  );
+  const validationResult = validateConfigSchema(configSettings, 'multiGraphDashboard');
   if (!validationResult.isValid)
     return (
       <P

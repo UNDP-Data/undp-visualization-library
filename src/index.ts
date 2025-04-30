@@ -4,11 +4,7 @@ import './styles/styles.css';
 
 /* ------- All Graphs Components ------- */
 // Bar Graph
-export {
-  SimpleBarGraph,
-  StackedBarGraph,
-  GroupedBarGraph,
-} from './Components/Graphs/BarGraph';
+export { SimpleBarGraph, StackedBarGraph, GroupedBarGraph } from './Components/Graphs/BarGraph';
 // Circle packing graph
 export { CirclePackingGraph } from './Components/Graphs/CirclePackingGraph';
 // Donut chart
@@ -164,17 +160,8 @@ export {
 } from './Schemas/getSchema';
 
 /* ---------GraphTypes-------------*/
-export type {
-  GraphType,
-  GeoHubGraphType,
-  GraphTypeForGriddedGraph,
-} from '@/Types';
+export type { GraphType, GeoHubGraphType, GraphTypeForGriddedGraph } from '@/Types';
 export { GraphList } from './Utils/getGraphList';
 
 /* ----------Renderers For Vanilla JS-------------*/
-export {
-  Dashboard,
-  DashboardWithDataTransform,
-  GriddedGraph,
-  Graph,
-} from './Renderer';
+export { Dashboard, DashboardWithDataTransform, GriddedGraph, Graph } from './Renderer';

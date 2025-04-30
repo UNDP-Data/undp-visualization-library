@@ -3,12 +3,7 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import { useState } from 'react';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  BarGraphDataType,
-  ClassNameObject,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { BarGraphDataType, ClassNameObject, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -115,39 +110,20 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.size))
-        .map(d => d.size as number),
-    ) < 0
+    : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number)) < 0
       ? 0
-      : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      );
+      : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number));
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.size))
-        .map(d => d.size as number),
-    ) >= 0
+    : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number)) >= 0
       ? 0
-      : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      );
+      : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number));
 
   const dataWithId = data.map((d, i) => ({
     ...d,
     id: labelOrder ? `${d.label}` : `${i}`,
   }));
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
   const y = scaleBand()
     .domain(barOrder)
@@ -227,10 +203,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -279,13 +252,9 @@ export function Graph(props: Props) {
                     }
                     y={y(d.id) || 0}
                     x={(d.size || 0) < 0 ? x(0) : 0 - margin.left}
-                    width={
-                      (d.size || 0) < 0 ? width - x(0) : x(0) + margin.left
-                    }
+                    width={(d.size || 0) < 0 ? width - x(0) : x(0) + margin.left}
                     height={y.bandwidth()}
-                    alignment={
-                      d.size ? (d.size < 0 ? 'left' : 'right') : 'right'
-                    }
+                    alignment={d.size ? (d.size < 0 ? 'left' : 'right') : 'right'}
                     style={styles?.yAxis?.labels}
                     className={classNames?.yAxis?.labels}
                   />
@@ -300,11 +269,7 @@ export function Graph(props: Props) {
                         : barColor.length > 1
                           ? {}
                           : { fill: barColor[0] }),
-                      textAnchor: d.size
-                        ? d.size < 0
-                          ? 'end'
-                          : 'start'
-                        : 'start',
+                      textAnchor: d.size ? (d.size < 0 ? 'end' : 'start') : 'start',
                       ...(styles?.graphObjectValues || {}),
                     }}
                     className={cn(
@@ -341,11 +306,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />
@@ -371,8 +332,8 @@ export function Graph(props: Props) {
             setMouseClickData(undefined);
           }}
         >
-          <div          
-            className='graph-modal-content m-0' 
+          <div
+            className='graph-modal-content m-0'
             dangerouslySetInnerHTML={{ __html: string2HTML(detailsOnClick, mouseClickData) }}
           />
         </Modal>

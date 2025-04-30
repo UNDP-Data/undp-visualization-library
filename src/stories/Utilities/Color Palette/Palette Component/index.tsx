@@ -167,10 +167,7 @@ function ColorRow({
   return (
     <div className='mb-6'>
       <div className='text-sm mb-1'>
-        {title}{' '}
-        <span className='text-xs text-gray-500 font-bold font-mono'>
-          ({colors.name})
-        </span>
+        {title} <span className='text-xs text-gray-500 font-bold font-mono'>({colors.name})</span>
       </div>
       <div className='flex flex-wrap gap-1'>
         {colors.colors.map((color, index) => (
@@ -196,10 +193,7 @@ function ColorGrid({
   return (
     <div className='mb-6'>
       <div className='text-sm mb-1'>
-        {title}{' '}
-        <span className='text-xs text-gray-500 font-bold font-mono'>
-          ({colors.name})
-        </span>
+        {title} <span className='text-xs text-gray-500 font-bold font-mono'>({colors.name})</span>
       </div>
       <div className='flex flex-col gap-1'>
         {colors.colors.map((row, rowIndex) => (
@@ -228,50 +222,37 @@ export function Palette({ theme }: Props) {
     <div className='p-6'>
       <section>
         <h2 className='text-xl font-semibold mb-2 mt-4'>Categorical</h2>
-        <ColorRow
-          title='Categorical Colors'
-          colors={ColorsList(theme).categoricalColors.colors}
-        />
+        <ColorRow title='Categorical Colors' colors={ColorsList(theme).categoricalColors.colors} />
       </section>
       <hr />
       <section>
         <h2 className='text-xl font-semibold mb-2 mt-4'>Sequential</h2>
         <h4 className='text-lg mb-2'>Neutral</h4>
-        {Object.entries(ColorsList(theme).sequentialColors.Neutral).map(
-          ([key, value]) => (
-            <ColorRow key={key} title={key} colors={value} />
-          ),
-        )}
+        {Object.entries(ColorsList(theme).sequentialColors.Neutral).map(([key, value]) => (
+          <ColorRow key={key} title={key} colors={value} />
+        ))}
         <h4 className='text-lg mb-2'>Positive</h4>
-        {Object.entries(ColorsList(theme).sequentialColors.Positive).map(
-          ([key, value]) => (
-            <ColorRow key={key} title={key} colors={value} />
-          ),
-        )}
+        {Object.entries(ColorsList(theme).sequentialColors.Positive).map(([key, value]) => (
+          <ColorRow key={key} title={key} colors={value} />
+        ))}
         <h4 className='text-lg mb-2'>Negative</h4>
-        {Object.entries(ColorsList(theme).sequentialColors.Negative).map(
-          ([key, value]) => (
-            <ColorRow key={key} title={key} colors={value} />
-          ),
-        )}
+        {Object.entries(ColorsList(theme).sequentialColors.Negative).map(([key, value]) => (
+          <ColorRow key={key} title={key} colors={value} />
+        ))}
       </section>
       <hr />
       <section>
         <h2 className='text-xl font-semibold mb-2 mt-4'>Divergent</h2>
-        {Object.entries(ColorsList(theme).divergentColors).map(
-          ([key, value]) => (
-            <ColorRow key={key} title={key} colors={value} />
-          ),
-        )}
+        {Object.entries(ColorsList(theme).divergentColors).map(([key, value]) => (
+          <ColorRow key={key} title={key} colors={value} />
+        ))}
       </section>
       <hr />
       <section>
         <h2 className='text-xl font-semibold mb-2 mt-4'>Bivariate</h2>
-        {Object.entries(ColorsList(theme).bivariateColors).map(
-          ([key, value]) => (
-            <ColorGrid key={key} title={key} colors={value} />
-          ),
-        )}
+        {Object.entries(ColorsList(theme).bivariateColors).map(([key, value]) => (
+          <ColorGrid key={key} title={key} colors={value} />
+        ))}
       </section>
     </div>
   );

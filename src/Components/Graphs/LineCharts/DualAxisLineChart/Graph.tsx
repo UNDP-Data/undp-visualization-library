@@ -128,19 +128,13 @@ export function Graph(props: Props) {
   const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
     ...d,
     coordinates: [
-      d.coordinates[0] === null
-        ? null
-        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
-      d.coordinates[1] === null
-        ? null
-        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+      d.coordinates[0] === null ? null : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null ? null : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
     ],
   }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minYear = minDate
-    ? parse(`${minDate}`, dateFormat, new Date())
-    : dataFormatted[0].date;
+  const minYear = minDate ? parse(`${minDate}`, dateFormat, new Date()) : dataFormatted[0].date;
   const maxYear = maxDate
     ? parse(`${maxDate}`, dateFormat, new Date())
     : dataFormatted[dataFormatted.length - 1].date;
@@ -213,9 +207,7 @@ export function Graph(props: Props) {
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
       if (onSeriesMouseOver) {
-        onSeriesMouseOver(
-          selectedData || dataFormatted[dataFormatted.length - 1],
-        );
+        onSeriesMouseOver(selectedData || dataFormatted[dataFormatted.length - 1]);
       }
       setEventY(event.clientY);
       setEventX(event.clientX);
@@ -228,9 +220,7 @@ export function Graph(props: Props) {
         onSeriesMouseOver(undefined);
       }
     };
-    select(MouseoverRectRef.current)
-      .on('mousemove', mousemove)
-      .on('mouseout', mouseout);
+    select(MouseoverRectRef.current).on('mousemove', mousemove).on('mouseout', mouseout);
   }, [x, dataFormatted, onSeriesMouseOver]);
 
   useEffect(() => {
@@ -291,11 +281,7 @@ export function Graph(props: Props) {
                     ...(styles?.yAxis?.labels || {}),
                   }}
                 >
-                  {numberFormattingFunction(
-                    d,
-                    linePrefixes[0],
-                    lineSuffixes[0],
-                  )}
+                  {numberFormattingFunction(d, linePrefixes[0], lineSuffixes[0])}
                 </text>
               </g>
             ))}
@@ -312,11 +298,7 @@ export function Graph(props: Props) {
               y={graphHeight / 2}
               style={{ fill: lineColors[0], ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
-              text={
-                labels[0].length > 100
-                  ? `${labels[0].substring(0, 100)}...`
-                  : labels[0]
-              }
+              text={labels[0].length > 100 ? `${labels[0].substring(0, 100)}...` : labels[0]}
               rotate90
             />
           </g>
@@ -347,11 +329,7 @@ export function Graph(props: Props) {
                   }}
                   className={cn('text-xs', classNames?.yAxis?.labels)}
                 >
-                  {numberFormattingFunction(
-                    d,
-                    linePrefixes[1],
-                    lineSuffixes[1],
-                  )}
+                  {numberFormattingFunction(d, linePrefixes[1], lineSuffixes[1])}
                 </text>
               </g>
             ))}
@@ -368,11 +346,7 @@ export function Graph(props: Props) {
               y={graphHeight / 2}
               style={{ fill: lineColors[1], ...(styles?.yAxis?.title || {}) }}
               className={classNames?.yAxis?.title}
-              text={
-                labels[1].length > 100
-                  ? `${labels[1].substring(0, 100)}...`
-                  : labels[1]
-              }
+              text={labels[1].length > 100 ? `${labels[1].substring(0, 100)}...` : labels[1]}
               rotate90
             />
           </g>
@@ -478,11 +452,7 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                       >
-                        {numberFormattingFunction(
-                          d.y1,
-                          linePrefixes[0],
-                          lineSuffixes[0],
-                        )}
+                        {numberFormattingFunction(d.y1, linePrefixes[0], lineSuffixes[0])}
                       </text>
                     ) : null}
                   </g>
@@ -524,11 +494,7 @@ export function Graph(props: Props) {
                           classNames?.graphObjectValues,
                         )}
                       >
-                        {numberFormattingFunction(
-                          d.y2,
-                          linePrefixes[1],
-                          lineSuffixes[1],
-                        )}
+                        {numberFormattingFunction(d.y2, linePrefixes[1], lineSuffixes[1])}
                       </text>
                     ) : null}
                   </g>

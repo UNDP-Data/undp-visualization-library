@@ -3,12 +3,7 @@ import { useState } from 'react';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ButterflyChartDataType,
-  ClassNameObject,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ButterflyChartDataType, ClassNameObject, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -104,60 +99,42 @@ export function Graph(props: Props) {
   const xMaxValueLeftBar = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.leftBar))
-        .map(d => d.leftBar as number),
-    ) < 0
+          ...data.filter(d => !checkIfNullOrUndefined(d.leftBar)).map(d => d.leftBar as number),
+        ) < 0
       ? 0
       : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.leftBar))
-          .map(d => d.leftBar as number),
-      );
+          ...data.filter(d => !checkIfNullOrUndefined(d.leftBar)).map(d => d.leftBar as number),
+        );
   const xMinValueLeftBar = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.leftBar))
-        .map(d => d.leftBar as number),
-    ) >= 0
+          ...data.filter(d => !checkIfNullOrUndefined(d.leftBar)).map(d => d.leftBar as number),
+        ) >= 0
       ? 0
       : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.leftBar))
-          .map(d => d.leftBar as number),
-      );
+          ...data.filter(d => !checkIfNullOrUndefined(d.leftBar)).map(d => d.leftBar as number),
+        );
 
   const xMaxValueRightBar = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
     : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.rightBar))
-        .map(d => d.rightBar as number),
-    ) < 0
+          ...data.filter(d => !checkIfNullOrUndefined(d.rightBar)).map(d => d.rightBar as number),
+        ) < 0
       ? 0
       : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.rightBar))
-          .map(d => d.rightBar as number),
-      );
+          ...data.filter(d => !checkIfNullOrUndefined(d.rightBar)).map(d => d.rightBar as number),
+        );
   const xMinValueRightBar = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
     : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.rightBar))
-        .map(d => d.rightBar as number),
-    ) >= 0
+          ...data.filter(d => !checkIfNullOrUndefined(d.rightBar)).map(d => d.rightBar as number),
+        ) >= 0
       ? 0
       : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.rightBar))
-          .map(d => d.rightBar as number),
-      );
-  const minParam =
-    xMinValueLeftBar < xMinValueRightBar ? xMinValueLeftBar : xMinValueRightBar;
-  const maxParam =
-    xMaxValueLeftBar > xMaxValueRightBar ? xMaxValueLeftBar : xMaxValueRightBar;
+          ...data.filter(d => !checkIfNullOrUndefined(d.rightBar)).map(d => d.rightBar as number),
+        );
+  const minParam = xMinValueLeftBar < xMinValueRightBar ? xMinValueLeftBar : xMinValueRightBar;
+  const maxParam = xMaxValueLeftBar > xMaxValueRightBar ? xMaxValueLeftBar : xMaxValueRightBar;
   const xRightBar = scaleLinear()
     .domain([minParam, maxParam])
     .range([0, (graphWidth - centerGap) / 2])
@@ -216,10 +193,7 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick || detailsOnClick) {
-                      if (
-                        isEqual(mouseClickData, d) &&
-                        resetSelectionOnDoubleClick
-                      ) {
+                      if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick?.(undefined);
                       } else {
@@ -261,26 +235,17 @@ export function Graph(props: Props) {
                       x={
                         d.leftBar
                           ? xLeftBar(d.leftBar)
-                          : xLeftBar(
-                            xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar,
-                          )
+                          : xLeftBar(xMinValueLeftBar < 0 ? 0 : xMinValueLeftBar)
                       }
                       y={(y(`${i}`) as number) + y.bandwidth() / 2}
                       style={{
                         fill: barColors[0],
-                        textAnchor: d.rightBar
-                          ? d.rightBar > 0
-                            ? 'end'
-                            : 'start'
-                          : 'start',
+                        textAnchor: d.rightBar ? (d.rightBar > 0 ? 'end' : 'start') : 'start',
                         ...(styles?.graphObjectValues || {}),
                       }}
                       dx={d.rightBar ? (d.rightBar > 0 ? -5 : 5) : 5}
                       dy='0.33em'
-                      className={cn(
-                        'graph-value text-sm',
-                        classNames?.graphObjectValues,
-                      )}
+                      className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                     >
                       {numberFormattingFunction(d.rightBar, prefix, suffix)}
                     </text>
@@ -352,10 +317,7 @@ export function Graph(props: Props) {
                   }}
                   onClick={() => {
                     if (onSeriesMouseClick || detailsOnClick) {
-                      if (
-                        isEqual(mouseClickData, d) &&
-                        resetSelectionOnDoubleClick
-                      ) {
+                      if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                         setMouseClickData(undefined);
                         onSeriesMouseClick?.(undefined);
                       } else {
@@ -397,24 +359,15 @@ export function Graph(props: Props) {
                       x={
                         d.rightBar
                           ? xRightBar(d.rightBar)
-                          : xRightBar(
-                            xMinValueRightBar < 0 ? 0 : xMinValueRightBar,
-                          )
+                          : xRightBar(xMinValueRightBar < 0 ? 0 : xMinValueRightBar)
                       }
                       y={(y(`${i}`) as number) + y.bandwidth() / 2}
                       style={{
                         fill: barColors[1],
-                        textAnchor: d.rightBar
-                          ? d.rightBar < 0
-                            ? 'end'
-                            : 'start'
-                          : 'start',
+                        textAnchor: d.rightBar ? (d.rightBar < 0 ? 'end' : 'start') : 'start',
                         ...(styles?.graphObjectValues || {}),
                       }}
-                      className={cn(
-                        'graph-value text-sm',
-                        classNames?.graphObjectValues,
-                      )}
+                      className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                       dx={d.rightBar ? (d.rightBar < 0 ? -5 : 5) : 5}
                       dy='0.33em'
                     >

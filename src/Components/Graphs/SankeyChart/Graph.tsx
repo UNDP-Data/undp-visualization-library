@@ -4,12 +4,7 @@ import { sankey, sankeyCenter, sankeyLinkHorizontal } from 'd3-sankey';
 import { useAnimate, useInView } from 'motion/react';
 import { cn, Modal, P } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  NodeDataType,
-  NodesLinkDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, NodeDataType, NodesLinkDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { string2HTML } from '@/Utils/string2HTML';
@@ -110,28 +105,28 @@ export function Graph(props: Props) {
   const sankeyGenerator =
     sortNodes === 'mostReadable'
       ? sankey()
-        .nodeWidth(nodeWidth)
-        .nodePadding(nodePadding)
-        .size([graphWidth, graphHeight])
-        .nodeAlign(sankeyCenter)
+          .nodeWidth(nodeWidth)
+          .nodePadding(nodePadding)
+          .size([graphWidth, graphHeight])
+          .nodeAlign(sankeyCenter)
       : sortNodes === 'none'
         ? sankey()
-          .nodeWidth(nodeWidth)
-          .nodePadding(nodePadding)
-          .size([graphWidth, graphHeight])
-          .nodeAlign(sankeyCenter)
-          .nodeSort(() => null)
-          .linkSort(() => null)
+            .nodeWidth(nodeWidth)
+            .nodePadding(nodePadding)
+            .size([graphWidth, graphHeight])
+            .nodeAlign(sankeyCenter)
+            .nodeSort(() => null)
+            .linkSort(() => null)
         : sankey()
-          .nodeWidth(nodeWidth)
-          .nodePadding(nodePadding)
-          .size([graphWidth, graphHeight])
-          .nodeAlign(sankeyCenter)
-          .nodeSort(
-            sortNodes === 'desc'
-              ? (a, b) => (b.value || 0) - (a.value || 0)
-              : (a, b) => (a.value || 0) - (b.value || 0),
-          );
+            .nodeWidth(nodeWidth)
+            .nodePadding(nodePadding)
+            .size([graphWidth, graphHeight])
+            .nodeAlign(sankeyCenter)
+            .nodeSort(
+              sortNodes === 'desc'
+                ? (a, b) => (b.value || 0) - (a.value || 0)
+                : (a, b) => (a.value || 0) - (b.value || 0),
+            );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { nodes, links } = sankeyGenerator(data as any);
   const linkPathGenerator = sankeyLinkHorizontal();
@@ -196,9 +191,7 @@ export function Graph(props: Props) {
                       <div
                         className='flex flex-col gap-0.5 justify-center py-0 px-1.5'
                         style={{
-                          height: `${
-                            (d.y1 || 0) - (d.y0 || 0) + nodePadding
-                          }px`,
+                          height: `${(d.y1 || 0) - (d.y0 || 0) + nodePadding}px`,
                           overflow: 'visible',
                         }}
                       >
@@ -219,10 +212,7 @@ export function Graph(props: Props) {
                           >
                             {`${(d as NodeDataType).label}`.length < truncateBy
                               ? `${(d as NodeDataType).label}`
-                              : `${`${(d as NodeDataType).label}`.substring(
-                                0,
-                                truncateBy,
-                              )}...`}
+                              : `${`${(d as NodeDataType).label}`.substring(0, truncateBy)}...`}
                           </P>
                         ) : null}
                         {showValues ? (
@@ -280,9 +270,7 @@ export function Graph(props: Props) {
                       <div
                         className='flex flex-col gap-0.5 justify-center py-0 px-1.5'
                         style={{
-                          height: `${
-                            (d.y1 || 0) - (d.y0 || 0) + nodePadding
-                          }px`,
+                          height: `${(d.y1 || 0) - (d.y0 || 0) + nodePadding}px`,
                         }}
                       >
                         {showLabels ? (
@@ -302,10 +290,7 @@ export function Graph(props: Props) {
                           >
                             {`${(d as NodeDataType).label}`.length < truncateBy
                               ? `${(d as NodeDataType).label}`
-                              : `${`${(d as NodeDataType).label}`.substring(
-                                0,
-                                truncateBy,
-                              )}...`}
+                              : `${`${(d as NodeDataType).label}`.substring(0, truncateBy)}...`}
                           </P>
                         ) : null}
                         {showValues ? (
@@ -408,22 +393,22 @@ export function Graph(props: Props) {
                 }}
                 opacity={
                   selectedNode
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    ? (d.source as any).name === selectedNode.name ||
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      (d.source as any).name === selectedNode.name ||
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       (d.target as any).name === selectedNode.name
                       ? 0.85
                       : defaultLinkOpacity
                     : highlightedSourceDataPoints.length !== 0 ||
-                      highlightedTargetDataPoints.length !== 0
+                        highlightedTargetDataPoints.length !== 0
                       ? highlightedSourceDataPoints.indexOf(
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (d.source as any).label,
-                      ) !== -1 ||
-                      highlightedTargetDataPoints.indexOf(
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (d.target as any).label,
-                      ) !== -1
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          (d.source as any).label,
+                        ) !== -1 ||
+                        highlightedTargetDataPoints.indexOf(
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          (d.target as any).label,
+                        ) !== -1
                         ? 0.85
                         : defaultLinkOpacity
                       : defaultLinkOpacity

@@ -126,9 +126,7 @@ export function VerticalStackedBarGraph(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -146,9 +144,7 @@ export function VerticalStackedBarGraph(props: Props) {
   }, [width, height]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -161,24 +157,18 @@ export function VerticalStackedBarGraph(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
         aria-label={
           ariaLabel ||
-          `${
-            graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a stacked bar chart. ${
+          `${graphTitle ? `The graph shows ${graphTitle}. ` : ''}This is a stacked bar chart. ${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
       >
-        <div
-          style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
-        >
+        <div style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}>
           <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
@@ -193,14 +183,12 @@ export function VerticalStackedBarGraph(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -218,35 +206,21 @@ export function VerticalStackedBarGraph(props: Props) {
                     setSelectedColor={setSelectedColor}
                     showNAColor={false}
                   />
-                  <div
-                    className='w-full grow leading-0'
-                    ref={graphDiv}
-                    aria-label='Graph area'
-                  >
+                  <div className='w-full grow leading-0' ref={graphDiv} aria-label='Graph area'>
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={
                           sortParameter !== undefined
                             ? sortParameter === 'total'
                               ? sortBy(data, d =>
-                                sum(
-                                  d.size.filter(
-                                    el => !checkIfNullOrUndefined(el),
-                                  ),
-                                ),
-                              ).filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
+                                  sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
+                                ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                               : sortBy(data, d =>
-                                checkIfNullOrUndefined(d.size[sortParameter])
-                                  ? -Infinity
-                                  : d.size[sortParameter],
-                              ).filter((_d, i) =>
-                                maxNumberOfBars ? i < maxNumberOfBars : true,
-                              )
-                            : data.filter((_d, i) =>
-                              maxNumberOfBars ? i < maxNumberOfBars : true,
-                            )
+                                  checkIfNullOrUndefined(d.size[sortParameter])
+                                    ? -Infinity
+                                    : d.size[sortParameter],
+                                ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
+                            : data.filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                         }
                         barColors={colors}
                         width={width || svgWidth}
@@ -255,8 +229,7 @@ export function VerticalStackedBarGraph(props: Props) {
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -282,9 +255,7 @@ export function VerticalStackedBarGraph(props: Props) {
                         labelOrder={labelOrder}
                         maxBarThickness={maxBarThickness}
                         minBarThickness={minBarThickness}
-                        resetSelectionOnDoubleClick={
-                          resetSelectionOnDoubleClick
-                        }
+                        resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
                         barAxisTitle={barAxisTitle}
                         noOfTicks={noOfTicks}

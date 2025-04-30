@@ -32,10 +32,7 @@ interface Props {
 }
 
 export function Annotation(props: Props) {
-  const {
-    connectorsSettings, text, color, labelSettings, classNames, styles, 
-  } =
-    props;
+  const { connectorsSettings, text, color, labelSettings, classNames, styles } = props;
   return (
     <g>
       {connectorsSettings ? (
@@ -45,9 +42,7 @@ export function Annotation(props: Props) {
             cx={connectorsSettings.cx}
             r={connectorsSettings.circleRadius}
             className={cn(
-              !color
-                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                : '',
+              !color ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300' : '',
               classNames?.connector,
             )}
             style={{
@@ -63,9 +58,7 @@ export function Annotation(props: Props) {
             y2={connectorsSettings.y2}
             x2={connectorsSettings.x2}
             className={cn(
-              !color
-                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                : '',
+              !color ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300' : '',
               classNames?.connector,
             )}
             style={{
@@ -97,9 +90,7 @@ export function Annotation(props: Props) {
               : labelSettings.align === 'center'
                 ? 'text-center'
                 : 'text-left',
-            !color
-              ? 'text-primary-gray-700 dark:text-primary-gray-300'
-              : undefined,
+            !color ? 'text-primary-gray-700 dark:text-primary-gray-300' : undefined,
             classNames?.text,
           )}
           style={{

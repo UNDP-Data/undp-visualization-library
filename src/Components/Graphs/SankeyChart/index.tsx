@@ -186,9 +186,7 @@ export function SankeyChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [sankeyData, setSankeyData] = useState<NodesLinkDataType | undefined>(
-    undefined,
-  );
+  const [sankeyData, setSankeyData] = useState<NodesLinkDataType | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -202,19 +200,15 @@ export function SankeyChart(props: Props) {
         typeof sourceColors === 'string' || !sourceColors
           ? sourceColors || Colors.graphMainColor
           : sourceColors[
-            (
-              sourceColorDomain ||
-                uniqBy(data, 'source').map(el => `${el.source}`)
-            ).findIndex(el => `${el}` === `${d.source}`) > sourceColors.length
-              ? sourceColors.length - 1
-              : (
-                sourceColorDomain ||
-                    uniqBy(data, 'source').map(el => `${el.source}`)
-              ).findIndex(el => `${el}` === `${d.source}`)
-          ],
-      totalValue: sum(
-        data.filter(el => `${el.source}` === `${d.source}`).map(el => el.value),
-      ),
+              (sourceColorDomain || uniqBy(data, 'source').map(el => `${el.source}`)).findIndex(
+                el => `${el}` === `${d.source}`,
+              ) > sourceColors.length
+                ? sourceColors.length - 1
+                : (sourceColorDomain || uniqBy(data, 'source').map(el => `${el.source}`)).findIndex(
+                    el => `${el}` === `${d.source}`,
+                  )
+            ],
+      totalValue: sum(data.filter(el => `${el.source}` === `${d.source}`).map(el => el.value)),
     }));
     const sourceNodesSorted =
       sortNodes === 'asc'
@@ -230,19 +224,15 @@ export function SankeyChart(props: Props) {
         typeof targetColors === 'string' || !targetColors
           ? targetColors || Colors.graphMainColor
           : targetColors[
-            (
-              targetColorDomain ||
-                uniqBy(data, 'target').map(el => `${el.target}`)
-            ).findIndex(el => `${el}` === `${d.target}`) > targetColors.length
-              ? targetColors.length - 1
-              : (
-                targetColorDomain ||
-                    uniqBy(data, 'target').map(el => `${el.target}`)
-              ).findIndex(el => `${el}` === `${d.target}`)
-          ],
-      totalValue: sum(
-        data.filter(el => `${el.target}` === `${d.target}`).map(el => el.value),
-      ),
+              (targetColorDomain || uniqBy(data, 'target').map(el => `${el.target}`)).findIndex(
+                el => `${el}` === `${d.target}`,
+              ) > targetColors.length
+                ? targetColors.length - 1
+                : (targetColorDomain || uniqBy(data, 'target').map(el => `${el.target}`)).findIndex(
+                    el => `${el}` === `${d.target}`,
+                  )
+            ],
+      totalValue: sum(data.filter(el => `${el.target}` === `${d.target}`).map(el => el.value)),
     }));
     const targetNodesSorted =
       sortNodes === 'asc'
@@ -293,9 +283,7 @@ export function SankeyChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -303,9 +291,7 @@ export function SankeyChart(props: Props) {
           ariaLabel ||
           `${
             graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a sankey chart showing flow. ${
-            graphDescription ? ` ${graphDescription}` : ''
-          }`
+          }This is a sankey chart showing flow. ${graphDescription ? ` ${graphDescription}` : ''}`
         }
       >
         <div
@@ -326,14 +312,12 @@ export function SankeyChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -347,9 +331,7 @@ export function SankeyChart(props: Props) {
                   ref={graphDiv}
                   aria-label='Graph area'
                 >
-                  {(width || svgWidth) &&
-                  (height || svgHeight) &&
-                  sankeyData ? (
+                  {(width || svgWidth) && (height || svgHeight) && sankeyData ? (
                     <Graph
                       data={sankeyData}
                       width={width || svgWidth}
@@ -379,12 +361,8 @@ export function SankeyChart(props: Props) {
                       prefix={prefix}
                       onSeriesMouseClick={onSeriesMouseClick}
                       id={generateRandomString(8)}
-                      highlightedSourceDataPoints={highlightedSourceDataPoints.map(
-                        d => `${d}`,
-                      )}
-                      highlightedTargetDataPoints={highlightedTargetDataPoints.map(
-                        d => `${d}`,
-                      )}
+                      highlightedSourceDataPoints={highlightedSourceDataPoints.map(d => `${d}`)}
+                      highlightedTargetDataPoints={highlightedTargetDataPoints.map(d => `${d}`)}
                       defaultLinkOpacity={defaultLinkOpacity}
                       sourceTitle={sourceTitle}
                       targetTitle={targetTitle}
@@ -395,7 +373,7 @@ export function SankeyChart(props: Props) {
                       classNames={classNames}
                       detailsOnClick={detailsOnClick}
                     />
-                    ) : null}
+                  ) : null}
                 </div>
               )}
             </div>

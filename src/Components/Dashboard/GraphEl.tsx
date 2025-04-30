@@ -32,11 +32,7 @@ import { GeoHubMapWithLayerSelection } from '../Graphs/Maps/GeoHubMaps/MapWithLa
 import { SankeyChart } from '../Graphs/SankeyChart';
 import { LineChartWithConfidenceInterval } from '../Graphs/LineCharts/LineChartWithConfidenceInterval';
 import { DataCards } from '../Graphs/DataCards';
-import {
-  SimpleBarGraph,
-  GroupedBarGraph,
-  StackedBarGraph,
-} from '../Graphs/BarGraph';
+import { SimpleBarGraph, GroupedBarGraph, StackedBarGraph } from '../Graphs/BarGraph';
 import { DumbbellChart } from '../Graphs/DumbbellChart';
 import { AnimatedDumbbellChart } from '../Graphs/DumbbellChart/Animated';
 import {
@@ -48,10 +44,7 @@ import { StripChart } from '../Graphs/StripChart';
 import { BeeSwarmChart } from '../Graphs/BeeSwarmChart';
 
 import { getValues } from '@/Utils/getValues';
-import {
-  validateDataSchema,
-  validateSettingsSchema,
-} from '@/Utils/validateSchema';
+import { validateDataSchema, validateSettingsSchema } from '@/Utils/validateSchema';
 import {
   DataTableColumnDataType,
   GraphConfigurationDataType,
@@ -180,11 +173,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -239,11 +228,7 @@ function GraphEl(props: Props) {
           truncateBy: settings?.truncateBy,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('size', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -296,11 +281,7 @@ function GraphEl(props: Props) {
           truncateBy: settings?.truncateBy,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('size', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -357,11 +338,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -413,11 +390,7 @@ function GraphEl(props: Props) {
           truncateBy: settings?.truncateBy,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('size', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           suffix: settings?.suffix,
           prefix: settings?.prefix,
@@ -471,11 +444,7 @@ function GraphEl(props: Props) {
           truncateBy: settings?.truncateBy,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'size',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('size', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -686,11 +655,7 @@ function GraphEl(props: Props) {
           prefix: settings?.prefix,
           labels:
             settings?.labels ||
-            (getValues(
-              'y',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('y', graphDataConfiguration || [], readableHeader || []) as string[]),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,
@@ -799,11 +764,7 @@ function GraphEl(props: Props) {
           dateFormat: settings?.dateFormat,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'y',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('y', graphDataConfiguration || [], readableHeader || []) as string[]),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           colorLegendTitle: settings?.colorLegendTitle,
@@ -852,11 +813,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'x',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('x', graphDataConfiguration || [], readableHeader || []),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -905,19 +862,11 @@ function GraphEl(props: Props) {
           xColorLegendTitle:
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
-              : getValues(
-                'x',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('x', graphDataConfiguration || [], readableHeader || []),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
-              : getValues(
-                'y',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('y', graphDataConfiguration || [], readableHeader || []),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -968,11 +917,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1059,11 +1004,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           radius: settings?.radius,
           axisTitles: settings?.axisTitles,
           backgroundColor: settings?.backgroundColor,
@@ -1106,28 +1047,16 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           radius: settings?.radius,
-          xAxisTitle: 
+          xAxisTitle:
             Object.keys(settings || {}).indexOf('xAxisTitle') !== -1
               ? settings?.xAxisTitle
-              : getValues(
-                'x',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
-          yAxisTitle: 
+              : getValues('x', graphDataConfiguration || [], readableHeader || []),
+          yAxisTitle:
             Object.keys(settings || {}).indexOf('yAxisTitle') !== -1
               ? settings?.yAxisTitle
-              : getValues(
-                'y',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('y', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           leftMargin: settings?.leftMargin,
@@ -1193,11 +1122,7 @@ function GraphEl(props: Props) {
           labelOrder: settings?.labelOrder,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'x',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('x', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1249,11 +1174,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1299,11 +1220,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1352,11 +1269,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1398,11 +1311,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           radius: settings?.radius,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -1453,11 +1362,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           topMargin: settings?.topMargin,
@@ -1494,19 +1399,11 @@ function GraphEl(props: Props) {
           leftBarTitle:
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
-              : getValues(
-                'leftBar',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('leftBar', graphDataConfiguration || [], readableHeader || []),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
-              : getValues(
-                'rightBar',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('rightBar', graphDataConfiguration || [], readableHeader || []),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -1627,19 +1524,11 @@ function GraphEl(props: Props) {
           barTitle:
             Object.keys(settings || {}).indexOf('barTitle') !== -1
               ? settings?.barTitle
-              : getValues(
-                'barTitle',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('barTitle', graphDataConfiguration || [], readableHeader || []),
           lineTitle:
             Object.keys(settings || {}).indexOf('lineTitle') !== -1
               ? settings?.lineTitle
-              : getValues(
-                'lineTitle',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('lineTitle', graphDataConfiguration || [], readableHeader || []),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -1836,19 +1725,11 @@ function GraphEl(props: Props) {
           xColorLegendTitle:
             Object.keys(settings || {}).indexOf('xColorLegendTitle') !== -1
               ? settings?.xColorLegendTitle
-              : getValues(
-                'x',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('x', graphDataConfiguration || [], readableHeader || []),
           yColorLegendTitle:
             Object.keys(settings || {}).indexOf('yColorLegendTitle') !== -1
               ? settings?.yColorLegendTitle
-              : getValues(
-                'y',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('y', graphDataConfiguration || [], readableHeader || []),
           xDomain: settings?.xDomain as [number, number, number, number],
           yDomain: settings?.yDomain as [number, number, number, number],
           colors: settings?.colors as string[][] | undefined,
@@ -1897,11 +1778,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'x',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('x', graphDataConfiguration || [], readableHeader || []),
           categorical: settings?.categorical,
           data: graphData,
           scale: settings?.scale,
@@ -1951,11 +1828,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1996,19 +1869,11 @@ function GraphEl(props: Props) {
           leftBarTitle:
             Object.keys(settings || {}).indexOf('leftBarTitle') !== -1
               ? settings?.leftBarTitle
-              : getValues(
-                'leftBar',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('leftBar', graphDataConfiguration || [], readableHeader || []),
           rightBarTitle:
             Object.keys(settings || {}).indexOf('rightBarTitle') !== -1
               ? settings?.rightBarTitle
-              : getValues(
-                'rightBar',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('rightBar', graphDataConfiguration || [], readableHeader || []),
           footNote: settings?.footNote,
           width: settings?.width,
           height: settings?.height,
@@ -2069,11 +1934,7 @@ function GraphEl(props: Props) {
           truncateBy: settings?.truncateBy,
           colorDomain:
             settings?.colorDomain ||
-            (getValues(
-              'x',
-              graphDataConfiguration || [],
-              readableHeader || [],
-            ) as string[]),
+            (getValues('x', graphDataConfiguration || [], readableHeader || []) as string[]),
           colorLegendTitle: settings?.colorLegendTitle,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
@@ -2124,11 +1985,7 @@ function GraphEl(props: Props) {
           colorLegendTitle:
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
-              : getValues(
-                'color',
-                graphDataConfiguration || [],
-                readableHeader || [],
-              ),
+              : getValues('color', graphDataConfiguration || [], readableHeader || []),
           radius: settings?.radius,
           xAxisTitle: settings?.xAxisTitle,
           yAxisTitle: settings?.yAxisTitle,
@@ -2263,32 +2120,27 @@ function GraphEl(props: Props) {
       className={`grow my-0 ${
         graph !== 'statCard' ? 'mx-auto' : 'mx-0'
       } flex flex-col h-inherit ${settings?.width ? 'w-fit' : 'w-full'} ${
-        graph !== 'unitChart' && graph !== 'statCard'
-          ? 'justify-center'
-          : 'justify-start'
+        graph !== 'unitChart' && graph !== 'statCard' ? 'justify-center' : 'justify-start'
       } ${settings?.theme || 'light'}`}
       style={{ minHeight: 'inherit' }}
     >
       {validateSettingsSchema(getGraphProps(graph) || {}, graph).isValid &&
       validateDataSchema(graphData, graph).isValid &&
       GraphComponent ? (
-         
         <GraphComponent {...graphProps} />
-        ) : (
-          <P
-            size='sm'
-            marginBottom='none'
-            className='p-2 text-center text-accent-dark-red dark:text-accent-red'
-          >
-            {GraphComponent
-              ? validateSettingsSchema(settings || {}, graph).isValid
-                ? `Error in data: ${validateDataSchema(graphData, graph).err}`
-                : `Error in settings: ${
-                  validateSettingsSchema(settings || {}, graph).err
-                }`
-              : `Invalid chart type: ${graph}`}
-          </P>
-        )}
+      ) : (
+        <P
+          size='sm'
+          marginBottom='none'
+          className='p-2 text-center text-accent-dark-red dark:text-accent-red'
+        >
+          {GraphComponent
+            ? validateSettingsSchema(settings || {}, graph).isValid
+              ? `Error in data: ${validateDataSchema(graphData, graph).err}`
+              : `Error in settings: ${validateSettingsSchema(settings || {}, graph).err}`
+            : `Invalid chart type: ${graph}`}
+        </P>
+      )}
     </div>
   );
 }

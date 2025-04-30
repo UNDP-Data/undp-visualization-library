@@ -181,10 +181,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
     showIntervalDots = false,
     showIntervalValues = false,
     intervalLineStrokeWidth = 0,
-    intervalLineColors = [
-      Colors.light.grays['gray-500'],
-      Colors.light.grays['gray-500'],
-    ],
+    intervalLineColors = [Colors.light.grays['gray-500'], Colors.light.grays['gray-500']],
     intervalAreaColor = Colors.primaryColors['blue-100'],
     intervalAreaOpacity = 0.4,
     graphDownload = false,
@@ -230,9 +227,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -245,9 +240,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -278,14 +271,12 @@ export function LineChartWithConfidenceInterval(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -313,17 +304,14 @@ export function LineChartWithConfidenceInterval(props: Props) {
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
-                        lineColor={
-                          lineColor || Colors.primaryColors['blue-600']
-                        }
+                        lineColor={lineColor || Colors.primaryColors['blue-600']}
                         width={width || svgWidth}
                         height={Math.max(
                           minHeight,
                           height ||
                             (relativeHeight
                               ? minHeight
-                                ? (width || svgWidth) * relativeHeight >
-                                  minHeight
+                                ? (width || svgWidth) * relativeHeight > minHeight
                                   ? (width || svgWidth) * relativeHeight
                                   : minHeight
                                 : (width || svgWidth) * relativeHeight
@@ -349,9 +337,7 @@ export function LineChartWithConfidenceInterval(props: Props) {
                         strokeWidth={strokeWidth}
                         showDots={showDots}
                         annotations={annotations}
-                        customHighlightAreaSettings={
-                          customHighlightAreaSettings
-                        }
+                        customHighlightAreaSettings={customHighlightAreaSettings}
                         regressionLine={regressionLine}
                         showIntervalDots={showIntervalDots}
                         showIntervalValues={showIntervalValues}

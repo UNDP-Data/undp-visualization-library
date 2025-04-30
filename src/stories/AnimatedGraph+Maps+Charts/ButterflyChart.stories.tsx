@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -12,9 +11,7 @@ import {
 
 import { AnimatedButterflyChart } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof AnimatedButterflyChart
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedButterflyChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Animated graphs/Butterfly chart',
@@ -59,7 +56,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
       control: {
-        type: 'range', min: 0, max: 1, step: 0.1, 
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
       },
     },
     centerGap: { table: { defaultValue: { summary: '100' } } },
@@ -106,68 +106,128 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   args: {
     data: [
       {
-        label: 'Category 5', leftBar: 7, rightBar: 9, date: '2010', 
+        label: 'Category 5',
+        leftBar: 7,
+        rightBar: 9,
+        date: '2010',
       },
       {
-        label: 'Category 5', leftBar: 10, rightBar: 12, date: '2012', 
+        label: 'Category 5',
+        leftBar: 10,
+        rightBar: 12,
+        date: '2012',
       },
       {
-        label: 'Category 5', leftBar: 6, rightBar: 11, date: '2014', 
+        label: 'Category 5',
+        leftBar: 6,
+        rightBar: 11,
+        date: '2014',
       },
       {
-        label: 'Category 5', leftBar: 10, rightBar: 14, date: '2016', 
-      },
-
-      {
-        label: 'Category 4', leftBar: 6, rightBar: 8, date: '2010', 
-      },
-      {
-        label: 'Category 4', leftBar: 9, rightBar: 11, date: '2012', 
-      },
-      {
-        label: 'Category 4', leftBar: 12, rightBar: 10, date: '2014', 
-      },
-      {
-        label: 'Category 4', leftBar: 6, rightBar: 13, date: '2016', 
-      },
-
-      {
-        label: 'Category 3', leftBar: 5, rightBar: 7, date: '2010', 
-      },
-      {
-        label: 'Category 3', leftBar: 8, rightBar: 10, date: '2012', 
-      },
-      {
-        label: 'Category 3', leftBar: 11, rightBar: 9, date: '2014', 
-      },
-      {
-        label: 'Category 3', leftBar: 14, rightBar: 12, date: '2016', 
+        label: 'Category 5',
+        leftBar: 10,
+        rightBar: 14,
+        date: '2016',
       },
 
       {
-        label: 'Category 2', leftBar: 4, rightBar: 6, date: '2010', 
+        label: 'Category 4',
+        leftBar: 6,
+        rightBar: 8,
+        date: '2010',
       },
       {
-        label: 'Category 2', leftBar: 7, rightBar: 9, date: '2012', 
+        label: 'Category 4',
+        leftBar: 9,
+        rightBar: 11,
+        date: '2012',
       },
       {
-        label: 'Category 2', leftBar: 10, rightBar: 8, date: '2014', 
+        label: 'Category 4',
+        leftBar: 12,
+        rightBar: 10,
+        date: '2014',
       },
       {
-        label: 'Category 2', leftBar: 13, rightBar: 11, date: '2016', 
+        label: 'Category 4',
+        leftBar: 6,
+        rightBar: 13,
+        date: '2016',
       },
 
       {
-        label: 'Category 1', leftBar: 3, rightBar: 5, date: '2010', 
+        label: 'Category 3',
+        leftBar: 5,
+        rightBar: 7,
+        date: '2010',
       },
       {
-        label: 'Category 1', leftBar: 6, rightBar: 8, date: '2012', 
+        label: 'Category 3',
+        leftBar: 8,
+        rightBar: 10,
+        date: '2012',
       },
       {
-        label: 'Category 1', leftBar: 9, rightBar: 7, date: '2014', 
+        label: 'Category 3',
+        leftBar: 11,
+        rightBar: 9,
+        date: '2014',
       },
       {
-        label: 'Category 1', leftBar: 12, rightBar: 10, date: '2016', 
+        label: 'Category 3',
+        leftBar: 14,
+        rightBar: 12,
+        date: '2016',
+      },
+
+      {
+        label: 'Category 2',
+        leftBar: 4,
+        rightBar: 6,
+        date: '2010',
+      },
+      {
+        label: 'Category 2',
+        leftBar: 7,
+        rightBar: 9,
+        date: '2012',
+      },
+      {
+        label: 'Category 2',
+        leftBar: 10,
+        rightBar: 8,
+        date: '2014',
+      },
+      {
+        label: 'Category 2',
+        leftBar: 13,
+        rightBar: 11,
+        date: '2016',
+      },
+
+      {
+        label: 'Category 1',
+        leftBar: 3,
+        rightBar: 5,
+        date: '2010',
+      },
+      {
+        label: 'Category 1',
+        leftBar: 6,
+        rightBar: 8,
+        date: '2012',
+      },
+      {
+        label: 'Category 1',
+        leftBar: 9,
+        rightBar: 7,
+        date: '2014',
+      },
+      {
+        label: 'Category 1',
+        leftBar: 12,
+        rightBar: 10,
+        date: '2016',
       },
     ],
   },
@@ -175,11 +235,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     return (
       <AnimatedButterflyChart
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

@@ -42,9 +42,7 @@ export function ExcelDownloadButton(props: Props) {
     <Button
       variant={buttonType}
       className={`${buttonSmall ? 'p-2' : 'py-4 px-6'} ${className}`}
-      onClick={() =>
-        excelDownload(csvData, fileName, headers, xlsxHeader, wscols)
-      }
+      onClick={() => excelDownload(csvData, fileName, headers, xlsxHeader, wscols)}
       aria-label='Click to download the data as xlsx'
     >
       {buttonContent || <FileDown />}

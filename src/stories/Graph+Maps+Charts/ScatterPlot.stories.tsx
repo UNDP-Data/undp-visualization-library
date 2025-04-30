@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -43,8 +42,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          detail: 'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
@@ -142,8 +140,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
+          detail: 'If the type is string then string is use to define the color of the line.',
         },
       },
     },
@@ -203,20 +200,12 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       <ScatterPlot
         colors={parseValue(colors, colors)}
         regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-              ? true
-              : regressionLine
+          regressionLine === 'false' ? false : regressionLine === 'true' ? true : regressionLine
         }
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

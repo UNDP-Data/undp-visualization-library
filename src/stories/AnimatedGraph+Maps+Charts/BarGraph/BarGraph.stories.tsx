@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -44,8 +43,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'string | string[]',
-          detail:
-            'Requires a array if color key is present in the data else requires a string',
+          detail: 'Requires a array if color key is present in the data else requires a string',
         },
       },
     },
@@ -66,7 +64,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
       control: {
-        type: 'range', min: 0, max: 1, step: 0.1, 
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
       },
     },
 
@@ -161,24 +162,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { label: 'Category 4', size: 7, date: '2024' },
     ],
   },
-  render: ({
-    colors,
-    highlightedDataPoints,
-    backgroundColor,
-    colorDomain,
-    ...args
-  }) => {
+  render: ({ colors, highlightedDataPoints, backgroundColor, colorDomain, ...args }) => {
     return (
       <AnimatedBarGraph
         colors={parseValue(colors, colors)}
         highlightedDataPoints={parseValue(highlightedDataPoints)}
         colorDomain={parseValue(colorDomain)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

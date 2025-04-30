@@ -18,8 +18,7 @@ export function wideToLongTransformation(
         const obj: any = {
           indicator:
             readableHeader.findIndex(d => d.value === key) !== -1
-              ? readableHeader[readableHeader.findIndex(d => d.value === key)]
-                .label
+              ? readableHeader[readableHeader.findIndex(d => d.value === key)].label
               : key,
           value,
         };

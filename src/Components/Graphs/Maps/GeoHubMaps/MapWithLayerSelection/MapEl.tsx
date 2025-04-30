@@ -157,10 +157,7 @@ export function MapEl(props: Props) {
             ),
           }}
         >
-          <div
-            ref={mapContainer}
-            className='map maplibre-show-control w-full h-full'
-          />
+          <div ref={mapContainer} className='map maplibre-show-control w-full h-full' />
         </div>
       ) : null}
     </div>

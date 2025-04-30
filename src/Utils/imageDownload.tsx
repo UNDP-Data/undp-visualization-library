@@ -13,15 +13,13 @@ import { toPng } from 'html-to-image';
  * imageDownload(element, 'screenshot');
  */
 
-
-
 export function imageDownload(node: HTMLElement, filename: string) {
-  toPng(node, { 
+  toPng(node, {
     quality: 1,
     pixelRatio: 2,
     skipAutoScale: true,
     style: { margin: '0' },
-    filter: (node) => {
+    filter: node => {
       return !node.classList?.contains('undp-viz-download-button');
     },
   })

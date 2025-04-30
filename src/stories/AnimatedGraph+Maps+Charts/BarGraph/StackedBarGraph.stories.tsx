@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -13,9 +12,7 @@ import {
 
 import { AnimatedStackedBarGraph } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<
-  typeof AnimatedStackedBarGraph
->;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof AnimatedStackedBarGraph>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Animated graphs/Stacked bar graph',
@@ -64,7 +61,10 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     minHeight: { table: { defaultValue: { summary: '0' } } },
     barPadding: {
       control: {
-        type: 'range', min: 0, max: 1, step: 0.1, 
+        type: 'range',
+        min: 0,
+        max: 1,
+        step: 0.1,
       },
     },
 
@@ -143,19 +143,13 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     colorDomain: ['Apples', 'Mangoes', 'Oranges'],
   },
-  render: ({
-    colors, backgroundColor, colorDomain, ...args 
-  }) => {
+  render: ({ colors, backgroundColor, colorDomain, ...args }) => {
     return (
       <AnimatedStackedBarGraph
         colors={parseValue(colors)}
         colorDomain={parseValue(colorDomain, ['Apples', 'Mangoes', 'Oranges'])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

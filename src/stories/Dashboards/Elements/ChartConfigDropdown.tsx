@@ -1,4 +1,3 @@
- 
 import { useState } from 'react';
 import { Source } from '@storybook/blocks';
 
@@ -16,9 +15,7 @@ export function ChartConfigDropdown(props: Props) {
 
   const codeBlock =
     type === 'graphType'
-      ? `graphType='${
-        GraphNames[GraphNames.findIndex(d => d.name === selected)].id
-      }'`
+      ? `graphType='${GraphNames[GraphNames.findIndex(d => d.name === selected)].id}'`
       : type === 'graphSettings'
         ? `graphSettings={${GraphSettingsSelector(selected, true, false)}}`
         : type === 'dataSettings'
@@ -30,11 +27,7 @@ export function ChartConfigDropdown(props: Props) {
       <label htmlFor='chart-select'>
         <strong>Chart Type: </strong>
       </label>
-      <select
-        id='chart-select'
-        value={selected}
-        onChange={e => setSelected(e.target.value)}
-      >
+      <select id='chart-select' value={selected} onChange={e => setSelected(e.target.value)}>
         {GraphNames.map(d => d.name)
           .sort()
           .map(key => (

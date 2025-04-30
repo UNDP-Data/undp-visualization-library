@@ -20,6 +20,8 @@ import { GraphHeader } from '@/Components/Elements/GraphHeader';
 import { Colors } from '@/Components/ColorPalette';
 import { Pause, Play } from '@/Components/Icons';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
+import { getUniqValue } from '@/Utils/getUniqValue';
+import { getJenks } from '@/Utils/getJenks';
 
 interface Props {
   // Data
@@ -42,7 +44,7 @@ interface Props {
   /** Colors for the choropleth map */
   colors?: string[];
   /** Domain of colors for the graph */
-  colorDomain: number[] | string[];
+  colorDomain?: number[] | string[];
   /** Title for the color legend */
   colorLegendTitle?: string;
   /** Color for the areas where data is no available */
@@ -81,7 +83,7 @@ interface Props {
   /** Toggle if the map is a world map */
   isWorldMap?: boolean;
   /** Map projection type */
-  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';  
+  mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
   /** Extend of the allowed zoom in the map */
   zoomScaleExtend?: [number, number];
   /** Extend of the allowed panning in the map */
@@ -211,11 +213,18 @@ export function AnimatedChoroplethMap(props: Props) {
     }
   }, [mapData]);
 
+  const domain =
+    colorDomain ||
+    (categorical
+      ? getUniqValue(data, 'x')
+      : getJenks(
+          getUniqValue(data, 'x').filter(d => d !== undefined && d !== null),
+          colors?.length || 4,
+        ));
+
   const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
-    uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat, new Date()).getTime(),
-    ),
+    uniqBy(data, d => d.date).map(d => parse(`${d.date}`, dateFormat, new Date()).getTime()),
     (a, b) => ascending(a, b),
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
@@ -243,9 +252,7 @@ export function AnimatedChoroplethMap(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -258,9 +265,7 @@ export function AnimatedChoroplethMap(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -291,14 +296,12 @@ export function AnimatedChoroplethMap(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -310,9 +313,7 @@ export function AnimatedChoroplethMap(props: Props) {
                   setPlay(!play);
                 }}
                 className='p-0 border-0 cursor-pointer bg-transparent'
-                aria-label={
-                  play ? 'Click to pause animation' : 'Click to play animation'
-                }
+                aria-label={play ? 'Click to pause animation' : 'Click to play animation'}
               >
                 {play ? <Pause /> : <Play />}
               </button>
@@ -340,9 +341,18 @@ export function AnimatedChoroplethMap(props: Props) {
               {(width || svgWidth) && (height || svgHeight) && mapShape ? (
                 <Graph
                   data={data}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  mapData={showAntarctica ? mapShape : { ...mapShape, features: mapShape.features.filter((el: any) => el.properties.NAME !== 'Antarctica') }}
-                  colorDomain={colorDomain}
+                  mapData={
+                    showAntarctica
+                      ? mapShape
+                      : {
+                          ...mapShape,
+                          features: mapShape.features.filter(
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (el: any) => el.properties.NAME !== 'Antarctica',
+                          ),
+                        }
+                  }
+                  colorDomain={domain}
                   width={width || svgWidth}
                   height={Math.max(
                     minHeight,
@@ -361,15 +371,11 @@ export function AnimatedChoroplethMap(props: Props) {
                     colors ||
                     (categorical
                       ? Colors[theme].sequentialColors[
-                        `neutralColorsx0${
-                            colorDomain.length as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ]
+                          `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
+                        ]
                       : Colors[theme].sequentialColors[
-                        `neutralColorsx0${
-                            (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                        }`
-                      ])
+                          `neutralColorsx0${(domain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9}`
+                        ])
                   }
                   colorLegendTitle={colorLegendTitle}
                   mapBorderWidth={mapBorderWidth}

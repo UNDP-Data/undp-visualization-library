@@ -57,10 +57,7 @@ export type GraphTypeForGriddedGraph =
   | 'lineChartWithConfidenceInterval'
   | 'dataCards';
 
-export type GeoHubGraphType =
-  | 'geoHubCompareMap'
-  | 'geoHubMap'
-  | 'geoHubMapWithLayerSelection';
+export type GeoHubGraphType = 'geoHubCompareMap' | 'geoHubMap' | 'geoHubMapWithLayerSelection';
 
 export type GraphType = GraphTypeForGriddedGraph | GeoHubGraphType;
 
@@ -162,8 +159,7 @@ export interface GroupedBarGraphDataType {
   data?: object;
 }
 
-export interface GroupedBarGraphWithDateDataType
-  extends GroupedBarGraphDataType {
+export interface GroupedBarGraphWithDateDataType extends GroupedBarGraphDataType {
   date: string | number;
 }
 
@@ -486,12 +482,7 @@ export type DashboardLayoutDataType = {
 };
 
 export type DashboardFromWideToLongFormatColumnDataType = {
-  graphType:
-    | 'donutChart'
-    | 'barChart'
-    | 'unitChart'
-    | 'treeMap'
-    | 'circlePacking';
+  graphType: 'donutChart' | 'barChart' | 'unitChart' | 'treeMap' | 'circlePacking';
   columnWidth?: number;
   dataFilters?: DataFilterDataType[];
   settings?: any;

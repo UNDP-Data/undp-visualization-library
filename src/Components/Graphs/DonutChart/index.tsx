@@ -174,8 +174,7 @@ export function DonutChart(props: Props) {
       setSvgHeight(graphDiv.current.clientHeight || 420);
       setSvgWidth(graphDiv.current.clientWidth || 420);
       setDonutRadius(
-        (min([graphDiv.current.clientWidth, graphDiv.current.clientHeight]) ||
-          420) / 2,
+        (min([graphDiv.current.clientWidth, graphDiv.current.clientHeight]) || 420) / 2,
       );
       if (!width || !radius) resizeObserver.observe(graphDiv.current);
     }
@@ -191,9 +190,7 @@ export function DonutChart(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -207,9 +204,7 @@ export function DonutChart(props: Props) {
         style={{
           ...(styles?.graphBackground || {}),
           minHeight: 'inherit',
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -217,9 +212,7 @@ export function DonutChart(props: Props) {
           ariaLabel ||
           `${
             graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a donut or pie chart chart. ${
-            graphDescription ? ` ${graphDescription}` : ''
-          }`
+          }This is a donut or pie chart chart. ${graphDescription ? ` ${graphDescription}` : ''}`
         }
       >
         <div
@@ -240,14 +233,12 @@ export function DonutChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -275,22 +266,15 @@ export function DonutChart(props: Props) {
                               className='w-3 h-3 rounded-full'
                               style={{
                                 backgroundColor:
-                                  (
-                                    colorDomain ||
-                                    sortedData.map(el => el.label)
-                                  ).indexOf(d.label) !== -1
-                                    ? (colors ||
-                                        Colors[theme].categoricalColors.colors)[
-                                      (
-                                        colorDomain ||
-                                          sortedData.map(el => el.label)
-                                      ).indexOf(d.label) %
-                                          (
-                                            colors ||
-                                            Colors[theme].categoricalColors
-                                              .colors
-                                          ).length
-                                    ]
+                                  (colorDomain || sortedData.map(el => el.label)).indexOf(
+                                    d.label,
+                                  ) !== -1
+                                    ? (colors || Colors[theme].categoricalColors.colors)[
+                                        (colorDomain || sortedData.map(el => el.label)).indexOf(
+                                          d.label,
+                                        ) %
+                                          (colors || Colors[theme].categoricalColors.colors).length
+                                      ]
                                     : Colors.gray,
                               }}
                             />
@@ -300,15 +284,8 @@ export function DonutChart(props: Props) {
                               className='text-primary-gray-700 dark:text-primary-gray-100'
                             >
                               {d.label}:{' '}
-                              <span
-                                className='font-bold'
-                                style={{ fontSize: 'inherit' }}
-                              >
-                                {numberFormattingFunction(
-                                  d.size,
-                                  prefix,
-                                  suffix,
-                                )}
+                              <span className='font-bold' style={{ fontSize: 'inherit' }}>
+                                {numberFormattingFunction(d.size, prefix, suffix)}
                               </span>
                             </P>
                           </div>
@@ -324,17 +301,16 @@ export function DonutChart(props: Props) {
                       width: width ? `${width}px` : '100%',
                       height: height
                         ? `${Math.max(
-                          minHeight,
-                          height ||
+                            minHeight,
+                            height ||
                               (relativeHeight
                                 ? minHeight
-                                  ? (width || svgWidth) * relativeHeight >
-                                    minHeight
+                                  ? (width || svgWidth) * relativeHeight > minHeight
                                     ? (width || svgWidth) * relativeHeight
                                     : minHeight
                                   : (width || svgWidth) * relativeHeight
                                 : svgHeight),
-                        )}px`
+                          )}px`
                         : 'auto',
                     }}
                     ref={graphDiv}
@@ -356,14 +332,10 @@ export function DonutChart(props: Props) {
                           subNote={subNote}
                           strokeWidth={strokeWidth}
                           tooltip={tooltip}
-                          colorDomain={
-                            colorDomain || sortedData.map(d => d.label)
-                          }
+                          colorDomain={colorDomain || sortedData.map(d => d.label)}
                           onSeriesMouseOver={onSeriesMouseOver}
                           onSeriesMouseClick={onSeriesMouseClick}
-                          resetSelectionOnDoubleClick={
-                            resetSelectionOnDoubleClick
-                          }
+                          resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                           styles={styles}
                           detailsOnClick={detailsOnClick}
                         />

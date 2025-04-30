@@ -14,9 +14,7 @@ export function Dashboard(div: Element, config: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DashboardWithDataTransform(div: Element, config: any) {
   const rootEmbed = ReactDOM.createRoot(div);
-  rootEmbed.render(
-    <MultiGraphDashboardWideToLongFormatFromConfig config={config} />,
-  );
+  rootEmbed.render(<MultiGraphDashboardWideToLongFormatFromConfig config={config} />);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

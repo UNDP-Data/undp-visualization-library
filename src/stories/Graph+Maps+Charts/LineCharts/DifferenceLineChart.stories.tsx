@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -185,22 +184,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     ],
     labels: ['Apples', 'Oranges'],
   },
-  render: ({
-    animateLine,
-    backgroundColor,
-    lineColors,
-    diffAreaColors,
-    labels,
-    ...args
-  }) => {
+  render: ({ animateLine, backgroundColor, lineColors, diffAreaColors, labels, ...args }) => {
     return (
       <DifferenceLineChart
         animateLine={
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false'
             ? false
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            : (animateLine as any) === 'true'
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (animateLine as any) === 'true'
               ? true
               : Number(animateLine)
         }
@@ -208,11 +200,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         diffAreaColors={parseValue(diffAreaColors)}
         labels={parseValue(labels, ['Apples', 'Oranges'])}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

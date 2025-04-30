@@ -108,11 +108,7 @@ export function Graph(props: Props) {
   const y = scaleLinear()
     .domain([
       checkIfNullOrUndefined(minValue) ? minParam : (minValue as number),
-      checkIfNullOrUndefined(maxValue)
-        ? maxParam > 0
-          ? maxParam
-          : 0
-        : (maxValue as number),
+      checkIfNullOrUndefined(maxValue) ? (maxParam > 0 ? maxParam : 0) : (maxValue as number),
     ])
     .range([graphHeight, 0])
     .nice();
@@ -143,9 +139,7 @@ export function Graph(props: Props) {
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
       if (onSeriesMouseOver) {
-        onSeriesMouseOver(
-          selectedData || dataFormatted[dataFormatted.length - 1],
-        );
+        onSeriesMouseOver(selectedData || dataFormatted[dataFormatted.length - 1]);
       }
       setEventY(event.clientY);
       setEventX(event.clientX);
@@ -158,9 +152,7 @@ export function Graph(props: Props) {
       setEventX(undefined);
       setEventY(undefined);
     };
-    select(MouseoverRectRef.current)
-      .on('mousemove', mousemove)
-      .on('mouseout', mouseout);
+    select(MouseoverRectRef.current).on('mousemove', mousemove).on('mouseout', mouseout);
     if (onSeriesMouseOver) {
       onSeriesMouseOver(undefined);
     }
@@ -175,16 +167,8 @@ export function Graph(props: Props) {
       >
         {areaId ? (
           <linearGradient id={areaId} x1='0' x2='0' y1='0' y2='1'>
-            <stop
-              style={{ stopColor: lineColor }}
-              stopOpacity='0.1'
-              offset='0%'
-            />
-            <stop
-              style={{ stopColor: lineColor }}
-              stopOpacity='0'
-              offset='100%'
-            />
+            <stop style={{ stopColor: lineColor }} stopOpacity='0.1' offset='0%' />
+            <stop style={{ stopColor: lineColor }} stopOpacity='0' offset='100%' />
           </linearGradient>
         ) : null}
         <g transform={`translate(${margin.left},${margin.top})`}>

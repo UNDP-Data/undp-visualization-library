@@ -259,27 +259,17 @@ const ColorsList = {
   },
 };
 
-function ColorGrid({ colors }: {
-  colors: Record<string, { color: string; name: string }>;
-}) {
+function ColorGrid({ colors }: { colors: Record<string, { color: string; name: string }> }) {
   return (
     <div className='gap-4 flex flex-wrap'>
       {Object.entries(colors).map(([name, value]) => (
-        <div
-          key={name}
-          className='flex items-center space-x-2 p-2 border rounded-md'
-        >
-          <div
-            className='w-10 h-10 rounded-md border'
-            style={{ backgroundColor: value.color }}
-          />
+        <div key={name} className='flex items-center space-x-2 p-2 border rounded-md'>
+          <div className='w-10 h-10 rounded-md border' style={{ backgroundColor: value.color }} />
           <div className='text-sm pr-2'>
             <div>
               {name} ({value.color})
             </div>
-            <div className='text-xs text-gray-500 font-bold font-mono'>
-              {value.name}
-            </div>
+            <div className='text-xs text-gray-500 font-bold font-mono'>{value.name}</div>
           </div>
         </div>
       ))}

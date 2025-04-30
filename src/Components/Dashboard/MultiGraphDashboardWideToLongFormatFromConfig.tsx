@@ -35,9 +35,7 @@ interface Props {
 
 export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
   const { config } = props;
-  const [configSettings, setConfigSettings] = useState<
-    ConfigObject | undefined
-  >(undefined);
+  const [configSettings, setConfigSettings] = useState<ConfigObject | undefined>(undefined);
 
   useEffect(() => {
     if (typeof config === 'string') {
@@ -66,12 +64,7 @@ export function MultiGraphDashboardWideToLongFormatFromConfig(props: Props) {
         marginBottom='none'
         className='p-2 text-center text-accent-dark-red dark:text-accent-red'
       >
-        {
-          validateConfigSchema(
-            configSettings,
-            'multiGraphDashboardWideToLongFormat',
-          ).err
-        }
+        {validateConfigSchema(configSettings, 'multiGraphDashboardWideToLongFormat').err}
       </P>
     );
   return (

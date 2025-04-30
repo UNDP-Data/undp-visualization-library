@@ -10,9 +10,7 @@ interface Props {
 }
 
 export function AxisTitle(props: Props) {
-  const {
-    text, x, y, className, style, rotate90, 
-  } = props;
+  const { text, x, y, className, style, rotate90 } = props;
   if (!text) return null;
   return (
     <text
@@ -21,10 +19,7 @@ export function AxisTitle(props: Props) {
         textAnchor: 'middle',
         ...(style || {}),
       }}
-      className={cn(
-        'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs',
-        className,
-      )}
+      className={cn('fill-primary-gray-700 dark:fill-primary-gray-300 text-xs', className)}
     >
       {text}
     </text>

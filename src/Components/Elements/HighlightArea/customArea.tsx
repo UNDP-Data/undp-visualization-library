@@ -25,16 +25,12 @@ export function CustomArea(props: Props) {
           {d.coordinates.length !== 4 ? (
             <path
               d={getPathFromPoints(
-                d.coordinates.map((el, j) =>
-                  j % 2 === 0 ? scaleX(el) : scaleY(el as number),
-                ),
+                d.coordinates.map((el, j) => (j % 2 === 0 ? scaleX(el) : scaleY(el as number))),
                 d.closePath,
               )}
               style={{
                 strokeWidth: d.strokeWidth || 0,
-                ...(d.coordinates.length > 4
-                  ? d.color && { fill: d.color }
-                  : { fill: 'none' }),
+                ...(d.coordinates.length > 4 ? d.color && { fill: d.color } : { fill: 'none' }),
                 ...(d.color && { stroke: d.color }),
                 ...(d.style || {}),
               }}
@@ -58,9 +54,7 @@ export function CustomArea(props: Props) {
                 ...(d.style || {}),
               }}
               className={cn(
-                !d.color
-                  ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550'
-                  : '',
+                !d.color ? 'stroke-primary-gray-300 dark:stroke-primary-gray-550' : '',
                 d.className,
               )}
             />

@@ -128,22 +128,16 @@ export function Graph(props: Props) {
   const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
     ...d,
     coordinates: [
-      d.coordinates[0] === null
-        ? null
-        : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
-      d.coordinates[1] === null
-        ? null
-        : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
+      d.coordinates[0] === null ? null : parse(`${d.coordinates[0]}`, dateFormat, new Date()),
+      d.coordinates[1] === null ? null : parse(`${d.coordinates[1]}`, dateFormat, new Date()),
     ],
   }));
-  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(
-    d => ({
-      ...d,
-      coordinates: d.coordinates.map((el, j) =>
-        j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
-      ),
-    }),
-  );
+  const customHighlightAreaSettingsFormatted = customHighlightAreaSettings.map(d => ({
+    ...d,
+    coordinates: d.coordinates.map((el, j) =>
+      j % 2 === 0 ? parse(`${el}`, dateFormat, new Date()) : (el as number),
+    ),
+  }));
   const dataArray = dataFormatted[0].y.map((_d, i) => {
     return dataFormatted.map(el => ({
       date: el.date,
@@ -161,10 +155,7 @@ export function Graph(props: Props) {
     : (maxValue as number);
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
-  const y = scaleLinear()
-    .domain([minParam, maxParam])
-    .range([graphHeight, 0])
-    .nice();
+  const y = scaleLinear().domain([minParam, maxParam]).range([graphHeight, 0]).nice();
 
   const areaShape = area()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -189,9 +180,7 @@ export function Graph(props: Props) {
         ];
       setMouseOverData(selectedData || dataFormatted[dataFormatted.length - 1]);
       if (onSeriesMouseOver) {
-        onSeriesMouseOver(
-          selectedData || dataFormatted[dataFormatted.length - 1],
-        );
+        onSeriesMouseOver(selectedData || dataFormatted[dataFormatted.length - 1]);
       }
       setEventY(event.clientY);
       setEventX(event.clientX);
@@ -204,9 +193,7 @@ export function Graph(props: Props) {
         onSeriesMouseOver(undefined);
       }
     };
-    select(MouseoverRectRef.current)
-      .on('mousemove', mousemove)
-      .on('mouseout', mouseout);
+    select(MouseoverRectRef.current).on('mousemove', mousemove).on('mouseout', mouseout);
   }, [x, dataFormatted, onSeriesMouseOver]);
   return (
     <>
@@ -223,11 +210,7 @@ export function Graph(props: Props) {
             height={graphHeight}
             scale={x}
           />
-          <CustomArea
-            areaSettings={customHighlightAreaSettingsFormatted}
-            scaleX={x}
-            scaleY={y}
-          />
+          <CustomArea areaSettings={customHighlightAreaSettingsFormatted} scaleX={x} scaleY={y} />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}
@@ -253,11 +236,7 @@ export function Graph(props: Props) {
               y2={y(minParam < 0 ? 0 : minParam)}
               x1={0 - leftMargin}
               x2={graphWidth + margin.right}
-              label={numberFormattingFunction(
-                minParam < 0 ? 0 : minParam,
-                prefix,
-                suffix,
-              )}
+              label={numberFormattingFunction(minParam < 0 ? 0 : minParam, prefix, suffix)}
               labelPos={{
                 x: 0 - leftMargin,
                 dx: 0,
@@ -352,46 +331,35 @@ export function Graph(props: Props) {
               const endPoints = getLineEndPoint(
                 {
                   x: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                      (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0),
                   y: d.yCoordinate
                     ? y(d.yCoordinate as number) + (d.yOffset || 0) - 8
                     : 0 + (d.yOffset || 0) - 8,
                 },
                 {
-                  x: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                    : 0,
+                  x: d.xCoordinate ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) : 0,
                   y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
                 },
-                checkIfNullOrUndefined(d.connectorRadius)
-                  ? 3.5
-                  : (d.connectorRadius as number),
+                checkIfNullOrUndefined(d.connectorRadius) ? 3.5 : (d.connectorRadius as number),
               );
               const connectorSettings = d.showConnector
                 ? {
-                  y1: endPoints.y,
-                  x1: endPoints.x,
-                  y2: d.yCoordinate
-                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                    : 0 + (d.yOffset || 0),
-                  x2: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                        (d.xOffset || 0)
-                    : 0 + (d.xOffset || 0),
-                  cx: d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date()))
-                    : 0,
-                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                    ? 3.5
-                    : (d.connectorRadius as number),
-                  strokeWidth:
-                      d.showConnector === true
-                        ? 2
-                        : Math.min(d.showConnector || 0, 1),
-                }
+                    y1: endPoints.y,
+                    x1: endPoints.x,
+                    y2: d.yCoordinate
+                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                      : 0 + (d.yOffset || 0),
+                    x2: d.xCoordinate
+                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
+                      : 0 + (d.xOffset || 0),
+                    cx: d.xCoordinate ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) : 0,
+                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                      ? 3.5
+                      : (d.connectorRadius as number),
+                    strokeWidth: d.showConnector === true ? 2 : Math.min(d.showConnector || 0, 1),
+                  }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -400,18 +368,15 @@ export function Graph(props: Props) {
                 x: rtl
                   ? 0
                   : d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                    (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0),
                 width: rtl
                   ? d.xCoordinate
-                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                      (d.xOffset || 0)
+                    ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                     : 0 + (d.xOffset || 0)
                   : graphWidth -
                     (d.xCoordinate
-                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) +
-                        (d.xOffset || 0)
+                      ? x(parse(`${d.xCoordinate}`, dateFormat, new Date())) + (d.xOffset || 0)
                       : 0 + (d.xOffset || 0)),
                 maxWidth: d.maxWidth,
                 fontWeight: d.fontWeight,

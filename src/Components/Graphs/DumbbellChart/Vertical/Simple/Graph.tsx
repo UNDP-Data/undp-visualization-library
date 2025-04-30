@@ -5,12 +5,7 @@ import min from 'lodash.min';
 import { useState } from 'react';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  DumbbellChartDataType,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, DumbbellChartDataType, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -130,10 +125,7 @@ export function Graph(props: Props) {
     id: labelOrder ? `${d.label}` : `${i}`,
   }));
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
-  const y = scaleLinear()
-    .domain([yMinValue, yMaxValue])
-    .range([graphHeight, 0])
-    .nice();
+  const y = scaleLinear().domain([yMinValue, yMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
     .domain(barOrder)
     .range([
@@ -179,11 +171,7 @@ export function Graph(props: Props) {
             y2={y(yMinValue < 0 ? 0 : yMinValue)}
             x1={0 - leftMargin}
             x2={graphWidth + margin.right}
-            label={numberFormattingFunction(
-              yMinValue < 0 ? 0 : yMinValue,
-              prefix,
-              suffix,
-            )}
+            label={numberFormattingFunction(yMinValue < 0 ? 0 : yMinValue, prefix, suffix)}
             labelPos={{
               x: 0 - leftMargin,
               dx: 0,
@@ -229,9 +217,7 @@ export function Graph(props: Props) {
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
-              transform={`translate(${
-                (x(`${d.id}`) as number) + x.bandwidth() / 2
-              },0)`}
+              transform={`translate(${(x(`${d.id}`) as number) + x.bandwidth() / 2},0)`}
             >
               {showLabels ? (
                 <XAxesLabels
@@ -264,13 +250,10 @@ export function Graph(props: Props) {
                   classNames?.dataConnectors,
                 )}
                 markerEnd={
-                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0
-                    ? 'url(#arrow)'
-                    : ''
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0 ? 'url(#arrow)' : ''
                 }
                 markerStart={
-                  arrowConnector &&
-                  d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === d.x.length - 1
                     ? 'url(#arrow)'
                     : ''
                 }
@@ -278,13 +261,7 @@ export function Graph(props: Props) {
               {d.x.map((el, j) => (
                 <g
                   key={j}
-                  opacity={
-                    selectedColor
-                      ? dotColors[j] === selectedColor
-                        ? 1
-                        : 0.3
-                      : 1
-                  }
+                  opacity={selectedColor ? (dotColors[j] === selectedColor ? 1 : 0.3) : 1}
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseEnter={(event: any) => {
                     setMouseOverData({ ...d, xIndex: j });
@@ -304,8 +281,7 @@ export function Graph(props: Props) {
                         onSeriesMouseClick?.(undefined);
                       } else {
                         setMouseClickData({ ...d, xIndex: j });
-                        if (onSeriesMouseClick)
-                          onSeriesMouseClick({ ...d, xIndex: j });
+                        if (onSeriesMouseClick) onSeriesMouseClick({ ...d, xIndex: j });
                       }
                     }
                   }}
@@ -347,9 +323,7 @@ export function Graph(props: Props) {
                       }}
                       className={cn(
                         'graph-value text-sm font-bold',
-                        checkIfNullOrUndefined(el)
-                          ? 'opacity-0'
-                          : 'opacity-100',
+                        checkIfNullOrUndefined(el) ? 'opacity-0' : 'opacity-100',
                         classNames?.graphObjectValues,
                       )}
                       dx={radius + 3}

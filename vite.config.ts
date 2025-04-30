@@ -1,4 +1,3 @@
- 
 import path from 'path';
 
 import { defineConfig } from 'vite';
@@ -30,7 +29,7 @@ export default defineConfig({
           'maplibre-gl': 'maplibreGl',
           xlsx: 'XLSX',
         },
-        assetFileNames: (assetInfo) => {
+        assetFileNames: assetInfo => {
           if (assetInfo.names && assetInfo.names.includes('data-viz.css')) {
             return 'style.css';
           }

@@ -1,6 +1,12 @@
 import isEqual from 'fast-deep-equal';
 import { useEffect, useRef, useState } from 'react';
-import { geoAlbersUsa, geoEqualEarth, geoMercator, geoNaturalEarth1, geoOrthographic } from 'd3-geo';
+import {
+  geoAlbersUsa,
+  geoEqualEarth,
+  geoMercator,
+  geoNaturalEarth1,
+  geoOrthographic,
+} from 'd3-geo';
 import { zoom } from 'd3-zoom';
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
@@ -31,7 +37,7 @@ interface Props {
   mapNoDataColor: string;
   showLabels: boolean;
   mapBorderColor: string;
-  tooltip?: string;   
+  tooltip?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
   isWorldMap: boolean;
@@ -39,7 +45,7 @@ interface Props {
   zoomScaleExtend: [number, number];
   zoomTranslateExtend?: [[number, number], [number, number]];
   highlightedDataPoints: (string | number)[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseClick?: (_d: any) => void;
   resetSelectionOnDoubleClick: boolean;
   detailsOnClick?: string;
@@ -77,13 +83,11 @@ export function Graph(props: Props) {
     classNames,
     mapProjection,
   } = props;
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [showLegend, setShowLegend] = useState(!(width < 680));
   const legendContentRef = useRef(null);
   const [legendHeight, setLegendHeight] = useState(50);
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [mouseClickData, setMouseClickData] = useState<any>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,9 +99,9 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-        .domain([0, maxBy(data, 'radius')?.radius as number])
-        .range([0.25, radius])
-        .nice()
+          .domain([0, maxBy(data, 'radius')?.radius as number])
+          .range([0.25, radius])
+          .nice()
       : undefined;
 
   useEffect(() => {
@@ -114,32 +118,53 @@ export function Graph(props: Props) {
       .on('zoom', ({ transform }) => {
         mapGSelect.attr('transform', transform);
       });
-         
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapSvgSelect.call(zoomBehavior as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height, width]);
-      
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const bounds = bbox(mapData as any);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const center = centroid(mapData as any);
   const lonDiff = bounds[2] - bounds[0];
   const latDiff = bounds[3] - bounds[1];
-  const scaleX = (width * 190 / 960) * 360 / lonDiff;
-  const scaleY = (height * 190 / 678) * 180 / latDiff;
+  const scaleX = (((width * 190) / 960) * 360) / lonDiff;
+  const scaleY = (((height * 190) / 678) * 180) / latDiff;
   const scaleVar = scale * Math.min(scaleX, scaleY);
-    
-  const projection = mapProjection === 'mercator' 
-    ? geoMercator().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar) 
-    : mapProjection === 'equalEarth' 
-      ? geoEqualEarth().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-      : mapProjection === 'naturalEarth'
-        ? geoNaturalEarth1().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-        : mapProjection === 'orthographic'
-          ? geoOrthographic().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar)
-          : geoAlbersUsa().rotate([0, 0]).center(centerPoint || center.geometry.coordinates as [number,number]).translate([width / 2, height / 2]).scale(scaleVar);
-    
+
+  const projection =
+    mapProjection === 'mercator'
+      ? geoMercator()
+          .rotate([0, 0])
+          .center(centerPoint || (center.geometry.coordinates as [number, number]))
+          .translate([width / 2, height / 2])
+          .scale(scaleVar)
+      : mapProjection === 'equalEarth'
+        ? geoEqualEarth()
+            .rotate([0, 0])
+            .center(centerPoint || (center.geometry.coordinates as [number, number]))
+            .translate([width / 2, height / 2])
+            .scale(scaleVar)
+        : mapProjection === 'naturalEarth'
+          ? geoNaturalEarth1()
+              .rotate([0, 0])
+              .center(centerPoint || (center.geometry.coordinates as [number, number]))
+              .translate([width / 2, height / 2])
+              .scale(scaleVar)
+          : mapProjection === 'orthographic'
+            ? geoOrthographic()
+                .rotate([0, 0])
+                .center(centerPoint || (center.geometry.coordinates as [number, number]))
+                .translate([width / 2, height / 2])
+                .scale(scaleVar)
+            : geoAlbersUsa()
+                .rotate([0, 0])
+                .center(centerPoint || (center.geometry.coordinates as [number, number]))
+                .translate([width / 2, height / 2])
+                .scale(scaleVar);
+
   useEffect(() => {
     const updateHeight = () => {
       if (legendContentRef.current) {
@@ -148,9 +173,9 @@ export function Graph(props: Props) {
         setLegendHeight(contentHeight + 16);
       }
     };
-        
+
     updateHeight(); // Initial calculation
-  }, []);  
+  }, []);
   return (
     <>
       <svg
@@ -166,62 +191,55 @@ export function Graph(props: Props) {
             mapData.features.map((d: any, i: number) => {
               return (
                 <g key={i}>
-                  {d.geometry.type === 'MultiPolygon' 
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any                
-                    ? d.geometry.coordinates.map((el: any, j: any) => {
-                      let masterPath = '';
-                      el.forEach((geo: number[][]) => {
-                        let path = ' M';
-                        geo.forEach((c: number[], k: number) => {
-                          const point = projection([c[0], c[1]]) as [
-                            number,
-                            number,
-                          ];
-                          if (k !== geo.length - 1)
-                            path = `${path}${point[0]} ${point[1]}L`;
+                  {d.geometry.type === 'MultiPolygon'
+                    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      d.geometry.coordinates.map((el: any, j: any) => {
+                        let masterPath = '';
+                        el.forEach((geo: number[][]) => {
+                          let path = ' M';
+                          geo.forEach((c: number[], k: number) => {
+                            const point = projection([c[0], c[1]]) as [number, number];
+                            if (k !== geo.length - 1) path = `${path}${point[0]} ${point[1]}L`;
+                            else path = `${path}${point[0]} ${point[1]}`;
+                          });
+                          masterPath += path;
+                        });
+                        return (
+                          <path
+                            key={j}
+                            d={masterPath}
+                            style={{
+                              stroke: mapBorderColor,
+                              strokeWidth: mapBorderWidth,
+                              fill: mapNoDataColor,
+                            }}
+                          />
+                        );
+                      })
+                    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      d.geometry.coordinates.map((el: any, j: number) => {
+                        let path = 'M';
+                        el.forEach((c: number[], k: number) => {
+                          const point = projection([c[0], c[1]]) as [number, number];
+                          if (k !== el.length - 1) path = `${path}${point[0]} ${point[1]}L`;
                           else path = `${path}${point[0]} ${point[1]}`;
                         });
-                        masterPath += path;
-                      });
-                      return (
-                        <path
-                          key={j}
-                          d={masterPath}
-                          style={{
-                            stroke: mapBorderColor,
-                            strokeWidth: mapBorderWidth,
-                            fill: mapNoDataColor,
-                          }}
-                        />
-                      );
-                    })
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    : d.geometry.coordinates.map((el: any, j: number) => {
-                      let path = 'M';
-                      el.forEach((c: number[], k: number) => {
-                        const point = projection([c[0], c[1]]) as [
-                          number,
-                          number,
-                        ];
-                        if (k !== el.length - 1)
-                          path = `${path}${point[0]} ${point[1]}L`;
-                        else path = `${path}${point[0]} ${point[1]}`;
-                      });
-                      return (
-                        <path
-                          key={j}
-                          d={path}
-                          style={{
-                            stroke: mapBorderColor,
-                            strokeWidth: mapBorderWidth,
-                            fill: mapNoDataColor,
-                          }}
-                        />
-                      );
-                    })}
+                        return (
+                          <path
+                            key={j}
+                            d={path}
+                            style={{
+                              stroke: mapBorderColor,
+                              strokeWidth: mapBorderWidth,
+                              fill: mapNoDataColor,
+                            }}
+                          />
+                        );
+                      })}
                 </g>
               );
-            })}
+            })
+          }
           {data.map((d, i) => {
             const color =
               data.filter(el => el.color).length === 0
@@ -238,8 +256,8 @@ export function Graph(props: Props) {
                       ? 1
                       : 0.3
                     : highlightedDataPoints.length !== 0
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      ? highlightedDataPoints.indexOf((d.data as any).id) !== -1
+                      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        highlightedDataPoints.indexOf((d.data as any).id) !== -1
                         ? 1
                         : 0.3
                       : 1
@@ -267,10 +285,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {
@@ -319,8 +334,14 @@ export function Graph(props: Props) {
             );
           })}
         </g>
-        <foreignObject x={10} y={showLegend ? height - legendHeight - 5 : height - 46} width={showLegend ? 150 : 101} height={showLegend ? legendHeight : 36}>
-          {data.filter(el => el.color).length === 0 || showColorScale === false ? null : showLegend ? (
+        <foreignObject
+          x={10}
+          y={showLegend ? height - legendHeight - 5 : height - 46}
+          width={showLegend ? 150 : 101}
+          height={showLegend ? legendHeight : 36}
+        >
+          {data.filter(el => el.color).length === 0 ||
+          showColorScale === false ? null : showLegend ? (
             <div ref={legendContentRef}>
               <div
                 style={{
@@ -342,7 +363,10 @@ export function Graph(props: Props) {
               >
                 <X />
               </div>
-              <div className='p-2' style={{ backgroundColor: 'rgba(240,240,240, 0.5', width: '138px' }}>
+              <div
+                className='p-2'
+                style={{ backgroundColor: 'rgba(240,240,240, 0.5', width: '138px' }}
+              >
                 {colorLegendTitle && colorLegendTitle !== '' ? (
                   <p
                     className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
@@ -371,7 +395,7 @@ export function Graph(props: Props) {
                         className='w-2 h-2 rounded-full'
                         style={{ backgroundColor: colors[i % colors.length] }}
                       />
-                      <P size='sm' marginBottom='none' leading={'none'}>
+                      <P size='sm' marginBottom='none' leading='none'>
                         {d}
                       </P>
                     </div>
@@ -379,7 +403,7 @@ export function Graph(props: Props) {
                 </div>
               </div>
             </div>
-          ) :
+          ) : (
             <button
               type='button'
               className='mb-0 border-0 bg-transparent p-0 self-start'
@@ -390,7 +414,8 @@ export function Graph(props: Props) {
               <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
                 Show Legend
               </div>
-            </button> }
+            </button>
+          )}
         </foreignObject>
       </svg>
       {detailsOnClick ? (

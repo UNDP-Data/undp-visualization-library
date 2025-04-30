@@ -116,41 +116,34 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForStackedBarChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => ({
       date,
       values:
         sortParameter !== undefined || autoSort
           ? sortParameter === 'total' || sortParameter === undefined
-            ? sortBy(data, d =>
-              sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
-            )
-              .reverse()
-              .map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+            ? sortBy(data, d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))))
+                .reverse()
+                .map((el, i) => ({
+                  ...el,
+                  id: `${i}`,
+                }))
             : sortBy(data, d =>
-              checkIfNullOrUndefined(d.size[sortParameter])
-                ? -Infinity
-                : d.size[sortParameter],
-            )
-              .reverse()
-              .map((el, i) => ({
-                ...el,
-                id: `${i}`,
-              }))
+                checkIfNullOrUndefined(d.size[sortParameter]) ? -Infinity : d.size[sortParameter],
+              )
+                .reverse()
+                .map((el, i) => ({
+                  ...el,
+                  id: `${i}`,
+                }))
           : (
               uniqLabels.map(label =>
                 values.find(o => o.label === label),
               ) as GroupedBarGraphWithDateDataType[]
-          ).map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+            ).map((el, i) => ({
+              ...el,
+              id: `${i}`,
+            })),
     }),
   );
 
@@ -169,11 +162,7 @@ export function Graph(props: Props) {
 
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data.map(
-        d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0,
-      ),
-    );
+    : Math.max(...data.map(d => sum(d.size.filter(l => !checkIfNullOrUndefined(l))) || 0));
 
   const x = scaleLinear().domain([0, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
@@ -228,20 +217,11 @@ export function Graph(props: Props) {
           <AnimatePresence>
             {groupedData[indx].values.map(d => {
               return (
-                <g
-                  className='undp-viz-low-opacity undp-viz-g-with-hover'
-                  key={d.label}
-                >
+                <g className='undp-viz-low-opacity undp-viz-g-with-hover' key={d.label}>
                   {d.size.map((el, j) => (
                     <motion.g
                       key={j}
-                      opacity={
-                        selectedColor
-                          ? barColors[j] === selectedColor
-                            ? 1
-                            : 0.3
-                          : 1
-                      }
+                      opacity={selectedColor ? (barColors[j] === selectedColor ? 1 : 0.3) : 1}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onMouseEnter={(event: any) => {
                         setMouseOverData({ ...d, sizeIndex: j });
@@ -272,12 +252,10 @@ export function Graph(props: Props) {
                             resetSelectionOnDoubleClick
                           ) {
                             setMouseClickData(undefined);
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick(undefined);
+                            if (onSeriesMouseClick) onSeriesMouseClick(undefined);
                           } else {
                             setMouseClickData({ ...d, sizeIndex: j });
-                            if (onSeriesMouseClick)
-                              onSeriesMouseClick({ ...d, sizeIndex: j });
+                            if (onSeriesMouseClick) onSeriesMouseClick({ ...d, sizeIndex: j });
                           }
                         }
                       }}
@@ -289,13 +267,7 @@ export function Graph(props: Props) {
                         animate={{
                           width: x(el || 0),
                           attrX: x(
-                            j === 0
-                              ? 0
-                              : sum(
-                                d.size.filter(
-                                  (element, k) => k < j && element,
-                                ),
-                              ),
+                            j === 0 ? 0 : sum(d.size.filter((element, k) => k < j && element)),
                           ),
                           attrY: y(d.id),
                         }}
@@ -331,30 +303,17 @@ export function Graph(props: Props) {
                             textAnchor: 'middle',
                             ...(styles?.graphObjectValues || {}),
                           }}
-                          className={cn(
-                            'graph-value text-sm',
-                            classNames?.graphObjectValues,
-                          )}
+                          className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                           dy='0.33em'
                           animate={{
                             attrX:
                               x(
-                                j === 0
-                                  ? 0
-                                  : sum(
-                                    d.size.filter(
-                                      (element, k) => k < j && element,
-                                    ),
-                                  ),
+                                j === 0 ? 0 : sum(d.size.filter((element, k) => k < j && element)),
                               ) +
                               x(el || 0) / 2,
                             attrY: (y(d.id) || 0) + y.bandwidth() / 2,
                             opacity:
-                              el &&
-                              x(el) /
-                                numberFormattingFunction(el, prefix, suffix)
-                                  .length >
-                                12
+                              el && x(el) / numberFormattingFunction(el, prefix, suffix).length > 12
                                 ? 1
                                 : 0,
                           }}
@@ -374,9 +333,7 @@ export function Graph(props: Props) {
                       }}
                       className={cn(
                         'graph-value graph-value-total text-sm',
-                        !valueColor
-                          ? ' fill-primary-gray-700 dark:fill-primary-gray-300'
-                          : '',
+                        !valueColor ? ' fill-primary-gray-700 dark:fill-primary-gray-300' : '',
                         classNames?.graphObjectValues,
                       )}
                       dx={5}
@@ -416,11 +373,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

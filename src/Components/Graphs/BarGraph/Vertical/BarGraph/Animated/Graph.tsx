@@ -9,12 +9,7 @@ import orderBy from 'lodash.orderby';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  BarGraphWithDateDataType,
-  ClassNameObject,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { BarGraphWithDateDataType, ClassNameObject, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -130,20 +125,17 @@ export function Graph(props: Props) {
   );
   const uniqLabels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
   const groupedData = Array.from(
-    group(
-      ensureCompleteDataForBarChart(data, dateFormat || 'yyyy'),
-      d => d.date,
-    ),
+    group(ensureCompleteDataForBarChart(data, dateFormat || 'yyyy'), d => d.date),
     ([date, values]) => {
       const orderedData = autoSort
         ? orderBy(
-          values.filter(d => !checkIfNullOrUndefined(d.size)),
-          ['size'],
-          ['desc'],
-        )
+            values.filter(d => !checkIfNullOrUndefined(d.size)),
+            ['size'],
+            ['desc'],
+          )
         : (uniqLabels.map(label =>
-          values.find(o => o.label === label),
-        ) as BarGraphWithDateDataType[]);
+            values.find(o => o.label === label),
+          ) as BarGraphWithDateDataType[]);
       values
         .filter(d => d.size === undefined)
         .forEach(d => {
@@ -153,46 +145,27 @@ export function Graph(props: Props) {
         date,
         values: autoSort
           ? orderedData.reverse().map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          }))
+              ...el,
+              id: `${i}`,
+            }))
           : orderedData.map((el, i) => ({
-            ...el,
-            id: `${i}`,
-          })),
+              ...el,
+              id: `${i}`,
+            })),
       };
     },
   );
   const xMaxValue = !checkIfNullOrUndefined(maxValue)
     ? (maxValue as number)
-    : Math.max(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.size))
-        .map(d => d.size as number),
-    ) < 0
+    : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number)) < 0
       ? 0
-      : Math.max(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      );
+      : Math.max(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number));
   const xMinValue = !checkIfNullOrUndefined(minValue)
     ? (minValue as number)
-    : Math.min(
-      ...data
-        .filter(d => !checkIfNullOrUndefined(d.size))
-        .map(d => d.size as number),
-    ) >= 0
+    : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number)) >= 0
       ? 0
-      : Math.min(
-        ...data
-          .filter(d => !checkIfNullOrUndefined(d.size))
-          .map(d => d.size as number),
-      );
-  const y = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([graphHeight, 0])
-    .nice();
+      : Math.min(...data.filter(d => !checkIfNullOrUndefined(d.size)).map(d => d.size as number));
+  const y = scaleLinear().domain([xMinValue, xMaxValue]).range([graphHeight, 0]).nice();
   const x = scaleBand()
     .domain(uniqLabels.map((_d, i) => `${i}`))
     .range([
@@ -220,11 +193,7 @@ export function Graph(props: Props) {
             y2={y(xMinValue < 0 ? 0 : xMinValue)}
             x1={0 - leftMargin}
             x2={graphWidth + margin.right}
-            label={numberFormattingFunction(
-              xMinValue < 0 ? 0 : xMinValue,
-              prefix,
-              suffix,
-            )}
+            label={numberFormattingFunction(xMinValue < 0 ? 0 : xMinValue, prefix, suffix)}
             labelPos={{
               x: 0 - leftMargin,
               y: xMaxValue < 0 ? -15 : y(xMinValue < 0 ? 0 : xMinValue),
@@ -296,10 +265,7 @@ export function Graph(props: Props) {
                 }}
                 onClick={() => {
                   if (onSeriesMouseClick || detailsOnClick) {
-                    if (
-                      isEqual(mouseClickData, d) &&
-                      resetSelectionOnDoubleClick
-                    ) {
+                    if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                       setMouseClickData(undefined);
                       onSeriesMouseClick?.(undefined);
                     } else {

@@ -54,19 +54,13 @@ export async function fetchAndParseCSV(
           console.log('Data from file:', results.data);
         }
         if (columnsToArray) {
-          const transformedData = transformColumnsToArray(
-            results.data,
-            columnsToArray,
-          );
+          const transformedData = transformColumnsToArray(results.data, columnsToArray);
           if (debugMode) {
-            console.log(
-              'Data after transformation of column to array:',
-              transformedData,
-            );
+            console.log('Data after transformation of column to array:', transformedData);
           }
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
-      },       
+      },
       error(error) {
         reject(error);
       },
@@ -103,15 +97,9 @@ export async function fetchAndParseCSVFromTextBlob(
           console.log('Data from file:', results.data);
         }
         if (columnsToArray) {
-          const transformedData = transformColumnsToArray(
-            results.data,
-            columnsToArray,
-          );
+          const transformedData = transformColumnsToArray(results.data, columnsToArray);
           if (debugMode) {
-            console.log(
-              'Data after transformation of column to array:',
-              transformedData,
-            );
+            console.log('Data after transformation of column to array:', transformedData);
           }
           resolve(reFormatData(transformedData, dataTransformation));
         } else resolve(reFormatData(results.data, dataTransformation));
@@ -150,15 +138,9 @@ export async function fetchAndParseJSON(
       console.log('Data from file:', json);
     }
     if (columnsToArray) {
-      const transformedData = transformColumnsToArray(
-        reFormatedJson,
-        columnsToArray,
-      );
+      const transformedData = transformColumnsToArray(reFormatedJson, columnsToArray);
       if (debugMode) {
-        console.log(
-          'Data after transformation of column to array:',
-          transformedData,
-        );
+        console.log('Data after transformation of column to array:', transformedData);
       }
       return transformedData;
     }
@@ -200,15 +182,9 @@ export async function fetchAndTransformDataFromAPI(
     console.log('Data from api after transformation:', reFormatedJson);
   }
   if (columnsToArray) {
-    const transformedData = transformColumnsToArray(
-      reFormatedJson,
-      columnsToArray,
-    );
+    const transformedData = transformColumnsToArray(reFormatedJson, columnsToArray);
     if (debugMode) {
-      console.log(
-        'Data after transformation of column to array:',
-        transformedData,
-      );
+      console.log('Data after transformation of column to array:', transformedData);
     }
     return transformedData;
   }
@@ -229,28 +205,23 @@ export async function fetchAndParseMultipleDataSources(
   const data = await Promise.all(
     dataURL.map(d =>
       d.fileType === 'json'
-        ? fetchAndParseJSON(
-            d.dataURL as string,
-            d.columnsToArray,
-            d.dataTransformation,
-            false,
-        )
+        ? fetchAndParseJSON(d.dataURL as string, d.columnsToArray, d.dataTransformation, false)
         : d.fileType === 'api'
           ? fetchAndTransformDataFromAPI(
-            d.dataURL as string,
-            d.apiHeaders,
-            d.columnsToArray,
-            d.dataTransformation,
-            false,
-          )
+              d.dataURL as string,
+              d.apiHeaders,
+              d.columnsToArray,
+              d.dataTransformation,
+              false,
+            )
           : fetchAndParseCSV(
-            d.dataURL as string,
-            d.dataTransformation,
-            d.columnsToArray,
-            false,
-            d.delimiter,
-            true,
-          ),
+              d.dataURL as string,
+              d.dataTransformation,
+              d.columnsToArray,
+              false,
+              d.delimiter,
+              true,
+            ),
     ),
   );
   const mergedData = mergeMultipleData(

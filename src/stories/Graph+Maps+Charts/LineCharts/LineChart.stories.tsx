@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -140,8 +139,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: {
         type: {
           summary: 'boolean | string',
-          detail:
-            'If the type is string then string is use to define the color of the line.',
+          detail: 'If the type is string then string is use to define the color of the line.',
         },
       },
     },
@@ -183,33 +181,23 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       { date: '2027', y: 19 },
     ],
   },
-  render: ({
-    animateLine, backgroundColor, regressionLine, ...args 
-  }) => {
+  render: ({ animateLine, backgroundColor, regressionLine, ...args }) => {
     return (
       <SimpleLineChart
         animateLine={
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false'
             ? false
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            : (animateLine as any) === 'true'
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (animateLine as any) === 'true'
               ? true
               : Number(animateLine)
         }
         regressionLine={
-          regressionLine === 'false'
-            ? false
-            : regressionLine === 'true'
-              ? true
-              : regressionLine
+          regressionLine === 'false' ? false : regressionLine === 'true' ? true : regressionLine
         }
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

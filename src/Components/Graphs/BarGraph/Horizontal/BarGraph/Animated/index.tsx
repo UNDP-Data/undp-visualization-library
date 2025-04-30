@@ -136,9 +136,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [play, setPlay] = useState(autoPlay);
 
   const graphDiv = useRef<HTMLDivElement>(null);
@@ -157,9 +155,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
   }, [width, height]);
 
   const uniqDatesSorted = sort(
-    uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat, new Date()).getTime(),
-    ),
+    uniqBy(data, d => d.date).map(d => parse(`${d.date}`, dateFormat, new Date()).getTime()),
     (a, b) => ascending(a, b),
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
@@ -185,9 +181,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
   }, [uniqDatesSorted, play]);
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -200,9 +194,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -233,14 +225,12 @@ export function AnimatedHorizontalBarChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -252,9 +242,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   setPlay(!play);
                 }}
                 className='p-0 border-0 cursor-pointer bg-transparent'
-                aria-label={
-                  play ? 'Click to pause animation' : 'Click to play animation'
-                }
+                aria-label={play ? 'Click to pause animation' : 'Click to play animation'}
               >
                 {play ? <Pause /> : <Play />}
               </button>
@@ -280,8 +268,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                   width={width}
                   colorLegendTitle={colorLegendTitle}
                   colors={
-                    (colors as string[] | undefined) ||
-                    Colors[theme].categoricalColors.colors
+                    (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                   }
                   colorDomain={
                     colorDomain ||
@@ -307,8 +294,7 @@ export function AnimatedHorizontalBarChart(props: Props) {
                         ? colors
                           ? [colors as string]
                           : [Colors.primaryColors['blue-600']]
-                        : (colors as string[] | undefined) ||
-                          Colors[theme].categoricalColors.colors
+                        : (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
                     }
                     colorDomain={
                       data.filter(el => el.color).length === 0

@@ -11,13 +11,8 @@ interface Props {
 }
 
 export function GraphFooter(props: Props) {
-  const {
-    sources, footNote, width, styles, classNames, 
-  } = props;
-  if (
-    (sources === undefined || (sources || []).length === 0) &&
-    footNote === undefined
-  )
+  const { sources, footNote, width, styles, classNames } = props;
+  if ((sources === undefined || (sources || []).length === 0) && footNote === undefined)
     return null;
   return (
     <div
@@ -26,18 +21,10 @@ export function GraphFooter(props: Props) {
       aria-label='Graph footer'
     >
       {sources ? (
-        <Source
-          sources={sources}
-          style={styles?.source}
-          className={classNames?.source}
-        />
+        <Source sources={sources} style={styles?.source} className={classNames?.source} />
       ) : null}
       {footNote ? (
-        <FootNote
-          text={footNote}
-          style={styles?.footnote}
-          className={classNames?.footnote}
-        />
+        <FootNote text={footNote} style={styles?.footnote} className={classNames?.footnote} />
       ) : null}
     </div>
   );

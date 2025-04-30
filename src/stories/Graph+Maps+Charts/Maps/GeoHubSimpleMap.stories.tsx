@@ -1,4 +1,3 @@
- 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -82,14 +81,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     mapStyle:
       'https://api.maptiler.com/maps/hybrid/style.json?key=YbCPLULzWdf1NplssEIc#0.8/-14.45028/20.54042',
   },
-  render: ({
-    center,
-    backgroundColor,
-    mapStyle,
-    includeLayers,
-    excludeLayers,
-    ...args
-  }) => {
+  render: ({ center, backgroundColor, mapStyle, includeLayers, excludeLayers, ...args }) => {
     return (
       <GeoHubMap
         mapStyle={
@@ -101,11 +93,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         includeLayers={parseValue(includeLayers)}
         excludeLayers={parseValue(excludeLayers)}
         backgroundColor={
-          backgroundColor === 'false'
-            ? false
-            : backgroundColor === 'true'
-              ? true
-              : backgroundColor
+          backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
         {...args}
       />

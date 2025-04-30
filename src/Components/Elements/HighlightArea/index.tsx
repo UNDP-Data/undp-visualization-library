@@ -16,9 +16,7 @@ interface Props {
 }
 
 export function HighlightArea(props: Props) {
-  const {
-    areaSettings, width, height, scale, 
-  } = props;
+  const { areaSettings, width, height, scale } = props;
   return (
     <>
       {areaSettings.map((d, i) => (
@@ -35,8 +33,7 @@ export function HighlightArea(props: Props) {
                 x={d.coordinates[0] ? scale(d.coordinates[0]) : 0}
                 width={
                   d.coordinates[1]
-                    ? scale(d.coordinates[1]) -
-                      (d.coordinates[0] ? scale(d.coordinates[0]) : 0)
+                    ? scale(d.coordinates[1]) - (d.coordinates[0] ? scale(d.coordinates[0]) : 0)
                     : width - (d.coordinates[0] ? scale(d.coordinates[0]) : 0)
                 }
                 y={0}
@@ -65,9 +62,7 @@ interface ScatterPlotProps {
 }
 
 export function HighlightAreaForScatterPlot(props: ScatterPlotProps) {
-  const {
-    areaSettings, width, height, scaleX, scaleY, 
-  } = props;
+  const { areaSettings, width, height, scaleX, scaleY } = props;
   return (
     <>
       {areaSettings.map((d, i) => (
@@ -85,25 +80,15 @@ export function HighlightAreaForScatterPlot(props: ScatterPlotProps) {
                 width={
                   d.coordinates[1]
                     ? scaleX(d.coordinates[1] as number) -
-                      (d.coordinates[0]
-                        ? scaleX(d.coordinates[0] as number)
-                        : 0)
-                    : width -
-                      (d.coordinates[0]
-                        ? scaleX(d.coordinates[0] as number)
-                        : 0)
+                      (d.coordinates[0] ? scaleX(d.coordinates[0] as number) : 0)
+                    : width - (d.coordinates[0] ? scaleX(d.coordinates[0] as number) : 0)
                 }
                 y={d.coordinates[3] ? scaleY(d.coordinates[3] as number) : 0}
                 height={
                   d.coordinates[2] !== null
                     ? scaleY(d.coordinates[2] as number) -
-                      (d.coordinates[3]
-                        ? scaleY(d.coordinates[3] as number)
-                        : 0)
-                    : height -
-                      (d.coordinates[3]
-                        ? height - scaleY(d.coordinates[3] as number)
-                        : 0)
+                      (d.coordinates[3] ? scaleY(d.coordinates[3] as number) : 0)
+                    : height - (d.coordinates[3] ? height - scaleY(d.coordinates[3] as number) : 0)
                 }
               />
             </g>

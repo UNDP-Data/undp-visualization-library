@@ -33,10 +33,7 @@ export function SVGDownloadButton(props: Props) {
       onClick={() => {
         if (typeof nodeID === 'string') {
           if (document.getElementById(nodeID)) {
-            svgDownload(
-              document.getElementById(nodeID) as HTMLElement,
-              filename,
-            );
+            svgDownload(document.getElementById(nodeID) as HTMLElement, filename);
           } else {
             console.error('Cannot find the html element');
           }

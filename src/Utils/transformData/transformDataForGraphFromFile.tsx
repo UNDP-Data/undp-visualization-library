@@ -70,20 +70,13 @@ export async function transformDataForGraphFromFile(
         ? fetchAndParseJSON(dataURL, columnsToArray, dataTransformation, false)
         : fileType === 'api'
           ? fetchAndTransformDataFromAPI(
-            dataURL,
-            apiHeaders,
-            columnsToArray,
-            dataTransformation,
-            false,
-          )
-          : fetchAndParseCSV(
-            dataURL,
-            dataTransformation,
-            columnsToArray,
-            false,
-            delimiter,
-            true,
-          )
+              dataURL,
+              apiHeaders,
+              columnsToArray,
+              dataTransformation,
+              false,
+            )
+          : fetchAndParseCSV(dataURL, dataTransformation, columnsToArray, false, delimiter, true)
       : fetchAndParseMultipleDataSources(dataURL, idColumnTitle));
 
     const formattedData = transformDataForGraph(

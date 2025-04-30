@@ -211,9 +211,7 @@ export function AnimatedButterflyChart(props: Props) {
 
   const [play, setPlay] = useState(autoPlay);
   const uniqDatesSorted = sort(
-    uniqBy(data, d => d.date).map(d =>
-      parse(`${d.date}`, dateFormat, new Date()).getTime(),
-    ),
+    uniqBy(data, d => d.date).map(d => parse(`${d.date}`, dateFormat, new Date()).getTime()),
     (a, b) => ascending(a, b),
   );
   const [index, setIndex] = useState(autoPlay ? 0 : uniqDatesSorted.length - 1);
@@ -241,9 +239,7 @@ export function AnimatedButterflyChart(props: Props) {
 
   return (
     <div
-      className={`${theme || 'light'} flex  ${
-        width ? 'w-fit grow-0' : 'w-full grow'
-      }`}
+      className={`${theme || 'light'} flex  ${width ? 'w-fit grow-0' : 'w-full grow'}`}
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
@@ -256,9 +252,7 @@ export function AnimatedButterflyChart(props: Props) {
         }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
         style={{
           ...(styles?.graphBackground || {}),
-          ...(backgroundColor && backgroundColor !== true
-            ? { backgroundColor }
-            : {}),
+          ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}
         ref={graphParentDiv}
@@ -289,14 +283,12 @@ export function AnimatedButterflyChart(props: Props) {
                 graphTitle={graphTitle}
                 graphDescription={graphDescription}
                 width={width}
-                graphDownload={
-                  graphDownload ? graphParentDiv.current : undefined
-                }
+                graphDownload={graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                  dataDownload ?
-                    data.map(d => d.data).filter(d => d !== undefined).length > 0
+                  dataDownload
+                    ? data.map(d => d.data).filter(d => d !== undefined).length > 0
                       ? data.map(d => d.data).filter(d => d !== undefined)
-                      : data.filter(d => d !== undefined) 
+                      : data.filter(d => d !== undefined)
                     : null
                 }
               />
@@ -308,9 +300,7 @@ export function AnimatedButterflyChart(props: Props) {
                   setPlay(!play);
                 }}
                 className='p-0 border-0 cursor-pointer bg-transparent'
-                aria-label={
-                  play ? 'Click to pause animation' : 'Click to play animation'
-                }
+                aria-label={play ? 'Click to pause animation' : 'Click to play animation'}
               >
                 {play ? <Pause /> : <Play />}
               </button>
@@ -374,11 +364,7 @@ export function AnimatedButterflyChart(props: Props) {
                     refValues={refValues}
                     maxValue={maxValue}
                     minValue={minValue}
-                    showValues={
-                      checkIfNullOrUndefined(showValues)
-                        ? true
-                        : (showValues as boolean)
-                    }
+                    showValues={checkIfNullOrUndefined(showValues) ? true : (showValues as boolean)}
                     onSeriesMouseClick={onSeriesMouseClick}
                     showTicks={showTicks}
                     suffix={suffix}

@@ -5,12 +5,7 @@ import min from 'lodash.min';
 import { useState } from 'react';
 import { cn, Modal } from '@undp/design-system-react';
 
-import {
-  ClassNameObject,
-  DumbbellChartDataType,
-  ReferenceDataType,
-  StyleObject,
-} from '@/Types';
+import { ClassNameObject, DumbbellChartDataType, ReferenceDataType, StyleObject } from '@/Types';
 import { numberFormattingFunction } from '@/Utils/numberFormattingFunction';
 import { Tooltip } from '@/Components/Elements/Tooltip';
 import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
@@ -132,10 +127,7 @@ export function Graph(props: Props) {
     id: labelOrder ? `${d.label}` : `${i}`,
   }));
   const barOrder = labelOrder || dataWithId.map(d => `${d.id}`);
-  const x = scaleLinear()
-    .domain([xMinValue, xMaxValue])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinValue, xMaxValue]).range([0, graphWidth]).nice();
   const y = scaleBand()
     .domain(barOrder)
     .range([
@@ -217,9 +209,7 @@ export function Graph(props: Props) {
             <g
               className='undp-viz-low-opacity undp-viz-g-with-hover'
               key={i}
-              transform={`translate(0,${
-                (y(`${d.id}`) as number) + y.bandwidth() / 2
-              })`}
+              transform={`translate(0,${(y(`${d.id}`) as number) + y.bandwidth() / 2})`}
             >
               {showLabels ? (
                 <YAxesLabels
@@ -252,13 +242,10 @@ export function Graph(props: Props) {
                   classNames?.dataConnectors,
                 )}
                 markerEnd={
-                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0
-                    ? 'url(#arrow)'
-                    : ''
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === 0 ? 'url(#arrow)' : ''
                 }
                 markerStart={
-                  arrowConnector &&
-                  d.x.indexOf(min(d.x) as number) === d.x.length - 1
+                  arrowConnector && d.x.indexOf(min(d.x) as number) === d.x.length - 1
                     ? 'url(#arrow)'
                     : ''
                 }
@@ -266,13 +253,7 @@ export function Graph(props: Props) {
               {d.x.map((el, j) => (
                 <g
                   key={j}
-                  opacity={
-                    selectedColor
-                      ? dotColors[j] === selectedColor
-                        ? 1
-                        : 0.3
-                      : 1
-                  }
+                  opacity={selectedColor ? (dotColors[j] === selectedColor ? 1 : 0.3) : 1}
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onMouseEnter={(event: any) => {
                     setMouseOverData({ ...d, xIndex: j });
@@ -292,8 +273,7 @@ export function Graph(props: Props) {
                         onSeriesMouseClick?.(undefined);
                       } else {
                         setMouseClickData({ ...d, xIndex: j });
-                        if (onSeriesMouseClick)
-                          onSeriesMouseClick({ ...d, xIndex: j });
+                        if (onSeriesMouseClick) onSeriesMouseClick({ ...d, xIndex: j });
                       }
                     }
                   }}
@@ -340,9 +320,7 @@ export function Graph(props: Props) {
                           dy={0 - radius - 3}
                           className={cn(
                             'graph-value text-sm font-bold',
-                            checkIfNullOrUndefined(el)
-                              ? '0opacity-0'
-                              : 'opacity-100',
+                            checkIfNullOrUndefined(el) ? '0opacity-0' : 'opacity-100',
                             classNames?.graphObjectValues,
                           )}
                         >
@@ -365,11 +343,7 @@ export function Graph(props: Props) {
                   x={x(el.value as number)}
                   y1={0 - margin.top}
                   y2={graphHeight + margin.bottom}
-                  textSide={
-                    x(el.value as number) > graphWidth * 0.75 || rtl
-                      ? 'left'
-                      : 'right'
-                  }
+                  textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
                   classNames={el.classNames}
                   styles={el.styles}
                 />

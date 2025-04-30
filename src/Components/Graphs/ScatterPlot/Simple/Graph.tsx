@@ -141,23 +141,23 @@ export function Graph(props: Props) {
   const radiusScale =
     data.filter(d => d.radius === undefined).length !== data.length
       ? scaleSqrt()
-        .domain([
-          0,
-          checkIfNullOrUndefined(maxRadiusValue)
-            ? (maxBy(data, 'radius')?.radius as number)
-            : (maxRadiusValue as number),
-        ])
-        .range([0.25, radius])
-        .nice()
+          .domain([
+            0,
+            checkIfNullOrUndefined(maxRadiusValue)
+              ? (maxBy(data, 'radius')?.radius as number)
+              : (maxRadiusValue as number),
+          ])
+          .range([0.25, radius])
+          .nice()
       : undefined;
   const dataOrdered =
     dataWithId.filter(d => !checkIfNullOrUndefined(d.radius)).length === 0
       ? dataWithId
       : orderBy(
-        dataWithId.filter(d => !checkIfNullOrUndefined(d.radius)),
-        'radius',
-        'desc',
-      );
+          dataWithId.filter(d => !checkIfNullOrUndefined(d.radius)),
+          'radius',
+          'desc',
+        );
   const xMinVal = checkIfNullOrUndefined(minXValue)
     ? (minBy(data, 'x')?.x as number) > 0
       ? 0
@@ -168,10 +168,7 @@ export function Graph(props: Props) {
       ? (maxBy(data, 'x')?.x as number)
       : 0
     : (maxXValue as number);
-  const x = scaleLinear()
-    .domain([xMinVal, xMaxVal])
-    .range([0, graphWidth])
-    .nice();
+  const x = scaleLinear().domain([xMinVal, xMaxVal]).range([0, graphWidth]).nice();
   const yMinVal = checkIfNullOrUndefined(minYValue)
     ? (minBy(data, 'y')?.y as number) > 0
       ? 0
@@ -182,25 +179,14 @@ export function Graph(props: Props) {
       ? (maxBy(data, 'y')?.y as number)
       : 0
     : (maxYValue as number);
-  const y = scaleLinear()
-    .domain([yMinVal, yMaxVal])
-    .range([graphHeight, 0])
-    .nice();
+  const y = scaleLinear().domain([yMinVal, yMaxVal]).range([graphHeight, 0]).nice();
   const xTicks = x.ticks(noOfXTicks);
   const yTicks = y.ticks(noOfYTicks);
   const voronoiDiagram = Delaunay.from(
-    dataOrdered
-      .filter(
-        d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
-      ),
+    dataOrdered.filter(d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y)),
     d => x(d.x as number),
     d => y(d.y as number),
-  ).voronoi([
-    0,
-    0,
-    graphWidth < 0 ? 0 : graphWidth,
-    graphHeight < 0 ? 0 : graphHeight,
-  ]);
+  ).voronoi([0, 0, graphWidth < 0 ? 0 : graphWidth, graphHeight < 0 ? 0 : graphHeight]);
   const regressionLineParam = linearRegression(
     data
       .filter(d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y))
@@ -222,11 +208,7 @@ export function Graph(props: Props) {
             scaleX={x}
             scaleY={y}
           />
-          <CustomArea
-            areaSettings={customHighlightAreaSettings}
-            scaleX={x}
-            scaleY={y}
-          />
+          <CustomArea areaSettings={customHighlightAreaSettings} scaleX={x} scaleY={y} />
           <g>
             <YTicksAndGridLines
               values={yTicks.filter(d => d !== 0)}
@@ -252,11 +234,7 @@ export function Graph(props: Props) {
               y2={y(yMinVal < 0 ? 0 : yMinVal)}
               x1={0 - leftMargin}
               x2={graphWidth + margin.right}
-              label={numberFormattingFunction(
-                yMinVal < 0 ? 0 : yMinVal,
-                yPrefix,
-                ySuffix,
-              )}
+              label={numberFormattingFunction(yMinVal < 0 ? 0 : yMinVal, yPrefix, ySuffix)}
               labelPos={{
                 x: 0,
                 y: y(yMinVal < 0 ? 0 : yMinVal),
@@ -305,11 +283,7 @@ export function Graph(props: Props) {
               x2={x(xMinVal < 0 ? 0 : xMinVal)}
               y1={0}
               y2={graphHeight}
-              label={numberFormattingFunction(
-                xMinVal < 0 ? 0 : xMinVal,
-                xPrefix,
-                xSuffix,
-              )}
+              label={numberFormattingFunction(xMinVal < 0 ? 0 : xMinVal, xPrefix, xSuffix)}
               labelPos={{
                 x: x(xMinVal < 0 ? 0 : xMinVal),
                 y: graphHeight,
@@ -337,9 +311,7 @@ export function Graph(props: Props) {
             />
           </g>
           {dataOrdered
-            .filter(
-              d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
-            )
+            .filter(d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y))
             .map((d, i) => {
               return (
                 <g key={i}>
@@ -369,10 +341,7 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                          resetSelectionOnDoubleClick
-                        ) {
+                        if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick?.(undefined);
                         } else {
@@ -386,9 +355,7 @@ export function Graph(props: Props) {
               );
             })}
           {dataOrdered
-            .filter(
-              d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
-            )
+            .filter(d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y))
             .map((d, i) => {
               return (
                 <g key={i}>
@@ -396,8 +363,7 @@ export function Graph(props: Props) {
                     opacity={
                       selectedColor
                         ? d.color
-                          ? colors[colorDomain.indexOf(`${d.color}`)] ===
-                            selectedColor
+                          ? colors[colorDomain.indexOf(`${d.color}`)] === selectedColor
                             ? 1
                             : 0.3
                           : 0.3
@@ -411,9 +377,7 @@ export function Graph(props: Props) {
                               : 0.5
                             : 1
                     }
-                    transform={`translate(${x(d.x as number)},${y(
-                      d.y as number,
-                    )})`}
+                    transform={`translate(${x(d.x as number)},${y(d.y as number)})`}
                     onMouseEnter={event => {
                       setMouseOverData(d);
                       setEventY(event.clientY);
@@ -437,10 +401,7 @@ export function Graph(props: Props) {
                     }}
                     onClick={() => {
                       if (onSeriesMouseClick || detailsOnClick) {
-                        if (
-                          isEqual(mouseClickData, d) &&
-                          resetSelectionOnDoubleClick
-                        ) {
+                        if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
                           setMouseClickData(undefined);
                           onSeriesMouseClick?.(undefined);
                         } else {
@@ -482,10 +443,7 @@ export function Graph(props: Props) {
                                 : colors[colorDomain.indexOf(`${d.color}`)]),
                           ...(styles?.graphObjectValues || {}),
                         }}
-                        className={cn(
-                          'graph-value text-sm',
-                          classNames?.graphObjectValues,
-                        )}
+                        className={cn('graph-value text-sm', classNames?.graphObjectValues)}
                         y={0}
                         x={!radiusScale ? radius : radiusScale(d.radius || 0)}
                         dy='0.33em'
@@ -493,35 +451,29 @@ export function Graph(props: Props) {
                       >
                         {d.label}
                       </text>
-                    ) : highlightedDataPoints.length !== 0 &&
-                      !checkIfNullOrUndefined(d.label) ? (
-                        highlightedDataPoints.indexOf(
-                        d.label as string | number,
-                        ) !== -1 ? (
-                          <text
-                            style={{
-                              fill:
+                    ) : highlightedDataPoints.length !== 0 && !checkIfNullOrUndefined(d.label) ? (
+                      highlightedDataPoints.indexOf(d.label as string | number) !== -1 ? (
+                        <text
+                          style={{
+                            fill:
                               labelColor ||
                               (data.filter(el => el.color).length === 0
                                 ? colors[0]
                                 : !d.color
                                   ? Colors.gray
                                   : colors[colorDomain.indexOf(`${d.color}`)]),
-                              ...(styles?.graphObjectValues || {}),
-                            }}
-                            className={cn(
-                              'graph-value text-sm',
-                              classNames?.graphObjectValues,
-                            )}
-                            y={0}
-                            x={!radiusScale ? radius : radiusScale(d.radius || 0)}
-                            dy='0.33em'
-                            dx={3}
-                          >
-                            {d.label}
-                          </text>
-                          ) : null
-                      ) : null}
+                            ...(styles?.graphObjectValues || {}),
+                          }}
+                          className={cn('graph-value text-sm', classNames?.graphObjectValues)}
+                          y={0}
+                          x={!radiusScale ? radius : radiusScale(d.radius || 0)}
+                          dy='0.33em'
+                          dx={3}
+                        >
+                          {d.label}
+                        </text>
+                      ) : null
+                    ) : null}
                   </g>
                 </g>
               );
@@ -534,11 +486,7 @@ export function Graph(props: Props) {
               x={x(el.value as number)}
               y1={0}
               y2={graphHeight}
-              textSide={
-                x(el.value as number) > graphWidth * 0.75 || rtl
-                  ? 'left'
-                  : 'right'
-              }
+              textSide={x(el.value as number) > graphWidth * 0.75 || rtl ? 'left' : 'right'}
               classNames={el.classNames}
               styles={el.styles}
             />
@@ -570,30 +518,25 @@ export function Graph(props: Props) {
                   x: d.xCoordinate ? x(d.xCoordinate as number) : 0,
                   y: d.yCoordinate ? y(d.yCoordinate as number) : 0,
                 },
-                checkIfNullOrUndefined(d.connectorRadius)
-                  ? 3.5
-                  : (d.connectorRadius as number),
+                checkIfNullOrUndefined(d.connectorRadius) ? 3.5 : (d.connectorRadius as number),
               );
               const connectorSettings = d.showConnector
                 ? {
-                  y1: endPoints.y,
-                  x1: endPoints.x,
-                  y2: d.yCoordinate
-                    ? y(d.yCoordinate as number) + (d.yOffset || 0)
-                    : 0 + (d.yOffset || 0),
-                  x2: d.xCoordinate
-                    ? x(d.xCoordinate as number) + (d.xOffset || 0)
-                    : 0 + (d.xOffset || 0),
-                  cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
-                  cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
-                  circleRadius: checkIfNullOrUndefined(d.connectorRadius)
-                    ? 3.5
-                    : (d.connectorRadius as number),
-                  strokeWidth:
-                      d.showConnector === true
-                        ? 2
-                        : Math.min(d.showConnector || 0, 1),
-                }
+                    y1: endPoints.y,
+                    x1: endPoints.x,
+                    y2: d.yCoordinate
+                      ? y(d.yCoordinate as number) + (d.yOffset || 0)
+                      : 0 + (d.yOffset || 0),
+                    x2: d.xCoordinate
+                      ? x(d.xCoordinate as number) + (d.xOffset || 0)
+                      : 0 + (d.xOffset || 0),
+                    cy: d.yCoordinate ? y(d.yCoordinate as number) : 0,
+                    cx: d.xCoordinate ? x(d.xCoordinate as number) : 0,
+                    circleRadius: checkIfNullOrUndefined(d.connectorRadius)
+                      ? 3.5
+                      : (d.connectorRadius as number),
+                    strokeWidth: d.showConnector === true ? 2 : Math.min(d.showConnector || 0, 1),
+                  }
                 : undefined;
               const labelSettings = {
                 y: d.yCoordinate
@@ -633,22 +576,15 @@ export function Graph(props: Props) {
             <RegressionLine
               x1={
                 regressionLineParam.b > graphHeight
-                  ? (graphHeight - regressionLineParam.b) /
-                    regressionLineParam.m
+                  ? (graphHeight - regressionLineParam.b) / regressionLineParam.m
                   : 0
               }
               x2={graphWidth}
-              y1={
-                regressionLineParam.b > graphHeight
-                  ? graphHeight
-                  : regressionLineParam.b
-              }
+              y1={regressionLineParam.b > graphHeight ? graphHeight : regressionLineParam.b}
               y2={regressionLineParam.m * graphWidth + regressionLineParam.b}
               className={classNames?.regLine}
               style={styles?.regLine}
-              color={
-                typeof regressionLine === 'string' ? regressionLine : undefined
-              }
+              color={typeof regressionLine === 'string' ? regressionLine : undefined}
             />
           ) : null}
         </g>

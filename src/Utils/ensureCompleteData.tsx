@@ -47,9 +47,7 @@ export function ensureCompleteDataForBarChart(
     });
   });
 
-  return sortBy(completeData, d =>
-    parse(`${d.date}`, dateFormat || 'yyyy', new Date()),
-  );
+  return sortBy(completeData, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date()));
 }
 
 export function ensureCompleteDataForStackedBarChart(
@@ -81,9 +79,7 @@ export function ensureCompleteDataForStackedBarChart(
     });
   });
 
-  return sortBy(completeData, d =>
-    parse(`${d.date}`, dateFormat || 'yyyy', new Date()),
-  );
+  return sortBy(completeData, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date()));
 }
 
 export function ensureCompleteDataForButterFlyChart(
@@ -116,9 +112,7 @@ export function ensureCompleteDataForButterFlyChart(
     });
   });
 
-  return sortBy(completeData, d =>
-    parse(`${d.date}`, dateFormat || 'yyyy', new Date()),
-  );
+  return sortBy(completeData, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date()));
 }
 
 export function ensureCompleteDataForScatterPlot(
@@ -161,9 +155,7 @@ export function ensureCompleteDataForScatterPlot(
     });
   });
 
-  return sortBy(completeData, d =>
-    parse(`${d.date}`, dateFormat || 'yyyy', new Date()),
-  );
+  return sortBy(completeData, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date()));
 }
 
 export function ensureCompleteDataForDumbbellChart(
@@ -195,7 +187,5 @@ export function ensureCompleteDataForDumbbellChart(
     });
   });
 
-  return sortBy(completeData, d =>
-    parse(`${d.date}`, dateFormat || 'yyyy', new Date()),
-  );
+  return sortBy(completeData, d => parse(`${d.date}`, dateFormat || 'yyyy', new Date()));
 }

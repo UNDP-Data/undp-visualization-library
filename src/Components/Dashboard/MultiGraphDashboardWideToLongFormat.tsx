@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  createFilter,
-  DropdownSelect,
-  Label,
-  Spinner,
-} from '@undp/design-system-react';
+import { createFilter, DropdownSelect, Label, Spinner } from '@undp/design-system-react';
 
 import { SingleGraphDashboard } from './SingleGraphDashboard';
 
@@ -74,9 +69,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>(undefined);
   const [filterValues, setFilterValues] = useState<string[]>([]);
-  const [selectedFilterValues, setSelectedFilterValues] = useState<
-    string | undefined
-  >(undefined);
+  const [selectedFilterValues, setSelectedFilterValues] = useState<string | undefined>(undefined);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
 
@@ -96,31 +89,28 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           ? typeof dataSettings.dataURL === 'string'
             ? dataSettings.fileType === 'json'
               ? fetchAndParseJSON(
-                dataSettings.dataURL,
-                undefined,
-                dataSettings.dataTransformation,
-                debugMode,
-              )
+                  dataSettings.dataURL,
+                  undefined,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
               : dataSettings.fileType === 'api'
                 ? fetchAndTransformDataFromAPI(
-                  dataSettings.dataURL,
-                  dataSettings.apiHeaders,
-                  undefined,
-                  dataSettings.dataTransformation,
-                  debugMode,
-                )
+                    dataSettings.dataURL,
+                    dataSettings.apiHeaders,
+                    undefined,
+                    dataSettings.dataTransformation,
+                    debugMode,
+                  )
                 : fetchAndParseCSV(
-                  dataSettings.dataURL,
-                  dataSettings.dataTransformation,
-                  undefined,
-                  debugMode,
-                  dataSettings.delimiter,
-                  true,
-                )
-            : fetchAndParseMultipleDataSources(
-              dataSettings.dataURL,
-              dataSettings.idColumnTitle,
-            )
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    undefined,
+                    debugMode,
+                    dataSettings.delimiter,
+                    true,
+                  )
+            : fetchAndParseMultipleDataSources(dataSettings.dataURL, dataSettings.idColumnTitle)
           : transformColumnsToArray(dataSettings.data, undefined);
 
         const d = await fetchData;
@@ -149,9 +139,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
     <div
       className={`${theme || 'light'} flex grow`}
       dir={
-        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar'
-          ? 'rtl'
-          : undefined
+        dashboardLayout.language === 'he' || dashboardLayout.language === 'ar' ? 'rtl' : undefined
       }
     >
       <div
@@ -165,15 +153,14 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
           dashboardLayout?.language || 'en'
         }`}
         style={{
-          ...(dashboardLayout?.backgroundColor &&
-          dashboardLayout?.backgroundColor !== true
+          ...(dashboardLayout?.backgroundColor && dashboardLayout?.backgroundColor !== true
             ? { backgroundColor: dashboardLayout?.backgroundColor }
             : {}),
         }}
         id={dashboardID}
       >
         <div
-          className='flex grow' 
+          className='flex grow'
           style={{
             padding: dashboardLayout.backgroundColor
               ? dashboardLayout.padding || '1rem'
@@ -208,9 +195,7 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                     }}
                   >
                     {dashboardLayout.dropdownLabel ? (
-                      <Label className='mb-2'>
-                        {dashboardLayout.dropdownLabel}
-                      </Label>
+                      <Label className='mb-2'>{dashboardLayout.dropdownLabel}</Label>
                     ) : null}
                     <DropdownSelect
                       options={filterValues.map(d => ({
@@ -253,11 +238,9 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                         className='flex bg-transparent h-inherit grow min-w-60'
                         style={{
                           width: `calc(${
-                            (100 * (el.columnWidth || 1)) /
-                            TotalWidth(d.columns)
+                            (100 * (el.columnWidth || 1)) / TotalWidth(d.columns)
                           }% - ${
-                            (TotalWidth(d.columns) - (el.columnWidth || 1)) /
-                            TotalWidth(d.columns)
+                            (TotalWidth(d.columns) - (el.columnWidth || 1)) / TotalWidth(d.columns)
                           }rem)`,
                           minHeight: 'inherit',
                         }}
@@ -270,20 +253,12 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                             ...(el.settings || {}),
                             width: undefined,
                             height: undefined,
-                            radius:
-                              el.graphType === 'donutChart'
-                                ? undefined
-                                : el.settings?.radius,
-                            size:
-                              el.graphType === 'unitChart'
-                                ? el.settings.size
-                                : undefined,
-                            language:
-                              el.settings?.language || dashboardLayout.language,
+                            radius: el.graphType === 'donutChart' ? undefined : el.settings?.radius,
+                            size: el.graphType === 'unitChart' ? el.settings.size : undefined,
+                            language: el.settings?.language || dashboardLayout.language,
                             theme: el.settings?.theme || theme,
                             styles: el.settings?.styles || graphStyles,
-                            classNames:
-                              el.settings?.classNames || graphClassNames,
+                            classNames: el.settings?.classNames || graphClassNames,
                           }}
                           dataSettings={{ data }}
                           graphDataConfiguration={
@@ -291,19 +266,19 @@ export function MultiGraphDashboardWideToLongFormat(props: Props) {
                               ? el.graphDataConfiguration
                               : el.graphType === 'unitChart'
                                 ? [
-                                  {
-                                    columnId: 'indicator',
-                                    chartConfigId: 'label',
-                                  },
-                                  { columnId: 'value', chartConfigId: 'value' },
-                                ]
+                                    {
+                                      columnId: 'indicator',
+                                      chartConfigId: 'label',
+                                    },
+                                    { columnId: 'value', chartConfigId: 'value' },
+                                  ]
                                 : [
-                                  {
-                                    columnId: 'indicator',
-                                    chartConfigId: 'label',
-                                  },
-                                  { columnId: 'value', chartConfigId: 'size' },
-                                ]
+                                    {
+                                      columnId: 'indicator',
+                                      chartConfigId: 'label',
+                                    },
+                                    { columnId: 'value', chartConfigId: 'size' },
+                                  ]
                           }
                           debugMode={debugMode}
                           readableHeader={readableHeader || []}

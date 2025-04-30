@@ -53,10 +53,7 @@ interface Props {
   dataSettings: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
   noOfFiltersPerRow?: number;
-  graphType: Exclude<
-    GraphType,
-    'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'
-  >;
+  graphType: Exclude<GraphType, 'geoHubMap' | 'geoHubCompareMap' | 'geoHubMapWithLayerSelection'>;
   dataTransform?: {
     keyColumn: string;
     aggregationColumnsSetting?: AggregationSettingsDataType[];
@@ -105,12 +102,10 @@ export function GriddedGraphs(props: Props) {
   const [dataFromFile, setDataFromFile] = useState<any>(undefined);
   const [gridOption, setGridOption] = useState<(string | number)[]>([]);
   const graphParentDiv = useRef<HTMLDivElement>(null);
-  const [graphConfig, setGraphConfig] = useState<
-    GraphConfigurationDataType[] | undefined
-  >(graphDataConfiguration);
-  const [filterSettings, setFilterSettings] = useState<
-    FilterSettingsDataType[]
-  >([]);
+  const [graphConfig, setGraphConfig] = useState<GraphConfigurationDataType[] | undefined>(
+    graphDataConfiguration,
+  );
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsDataType[]>([]);
   const [advancedGraphSettings, setAdvancedGraphSettings] = useState<
     GraphSettingsDataType | object
   >({});
@@ -131,9 +126,9 @@ export function GriddedGraphs(props: Props) {
       filterSettings.every(filter =>
         filter.value && flattenDeep([filter.value]).length > 0
           ? intersection(
-            flattenDeep([item[filter.filter]]),
-            flattenDeep([filter.value]).map(el => el.value),
-          ).length > 0
+              flattenDeep([item[filter.filter]]),
+              flattenDeep([filter.value]).map(el => el.value),
+            ).length > 0
           : true,
       ),
     );
@@ -150,35 +145,29 @@ export function GriddedGraphs(props: Props) {
           ? typeof dataSettings.dataURL === 'string'
             ? dataSettings.fileType === 'json'
               ? fetchAndParseJSON(
-                dataSettings.dataURL,
-                dataSettings.columnsToArray,
-                dataSettings.dataTransformation,
-                debugMode,
-              )
+                  dataSettings.dataURL,
+                  dataSettings.columnsToArray,
+                  dataSettings.dataTransformation,
+                  debugMode,
+                )
               : dataSettings.fileType === 'api'
                 ? fetchAndTransformDataFromAPI(
-                  dataSettings.dataURL,
-                  dataSettings.apiHeaders,
-                  dataSettings.columnsToArray,
-                  dataSettings.dataTransformation,
-                  debugMode,
-                )
+                    dataSettings.dataURL,
+                    dataSettings.apiHeaders,
+                    dataSettings.columnsToArray,
+                    dataSettings.dataTransformation,
+                    debugMode,
+                  )
                 : fetchAndParseCSV(
-                  dataSettings.dataURL,
-                  dataSettings.dataTransformation,
-                  dataSettings.columnsToArray,
-                  debugMode,
-                  dataSettings.delimiter,
-                  true,
-                )
-            : fetchAndParseMultipleDataSources(
-              dataSettings.dataURL,
-              dataSettings.idColumnTitle,
-            )
-          : transformColumnsToArray(
-            dataSettings.data,
-            dataSettings.columnsToArray,
-          );
+                    dataSettings.dataURL,
+                    dataSettings.dataTransformation,
+                    dataSettings.columnsToArray,
+                    debugMode,
+                    dataSettings.delimiter,
+                    true,
+                  )
+            : fetchAndParseMultipleDataSources(dataSettings.dataURL, dataSettings.idColumnTitle)
+          : transformColumnsToArray(dataSettings.data, dataSettings.columnsToArray);
 
         const d = await fetchData;
         setDataFromFile(d);
@@ -214,20 +203,14 @@ export function GriddedGraphs(props: Props) {
   }, [graphDataConfiguration]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = useCallback((filter: string, values: any) => {
-    setFilterSettings(prev =>
-      prev.map(f => (f.filter === filter ? { ...f, value: values } : f)),
-    );
+    setFilterSettings(prev => prev.map(f => (f.filter === filter ? { ...f, value: values } : f)));
   }, []);
   return (
     <div
       className={`${theme || graphSettings?.theme || 'light'} flex  ${
         graphSettings?.width ? 'w-fit grow-0' : 'w-full grow'
       }`}
-      dir={
-        graphSettings?.language === 'he' || graphSettings?.language === 'ar'
-          ? 'rtl'
-          : undefined
-      }
+      dir={graphSettings?.language === 'he' || graphSettings?.language === 'ar' ? 'rtl' : undefined}
     >
       <div
         className={`${
@@ -236,12 +219,9 @@ export function GriddedGraphs(props: Props) {
             : graphSettings?.backgroundColor === true
               ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
               : ''
-        }ml-auto mr-auto flex flex-col grow h-inherit ${
-          graphSettings?.language || 'en'
-        }`}
+        }ml-auto mr-auto flex flex-col grow h-inherit ${graphSettings?.language || 'en'}`}
         style={{
-          ...(graphSettings?.backgroundColor &&
-          graphSettings?.backgroundColor !== true
+          ...(graphSettings?.backgroundColor && graphSettings?.backgroundColor !== true
             ? { backgroundColor: graphSettings?.backgroundColor }
             : {}),
         }}
@@ -250,13 +230,9 @@ export function GriddedGraphs(props: Props) {
         aria-label={
           graphSettings?.ariaLabel ||
           `${
-            graphSettings?.graphTitle
-              ? `The graph shows ${graphSettings?.graphTitle}. `
-              : ''
+            graphSettings?.graphTitle ? `The graph shows ${graphSettings?.graphTitle}. ` : ''
           }This is a gridded chart.${
-            graphSettings?.graphDescription
-              ? ` ${graphSettings?.graphDescription}`
-              : ''
+            graphSettings?.graphDescription ? ` ${graphSettings?.graphDescription}` : ''
           }`
         }
       >
@@ -286,20 +262,12 @@ export function GriddedGraphs(props: Props) {
                 graphTitle={graphSettings?.graphTitle}
                 graphDescription={graphSettings?.graphDescription}
                 width={graphSettings?.width}
-                graphDownload={
-                    graphSettings?.graphDownload
-                      ? graphParentDiv.current
-                      : undefined
-                  }
+                graphDownload={graphSettings?.graphDownload ? graphParentDiv.current : undefined}
                 dataDownload={
-                    graphSettings?.dataDownload && data
-                      ? data.length > 0
-                        ? data
-                        : null
-                      : null
-                  }
+                  graphSettings?.dataDownload && data ? (data.length > 0 ? data : null) : null
+                }
               />
-              ) : null}
+            ) : null}
             {data && gridOption.length > 0 ? (
               <>
                 {filterSettings.length !== 0 ||
@@ -340,46 +308,35 @@ export function GriddedGraphs(props: Props) {
                             variant={uiMode}
                             controlShouldRenderValue
                             defaultValue={
-                                d.defaultValue
-                                  ? {
+                              d.defaultValue
+                                ? {
                                     ...d.defaultValue,
                                     value: d.defaultValue?.label,
                                   }
-                                  : {
+                                : {
                                     ...d.options[0],
                                     value: d.options[0].label,
                                   }
-                              }
-                             
+                            }
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            onChange={(el:any) => {
+                            onChange={(el: any) => {
                               setAdvancedGraphSettings(el?.graphSettings || {});
                               setGraphConfig(el?.dataConfiguration);
                             }}
                           />
                         ) : (
                           <RadioGroup
-                            defaultValue={
-                                d.defaultValue?.label || d.options[0].label
-                              }
+                            defaultValue={d.defaultValue?.label || d.options[0].label}
                             variant={uiMode}
                             onValueChange={el => {
                               const selectedOption =
-                                d.options[
-                                  d.options.findIndex(opt => opt.label === el)
-                                ];
-                              setAdvancedGraphSettings(
-                                selectedOption.graphSettings || {},
-                              );
+                                d.options[d.options.findIndex(opt => opt.label === el)];
+                              setAdvancedGraphSettings(selectedOption.graphSettings || {});
                               setGraphConfig(selectedOption.dataConfiguration);
                             }}
                           >
                             {d.options.map((el, j) => (
-                              <RadioGroupItem
-                                label={el.label}
-                                value={el.label}
-                                key={j}
-                              />
+                              <RadioGroupItem label={el.label} value={el.label} key={j} />
                             ))}
                           </RadioGroup>
                         )}
@@ -402,200 +359,168 @@ export function GriddedGraphs(props: Props) {
                         <Label className='mb-2'>
                           {d.label || `Visualize ${d.chartConfigId} by`}
                         </Label>
-                        {!checkIfMultiple(
-                          d.chartConfigId,
-                          graphConfig || [],
-                        ) ? (
-                            d.ui !== 'radio' ? (
-                              <DropdownSelect
-                                options={d.allowedColumnIds}
-                                isClearable={false}
-                                isSearchable
-                                variant={uiMode}
-                                defaultValue={
-                                    graphDataConfiguration
-                                      ? d.allowedColumnIds[
-                                        d.allowedColumnIds.findIndex(
-                                          j =>
-                                            j.value ===
-                                          (graphDataConfiguration[
-                                            graphDataConfiguration.findIndex(
-                                              el =>
-                                                el.chartConfigId ===
-                                                d.chartConfigId,
-                                            )
-                                          ].columnId as string),
-                                        )
-                                      ]
-                                      : undefined
-                                  }
-                                controlShouldRenderValue
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any                                 
-                                onChange={(el: any) => {
-                                  const newGraphConfig = {
-                                    columnId: el?.value as string,
-                                    chartConfigId: d.chartConfigId,
-                                  };
-                                  const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId ===
-                                  newGraphConfig.chartConfigId
-                                      ? newGraphConfig
-                                      : item,
-                                  );
-                                  setAdvancedGraphSettings(
-                                    el?.graphSettings || {},
-                                  );
-                                  setGraphConfig(updatedConfig);
-                                }}
-                              />
-                            ) : (
-                              <RadioGroup
-                                variant={uiMode}
-                                defaultValue={
-                                    graphDataConfiguration
-                                      ? d.allowedColumnIds[
-                                        d.allowedColumnIds.findIndex(
-                                          j =>
-                                            j.value ===
-                                          (graphDataConfiguration[
-                                            graphDataConfiguration.findIndex(
-                                              el =>
-                                                el.chartConfigId ===
-                                                d.chartConfigId,
-                                            )
-                                          ].columnId as string),
-                                        )
-                                      ].label
-                                      : ''
-                                  }
-                                onValueChange={el => {
-                                  const selectedOption =
-                                  d.allowedColumnIds[
-                                    d.allowedColumnIds.findIndex(
-                                      opt => opt.label === el,
-                                    )
-                                  ];
-                                  const newGraphConfig = {
-                                    columnId: selectedOption.value,
-                                    chartConfigId: d.chartConfigId,
-                                  };
-                                  const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId ===
-                                  newGraphConfig.chartConfigId
-                                      ? newGraphConfig
-                                      : item,
-                                  );
-                                  setAdvancedGraphSettings(
-                                    selectedOption.graphSettings || {},
-                                  );
-                                  setGraphConfig(updatedConfig);
-                                }}
-                              >
-                                {d.allowedColumnIds.map((el, j) => (
-                                  <RadioGroupItem
-                                    label={el.label}
-                                    value={el.label}
-                                    key={j}
-                                  />
-                                ))}
-                              </RadioGroup>
-                            )
-                          ) : d.ui !== 'radio' ? (
+                        {!checkIfMultiple(d.chartConfigId, graphConfig || []) ? (
+                          d.ui !== 'radio' ? (
                             <DropdownSelect
                               options={d.allowedColumnIds}
-                              isMulti
-                              variant={uiMode}
+                              isClearable={false}
                               isSearchable
-                              controlShouldRenderValue
+                              variant={uiMode}
                               defaultValue={
-                                  graphDataConfiguration
-                                    ? (
-                                    graphDataConfiguration[
-                                      graphDataConfiguration.findIndex(
-                                        el =>
-                                          el.chartConfigId === d.chartConfigId,
+                                graphDataConfiguration
+                                  ? d.allowedColumnIds[
+                                      d.allowedColumnIds.findIndex(
+                                        j =>
+                                          j.value ===
+                                          (graphDataConfiguration[
+                                            graphDataConfiguration.findIndex(
+                                              el => el.chartConfigId === d.chartConfigId,
+                                            )
+                                          ].columnId as string),
                                       )
-                                    ].columnId as string[]
-                                    ).map(
-                                      el =>
-                                        d.allowedColumnIds[
-                                          d.allowedColumnIds.findIndex(
-                                            j => j.value === el,
-                                          )
-                                        ],
-                                    )
-                                    : undefined
-                                }
-                              filterOption={createFilter(filterConfig)}
+                                    ]
+                                  : undefined
+                              }
+                              controlShouldRenderValue
                               // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               onChange={(el: any) => {
                                 const newGraphConfig = {
-                                  columnId: el.map(
-                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    (item: any) => item.value,
-                                  ) as string[],
+                                  columnId: el?.value as string,
                                   chartConfigId: d.chartConfigId,
                                 };
                                 const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId ===
-                                newGraphConfig.chartConfigId
+                                  item.chartConfigId === newGraphConfig.chartConfigId
                                     ? newGraphConfig
                                     : item,
                                 );
+                                setAdvancedGraphSettings(el?.graphSettings || {});
                                 setGraphConfig(updatedConfig);
                               }}
-                              isRtl={
-                                  graphSettings?.language === 'ar' ||
-                              graphSettings?.language === 'he'
-                                }
                             />
                           ) : (
-                            <CheckboxGroup
+                            <RadioGroup
                               variant={uiMode}
                               defaultValue={
-                                  graphDataConfiguration
-                                    ? (
-                                    graphDataConfiguration[
-                                      graphDataConfiguration.findIndex(
-                                        el =>
-                                          el.chartConfigId === d.chartConfigId,
-                                      )
-                                    ].columnId as string[]
-                                    )
-                                      .map(
-                                        el =>
-                                          d.allowedColumnIds[
-                                            d.allowedColumnIds.findIndex(
-                                              j => j.value === el,
+                                graphDataConfiguration
+                                  ? d.allowedColumnIds[
+                                      d.allowedColumnIds.findIndex(
+                                        j =>
+                                          j.value ===
+                                          (graphDataConfiguration[
+                                            graphDataConfiguration.findIndex(
+                                              el => el.chartConfigId === d.chartConfigId,
                                             )
-                                          ],
+                                          ].columnId as string),
                                       )
-                                      .map(el => el.value)
-                                    : []
-                                }
+                                    ].label
+                                  : ''
+                              }
                               onValueChange={el => {
+                                const selectedOption =
+                                  d.allowedColumnIds[
+                                    d.allowedColumnIds.findIndex(opt => opt.label === el)
+                                  ];
                                 const newGraphConfig = {
-                                  columnId: el || [],
+                                  columnId: selectedOption.value,
                                   chartConfigId: d.chartConfigId,
                                 };
                                 const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId ===
-                                newGraphConfig.chartConfigId
+                                  item.chartConfigId === newGraphConfig.chartConfigId
                                     ? newGraphConfig
                                     : item,
                                 );
+                                setAdvancedGraphSettings(selectedOption.graphSettings || {});
                                 setGraphConfig(updatedConfig);
                               }}
                             >
                               {d.allowedColumnIds.map((el, j) => (
-                                <CheckboxGroupItem
-                                  label={el.label}
-                                  value={el.label}
-                                  key={j}
-                                />
+                                <RadioGroupItem label={el.label} value={el.label} key={j} />
                               ))}
-                            </CheckboxGroup>
-                          )}
+                            </RadioGroup>
+                          )
+                        ) : d.ui !== 'radio' ? (
+                          <DropdownSelect
+                            options={d.allowedColumnIds}
+                            isMulti
+                            variant={uiMode}
+                            isSearchable
+                            controlShouldRenderValue
+                            defaultValue={
+                              graphDataConfiguration
+                                ? (
+                                    graphDataConfiguration[
+                                      graphDataConfiguration.findIndex(
+                                        el => el.chartConfigId === d.chartConfigId,
+                                      )
+                                    ].columnId as string[]
+                                  ).map(
+                                    el =>
+                                      d.allowedColumnIds[
+                                        d.allowedColumnIds.findIndex(j => j.value === el)
+                                      ],
+                                  )
+                                : undefined
+                            }
+                            filterOption={createFilter(filterConfig)}
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            onChange={(el: any) => {
+                              const newGraphConfig = {
+                                columnId: el.map(
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  (item: any) => item.value,
+                                ) as string[],
+                                chartConfigId: d.chartConfigId,
+                              };
+                              const updatedConfig = graphConfig?.map(item =>
+                                item.chartConfigId === newGraphConfig.chartConfigId
+                                  ? newGraphConfig
+                                  : item,
+                              );
+                              setGraphConfig(updatedConfig);
+                            }}
+                            isRtl={
+                              graphSettings?.language === 'ar' || graphSettings?.language === 'he'
+                            }
+                          />
+                        ) : (
+                          <CheckboxGroup
+                            variant={uiMode}
+                            defaultValue={
+                              graphDataConfiguration
+                                ? (
+                                    graphDataConfiguration[
+                                      graphDataConfiguration.findIndex(
+                                        el => el.chartConfigId === d.chartConfigId,
+                                      )
+                                    ].columnId as string[]
+                                  )
+                                    .map(
+                                      el =>
+                                        d.allowedColumnIds[
+                                          d.allowedColumnIds.findIndex(j => j.value === el)
+                                        ],
+                                    )
+                                    .map(el => el.value)
+                                : []
+                            }
+                            onValueChange={el => {
+                              const newGraphConfig = {
+                                columnId: el || [],
+                                chartConfigId: d.chartConfigId,
+                              };
+                              const updatedConfig = graphConfig?.map(item =>
+                                item.chartConfigId === newGraphConfig.chartConfigId
+                                  ? newGraphConfig
+                                  : item,
+                              );
+                              setGraphConfig(updatedConfig);
+                            }}
+                          >
+                            {d.allowedColumnIds.map((el, j) => (
+                              <CheckboxGroupItem label={el.label} value={el.label} key={j} />
+                            ))}
+                          </CheckboxGroup>
+                        )}
                       </div>
                     ))}
                     {filterSettings?.map((d, i) => (
@@ -617,16 +542,13 @@ export function GriddedGraphs(props: Props) {
                           <DropdownSelect
                             variant={uiMode}
                             options={d.availableValues}
-                            isClearable={
-                                d.clearable === undefined ? true : d.clearable
-                              }
+                            isClearable={d.clearable === undefined ? true : d.clearable}
                             isRtl={
-                                graphSettings?.language === 'ar' ||
-                              graphSettings?.language === 'he'
-                              }
+                              graphSettings?.language === 'ar' || graphSettings?.language === 'he'
+                            }
                             isSearchable
                             controlShouldRenderValue
-                            filterOption={createFilter(filterConfig)}                             
+                            filterOption={createFilter(filterConfig)}
                             onChange={el => {
                               handleFilterChange(d.filter, el);
                             }}
@@ -638,30 +560,24 @@ export function GriddedGraphs(props: Props) {
                               variant={uiMode}
                               options={d.availableValues}
                               isMulti
-                              isClearable={
-                                  d.clearable === undefined ? true : d.clearable
-                                }
+                              isClearable={d.clearable === undefined ? true : d.clearable}
                               isSearchable
                               controlShouldRenderValue
-                              filterOption={createFilter(filterConfig)}                               
+                              filterOption={createFilter(filterConfig)}
                               onChange={el => {
                                 handleFilterChange(d.filter, el);
                               }}
                               defaultValue={d.defaultValue}
                               isRtl={
-                                  graphSettings?.language === 'ar' ||
-                                graphSettings?.language === 'he'
-                                }
+                                graphSettings?.language === 'ar' || graphSettings?.language === 'he'
+                              }
                             />
                             {d.allowSelectAll ? (
                               <button
                                 className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
                                 type='button'
                                 onClick={() => {
-                                  handleFilterChange(
-                                    d.filter,
-                                    d.availableValues,
-                                  );
+                                  handleFilterChange(d.filter, d.availableValues);
                                 }}
                               >
                                 Select all options
@@ -672,7 +588,7 @@ export function GriddedGraphs(props: Props) {
                       </div>
                     ))}
                   </div>
-                  ) : null}
+                ) : null}
                 {showCommonColorScale !== false &&
                 graphSettings?.colorDomain &&
                 graphSettings?.showColorScale !== false ? (
@@ -680,32 +596,27 @@ export function GriddedGraphs(props: Props) {
                     width={graphSettings?.width}
                     colorLegendTitle={graphSettings?.colorLegendTitle}
                     colors={
-                        (graphSettings?.colors as string[] | undefined) ||
-                      Colors[
-                        (graphSettings?.theme as
-                          | 'light'
-                          | 'dark'
-                          | undefined) || 'light'
-                      ].categoricalColors.colors
-                      }
+                      (graphSettings?.colors as string[] | undefined) ||
+                      Colors[(graphSettings?.theme as 'light' | 'dark' | undefined) || 'light']
+                        .categoricalColors.colors
+                    }
                     colorDomain={graphSettings?.colorDomain}
                     showNAColor={
-                        graphSettings?.showNAColor === undefined ||
+                      graphSettings?.showNAColor === undefined ||
                       graphSettings?.showNAColor === null
-                          ? true
-                          : graphSettings?.showNAColor
-                      }
+                        ? true
+                        : graphSettings?.showNAColor
+                    }
                     theme={graphSettings?.theme || 'light'}
                   />
-                  ) : null}
+                ) : null}
                 <div
                   style={{
                     display: 'flex',
                     flexWrap: 'wrap',
                     gap: '1rem',
                     flexDirection:
-                      graphSettings?.language === 'ar' ||
-                      graphSettings?.language === 'he'
+                      graphSettings?.language === 'ar' || graphSettings?.language === 'he'
                         ? 'row-reverse'
                         : 'row',
                     justifyContent: 'center',
@@ -716,15 +627,10 @@ export function GriddedGraphs(props: Props) {
                       key={i}
                       style={{
                         width: `calc(${
-                          100 /
-                          (noOfColumns ||
-                            (min([4, gridOption.length || 0]) as number))
+                          100 / (noOfColumns || (min([4, gridOption.length || 0]) as number))
                         }% - ${
-                          ((noOfColumns ||
-                            (min([4, gridOption.length || 0]) as number)) -
-                            1) /
-                          (noOfColumns ||
-                            (min([4, gridOption.length || 0]) as number))
+                          ((noOfColumns || (min([4, gridOption.length || 0]) as number)) - 1) /
+                          (noOfColumns || (min([4, gridOption.length || 0]) as number))
                         }rem)`,
                         minWidth: checkIfNullOrUndefined(minGraphWidth)
                           ? '280px'
@@ -738,17 +644,17 @@ export function GriddedGraphs(props: Props) {
                           transformDataForGraph(
                             dataTransform
                               ? transformDataForAggregation(
-                                filterData(data, dataFilters || []).filter(
+                                  filterData(data, dataFilters || []).filter(
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    (d: any) => d[columnGridBy] === el,
+                                  ),
+                                  dataTransform.keyColumn,
+                                  dataTransform.aggregationColumnsSetting,
+                                )
+                              : filterData(data, dataFilters || []).filter(
                                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                   (d: any) => d[columnGridBy] === el,
                                 ),
-                                dataTransform.keyColumn,
-                                dataTransform.aggregationColumnsSetting,
-                              )
-                              : filterData(data, dataFilters || []).filter(
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                (d: any) => d[columnGridBy] === el,
-                              ),
                             graphType,
                             graphConfig,
                           ) || []
