@@ -84,6 +84,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     // Graph parameters
     showLabels: { table: { defaultValue: { summary: 'true' } } },
     showValues: { table: { defaultValue: { summary: 'true' } } },
+    filterNA: { table: { defaultValue: { summary: 'true' } } },
     labelOrder: {
       control: 'text',
       table: { type: { summary: 'string[]' } },
