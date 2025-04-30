@@ -189,7 +189,10 @@ export function Graph(props: Props) {
   const xTicks = x.ticks(noOfXTicks);
   const yTicks = y.ticks(noOfYTicks);
   const voronoiDiagram = Delaunay.from(
-    dataOrdered,
+    dataOrdered
+      .filter(
+        d => !checkIfNullOrUndefined(d.x) && !checkIfNullOrUndefined(d.y),
+      ),
     d => x(d.x as number),
     d => y(d.y as number),
   ).voronoi([
