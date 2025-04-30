@@ -1,0 +1,73 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Dashboard/Data types/highlightDataPointSettings" />
+
+### highlightDataPointSettings
+
+Type - `object`
+
+Defines the settings for highlighting data points in the graph
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Required</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>column</td>
+      <td>yes</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the name of the column in the data that will be used for highlighting.</td>
+    </tr>
+    <tr>
+      <td>defaultValue</td>
+      <td>no</td>
+      <td><code>(string | number)[]</code></td>
+      <td></td>
+      <td>Sets the default value(s) for the filter when the graph is first rendered.</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the label for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>excludeValues</td>
+      <td>no</td>
+      <td><code>(string | number)[]</code></td>
+      <td></td>
+      <td>Defines the values excluded for the dropdown.</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>no</td>
+      <td><code>string</code></td>
+      <td></td>
+      <td>Defines the width of the filter in the top settings as a css property.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Example
+
+```tsx
+filters={[
+  {
+    column: 'Column 1',
+    singleSelect: false,
+    clearable: true,
+    defaultValue: 'Value 1',
+    label: 'Filter by column name',
+    excludeValues: ['Value 2']
+  }
+]}
+```

@@ -465,6 +465,14 @@ export type FilterUiSettingsDataType = {
   width?: string;
 };
 
+export type HighlightDataPointSettingsDataType = {
+  column: string;
+  label?: string;
+  defaultValues?: (string | number)[];
+  excludeValues?: (string | number)[];
+  width?: string;
+};
+
 export type DashboardLayoutDataType = {
   title?: string;
   description?: string;
@@ -859,4 +867,5 @@ export interface GraphSettingsDataType {
   styles?: StyleObject;
   classNames?: ClassNameObject;
   mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
+  filterNA?: boolean;
 }

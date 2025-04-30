@@ -705,6 +705,32 @@ export const getSingleGraphJSONSchema = (
           enum: ['light', 'normal'],
         },
         classNames: { type: 'object' },
+        highlightDataPointSettings: {
+          type: 'object',
+          properties: {
+            column: { type: 'string' },
+            label: { type: 'string' },
+            defaultValues: {
+              oneOf: [
+                {
+                  type: 'array',
+                  items: { type: 'string' },
+                },
+                {
+                  type: 'array',
+                  items: { type: 'number' },
+                },
+              ],
+            },
+            excludeValues: {
+              type: 'array',
+              items: { type: 'string' },
+            },
+            allowSelectAll: { type: 'boolean' },
+            width: { type: 'string' },
+          },
+          required: ['column'],
+        },
         styles: { type: 'object' },
       },
       required: ['graphType'],
@@ -736,6 +762,32 @@ export const getSingleGraphJSONSchema = (
             enum: ['light', 'normal'],
           },
           classNames: { type: 'object' },
+          highlightDataPointSettings: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              label: { type: 'string' },
+              defaultValues: {
+                oneOf: [
+                  {
+                    type: 'array',
+                    items: { type: 'string' },
+                  },
+                  {
+                    type: 'array',
+                    items: { type: 'number' },
+                  },
+                ],
+              },
+              excludeValues: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+              allowSelectAll: { type: 'boolean' },
+              width: { type: 'string' },
+            },
+            required: ['column'],
+          },
           styles: { type: 'object' },
         },
         required: ['dataSettings', 'graphType'],
@@ -769,6 +821,32 @@ export const getSingleGraphJSONSchema = (
           ),
           debugMode: { type: 'boolean' },
           theme: { type: 'string', enum: ['dark', 'light'] },
+          highlightDataPointSettings: {
+            type: 'object',
+            properties: {
+              column: { type: 'string' },
+              label: { type: 'string' },
+              defaultValues: {
+                oneOf: [
+                  {
+                    type: 'array',
+                    items: { type: 'string' },
+                  },
+                  {
+                    type: 'array',
+                    items: { type: 'number' },
+                  },
+                ],
+              },
+              excludeValues: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+              allowSelectAll: { type: 'boolean' },
+              width: { type: 'string' },
+            },
+            required: ['column'],
+          },
           uiMode: {
             type: 'string',
             enum: ['light', 'normal'],

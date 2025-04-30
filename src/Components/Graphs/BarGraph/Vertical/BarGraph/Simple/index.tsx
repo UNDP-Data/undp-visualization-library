@@ -17,6 +17,7 @@ import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
 import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
+import { checkIfNullOrUndefined } from '@/Utils/checkIfNullOrUndefined';
 
 interface Props {
   data: BarGraphDataType[];
@@ -73,6 +74,7 @@ interface Props {
   valueColor?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  filterNA?: boolean;
 }
 
 export function VerticalBarGraph(props: Props) {
@@ -129,6 +131,7 @@ export function VerticalBarGraph(props: Props) {
     valueColor,
     styles,
     classNames,
+    filterNA = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -246,16 +249,16 @@ export function VerticalBarGraph(props: Props) {
                       <Graph
                         data={
                           sortData === 'asc'
-                            ? sortBy(data, d => d.size).filter((_d, i) =>
+                            ? sortBy(data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d), d => d.size).filter((_d, i) =>
                               maxNumberOfBars ? i < maxNumberOfBars : true,
                             )
                             : sortData === 'desc'
-                              ? sortBy(data, d => d.size)
+                              ? sortBy(data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d), d => d.size)
                                 .reverse()
                                 .filter((_d, i) =>
                                   maxNumberOfBars ? i < maxNumberOfBars : true,
                                 )
-                              : data.filter((_d, i) =>
+                              : data.filter(d => filterNA ? !checkIfNullOrUndefined(d.size) : d).filter((_d, i) =>
                                 maxNumberOfBars ? i < maxNumberOfBars : true,
                               )
                         }

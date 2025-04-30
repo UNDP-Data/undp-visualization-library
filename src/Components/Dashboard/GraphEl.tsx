@@ -220,6 +220,7 @@ function GraphEl(props: Props) {
           valueColor: settings?.valueColor,
           styles: settings?.styles,
           classNames: settings?.classNames,
+          filterNA: settings?.filterNA,
         };
       case 'groupedBarChart':
         return {

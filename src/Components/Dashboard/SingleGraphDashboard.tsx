@@ -26,6 +26,7 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
+  HighlightDataPointSettingsDataType,
 } from '@/Types';
 import {
   fetchAndParseCSV,
@@ -51,6 +52,7 @@ interface Props {
   }[];
   dataSettings?: DataSettingsDataType;
   filters?: FilterUiSettingsDataType[];
+  highlightDataPointSettings?: HighlightDataPointSettingsDataType;
   noOfFiltersPerRow?: number;
   graphType: GraphType;
   dataTransform?: {
@@ -121,6 +123,7 @@ export function SingleGraphDashboard(props: Props) {
     updateFilters,
     uiMode = 'normal',
     theme = 'light',
+    highlightDataPointSettings,
   } = props;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>(undefined);
@@ -130,6 +133,8 @@ export function SingleGraphDashboard(props: Props) {
     GraphConfigurationDataType[] | undefined
   >(graphDataConfiguration);
   const [advancedGraphSettings, setAdvancedGraphSettings] = useState<GraphSettingsDataType>({});
+  const [highlightedDataPointList, setHighlightedDataPointList] = useState<(string | number)[] | undefined>(undefined);
+  const [highlightedDataPointOptions, setHighlightedDataPointOption] = useState<{label: (string | number); value: (string | number)}[]>([]);
   const graphParentDiv = useRef<HTMLDivElement>(null);
   const [filterSettings, setFilterSettings] = useState<
     FilterSettingsDataType[]
@@ -244,6 +249,11 @@ export function SingleGraphDashboard(props: Props) {
       setData(filteredData);
     }
   }, [filteredData, graphType, dataFromFile]);
+
+  useEffect(() => {
+    if(highlightDataPointSettings?.column && filteredData) 
+      setHighlightedDataPointOption(getUniqValue(filteredData, highlightDataPointSettings.column).filter(v => !highlightDataPointSettings?.excludeValues?.includes(`${v}`)).map(d => ({ value: d, label: d })));
+  }, [filteredData, highlightDataPointSettings]);
 
   useEffect(() => {
     setGraphConfig(graphDataConfiguration);
@@ -371,45 +381,47 @@ export function SingleGraphDashboard(props: Props) {
                     }
                   />
                     ) : null}
-                  {filterSettings.length !== 0 ||
-                (dataSelectionOptions || []).length !== 0 ||
-                (advancedDataSelectionOptions || []).length !== 0 ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: '1rem',
-                      flexWrap: 'wrap',
-                      alignItems: 'flex-start',
-                      width: '100%',
-                    }}
-                  >
-                    {advancedDataSelectionOptions?.map((d, i) => (
+                  {
+                    filterSettings.length !== 0 ||
+                    (dataSelectionOptions || []).length !== 0 ||
+                    (advancedDataSelectionOptions || []).length !== 0 || 
+                    highlightDataPointSettings ? (
                       <div
                         style={{
-                          width:
-                            d.width ||
-                            `calc(${100 / noOfFiltersPerRow}% - ${
-                              (noOfFiltersPerRow - 1) / noOfFiltersPerRow
-                            }rem)`,
-                          flexGrow: 1,
-                          flexShrink: d.ui !== 'radio' ? 0 : 1,
-                          minWidth: '240px',
+                          display: 'flex',
+                          gap: '1rem',
+                          flexWrap: 'wrap',
+                          alignItems: 'flex-start',
+                          width: '100%',
                         }}
-                        key={i}
                       >
-                        <Label className='mb-2'>{d.label || 'Graph by'}</Label>
-                        {d.ui !== 'radio' ? (
-                          <DropdownSelect
-                            options={d.options.map(opt => ({
-                              ...opt,
-                              value: opt.label,
-                            }))}
-                            size='sm'
-                            isClearable={false}
-                            isSearchable
-                            variant={uiMode}
-                            controlShouldRenderValue
-                            defaultValue={
+                        {advancedDataSelectionOptions?.map((d, i) => (
+                          <div
+                            style={{
+                              width:
+                                d.width ||
+                                `calc(${100 / noOfFiltersPerRow}% - ${
+                                  (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                                }rem)`,
+                              flexGrow: 1,
+                              flexShrink: d.ui !== 'radio' ? 0 : 1,
+                              minWidth: '240px',
+                            }}
+                            key={i}
+                          >
+                            <Label className='mb-2'>{d.label || 'Graph by'}</Label>
+                            {d.ui !== 'radio' ? (
+                              <DropdownSelect
+                                options={d.options.map(opt => ({
+                                  ...opt,
+                                  value: opt.label,
+                                }))}
+                                size='sm'
+                                isClearable={false}
+                                isSearchable
+                                variant={uiMode}
+                                controlShouldRenderValue
+                                defaultValue={
                               d.defaultValue
                                 ? {
                                   ...d.defaultValue,
@@ -420,142 +432,29 @@ export function SingleGraphDashboard(props: Props) {
                                   value: d.options[0].label,
                                 }
                             }
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            onChange={(el: any) => {
-                              setAdvancedGraphSettings(el?.graphSettings || {});
-                              setGraphConfig(el?.dataConfiguration);
-                            }}
-                          />
-                        ) : (
-                          <RadioGroup
-                            defaultValue={
-                              d.defaultValue?.label || d.options[0].label
-                            }
-                            variant={uiMode}
-                            onValueChange={el => {
-                              const selectedOption =
-                                d.options[
-                                  d.options.findIndex(opt => opt.label === el)
-                                ];
-                              setAdvancedGraphSettings(
-                                selectedOption.graphSettings || {},
-                              );
-                              setGraphConfig(selectedOption.dataConfiguration);
-                            }}
-                          >
-                            {d.options.map((el, j) => (
-                              <RadioGroupItem
-                                label={el.label}
-                                value={el.label}
-                                key={j}
-                              />
-                            ))}
-                          </RadioGroup>
-                        )}
-                      </div>
-                    ))}
-                    {dataSelectionOptions?.map((d, i) => (
-                      <div
-                        style={{
-                          width:
-                            d.width ||
-                            `calc(${100 / noOfFiltersPerRow}% - ${
-                              (noOfFiltersPerRow - 1) / noOfFiltersPerRow
-                            }rem)`,
-                          flexGrow: 1,
-                          flexShrink: d.ui !== 'radio' ? 0 : 1,
-                          minWidth: '240px',
-                        }}
-                        key={i}
-                      >
-                        <Label className='mb-2'>
-                          {d.label || `Visualize ${d.chartConfigId} by`}
-                        </Label>
-                        {!checkIfMultiple(
-                          d.chartConfigId,
-                          graphConfig || [],
-                        ) ? (
-                            d.ui !== 'radio' ? (
-                              <DropdownSelect
-                                options={d.allowedColumnIds}
-                                size='sm'
-                                isClearable={false}
-                                isSearchable
-                                variant={uiMode}
-                                controlShouldRenderValue
-                                defaultValue={
-                                  graphDataConfiguration
-                                    ? d.allowedColumnIds[
-                                      d.allowedColumnIds.findIndex(
-                                        j =>
-                                          j.value ===
-                                            (graphDataConfiguration[
-                                              graphDataConfiguration.findIndex(
-                                                el =>
-                                                  el.chartConfigId ===
-                                                  d.chartConfigId,
-                                              )
-                                            ].columnId as string),
-                                      )
-                                    ]
-                                    : undefined
-                                }
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 onChange={(el: any) => {
-                                  const newGraphConfig = {
-                                    columnId: el?.value as string,
-                                    chartConfigId: d.chartConfigId,
-                                  };
-                                  const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId === newGraphConfig.chartConfigId
-                                      ? newGraphConfig
-                                      : item,
-                                  );
-                                  setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
-                                  setGraphConfig(updatedConfig);
+                                  setAdvancedGraphSettings(el?.graphSettings || {});
+                                  setGraphConfig(el?.dataConfiguration);
                                 }}
                               />
                             ) : (
                               <RadioGroup
-                                variant={uiMode}
                                 defaultValue={
-                                graphDataConfiguration
-                                  ? d.allowedColumnIds[
-                                    d.allowedColumnIds.findIndex(
-                                      j =>
-                                        j.value ===
-                                          (graphDataConfiguration[
-                                            graphDataConfiguration.findIndex(
-                                              el =>
-                                                el.chartConfigId ===
-                                                d.chartConfigId,
-                                            )
-                                          ].columnId as string),
-                                    )
-                                  ].label
-                                  : ''
-                              }
+                              d.defaultValue?.label || d.options[0].label
+                            }
+                                variant={uiMode}
                                 onValueChange={el => {
-                                  const selectedOption =
-                                  d.allowedColumnIds[
-                                    d.allowedColumnIds.findIndex(
-                                      opt => opt.label === el,
-                                    )
+                                  const selectedOption = d.options[
+                                    d.options.findIndex(opt => opt.label === el)
                                   ];
-                                  const newGraphConfig = {
-                                    columnId: selectedOption.value,
-                                    chartConfigId: d.chartConfigId,
-                                  };
-                                  const updatedConfig = graphConfig?.map(item =>
-                                    item.chartConfigId === newGraphConfig.chartConfigId
-                                      ? newGraphConfig
-                                      : item,
+                                  setAdvancedGraphSettings(
+                                    selectedOption.graphSettings || {},
                                   );
-                                  setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
-                                  setGraphConfig(updatedConfig);
+                                  setGraphConfig(selectedOption.dataConfiguration);
                                 }}
                               >
-                                {d.allowedColumnIds.map((el, j) => (
+                                {d.options.map((el, j) => (
                                   <RadioGroupItem
                                     label={el.label}
                                     value={el.label}
@@ -563,170 +462,322 @@ export function SingleGraphDashboard(props: Props) {
                                   />
                                 ))}
                               </RadioGroup>
-                            )
-                          ) : d.ui !== 'radio' ? (
-                            <DropdownSelect
-                              options={d.allowedColumnIds}
-                              size='sm'
-                              isMulti
-                              isSearchable
-                              variant={uiMode}
-                              controlShouldRenderValue
-                              defaultValue={
-                              graphDataConfiguration
-                                ? (
-                                    graphDataConfiguration[
-                                      graphDataConfiguration.findIndex(
-                                        el =>
-                                          el.chartConfigId === d.chartConfigId,
-                                      )
-                                    ].columnId as string[]
-                                ).map(
-                                  el =>
-                                    d.allowedColumnIds[
-                                      d.allowedColumnIds.findIndex(
-                                        j => j.value === el,
-                                      )
-                                    ],
-                                )
-                                : undefined
-                            }
-                              filterOption={createFilter(filterConfig)}
-                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                              onChange={(el: any) => {
-                                const newGraphConfig = {
-                                  columnId: (el || []).map(
+                            )}
+                          </div>
+                        ))}
+                        {dataSelectionOptions?.map((d, i) => (
+                          <div
+                            style={{
+                              width:
+                                d.width ||
+                                `calc(${100 / noOfFiltersPerRow}% - ${
+                                  (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                                }rem)`,
+                              flexGrow: 1,
+                              flexShrink: d.ui !== 'radio' ? 0 : 1,
+                              minWidth: '240px',
+                            }}
+                            key={i}
+                          >
+                            <Label className='mb-2'>
+                              {d.label || `Visualize ${d.chartConfigId} by`}
+                            </Label>
+                            {!checkIfMultiple(
+                              d.chartConfigId,
+                              graphConfig || [],
+                            ) ? (
+                                d.ui !== 'radio' ? (
+                                  <DropdownSelect
+                                    options={d.allowedColumnIds}
+                                    size='sm'
+                                    isClearable={false}
+                                    isSearchable
+                                    variant={uiMode}
+                                    controlShouldRenderValue
+                                    defaultValue={
+                                      graphDataConfiguration
+                                        ? d.allowedColumnIds[
+                                          d.allowedColumnIds.findIndex(
+                                            j =>
+                                              j.value ===
+                                                (graphDataConfiguration[
+                                                  graphDataConfiguration.findIndex(
+                                                    el =>
+                                                      el.chartConfigId ===
+                                                      d.chartConfigId,
+                                                  )
+                                                ].columnId as string),
+                                          )
+                                        ]
+                                        : undefined
+                                    }
                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    (item: any) => item.value,
-                                  ) as string[],
-                                  chartConfigId: d.chartConfigId,
-                                };
-                                const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId === newGraphConfig.chartConfigId
-                                    ? newGraphConfig
-                                    : item,
-                                );
-                                setGraphConfig(updatedConfig);
-                              }}
-                            />
-                          ) : (
-                            <CheckboxGroup
-                              variant={uiMode}
-                              defaultValue={
-                              graphDataConfiguration
-                                ? (
-                                    graphDataConfiguration[
-                                      graphDataConfiguration.findIndex(
-                                        el =>
-                                          el.chartConfigId === d.chartConfigId,
-                                      )
-                                    ].columnId as string[]
-                                )
-                                  .map(
-                                    el =>
-                                      d.allowedColumnIds[
+                                    onChange={(el: any) => {
+                                      const newGraphConfig = {
+                                        columnId: el?.value as string,
+                                        chartConfigId: d.chartConfigId,
+                                      };
+                                      const updatedConfig = graphConfig?.map(item =>
+                                        item.chartConfigId === newGraphConfig.chartConfigId
+                                          ? newGraphConfig
+                                          : item,
+                                      );
+                                      setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
+                                      setGraphConfig(updatedConfig);
+                                    }}
+                                  />
+                                ) : (
+                                  <RadioGroup
+                                    variant={uiMode}
+                                    defaultValue={
+                                      graphDataConfiguration
+                                        ? d.allowedColumnIds[
+                                          d.allowedColumnIds.findIndex(
+                                            j =>
+                                              j.value ===
+                                                (graphDataConfiguration[
+                                                  graphDataConfiguration.findIndex(
+                                                    el =>
+                                                      el.chartConfigId ===
+                                                      d.chartConfigId,
+                                                  )
+                                                ].columnId as string),
+                                          )
+                                        ].label
+                                        : ''
+                                    }
+                                    onValueChange={el => {
+                                      const selectedOption = d.allowedColumnIds[
                                         d.allowedColumnIds.findIndex(
-                                          j => j.value === el,
+                                          opt => opt.label === el,
                                         )
-                                      ],
-                                  )
-                                  .map(el => el.value)
-                                : []
-                            }
-                              onValueChange={el => {
-                                const newGraphConfig = {
-                                  columnId: el || [],
-                                  chartConfigId: d.chartConfigId,
-                                };
-                                const updatedConfig = graphConfig?.map(item =>
-                                  item.chartConfigId === newGraphConfig.chartConfigId
-                                    ? newGraphConfig
-                                    : item,
-                                );
-                                setGraphConfig(updatedConfig);
+                                      ];
+                                      const newGraphConfig = {
+                                        columnId: selectedOption.value,
+                                        chartConfigId: d.chartConfigId,
+                                      };
+                                      const updatedConfig = graphConfig?.map(item =>
+                                        item.chartConfigId === newGraphConfig.chartConfigId
+                                          ? newGraphConfig
+                                          : item,
+                                      );
+                                      setAdvancedGraphSettings(getGraphSettings(dataSelectionOptions, updatedConfig));
+                                      setGraphConfig(updatedConfig);
+                                    }}
+                                  >
+                                    {d.allowedColumnIds.map((el, j) => (
+                                      <RadioGroupItem
+                                        label={el.label}
+                                        value={el.label}
+                                        key={j}
+                                      />
+                                    ))}
+                                  </RadioGroup>
+                                )
+                              ) : d.ui !== 'radio' ? (
+                                <DropdownSelect
+                                  options={d.allowedColumnIds}
+                                  size='sm'
+                                  isMulti
+                                  isSearchable
+                                  variant={uiMode}
+                                  controlShouldRenderValue
+                                  defaultValue={
+                                    graphDataConfiguration
+                                      ? (
+                                          graphDataConfiguration[
+                                            graphDataConfiguration.findIndex(
+                                              el =>
+                                                el.chartConfigId === d.chartConfigId,
+                                            )
+                                          ].columnId as string[]
+                                      ).map(
+                                        el =>
+                                          d.allowedColumnIds[
+                                            d.allowedColumnIds.findIndex(
+                                              j => j.value === el,
+                                            )
+                                          ],
+                                      )
+                                      : undefined
+                                  }
+                                  filterOption={createFilter(filterConfig)}
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  onChange={(el: any) => {
+                                    const newGraphConfig = {
+                                      columnId: (el || []).map(
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        (item: any) => item.value,
+                                      ) as string[],
+                                      chartConfigId: d.chartConfigId,
+                                    };
+                                    const updatedConfig = graphConfig?.map(item =>
+                                      item.chartConfigId === newGraphConfig.chartConfigId
+                                        ? newGraphConfig
+                                        : item,
+                                    );
+                                    setGraphConfig(updatedConfig);
+                                  }}
+                                />
+                              ) : (
+                                <CheckboxGroup
+                                  variant={uiMode}
+                                  defaultValue={
+                                    graphDataConfiguration
+                                      ? (
+                                          graphDataConfiguration[
+                                            graphDataConfiguration.findIndex(
+                                              el =>
+                                                el.chartConfigId === d.chartConfigId,
+                                            )
+                                          ].columnId as string[]
+                                      )
+                                        .map(
+                                          el =>
+                                            d.allowedColumnIds[
+                                              d.allowedColumnIds.findIndex(
+                                                j => j.value === el,
+                                              )
+                                            ],
+                                        )
+                                        .map(el => el.value)
+                                      : []
+                                  }
+                                  onValueChange={el => {
+                                    const newGraphConfig = {
+                                      columnId: el || [],
+                                      chartConfigId: d.chartConfigId,
+                                    };
+                                    const updatedConfig = graphConfig?.map(item =>
+                                      item.chartConfigId === newGraphConfig.chartConfigId
+                                        ? newGraphConfig
+                                        : item,
+                                    );
+                                    setGraphConfig(updatedConfig);
+                                  }}
+                                >
+                                  {d.allowedColumnIds.map((el, j) => (
+                                    <CheckboxGroupItem
+                                      label={el.label}
+                                      value={el.label}
+                                      key={j}
+                                    />
+                                  ))}
+                                </CheckboxGroup>
+                              )}
+                          </div>
+                        ))}
+                        {filterSettings?.map((d, i) => (
+                          <div
+                            style={{
+                              width:
+                                d.width ||
+                                `calc(${100 / noOfFiltersPerRow}% - ${
+                                  (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                                }rem)`,
+                              flexGrow: 1,
+                              flexShrink: 0,
+                              minWidth: '240px',
+                            }}
+                            key={i}
+                          >
+                            <Label className='mb-2'>{d.label}</Label>
+                            {d.singleSelect ? (
+                              <DropdownSelect
+                                options={d.availableValues}
+                                variant={uiMode}
+                                isClearable={
+                                  d.clearable === undefined ? true : d.clearable
+                                }
+                                isSearchable
+                                controlShouldRenderValue
+                                filterOption={createFilter(filterConfig)}                             
+                                onChange={el => {
+                                  handleFilterChange(d.filter, el);
+                                }}
+                                value={d.value}
+                                defaultValue={d.defaultValue}
+                              />
+                            ) : (
+                              <>
+                                <DropdownSelect
+                                  options={d.availableValues}
+                                  variant={uiMode}
+                                  size='sm'
+                                  isMulti
+                                  isClearable={
+                                    d.clearable === undefined ? true : d.clearable
+                                  }
+                                  isSearchable
+                                  controlShouldRenderValue
+                                  filterOption={createFilter(filterConfig)}
+                                  onChange={el => {
+                                    handleFilterChange(d.filter, el);
+                                  }}
+                                  value={d.value}
+                                  defaultValue={d.defaultValue}
+                                />
+                                {d.allowSelectAll ? (
+                                  <button
+                                    type='button'
+                                    className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
+                                    onClick={() => {
+                                      handleFilterChange(
+                                        d.filter,
+                                        d.availableValues,
+                                      );
+                                    }}
+                                  >
+                                    Select all options
+                                  </button>
+                                ) : null}
+                              </>
+                            )}
+                          </div>
+                        ))}
+                        {
+                          highlightDataPointSettings ? 
+                            <div
+                              style={{
+                                width:
+                                highlightDataPointSettings.width ||
+                                `calc(${100 / noOfFiltersPerRow}% - ${
+                                  (noOfFiltersPerRow - 1) / noOfFiltersPerRow
+                                }rem)`,
+                                flexGrow: 1,
+                                flexShrink: 0,
+                                minWidth: '240px',
                               }}
                             >
-                              {d.allowedColumnIds.map((el, j) => (
-                                <CheckboxGroupItem
-                                  label={el.label}
-                                  value={el.label}
-                                  key={j}
-                                />
-                              ))}
-                            </CheckboxGroup>
-                          )}
-                      </div>
-                    ))}
-                    {filterSettings?.map((d, i) => (
-                      <div
-                        style={{
-                          width:
-                            d.width ||
-                            `calc(${100 / noOfFiltersPerRow}% - ${
-                              (noOfFiltersPerRow - 1) / noOfFiltersPerRow
-                            }rem)`,
-                          flexGrow: 1,
-                          flexShrink: 0,
-                          minWidth: '240px',
-                        }}
-                        key={i}
-                      >
-                        <Label className='mb-2'>{d.label}</Label>
-                        {d.singleSelect ? (
-                          <DropdownSelect
-                            options={d.availableValues}
-                            variant={uiMode}
-                            isClearable={
-                              d.clearable === undefined ? true : d.clearable
-                            }
-                            isSearchable
-                            controlShouldRenderValue
-                            filterOption={createFilter(filterConfig)}                             
-                            onChange={el => {
-                              handleFilterChange(d.filter, el);
-                            }}
-                            value={d.value}
-                            defaultValue={d.defaultValue}
-                          />
-                        ) : (
-                          <>
-                            <DropdownSelect
-                              options={d.availableValues}
-                              variant={uiMode}
-                              size='sm'
-                              isMulti
-                              isClearable={
-                                d.clearable === undefined ? true : d.clearable
-                              }
-                              isSearchable
-                              controlShouldRenderValue
-                              filterOption={createFilter(filterConfig)}
-                              onChange={el => {
-                                handleFilterChange(d.filter, el);
-                              }}
-                              value={d.value}
-                              defaultValue={d.defaultValue}
-                            />
-                            {d.allowSelectAll ? (
-                              <button
-                                type='button'
-                                className='bg-transparent border-0 p-0 mt-2 cursor-pointer text-primary-blue-600 dark:text-primary-blue-400'
-                                onClick={() => {
-                                  handleFilterChange(
-                                    d.filter,
-                                    d.availableValues,
-                                  );
+                              <Label className='mb-2'>{highlightDataPointSettings.label || 'Highlight data'}</Label>
+                              <DropdownSelect
+                                options={highlightedDataPointOptions}
+                                variant={uiMode}
+                                size='sm'
+                                isMulti
+                                isClearable
+                                isSearchable
+                                controlShouldRenderValue
+                                filterOption={createFilter(filterConfig)}
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                onChange={(el: any) => {
+                                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                  setHighlightedDataPointList(el?.map((d: any) => d.value));
                                 }}
-                              >
-                                Select all options
-                              </button>
-                            ) : null}
-                          </>
-                        )}
+                                value={highlightedDataPointList?.map(d => ({
+                                  label: d,
+                                  value: d,
+                                }))}
+                                defaultValue={highlightDataPointSettings.defaultValues?.map(d => ({
+                                  label: d,
+                                  value: d,
+                                }))}
+                              />
+                            </div> : null
+                        }
                       </div>
-                    ))}
-                  </div>
-                    ) : null}
+                      ) : 
+                      null}
                   <GraphEl
                     graph={graphType}
                     graphData={graphData}
@@ -744,6 +795,8 @@ export function SingleGraphDashboard(props: Props) {
                       backgroundColor: undefined,
                       padding: '0',
                       theme: graphSettings?.theme || theme,
+                      highlightedDataPoints: highlightedDataPointList,
+                      highlightedIds: highlightedDataPointList?.map(d => `${d}`),
                     }}
                   />
                 </>

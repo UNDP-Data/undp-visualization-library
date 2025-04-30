@@ -112,8 +112,10 @@ interface Props {
   highlightedDataPoints?: (string | number)[];
   /** Title for the bar axis */
   barAxisTitle?: string;
-  /** Sorting order for data. This is overwritten by labelOrder prop */
+  /** Sorting order for data. This is overwritten by labelOrder prop. */
   sortData?: 'asc' | 'desc';
+  /** Toggles if data point which are undefined or has value null are filtered out.  */
+  filterNA?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
   /** Enable data download option as a csv */

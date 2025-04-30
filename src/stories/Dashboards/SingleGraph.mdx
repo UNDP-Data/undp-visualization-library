@@ -8,6 +8,7 @@ import DataFilters from './PageSections/ComplexDataTypes/DataFilters.mdx';
 import ReadableHeader from './PageSections/ComplexDataTypes/ReadableHeader.mdx';
 import GraphDataConfig from './PageSections/ComplexDataTypes/GraphDataConfig.mdx';
 import Filters from './PageSections/ComplexDataTypes/Filters.mdx';
+import HighlightDataPointSettings from './PageSections/ComplexDataTypes/HighlightDataPointSettings.mdx';
 import NoOfFiltersPerRow from './PageSections/SimpleDataTypes/NoOfFiltersPerRow.mdx';
 import DataSelectionOptions from './PageSections/ComplexDataTypes/DataSelectionOptions.mdx';
 import AdvancedDataSelectionOptions from './PageSections/ComplexDataTypes/AdvancedDataSelectionOptions.mdx';
@@ -82,6 +83,7 @@ __NOTE: You can also use json config to create single graph with filters. [Click
 - [readableHeader](#readableheader) - Optional array of header definitions with display-friendly labels
 - [graphDataConfiguration](#graphdataconfiguration) - Defines how the graph should interpret the data
 - [filters](#filters) - UI filter definitions
+- [highlightDataPointSettings](#highlightDataPointSettings) - Filters to apply to raw data
 - [noOfFiltersPerRow](#nooffiltersperrow) - Number of filters to show per row in the UI
 - [dataSelectionOptions](#dataselectionoptions) - Options for selecting specific columns to visualize
 - [advancedDataSelectionOptions](#advanceddataselectionoptions) - Advanced options for selecting specific groups of columns to visualize
@@ -220,6 +222,10 @@ interface Props {
 ---
 
 <Filters />
+
+---
+
+<HighlightDataPointSettings />
 
 ---
 

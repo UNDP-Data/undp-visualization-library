@@ -13,6 +13,7 @@ import {
   GraphConfigurationDataType,
   GraphSettingsDataType,
   GraphType,
+  HighlightDataPointSettingsDataType,
 } from '@/Types';
 import { fetchAndParseJSON } from '@/Utils/fetchAndParseData';
 import { validateConfigSchema } from '@/Utils/validateSchema';
@@ -32,6 +33,7 @@ interface ConfigObject {
   debugMode?: boolean;
   dataSelectionOptions?: DataSelectionDataType[];
   advancedDataSelectionOptions?: AdvancedDataSelectionDataType[];
+  highlightDataPointSettings?: HighlightDataPointSettingsDataType;
   readableHeader?: {
     value: string;
     label: string;
@@ -94,6 +96,7 @@ export function SingleGraphDashboardFromConfig(props: Props) {
       readableHeader={configSettings.readableHeader}
       noOfFiltersPerRow={configSettings.noOfFiltersPerRow}
       uiMode={configSettings.uiMode}
+      highlightDataPointSettings={configSettings.highlightDataPointSettings}
     />
   );
 }

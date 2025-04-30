@@ -636,6 +636,7 @@ export const simpleBarChartSettingsSchema = {
       type: 'array',
       items: { type: 'string' },
     },
+    filterNA: { type: 'boolean' },
     graphTitle: { type: 'string' },
     resetSelectionOnDoubleClick: { type: 'boolean' },
     graphDescription: { type: 'string' },
@@ -6287,6 +6288,7 @@ export const SettingsSchema = {
     xPrefix: { type: 'string' },
     ySuffix: { type: 'string' },
     yPrefix: { type: 'string' },
+    filterNA: { type: 'boolean' },
     uiMode: {
       type: 'string',
       enum: ['light', 'normal'],
