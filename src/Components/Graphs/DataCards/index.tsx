@@ -84,7 +84,7 @@ interface Props {
   width?: number;
   /** Height of the graph */
   height?: number;
-  /** Padding around the graph */
+  /** Padding around the graph. Defaults to 0 if no backgroundColor is mentioned else defaults to 1rem */
   padding?: string;
 
   // Graph Parameters

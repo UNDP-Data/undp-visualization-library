@@ -60,7 +60,7 @@ interface Props {
   minHeight?: number;
   /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
-  /** Padding around the graph */
+  /** Padding around the graph. Defaults to 0 if no backgroundColor is mentioned else defaults to 1rem */
   padding?: string;
   /** Left margin of the graph */
   leftMargin?: number;
@@ -366,7 +366,7 @@ interface GroupedBarChartProps {
   minHeight?: number;
   /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
-  /** Padding around the graph */
+  /** Padding around the graph. Defaults to 0 if no backgroundColor is mentioned else defaults to 1rem */
   padding?: string;
   /** Left margin of the graph */
   leftMargin?: number;
@@ -647,7 +647,7 @@ interface StackedBarChartProps {
   minHeight?: number;
   /** Relative height scaling factor. This overwrites the height props */
   relativeHeight?: number;
-  /** Padding around the graph */
+  /** Padding around the graph. Defaults to 0 if no backgroundColor is mentioned else defaults to 1rem */
   padding?: string;
   /** Left margin of the graph */
   leftMargin?: number;

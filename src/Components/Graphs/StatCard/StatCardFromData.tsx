@@ -36,7 +36,7 @@ interface Props {
   backgroundColor?: string | boolean;
   /** Font size of the main text */
   headingFontSize?: string;
-  /** Padding around the graph */
+  /** Padding around the graph. Defaults to 0 if no backgroundColor is mentioned else defaults to 1rem */
   padding?: string;
   /** Toggle the fill color of the main text. */
   textBackground?: boolean;
