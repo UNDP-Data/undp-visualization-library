@@ -83,6 +83,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       table: { type: { summary: 'string[]' } },
     },
     showTicks: { table: { defaultValue: { summary: 'true' } } },
+    filterNA: { table: { defaultValue: { summary: 'true' } } },
     graphDownload: { table: { defaultValue: { summary: 'false' } } },
     dataDownload: { table: { defaultValue: { summary: 'false' } } },
     resetSelectionOnDoubleClick: { table: { defaultValue: { summary: 'true' } } },

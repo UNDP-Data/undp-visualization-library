@@ -65,6 +65,7 @@ interface Props {
   valueColor?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  filterNA?: boolean;
 }
 
 export function HorizontalGroupedBarGraph(props: Props) {
@@ -115,6 +116,7 @@ export function HorizontalGroupedBarGraph(props: Props) {
     valueColor,
     styles,
     classNames,
+    filterNA = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -206,7 +208,9 @@ export function HorizontalGroupedBarGraph(props: Props) {
                   <div className='w-full grow leading-0' ref={graphDiv} aria-label='Graph area'>
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
-                        data={data}
+                        data={data.filter(d =>
+                          filterNA ? !d.size.every(item => item == null) : d,
+                        )}
                         barColors={colors}
                         width={width || svgWidth}
                         height={Math.max(

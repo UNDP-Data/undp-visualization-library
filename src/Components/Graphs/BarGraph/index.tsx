@@ -199,6 +199,7 @@ export function SimpleBarGraph(props: Props) {
     orientation = 'vertical',
     styles,
     classNames,
+    filterNA,
   } = props;
 
   if (orientation === 'vertical')
@@ -256,6 +257,7 @@ export function SimpleBarGraph(props: Props) {
         noOfTicks={noOfTicks}
         valueColor={valueColor}
         classNames={classNames}
+        filterNA={filterNA}
       />
     );
   return (
@@ -312,6 +314,7 @@ export function SimpleBarGraph(props: Props) {
       noOfTicks={noOfTicks}
       valueColor={valueColor}
       classNames={classNames}
+      filterNA={filterNA}
     />
   );
 }
@@ -387,6 +390,8 @@ interface GroupedBarChartProps {
   minValue?: number;
   /** Truncate labels by specified length */
   truncateBy?: number;
+  /** Toggles if data points which have all the values as undefined or null are filtered out.  */
+  filterNA?: boolean;
   /** Reference values for comparison */
   refValues?: ReferenceDataType[];
   /** Number of ticks on the axis */
@@ -480,6 +485,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
     orientation = 'vertical',
     styles,
     classNames,
+    filterNA,
   } = props;
 
   if (orientation === 'vertical')
@@ -531,6 +537,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
         noOfTicks={noOfTicks}
         valueColor={valueColor}
         classNames={classNames}
+        filterNA={filterNA}
       />
     );
   return (
@@ -581,6 +588,7 @@ export function GroupedBarGraph(props: GroupedBarChartProps) {
       noOfTicks={noOfTicks}
       valueColor={valueColor}
       classNames={classNames}
+      filterNA={filterNA}
     />
   );
 }
@@ -676,6 +684,8 @@ interface StackedBarChartProps {
   barAxisTitle?: string;
   /** Parameter to sort the data. If a number is provided, it refers to the index of the size array to determine which value to sort by. If set to total, it sorts by the sum of all the values. */
   sortParameter?: number | 'total';
+  /** Toggles if data points which have all the values as undefined or null are filtered out.  */
+  filterNA?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
   /** Enable data download option as a csv */
@@ -755,6 +765,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
     orientation = 'vertical',
     styles,
     classNames,
+    filterNA,
   } = props;
 
   if (orientation === 'vertical')
@@ -808,6 +819,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
         noOfTicks={noOfTicks}
         valueColor={valueColor}
         classNames={classNames}
+        filterNA={filterNA}
       />
     );
   return (
@@ -860,6 +872,7 @@ export function StackedBarGraph(props: StackedBarChartProps) {
       noOfTicks={noOfTicks}
       valueColor={valueColor}
       classNames={classNames}
+      filterNA={filterNA}
     />
   );
 }

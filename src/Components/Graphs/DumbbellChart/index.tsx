@@ -109,6 +109,8 @@ interface Props {
   axisTitle?: string;
   /** Sorting order for data. If this is a number then data is sorted by value at that index x array in the data props. If this is diff then data is sorted by the difference of the last and first element in the x array in the data props. This is overwritten by labelOrder prop */
   sortParameter?: number | 'diff';
+  /** Toggles if data points which have all the values as undefined or null are filtered out.  */
+  filterNA?: boolean;
   /** Enable graph download option as png */
   graphDownload?: boolean;
   /** Enable data download option as a csv */
@@ -192,6 +194,7 @@ export function DumbbellChart(props: Props) {
     classNames,
     labelOrder,
     refValues,
+    filterNA,
   } = props;
 
   if (orientation === 'vertical')
@@ -249,6 +252,7 @@ export function DumbbellChart(props: Props) {
         valueColor={valueColor}
         classNames={classNames}
         refValues={refValues}
+        filterNA={filterNA}
       />
     );
   return (
@@ -305,6 +309,7 @@ export function DumbbellChart(props: Props) {
       classNames={classNames}
       labelOrder={labelOrder}
       refValues={refValues}
+      filterNA={filterNA}
     />
   );
 }

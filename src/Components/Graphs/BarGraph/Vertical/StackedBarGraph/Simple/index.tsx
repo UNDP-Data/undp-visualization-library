@@ -70,6 +70,7 @@ interface Props {
   valueColor?: string;
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  filterNA?: boolean;
 }
 
 export function VerticalStackedBarGraph(props: Props) {
@@ -122,6 +123,7 @@ export function VerticalStackedBarGraph(props: Props) {
     valueColor,
     styles,
     classNames,
+    filterNA = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -212,15 +214,24 @@ export function VerticalStackedBarGraph(props: Props) {
                         data={
                           sortParameter !== undefined
                             ? sortParameter === 'total'
-                              ? sortBy(data, d =>
-                                  sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
+                              ? sortBy(
+                                  data.filter(d =>
+                                    filterNA ? !d.size.every(item => item == null) : d,
+                                  ),
+                                  d => sum(d.size.filter(el => !checkIfNullOrUndefined(el))),
                                 ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
-                              : sortBy(data, d =>
-                                  checkIfNullOrUndefined(d.size[sortParameter])
-                                    ? -Infinity
-                                    : d.size[sortParameter],
+                              : sortBy(
+                                  data.filter(d =>
+                                    filterNA ? !d.size.every(item => item == null) : d,
+                                  ),
+                                  d =>
+                                    checkIfNullOrUndefined(d.size[sortParameter])
+                                      ? -Infinity
+                                      : d.size[sortParameter],
                                 ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
-                            : data.filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
+                            : data
+                                .filter(d => (filterNA ? !d.size.every(item => item == null) : d))
+                                .filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                         }
                         barColors={colors}
                         width={width || svgWidth}

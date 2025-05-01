@@ -85,6 +85,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     showTicks: { table: { defaultValue: { summary: 'true' } } },
     graphDownload: { table: { defaultValue: { summary: 'false' } } },
     dataDownload: { table: { defaultValue: { summary: 'false' } } },
+    filterNA: { table: { defaultValue: { summary: 'true' } } },
     resetSelectionOnDoubleClick: { table: { defaultValue: { summary: 'true' } } },
 
     // Interactions and Callbacks

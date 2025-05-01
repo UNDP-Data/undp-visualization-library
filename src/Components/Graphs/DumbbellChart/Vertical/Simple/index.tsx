@@ -73,6 +73,7 @@ interface Props {
   styles?: StyleObject;
   classNames?: ClassNameObject;
   refValues?: ReferenceDataType[];
+  filterNA?: boolean;
 }
 
 export function VerticalDumbbellChart(props: Props) {
@@ -129,6 +130,7 @@ export function VerticalDumbbellChart(props: Props) {
     classNames,
     labelOrder,
     refValues,
+    filterNA = true,
   } = props;
 
   const [svgWidth, setSvgWidth] = useState(0);
@@ -229,18 +231,28 @@ export function VerticalDumbbellChart(props: Props) {
                         data={
                           sortParameter !== undefined
                             ? sortParameter === 'diff'
-                              ? sortBy(data, d =>
-                                  checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
-                                  checkIfNullOrUndefined(d.x[0])
-                                    ? -Infinity
-                                    : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
+                              ? sortBy(
+                                  data.filter(d =>
+                                    filterNA ? !d.x.every(item => item == null) : d,
+                                  ),
+                                  d =>
+                                    checkIfNullOrUndefined(d.x[d.x.length - 1]) ||
+                                    checkIfNullOrUndefined(d.x[0])
+                                      ? -Infinity
+                                      : (d.x[d.x.length - 1] as number) - (d.x[0] as number),
                                 ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
-                              : sortBy(data, d =>
-                                  checkIfNullOrUndefined(d.x[sortParameter])
-                                    ? -Infinity
-                                    : d.x[sortParameter],
+                              : sortBy(
+                                  data.filter(d =>
+                                    filterNA ? !d.x.every(item => item == null) : d,
+                                  ),
+                                  d =>
+                                    checkIfNullOrUndefined(d.x[sortParameter])
+                                      ? -Infinity
+                                      : d.x[sortParameter],
                                 ).filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
-                            : data.filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
+                            : data
+                                .filter(d => (filterNA ? !d.x.every(item => item == null) : d))
+                                .filter((_d, i) => (maxNumberOfBars ? i < maxNumberOfBars : true))
                         }
                         dotColors={colors}
                         width={width || svgWidth}
