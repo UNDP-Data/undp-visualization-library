@@ -8,6 +8,8 @@ __Note: The library uses react v19__
 
 Detailed documentation can be found [here](https://dataviz.design.undp.org).
 
+NPM Package can be found [here](https://www.npmjs.com/package/@undp/data-viz)
+
 ### Installation
 __Using npm__
 ```
