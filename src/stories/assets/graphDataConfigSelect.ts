@@ -122,6 +122,26 @@ export function GraphDataConfigSelector(graph: string) {
     chartConfigId: 'y',
   }
 ]`,
+    'Multi-line chart alternative': `[
+  // ----Required objects---- //
+  {
+    columnId: 'Column 1',
+    chartConfigId: 'date',
+  },
+  {
+    columnId: 'Column 2,
+    chartConfigId: 'y',
+  },
+  {
+    columnId: 'Column 3,
+    chartConfigId: 'label',
+  },
+  // ----Not required objects---- //
+  {
+    columnId: 'Column 3',
+    chartConfigId: 'color',
+  }
+]`,
     'Choropleth map': `[
   // ----Required objects---- //
   {

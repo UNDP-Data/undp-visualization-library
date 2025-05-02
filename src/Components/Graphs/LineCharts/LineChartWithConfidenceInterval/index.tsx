@@ -293,7 +293,6 @@ export function LineChartWithConfidenceInterval(props: Props) {
                       colors={colorLegendColors}
                       colorDomain={colorLegendDomain}
                       showNAColor={false}
-                      theme={theme}
                     />
                   ) : null}
                   <div

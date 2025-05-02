@@ -335,6 +335,21 @@ export const multiLineChartDataSchema = {
   },
 };
 
+export const multiLineAltChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      date: { oneOf: [{ type: 'number' }, { type: 'string' }] },
+      y: { oneOf: [{ type: 'number' }, { type: 'null' }] },
+      label: { oneOf: [{ type: 'number' }, { type: 'string' }] },
+      color: { oneOf: [{ type: 'number' }, { type: 'string' }] },
+      data: { type: 'object' },
+    },
+    required: ['date', 'y', 'label'],
+  },
+};
+
 export const areaChartDataSchema = {
   type: 'array',
   items: {
@@ -3274,7 +3289,7 @@ export const multiLineChartSettingsSchema = {
     prefix: { type: 'string' },
     labels: {
       type: 'array',
-      items: { type: 'string' },
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
       minItems: 1,
     },
     backgroundColor: { oneOf: [{ type: 'string' }, { type: 'boolean' }] },
@@ -3434,6 +3449,193 @@ export const multiLineChartSettingsSchema = {
     yAxisTitle: { type: 'string' },
   },
   required: ['labels'],
+};
+
+export const multiLineAltChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
+    },
+    ariaLabel: { type: 'string' },
+    colors: { oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }] },
+    graphTitle: { type: 'string' },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
+    noOfXTicks: { type: 'number' },
+    dateFormat: { type: 'string' },
+    suffix: { type: 'string' },
+    prefix: { type: 'string' },
+    backgroundColor: { oneOf: [{ type: 'string' }, { type: 'boolean' }] },
+    padding: { type: 'string' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    tooltip: { type: 'string' },
+    refValues: {
+      type: 'array',
+      items: {
+        properties: {
+          color: { type: 'string' },
+          text: { type: 'string' },
+          value: { type: 'number' },
+          styles: {
+            type: 'object',
+            properties: {
+              line: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              line: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
+        },
+        type: 'object',
+        required: ['value', 'text'],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        properties: {
+          color: { type: 'string' },
+          text: { type: 'string' },
+          xCoordinate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+          yCoordinate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+          xOffset: { type: 'number' },
+          yOffset: { type: 'number' },
+          align: {
+            type: 'string',
+            enum: ['center', 'left', 'right'],
+          },
+          fontWeight: {
+            type: 'string',
+            enum: ['regular', 'bold', 'medium'],
+          },
+          showConnector: { oneOf: [{ type: 'boolean' }, { type: 'number' }] },
+          connectorRadius: { type: 'number' },
+          maxWidth: { type: 'number' },
+          styles: {
+            type: 'object',
+            properties: {
+              connector: { type: 'object' },
+              text: { type: 'object' },
+            },
+          },
+          classNames: {
+            type: 'object',
+            properties: {
+              connector: { type: 'string' },
+              text: { type: 'string' },
+            },
+          },
+        },
+        type: 'object',
+        required: ['text'],
+      },
+    },
+    customHighlightAreaSettings: {
+      type: 'array',
+      items: {
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+            minItems: 4,
+          },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+          dashedStroke: { type: 'boolean' },
+          closePath: { type: 'boolean' },
+        },
+        type: 'object',
+        required: ['coordinates'],
+      },
+    },
+    highlightAreaSettings: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          coordinates: {
+            type: 'array',
+            items: { oneOf: [{ type: 'number' }, { type: 'string' }, { type: 'null' }] },
+            minItems: 2,
+            maxItems: 2,
+          },
+          style: { type: 'object' },
+          className: { type: 'string' },
+          color: { type: 'string' },
+          strokeWidth: { type: 'number' },
+        },
+        required: ['coordinates'],
+      },
+    },
+    graphID: { type: 'string' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    highlightedLines: {
+      type: 'array',
+      items: { oneOf: [{ type: 'number' }, { type: 'string' }] },
+    },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    language: {
+      type: 'string',
+      enum: [
+        'en',
+        'ar',
+        'az',
+        'bn',
+        'cy',
+        'he',
+        'hi',
+        'jp',
+        'ka',
+        'km',
+        'ko',
+        'my',
+        'ne',
+        'zh',
+        'custom',
+      ],
+    },
+    theme: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    animateLine: { oneOf: [{ type: 'number' }, { type: 'boolean' }] },
+    strokeWidth: { type: 'number' },
+    showDots: { type: 'boolean' },
+    colorLegendTitle: { type: 'string' },
+    noOfYTicks: { type: 'number' },
+    minDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    maxDate: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    yAxisTitle: { type: 'string' },
+  },
 };
 
 export const sparkLineSettingsSchema = {
@@ -5883,7 +6085,7 @@ export const SettingsSchema = {
       type: 'array',
     },
     highlightedLines: {
-      items: { type: 'string' },
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
       type: 'array',
     },
     isWorldMap: { type: 'boolean' },
@@ -5892,7 +6094,7 @@ export const SettingsSchema = {
       type: 'array',
     },
     labels: {
-      items: { type: 'string' },
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
       type: 'array',
     },
     language: {
@@ -6273,6 +6475,7 @@ export const SettingsSchema = {
       type: 'string',
       enum: ['vertical', 'horizontal'],
     },
+    showDots: { type: 'boolean' },
   },
   type: 'object',
 };

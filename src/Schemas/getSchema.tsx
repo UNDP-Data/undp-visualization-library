@@ -9,6 +9,7 @@ import {
   dualAxisLineChartDataSchema,
   differenceLineChartDataSchema,
   multiLineChartDataSchema,
+  multiLineAltChartDataSchema,
   areaChartDataSchema,
   choroplethMapDataSchema,
   biVariateChoroplethMapDataSchema,
@@ -43,6 +44,7 @@ import {
   lineChartSettingsSchema,
   dualAxisLineChartSettingsSchema,
   multiLineChartSettingsSchema,
+  multiLineAltChartSettingsSchema,
   differenceLineChartSettingsSchema,
   stackedAreaChartSettingsSchema,
   choroplethMapSettingsSchema,
@@ -128,6 +130,8 @@ export function getDataSchema(graph: GraphType) {
       return differenceLineChartDataSchema;
     case 'multiLineChart':
       return multiLineChartDataSchema;
+    case 'multiLineAltChart':
+      return multiLineAltChartDataSchema;
     case 'stackedAreaChart':
       return areaChartDataSchema;
     case 'choroplethMap':
@@ -208,6 +212,8 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return dualAxisLineChartSettingsSchema;
     case 'multiLineChart':
       return multiLineChartSettingsSchema;
+    case 'multiLineAltChart':
+      return multiLineAltChartSettingsSchema;
     case 'differenceLineChart':
       return differenceLineChartSettingsSchema;
     case 'stackedAreaChart':

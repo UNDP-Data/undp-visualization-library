@@ -189,12 +189,14 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       <DifferenceLineChart
         animateLine={
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (animateLine as any) === 'false'
+          (animateLine as any) === 'false' || animateLine === false
             ? false
             : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (animateLine as any) === 'true'
+              (animateLine as any) === 'true' || animateLine === true
               ? true
-              : Number(animateLine)
+              : animateLine
+                ? Number(animateLine)
+                : animateLine
         }
         lineColors={parseValue(lineColors)}
         diffAreaColors={parseValue(diffAreaColors)}

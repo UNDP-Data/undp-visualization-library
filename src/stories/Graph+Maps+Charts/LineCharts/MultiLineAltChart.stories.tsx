@@ -8,14 +8,15 @@ import {
   SOURCE_OBJECT,
   STYLE_OBJECT,
 } from '../../assets/constants';
+import { parseValue } from '../../assets/parseValue';
 
-import { SimpleLineChart } from '@/index';
+import { MultiLineAltChart } from '@/index';
 
-type PagePropsAndCustomArgs = React.ComponentProps<typeof SimpleLineChart>;
+type PagePropsAndCustomArgs = React.ComponentProps<typeof MultiLineAltChart>;
 
 const meta: Meta<PagePropsAndCustomArgs> = {
-  title: 'Graphs/Line chart',
-  component: SimpleLineChart,
+  title: 'Graphs/Multi-line chart (Alternative)',
+  component: MultiLineAltChart,
   tags: ['autodocs'],
   argTypes: {
     // Data
@@ -24,7 +25,9 @@ const meta: Meta<PagePropsAndCustomArgs> = {
         type: {
           detail: `{
   date: number | string;
-  y: number;
+  y: 5, label: 'Apples'},
+  label: string | number;
+  color?: string;
   data?: object; //The data key in the object is used when downloading data and can be used to show additional points in mouseover
 }`,
         },
@@ -35,7 +38,15 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     sources: { table: { type: { detail: SOURCE_OBJECT } } },
 
     // Colors and Styling
-    lineColor: { control: 'color' },
+    colors: {
+      control: 'text',
+      table: {
+        type: {
+          summary: 'string | string[]',
+          detail: 'Requires a array if color key is present in the data else requires a string',
+        },
+      },
+    },
     backgroundColor: {
       control: 'text',
       table: {
@@ -70,7 +81,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     dateFormat: { table: { defaultValue: { summary: 'yyyy' } } },
-    showValues: { table: { defaultValue: { summary: 'true' } } },
     curveType: {
       control: 'radio',
       options: ['linear', 'curve', 'step', 'stepAfter', 'stepBefore'],
@@ -134,15 +144,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
       },
     },
     graphDownload: { table: { defaultValue: { summary: 'false' } } },
-    regressionLine: {
-      control: 'text',
-      table: {
-        type: {
-          summary: 'boolean | string',
-          detail: 'If the type is string then string is use to define the color of the line.',
-        },
-      },
-    },
+    highlightedLines: { control: 'text' },
     dataDownload: { table: { defaultValue: { summary: 'false' } } },
 
     // Interactions and Callbacks
@@ -171,19 +173,31 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   },
   args: {
     data: [
-      { date: '2020', y: 3 },
-      { date: '2021', y: 8 },
-      { date: '2022', y: 11 },
-      { date: '2023', y: 19 },
-      { date: '2024', y: 3 },
-      { date: '2025', y: 8 },
-      { date: '2026', y: 11 },
-      { date: '2027', y: 19 },
+      { date: '2020', label: 'Q1', y: 1 },
+      { date: '2020', label: 'Q2', y: 3 },
+      { date: '2020', label: 'Q3', y: 4 },
+      { date: '2020', label: 'Q4', y: 5 },
+      { date: '2021', label: 'Q1', y: 3 },
+      { date: '2021', label: 'Q2', y: 2 },
+      { date: '2021', label: 'Q3', y: 1 },
+      { date: '2021', label: 'Q4', y: 8 },
+      { date: '2022', label: 'Q1', y: 0 },
+      { date: '2022', label: 'Q2', y: 4 },
+      { date: '2022', label: 'Q3', y: 8 },
+      { date: '2022', label: 'Q4', y: 9 },
+      { date: '2023', label: 'Q1', y: 10 },
+      { date: '2023', label: 'Q2', y: 2 },
+      { date: '2023', label: 'Q3', y: 1 },
+      { date: '2023', label: 'Q4', y: 3 },
+      { date: '2024', label: 'Q1', y: 6 },
+      { date: '2024', label: 'Q2', y: 4 },
+      { date: '2024', label: 'Q3', y: 5 },
+      { date: '2024', label: 'Q4', y: 9 },
     ],
   },
-  render: ({ animateLine, backgroundColor, regressionLine, ...args }) => {
+  render: ({ animateLine, backgroundColor, highlightedLines, colors, ...args }) => {
     return (
-      <SimpleLineChart
+      <MultiLineAltChart
         animateLine={
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (animateLine as any) === 'false' || animateLine === false
@@ -195,9 +209,8 @@ const meta: Meta<PagePropsAndCustomArgs> = {
                 ? Number(animateLine)
                 : animateLine
         }
-        regressionLine={
-          regressionLine === 'false' ? false : regressionLine === 'true' ? true : regressionLine
-        }
+        colors={parseValue(colors, colors)}
+        highlightedLines={parseValue(highlightedLines)}
         backgroundColor={
           backgroundColor === 'false' ? false : backgroundColor === 'true' ? true : backgroundColor
         }
@@ -209,6 +222,6 @@ const meta: Meta<PagePropsAndCustomArgs> = {
 
 export default meta;
 
-type Story = StoryObj<typeof SimpleLineChart>;
+type Story = StoryObj<typeof MultiLineAltChart>;
 
 export const Default: Story = {};

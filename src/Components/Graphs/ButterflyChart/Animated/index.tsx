@@ -327,7 +327,6 @@ export function AnimatedButterflyChart(props: Props) {
                   colorDomain={[leftBarTitle, rightBarTitle]}
                   colors={[leftBarColor, rightBarColor]}
                   showNAColor={false}
-                  theme={theme}
                 />
               ) : null}
               <div

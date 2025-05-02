@@ -258,7 +258,6 @@ export function ParetoChart(props: Props) {
                     ]}
                     colorLegendTitle={colorLegendTitle}
                     showNAColor={false}
-                    theme={theme}
                   />
                   <div
                     className='flex flex-col grow justify-center leading-0'

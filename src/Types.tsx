@@ -23,6 +23,7 @@ export type GraphTypeForGriddedGraph =
   | 'lineChart'
   | 'dualAxisLineChart'
   | 'multiLineChart'
+  | 'multiLineAltChart'
   | 'differenceLineChart'
   | 'stackedAreaChart'
   | 'choroplethMap'
@@ -232,6 +233,14 @@ export interface LineChartWithConfidenceIntervalDataType {
 export interface MultiLineChartDataType {
   date: number | string;
   y: (number | null)[];
+  data?: object;
+}
+
+export interface MultiLineAltChartDataType {
+  label: number | string;
+  y: number | null;
+  color?: string | number;
+  date: string | number;
   data?: object;
 }
 
@@ -710,9 +719,9 @@ export interface GraphSettingsDataType {
   highlightAreaSettings?:
     | HighlightAreaSettingsDataType[]
     | HighlightAreaSettingsForScatterPlotDataType[];
-  labels?: string[];
+  labels?: (string | number)[];
   showColorLegendAtTop?: boolean;
-  highlightedLines?: string[];
+  highlightedLines?: (string | number)[];
   area?: boolean;
   mapData?: any;
   xColorLegendTitle?: string;

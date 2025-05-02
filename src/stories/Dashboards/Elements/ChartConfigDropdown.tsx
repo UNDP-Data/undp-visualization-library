@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Source } from '@storybook/blocks';
 
 import { GraphNames } from '@/stories/assets/constants';
-import { GraphDataConfigSelector } from '@/stories/assets/GraphDataConfigSelector';
-import { GraphSettingsSelector } from '@/stories/assets/GraphSettingsSelector';
+import { GraphDataConfigSelector } from '@/stories/assets/graphDataConfigSelect';
+import { GraphSettingsSelector } from '@/stories/assets/graphSettingsSelect';
 
 interface Props {
   type: 'graphType' | 'graphSettings' | 'dataSettings';

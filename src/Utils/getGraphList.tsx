@@ -126,6 +126,13 @@ export const GraphList = [
     availableInWideToLongFormat: false,
   },
   {
+    graphName: 'Multi-line chart alternative',
+    graphID: 'multiLineChart',
+    availableInGriddedGraph: true,
+    geoHubMapPresentation: false,
+    availableInWideToLongFormat: false,
+  },
+  {
     graphName: 'Difference line chart',
     graphID: 'differenceLineChart',
     availableInGriddedGraph: true,

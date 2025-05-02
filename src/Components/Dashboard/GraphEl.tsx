@@ -10,6 +10,7 @@ import { Histogram } from '../Graphs/Histogram';
 import { DualAxisLineChart } from '../Graphs/LineCharts/DualAxisLineChart';
 import { SimpleLineChart } from '../Graphs/LineCharts/LineChart';
 import { MultiLineChart } from '../Graphs/LineCharts/MultiLineChart';
+import { MultiLineAltChart } from '../Graphs/LineCharts/MultiLineAltChart';
 import { SparkLine } from '../Graphs/LineCharts/SparkLine';
 import { AnimatedBiVariateChoroplethMap } from '../Graphs/Maps/BiVariateMap/Animated';
 import { BiVariateChoroplethMap } from '../Graphs/Maps/BiVariateMap/Simple';
@@ -110,6 +111,7 @@ function GraphEl(props: Props) {
     lineChart: SimpleLineChart,
     dualAxisLineChart: DualAxisLineChart,
     multiLineChart: MultiLineChart,
+    multiLineAltChart: MultiLineAltChart,
     stackedAreaChart: AreaChart,
     choroplethMap: ChoroplethMap,
     biVariateChoroplethMap: BiVariateChoroplethMap,
@@ -665,6 +667,56 @@ function GraphEl(props: Props) {
           showValues: settings?.showValues,
           relativeHeight: settings?.relativeHeight,
           showColorLegendAtTop: settings?.showColorLegendAtTop,
+          tooltip: settings?.tooltip,
+          refValues: settings?.refValues,
+          highlightAreaSettings: settings?.highlightAreaSettings as
+            | HighlightAreaSettingsDataType[]
+            | undefined,
+          graphID: settings?.graphID,
+          maxValue: settings?.maxValue,
+          minValue: settings?.minValue,
+          highlightedLines: settings?.highlightedLines,
+          graphDownload: settings?.graphDownload,
+          dataDownload: settings?.dataDownload,
+          language: settings?.language,
+          minHeight: settings?.minHeight,
+          animateLine: settings?.animateLine,
+          strokeWidth: settings?.strokeWidth,
+          showDots: settings?.showDots,
+          colorLegendTitle: settings?.colorLegendTitle,
+          customHighlightAreaSettings: settings?.customHighlightAreaSettings,
+          annotations: settings?.annotations,
+          ariaLabel: settings?.ariaLabel,
+          yAxisTitle: settings?.yAxisTitle,
+          noOfYTicks: settings?.noOfYTicks,
+          minDate: settings?.minDate,
+          maxDate: settings?.maxDate,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
+        };
+      case 'multiLineAltChart':
+        return {
+          theme: settings?.theme,
+          data: graphData,
+          curveType: settings?.curveType,
+          colors: settings?.colors as string | string[] | undefined,
+          graphTitle: settings?.graphTitle,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          width: settings?.width,
+          height: settings?.height,
+          sources: settings?.sources,
+          noOfXTicks: settings?.noOfXTicks,
+          dateFormat: settings?.dateFormat,
+          suffix: settings?.suffix,
+          prefix: settings?.prefix,
+          backgroundColor: settings?.backgroundColor,
+          padding: settings?.padding,
+          leftMargin: settings?.leftMargin,
+          rightMargin: settings?.rightMargin,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
+          relativeHeight: settings?.relativeHeight,
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
           highlightAreaSettings: settings?.highlightAreaSettings as

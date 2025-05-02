@@ -743,8 +743,13 @@ export function SingleGraphDashboard(props: Props) {
                     backgroundColor: undefined,
                     padding: '0',
                     theme: graphSettings?.theme || theme,
-                    highlightedDataPoints: highlightedDataPointList,
-                    highlightedIds: highlightedDataPointList?.map(d => `${d}`),
+                    ...(highlightedDataPointList
+                      ? {
+                          highlightedDataPoints: highlightedDataPointList,
+                          highlightedIds: highlightedDataPointList?.map(d => `${d}`),
+                          highlightedLines: highlightedDataPointList?.map(d => d),
+                        }
+                      : {}),
                   }}
                 />
               </>

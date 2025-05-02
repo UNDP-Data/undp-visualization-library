@@ -53,6 +53,7 @@ export default defineConfig([
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-redeclare': 'error',
 
       // Import rules
       'import/order': [

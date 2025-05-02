@@ -18,6 +18,7 @@ export { DualAxisLineChart } from './Components/Graphs/LineCharts/DualAxisLineCh
 export { LineChartWithConfidenceInterval } from './Components/Graphs/LineCharts/LineChartWithConfidenceInterval';
 export { SimpleLineChart } from './Components/Graphs/LineCharts/LineChart';
 export { MultiLineChart } from './Components/Graphs/LineCharts/MultiLineChart';
+export { MultiLineAltChart } from './Components/Graphs/LineCharts/MultiLineAltChart';
 export { DifferenceLineChart } from './Components/Graphs/LineCharts/DifferenceLineChart';
 export { SparkLine } from './Components/Graphs/LineCharts/SparkLine';
 // Maps

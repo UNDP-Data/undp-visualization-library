@@ -85,9 +85,8 @@ export function Graph(props: Props) {
   const MouseoverRectRef = useRef(null);
   const dataFormatted = sortBy(
     data.map(d => ({
+      ...d,
       date: parse(`${d.date}`, dateFormat, new Date()),
-      y: d.y,
-      data: d.data,
     })),
     'date',
   );

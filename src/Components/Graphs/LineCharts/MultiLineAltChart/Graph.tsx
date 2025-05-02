@@ -16,13 +16,15 @@ import min from 'lodash.min';
 import max from 'lodash.max';
 import { useAnimate, useInView } from 'motion/react';
 import { cn } from '@undp/design-system-react';
+import uniqBy from 'lodash.uniqby';
+import { Delaunay } from 'd3-delaunay';
 
 import {
   AnnotationSettingsDataType,
   ClassNameObject,
   CustomHighlightAreaSettingsDataType,
   HighlightAreaSettingsDataType,
-  MultiLineChartDataType,
+  MultiLineAltChartDataType,
   ReferenceDataType,
   StyleObject,
 } from '@/Types';
@@ -38,24 +40,23 @@ import { Annotation } from '@/Components/Elements/Annotations';
 import { YTicksAndGridLines } from '@/Components/Elements/Axes/YTicksAndGridLines';
 import { CustomArea } from '@/Components/Elements/HighlightArea/customArea';
 import { HighlightArea } from '@/Components/Elements/HighlightArea';
+import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   // Data
   /** Array of data objects */
-  data: MultiLineChartDataType[];
+  data: MultiLineAltChartDataType[];
   lineColors: string[];
   width: number;
   height: number;
   dateFormat: string;
   noOfXTicks: number;
-  labels: (string | number)[];
   topMargin: number;
   bottomMargin: number;
   leftMargin: number;
   rightMargin: number;
   suffix: string;
   prefix: string;
-  showValues: boolean;
   tooltip?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
@@ -75,6 +76,7 @@ interface Props {
   noOfYTicks: number;
   minDate?: string | number;
   maxDate?: string | number;
+  colorDomain: (string | number)[];
   curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
   styles?: StyleObject;
   classNames?: ClassNameObject;
@@ -88,7 +90,6 @@ export function Graph(props: Props) {
     lineColors,
     dateFormat,
     noOfXTicks,
-    labels,
     rightMargin,
     topMargin,
     bottomMargin,
@@ -97,7 +98,6 @@ export function Graph(props: Props) {
     leftMargin,
     tooltip,
     onSeriesMouseOver,
-    showValues,
     showColorLegendAtTop,
     refValues,
     highlightAreaSettings,
@@ -116,6 +116,7 @@ export function Graph(props: Props) {
     maxDate,
     curveType,
     styles,
+    colorDomain,
     classNames,
   } = props;
   const curve =
@@ -128,6 +129,24 @@ export function Graph(props: Props) {
           : curveType === 'stepBefore'
             ? curveStepBefore
             : curveMonotoneX;
+  const dataFormatted = sortBy(
+    data.map(d => ({
+      ...d,
+      date: parse(`${d.date}`, dateFormat, new Date()),
+    })),
+    'date',
+  ).filter(d => !checkIfNullOrUndefined(d.y));
+  const labels = uniqBy(dataFormatted, d => d.label).map(d => d.label);
+  const dates = uniqBy(
+    sortBy(
+      data.map(d => ({
+        ...d,
+        date: parse(`${d.date}`, dateFormat, new Date()),
+      })),
+      'date',
+    ),
+    d => d.date,
+  ).map(d => d.date);
   const [scope, animate] = useAnimate();
   const [annotationsScope, annotationsAnimate] = useAnimate();
   const isInView = useInView(scope);
@@ -142,21 +161,12 @@ export function Graph(props: Props) {
     right: rightMargin,
   };
   const MouseoverRectRef = useRef(null);
-  const dataFormatted = sortBy(
-    data.map(d => ({
-      ...d,
-      date: parse(`${d.date}`, dateFormat, new Date()),
-    })),
-    'date',
+  const lineArray = labels.map(d =>
+    sortBy(
+      dataFormatted.filter(el => el.label == d),
+      'date',
+    ),
   );
-  const dataArray = dataFormatted[0].y.map((_d, i) => {
-    return dataFormatted
-      .map(el => ({
-        date: el.date,
-        y: el.y[i],
-      }))
-      .filter(el => !checkIfNullOrUndefined(el.y));
-  });
   const highlightAreaSettingsFormatted = highlightAreaSettings.map(d => ({
     ...d,
     coordinates: [
@@ -172,19 +182,17 @@ export function Graph(props: Props) {
   }));
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
-  const minYear = minDate ? parse(`${minDate}`, dateFormat, new Date()) : dataFormatted[0].date;
-  const maxYear = maxDate
-    ? parse(`${maxDate}`, dateFormat, new Date())
-    : dataFormatted[dataFormatted.length - 1].date;
+  const minYear = minDate ? parse(`${minDate}`, dateFormat, new Date()) : dates[0];
+  const maxYear = maxDate ? parse(`${maxDate}`, dateFormat, new Date()) : dates[dates.length - 1];
   const minParam: number = checkIfNullOrUndefined(minValue)
-    ? min(dataFormatted.map(d => min(d.y)))
-      ? (min(dataFormatted.map(d => min(d.y))) as number) > 0
+    ? min(dataFormatted.map(d => d.y))
+      ? (min(dataFormatted.map(d => d.y)) as number) > 0
         ? 0
-        : (min(dataFormatted.map(d => min(d.y))) as number)
+        : (min(dataFormatted.map(d => d.y)) as number)
       : 0
     : (minValue as number);
-  const maxParam: number = (max(dataFormatted.map(d => max(d.y))) as number)
-    ? (max(dataFormatted.map(d => max(d.y))) as number)
+  const maxParam: number = (max(dataFormatted.map(d => d.y)) as number)
+    ? (max(dataFormatted.map(d => d.y)) as number)
     : 0;
 
   const x = scaleTime().domain([minYear, maxYear]).range([0, graphWidth]);
@@ -196,6 +204,11 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
+  const voronoiDiagram = Delaunay.from(
+    dataFormatted.filter(d => !checkIfNullOrUndefined(d.date) && !checkIfNullOrUndefined(d.y)),
+    d => x(d.date),
+    d => y(d.y as number),
+  ).voronoi([0, 0, graphWidth < 0 ? 0 : graphWidth, graphHeight < 0 ? 0 : graphHeight]);
   const lineShape = line()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .x((d: any) => x(d.date))
@@ -243,16 +256,6 @@ export function Graph(props: Props) {
       if (showDots) {
         animate(
           'circle',
-          { opacity: [0, 1] },
-          {
-            delay: animateLine === true ? 5 : animateLine || 0,
-            duration: animateLine === true ? 0.5 : animateLine || 0,
-          },
-        );
-      }
-      if (!showColorLegendAtTop) {
-        animate(
-          'text',
           { opacity: [0, 1] },
           {
             delay: animateLine === true ? 5 : animateLine || 0,
@@ -369,15 +372,19 @@ export function Graph(props: Props) {
             />
           </g>
           <g ref={scope}>
-            {dataArray.map((d, i) => (
+            {lineArray.map((d, i) => (
               <g
                 key={i}
                 opacity={
-                  highlightedLines.length !== 0
-                    ? highlightedLines.indexOf(labels[i]) !== -1
+                  mouseOverData
+                    ? d[0].label === mouseOverData.label
                       ? 1
                       : 0.3
-                    : 1
+                    : highlightedLines.length !== 0
+                      ? highlightedLines.indexOf(d[0].label) !== -1
+                        ? 1
+                        : 0.3
+                      : 1
                 }
               >
                 <path
@@ -385,7 +392,12 @@ export function Graph(props: Props) {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   d={lineShape(d as any) as string}
                   style={{
-                    stroke: lineColors[i],
+                    stroke:
+                      data.filter(el => el.color).length === 0
+                        ? lineColors[0]
+                        : !d[0].color
+                          ? Colors.gray
+                          : lineColors[colorDomain.indexOf(d[0].color)],
                     fill: 'none',
                     strokeWidth,
                   }}
@@ -399,67 +411,99 @@ export function Graph(props: Props) {
                             <circle
                               cx={x(el.date)}
                               cy={y(el.y as number)}
-                              r={
-                                graphWidth / dataFormatted.length < 5
-                                  ? 0
-                                  : graphWidth / dataFormatted.length < 20
-                                    ? 2
-                                    : 4
-                              }
-                              style={{ fill: lineColors[i] }}
-                            />
-                          ) : null}
-                          {showValues ? (
-                            <text
-                              x={x(el.date)}
-                              y={y(el.y as number)}
-                              dy={-8}
+                              r={graphWidth / d.length < 5 ? 0 : graphWidth / d.length < 20 ? 2 : 4}
                               style={{
-                                fill: lineColors[i],
-                                textAnchor: 'middle',
-                                ...(styles?.graphObjectValues || {}),
+                                fill:
+                                  data.filter(el => el.color).length === 0
+                                    ? lineColors[0]
+                                    : !d[0].color
+                                      ? Colors.gray
+                                      : lineColors[colorDomain.indexOf(d[0].color)],
                               }}
-                              className={cn(
-                                'graph-value text-xs font-bold',
-                                classNames?.graphObjectValues,
-                              )}
-                            >
-                              {numberFormattingFunction(el.y, prefix, suffix)}
-                            </text>
+                            />
                           ) : null}
                         </g>
                       ) : null}
                     </g>
                   ))}
                 </g>
-                {showColorLegendAtTop ? null : (
+                {highlightedLines.indexOf(d[0].label) !== -1 ||
+                mouseOverData?.label === d[0].label ? (
                   <text
-                    style={{ fill: lineColors[i] }}
-                    className='text-xs'
+                    style={{
+                      fill:
+                        data.filter(el => el.color).length === 0
+                          ? lineColors[0]
+                          : !d[0].color
+                            ? Colors.gray
+                            : lineColors[colorDomain.indexOf(d[0].color)],
+                    }}
+                    className='text-sm font-bold'
                     x={x(d[d.length - 1].date)}
                     y={y(d[d.length - 1].y as number)}
                     dx={5}
                     dy={4}
                   >
-                    {labels[i]}
+                    {d[0].label}
                   </text>
-                )}
+                ) : null}
               </g>
             ))}
             {mouseOverData ? (
-              <line
-                y1={0}
-                y2={graphHeight}
-                x1={x(mouseOverData.date)}
-                x2={x(mouseOverData.date)}
-                className={cn(
-                  'undp-tick-line stroke-primary-gray-700 dark:stroke-primary-gray-100',
-                  classNames?.mouseOverLine,
-                )}
-                style={styles?.mouseOverLine}
-              />
+              <text
+                y={y(mouseOverData.y) - 8}
+                x={x(mouseOverData.date)}
+                className={cn('graph-value text-sm font-bold', classNames?.graphObjectValues)}
+                style={{
+                  fill:
+                    data.filter(el => el.color).length === 0
+                      ? lineColors[0]
+                      : !mouseOverData.color
+                        ? Colors.gray
+                        : lineColors[colorDomain.indexOf(mouseOverData.color)],
+                  textAnchor: 'middle',
+                  ...(styles?.graphObjectValues || {}),
+                }}
+              >
+                {numberFormattingFunction(mouseOverData.y, prefix, suffix)}
+              </text>
             ) : null}
           </g>
+          {dataFormatted
+            .filter(d => !checkIfNullOrUndefined(d.y))
+            .map((d, i) => {
+              return (
+                <g key={i}>
+                  <path
+                    d={voronoiDiagram.renderCell(
+                      dataFormatted.findIndex(el => el.label === d.label && el.date === d.date),
+                    )}
+                    opacity={0}
+                    onMouseEnter={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(d);
+                      }
+                    }}
+                    onMouseMove={event => {
+                      setMouseOverData(d);
+                      setEventY(event.clientY);
+                      setEventX(event.clientX);
+                    }}
+                    onMouseLeave={() => {
+                      setMouseOverData(undefined);
+                      setEventX(undefined);
+                      setEventY(undefined);
+                      if (onSeriesMouseOver) {
+                        onSeriesMouseOver(undefined);
+                      }
+                    }}
+                  />
+                </g>
+              );
+            })}
           {refValues ? (
             <>
               {refValues.map((el, i) => (
@@ -545,15 +589,6 @@ export function Graph(props: Props) {
               );
             })}
           </g>
-          <rect
-            ref={MouseoverRectRef}
-            style={{
-              fill: 'none',
-              pointerEvents: 'all',
-            }}
-            width={graphWidth}
-            height={graphHeight}
-          />
         </g>
       </svg>
       {mouseOverData && tooltip && eventX && eventY ? (

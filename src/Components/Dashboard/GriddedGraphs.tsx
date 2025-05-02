@@ -607,7 +607,6 @@ export function GriddedGraphs(props: Props) {
                         ? true
                         : graphSettings?.showNAColor
                     }
-                    theme={graphSettings?.theme || 'light'}
                   />
                 ) : null}
                 <div

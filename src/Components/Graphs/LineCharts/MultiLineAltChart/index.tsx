@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
+import uniqBy from 'lodash.uniqby';
 
 import { Graph } from './Graph';
 
 import {
   AnnotationSettingsDataType,
-  AreaChartDataType,
   CustomHighlightAreaSettingsDataType,
   Languages,
+  MultiLineAltChartDataType,
   ReferenceDataType,
   SourcesDataType,
   StyleObject,
@@ -22,7 +23,7 @@ import { EmptyState } from '@/Components/Elements/EmptyState';
 interface Props {
   // Data
   /** Array of data objects */
-  data: AreaChartDataType[];
+  data: MultiLineAltChartDataType[];
 
   // Titles, Labels, and Sources
   /** Title of the graph */
@@ -37,10 +38,12 @@ interface Props {
   ariaLabel?: string;
 
   // Colors and Styling
-  /** array of colors for different lines and areas */
-  colors?: string[];
+  /** Color or array of colors for lines */
+  colors?: string | string[];
   /** Domain of colors for the graph */
-  colorDomain: string[];
+  colorDomain?: (string | number)[];
+  /** Toggle the visibility of color legend between the top of the graphs and next to the line */
+  showColorLegendAtTop?: boolean;
   /** Title for the color legend */
   colorLegendTitle?: string;
   /** Background color of the graph */
@@ -81,18 +84,32 @@ interface Props {
   minValue?: number;
   /** Reference values for comparison */
   refValues?: ReferenceDataType[];
+  /** Maximum value of the date for the chart */
+  maxDate?: string | number;
+  /** Minimum value of the date for the chart */
+  minDate?: string | number;
   /** No. of ticks on the x-axis  */
   noOfXTicks?: number;
   /** No. of ticks on the y-axis  */
   noOfYTicks?: number;
 
   // Graph Parameters
+  /** Toggle visibility of dots on the line */
+  showDots?: boolean;
+  /** Stroke width of the line */
+  strokeWidth?: number;
+  /** Toggle the initial animation of the line. If the type is number then it uses the number as the time in seconds for animation. */
+  animateLine?: boolean | number;
   /** Format of the date in the data object  */
   dateFormat?: string;
-  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
-  showColorScale?: boolean;
   /** Title for the Y-axis */
   yAxisTitle?: string;
+  /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
+  showColorScale?: boolean;
+  /** Toggle visibility of NA color in the color scale. This is only applicable if the data props hae color parameter and showColorScale prop is true */
+  showNAColor?: boolean;
+  /** Data points to highlight. Use the label value from data to highlight the data point */
+  highlightedLines?: (string | number)[];
   /** Annotations on the chart */
   annotations?: AnnotationSettingsDataType[];
   /** Highlighted area(square) on the chart  */
@@ -122,47 +139,55 @@ interface Props {
   graphID?: string;
 }
 
-export function AreaChart(props: Props) {
+export function MultiLineAltChart(props: Props) {
   const {
     data,
     graphTitle,
-    colors = Colors.light.categoricalColors.colors,
+    showNAColor = true,
+    colors,
+    colorDomain,
+    suffix = '',
     sources,
+    prefix = '',
     graphDescription,
     height,
     width,
     footNote,
     noOfXTicks = 10,
     dateFormat = 'yyyy',
-    colorDomain,
     padding,
     backgroundColor = false,
-    colorLegendTitle,
-    leftMargin = 50,
-    rightMargin = 20,
+    leftMargin = 30,
+    rightMargin = 50,
     topMargin = 20,
     bottomMargin = 25,
-    highlightAreaSettings = [],
+    showColorScale = true,
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
+    showColorLegendAtTop = false,
     refValues = [],
+    highlightAreaSettings = [],
     graphID,
     minValue,
     maxValue,
+    highlightedLines = [],
     graphDownload = false,
     dataDownload = false,
-    showColorScale = true,
+    animateLine = false,
     language = 'en',
+    colorLegendTitle,
     minHeight = 0,
+    strokeWidth = 2,
+    showDots = true,
     annotations = [],
     customHighlightAreaSettings = [],
     theme = 'light',
     ariaLabel,
     yAxisTitle,
     noOfYTicks = 5,
-    prefix = '',
-    suffix = '',
+    minDate,
+    maxDate,
     curveType = 'curve',
     styles,
     classNames,
@@ -209,7 +234,7 @@ export function AreaChart(props: Props) {
           ariaLabel ||
           `${
             graphTitle ? `The graph shows ${graphTitle}. ` : ''
-          }This is a stacked area chart that shows trends over time.${
+          }This is a multi-line chart that shows trends over time.${
             graphDescription ? ` ${graphDescription}` : ''
           }`
         }
@@ -247,19 +272,37 @@ export function AreaChart(props: Props) {
                 <EmptyState />
               ) : (
                 <>
-                  {showColorScale !== false ? (
+                  {showColorScale && data.filter(el => el.color).length !== 0 ? (
                     <ColorLegend
-                      colorDomain={colorDomain}
-                      colors={colors}
+                      width={width}
                       colorLegendTitle={colorLegendTitle}
-                      showNAColor={false}
+                      colors={
+                        (colors as string[] | undefined) || Colors[theme].categoricalColors.colors
+                      }
+                      colorDomain={
+                        colorDomain ||
+                        uniqBy(
+                          data.filter(el => el.color),
+                          'color',
+                        )
+                          .map(d => d.color)
+                          .filter(d => d !== undefined)
+                      }
+                      showNAColor={showNAColor}
                     />
                   ) : null}
                   <div className='w-full grow leading-0' ref={graphDiv} aria-label='Graph area'>
                     {(width || svgWidth) && (height || svgHeight) ? (
                       <Graph
                         data={data}
-                        colors={colors}
+                        lineColors={
+                          data.filter(el => el.color).length === 0
+                            ? colors
+                              ? [colors as string]
+                              : [Colors.primaryColors['blue-600']]
+                            : (colors as string[] | undefined) ||
+                              Colors[theme].categoricalColors.colors
+                        }
                         width={width || svgWidth}
                         height={Math.max(
                           minHeight,
@@ -280,20 +323,36 @@ export function AreaChart(props: Props) {
                         bottomMargin={bottomMargin}
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
+                        showColorLegendAtTop={showColorLegendAtTop}
+                        suffix={suffix}
+                        prefix={prefix}
                         highlightAreaSettings={highlightAreaSettings}
                         refValues={refValues}
                         minValue={minValue}
                         maxValue={maxValue}
+                        highlightedLines={highlightedLines}
+                        animateLine={animateLine}
                         rtl={language === 'he' || language === 'ar'}
+                        strokeWidth={strokeWidth}
+                        showDots={showDots}
                         annotations={annotations}
                         customHighlightAreaSettings={customHighlightAreaSettings}
                         yAxisTitle={yAxisTitle}
                         noOfYTicks={noOfYTicks}
-                        prefix={prefix}
-                        suffix={suffix}
+                        minDate={minDate}
+                        maxDate={maxDate}
                         curveType={curveType}
                         styles={styles}
                         classNames={classNames}
+                        colorDomain={
+                          data.filter(el => el.color).length === 0
+                            ? []
+                            : colorDomain ||
+                              (uniqBy(
+                                data.filter(el => el.color),
+                                'color',
+                              ).map(d => d.color) as string[])
+                        }
                       />
                     ) : null}
                   </div>

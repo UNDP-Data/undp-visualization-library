@@ -278,7 +278,6 @@ export function DifferenceLineChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={lineColors}
                       showNAColor={false}
-                      theme={theme}
                     />
                   ) : null}
                   <div

@@ -104,9 +104,9 @@ interface Props {
   /** Title for the Y-axis */
   yAxisTitle?: string;
   /** Labels for the lines  */
-  labels: string[];
+  labels: (string | number)[];
   /** Data points to highlight. Use the label value from data to highlight the data point */
-  highlightedLines?: string[];
+  highlightedLines?: (string | number)[];
   /** Annotations on the chart */
   annotations?: AnnotationSettingsDataType[];
   /** Highlighted area(square) on the chart  */
@@ -274,7 +274,6 @@ export function MultiLineChart(props: Props) {
                       colorLegendTitle={colorLegendTitle}
                       colors={lineColors}
                       showNAColor={false}
-                      theme={theme}
                     />
                   ) : null}
                   <div className='w-full grow leading-0' ref={graphDiv} aria-label='Graph area'>

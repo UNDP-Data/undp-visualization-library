@@ -20,6 +20,7 @@ import lineChart from './config/lineChart.json';
 import lineChartWithInterval from './config/lineChartWithInterval.json';
 import sparkline from './config/sparkline.json';
 import multiLineChart from './config/multiLineChart.json';
+import multiLineAltChart from './config/multiLineAltChart.json';
 import paretoChart from './config/paretoChart.json';
 import sankeyChart from './config/sankeyChart.json';
 import scatterPlot from './config/scatterPlot.json';
@@ -65,6 +66,7 @@ export function GraphSettingsSelector(
     Sparkline: sparkline,
     'Line chart with interval': lineChartWithInterval,
     'Multi-line chart': multiLineChart,
+    'Multi-line chart alternative': multiLineAltChart,
     'Pareto chart': paretoChart,
     'Sankey chart': sankeyChart,
     'Scatter plot': scatterPlot,

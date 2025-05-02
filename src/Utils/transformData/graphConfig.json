@@ -185,6 +185,31 @@
         ]
     },
     {
+        "chartID": "multiLineChartAlt",
+        "configuration": [
+            {
+                "id": "date",
+                "required": true,
+                "multiple": false
+            },
+            {
+                "id": "y",
+                "multiple": false,
+                "required": true
+            },
+            {
+                "id": "label",
+                "multiple": false,
+                "required": true
+            },
+            {
+                "id": "color",
+                "multiple": false,
+                "required": false
+            }
+        ]
+    },
+    {
         "chartID": "stackedAreaChart",
         "configuration": [
             {

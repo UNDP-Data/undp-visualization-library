@@ -4,18 +4,16 @@ import { Colors } from '@/Components/ColorPalette';
 
 interface Props {
   colors: string[];
-  colorDomain: string[] | number[];
+  colorDomain: (string | number)[];
   colorLegendTitle?: string;
   showNAColor: boolean;
   width?: number;
   isCenter?: boolean;
-  theme: 'dark' | 'light';
   className?: string;
 }
 
 export function ColorLegend(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, showNAColor, width, isCenter, theme, className } =
-    props;
+  const { colorLegendTitle, colorDomain, colors, showNAColor, width, isCenter, className } = props;
 
   return (
     <div
@@ -23,7 +21,7 @@ export function ColorLegend(props: Props) {
       style={{ maxWidth: width ? `${width}px` : 'none' }}
       aria-label='Color legend'
     >
-      <div className={theme || 'light'}>
+      <div>
         {colorLegendTitle && colorLegendTitle !== '' ? (
           <P size='sm' marginBottom='2xs' className={isCenter ? 'text-center' : ''}>
             {colorLegendTitle}

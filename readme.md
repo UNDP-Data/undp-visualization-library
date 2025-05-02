@@ -1,6 +1,6 @@
 # UNDP data viz library ![npm](https://img.shields.io/npm/v/@undp/data-viz)
 
-## Getting Started
+### Getting Started
 
 UNDP data viz library is dedicated to providing a good development experience for data visualization specialists. Before starting, it is recommended to learn React first, and correctly install and configure Node.js v18 or above. 
 
@@ -80,3 +80,25 @@ The dependencies that are pre-installed wit the library:
 * react-csv - For generating a csv file
 * xlsx - For generating a xlsx file (Peer dependency)
 * React (of course!) (Peer dependency)
+
+### How to add a new chart or graph
+
+Adding a new chart or graph to the library requires multiple steps:
+* Add the code for the graph to `./src/Components/Elements/Graphs/` folder
+* Once the code is done add the id of the graph to either `GraphTypeForGriddedGraph` or `GeoHubGraphType` in `./src/Types.tsx` depending if you want it to be available in `GriddedGraphDashboard` or not
+* Add the missing settings  to `GraphSettingsDataType` in `./src/Types.tsx`
+* Add the graph configuration settings in `./src/Utils/transformData/graphConfig.json`
+* Add the graph to the list in `./src/Utils/transformData/getGraphList.json`
+* Add the data schema for the graph and graph settings schema to the `./src/Schemas/schemaList.tsx`
+* Also add the missing properties to the `SettingSchema` in `./src/Schemas/schemaList.tsx`
+* Add the data schema and settings schema to the `getDataSchema` and `getSettingsSchema` functions in `./src/Schemas/getSchema.tsx`
+* Add the graph to the `graphComponent` and `getGraphProps` functions in `./src/Components/Dashboard/GraphEl.tsx`
+* Finally add an export in `./src/index.tsx`
+
+Adding documentation and stories in storybook:
+* Add a new story in `./src/stories/Graph+Map+Chart` folder
+* Add a graph name and id to `GraphNames` in `./src/stories/assets/constants.ts`
+* Add a config file for the graph in `./src/stories/assets/config` folder
+* Add the graph in `./src/stories/assets/graphSettingsSelect.ts`
+* Add the graph in `./src/stories/assets/graphDataConfigSelect.ts`
+
