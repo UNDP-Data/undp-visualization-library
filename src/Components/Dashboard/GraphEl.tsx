@@ -743,6 +743,7 @@ function GraphEl(props: Props) {
           maxDate: settings?.maxDate,
           styles: settings?.styles,
           classNames: settings?.classNames,
+          colorDomain: settings?.colorDomain,
         };
       case 'differenceLineChart':
         return {
