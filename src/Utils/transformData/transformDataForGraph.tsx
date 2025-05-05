@@ -2,7 +2,7 @@ import { checkDataConfigValidity } from '../checkDataValidity';
 import { checkIfNullOrUndefined } from '../checkIfNullOrUndefined';
 import { GraphList } from '../getGraphList';
 
-import ChartConfiguration from './graphConfig.json';
+import { ChartConfiguration } from './graphConfig';
 
 import { GraphConfigurationDataType, GraphType } from '@/Types';
 /**

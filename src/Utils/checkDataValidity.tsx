@@ -1,6 +1,6 @@
 import flattenDeep from 'lodash.flattendeep';
 
-import ChartConfiguration from './transformData/graphConfig.json';
+import { ChartConfiguration } from './transformData/graphConfig';
 
 import { GraphConfigurationDataType, GraphType } from '@/Types';
 
