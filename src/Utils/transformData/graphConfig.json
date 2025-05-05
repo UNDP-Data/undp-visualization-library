@@ -185,7 +185,7 @@
         ]
     },
     {
-        "chartID": "multiLineChartAlt",
+        "chartID": "multiLineAltChart",
         "configuration": [
             {
                 "id": "date",

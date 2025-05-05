@@ -208,7 +208,7 @@ export const GraphNames = [
   },
   {
     name: 'Multi-line chart Alternative',
-    id: 'multiLineChartAlt',
+    id: 'multiLineAltChart',
   },
   {
     name: 'Pareto chart',
