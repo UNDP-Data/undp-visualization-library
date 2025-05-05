@@ -744,6 +744,7 @@ function GraphEl(props: Props) {
           styles: settings?.styles,
           classNames: settings?.classNames,
           colorDomain: settings?.colorDomain,
+          showNAColor: settings?.showNAColor,
         };
       case 'differenceLineChart':
         return {

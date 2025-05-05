@@ -1,6 +1,6 @@
 {
   "name": "@undp/data-viz",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "browser": "./dist/index.umd.js",
@@ -44,7 +44,9 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "clean": "rimraf node_modules && rimraf dist && rimraf package-lock.json"
+    "clean": "rimraf node_modules && rimraf dist && rimraf package-lock.json",
+    "install:build": "npm install && tsc && vite build",
+    "install:build:publish": "npm install && tsc && vite build && npm publish"
   },
   "keywords": [
     "UNDP",
