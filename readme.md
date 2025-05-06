@@ -2,9 +2,9 @@
 
 ### Getting Started
 
-UNDP data viz library is dedicated to providing a good development experience for data visualization specialists. Before starting, it is recommended to learn React first, and correctly install and configure Node.js v18 or above. 
+[UNDP data viz library](https://dataviz.design.undp.org) is dedicated to providing a good development experience for data visualization specialists. Before starting, it is recommended to learn React first, and correctly install and configure Node.js v18 or above. 
 
-We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
+We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React.
 
 __Note: The library uses react v19__
 

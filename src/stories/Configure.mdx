@@ -1,6 +1,9 @@
 import { Meta, Source, Canvas, Story } from '@storybook/blocks';
 import { H3, H4, P, Code, H6, Separator, Spacer } from '@undp/design-system-react';
 import githubLogo from "./assets/Github-logo.svg";
+import dsIcon from "./assets/DS-icon.svg";
+import figmaIcon from "./assets/Figma-icon.svg";
+import sendIcon from "./assets/Send-icon.svg";
 import '@undp/design-system-react/dist/style.css';
 
 <Meta
@@ -33,20 +36,20 @@ We also assumes that you have intermediate knowledge about HTML, CSS, and JavaSc
 
 ## Getting started
 
-#### Using the library in React projects
+### Using the library in React projects
 
 Before starting, it is recommended to correctly install and configure [Node.js](https://nodejs.org/en/download) v18 or above.
 
 We also assumes that you have intermediate knowledge about HTML, CSS, and JavaScript/TypeScript, and React. Starting out is straightforward.
       
-#### Installing with NPM
+### Installing with NPM
 
 Start by installing UNDP Visualization Library as a node module and save it as a dependency in your package.json:
 ```
 npm install @undp/data-viz `--save`
 ```
 
-#### Import
+### Import
 
 It is recommended to import what you need and the use it.
 
@@ -55,15 +58,18 @@ It is also recommended to import the css because some setting expect the CSS to 
 import '@undp/data-viz/dist/style.css';
 ```
 
-#### Recommendation
+### Recommendation
 
 You might also want to install UNDP Design system and import the style from the design system is the graph or UI doesn't look proper.
 
-Installing UNDP Design system with NPM
+__Installing UNDP Design system with NPM__
+
 ```
 npm install @undp/design-system-react `--save`
 ```
-Import CSS
+
+__Import CSS__
+
 ```
 import '@undp/design-system-react/dist/style.css';
 ```
@@ -78,9 +84,38 @@ UNDP Data Viz library provides a built-in ts definition, you don't need to insta
 
 <br />
 
-<div className="flex github">
-  <a href="https://github.com/UNDP-Data/undp-visualization-library" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
-    <img width={'32px'} src={githubLogo} alt="" />
-    <P className='m-0 md:m-0'>View Github repository</P>
-  </a>
+<div className='flex gap-4 flex-wrap'>
+  <div className="flex github">
+    <a href="https://github.com/UNDP-Data/undp-visualization-library" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+      <img width={'32px'} src={githubLogo} alt="" />
+      <P className='m-0 md:m-0'>Github repository</P>
+    </a>
+  </div>
+  <div className="flex github">
+    <a href="https://react.design.undp.org" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+      <img width={'32px'} src={dsIcon} alt="" />
+      <P className='m-0 md:m-0'>UNDP design system for react</P>
+    </a>
+  </div>
+  <div className="flex github">
+    <a href="https://www.figma.com/community/file/1371940840508081255" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+      <img width={'32px'} src={figmaIcon} alt="" />
+      <P className='m-0 md:m-0'>Figma file</P>
+    </a>
+  </div>
+</div>
+
+<br />
+
+## Contact
+
+<br />
+
+<div className='flex gap-4 flex-wrap'>
+  <div className="flex github">
+    <a href="mailto:data@undp.org" target="_blank" className='flex items-center gap-2 bg-primary-gray-300 p-4'>
+      <img width={'32px'} src={sendIcon} alt="" />
+      <P className='m-0 md:m-0'>Send us an email for features or issues</P>
+    </a>
+  </div>
 </div>
