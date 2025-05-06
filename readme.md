@@ -8,7 +8,7 @@ We also assumes that you have intermediate knowledge about HTML, CSS, and JavaSc
 
 __Note: The library uses react v19__
 
-Detailed documentation can be found [here](https://dataviz.design.undp.org).
+Detailed documentation can be found [here](https://dataviz.design.undp.org)
 
 NPM Package can be found [here](https://www.npmjs.com/package/@undp/data-viz)
 
