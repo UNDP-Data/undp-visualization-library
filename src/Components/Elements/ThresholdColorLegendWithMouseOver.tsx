@@ -11,11 +11,20 @@ interface Props {
   width?: number;
   naColor?: string;
   className?: string;
+  showNAColor: boolean;
 }
 
 export function ThresholdColorLegendWithMouseOver(props: Props) {
-  const { colorLegendTitle, colorDomain, colors, setSelectedColor, width, naColor, className } =
-    props;
+  const {
+    colorLegendTitle,
+    colorDomain,
+    colors,
+    setSelectedColor,
+    width,
+    naColor,
+    className,
+    showNAColor,
+  } = props;
 
   const [hoveredColor, setHoveredColor] = useState<string | undefined>(undefined);
   const mainColorWidth = naColor ? 320 : 360;
@@ -97,7 +106,7 @@ export function ThresholdColorLegendWithMouseOver(props: Props) {
               }}
             />
           </g>
-          {naColor ? (
+          {showNAColor ? (
             <g
               onMouseOver={() => {
                 setHoveredColor(naColor || '#D4D6D8');

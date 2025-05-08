@@ -314,7 +314,7 @@ export const Graph = memo((props: Props) => {
                         {showLabels && (
                           <p
                             className={cn(
-                              'text-center leading-tight overflow-hidden m-0 circle-packing-label',
+                              'text-center leading-[1.25] overflow-hidden m-0 circle-packing-label',
                               classNames?.graphObjectValues,
                             )}
                             style={{
@@ -343,7 +343,7 @@ export const Graph = memo((props: Props) => {
                         )}
                         {showValues && (
                           <p
-                            className='text-center font-bold leading-tight w-full m-0 circle-packing-value'
+                            className='text-center font-bold leading-[1.25] w-full m-0 circle-packing-value'
                             style={{
                               fontSize: `${Math.min(
                                 Math.max(Math.round(bubbleRadius / 4), 14),

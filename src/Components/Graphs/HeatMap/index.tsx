@@ -305,6 +305,7 @@ export function HeatMap(props: Props) {
                           colorDomain={colorDomain as number[]}
                           setSelectedColor={setSelectedColor}
                           naColor={noDataColor}
+                          showNAColor={showNAColor}
                         />
                       </div>
                     ) : (

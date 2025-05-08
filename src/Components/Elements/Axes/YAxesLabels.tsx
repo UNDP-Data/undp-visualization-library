@@ -18,7 +18,7 @@ export function YAxesLabels(props: Props) {
       <div className='flex flex-col justify-center h-inherit'>
         <p
           className={cn(
-            'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs m-0 py-0 px-1.5',
+            'fill-primary-gray-700 dark:fill-primary-gray-300 text-xs m-0 py-0 px-1.5 leading-none',
             `text-${alignment}`,
             className,
           )}

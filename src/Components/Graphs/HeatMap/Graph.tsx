@@ -223,7 +223,7 @@ export function Graph(props: Props) {
                       <div className='flex flex-col justify-center items-center h-inherit p-1'>
                         <p
                           className={cn(
-                            'text-xs text-center m-0 leading-tight graph-value',
+                            'text-xs text-center m-0 leading-[1.25] graph-value',
                             classNames?.graphObjectValues,
                           )}
                           style={{

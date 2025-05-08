@@ -79,7 +79,7 @@ export function Annotation(props: Props) {
       >
         <p
           className={cn(
-            'text-sm leading-tight m-0 whitespace-normal',
+            'text-sm leading-[1.25] m-0 whitespace-normal',
             labelSettings.fontWeight === 'bold'
               ? 'font-bold'
               : labelSettings.fontWeight === 'medium'
