@@ -109,7 +109,7 @@ export interface StyleObject {
   footnote?: React.CSSProperties;
   source?: React.CSSProperties;
   description?: React.CSSProperties;
-  graphBackground?: React.CSSProperties;
+  graphContainer?: React.CSSProperties;
   tooltip?: React.CSSProperties;
   xAxis?: AxesStyleObject;
   yAxis?: AxesStyleObject;
@@ -135,7 +135,7 @@ export interface ClassNameObject {
   xAxis?: AxesClassNameObject;
   yAxis?: AxesClassNameObject;
   legend?: string;
-  graph?: string;
+  graphContainer?: string;
   graphObjectValues?: string;
   dataConnectors?: string;
   mouseOverLine?: string;

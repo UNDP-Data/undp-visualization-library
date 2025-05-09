@@ -3,7 +3,7 @@ export const STYLE_OBJECT = `{
   footnote?: React.CSSProperties;
   source?: React.CSSProperties;
   description?: React.CSSProperties;
-  graphBackground?: React.CSSProperties;
+  graphContainer?: React.CSSProperties;
   tooltip?: React.CSSProperties;
   xAxis?: {
     gridLines?: React.CSSProperties;
@@ -29,7 +29,7 @@ export const CLASS_NAME_OBJECT = `{
   footnote?: string;
   source?: string;
   description?: string;
-  graphBackground?: string;
+  graphContainer?: string;
   tooltip?: string;
   xAxis?: {
     gridLines?: string;

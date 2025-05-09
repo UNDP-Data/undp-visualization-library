@@ -1,7 +1,7 @@
 import sum from 'lodash.sum';
 import maxBy from 'lodash.maxby';
 import minBy from 'lodash.minby';
-import { H3 } from '@undp/design-system-react';
+import { cn, H3 } from '@undp/design-system-react';
 
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
@@ -104,15 +104,18 @@ export function StatCardFromData(props: Props) {
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
-        className={`${
-          !backgroundColor
-            ? 'bg-transparent '
-            : backgroundColor === true
-              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-              : ''
-        }flex flex-col w-full h-inherit ${language || 'en'}`}
+        className={cn(
+          `${
+            !backgroundColor
+              ? 'bg-transparent '
+              : backgroundColor === true
+                ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+                : ''
+          }flex flex-col w-full h-inherit ${language || 'en'}`,
+          classNames?.graphContainer,
+        )}
         style={{
-          ...(styles?.graphBackground || {}),
+          ...(styles?.graphContainer || {}),
           ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}

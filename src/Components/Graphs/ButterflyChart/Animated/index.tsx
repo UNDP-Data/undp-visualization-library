@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import uniqBy from 'lodash.uniqby';
 import { ascending, sort } from 'd3-array';
 import { format, parse } from 'date-fns';
-import { SliderUI } from '@undp/design-system-react';
+import { cn, SliderUI } from '@undp/design-system-react';
 
 import { Graph } from './Graph';
 
@@ -243,15 +243,18 @@ export function AnimatedButterflyChart(props: Props) {
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
-        className={`${
-          !backgroundColor
-            ? 'bg-transparent '
-            : backgroundColor === true
-              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-              : ''
-        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
+        className={cn(
+          `${
+            !backgroundColor
+              ? 'bg-transparent '
+              : backgroundColor === true
+                ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+                : ''
+          }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`,
+          classNames?.graphContainer,
+        )}
         style={{
-          ...(styles?.graphBackground || {}),
+          ...(styles?.graphContainer || {}),
           ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}

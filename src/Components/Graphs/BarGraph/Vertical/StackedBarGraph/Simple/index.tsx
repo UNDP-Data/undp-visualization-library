@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import sortBy from 'lodash.sortby';
 import sum from 'lodash.sum';
+import { cn } from '@undp/design-system-react';
 
 import { Graph } from './Graph';
 
@@ -150,15 +151,18 @@ export function VerticalStackedBarGraph(props: Props) {
       dir={language === 'he' || language === 'ar' ? 'rtl' : undefined}
     >
       <div
-        className={`${
-          !backgroundColor
-            ? 'bg-transparent '
-            : backgroundColor === true
-              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-              : ''
-        }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`}
+        className={cn(
+          `${
+            !backgroundColor
+              ? 'bg-transparent '
+              : backgroundColor === true
+                ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+                : ''
+          }ml-auto mr-auto flex flex-col grow h-inherit ${language || 'en'}`,
+          classNames?.graphContainer,
+        )}
         style={{
-          ...(styles?.graphBackground || {}),
+          ...(styles?.graphContainer || {}),
           ...(backgroundColor && backgroundColor !== true ? { backgroundColor } : {}),
         }}
         id={graphID}

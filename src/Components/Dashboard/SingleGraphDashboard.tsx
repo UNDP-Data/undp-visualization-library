@@ -4,6 +4,7 @@ import flattenDeep from 'lodash.flattendeep';
 import {
   CheckboxGroup,
   CheckboxGroupItem,
+  cn,
   createFilter,
   DropdownSelect,
   Label,
@@ -309,15 +310,18 @@ export function SingleGraphDashboard(props: Props) {
       dir={graphSettings?.language === 'he' || graphSettings?.language === 'ar' ? 'rtl' : undefined}
     >
       <div
-        className={`${
-          !graphSettings?.backgroundColor
-            ? 'bg-transparent '
-            : graphSettings?.backgroundColor === true
-              ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
-              : ''
-        }ml-auto mr-auto flex flex-col grow h-inherit ${graphSettings?.language || 'en'}`}
+        className={cn(
+          `${
+            !graphSettings?.backgroundColor
+              ? 'bg-transparent '
+              : graphSettings?.backgroundColor === true
+                ? 'bg-primary-gray-200 dark:bg-primary-gray-650 '
+                : ''
+          }ml-auto mr-auto flex flex-col grow h-inherit ${graphSettings?.language || 'en'}`,
+          graphSettings?.classNames?.graphContainer,
+        )}
         style={{
-          ...(graphSettings?.styles?.graphBackground || {}),
+          ...(graphSettings?.styles?.graphContainer || {}),
           ...(graphSettings?.backgroundColor && graphSettings?.backgroundColor !== true
             ? { backgroundColor: graphSettings?.backgroundColor }
             : {}),
