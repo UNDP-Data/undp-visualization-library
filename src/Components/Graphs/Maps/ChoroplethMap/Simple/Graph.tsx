@@ -422,161 +422,163 @@ export function Graph(props: Props) {
                 })
             : null}
         </g>
-        <foreignObject
-          x={10}
-          y={showLegend ? height - legendHeight - 5 : height - 46}
-          width={showLegend ? (categorical ? 150 : 352) : 101}
-          height={showLegend ? legendHeight : 36}
-        >
-          {showColorScale === false ? null : showLegend ? (
-            <div ref={legendContentRef}>
-              <div
-                style={{
-                  marginBottom: '-0.75rem',
-                  marginLeft: categorical ? '126px' : '328px',
-                  backgroundColor: 'rgba(240,240,240, 0.7)',
-                  border: '1px solid var(--gray-400)',
-                  borderRadius: '999px',
-                  width: '24px',
-                  height: '24px',
-                  padding: '3px',
-                  cursor: 'pointer',
-                  zIndex: 10,
-                  position: 'relative',
-                }}
-                onClick={() => {
-                  setShowLegend(false);
-                }}
-              >
-                <X />
-              </div>
-              <div
-                className='p-2'
-                style={{
-                  backgroundColor: 'rgba(240,240,240, 0.5',
-                  width: categorical ? '138px' : '340px',
-                }}
-              >
-                {colorLegendTitle && colorLegendTitle !== '' ? (
-                  <P
-                    size='xs'
-                    marginBottom='xs'
-                    className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
-                    style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: '1',
-                      WebkitBoxOrient: 'vertical',
-                    }}
-                  >
-                    {colorLegendTitle}
-                  </P>
-                ) : null}
-                {!categorical ? (
-                  <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
-                    <g>
-                      {colorDomain.map((d, i) => (
-                        <g
-                          key={i}
-                          onMouseOver={() => {
-                            setSelectedColor(colors[i]);
-                          }}
-                          onMouseLeave={() => {
-                            setSelectedColor(undefined);
-                          }}
-                          className='cursor-pointer'
-                        >
+        {showColorScale === false ? null : (
+          <foreignObject
+            x={10}
+            y={showLegend ? height - legendHeight - 5 : height - 46}
+            width={showLegend ? (categorical ? 150 : 352) : 101}
+            height={showLegend ? legendHeight : 36}
+          >
+            {showLegend ? (
+              <div ref={legendContentRef}>
+                <div
+                  style={{
+                    marginBottom: '-0.75rem',
+                    marginLeft: categorical ? '126px' : '328px',
+                    backgroundColor: 'rgba(240,240,240, 0.7)',
+                    border: '1px solid var(--gray-400)',
+                    borderRadius: '999px',
+                    width: '24px',
+                    height: '24px',
+                    padding: '3px',
+                    cursor: 'pointer',
+                    zIndex: 10,
+                    position: 'relative',
+                  }}
+                  onClick={() => {
+                    setShowLegend(false);
+                  }}
+                >
+                  <X />
+                </div>
+                <div
+                  className='p-2'
+                  style={{
+                    backgroundColor: 'rgba(240,240,240, 0.5',
+                    width: categorical ? '138px' : '340px',
+                  }}
+                >
+                  {colorLegendTitle && colorLegendTitle !== '' ? (
+                    <P
+                      size='xs'
+                      marginBottom='xs'
+                      className='p-0 leading-normal overflow-hidden text-primary-gray-700 dark:text-primary-gray-300'
+                      style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: '1',
+                        WebkitBoxOrient: 'vertical',
+                      }}
+                    >
+                      {colorLegendTitle}
+                    </P>
+                  ) : null}
+                  {!categorical ? (
+                    <svg width='100%' viewBox='0 0 320 30' direction='ltr'>
+                      <g>
+                        {colorDomain.map((d, i) => (
+                          <g
+                            key={i}
+                            onMouseOver={() => {
+                              setSelectedColor(colors[i]);
+                            }}
+                            onMouseLeave={() => {
+                              setSelectedColor(undefined);
+                            }}
+                            className='cursor-pointer'
+                          >
+                            <rect
+                              x={(i * 320) / colors.length + 1}
+                              y={1}
+                              width={320 / colors.length - 2}
+                              height={8}
+                              className={
+                                selectedColor === colors[i]
+                                  ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                                  : ''
+                              }
+                              style={{
+                                fill: colors[i],
+                                ...(selectedColor === colors[i] ? {} : { stroke: colors[i] }),
+                              }}
+                            />
+                            <text
+                              x={((i + 1) * 320) / colors.length}
+                              y={25}
+                              className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
+                              style={{ textAnchor: 'middle' }}
+                            >
+                              {numberFormattingFunction(d as number, '', '')}
+                            </text>
+                          </g>
+                        ))}
+                        <g>
                           <rect
-                            x={(i * 320) / colors.length + 1}
+                            onMouseOver={() => {
+                              setSelectedColor(colors[colorDomain.length]);
+                            }}
+                            onMouseLeave={() => {
+                              setSelectedColor(undefined);
+                            }}
+                            x={(colorDomain.length * 320) / colors.length + 1}
                             y={1}
                             width={320 / colors.length - 2}
                             height={8}
-                            className={
-                              selectedColor === colors[i]
-                                ? 'stroke-primary-gray-700 dark:stroke-primary-gray-300'
+                            className={`cursor-pointer ${
+                              selectedColor === colors[colorDomain.length]
+                                ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
                                 : ''
-                            }
+                            }`}
                             style={{
-                              fill: colors[i],
-                              ...(selectedColor === colors[i] ? {} : { stroke: colors[i] }),
+                              fill: colors[colorDomain.length],
+                              ...(selectedColor === colors[colorDomain.length]
+                                ? {}
+                                : { stroke: colors[colorDomain.length] }),
                             }}
                           />
-                          <text
-                            x={((i + 1) * 320) / colors.length}
-                            y={25}
-                            className='fill-primary-gray-700 dark:fill-primary-gray-300 text-xs'
-                            style={{ textAnchor: 'middle' }}
-                          >
-                            {numberFormattingFunction(d as number, '', '')}
-                          </text>
                         </g>
-                      ))}
-                      <g>
-                        <rect
+                      </g>
+                    </svg>
+                  ) : (
+                    <div className='flex flex-col gap-3'>
+                      {colorDomain.map((d, i) => (
+                        <div
+                          key={i}
+                          className='flex gap-2 items-center'
                           onMouseOver={() => {
-                            setSelectedColor(colors[colorDomain.length]);
+                            setSelectedColor(colors[i % colors.length]);
                           }}
                           onMouseLeave={() => {
                             setSelectedColor(undefined);
                           }}
-                          x={(colorDomain.length * 320) / colors.length + 1}
-                          y={1}
-                          width={320 / colors.length - 2}
-                          height={8}
-                          className={`cursor-pointer ${
-                            selectedColor === colors[colorDomain.length]
-                              ? 'stroke-1 stroke-primary-gray-700 dark:stroke-primary-gray-300'
-                              : ''
-                          }`}
-                          style={{
-                            fill: colors[colorDomain.length],
-                            ...(selectedColor === colors[colorDomain.length]
-                              ? {}
-                              : { stroke: colors[colorDomain.length] }),
-                          }}
-                        />
-                      </g>
-                    </g>
-                  </svg>
-                ) : (
-                  <div className='flex flex-col gap-3'>
-                    {colorDomain.map((d, i) => (
-                      <div
-                        key={i}
-                        className='flex gap-2 items-center'
-                        onMouseOver={() => {
-                          setSelectedColor(colors[i % colors.length]);
-                        }}
-                        onMouseLeave={() => {
-                          setSelectedColor(undefined);
-                        }}
-                      >
-                        <div
-                          className='w-2 h-2 rounded-full'
-                          style={{ backgroundColor: colors[i % colors.length] }}
-                        />
-                        <P size='sm' marginBottom='none' leading='none'>
-                          {d}
-                        </P>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        >
+                          <div
+                            className='w-2 h-2 rounded-full'
+                            style={{ backgroundColor: colors[i % colors.length] }}
+                          />
+                          <P size='sm' marginBottom='none' leading='none'>
+                            {d}
+                          </P>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ) : (
-            <button
-              type='button'
-              className='mb-0 border-0 bg-transparent p-0 self-start'
-              onClick={() => {
-                setShowLegend(true);
-              }}
-            >
-              <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
-                Show Legend
-              </div>
-            </button>
-          )}
-        </foreignObject>
+            ) : (
+              <button
+                type='button'
+                className='mb-0 border-0 bg-transparent p-0 self-start'
+                onClick={() => {
+                  setShowLegend(true);
+                }}
+              >
+                <div className='items-start text-sm font-medium cursor-pointer p-2 mb-0 flex text-primary-black dark:text-primary-gray-300 bg-primary-gray-300 dark:bg-primary-gray-550 border-primary-gray-400 dark:border-primary-gray-500'>
+                  Show Legend
+                </div>
+              </button>
+            )}
+          </foreignObject>
+        )}
       </svg>
       {detailsOnClick ? (
         <Modal

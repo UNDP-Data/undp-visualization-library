@@ -227,7 +227,7 @@ export function HeatMap(props: Props) {
           className='flex grow'
           style={{ padding: backgroundColor ? padding || '1rem' : padding || 0 }}
         >
-          <div className='flex flex-col gap-4 w-full grow justify-between'>
+          <div className='flex flex-col w-full gap-4 grow justify-between'>
             {graphTitle || graphDescription || graphDownload || dataDownload ? (
               <GraphHeader
                 styles={{
@@ -258,74 +258,68 @@ export function HeatMap(props: Props) {
                 <>
                   {showColorScale ? (
                     scale === 'categorical' ? (
-                      <div style={{ marginBottom: '-12px' }}>
-                        <ColorLegendWithMouseOver
-                          width={fillContainer ? undefined : width}
-                          colorLegendTitle={colorLegendTitle}
-                          colors={
-                            colors ||
-                            (typeof colorDomain[0] === 'string'
-                              ? Colors[theme].categoricalColors.colors
-                              : colorDomain.length === 2
-                                ? [
-                                    Colors[theme].sequentialColors.neutralColorsx09[0],
-                                    Colors[theme].sequentialColors.neutralColorsx09[8],
-                                  ]
-                                : Colors[theme].sequentialColors[
-                                    `neutralColorsx0${
-                                      (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                                    }`
-                                  ])
-                          }
-                          colorDomain={colorDomain.map(d => `${d}`)}
-                          setSelectedColor={setSelectedColor}
-                          showNAColor={showNAColor}
-                        />
-                      </div>
+                      <ColorLegendWithMouseOver
+                        width={fillContainer ? undefined : width}
+                        colorLegendTitle={colorLegendTitle}
+                        colors={
+                          colors ||
+                          (typeof colorDomain[0] === 'string'
+                            ? Colors[theme].categoricalColors.colors
+                            : colorDomain.length === 2
+                              ? [
+                                  Colors[theme].sequentialColors.neutralColorsx09[0],
+                                  Colors[theme].sequentialColors.neutralColorsx09[8],
+                                ]
+                              : Colors[theme].sequentialColors[
+                                  `neutralColorsx0${
+                                    (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                  }`
+                                ])
+                        }
+                        colorDomain={colorDomain.map(d => `${d}`)}
+                        setSelectedColor={setSelectedColor}
+                        showNAColor={showNAColor}
+                      />
                     ) : scale === 'threshold' ? (
-                      <div style={{ marginBottom: '-12px' }}>
-                        <ThresholdColorLegendWithMouseOver
-                          width={fillContainer ? undefined : width}
-                          colorLegendTitle={colorLegendTitle}
-                          colors={
-                            colors ||
-                            (typeof colorDomain[0] === 'string'
-                              ? Colors[theme].categoricalColors.colors
-                              : colorDomain.length === 2
-                                ? [
-                                    Colors[theme].sequentialColors.neutralColorsx09[0],
-                                    Colors[theme].sequentialColors.neutralColorsx09[8],
-                                  ]
-                                : Colors[theme].sequentialColors[
-                                    `neutralColorsx0${
-                                      (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
-                                    }`
-                                  ])
-                          }
-                          colorDomain={colorDomain as number[]}
-                          setSelectedColor={setSelectedColor}
-                          naColor={noDataColor}
-                          showNAColor={showNAColor}
-                        />
-                      </div>
+                      <ThresholdColorLegendWithMouseOver
+                        width={fillContainer ? undefined : width}
+                        colorLegendTitle={colorLegendTitle}
+                        colors={
+                          colors ||
+                          (typeof colorDomain[0] === 'string'
+                            ? Colors[theme].categoricalColors.colors
+                            : colorDomain.length === 2
+                              ? [
+                                  Colors[theme].sequentialColors.neutralColorsx09[0],
+                                  Colors[theme].sequentialColors.neutralColorsx09[8],
+                                ]
+                              : Colors[theme].sequentialColors[
+                                  `neutralColorsx0${
+                                    (colorDomain.length + 1) as 4 | 5 | 6 | 7 | 8 | 9
+                                  }`
+                                ])
+                        }
+                        colorDomain={colorDomain as number[]}
+                        setSelectedColor={setSelectedColor}
+                        naColor={noDataColor}
+                        showNAColor={showNAColor}
+                      />
                     ) : (
-                      <div style={{ marginBottom: '-12px' }}>
-                        <LinearColorLegend
-                          width={fillContainer ? undefined : width}
-                          colorLegendTitle={colorLegendTitle}
-                          colors={
-                            colors || [
-                              Colors[theme].sequentialColors.neutralColorsx09[0],
-                              Colors[theme].sequentialColors.neutralColorsx09[8],
-                            ]
-                          }
-                          colorDomain={colorDomain as number[]}
-                        />
-                      </div>
+                      <LinearColorLegend
+                        width={fillContainer ? undefined : width}
+                        colorLegendTitle={colorLegendTitle}
+                        colors={
+                          colors || [
+                            Colors[theme].sequentialColors.neutralColorsx09[0],
+                            Colors[theme].sequentialColors.neutralColorsx09[8],
+                          ]
+                        }
+                        colorDomain={colorDomain as number[]}
+                      />
                     )
                   ) : null}
                   <div
-                    className='flex flex-col grow justify-center gap-3 w-full leading-0'
+                    className='flex grow flex-col justify-center w-full leading-0'
                     ref={graphDiv}
                     aria-label='Graph area'
                   >
