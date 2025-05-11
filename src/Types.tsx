@@ -183,6 +183,13 @@ export interface DonutChartDataType {
   data?: object;
 }
 
+export interface RadarChartDataType {
+  values: number[];
+  label?: string | number;
+  color?: string;
+  data?: object;
+}
+
 export interface HistogramDataType {
   value: number;
   data?: object;
@@ -271,8 +278,8 @@ export interface ScatterPlotWithDateDataType {
 
 export interface DualAxisLineChartDataType {
   date: number | string;
-  y1?: number;
-  y2?: number;
+  y1?: number | null;
+  y2?: number | null;
   data?: object;
 }
 
@@ -652,6 +659,12 @@ export interface BackgroundStyleDataType {
   boxShadow?: string;
   border?: string;
 }
+
+export type RadarAxisConfigDataType = {
+  label: string;
+  max?: number;
+  min?: number;
+};
 
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];

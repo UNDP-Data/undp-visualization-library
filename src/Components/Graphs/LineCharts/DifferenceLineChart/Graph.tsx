@@ -80,6 +80,12 @@ interface Props {
   classNames?: ClassNameObject;
 }
 
+interface FormattedDataType {
+  y1: number;
+  y2: number;
+  date: Date;
+}
+
 export function Graph(props: Props) {
   const {
     data,
@@ -203,40 +209,29 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape1 = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y1))
+  const lineShape1 = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y1))
     .curve(curve);
 
-  const lineShape2 = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y2))
+  const lineShape2 = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y2))
     .curve(curve);
 
-  const mainGraphArea = area()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y1((d: any) => y(d.y1))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y0((d: any) => y(d.y2))
+  const mainGraphArea = area<FormattedDataType>()
+    .x(d => x(d.date))
+    .y1(d => y(d.y1))
+    .y0(d => y(d.y2))
     .curve(curve);
-  const mainGraphArea1 = area()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y1((d: any) => y(d.y1))
+  const mainGraphArea1 = area<FormattedDataType>()
+    .x(d => x(d.date))
+    .y1(d => y(d.y1))
     .y0(0)
     .curve(curve);
-  const mainGraphArea2 = area()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y1((d: any) => y(d.y2))
+  const mainGraphArea2 = area<FormattedDataType>()
+    .x(d => x(d.date))
+    .y1(d => y(d.y2))
     .y0(0)
     .curve(curve);
   const yTicks = y.ticks(noOfYTicks);
@@ -431,22 +426,19 @@ export function Graph(props: Props) {
           />
           <g ref={areaScope}>
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={mainGraphArea(dataFormatted as any) as string}
+              d={mainGraphArea(dataFormatted) || ''}
               clipPath={`url(#below${idSuffix})`}
               style={{ fill: diffAreaColors[1] }}
             />
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={mainGraphArea(dataFormatted as any) as string}
+              d={mainGraphArea(dataFormatted) || ''}
               clipPath={`url(#above${idSuffix})`}
               style={{ fill: diffAreaColors[0] }}
             />
           </g>
           <g ref={scope}>
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape1(dataFormatted as any) as string}
+              d={lineShape1(dataFormatted) || ''}
               style={{
                 fill: 'none',
                 stroke: lineColors[0],
@@ -454,8 +446,7 @@ export function Graph(props: Props) {
               }}
             />
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape2(dataFormatted as any) as string}
+              d={lineShape2(dataFormatted) || ''}
               style={{
                 fill: 'none',
                 stroke: lineColors[1],

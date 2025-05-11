@@ -78,6 +78,11 @@ interface Props {
   classNames?: ClassNameObject;
 }
 
+interface FormattedDataType {
+  y: number;
+  date: Date;
+}
+
 export function Graph(props: Props) {
   const {
     data,
@@ -185,11 +190,9 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y))
+  const lineShape = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y))
     .curve(curve);
   const yTicks = y.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
@@ -360,8 +363,7 @@ export function Graph(props: Props) {
           />
           <g>
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape(dataFormatted as any) as string}
+              d={lineShape(dataFormatted) || ''}
               style={{
                 stroke: lineColor,
                 fill: 'none',

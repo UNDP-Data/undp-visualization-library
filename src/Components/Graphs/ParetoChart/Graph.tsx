@@ -54,6 +54,11 @@ interface Props {
   styles?: StyleObject;
   classNames?: ClassNameObject;
 }
+interface DataFormattedType {
+  id: string;
+  label: number | string;
+  line?: number;
+}
 
 export function Graph(props: Props) {
   const {
@@ -151,13 +156,10 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .defined((d: any) => !checkIfNullOrUndefined(d.line))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => (x(d.id) as number) + x.bandwidth() / 2)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y2(d.line))
+  const lineShape = line<DataFormattedType>()
+    .defined(d => !checkIfNullOrUndefined(d.line))
+    .x(d => (x(`${d.id}`) as number) + x.bandwidth() / 2)
+    .y(d => y2(d.line as number))
     .curve(curve);
   const y1Ticks = y1.ticks(noOfTicks);
   const y2Ticks = y2.ticks(noOfTicks);
@@ -360,8 +362,7 @@ export function Graph(props: Props) {
             );
           })}
           <path
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            d={lineShape(dataWithId as any) as string}
+            d={lineShape(dataWithId) as string}
             style={{
               stroke: lineColor,
               fill: 'none',

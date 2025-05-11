@@ -62,6 +62,12 @@ interface Props {
   classNames?: ClassNameObject;
 }
 
+interface FormattedDataType {
+  y1: number;
+  y2: number;
+  date: Date;
+}
+
 export function Graph(props: Props) {
   const {
     data,
@@ -172,22 +178,16 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape1 = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .defined((d: any) => !checkIfNullOrUndefined(d.y1))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y1(d.y1))
+  const lineShape1 = line<FormattedDataType>()
+    .defined(d => !checkIfNullOrUndefined(d.y1))
+    .x(d => x(d.date))
+    .y(d => y1(d.y1))
     .curve(curve);
 
-  const lineShape2 = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .defined((d: any) => !checkIfNullOrUndefined(d.y2))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y2(d.y2))
+  const lineShape2 = line<FormattedDataType>()
+    .defined(d => !checkIfNullOrUndefined(d.y2))
+    .x(d => x(d.date))
+    .y(d => y2(d.y2))
     .curve(curve);
   const y1Ticks = y1.ticks(noOfYTicks);
   const y2Ticks = y2.ticks(noOfYTicks);
@@ -379,8 +379,13 @@ export function Graph(props: Props) {
           </g>
           <g ref={scope}>
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape1(dataFormatted as any) as string}
+              d={
+                lineShape1(
+                  dataFormatted.filter(
+                    (el): el is FormattedDataType => !checkIfNullOrUndefined(el.y1),
+                  ),
+                ) || ''
+              }
               style={{
                 stroke: lineColors[0],
                 strokeWidth,
@@ -388,8 +393,13 @@ export function Graph(props: Props) {
               }}
             />
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape2(dataFormatted as any) as string}
+              d={
+                lineShape2(
+                  dataFormatted.filter(
+                    (el): el is FormattedDataType => !checkIfNullOrUndefined(el.y2),
+                  ),
+                ) || ''
+              }
               style={{
                 stroke: lineColors[1],
                 strokeWidth,

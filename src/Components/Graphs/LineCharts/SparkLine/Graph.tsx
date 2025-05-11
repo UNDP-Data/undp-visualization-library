@@ -42,6 +42,11 @@ interface Props {
   classNames?: ClassNameObject;
 }
 
+interface FormattedDataType {
+  y: number;
+  date: Date;
+}
+
 export function Graph(props: Props) {
   const {
     data,
@@ -112,18 +117,14 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const mainGraphArea = area()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y1((d: any) => y(d.y))
+  const mainGraphArea = area<FormattedDataType>()
+    .x(d => x(d.date))
+    .y1(d => y(d.y))
     .y0(graphHeight)
     .curve(curve);
-  const lineShape = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y))
+  const lineShape = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y))
     .curve(curve);
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -205,16 +206,14 @@ export function Graph(props: Props) {
           </g>
           <g>
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={mainGraphArea(dataFormatted as any) as string}
+              d={mainGraphArea(dataFormatted) || ''}
               style={{
                 fill: `url(#${areaId})`,
                 clipPath: 'url(#clip)',
               }}
             />
             <path
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              d={lineShape(dataFormatted as any) as string}
+              d={lineShape(dataFormatted) || ''}
               style={{
                 stroke: lineColor,
                 fill: 'none',

@@ -81,6 +81,12 @@ interface Props {
   styles?: StyleObject;
   classNames?: ClassNameObject;
 }
+interface FormattedDataType {
+  y: number;
+  date: Date;
+  yMin: number;
+  yMax: number;
+}
 
 export function Graph(props: Props) {
   const {
@@ -151,13 +157,7 @@ export function Graph(props: Props) {
     right: rightMargin,
   };
   const MouseoverRectRef = useRef(null);
-  const dataFormatted: {
-    date: Date;
-    y: number;
-    yMin: number;
-    yMax: number;
-    data?: object;
-  }[] = sortBy(
+  const dataFormatted: FormattedDataType[] = sortBy(
     data
       .filter(d => !checkIfNullOrUndefined(d.y))
       .map(d => ({
@@ -207,34 +207,25 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y))
+  const lineShape = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y))
     .curve(curve);
 
-  const lineShapeMin = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.yMin))
+  const lineShapeMin = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.yMin))
     .curve(curve);
 
-  const lineShapeMax = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.yMax))
+  const lineShapeMax = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.yMax))
     .curve(curve);
 
-  const areaShape = area()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y0((d: any) => y(d.yMin))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y1((d: any) => y(d.yMax))
+  const areaShape = area<FormattedDataType>()
+    .x(d => x(d.date))
+    .y0(d => y(d.yMin))
+    .y1(d => y(d.yMax))
     .curve(curve);
 
   const yTicks = y.ticks(noOfYTicks);
@@ -412,8 +403,7 @@ export function Graph(props: Props) {
           <g>
             <g ref={scope}>
               <path
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                d={areaShape(dataFormatted as any) as string}
+                d={areaShape(dataFormatted) || ''}
                 style={{
                   fill: intervalAreaColor,
                   opacity: intervalAreaOpacity,
@@ -423,8 +413,7 @@ export function Graph(props: Props) {
               {intervalLineStrokeWidth ? (
                 <g>
                   <path
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    d={lineShapeMin(dataFormatted as any) as string}
+                    d={lineShapeMin(dataFormatted) || ''}
                     style={{
                       stroke: intervalLineColors[0],
                       fill: 'none',
@@ -432,8 +421,7 @@ export function Graph(props: Props) {
                     }}
                   />
                   <path
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    d={lineShapeMax(dataFormatted as any) as string}
+                    d={lineShapeMax(dataFormatted) || ''}
                     style={{
                       stroke: intervalLineColors[1],
                       fill: 'none',
@@ -443,8 +431,7 @@ export function Graph(props: Props) {
                 </g>
               ) : null}
               <path
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                d={lineShape(dataFormatted as any) as string}
+                d={lineShape(dataFormatted) || ''}
                 style={{
                   stroke: lineColor,
                   fill: 'none',

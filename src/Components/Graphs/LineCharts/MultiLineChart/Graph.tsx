@@ -80,6 +80,11 @@ interface Props {
   classNames?: ClassNameObject;
 }
 
+interface FormattedDataType {
+  y: number;
+  date: Date;
+}
+
 export function Graph(props: Props) {
   const {
     data,
@@ -152,7 +157,7 @@ export function Graph(props: Props) {
   const dataArray = dataFormatted[0].y.map((_d, i) => {
     return dataFormatted
       .map(el => ({
-        date: el.date,
+        ...el,
         y: el.y[i],
       }))
       .filter(el => !checkIfNullOrUndefined(el.y));
@@ -196,12 +201,11 @@ export function Graph(props: Props) {
     .range([graphHeight, 0])
     .nice();
 
-  const lineShape = line()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .x((d: any) => x(d.date))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .y((d: any) => y(d.y))
+  const lineShape = line<FormattedDataType>()
+    .x(d => x(d.date))
+    .y(d => y(d.y))
     .curve(curve);
+
   const yTicks = y.ticks(noOfYTicks);
   const xTicks = x.ticks(noOfXTicks);
   useEffect(() => {
@@ -382,8 +386,11 @@ export function Graph(props: Props) {
               >
                 <path
                   key={i}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  d={lineShape(d as any) as string}
+                  d={
+                    lineShape(
+                      d.filter((el): el is FormattedDataType => !checkIfNullOrUndefined(el.y)),
+                    ) || ''
+                  }
                   style={{
                     stroke: lineColors[i],
                     fill: 'none',
