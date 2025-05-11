@@ -17,9 +17,9 @@ import {
 } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
-import { ColorLegend } from '@/Components/Elements/ColorLegend';
 import { Colors } from '@/Components/ColorPalette';
 import { EmptyState } from '@/Components/Elements/EmptyState';
+import { ColorLegendWithMouseOver } from '@/Components/Elements/ColorLegendWithMouseOver';
 
 interface Props {
   // Data
@@ -196,6 +196,7 @@ export function MultiLineAltChart(props: Props) {
 
   const [svgWidth, setSvgWidth] = useState(0);
   const [svgHeight, setSvgHeight] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
 
   const graphDiv = useRef<HTMLDivElement>(null);
   const graphParentDiv = useRef<HTMLDivElement>(null);
@@ -277,7 +278,7 @@ export function MultiLineAltChart(props: Props) {
               ) : (
                 <>
                   {showColorScale && data.filter(el => el.color).length !== 0 ? (
-                    <ColorLegend
+                    <ColorLegendWithMouseOver
                       width={width}
                       colorLegendTitle={colorLegendTitle}
                       colors={
@@ -292,6 +293,7 @@ export function MultiLineAltChart(props: Props) {
                           .map(d => d.color)
                           .filter(d => d !== undefined)
                       }
+                      setSelectedColor={setSelectedColor}
                       showNAColor={showNAColor}
                     />
                   ) : null}
@@ -348,6 +350,7 @@ export function MultiLineAltChart(props: Props) {
                         curveType={curveType}
                         styles={styles}
                         classNames={classNames}
+                        selectedColor={selectedColor}
                         colorDomain={
                           data.filter(el => el.color).length === 0
                             ? []

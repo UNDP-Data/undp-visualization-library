@@ -80,6 +80,8 @@ import {
   lineChartWithConfidenceIntervalDataSchema,
   lineChartWithConfidenceIntervalSettingsSchema,
   dataCardListSettingsSchema,
+  radarChartSettingsSchema,
+  radarChartDataSchema,
 } from './schemaList';
 
 import { GraphType } from '@/Types';
@@ -186,6 +188,8 @@ export function getDataSchema(graph: GraphType) {
       return sankeyChartDataSchema;
     case 'lineChartWithConfidenceInterval':
       return lineChartWithConfidenceIntervalDataSchema;
+    case 'radarChart':
+      return radarChartDataSchema;
     default:
       console.error('Unknown chart type:', graph);
       return null;
@@ -282,6 +286,8 @@ export function getSettingsSchema(graph: GraphType | 'allGraphs') {
       return dataCardListSettingsSchema;
     case 'allGraphs':
       return SettingsSchema;
+    case 'radarChart':
+      return radarChartSettingsSchema;
     default:
       console.error('Unknown chart type:', graph);
       return null;
@@ -332,6 +338,10 @@ export function getGraphConfigChartConfigIdEnum(
       return ['date', 'y'];
     case 'multiLineChart':
       return ['date', 'y'];
+    case 'multiLineAltChart':
+      return ['date', 'y', 'label', 'color'];
+    case 'radarChart':
+      return ['values', 'label', 'color'];
     case 'stackedAreaChart':
       return ['date', 'y'];
     case 'scatterPlot':

@@ -87,13 +87,13 @@ Adding a new chart or graph to the library requires multiple steps:
 * Add the code for the graph to `./src/Components/Elements/Graphs/` folder
 * Once the code is done add the id of the graph to either `GraphTypeForGriddedGraph` or `GeoHubGraphType` in `./src/Types.tsx` depending if you want it to be available in `GriddedGraphDashboard` or not
 * Add the missing settings  to `GraphSettingsDataType` in `./src/Types.tsx`
-* Add the graph configuration settings in `./src/Utils/transformData/graphConfig.json`
-* Add the graph to the list in `./src/Utils/transformData/getGraphList.json`
-* Add the data schema for the graph and graph settings schema to the `./src/Schemas/schemaList.tsx`
+* Add the graph configuration settings in `./src/Utils/transformData/graphConfig.ts`
+* Add the graph to the list in `./src/Utils/getGraphList.tsx`
+* Add the data schema for the graph and graph settings schema to the `./src/Schemas/schemaList.tsx`. Also add the graph to the `getGraphConfigChartConfigIdEnum` variable in the same file.
 * Also add the missing properties to the `SettingSchema` in `./src/Schemas/schemaList.tsx`
 * Add the data schema and settings schema to the `getDataSchema` and `getSettingsSchema` functions in `./src/Schemas/getSchema.tsx`
 * Add the graph to the `graphComponent` and `getGraphProps` functions in `./src/Components/Dashboard/GraphEl.tsx`
-* Finally add an export in `./src/index.tsx`
+* Finally add an export in `./src/index.ts`
 
 Adding documentation and stories in storybook:
 * Add a new story in `./src/stories/Graph+Map+Chart` folder

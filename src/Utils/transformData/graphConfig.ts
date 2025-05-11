@@ -25,6 +25,26 @@ export const ChartConfiguration: {
     ],
   },
   {
+    chartID: 'radarChart',
+    configuration: [
+      {
+        id: 'label',
+        required: false,
+        multiple: false,
+      },
+      {
+        id: 'values',
+        required: true,
+        multiple: true,
+      },
+      {
+        id: 'color',
+        required: false,
+        multiple: false,
+      },
+    ],
+  },
+  {
     chartID: 'stackedBarChart',
     configuration: [
       {

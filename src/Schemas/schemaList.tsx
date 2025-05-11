@@ -26,6 +26,23 @@ export const circlePackingDataSchema = {
   },
 };
 
+export const radarChartDataSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      label: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+      values: {
+        type: 'array',
+        items: { type: 'number' },
+      },
+      color: { type: 'string' },
+      data: { type: 'object' },
+    },
+    required: ['values'],
+  },
+};
+
 export const sankeyChartDataSchema = {
   type: 'array',
   items: {
@@ -1982,6 +1999,107 @@ export const dataCardListSettingsSchema = {
   required: ['cardTemplate'],
 };
 
+export const radarChartSettingsSchema = {
+  type: 'object',
+  properties: {
+    styles: { type: 'object' },
+    classNames: { type: 'object' },
+    detailsOnClick: { type: 'string' },
+    topMargin: { type: 'number' },
+    bottomMargin: { type: 'number' },
+    leftMargin: { type: 'number' },
+    rightMargin: { type: 'number' },
+    ariaLabel: { type: 'string' },
+    legendMaxWidth: { type: 'string' },
+    colors: {
+      oneOf: [
+        { type: 'string' },
+        {
+          type: 'array',
+          items: { type: 'string' },
+        },
+      ],
+    },
+    graphTitle: { type: 'string' },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          source: { type: 'string' },
+          link: { type: 'string' },
+        },
+        required: ['source'],
+      },
+    },
+    graphDescription: { type: 'string' },
+    footNote: { type: 'string' },
+    radius: { type: 'number' },
+    strokeWidth: { type: 'number' },
+    showNAColor: { type: 'boolean' },
+    showValues: { type: 'boolean' },
+    showDots: { type: 'boolean' },
+    fillShape: { type: 'boolean' },
+    showColorScale: { type: 'boolean' },
+    backgroundColor: { oneOf: [{ type: 'string' }, { type: 'boolean' }] },
+    colorLegendTitle: { type: 'string' },
+    padding: { type: 'string' },
+    tooltip: { type: 'string' },
+    graphID: { type: 'string' },
+    graphDownload: { type: 'boolean' },
+    dataDownload: { type: 'boolean' },
+    colorDomain: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    axisLabels: {
+      type: 'array',
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    },
+    curveType: {
+      type: 'string',
+      enum: ['linear', 'curve'],
+    },
+    highlightedLines: {
+      type: 'array',
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
+    },
+    noOfTicks: { type: 'number' },
+    maxValue: { type: 'number' },
+    minValue: { type: 'number' },
+    language: {
+      type: 'string',
+      enum: [
+        'en',
+        'ar',
+        'az',
+        'bn',
+        'cy',
+        'he',
+        'hi',
+        'jp',
+        'ka',
+        'km',
+        'ko',
+        'my',
+        'ne',
+        'zh',
+        'custom',
+      ],
+    },
+    theme: {
+      type: 'string',
+      enum: ['light', 'dark'],
+    },
+    width: { type: 'number' },
+    height: { type: 'number' },
+    relativeHeight: { type: 'number' },
+    minHeight: { type: 'number' },
+    resetSelectionOnDoubleClick: { type: 'boolean' },
+  },
+  required: ['axisLabels'],
+};
+
 export const donutChartSettingsSchema = {
   type: 'object',
   properties: {
@@ -2007,13 +2125,8 @@ export const donutChartSettingsSchema = {
     ariaLabel: { type: 'string' },
     legendMaxWidth: { type: 'string' },
     colors: {
-      oneOf: [
-        { type: 'string' },
-        {
-          type: 'array',
-          items: { type: 'string' },
-        },
-      ],
+      type: 'array',
+      items: { type: 'string' },
     },
     graphTitle: { type: 'string' },
     suffix: { type: 'string' },
@@ -3411,7 +3524,7 @@ export const multiLineChartSettingsSchema = {
     minValue: { type: 'number' },
     highlightedLines: {
       type: 'array',
-      items: { type: 'string' },
+      items: { oneOf: [{ type: 'string' }, { type: 'number' }] },
     },
     graphDownload: { type: 'boolean' },
     dataDownload: { type: 'boolean' },
@@ -6476,6 +6589,13 @@ export const SettingsSchema = {
       enum: ['vertical', 'horizontal'],
     },
     showDots: { type: 'boolean' },
+    fillShape: { type: 'boolean' },
+    colorScaleMaxWidth: { type: 'string' },
+    axisLabels: {
+      type: 'array',
+      items: { type: 'string' },
+      minItems: 1,
+    },
   },
   type: 'object',
 };

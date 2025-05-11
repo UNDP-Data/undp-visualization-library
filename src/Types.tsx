@@ -56,7 +56,8 @@ export type GraphTypeForGriddedGraph =
   | 'animatedButterflyChart'
   | 'sankeyChart'
   | 'lineChartWithConfidenceInterval'
-  | 'dataCards';
+  | 'dataCards'
+  | 'radarChart';
 
 export type GeoHubGraphType = 'geoHubCompareMap' | 'geoHubMap' | 'geoHubMapWithLayerSelection';
 
@@ -660,12 +661,6 @@ export interface BackgroundStyleDataType {
   border?: string;
 }
 
-export type RadarAxisConfigDataType = {
-  label: string;
-  max?: number;
-  min?: number;
-};
-
 export interface GraphSettingsDataType {
   colors?: string | string[] | string[][];
   orientation?: 'horizontal' | 'vertical';
@@ -881,4 +876,7 @@ export interface GraphSettingsDataType {
   classNames?: ClassNameObject;
   mapProjection?: 'mercator' | 'equalEarth' | 'naturalEarth' | 'orthographic' | 'albersUSA';
   filterNA?: boolean;
+  fillShape?: boolean;
+  colorScaleMaxWidth?: string;
+  axisLabels?: (string | number)[];
 }

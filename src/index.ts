@@ -56,6 +56,8 @@ export { ButterflyChart } from './Components/Graphs/ButterflyChart/Simple';
 export { Histogram } from './Components/Graphs/Histogram';
 // Sankey Chart
 export { SankeyChart } from './Components/Graphs/SankeyChart';
+// Radar Chart
+export { RadarChart } from './Components/Graphs/RadarChart';
 // Dashboard
 export { MultiGraphDashboard } from './Components/Dashboard/MultiGraphDashboard';
 export { MultiGraphDashboardWideToLongFormat } from './Components/Dashboard/MultiGraphDashboardWideToLongFormat';

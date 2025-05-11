@@ -80,6 +80,7 @@ interface Props {
   curveType: 'linear' | 'curve' | 'step' | 'stepAfter' | 'stepBefore';
   styles?: StyleObject;
   classNames?: ClassNameObject;
+  selectedColor?: string;
 }
 
 interface FormattedDataType {
@@ -123,6 +124,7 @@ export function Graph(props: Props) {
     curveType,
     styles,
     colorDomain,
+    selectedColor,
     classNames,
   } = props;
   const curve =
@@ -384,11 +386,17 @@ export function Graph(props: Props) {
                     ? d[0].label === mouseOverData.label
                       ? 1
                       : 0.3
-                    : highlightedLines.length !== 0
-                      ? highlightedLines.indexOf(d[0].label) !== -1
-                        ? 1
+                    : selectedColor
+                      ? d[0].color
+                        ? lineColors[colorDomain.indexOf(d[0].color)] === selectedColor
+                          ? 1
+                          : 0.3
                         : 0.3
-                      : 1
+                      : highlightedLines.length !== 0
+                        ? highlightedLines.indexOf(d[0].label) !== -1
+                          ? 1
+                          : 0.3
+                        : 1
                 }
               >
                 <path

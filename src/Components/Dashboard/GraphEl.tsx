@@ -43,6 +43,7 @@ import {
 } from '../Graphs/BarGraph/Animated';
 import { StripChart } from '../Graphs/StripChart';
 import { BeeSwarmChart } from '../Graphs/BeeSwarmChart';
+import { RadarChart } from '../Graphs/RadarChart';
 
 import { getValues } from '@/Utils/getValues';
 import { validateDataSchema, validateSettingsSchema } from '@/Utils/validateSchema';
@@ -148,6 +149,7 @@ function GraphEl(props: Props) {
     sankeyChart: SankeyChart,
     lineChartWithConfidenceInterval: LineChartWithConfidenceInterval,
     dataCards: DataCards,
+    radarChart: RadarChart,
   };
   const getGraphProps = (graphType: GraphType) => {
     switch (graphType) {
@@ -1040,6 +1042,7 @@ function GraphEl(props: Props) {
           detailsOnClick: settings?.detailsOnClick,
           styles: settings?.styles,
           classNames: settings?.classNames,
+          colorScaleMaxWidth: settings?.colorScaleMaxWidth,
         };
       case 'slopeChart':
         return {
@@ -2162,6 +2165,50 @@ function GraphEl(props: Props) {
           uiMode: settings?.uiMode,
           styles: settings?.styles,
           classNames: settings?.classNames,
+        };
+      case 'radarChart':
+        return {
+          graphTitle: settings?.graphTitle,
+          graphDescription: settings?.graphDescription,
+          footNote: settings?.footNote,
+          sources: settings?.sources,
+          ariaLabel: settings?.ariaLabel,
+          colors: settings?.colors,
+          colorDomain: settings?.colorDomain,
+          colorLegendTitle: settings?.colorLegendTitle,
+          backgroundColor: settings?.backgroundColor,
+          styles: settings?.styles,
+          classNames: settings?.classNames,
+          width: settings?.width,
+          height: settings?.height,
+          minHeight: settings?.minHeight,
+          relativeHeight: settings?.relativeHeight,
+          padding: settings?.padding,
+          radius: settings?.radius,
+          leftMargin: settings?.leftMargin,
+          rightMargin: settings?.rightMargin,
+          topMargin: settings?.topMargin,
+          bottomMargin: settings?.bottomMargin,
+          maxValue: settings?.maxValue,
+          minValue: settings?.minValue,
+          showValues: settings?.showValues,
+          showDots: settings?.showDots,
+          strokeWidth: settings?.strokeWidth,
+          fillShape: settings?.fillShape,
+          noOfTicks: settings?.noOfTicks,
+          showColorScale: settings?.showColorScale,
+          showNAColor: settings?.showNAColor,
+          highlightedLines: settings?.highlightedLines,
+          axisLabels: settings?.axisLabels,
+          curveType: settings?.curveType,
+          resetSelectionOnDoubleClick: settings?.resetSelectionOnDoubleClick,
+          graphDownload: settings?.graphDownload,
+          dataDownload: settings?.dataDownload,
+          tooltip: settings?.tooltip,
+          detailsOnClick: settings?.detailsOnClick,
+          language: settings?.language,
+          theme: settings?.theme,
+          graphID: settings?.graphID,
         };
       default:
         return {};

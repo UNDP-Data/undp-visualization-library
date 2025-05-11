@@ -28,6 +28,13 @@ export const GraphList = [
     availableInWideToLongFormat: false,
   },
   {
+    graphName: 'Animated bar chart',
+    graphID: 'radarChart',
+    availableInGriddedGraph: true,
+    geoHubMapPresentation: false,
+    availableInWideToLongFormat: false,
+  },
+  {
     graphName: 'Animated stacked bar chart',
     graphID: 'animatedStackedBarChart',
     availableInGriddedGraph: true,
@@ -296,6 +303,13 @@ export const GraphList = [
   {
     graphName: 'Data cards list',
     graphID: 'dataCards',
+    availableInGriddedGraph: true,
+    geoHubMapPresentation: false,
+    availableInWideToLongFormat: false,
+  },
+  {
+    graphName: 'Radar chart',
+    graphID: 'radarChart',
     availableInGriddedGraph: true,
     geoHubMapPresentation: false,
     availableInWideToLongFormat: false,
