@@ -44,10 +44,6 @@ interface Props {
   highlightedLines: (string | number)[];
 }
 
-function transpose(matrix: number[][]) {
-  return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-}
-
 export function Graph(props: Props) {
   const {
     data,
@@ -124,39 +120,6 @@ export function Graph(props: Props) {
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
           <g transform={`translate(${radiusWithoutMargin},${radiusWithoutMargin})`}>
-            {ticksArray.map((d, i) => (
-              <g key={i}>
-                <path
-                  d={lineShape(Array(axisLabels.length).fill(d)) || ''}
-                  className={cn(
-                    'stroke-primary-gray-500 dark:stroke-primary-gray-550',
-                    classNames?.xAxis?.gridLines,
-                  )}
-                  style={{
-                    ...styles?.xAxis?.gridLines,
-                    fill: 'none',
-                  }}
-                />
-                <foreignObject
-                  x={-25}
-                  y={Math.sin(-Math.PI / 2) * scale(d) - 6}
-                  width={50}
-                  height={12}
-                >
-                  <div className='flex justify-center'>
-                    <p
-                      className={cn(
-                        'fill-primary-gray-500 dark:fill-primary-gray-550 text-xs m-0 py-0 px-1.5 text-center leading-none bg-primary-white dark:bg-primary-gray-700',
-                        classNames?.xAxis?.labels,
-                      )}
-                      style={styles?.xAxis?.labels}
-                    >
-                      {d}
-                    </p>
-                  </div>
-                </foreignObject>
-              </g>
-            ))}
             {axisLabels.map((d, i) => (
               <g key={i}>
                 <line
@@ -197,6 +160,43 @@ export function Graph(props: Props) {
                 >
                   {d}
                 </text>
+              </g>
+            ))}
+            {ticksArray.map((d, i) => (
+              <g key={i}>
+                <path
+                  d={lineShape(Array(axisLabels.length).fill(d)) || ''}
+                  className={cn(
+                    'stroke-primary-gray-500 dark:stroke-primary-gray-550',
+                    classNames?.xAxis?.gridLines,
+                  )}
+                  style={{
+                    ...styles?.xAxis?.gridLines,
+                    fill: 'none',
+                  }}
+                />
+                <foreignObject
+                  x={-25}
+                  y={
+                    Math.sin(-Math.PI / 2) * scale(d) > -0.0001
+                      ? Math.sin(-Math.PI / 2) * scale(d) - 7
+                      : Math.sin(-Math.PI / 2) * scale(d) - 5
+                  }
+                  width={50}
+                  height={12}
+                >
+                  <div className='flex justify-center'>
+                    <p
+                      className={cn(
+                        'fill-primary-gray-500 dark:fill-primary-gray-550 text-xs m-0 py-0 px-1.5 text-center leading-none bg-primary-white dark:bg-primary-gray-700',
+                        classNames?.xAxis?.labels,
+                      )}
+                      style={styles?.xAxis?.labels}
+                    >
+                      {d}
+                    </p>
+                  </div>
+                </foreignObject>
               </g>
             ))}
             {data.map((d, i) => (
