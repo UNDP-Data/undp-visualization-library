@@ -39,11 +39,10 @@ function App() {
           textAlign: 'center',
         }}
       >
-        {' '}
         For any feedback or inquiries, please feel free to reach out to us at{' '}
         <a href='mailto:data@undp.org' target='_blank' rel='noreferrer' className='undp-viz-style'>
           data@undp.org
-        </a>{' '}
+        </a>
       </p>
     </div>
   );
