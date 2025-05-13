@@ -376,6 +376,8 @@ export function HeatMap(props: Props) {
                         onSeriesMouseClick={onSeriesMouseClick}
                         resetSelectionOnDoubleClick={resetSelectionOnDoubleClick}
                         detailsOnClick={detailsOnClick}
+                        styles={styles}
+                        classNames={classNames}
                       />
                     ) : null}
                   </div>
