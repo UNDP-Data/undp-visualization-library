@@ -87,7 +87,7 @@ interface Props {
   zoomTranslateExtend?: [[number, number], [number, number]];
   /** Countries or regions to be highlighted */
   highlightedIds?: string[];
-  /** Scale for the colors in the cell */
+  /** Scale for the colors */
   scaleType?: Exclude<ScaleDataType, 'linear'>;
   /** Toggles if the color scaling is categorical or not */
   categorical?: boolean;
