@@ -14,8 +14,11 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  managerHead: head => `
-    ${head}
+  managerHead: () => `
+    
+    <meta charset="utf-8" />
+
+    <title>UNDP data viz library</title>
     <meta name="description" content="Documentation and examples for UNDP data viz library" />
 
     <!-- Open Graph / Facebook -->
