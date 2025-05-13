@@ -43,8 +43,8 @@ interface Props {
   colors?: string | string[];
   /** Domain of colors for the graph */
   colorDomain?: (string | number)[];
-  /** Toggle the visibility of color legend between the top of the graphs and next to the line */
-  showColorLegendAtTop?: boolean;
+  /** Toggle the visibility of labels of the lines when highlighted or mouse hovered */
+  showLabels?: boolean;
   /** Title for the color legend */
   colorLegendTitle?: string;
   /** Background color of the graph */
@@ -166,7 +166,7 @@ export function MultiLineAltChart(props: Props) {
     tooltip,
     relativeHeight,
     onSeriesMouseOver,
-    showColorLegendAtTop = false,
+    showLabels = true,
     refValues = [],
     highlightAreaSettings = [],
     graphID,
@@ -329,7 +329,6 @@ export function MultiLineAltChart(props: Props) {
                         bottomMargin={bottomMargin}
                         tooltip={tooltip}
                         onSeriesMouseOver={onSeriesMouseOver}
-                        showColorLegendAtTop={showColorLegendAtTop}
                         suffix={suffix}
                         prefix={prefix}
                         highlightAreaSettings={highlightAreaSettings}
@@ -351,6 +350,7 @@ export function MultiLineAltChart(props: Props) {
                         styles={styles}
                         classNames={classNames}
                         selectedColor={selectedColor}
+                        showLabels={showLabels}
                         colorDomain={
                           data.filter(el => el.color).length === 0
                             ? []

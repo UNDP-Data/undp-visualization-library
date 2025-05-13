@@ -60,7 +60,6 @@ interface Props {
   tooltip?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSeriesMouseOver?: (_d: any) => void;
-  showColorLegendAtTop: boolean;
   highlightAreaSettings: HighlightAreaSettingsDataType[];
   refValues: ReferenceDataType[];
   maxValue?: number;
@@ -69,6 +68,7 @@ interface Props {
   animateLine: boolean | number;
   rtl: boolean;
   strokeWidth: number;
+  showLabels: boolean;
   showDots: boolean;
   annotations: AnnotationSettingsDataType[];
   customHighlightAreaSettings: CustomHighlightAreaSettingsDataType[];
@@ -105,7 +105,6 @@ export function Graph(props: Props) {
     leftMargin,
     tooltip,
     onSeriesMouseOver,
-    showColorLegendAtTop,
     refValues,
     highlightAreaSettings,
     minValue,
@@ -126,6 +125,7 @@ export function Graph(props: Props) {
     colorDomain,
     selectedColor,
     classNames,
+    showLabels,
   } = props;
   const curve =
     curveType === 'linear'
@@ -278,16 +278,7 @@ export function Graph(props: Props) {
         },
       );
     }
-  }, [
-    isInView,
-    showColorLegendAtTop,
-    data,
-    animate,
-    animateLine,
-    showDots,
-    annotationsAnimate,
-    annotationsScope,
-  ]);
+  }, [isInView, data, animate, animateLine, showDots, annotationsAnimate, annotationsScope]);
   return (
     <>
       <svg
@@ -414,7 +405,15 @@ export function Graph(props: Props) {
                           ? Colors.gray
                           : lineColors[colorDomain.indexOf(d[0].color)],
                     fill: 'none',
-                    strokeWidth,
+                    strokeWidth: mouseOverData
+                      ? d[0].label === mouseOverData.label
+                        ? strokeWidth + Math.max(2, 0.5 * strokeWidth)
+                        : strokeWidth
+                      : highlightedLines.length !== 0
+                        ? highlightedLines.indexOf(d[0].label) !== -1
+                          ? strokeWidth + Math.max(2, 0.5 * strokeWidth)
+                          : strokeWidth
+                        : strokeWidth,
                   }}
                 />
                 <g>
@@ -442,8 +441,9 @@ export function Graph(props: Props) {
                     </g>
                   ))}
                 </g>
-                {highlightedLines.indexOf(d[0].label) !== -1 ||
-                mouseOverData?.label === d[0].label ? (
+                {(highlightedLines.indexOf(d[0].label) !== -1 ||
+                  mouseOverData?.label === d[0].label) &&
+                showLabels ? (
                   <text
                     style={{
                       fill:
