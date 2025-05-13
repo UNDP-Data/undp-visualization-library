@@ -91,6 +91,11 @@ const meta: Meta<PagePropsAndCustomArgs> = {
     },
 
     // Graph parameters
+    scaleType: {
+      control: 'inline-radio',
+      options: ['categorical', 'threshold'],
+      table: { type: { summary: "'categorical' | 'threshold'" } },
+    },
     showColorScale: { table: { defaultValue: { summary: 'true' } } },
     highlightedIds: {
       control: 'text',

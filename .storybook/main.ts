@@ -16,10 +16,11 @@ const config: StorybookConfig = {
   },
   managerHead: head => `
     ${head}
-    <meta name="description" content="Your description here" />
+    <meta name="description" content="Documentation and examples for UNDP data viz library" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="UNDP data viz library" />
     <meta property="og:url" content="https://dataviz.design.undp.org/" />
     <meta property="og:title" content="Documentation | UNDP data viz library" />
     <meta property="og:description" content="Documentation and examples for UNDP data viz library" />

@@ -14,6 +14,7 @@ import {
   SourcesDataType,
   StyleObject,
   ClassNameObject,
+  ScaleDataType,
 } from '@/Types';
 import { GraphFooter } from '@/Components/Elements/GraphFooter';
 import { GraphHeader } from '@/Components/Elements/GraphHeader';
@@ -90,6 +91,8 @@ interface Props {
   zoomTranslateExtend?: [[number, number], [number, number]];
   /** Countries or regions to be highlighted */
   highlightedIds?: string[];
+  /** Scale for the colors in the cell */
+  scaleType?: Exclude<ScaleDataType, 'linear'>;
   /** Toggles if the color scaling is categorical or not */
   categorical?: boolean;
   /** Toggle visibility of color scale. This is only applicable if the data props hae color parameter */
@@ -147,7 +150,7 @@ export function AnimatedChoroplethMap(props: Props) {
     footNote,
     colorDomain,
     colorLegendTitle,
-    categorical = false,
+    scaleType = 'threshold',
     scale = 0.95,
     centerPoint,
     padding,
@@ -215,7 +218,7 @@ export function AnimatedChoroplethMap(props: Props) {
 
   const domain =
     colorDomain ||
-    (categorical
+    (scaleType === 'categorical'
       ? getUniqValue(data, 'x')
       : getJenks(
           data.map(d => d.x as number | null | undefined),
@@ -372,7 +375,7 @@ export function AnimatedChoroplethMap(props: Props) {
                   centerPoint={centerPoint}
                   colors={
                     colors ||
-                    (categorical
+                    (scaleType === 'categorical'
                       ? Colors[theme].sequentialColors[
                           `neutralColorsx0${domain.length as 4 | 5 | 6 | 7 | 8 | 9}`
                         ]
@@ -383,7 +386,7 @@ export function AnimatedChoroplethMap(props: Props) {
                   colorLegendTitle={colorLegendTitle}
                   mapBorderWidth={mapBorderWidth}
                   mapNoDataColor={mapNoDataColor}
-                  categorical={categorical}
+                  categorical={scaleType === 'categorical'}
                   mapBorderColor={mapBorderColor}
                   tooltip={tooltip}
                   onSeriesMouseOver={onSeriesMouseOver}

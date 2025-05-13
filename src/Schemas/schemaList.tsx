@@ -3868,7 +3868,7 @@ export const choroplethMapSettingsSchema = {
       items: { type: 'string' },
     },
     colorLegendTitle: { type: 'string' },
-    categorical: { type: 'boolean' },
+    scaleType: { type: 'string', enum: ['categorical', 'threshold'] },
     scale: { type: 'number' },
     centerPoint: {
       type: 'array',
@@ -4216,7 +4216,7 @@ export const animatedChoroplethMapSettingsSchema = {
       items: { type: 'string' },
     },
     colorLegendTitle: { type: 'string' },
-    categorical: { type: 'boolean' },
+    scaleType: { type: 'string', enum: ['categorical', 'threshold'] },
     scale: { type: 'number' },
     centerPoint: {
       type: 'array',
@@ -6032,7 +6032,6 @@ export const SettingsSchema = {
     barPadding: { type: 'number' },
     barTitle: { type: 'string' },
     bottomMargin: { type: 'number' },
-    categorical: { type: 'boolean' },
     center: {
       items: { type: 'number' },
       maxItems: 2,

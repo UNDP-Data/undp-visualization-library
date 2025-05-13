@@ -870,7 +870,7 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues('x', graphDataConfiguration || [], readableHeader || []),
-          categorical: settings?.categorical,
+          scaleType: settings?.scaleType,
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,
@@ -1836,7 +1836,7 @@ function GraphEl(props: Props) {
             Object.keys(settings || {}).indexOf('colorLegendTitle') !== -1
               ? settings?.colorLegendTitle
               : getValues('x', graphDataConfiguration || [], readableHeader || []),
-          categorical: settings?.categorical,
+          scaleType: settings?.scaleType,
           data: graphData,
           scale: settings?.scale,
           centerPoint: settings?.centerPoint,

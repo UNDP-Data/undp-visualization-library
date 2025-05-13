@@ -747,7 +747,6 @@ export interface GraphSettingsDataType {
   highlightedIds?: string[];
   mapProperty?: string;
   showAntarctica?: boolean;
-  categorical?: boolean;
   mapStyles?: [string, string];
   center?: [number, number];
   zoomLevel?: number;
