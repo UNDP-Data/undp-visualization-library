@@ -14,5 +14,26 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  managerHead: head => `
+    ${head}
+    <meta name="description" content="Your description here" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dataviz.design.undp.org/" />
+    <meta property="og:title" content="Documentation | UNDP data viz library" />
+    <meta property="og:description" content="Documentation and examples for UNDP data viz library" />
+    <meta property="og:image" content="/Cover.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://dataviz.design.undp.org/" />
+    <meta name="twitter:title" content="Documentation | UNDP data viz library" />
+    <meta name="twitter:description" content="Documentation and examples for UNDP data viz library" />
+    <meta name="twitter:image" content="/Cover.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+  `,
 };
 export default config;

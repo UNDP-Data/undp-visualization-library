@@ -13,6 +13,7 @@ const preview: Preview = {
     // Add the docs configuration
     docs: { controls: { sort: 'none' } },
     options: {
+      storyBookName: 'UNDP data viz library',
       storySort: {
         order: [
           'Getting started',
