@@ -721,6 +721,7 @@ function GraphEl(props: Props) {
           relativeHeight: settings?.relativeHeight,
           tooltip: settings?.tooltip,
           refValues: settings?.refValues,
+          showLabels: settings?.showLabels,
           highlightAreaSettings: settings?.highlightAreaSettings as
             | HighlightAreaSettingsDataType[]
             | undefined,
@@ -1635,6 +1636,7 @@ function GraphEl(props: Props) {
           data: graphData,
           language: settings?.language,
           ariaLabel: settings?.ariaLabel,
+          minWidth: settings?.minWidth,
           backgroundColor: settings?.backgroundColor,
           padding: settings?.padding,
           styles: settings?.styles,

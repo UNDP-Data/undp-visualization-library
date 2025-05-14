@@ -878,4 +878,5 @@ export interface GraphSettingsDataType {
   fillShape?: boolean;
   colorScaleMaxWidth?: string;
   axisLabels?: (string | number)[];
+  minWidth?: string;
 }

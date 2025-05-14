@@ -1826,6 +1826,7 @@ export const dataTableSettingsSchema = {
         required: ['source'],
       },
     },
+    minWidth: { type: 'string' },
     graphDescription: { type: 'string' },
     footNote: { type: 'string' },
     graphID: { type: 'string' },
@@ -3580,6 +3581,7 @@ export const multiLineAltChartSettingsSchema = {
     footNote: { type: 'string' },
     width: { type: 'number' },
     height: { type: 'number' },
+    showLabels: { type: 'boolean' },
     sources: {
       type: 'array',
       items: {
@@ -6595,6 +6597,7 @@ export const SettingsSchema = {
       items: { type: 'string' },
       minItems: 1,
     },
+    minWidth: { type: 'string' },
   },
   type: 'object',
 };

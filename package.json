@@ -64,7 +64,7 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@turf/bbox": "^7.2.0",
     "@turf/centroid": "^7.2.0",
-    "@undp/design-system-react": "^0.0.67",
+    "@undp/design-system-react": "^0.0.68",
     "ajv": "^8.17.1",
     "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",
@@ -109,6 +109,14 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
