@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 import '../src/styles/styles.css';
 
 const preview: Preview = {

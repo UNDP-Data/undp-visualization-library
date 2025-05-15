@@ -33,7 +33,7 @@ import { HorizontalBarGraph } from '@undp/data-viz'
 
 It is also recommended to import the css because some setting expect the CSS to be imported to look good. You can import the css file like this: 
 ```
-import '@undp/data-viz/dist/style.css';
+import '@undp/data-viz/style.css';
 ```
 
 ### TypeScript
@@ -78,7 +78,7 @@ The dependencies that are pre-installed wit the library:
 * dom-to-svg - For downloading div as svg
 * file-saver - For downloading files
 * react-csv - For generating a csv file
-* xlsx - For generating a xlsx file (Peer dependency)
+* xlsx - For generating a xlsx file (Optional dependency)
 * React (of course!) (Peer dependency)
 
 ### How to add a new chart or graph

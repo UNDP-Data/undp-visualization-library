@@ -21,7 +21,7 @@ Below are full JSON configuration examples for each type.
 
 ```tsx
 import { SingleGraphDashboardFromConfig } from '@undp/data-viz';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function Graph() {
   return <SingleGraphDashboardFromConfig config='/config.json' />;
@@ -36,7 +36,7 @@ Below is the full config example for the `SingleGraphDashboardFromConfig`. Selec
 
 ```tsx
 import { GriddedGraphDashboardFromConfig } from '@undp/data-viz';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function Graph() {
   return <GriddedGraphDashboardFromConfig config='/config.json' />;
@@ -51,7 +51,7 @@ Below is the full config example for the `GriddedGraphDashboardFromConfig`. Sele
 
 ```tsx
 import { MultiGraphDashboardFromConfig } from '@undp/data-viz';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function Graph() {
   return <MultiGraphDashboardFromConfig config='/config.json' />;
@@ -66,7 +66,7 @@ Below is the full config example for the `MultiGraphDashboardFromConfig`.
 
 ```tsx
 import { MultiGraphDashboardWideToLongFormatFromConfig } from '@undp/data-viz';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function Graph() {
   return <MultiGraphDashboardWideToLongFormatFromConfig config='/config.json' />;
@@ -146,7 +146,7 @@ export const ChartFromConfigCode = () => {
       </select>
       <Source
         code={`import { ${selected} } from '@undp/data-viz';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function Graph() {
   return <${selected} config='/config.json' />;

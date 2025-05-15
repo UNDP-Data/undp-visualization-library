@@ -1,5 +1,5 @@
 /* ------- Style Sheet ------- */
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 import './styles/styles.css';
 
 /* ------- All Graphs Components ------- */

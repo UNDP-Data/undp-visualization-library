@@ -1,4 +1,5 @@
 import { Button } from '@undp/design-system-react';
+import { JSX } from 'react';
 
 import { excelDownload } from '@/Utils/excelDownload';
 import { FileDown } from '@/Components/Icons';

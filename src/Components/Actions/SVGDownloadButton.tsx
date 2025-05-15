@@ -1,4 +1,5 @@
 import { Button } from '@undp/design-system-react';
+import { JSX } from 'react';
 
 import { svgDownload } from '@/Utils/svgDownload';
 import { ImageDown } from '@/Components/Icons';

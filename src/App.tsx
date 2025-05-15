@@ -1,5 +1,5 @@
 import './styles/styles.css';
-import '@undp/design-system-react/dist/style.css';
+import '@undp/design-system-react/style.css';
 
 function App() {
   return (

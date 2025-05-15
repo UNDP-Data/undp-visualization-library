@@ -1,23 +1,27 @@
 {
   "name": "@undp/data-viz",
-  "version": "0.0.74",
+  "version": "0.0.77",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "browser": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
+  "description": "The open source graphing library built by UNDP",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "files": [
-    "dist/index.js",
-    "dist/index.cjs",
-    "dist/index.umd.js",
-    "dist/index.d.ts",
-    "dist/style.css"
+    "dist"
   ],
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
-    "./dist/style.css": {
+    "./style.css": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
     }
@@ -25,8 +29,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "type": "module",
-  "description": "The open source graphing library build by UNDP",
   "private": false,
   "repository": {
     "type": "git",
@@ -64,7 +66,7 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@turf/bbox": "^7.2.0",
     "@turf/centroid": "^7.2.0",
-    "@undp/design-system-react": "^0.0.68",
+    "@undp/design-system-react": "^0.0.69",
     "ajv": "^8.17.1",
     "d3-array": "^3.2.4",
     "d3-delaunay": "^6.0.4",
@@ -107,8 +109,7 @@
   "peerDependencies": {
     "maplibre-gl": "^5.3.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+    "react-dom": "^19.1.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -117,6 +118,9 @@
     "react-dom": {
       "optional": true
     }
+  },
+  "optionalDependencies": {
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
@@ -156,9 +160,9 @@
     "@types/math-expression-evaluator": "^1.3.3",
     "@types/node": "^20.14.10",
     "@types/papaparse": "^5.3.14",
-    "@types/react": "^18.0.27",
+    "@types/react": "^19.1.4",
     "@types/react-csv": "^1.1.3",
-    "@types/react-dom": "^18.0.10",
+    "@types/react-dom": "^19.1.5",
     "@typescript-eslint/eslint-plugin": "^8.30.1",
     "@typescript-eslint/parser": "^8.30.1",
     "@vitejs/plugin-react": "^4.4.0",
