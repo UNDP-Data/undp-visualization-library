@@ -93,7 +93,7 @@ export const barGraphDataSchema = {
     properties: {
       label: { oneOf: [{ type: 'string' }, { type: 'number' }] },
       size: { oneOf: [{ type: 'number' }, { type: 'null' }] },
-      color: { type: 'string' },
+      color: { oneOf: [{ type: 'string' }, { type: 'null' }] },
       data: { type: 'object' },
     },
     required: ['label'],
