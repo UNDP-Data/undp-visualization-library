@@ -25,7 +25,7 @@ import {
 
 interface Props {
   // Data
-  /** Array of data objects */
+  /** Array of data objects. If the data have a object for ket `rowStyle` then that is use to style the row of the table. */
   data: object[];
 
   // Titles, Labels, and Sources

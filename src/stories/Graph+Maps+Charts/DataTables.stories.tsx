@@ -46,6 +46,7 @@ const meta: Meta<PagePropsAndCustomArgs> = {
   sortable?: boolean;
   filterOptions?: string[];
   chip?: boolean;
+  chipColumnId?: string;
   chipColors?: {
     value: string;
     color: string;
