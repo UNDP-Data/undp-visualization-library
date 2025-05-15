@@ -304,6 +304,7 @@ export function DataTable(props: Props) {
                                 ? 'bg-primary-gray-200 dark:bg-primary-gray-600'
                                 : 'bg-transparent'
                             }`}
+                            style={d.rowStyle}
                             onClick={() => {
                               if (onSeriesMouseClick) {
                                 if (isEqual(mouseClickData, d) && resetSelectionOnDoubleClick) {
@@ -397,7 +398,9 @@ export function DataTable(props: Props) {
                                                       backgroundColor:
                                                         el.chipColors[
                                                           el.chipColors.findIndex(
-                                                            c => c.value === d[el.columnId],
+                                                            c =>
+                                                              c.value ===
+                                                              d[el.chipColumnId || el.columnId],
                                                           )
                                                         ].color,
                                                     }
@@ -427,7 +430,9 @@ export function DataTable(props: Props) {
                                                 backgroundColor:
                                                   el.chipColors[
                                                     el.chipColors.findIndex(
-                                                      c => c.value === d[el.columnId],
+                                                      c =>
+                                                        c.value ===
+                                                        d[el.chipColumnId || el.columnId],
                                                     )
                                                   ].color,
                                               }
