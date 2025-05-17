@@ -66,7 +66,6 @@ interface Props {
 
   // Interactions and Callbacks
   /** Callback for mouse click event */
-
   onSeriesMouseClick?: (_d: any) => void;
 
   // Configuration and Options
@@ -358,7 +357,8 @@ export function DataTable(props: Props) {
                                               backgroundColor:
                                                 el.chipColors[
                                                   el.chipColors.findIndex(
-                                                    c => c.value === d[el.columnId],
+                                                    c =>
+                                                      c.value === d[el.chipColumnId || el.columnId],
                                                   )
                                                 ].color,
                                             }
@@ -400,7 +400,9 @@ export function DataTable(props: Props) {
                                                           el.chipColors.findIndex(
                                                             c =>
                                                               c.value ===
-                                                              d[el.chipColumnId || el.columnId],
+                                                              (el.chipColumnId
+                                                                ? d[el.chipColumnId]
+                                                                : element),
                                                           )
                                                         ].color,
                                                     }
