@@ -22,6 +22,7 @@ import {
   SortingIconAscending,
   SortingIconDescending,
 } from '@/Components/Icons';
+import { getTextColorBasedOnBgColor } from '@/Utils/getTextColorBasedOnBgColor';
 
 interface Props {
   // Data
@@ -361,6 +362,14 @@ export function DataTable(props: Props) {
                                                       c.value === d[el.chipColumnId || el.columnId],
                                                   )
                                                 ].color,
+                                              color: getTextColorBasedOnBgColor(
+                                                el.chipColors[
+                                                  el.chipColors.findIndex(
+                                                    c =>
+                                                      c.value === d[el.chipColumnId || el.columnId],
+                                                  )
+                                                ].color,
+                                              ),
                                             }
                                           : {}),
                                       }}
@@ -405,6 +414,17 @@ export function DataTable(props: Props) {
                                                                 : element),
                                                           )
                                                         ].color,
+                                                      color: getTextColorBasedOnBgColor(
+                                                        el.chipColors[
+                                                          el.chipColors.findIndex(
+                                                            c =>
+                                                              c.value ===
+                                                              (el.chipColumnId
+                                                                ? d[el.chipColumnId]
+                                                                : element),
+                                                          )
+                                                        ].color,
+                                                      ),
                                                     }
                                                   : {}),
                                               }}
@@ -437,6 +457,15 @@ export function DataTable(props: Props) {
                                                         d[el.chipColumnId || el.columnId],
                                                     )
                                                   ].color,
+                                                color: getTextColorBasedOnBgColor(
+                                                  el.chipColors[
+                                                    el.chipColors.findIndex(
+                                                      c =>
+                                                        c.value ===
+                                                        d[el.chipColumnId || el.columnId],
+                                                    )
+                                                  ].color,
+                                                ),
                                               }
                                             : {}),
                                         }}
